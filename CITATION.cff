@@ -1,0 +1,41 @@
+cff-version: 1.2.0
+message: "If you use this software or build on this work, please cite the paper below."
+title: "LGVSC: A Large-Model-Driven Generative Video Semantic Communication Framework"
+authors:
+  - family-names: Ma
+    given-names: Yu
+  - family-names: Yin
+    given-names: Hang
+  - family-names: Qiao
+    given-names: Li
+  - family-names: Sun
+    given-names: Shuo
+  - family-names: Gao
+    given-names: Zhen
+  - family-names: Xu
+    given-names: Yin
+  - family-names: Zhang
+    given-names: Wenjun
+license: MIT
+repository-code: "https://github.com/TT2TER/LGVSC"
+preferred-citation:
+  type: article
+  title: "LGVSC: A Large-Model-Driven Generative Video Semantic Communication Framework"
+  authors:
+    - family-names: Ma
+      given-names: Yu
+    - family-names: Yin
+      given-names: Hang
+    - family-names: Qiao
+      given-names: Li
+    - family-names: Sun
+      given-names: Shuo
+    - family-names: Gao
+      given-names: Zhen
+    - family-names: Xu
+      given-names: Yin
+    - family-names: Zhang
+      given-names: Wenjun
+  journal: "IEEE Transactions on Vehicular Technology"
+  year: 2026
+  notes: "Accepted, in press"

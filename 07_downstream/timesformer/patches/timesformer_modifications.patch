@@ -1,0 +1,173 @@
+diff --git a/.gitignore b/.gitignore
+index 3ea6368..66aaae0 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -141,3 +141,8 @@ dmypy.json
+ 
+ # Cython debug symbols
+ cython_debug/
++
++#mac os
++.DS_Store
++.AppleDouble
++._*
+\ No newline at end of file
+diff --git a/README.md b/README.md
+index 5783202..0a70a75 100755
+--- a/README.md
++++ b/README.md
+@@ -51,7 +51,7 @@ You can load the pretrained models as follows:
+ import torch
+ from timesformer.models.vit import TimeSformer
+ 
+-model = TimeSformer(img_size=224, num_classes=400, num_frames=8, attention_type='divided_space_time',  pretrained_model='/path/to/pretrained/model.pyth')
++model = TimeSformer(img_size=224, num_classes=400, num_frames=8, attention_type='divided_space_time',  pretrained_model='weight/TimeSformer_divST_8x32_224_K400-2.pyth')
+ 
+ dummy_video = torch.randn(2, 3, 8, 224, 224) # (batch x channels x frames x height x width)
+ 
+@@ -175,6 +175,13 @@ python tools/run_net.py \
+   TRAIN.ENABLE False \
+ ```
+ 
++```
++python tools/run_net.py \
++  --cfg configs/Kinetics/TimeSformer_divST_8x32_224_TEST.yaml \
++  TEST.CHECKPOINT_FILE_PATH weight/TimeSformer_divST_8x32_224_K400-2.pyth \
++  TRAIN.ENABLE False
++```
++
+ ## Single-Node Training via Slurm
+ 
+ To train TimeSformer via Slurm, please check out our single node Slurm training script [`slurm_scripts/run_single_node_job.sh`](slurm_scripts/run_single_node_job.sh).
+diff --git a/configs/Kinetics/TimeSformer_divST_8x32_224_TEST.yaml b/configs/Kinetics/TimeSformer_divST_8x32_224_TEST.yaml
+index cc8accf..f45a62a 100755
+--- a/configs/Kinetics/TimeSformer_divST_8x32_224_TEST.yaml
++++ b/configs/Kinetics/TimeSformer_divST_8x32_224_TEST.yaml
+@@ -6,7 +6,8 @@ TRAIN:
+   CHECKPOINT_PERIOD: 5
+   AUTO_RESUME: True
+ DATA:
+-  PATH_TO_DATA_DIR: /path/to/kinetics/
++  PATH_TO_DATA_DIR: kinetics-dataset/finaldata
++  PATH_LABEL_SEPARATOR: ','
+   NUM_FRAMES: 8
+   SAMPLING_RATE: 32
+   TRAIN_JITTER_SCALES: [256, 320]
+@@ -40,7 +41,7 @@ TEST:
+ DATA_LOADER:
+   NUM_WORKERS: 8
+   PIN_MEMORY: True
+-NUM_GPUS: 8
++NUM_GPUS: 1
+ NUM_SHARDS: 1
+ RNG_SEED: 0
+ OUTPUT_DIR: .
+diff --git a/timesformer/datasets/kinetics.py b/timesformer/datasets/kinetics.py
+index 5151d87..ccdce3c 100755
+--- a/timesformer/datasets/kinetics.py
++++ b/timesformer/datasets/kinetics.py
+@@ -81,12 +81,14 @@ class Kinetics(torch.utils.data.Dataset):
+         assert PathManager.exists(path_to_file), "{} dir not found".format(
+             path_to_file
+         )
++        print(path_to_file)
+ 
+         self._path_to_videos = []
+         self._labels = []
+         self._spatial_temporal_idx = []
+         with PathManager.open(path_to_file, "r") as f:
+             for clip_idx, path_label in enumerate(f.read().splitlines()):
++                # print(self.cfg.DATA.PATH_LABEL_SEPARATOR)
+                 assert (
+                     len(path_label.split(self.cfg.DATA.PATH_LABEL_SEPARATOR))
+                     == 2
+diff --git a/timesformer/datasets/multigrid_helper.py b/timesformer/datasets/multigrid_helper.py
+index de9ba0c..e96efac 100755
+--- a/timesformer/datasets/multigrid_helper.py
++++ b/timesformer/datasets/multigrid_helper.py
+@@ -3,7 +3,8 @@
+ """Helper functions for multigrid training."""
+ 
+ import numpy as np
+-from torch._six import int_classes as _int_classes
++# from torch._six import int_classes as _int_classes
++_int_classes = (int,)
+ from torch.utils.data.sampler import Sampler
+ 
+ 
+diff --git a/timesformer/models/resnet_helper.py b/timesformer/models/resnet_helper.py
+index 082d318..2121058 100755
+--- a/timesformer/models/resnet_helper.py
++++ b/timesformer/models/resnet_helper.py
+@@ -12,7 +12,8 @@ from torch import einsum
+ from einops import rearrange, reduce, repeat
+ import torch.nn.functional as F
+ from torch.nn.modules.module import Module
+-from torch.nn.modules.linear import _LinearWithBias
++# from torch.nn.modules.linear import _LinearWithBias
++from torch.nn.modules.linear import NonDynamicallyQuantizableLinear
+ from torch.nn.modules.activation import MultiheadAttention
+ 
+ import numpy as np
+diff --git a/timesformer/models/vit_utils.py b/timesformer/models/vit_utils.py
+index 9ce6a93..8c799c6 100755
+--- a/timesformer/models/vit_utils.py
++++ b/timesformer/models/vit_utils.py
+@@ -11,7 +11,7 @@ import torch.nn.functional as F
+ from timesformer.models.helpers import load_pretrained
+ from .build import MODEL_REGISTRY
+ from itertools import repeat
+-from torch._six import container_abcs
++import collections.abc as container_abcs
+ 
+ DEFAULT_CROP_PCT = 0.875
+ IMAGENET_DEFAULT_MEAN = (0.485, 0.456, 0.406)
+diff --git a/tools/test_net.py b/tools/test_net.py
+index 99fc3f3..44b6b3f 100755
+--- a/tools/test_net.py
++++ b/tools/test_net.py
+@@ -104,9 +104,44 @@ def perform_test(test_loader, model, test_meter, cfg, writer=None):
+                 preds = preds.cpu()
+                 labels = labels.cpu()
+                 video_idx = video_idx.cpu()
++            
++            # 错误检测开始
++            _, pred_classes = torch.max(preds, dim=1)
++            
++            # 检查哪些样本分类错误
++            incorrect_mask = pred_classes != labels
++            if incorrect_mask.any():
++                # 获取视频路径（如果元数据中有的话）
++                video_paths = meta.get('video_name', None)
++                
++                for i in range(len(incorrect_mask)):
++                    if incorrect_mask[i]:
++                        sample_info = {
++                            'video_idx': video_idx[i].item(),
++                            'true_label': labels[i].item(),
++                            'pred_label': pred_classes[i].item(),
++                            'confidence': torch.softmax(preds[i], dim=0)[pred_classes[i]].item()
++                        }
++                        
++                        # 如果有视频路径信息
++                        if video_paths is not None:
++                            if isinstance(video_paths, (list,)):
++                                sample_info['video_path'] = video_paths[i]
++                            else:
++                                sample_info['video_path'] = video_paths[i] if len(video_paths) > i else "Unknown"
++                        
++                        
++                        # 实时打印错误信息
++                        logger.info(f"错误分类 - 样本ID: {sample_info['video_idx']}, "
++                                   f"真实标签: {sample_info['true_label']}, "
++                                   f"预测标签: {sample_info['pred_label']}, "
++                                   f"置信度: {sample_info['confidence']:.4f}")
++            # 错误检测结束
++
+ 
+             test_meter.iter_toc()
+             # Update and log stats.
++            # print(preds.detach(), labels.detach())
+             test_meter.update_stats(
+                 preds.detach(), labels.detach(), video_idx.detach()
+             )

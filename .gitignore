@@ -1,0 +1,56 @@
+# ── data & media ─────────────────────────────────────────────
+*.mp4
+*.avi
+*.mov
+*.mkv
+*.hevc
+*.yuv
+*.jpg
+*.jpeg
+*.png
+*.gif
+# ...but the README figures are part of the release:
+!assets/figures/
+!assets/figures/*.png
+16x24/
+frames/
+*_save_dir_*/
+attention_maps/
+video_depth_vis/
+
+# ── model weights / large blobs ──────────────────────────────
+*.pth
+*.pt
+*.bin
+*.safetensors
+*.ckpt
+*.h5
+*.rar
+*.zip
+*.tar
+*.tar.gz
+checkpoints/
+weight/
+pretrained_models/
+
+# ── tabular / logs ───────────────────────────────────────────
+*.csv
+# ...but the fixed evaluation manifests are part of the release:
+!docs/eval_manifest_webvid.csv
+!docs/eval_manifest_kinetics.csv
+*.log
+log*.txt
+timelog.txt
+
+# ── python / OS ──────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.egg-info/
+.ipynb_checkpoints/
+.DS_Store
+._.DS_Store
+
+# ── plots are regenerated ────────────────────────────────────
+*.pdf
+
+# keep example/figure assets explicitly with:  git add -f
