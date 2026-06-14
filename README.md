@@ -4,6 +4,8 @@
 [![CI](https://github.com/TT2TER/LGVSC/actions/workflows/ci.yml/badge.svg)](https://github.com/TT2TER/LGVSC/actions/workflows/ci.yml)
 
 **本论文已被 IEEE Transactions on Vehicular Technology 接收。**
+**This paper has been accepted by IEEE Transactions on Vehicular Technology.**
+[[arXiv 2606.12899]](https://arxiv.org/abs/2606.12899)
 
 Official code release for the paper
 **"LGVSC: A Large-Model-Driven Generative Video Semantic Communication Framework."**
