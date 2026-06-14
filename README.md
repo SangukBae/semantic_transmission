@@ -3,6 +3,8 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![CI](https://github.com/TT2TER/LGVSC/actions/workflows/ci.yml/badge.svg)](https://github.com/TT2TER/LGVSC/actions/workflows/ci.yml)
 
+**本论文已被 IEEE Transactions on Vehicular Technology 接收。**
+
 Official code release for the paper
 **"LGVSC: A Large-Model-Driven Generative Video Semantic Communication Framework."**
 
@@ -213,12 +215,14 @@ SFA behavior; no separate decoder is needed). For **Text-Only**, use
 ## Citation
 
 ```bibtex
-@article{ma2026lgvsc,
-  title   = {LGVSC: A Large-Model-Driven Generative Video Semantic Communication Framework},
-  author  = {Ma, Yu and Yin, Hang and Qiao, Li and Sun, Shuo and Gao, Zhen and Xu, Yin and Zhang, Wenjun},
-  journal = {IEEE Transactions on Vehicular Technology},
-  year    = {2026},
-  note    = {Accepted, in press}
+@misc{ma2026lgvsclargemodeldrivengenerativevideo,
+      title={LGVSC: A Large-Model-Driven Generative Video Semantic Communication Framework},
+      author={Yu Ma and Hang Yin and Li Qiao and Shuo Sun and Zhen Gao and Yin Xu and Wenjun Zhang},
+      year={2026},
+      eprint={2606.12899},
+      archivePrefix={arXiv},
+      primaryClass={eess.SP},
+      url={https://arxiv.org/abs/2606.12899},
 }
 ```
 

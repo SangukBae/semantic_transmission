@@ -18,6 +18,10 @@ authors:
     given-names: Wenjun
 license: MIT
 repository-code: "https://github.com/TT2TER/LGVSC"
+identifiers:
+  - type: other
+    value: "arXiv:2606.12899"
+    description: "arXiv preprint"
 preferred-citation:
   type: article
   title: "LGVSC: A Large-Model-Driven Generative Video Semantic Communication Framework"
@@ -38,4 +42,5 @@ preferred-citation:
       given-names: Wenjun
   journal: "IEEE Transactions on Vehicular Technology"
   year: 2026
-  notes: "Accepted, in press"
+  notes: "Accepted, in press; preprint at https://arxiv.org/abs/2606.12899"
+  url: "https://arxiv.org/abs/2606.12899"
