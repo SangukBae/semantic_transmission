@@ -33,14 +33,30 @@ The two operating points reported in the paper:
 
 ## Results
 
-**Qualitative** — the same frame reconstructed by each scheme at SNR = 10 dB. LGVSC stays
+### Video comparisons
+
+Each animation shows **Original | H.264+LDPC | LGVSC (Ours)** side by side at SNR = 10 dB.
+LGVSC operates at roughly half the CBR of H.264+LDPC and one-sixth of DVST.
+
+![Toronto aerial](assets/figures/demos/compare_toronto.gif)
+![Candle & flowers](assets/figures/demos/compare_candle.gif)
+![Atlanta crane](assets/figures/demos/compare_atlanta.gif)
+![Istanbul Bosphorus](assets/figures/demos/compare_istanbul.gif)
+![Lanzarote sunrise](assets/figures/demos/compare_lanzarote.gif)
+![Pleven panorama](assets/figures/demos/compare_pleven.gif)
+![Spider cricket](assets/figures/demos/compare_spider.gif)
+
+### Static frame comparison
+
+The same frame reconstructed by each scheme at SNR = 10 dB. LGVSC stays
 visually faithful to the reference while operating at a CBR three to four orders of magnitude
 below the conventional codec baselines:
 
 ![Visual comparison of reconstructed frames at SNR=10 dB](assets/figures/visual_comparison.png)
 
-**Quantitative** — semantic and perceptual quality vs. channel SNR (CLIP↑ / PSNR↑ / SSIM↑ /
-LPIPS↓ / DISTS↓):
+### Quantitative metrics
+
+Semantic and perceptual quality vs. channel SNR (CLIP↑ / PSNR↑ / SSIM↑ / LPIPS↓ / DISTS↓):
 
 ![Quality metrics vs. channel SNR](assets/figures/metrics_vs_snr.png)
 
