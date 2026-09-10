@@ -1,4 +1,6 @@
 import os
+import faulthandler
+from semantic_transmission.temporal import trim_prefix, segment_lengths, conditioning_indices
 import time
 from pprint import pformat
 
@@ -197,6 +199,8 @@ def append_multi_score_to_prompts(prompts, aes=None, flow=None, camera_motion=No
     return new_prompts
 
 if __name__ == "__main__":
+    # Slow first-time model loading/kernels remain diagnosable in batch logs.
+    faulthandler.dump_traceback_later(180, repeat=True)
 #发送端视频信息批量提取
     cfg = parse_configs(training=False)
 
@@ -251,7 +255,7 @@ if __name__ == "__main__":
 
     # 设置随机数
     set_random_seed(seed=cfg.get("seed", 1024))
-    seed = fully_control_random_seed(seed=cfg.get("seed", 1024), deterministic=True, diff_rank_seed=False)
+    seed = fully_control_random_seed(seed=cfg.get("seed", 1024), deterministic=cfg.get("deterministic", True), diff_rank_seed=False)
     
 
     # == device and dtype ==
@@ -285,7 +289,14 @@ if __name__ == "__main__":
     # ======================================================
     logger.info("Building models...")
     # == build text-encoder and vae ==
-    text_encoder = build_module(cfg.text_encoder, MODELS, device=device)
+    text_encoder = build_module(cfg.text_encoder, MODELS, device=cfg.get("text_encoder_device", device))
+    if cfg.get("text_encoder_device", device) != device:
+        # Keep the 4.7B T5 on CPU; transfer only its small conditioning tensors.
+        original_encode = text_encoder.encode
+        def encode_to_sampling_device(text):
+            return {name: tensor.to(device=device, dtype=dtype if tensor.is_floating_point() else tensor.dtype)
+                    for name, tensor in original_encode(text).items()}
+        text_encoder.encode = encode_to_sampling_device
     vae = build_module(cfg.vae, MODELS).to(device, dtype).eval()
 
     # == prepare video size ==
@@ -307,22 +318,13 @@ if __name__ == "__main__":
         frams_dir = root_path + "/frames/"+videos[i][0].split('/')[-2] + "/"+method
         print("log: frams_dir ",frams_dir)
         key_frames = get_keyframes(frams_dir)
+        if len(key_frames) < 2 or len(texts[i]) != len(key_frames) - 1:
+            raise ValueError("Each video requires >=2 keyframes and one caption per adjacent pair")
         print("log: key_frames ",key_frames)
-        start_frame = 0
-        num_frames_ls = []
-        for key_frame in key_frames:
-            frame_num = key_frame.split('/')[-1].split('.')[0]
-            #将frame_num转换为整数
-            frame_num = int(frame_num)
-            frames = frame_num - start_frame
-            if frames > 0:
-                num_frames_ls.append(frames+1)
-            start_frame = frame_num
-        for n in range(len(num_frames_ls)):
-            if n == 0:
-                continue
-            else:
-                num_frames_ls[n] += dframe_to_frame(cfg.get("condition_frame_length", 5)) #加上condition_frame_length,这样生成视频的长度就一致了。
+        num_frames_ls = segment_lengths(
+            [int(os.path.basename(frame).split('.')[0]) for frame in key_frames],
+            dframe_to_frame(cfg.get("condition_frame_length", 5)),
+        )
 
         print("log: num_frames_ls ",num_frames_ls)
         
@@ -393,14 +395,14 @@ if __name__ == "__main__":
             # == get json from prompts ==
             batch_prompts, refs, ms = extract_json_from_prompts(batch_prompts, refs, ms)
             print("-------------batch_prompts:", batch_prompts)
-            print("-------------refs:", refs)
+            print("-------------reference paths:", refs)
             print("-------------ms:", ms)
             original_batch_prompts = batch_prompts
 
             # == get reference for condition ==
 
             refs = encode_from_sender(key_frames, vae, image_size) # 按顺序编码关键帧
-            print("-------------refs:", refs)
+            print("-------------reference latent shapes:", [[tuple(x.shape) for x in row] for row in refs])
 
 
             # == Iter over number of sampling for one prompt ==
@@ -530,8 +532,12 @@ if __name__ == "__main__":
 
                     # == add condition frames for loop ==
                     if loop_i > 0:
+                        # Encode exactly one overlap block, including for dense SKEM cuts.
+                        previous = video_clips[-1]
+                        overlap = conditioning_indices(previous.shape[2], dframe_to_frame(condition_frame_length))
+                        previous = previous[:, :, overlap]
                         refs, ms = append_generated(
-                            vae, video_clips[-1], refs, ms, loop_i, condition_frame_length, condition_frame_edit
+                            vae, previous, refs, ms, loop_i, condition_frame_length, condition_frame_edit
                         )
                     print("loop_i", loop_i, "batch_prompts_loop", batch_prompts_loop, "refs", len(refs), "ms", ms)
                     # == sampling ==
@@ -561,7 +567,7 @@ if __name__ == "__main__":
                         save_path = save_paths[idx]
                         video = [video_clips[i][idx] for i in range(loop)]
                         for i in range(1, loop):
-                            video[i] = video[i][:, dframe_to_frame(condition_frame_length) :]
+                            video[i] = video[i][:, trim_prefix(i, dframe_to_frame(condition_frame_length)) :]
                         video = torch.cat(video, dim=1)
                         save_path = save_sample(
                             video,

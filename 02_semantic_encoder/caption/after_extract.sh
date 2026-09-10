@@ -1,11 +1,12 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -eo pipefail
 
 # 这个脚本接受一些输入,完成从关键帧提取被关键帧切分的视频片段,并进行视频片段的描述和flow特征的提取
 
 # 用法: ./after_extract.sh "$DATA_ROOT" 16x24 frames key_framesinternvl_diff_0.35
 #   ($DATA_ROOT and $OPENSORA_DIR come from env.sh at the repo root; source it first)
 
-source ~/anaconda3/etc/profile.d/conda.sh
+source "${CONDA_BASE:-$HOME/anaconda3}/etc/profile.d/conda.sh"
 
 root_dir="$1"
 video_dir="$2"
@@ -60,7 +61,7 @@ fi
 : "${OPENSORA_DIR:?set OPENSORA_DIR (source env.sh at repo root)}"
 cd "$OPENSORA_DIR/tools/caption/pllava_dir"
 
-CUDA_VISIBLE_DEVICES=0 \
+CUDA_VISIBLE_DEVICES="${CUDA_VISIBLE_DEVICES:-0}" \
 PYTHONPATH="$PYTHONPATH:$OPENSORA_DIR/tools/caption/pllava_dir/PLLaVA" \
 python caption_pllava.py \
   --pretrained_model_name_or_path PLLaVA/MODELS/pllava-7b \
@@ -85,6 +86,6 @@ fi
 
 csv_path="$root_dir/$video_dir/$method""_video_paths_text.csv"
 
-CUDA_VISIBLE_DEVICES=0 \
+CUDA_VISIBLE_DEVICES="${CUDA_VISIBLE_DEVICES:-0}" \
 torchrun --standalone --nproc_per_node 1 tools/scoring/optical_flow/inference.py  $csv_path
 

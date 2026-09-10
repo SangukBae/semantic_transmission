@@ -54,3 +54,15 @@ __pycache__/
 *.pdf
 
 # keep example/figure assets explicitly with:  git add -f
+
+# Local environments, external checkouts, credentials and experiment artifacts
+.local/
+.env
+.env.*
+!.env.example
+outputs/
+data/
+.pytest_cache/
+.ruff_cache/
+build/
+dist/

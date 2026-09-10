@@ -1,0 +1,17 @@
+diff --git a/opensora/models/vae/vae.py b/opensora/models/vae/vae.py
+index 3e85bf5..3b44eae 100644
+--- a/opensora/models/vae/vae.py
++++ b/opensora/models/vae/vae.py
+@@ -260,10 +260,11 @@ def OpenSoraVAE_V1_2(
+     freeze_vae_2d=False,
+     cal_loss=False,
+     force_huggingface=False,
++    vae_2d_path=None,
+ ):
+     vae_2d = dict(
+         type="VideoAutoencoderKL",
+-        from_pretrained="PixArt-alpha/pixart_sigma_sdxlvae_T5_diffusers",
++        from_pretrained=vae_2d_path or "PixArt-alpha/pixart_sigma_sdxlvae_T5_diffusers",
+         subfolder="vae",
+         micro_batch_size=micro_batch_size,
+         local_files_only=local_files_only,

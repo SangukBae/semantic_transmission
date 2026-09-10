@@ -1,0 +1,18 @@
+{
+  "Open-Sora": {
+    "url": "https://github.com/hpcaitech/Open-Sora.git",
+    "commit": "bf4d6673af9407650b2ce6250debc2453b82c572"
+  },
+  "NTSCC_JSAC22": {
+    "url": "https://github.com/wsxtyrdd/NTSCC_JSAC22.git",
+    "commit": "dd3c745374023af6d01f465c379122be785d936f"
+  },
+  "InternVL": {
+    "url": "https://github.com/OpenGVLab/InternVL.git",
+    "commit": "eaaa9c022561b56cee8b9a9c90f638a2359142ec"
+  },
+  "PLLaVA": {
+    "url": "https://github.com/magic-research/PLLaVA.git",
+    "commit": "6f49fd281a855c4fa3103595ba2800a4dce7ec88"
+  }
+}

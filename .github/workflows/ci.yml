@@ -1,35 +1,21 @@
 name: ci
-
-# Lightweight static checks appropriate for a research repo: byte-compile all
-# Python and syntax-check all shell scripts. We do NOT run the pipeline here —
-# it needs large models, GPUs, and per-stage conda environments.
-
 on:
   push:
     branches: [main]
   pull_request:
   workflow_dispatch:
-
 jobs:
-  static-checks:
+  runtime-contracts:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-python@v5
         with:
           python-version: '3.10'
-
-      - name: Byte-compile all Python
-        run: |
-          find . -name '*.py' -not -path '*/__pycache__/*' -print0 \
-            | xargs -0 -n1 python -m py_compile
-
-      - name: Syntax-check all shell scripts
-        run: |
-          find . -name '*.sh' -print0 | xargs -0 -n1 bash -n
-
-      - name: Lint with ruff (non-blocking)
-        run: |
-          python -m pip install --quiet ruff
-          ruff check . || true
+      - run: python -m pip install -e .
+      - name: Packet, CSV, temporal and failure-propagation regressions
+        run: python -m unittest discover -s tests -v
+      - name: Compile tracked Python only
+        run: git ls-files -z '*.py' | xargs -0 -r -n1 python -m py_compile
+      - name: Validate both shell script extensions
+        run: git ls-files -z '*.sh' '*.bash' | xargs -0 -r -n1 bash -n

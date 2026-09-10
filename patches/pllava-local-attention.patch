@@ -1,0 +1,13 @@
+diff --git a/models/pllava/modeling_pllava.py b/models/pllava/modeling_pllava.py
+index 04d64cf..8acaea6 100644
+--- a/models/pllava/modeling_pllava.py
++++ b/models/pllava/modeling_pllava.py
+@@ -291,7 +291,7 @@ class PllavaForConditionalGeneration(PllavaPreTrainedModel):
+         self.vision_tower = AutoModel.from_config(config.vision_config)
+         self.multi_modal_projector = PllavaMultiModalProjector(config)
+         self.vocab_size = config.vocab_size
+-        self.language_model = AutoModelForCausalLM.from_config(config.text_config, torch_dtype=config.torch_dtype, attn_implementation="flash_attention_2")
++        self.language_model = AutoModelForCausalLM.from_config(config.text_config, torch_dtype=config.torch_dtype, attn_implementation=getattr(config, "lgvsc_attention_backend", "flash_attention_2"))
+         self.pad_token_id = self.config.pad_token_id if self.config.pad_token_id is not None else self.config.text_config.pad_token_id
+         assert self.pad_token_id is not None, 'provide the model with pad_token_id, this would be used to arranging new embedings'
+         self.post_init()

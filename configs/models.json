@@ -1,0 +1,29 @@
+{
+  "internvl": {
+    "repo": "OpenGVLab/InternVL2-8B",
+    "revision": "6fb9ad6924f69424e57fab2ab061d707688f0296"
+  },
+  "stdit": {
+    "repo": "hpcai-tech/OpenSora-STDiT-v3",
+    "revision": "9a8583918505ee93bd9fae8dd5ce32e1f9334c71"
+  },
+  "vae": {
+    "repo": "hpcai-tech/OpenSora-VAE-v1.2",
+    "revision": "33d153e9b5a9f771a8a84f98bd3f46458a8ed0bf"
+  },
+  "t5": {
+    "repo": "DeepFloyd/t5-v1_1-xxl",
+    "revision": "c9c625d2ec93667ec579ede125fd3811d1f81d37"
+  },
+  "pllava": {
+    "repo": "ermu2001/pllava-7b",
+    "revision": "825854ada92c52460b3e91902725528c0696fbcb"
+  },
+  "vae2d": {
+    "repo": "PixArt-alpha/pixart_sigma_sdxlvae_T5_diffusers",
+    "revision": "2c17b4e85261cd549b4068d086b7c2ba9d468e9f",
+    "allow_patterns": [
+      "vae/*"
+    ]
+  }
+}

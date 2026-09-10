@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -eo pipefail
 
 # 检查参数
 if [ "$#" -ne 4 ]; then

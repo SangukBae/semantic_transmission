@@ -163,20 +163,22 @@ def main(args):
     model = AutoModel.from_pretrained(
     model_path,
     torch_dtype=torch.bfloat16,
-    # load_in_4bit=True,
+    load_in_8bit=args.load_in_8bit,
+    device_map="auto" if args.load_in_8bit else None,
     low_cpu_mem_usage=True,
-    use_flash_attn=True,
+    use_flash_attn=args.flash_attn,
     trust_remote_code=True).eval()
 
     model.chat = types.MethodType(custom_chat, model)
-    model.cuda()
+    if not args.load_in_8bit:
+        model.cuda()
     logging.info(f"Model loaded from {model_path}")
     logging.info(f"Model is in {model.device}")
 
     tokenizer = AutoTokenizer.from_pretrained(model_path, trust_remote_code=True, use_fast=True)
     logging.info(f"Tokenizer loaded from {model_path}")
 
-    generation_config = dict(max_new_tokens=1024, do_sample=False, output_scores=True, return_dict_in_generate=True)
+    generation_config = dict(max_new_tokens=args.max_new_tokens, do_sample=False, output_scores=True, return_dict_in_generate=True)
 
     method = args.method
     threshold = args.threshold
@@ -222,8 +224,8 @@ def main(args):
             logging.info(f"frame_index: {frame_file.split('/')[-1].split('.')[0]}")
 
             # 读取新一帧的图片
-            pixel_values1 = load_image(cur_frame, max_num=12).to(torch.bfloat16).cuda()
-            pixel_values2 = load_image(frame_file, max_num=12).to(torch.bfloat16).cuda()
+            pixel_values1 = load_image(cur_frame, max_num=args.max_tiles).to(torch.bfloat16).cuda()
+            pixel_values2 = load_image(frame_file, max_num=args.max_tiles).to(torch.bfloat16).cuda()
             pixel_values = torch.cat([pixel_values1, pixel_values2], dim=0)
             num_patches_list = [pixel_values1.size(0), pixel_values2.size(0)]
 
@@ -307,6 +309,10 @@ if __name__ == '__main__':
     prompt_ask_image = '''Image-1: <image>\nImage-2: <image>\n**Compare the two images.** Provide a detailed description for each image, focusing on the overall setting, key objects, their positions, gestures, colors, and any movements. Keeping the descriptions distinct. Use clear, everyday language and follow this format: `img1{ [description of first image] } img2{ [description of second image] }`.'''
     prompt_compare_image='''**Compare the two descriptions of the images you have given.** Focus on the semantic similarity of the images: the positions of key objects in the scene, any objects that have appeared or disappeared and the extent of changes in the background environment. Determine if these aspects depict the exact same scene. **Only respond with "yes" if they match, otherwise respond with "no".**'''
     parser.add_argument('--model_path', type=str, default='OpenGVLab/InternVL2-8B')
+    parser.add_argument("--load-in-8bit", action="store_true", help="Local 16GB development profile")
+    parser.add_argument("--flash-attn", action="store_true")
+    parser.add_argument("--max-new-tokens", type=int, default=1024)
+    parser.add_argument("--max-tiles", type=int, default=12)
     parser.add_argument("--csv-path", type=str, required=True)
     parser.add_argument("--method", type=str, default="intervl")
     parser.add_argument("--q1", type=str, default=prompt_ask_image)
