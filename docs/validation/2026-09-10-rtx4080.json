@@ -1,0 +1,428 @@
+{
+  "validated_code": "39a82f3dd01643e6d3fd34d6fe535f9a1b3ea1cd",
+  "evidence_scope": "local_single_clip_execution_not_paper_metrics",
+  "hardware": {
+    "gpu": "NVIDIA RTX 4080 16GB",
+    "cpu": "Intel Core i7-14700F",
+    "ram_gb": 64,
+    "driver": "580.173.02"
+  },
+  "tests": {
+    "stdlib_regressions_passed": 11,
+    "bootstrap_idempotent": "PASSED",
+    "core_and_channel_pip_check": "PASSED",
+    "cuda_and_endpoint_mask_probe": "PASSED",
+    "python_syntax_files": 36,
+    "shell_syntax_files": 11
+  },
+  "runs": [
+    {
+      "name": "rtx4080_skem_verified_v1",
+      "status": "PASSED",
+      "code": {
+        "commit": "39a82f3dd01643e6d3fd34d6fe535f9a1b3ea1cd",
+        "dirty": false
+      },
+      "input_sha256": "10d5cd04e7ddb96cbaa8b0ffb4e0557604fac8f7927fa7075ffed0f94b272cd8",
+      "started": "2026-09-10T14:44:31.485548+00:00",
+      "finished": "2026-09-10T14:46:07.439003+00:00",
+      "settings": {
+        "frames": 17,
+        "width": 256,
+        "height": 256,
+        "fps": 24,
+        "seed": 1024,
+        "steps": 10,
+        "selector": "skem",
+        "snr_db": 10
+      },
+      "keyframe_indices": [
+        0,
+        16
+      ],
+      "stages": [
+        {
+          "stage": "prepare",
+          "status": "PASSED",
+          "returncode": 0,
+          "seconds": 0.32521676702890545
+        },
+        {
+          "stage": "select",
+          "status": "PASSED",
+          "returncode": 0,
+          "seconds": 44.38148758292664
+        },
+        {
+          "stage": "caption",
+          "status": "PASSED",
+          "returncode": 0,
+          "seconds": 20.57205500395503
+        },
+        {
+          "stage": "flow",
+          "status": "PASSED",
+          "returncode": 0,
+          "seconds": 2.0832894099876285
+        },
+        {
+          "stage": "ntscc",
+          "status": "PASSED",
+          "returncode": 0,
+          "seconds": 2.791906579048373
+        },
+        {
+          "stage": "metadata_channel",
+          "status": "PASSED",
+          "returncode": 0,
+          "seconds": 2.061327426927164
+        },
+        {
+          "stage": "decode",
+          "status": "PASSED",
+          "returncode": 0,
+          "seconds": 23.34949597599916
+        },
+        {
+          "stage": "evaluate",
+          "status": "PASSED",
+          "returncode": 0,
+          "seconds": 0.36686791700776666
+        }
+      ],
+      "quality": {
+        "frames": 17,
+        "shape": [
+          17,
+          256,
+          256,
+          3
+        ],
+        "psnr_db": 19.94792710893431,
+        "ssim": 0.6022933936393952,
+        "video_sha256": "8afea6139420a7b42af93fdd2eb43766c9b235fb0f2619e85f4e9e8a7a75192c",
+        "evidence_scope": "single_clip_local_execution_not_paper_reproduction"
+      },
+      "ntscc": {
+        "keyframes": [
+          {
+            "index": 0,
+            "mse": 0.0014444603584706783,
+            "psnr_db": 28.40294372361615,
+            "complex_channel_uses": 17162
+          },
+          {
+            "index": 16,
+            "mse": 0.0010875114239752293,
+            "psnr_db": 29.635661722185255,
+            "complex_channel_uses": 16396
+          }
+        ],
+        "snr_db": 10,
+        "visual_complex_channel_uses": 33558,
+        "rate_index_transport": "upstream_shared_metadata_not_serialized",
+        "complete_wire_accounting": false
+      },
+      "metadata_channel": {
+        "packet_bytes": 431,
+        "information_bits": 3448,
+        "ldpc_k": 6144,
+        "ldpc_n": 9216,
+        "bits_per_symbol": 4,
+        "blocks": 1,
+        "padding_bits": 2696,
+        "coded_bits": 9216,
+        "complex_channel_uses": 2304,
+        "snr_db": 10.0,
+        "snr_definition": "Es/N0 per complex symbol",
+        "seed": 1024,
+        "bit_errors": 0,
+        "backend": "sionna_ldpc5g_qam_awgn",
+        "status": "PASSED"
+      }
+    },
+    {
+      "name": "rtx4080_skim_33_verified_v1",
+      "status": "PASSED",
+      "code": {
+        "commit": "39a82f3dd01643e6d3fd34d6fe535f9a1b3ea1cd",
+        "dirty": false
+      },
+      "input_sha256": "10d5cd04e7ddb96cbaa8b0ffb4e0557604fac8f7927fa7075ffed0f94b272cd8",
+      "started": "2026-09-10T14:46:34.727640+00:00",
+      "finished": "2026-09-10T14:47:45.960570+00:00",
+      "settings": {
+        "frames": 33,
+        "width": 256,
+        "height": 256,
+        "fps": 24,
+        "seed": 1024,
+        "steps": 10,
+        "selector": "skim",
+        "snr_db": 10
+      },
+      "keyframe_indices": [
+        0,
+        16,
+        32
+      ],
+      "stages": [
+        {
+          "stage": "prepare",
+          "status": "PASSED",
+          "returncode": 0,
+          "seconds": 0.37116814393084496
+        },
+        {
+          "stage": "select",
+          "status": "PASSED",
+          "returncode": 0,
+          "seconds": 0.026401822920888662
+        },
+        {
+          "stage": "caption",
+          "status": "PASSED",
+          "returncode": 0,
+          "seconds": 36.11944536399096
+        },
+        {
+          "stage": "flow",
+          "status": "PASSED",
+          "returncode": 0,
+          "seconds": 2.294850426958874
+        },
+        {
+          "stage": "ntscc",
+          "status": "PASSED",
+          "returncode": 0,
+          "seconds": 2.939713297993876
+        },
+        {
+          "stage": "metadata_channel",
+          "status": "PASSED",
+          "returncode": 0,
+          "seconds": 2.637203246005811
+        },
+        {
+          "stage": "decode",
+          "status": "PASSED",
+          "returncode": 0,
+          "seconds": 26.297276666969992
+        },
+        {
+          "stage": "evaluate",
+          "status": "PASSED",
+          "returncode": 0,
+          "seconds": 0.5294910679804161
+        }
+      ],
+      "quality": {
+        "frames": 33,
+        "shape": [
+          33,
+          256,
+          256,
+          3
+        ],
+        "psnr_db": 19.470267370807036,
+        "ssim": 0.5664147549005119,
+        "video_sha256": "9b0101b1c539d72d0a4cc923ebc7c3a4cc9c5820703808e07af982e9496f90da",
+        "evidence_scope": "single_clip_local_execution_not_paper_reproduction"
+      },
+      "ntscc": {
+        "keyframes": [
+          {
+            "index": 0,
+            "mse": 0.0013838898157700896,
+            "psnr_db": 28.588984866913837,
+            "complex_channel_uses": 17183
+          },
+          {
+            "index": 16,
+            "mse": 0.0012477473355829716,
+            "psnr_db": 29.03873348845409,
+            "complex_channel_uses": 16864
+          },
+          {
+            "index": 32,
+            "mse": 0.0010812862310558558,
+            "psnr_db": 29.66059327218218,
+            "complex_channel_uses": 16402
+          }
+        ],
+        "snr_db": 10,
+        "visual_complex_channel_uses": 50449,
+        "rate_index_transport": "upstream_shared_metadata_not_serialized",
+        "complete_wire_accounting": false
+      },
+      "metadata_channel": {
+        "packet_bytes": 886,
+        "information_bits": 7088,
+        "ldpc_k": 6144,
+        "ldpc_n": 9216,
+        "bits_per_symbol": 4,
+        "blocks": 2,
+        "padding_bits": 5200,
+        "coded_bits": 18432,
+        "complex_channel_uses": 4608,
+        "snr_db": 10.0,
+        "snr_definition": "Es/N0 per complex symbol",
+        "seed": 1024,
+        "bit_errors": 0,
+        "backend": "sionna_ldpc5g_qam_awgn",
+        "status": "PASSED"
+      }
+    },
+    {
+      "name": "rtx4080_skim_dense_verified_v1",
+      "status": "PASSED",
+      "code": {
+        "commit": "39a82f3dd01643e6d3fd34d6fe535f9a1b3ea1cd",
+        "dirty": false
+      },
+      "input_sha256": "10d5cd04e7ddb96cbaa8b0ffb4e0557604fac8f7927fa7075ffed0f94b272cd8",
+      "started": "2026-09-10T14:48:18.564249+00:00",
+      "finished": "2026-09-10T14:49:28.350246+00:00",
+      "settings": {
+        "frames": 17,
+        "width": 256,
+        "height": 256,
+        "fps": 24,
+        "seed": 1024,
+        "steps": 10,
+        "selector": "skim",
+        "snr_db": 10
+      },
+      "keyframe_indices": [
+        0,
+        8,
+        16
+      ],
+      "stages": [
+        {
+          "stage": "prepare",
+          "status": "PASSED",
+          "returncode": 0,
+          "seconds": 0.23426532105077058
+        },
+        {
+          "stage": "select",
+          "status": "PASSED",
+          "returncode": 0,
+          "seconds": 0.023183095967397094
+        },
+        {
+          "stage": "caption",
+          "status": "PASSED",
+          "returncode": 0,
+          "seconds": 35.946477325982414
+        },
+        {
+          "stage": "flow",
+          "status": "PASSED",
+          "returncode": 0,
+          "seconds": 2.2693960369797423
+        },
+        {
+          "stage": "ntscc",
+          "status": "PASSED",
+          "returncode": 0,
+          "seconds": 2.9109922479838133
+        },
+        {
+          "stage": "metadata_channel",
+          "status": "PASSED",
+          "returncode": 0,
+          "seconds": 2.886282423976809
+        },
+        {
+          "stage": "decode",
+          "status": "PASSED",
+          "returncode": 0,
+          "seconds": 25.12566765898373
+        },
+        {
+          "stage": "evaluate",
+          "status": "PASSED",
+          "returncode": 0,
+          "seconds": 0.3541533818934113
+        }
+      ],
+      "quality": {
+        "frames": 17,
+        "shape": [
+          17,
+          256,
+          256,
+          3
+        ],
+        "psnr_db": 14.796178742530362,
+        "ssim": 0.4424610229225527,
+        "video_sha256": "ff672f6040ace85593ca971fcc0d592f9b3f2340b72817ecd90a45a064fb4c50",
+        "evidence_scope": "single_clip_local_execution_not_paper_reproduction"
+      },
+      "ntscc": {
+        "keyframes": [
+          {
+            "index": 0,
+            "mse": 0.0014444603584706783,
+            "psnr_db": 28.40294372361615,
+            "complex_channel_uses": 17162
+          },
+          {
+            "index": 8,
+            "mse": 0.0012523687910288572,
+            "psnr_db": 29.022677635182596,
+            "complex_channel_uses": 16954
+          },
+          {
+            "index": 16,
+            "mse": 0.0010866496013477445,
+            "psnr_db": 29.63910474987952,
+            "complex_channel_uses": 16396
+          }
+        ],
+        "snr_db": 10,
+        "visual_complex_channel_uses": 50512,
+        "rate_index_transport": "upstream_shared_metadata_not_serialized",
+        "complete_wire_accounting": false
+      },
+      "metadata_channel": {
+        "packet_bytes": 887,
+        "information_bits": 7096,
+        "ldpc_k": 6144,
+        "ldpc_n": 9216,
+        "bits_per_symbol": 4,
+        "blocks": 2,
+        "padding_bits": 5192,
+        "coded_bits": 18432,
+        "complex_channel_uses": 4608,
+        "snr_db": 10.0,
+        "snr_definition": "Es/N0 per complex symbol",
+        "seed": 1024,
+        "bit_errors": 0,
+        "backend": "sionna_ldpc5g_qam_awgn",
+        "status": "PASSED"
+      }
+    }
+  ],
+  "corruption_check": {
+    "packet_bytes": 431,
+    "information_bits": 3448,
+    "ldpc_k": 6144,
+    "ldpc_n": 9216,
+    "bits_per_symbol": 4,
+    "blocks": 1,
+    "padding_bits": 2696,
+    "coded_bits": 9216,
+    "complex_channel_uses": 2304,
+    "snr_db": -10.0,
+    "snr_definition": "Es/N0 per complex symbol",
+    "seed": 1024,
+    "bit_errors": 1532,
+    "backend": "sionna_ldpc5g_qam_awgn",
+    "status": "FAILED",
+    "error": "invalid metadata packet framing",
+    "receiver_csv_created": false
+  }
+}

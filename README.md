@@ -59,6 +59,7 @@ python scripts/probe_environment.py
 ```
 
 자세한 환경·변경점·제약은 [로컬 연구 안내](docs/LOCAL_RESEARCH.md)를 참고하세요.
+실제 GPU에서 완료한 세 가지 실행과 회귀 검사 결과는 [검증 기록](docs/VALIDATION.md)에 있습니다.
 원 논문의 설치·실험 설명은 [원본 README](README_UPSTREAM.md)에 보존했습니다.
 
 기본 실행은 **17프레임, 256×256, 10 sampling steps의 실제 모델 실행 확인용**입니다.
