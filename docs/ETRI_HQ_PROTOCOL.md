@@ -89,6 +89,10 @@ python -m semantic_transmission.compare_etri \
   --run-root outputs/etri10_hq_new \
   --baseline-inventory .local/validation/etri_sgd_baseline_inventory.json \
   --output outputs/etri10_hq_new/comparison
+python scripts/render_etri_comparison.py \
+  --run-root outputs/etri10_hq_new \
+  --baseline-inventory .local/validation/etri_sgd_baseline_inventory.json \
+  --comparison outputs/etri10_hq_new/comparison
 ```
 
 Runs use new output directories and stop at a failing stage. Focused probes and
@@ -117,3 +121,38 @@ receiver videos and model weights remain local, outside Git.
 Evidence is retained locally under `.local/validation/` in
 `ntscc_transport_parity.json`, `etri_bf16_flash_preflight_v5/`,
 `receiver_only_v1/`, and `etri_sgd_baseline_inventory_v2.json`.
+
+## Supplementary CLIP comparison and visual review
+
+The reconstruction settings remain frozen. A separate post-processing script adds
+the original evaluator's CLIP ViT-B/32 cosine and `(1 + cosine) / 2` scores on
+lossless RGB frames. It uses the standard 224-pixel center crop. These scores
+measure broad visual similarity and cannot establish correct motion direction,
+small-object presence, readable signs or absence of hallucination.
+
+The existing local `ptest` environment supplies CLIP, PyTorch 2.1.0 and its cached
+ViT-B/32 checkpoint. All compared methods use the same CPU FP32 evaluator. The
+checkpoint SHA-256 is verified against the original release. No package is added
+to the running LGVSC inference environment. The baseline source PNGs are used
+only after the audit proves they exactly match the current source-video pixels.
+
+```bash
+env -u LD_LIBRARY_PATH -u PYTHONPATH CUDA_VISIBLE_DEVICES=-1 \
+  PYTHONNOUSERSITE=1 OMP_NUM_THREADS=2 MKL_NUM_THREADS=2 \
+  ~/anaconda3/envs/ptest/bin/python scripts/evaluate_clip_reference.py \
+  --baseline-inventory .local/validation/etri_sgd_baseline_inventory_v2.json \
+  --output outputs/etri_baseline_clip_new
+# After all ten LGVSC reconstructions pass:
+env -u LD_LIBRARY_PATH -u PYTHONPATH CUDA_VISIBLE_DEVICES=-1 \
+  PYTHONNOUSERSITE=1 OMP_NUM_THREADS=2 MKL_NUM_THREADS=2 \
+  ~/anaconda3/envs/ptest/bin/python scripts/evaluate_clip_reference.py \
+  --baseline-inventory .local/validation/etri_sgd_baseline_inventory_v2.json \
+  --baseline-cache outputs/etri_baseline_clip_new \
+  --run-root outputs/etri10_hq_new --output outputs/etri10_hq_new/comparison/clip
+```
+
+The final script verifies cached source and reconstruction pixel hashes before
+reusing baseline scores. Regenerate the viewer after CLIP evaluation to show these
+supplementary scores. `comparison/viewer.html` opens locally with video selection,
+synchronized play/pause and common frame seeking. It references local videos, so
+copying the HTML alone does not produce a self-contained shareable package.
