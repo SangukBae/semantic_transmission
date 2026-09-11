@@ -106,3 +106,53 @@ records the repair: the failing real pair and two other pairs passed, with ident
 PSSS probabilities before/after layer staging. A separate synthetic 1024-token
 history plus 1024 generated-token stress also passed. Synthetic stress outputs are
 not used as semantic information in any research reconstruction.
+
+## Completed first ETRI video — 2026-09-11
+
+The [full-run evidence](validation/2026-09-11-etri01-official-full.json) records a
+successful clean-checkout execution of `a2a03bc934e5d21152e80a48ea3d247fe8cd65ee`.
+All **239/239** SKEM comparisons and all **9/9** pipeline stages passed. The source
+video, normalized reference, transmitted/received packets, generated MP4, and
+continuation candidates were checked against their recorded hashes.
+
+Local output, relative to this repository:
+
+```text
+outputs/etri01_official_20260911_v2/01_person_walk/receiver/reconstruction/sample_0000.mp4
+```
+
+| Recorded result | Value |
+| --- | --- |
+| Keyframes | 0, 179, 239: 0 s, 7.458 s, 9.958 s |
+| Intermediate selection | Frame 179, PSSS 0.42704682 > 0.35; no manually added intermediate frame |
+| Caption clips | 181 and 60 decoded frames; four centered samples per clip |
+| Flow scalars | 2.36025262 and 2.21886420 |
+| Delivered video | 576×320, 24 fps, 241 frames, 10.041667 s, 1,210,514 file bytes |
+| Full execution time | 8,252.75 s (2 h 17 min 33 s) |
+| SKEM / caption / generation time | 7,879.87 s / 62.71 s / 278.25 s |
+| SKEM peak allocated GPU memory | 14.40 GiB, BF16, no int8/int4 quantization |
+| Serialized transmitter input | 456,592 bytes: visual complex64 453,560 + metadata 3,032 |
+| Actual simulated channel uses | 65,911 complex uses: visual 56,695 + digital 9,216 |
+| Metadata channel errors | 0 bits; exact packet match |
+| PNG-frame PSNR / SSIM / LPIPS-Alex | 19.7401 dB / 0.78213 / 0.25821 |
+| Delivered-MP4 PSNR / SSIM / LPIPS-Alex | 19.7140 dB / 0.77917 / 0.25460 |
+
+The 241-frame length follows the published shared-boundary concatenation rule: source
+frame 179 occurs twice in the evaluation timeline. Metrics use that explicitly
+recorded mapping and the normalized reference. They are not a matched numerical
+comparison with the older HQ or SGD-JSCC results.
+
+Inspection at source times 0, 3, 5, 7, 8.5 and 9.958 seconds shows the **rightward
+traversal followed by a return toward the center** in the new result. Body
+appearance, gait and turn timing still differ from the original. The captions
+still omit explicit turn/return directions, and the second caption incorrectly
+mentions a red scarf. This is a qualitative review of one video, not a validated
+action-fidelity metric or a claim that the paper's aggregate results were reproduced.
+The local comparison figure is
+`.local/validation/etri01_official_v2_comparison.png`.
+
+The completed run is registered under the new profile in `.local/etri_continue.json`.
+The exact wrapper command with `--dry-run` verified reuse of `01_person_walk` and
+generation of **only 02–10**. An additional copy-only execution verified identical
+MP4 hashes and preserved the original execution commit. Videos 02–10 have not been
+launched by this validation; the user can now run the command above.

@@ -47,6 +47,10 @@ bash semantic_transmission/scripts/run_etri_remaining.sh
 576×320·24fps 전처리, 전체 프레임 SKEM, 공식 구간 캡션/광류, Open-Sora 30단계·시드 42를
 적용합니다. 자세한 일치 범위와 공개 코드의 제약은 [공식 설정 실행 기록](docs/ETRI_OFFICIAL_PROTOCOL.md)에 있습니다.
 
+2026-09-11 첫 영상은 전체 239개 SKEM 비교와 송수신·생성·평가를 완료했습니다.
+결과는 `outputs/etri01_official_20260911_v2/01_person_walk/receiver/reconstruction/sample_0000.mp4`이며,
+오른쪽 이동 후 중앙 복귀 동선이 관찰됐습니다. 보행 자세와 동작 시점까지 원본과 같지는 않습니다.
+
 로컬 `.local/etri_continue.json`에 입력 경로와 **프로필별** 실행 이력을 기록합니다.
 같은 새 설정으로 검증이 끝난 `01_person_walk`를 재사용하고 2~10번을 생성합니다. 매번 새 결과 폴더를
 출력하고, 완료된 영상은 원본·설정·복원 MP4·전송 파일을 검증한 뒤 복사해 한 배치로 모읍니다.
