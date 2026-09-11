@@ -39,7 +39,18 @@ def prepare(cfg, repo, run):
     frames.mkdir(parents=True)
     normalized = data / "normalized.mp4"
     width, height = cfg["width"], cfg["height"]
-    if cfg.get("preserve_input", False):
+    if cfg.get("official_preprocessing", False):
+        from moviepy.editor import VideoFileClip
+        first_pass = data / "moviepy_24fps.mp4"
+        with VideoFileClip(cfg["input"]) as original:
+            clip = original.subclip(0, 16) if original.duration > 16 else original
+            if clip.fps > 24:
+                clip = clip.set_fps(24)
+            clip.write_videofile(str(first_pass), codec="libx264", fps=24)
+        subprocess.run(["ffmpeg", "-v", "error", "-nostdin", "-i", str(first_pass),
+                        "-vf", "crop=iw:ih:((iw-576)/2):((ih-320)/2),scale=576:320",
+                        "-c:v", "libx264", "-crf", "18", "-preset", "medium", str(normalized)], check=True)
+    elif cfg.get("preserve_input", False):
         from .video_io import probe
         info = probe(cfg["input"])
         if (info["width"], info["height"], info["frames"], info["fps"]) != (width, height, cfg["frames"], cfg["fps"]):
@@ -75,13 +86,19 @@ def select(cfg, repo, run):
     directory = run / "data/frames/sample"
     target = directory / cfg["method"]
     if cfg["selector"] == "skem":
-        command = [sys.executable, str(repo / "02_semantic_encoder/skem/MLM-keyframe-internvl.py"),
+        selector_python = sys.executable
+        if cfg.get("selector_environment") == "internvl_release":
+            from .cli import settings
+            selector_python = settings(repo)["internvl_python"]
+        command = [selector_python, str(repo / "02_semantic_encoder/skem/MLM-keyframe-internvl.py"),
                    "--csv-path", str(run / "data/16x24/videos.csv"),
                    "--method", cfg["method"].removeprefix("key_frames"),
                    "--model_path", cfg["models"]["internvl"], "--threshold", str(cfg["threshold"]),
                    "--max-new-tokens", str(cfg["max_new_tokens"]), "--max-tiles", str(cfg["max_tiles"])]
         if cfg["internvl_8bit"]:
             command.append("--load-in-8bit")
+        elif cfg.get("internvl_gpu_head", False):
+            command.append("--gpu-static-head")
         elif cfg.get("internvl_static_cpu_head", False):
             command.append("--cpu-static-head")
         elif cfg.get("internvl_cpu_offload", False):
@@ -89,7 +106,8 @@ def select(cfg, repo, run):
         if cfg.get("flash_attn", False):
             command.append("--flash-attn")
         env = os.environ.copy()
-        env["PYTHONPATH"] = str(repo / ".local/vendor/InternVL") + os.pathsep + env.get("PYTHONPATH", "")
+        env["PYTHONPATH"] = os.pathsep.join([str(repo / "src"), str(repo / ".local/vendor/InternVL")])
+        write_json(run / "selector_runtime.json", {"command": command, "pythonpath": env["PYTHONPATH"]})
         subprocess.run(command, cwd=run, env=env, check=True)
     else:
         target.mkdir()
@@ -110,6 +128,21 @@ def source_images(run, indices):
     return [Image.open(run / f"data/frames/sample/{i}.png").convert("RGB") for i in indices]
 
 
+def semantic_clips(run, indices, fps):
+    """Use the release's MoviePy stream-copy subclips, including its timestamp behavior."""
+    from moviepy.video.io.ffmpeg_tools import ffmpeg_extract_subclip
+    directory = run / "data/clips/sample"
+    directory.mkdir(parents=True, exist_ok=True)
+    paths = []
+    for segment, (start, end) in enumerate(zip(indices, indices[1:])):
+        path = directory / f"{segment:05d}.mp4"
+        if not path.exists():
+            ffmpeg_extract_subclip(str(run / "data/normalized.mp4"), start / fps, end / fps,
+                                  targetname=str(path))
+        paths.append(path)
+    return paths
+
+
 def caption(cfg, repo, run):
     import numpy as np
     import torch
@@ -121,7 +154,7 @@ def caption(cfg, repo, run):
     torch.manual_seed(cfg["seed"])
     model_dir = cfg["models"]["pllava"]
     config = PllavaConfig.from_pretrained(model_dir, num_frames=4, pooling_shape=(4, 12, 12))
-    config.lgvsc_attention_backend = "sdpa"
+    config.lgvsc_attention_backend = cfg.get("caption_attention", "sdpa")
     with init_empty_weights():
         model = PllavaForConditionalGeneration(config)
         model.language_model = get_peft_model(model.language_model, LoraConfig(
@@ -138,7 +171,9 @@ def caption(cfg, repo, run):
     model.eval()
     processor = PllavaProcessor.from_pretrained(model_dir)
     indices = json.loads((run / "keyframes.json").read_text())["indices"]
+    clips = semantic_clips(run, indices, cfg["fps"]) if cfg.get("official_semantic_clips") else None
     rows = []
+    sampling = []
     for segment, (start, end) in enumerate(zip(indices, indices[1:])):
         sampled = np.linspace(start, end, 4).round().astype(int).tolist()
         if cfg.get("paper_caption", False):
@@ -146,6 +181,17 @@ def caption(cfg, repo, run):
             size = float(max(1, end - start) - 1) / 4
             sampled = [start + int(size / 2) + int(np.round(size * i)) for i in range(4)]
         images = source_images(run, sampled)
+        if clips is not None:
+            sys.path.insert(0, str(repo / ".local/vendor/Open-Sora"))
+            from opensora.datasets.read_video import read_video_av
+            from torchvision.transforms import Resize
+            from PIL import Image
+            decoded, _, _ = read_video_av(str(clips[segment]), pts_unit="sec", output_format="THWC")
+            size = float(len(decoded) - 1) / 4
+            sampled = [int(size / 2) + int(np.round(size * i)) for i in range(4)]
+            images = [Resize(672)(Image.fromarray(decoded[i].numpy())) for i in sampled]
+            sampling.append({"clip": str(clips[segment]), "decoded_frames": len(decoded),
+                             "indices": sampled, "resize_short_edge": 672})
         prompt = ("USER: <image>\nDescribe this video. Pay attention to the objects, their actions, "
                   "and the background. Use no more than three sentences. ASSISTANT:")
         if cfg.get("paper_caption", False):
@@ -166,6 +212,8 @@ def caption(cfg, repo, run):
             raise RuntimeError("PLLaVA returned an empty caption")
         rows.append({"path": f"clips/sample/{segment:05d}.mp4", "text": text, "flow": 0.0})
     write_json(run / "captions.json", rows)
+    if clips is not None:
+        write_json(run / "caption_sampling.json", sampling)
 
 
 def flow(cfg, repo, run):
@@ -182,22 +230,32 @@ def flow(cfg, repo, run):
     model = model.cuda().eval()
     indices = json.loads((run / "keyframes.json").read_text())["indices"]
     rows = json.loads((run / "captions.json").read_text())
-    for row, (start, end) in zip(rows, zip(indices, indices[1:])):
+    clips = semantic_clips(run, indices, cfg["fps"]) if cfg.get("official_semantic_clips") else None
+    sampling = []
+    for segment, (row, (start, end)) in enumerate(zip(rows, zip(indices, indices[1:]))):
         sampled = np.linspace(start, end, 4).round().astype(int).tolist()
         if cfg.get("paper_flow", False):
             sampled = [min(start + i, max(start, end - 1)) for i in (0, 10, 20, 30)]
         images = torch.stack([pil_to_tensor(image) for image in source_images(run, sampled)]).float().cuda()
+        if clips is not None:
+            from tools.datasets.utils import extract_frames
+            extracted = extract_frames(str(clips[segment]), frame_inds=[0, 10, 20, 30], backend="opencv")
+            images = torch.stack([pil_to_tensor(image) for image in extracted]).float().cuda()
+            sampling.append({"clip": str(clips[segment]), "requested_indices": [0, 10, 20, 30]})
         images = F.interpolate(images, size=(320, 576), mode="bilinear", align_corners=True)
-        # One pair per invocation bounds VRAM, while retaining the upstream flow-score definition.
+        # The official profile evaluates the original three-pair batch.
         scores = []
         with torch.inference_mode():
-            for i in range(3):
-                output = model(images[i:i+1], images[i+1:i+2], attn_type="swin", attn_splits_list=[2, 8],
+            for i in ([None] if clips is not None else range(3)):
+                a, b = (images[:-1], images[1:]) if i is None else (images[i:i+1], images[i+1:i+2])
+                output = model(a, b, attn_type="swin", attn_splits_list=[2, 8],
                                corr_radius_list=[-1, 4], prop_radius_list=[-1, 1], num_reg_refine=6,
                                task="flow", pred_bidir_flow=False)
                 scores.append(output["flow_preds"][-1].abs().mean().item())
         row["flow"] = float(np.mean(scores))
     write_json(run / "metadata_tx.json", rows)
+    if clips is not None:
+        write_json(run / "flow_sampling.json", sampling)
 
 
 def ntscc(cfg, repo, run):

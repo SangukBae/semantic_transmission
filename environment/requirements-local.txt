@@ -27,3 +27,7 @@ pytest==8.3.5
 scikit-image==0.24.0
 lpips==0.1.4
 openai==1.35.15
+moviepy==1.0.3
+decorator==4.4.2
+imageio-ffmpeg==0.5.1
+fabric==3.0.0

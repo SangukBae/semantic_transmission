@@ -8,9 +8,21 @@ def segment_lengths(indices, overlap_frames=17):
             for i, (a, b) in enumerate(zip(indices, indices[1:]))]
 
 
-def trim_prefix(segment_index, overlap_frames=17):
+def trim_prefix(segment_index, overlap_frames=17, policy="endpoint_exact"):
+    if policy == "official_release":
+        return overlap_frames if segment_index else 0
     # Remove conditioning overlap AND the shared adjacent-segment endpoint.
     return overlap_frames + 1 if segment_index else 0
+
+
+def output_source_indices(indices, policy="endpoint_exact"):
+    """Map the published concatenation's repeated boundary frames explicitly."""
+    segment_lengths(indices)  # validate endpoints and ordering
+    if policy == "official_release":
+        return [frame for a, b in zip(indices, indices[1:]) for frame in range(a, b + 1)]
+    if policy != "endpoint_exact":
+        raise ValueError(f"unknown temporal policy: {policy}")
+    return list(range(indices[-1] + 1))
 
 
 def conditioning_indices(frame_count, overlap_frames=17):

@@ -1,0 +1,218 @@
+{
+  "scope": "integration preflight, only candidate frames 140 and 239 checked; not a full SKEM reconstruction",
+  "status": "PASSED",
+  "selector_environment": {
+    "command": [
+      "/home/sangukbae/anaconda3/envs/lgvsc-internvl/bin/python",
+      "/home/sangukbae/ETRI/Semantic/semantic_transmission/02_semantic_encoder/skem/MLM-keyframe-internvl.py",
+      "--csv-path",
+      "/home/sangukbae/ETRI/Semantic/semantic_transmission/.local/validation/official_internvl_release_probe_v2/data/16x24/videos.csv",
+      "--method",
+      "internvl_diff_0.35",
+      "--model_path",
+      "/home/sangukbae/.cache/huggingface/hub/models--OpenGVLab--InternVL2-8B/snapshots/6fb9ad6924f69424e57fab2ab061d707688f0296",
+      "--threshold",
+      "0.35",
+      "--max-new-tokens",
+      "1024",
+      "--max-tiles",
+      "12",
+      "--gpu-static-head",
+      "--flash-attn"
+    ],
+    "pythonpath": "/home/sangukbae/ETRI/Semantic/semantic_transmission/src:/home/sangukbae/ETRI/Semantic/semantic_transmission/.local/vendor/InternVL"
+  },
+  "keyframes": {
+    "indices": [
+      0,
+      239
+    ],
+    "selector": "skem",
+    "precision": "bf16"
+  },
+  "decoder": {
+    "status": "PASSED",
+    "input_sha256": "ec953774742cf5851046079d830f3e27a73a3789ba652c34870e27d8863d97e3",
+    "videos": [
+      {
+        "video": "sample",
+        "command": [
+          "/home/sangukbae/anaconda3/envs/lgvsc/bin/python",
+          "/home/sangukbae/ETRI/Semantic/semantic_transmission/04_semantic_decoder/scripts/mydemo_new_align_sh.py",
+          "--save_dir",
+          "/home/sangukbae/ETRI/Semantic/semantic_transmission/.local/validation/official_gpu_head_probe_v1/receiver/reconstruction",
+          "--csv_path",
+          "/home/sangukbae/ETRI/Semantic/semantic_transmission/.local/validation/official_gpu_head_probe_v1/receiver/reconstruction/inputs/00000.csv",
+          "--method",
+          "key_frames_received",
+          "--root_path",
+          "/home/sangukbae/ETRI/Semantic/semantic_transmission/.local/validation/official_gpu_head_probe_v1/receiver",
+          "/home/sangukbae/ETRI/Semantic/semantic_transmission/.local/validation/official_gpu_head_probe_v1/receiver/decoder_config.py"
+        ],
+        "status": "PASSED",
+        "returncode": 0,
+        "seconds": 249.77175064000767
+      }
+    ]
+  },
+  "normalization": {
+    "frames": 240,
+    "width": 576,
+    "height": 320,
+    "fps": 24,
+    "source_sha256": "2291dfb0e9cea96d5e7a3b00f2924a95eeb41f1ba4a170a63c723ef8fbeb21dc",
+    "normalized_sha256": "73b1751e3f3e21d8c471cf7b67fcfe4d9315afc12132f2fd2ed745e8462d2783"
+  },
+  "channel": {
+    "packet_bytes": 1922,
+    "information_bits": 15376,
+    "ldpc_k": 6144,
+    "ldpc_n": 9216,
+    "bits_per_symbol": 4,
+    "blocks": 3,
+    "padding_bits": 3056,
+    "coded_bits": 27648,
+    "complex_channel_uses": 6912,
+    "snr_db": 10,
+    "snr_definition": "Es/N0 per complex symbol",
+    "seed": 1024,
+    "bit_errors": 0,
+    "backend": "sionna_ldpc5g_qam_awgn",
+    "status": "PASSED",
+    "metadata_exact_match": true,
+    "visual_complex_channel_uses": 37416,
+    "digital_complex_channel_uses": 6912,
+    "total_complex_channel_uses": 44328,
+    "cbr_complex_uses_per_source_scalar": 0.0003340205439814815,
+    "complete_sample_dependent_model_input_accounting": true,
+    "physical_link_overhead_included": false,
+    "shared_prior": "installed model checkpoints, code and fixed architecture/configuration",
+    "visual_awgn_rng": "official_NTSCC_Channel_gaussian_noise_layer_torch_cuda",
+    "channel_seed": 1024,
+    "visual_tx_mean_power": 1.0,
+    "received_files": {
+      "metadata.bin": {
+        "bytes": 1922,
+        "sha256": "965a938bfb16bcb02f61cf486d66bf25c2c8a2696266a4561514383889108e50"
+      },
+      "visual.c64": {
+        "bytes": 299328,
+        "sha256": "4f5d2eb4ceac703d5897065bf9b61d530d293ba3fa8b1490c87e9a06d1a46c17"
+      }
+    }
+  },
+  "quality": {
+    "status": "PASSED",
+    "video": {
+      "width": 576,
+      "height": 320,
+      "frames": 240,
+      "fps": 24.0,
+      "duration": 10.0
+    },
+    "source_sha256": "2291dfb0e9cea96d5e7a3b00f2924a95eeb41f1ba4a170a63c723ef8fbeb21dc",
+    "reference_sha256": "73b1751e3f3e21d8c471cf7b67fcfe4d9315afc12132f2fd2ed745e8462d2783",
+    "video_sha256": "deb863728e6f61ee2a56ac45dff009e19b105f09da49e6c4192f2c127214d134",
+    "lossless_frames": {
+      "psnr_db": 17.679544460849478,
+      "ssim": 0.6907797504105174,
+      "lpips_alex": 0.35272419278820355,
+      "frames": 240,
+      "shape": [
+        240,
+        320,
+        576,
+        3
+      ]
+    },
+    "delivered_mp4": {
+      "psnr_db": 17.663602472322168,
+      "ssim": 0.6880854552722202,
+      "lpips_alex": 0.35179347392792504,
+      "frames": 240,
+      "shape": [
+        240,
+        320,
+        576,
+        3
+      ]
+    }
+  },
+  "head_numerics": {
+    "torch": "2.4.1+cu121",
+    "weight_shape": [
+      92553,
+      4096
+    ],
+    "dtype": "torch.bfloat16",
+    "flash_cuda_finite": true,
+    "exact_match": false,
+    "max_abs_error": 0.001953125
+  },
+  "environment": {
+    "python": "3.10.21",
+    "executable": "/home/sangukbae/anaconda3/envs/lgvsc/bin/python",
+    "packages": {
+      "torch": "2.2.2+cu121",
+      "torchvision": "0.17.2+cu121",
+      "transformers": "4.39.3",
+      "flash-attn": "2.5.9.post1",
+      "apex": "0.1",
+      "colossalai": "0.4.0",
+      "diffusers": "0.27.2",
+      "accelerate": "0.29.2",
+      "peft": "0.10.0",
+      "numpy": "1.26.4",
+      "av": "12.3.0",
+      "moviepy": "1.0.3",
+      "imageio-ffmpeg": "0.5.1"
+    },
+    "internvl_environment": {
+      "python": "3.9.19",
+      "packages": {
+        "torch": "2.4.1+cu121",
+        "torchvision": "0.19.1+cu121",
+        "transformers": "4.37.2",
+        "flash-attn": "2.6.3",
+        "numpy": "2.0.2",
+        "accelerate": "0.34.2"
+      }
+    },
+    "channel_packages": {
+      "tensorflow": "2.15.1",
+      "sionna": "0.19.2",
+      "numpy": "1.26.4"
+    },
+    "gpu": "NVIDIA GeForce RTX 4080, 16376 MiB, 580.173.02",
+    "ffmpeg": "ffmpeg version 4.4.2-0ubuntu0.22.04.1 Copyright (c) 2000-2021 the FFmpeg developers",
+    "moviepy_ffmpeg": "ffmpeg version 4.2.2-static https://johnvansickle.com/ffmpeg/  Copyright (c) 2000-2019 the FFmpeg developers",
+    "vendors": {
+      "InternVL": {
+        "commit": "eaaa9c022561b56cee8b9a9c90f638a2359142ec",
+        "dirty": false,
+        "tracked_patch_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "NTSCC_JSAC22": {
+        "commit": "dd3c745374023af6d01f465c379122be785d936f",
+        "dirty": true,
+        "tracked_patch_sha256": "3512f256d2f9e8b2d468655c75c5eda0f35f2d2f58c5150c9cbf327d0e7d613e"
+      },
+      "Open-Sora": {
+        "commit": "bf4d6673af9407650b2ce6250debc2453b82c572",
+        "dirty": true,
+        "tracked_patch_sha256": "bff98d70ff82551b77057eaf10d8e516962778c3409006925b0f11ec329433f6"
+      },
+      "PLLaVA": {
+        "commit": "6f49fd281a855c4fa3103595ba2800a4dce7ec88",
+        "dirty": true,
+        "tracked_patch_sha256": "eba440fb6d60b50d6e9c376abd20699d662d1659157985b995e50e88594d736c"
+      },
+      "apex": {
+        "commit": "4138d31ff0acf4071d1dc001ccb7cd6e00800324",
+        "dirty": false,
+        "tracked_patch_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    }
+  },
+  "regression_tests": 21
+}

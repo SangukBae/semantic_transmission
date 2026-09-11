@@ -8,7 +8,7 @@ import subprocess
 import sys
 import time
 
-from .artifacts import git_state, sha256, write_json
+from .artifacts import git_state, runtime_state, sha256, write_json
 from .cli import doctor, repository, settings
 from .video_io import probe
 
@@ -32,6 +32,8 @@ def main(argv=None):
         raise RuntimeError("environment preflight failed")
     profile = args.profile or repo / "configs/etri_hq.json"
     cfg = json.loads(profile.read_text())
+    if cfg.get("selector_environment") == "internvl_release" and not Path(local.get("internvl_python", "")).is_file():
+        raise RuntimeError("Run bash scripts/bootstrap_internvl.sh to install the release's selector environment")
     cfg["models"] = json.loads((repo / ".local/model_paths.json").read_text())
     videos = sorted(args.input_dir.resolve().glob("*.mp4"))
     if args.video:
@@ -41,7 +43,8 @@ def main(argv=None):
     sources = []
     for path in videos:
         info = probe(path)
-        if any(info[key] != cfg[key] for key in ("frames", "width", "height", "fps")):
+        expected_source = cfg.get("source_video", cfg)
+        if any(info[key] != expected_source[key] for key in ("frames", "width", "height", "fps")):
             raise ValueError(f"{path.name} differs from the frozen video profile: {info}")
         sources.append({"id": path.stem, "path": str(path), "sha256": sha256(path), **info})
     root = args.output.resolve()
@@ -57,6 +60,8 @@ def main(argv=None):
              "profile_sha256": sha256(profile), "inputs": sources, "runs": [],
              "expected_videos": len(videos), "completed_videos": 0, "failed_videos": 0}
     write_json(root / "profile.json", cfg)
+    write_json(root / "environment.json", runtime_state(repo, local))
+    state["environment_sha256"] = sha256(root / "environment.json")
     write_json(root / "batch_manifest.json", state)
     env = os.environ.copy()
     env.pop("PYTHONPATH", None)

@@ -43,14 +43,18 @@ semtx smoke --selector skim --skim-keyframes 3 --frames 33 --output outputs/skim
 bash semantic_transmission/scripts/run_etri_remaining.sh
 ```
 
-로컬 `.local/etri_continue.json`에 입력 경로와 실행 이력을 기록합니다. 현재 이력에는
-완료된 `01_person_walk`가 있으므로 첫 실행은 2~10번을 생성합니다. 매번 새 결과 폴더를
+현재 명령은 [공식 공개 코드 설정](configs/etri_official.json)을 사용합니다.
+576×320·24fps 전처리, 전체 프레임 SKEM, 공식 구간 캡션/광류, Open-Sora 30단계·시드 42를
+적용합니다. 자세한 일치 범위와 공개 코드의 제약은 [공식 설정 실행 기록](docs/ETRI_OFFICIAL_PROTOCOL.md)에 있습니다.
+
+로컬 `.local/etri_continue.json`에 입력 경로와 **프로필별** 실행 이력을 기록합니다.
+같은 새 설정으로 검증이 끝난 `01_person_walk`를 재사용하고 2~10번을 생성합니다. 매번 새 결과 폴더를
 출력하고, 완료된 영상은 원본·설정·복원 MP4·전송 파일을 검증한 뒤 복사해 한 배치로 모읍니다.
 중단 후 같은 명령을 다시 실행하면 검증이 끝난 영상은 재사용하고, 미완료 영상은 처음부터
 생성합니다. 두 명령의 동시 실행은 잠금으로 방지합니다. `--dry-run`을 붙이면 모델을
 실행하지 않고 재사용/생성 목록만 확인합니다.
 
-100프레임·512×256·10fps 원본을 그대로 사용하는 SKEM+DSA 프로필은 별도 실행기로 제공합니다.
+이전 100프레임·512×256·10fps 원본을 그대로 사용하는 HQ 프로필도 별도 실행기로 보존합니다.
 InternVL BF16과 Open-Sora 50 sampling steps를 사용하며, 16GB GPU에서는 모델을 순서대로
 올리고 CPU 메모리를 함께 사용합니다. 모든 프레임의 의미를 비교하므로 시간이 오래 걸립니다.
 
@@ -65,6 +69,9 @@ python -m semantic_transmission.research \
 이 실행기는 NTSCC 연속 심벌과 캡션·광류·rate-index·정규화 정보의 실제 송수신 파일을
 분리하고 전송량을 기록합니다. 기존 결과의 패킷 검증 및 공통 화질 평가 방법은
 [ETRI 실험 프로토콜](docs/ETRI_HQ_PROTOCOL.md)에 있습니다.
+
+공식 설정의 환경을 새 컴퓨터에 구성하려면 `bash scripts/bootstrap_official.sh`를 실행합니다.
+GPU 실행 검증 결과와 환경 차이는 위 프로토콜 문서에 기록합니다.
 
 ## 연구 코드 구조
 

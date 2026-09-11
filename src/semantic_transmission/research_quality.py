@@ -75,12 +75,23 @@ def main():
     cfg = json.loads((run / "run_config.json").read_text())
     video = next((run / "receiver/reconstruction").glob("*.mp4"))
     info = probe(video)
-    if any(info[k] != cfg[k] for k in ("frames", "fps", "width", "height")):
+    from .temporal import output_source_indices
+    inputs = json.loads((run / "receiver/decoder_inputs.json").read_text())
+    policy = inputs["decoder"].get("policy", "endpoint_exact")
+    mapping = output_source_indices(inputs["indices"], policy)
+    if info["frames"] != len(mapping) or any(info[k] != cfg[k] for k in ("fps", "width", "height")):
         raise ValueError(f"output temporal contract mismatch: {info}")
-    source = read_video(cfg["input"])
+    reference = run / "data/normalized.mp4"
+    source = read_video(reference)
+    if len(source) != cfg["frames"] or max(mapping) != len(source) - 1:
+        raise ValueError("normalized reference timeline differs from the profile")
+    source = source[mapping]
     metrics = Metrics()
     result = {"status": "PASSED", "video": info, "video_sha256": sha256(video),
-              "source_sha256": sha256(cfg["input"]), "evaluation": "frame_mean_RGB_uint8_SSIM_gaussian11_LPIPS_Alex"}
+              "source_sha256": sha256(cfg["input"]), "reference_sha256": sha256(reference),
+              "reference": str(reference), "output_source_indices": mapping,
+              "decoder_policy": policy,
+              "evaluation": "frame_mean_RGB_uint8_SSIM_gaussian11_LPIPS_Alex"}
     for boundary, values in (("lossless_frames", read_frames(video.with_suffix("").with_name(video.stem + "_frames"))),
                              ("delivered_mp4", read_video(video))):
         summary, rows = metrics.evaluate(source, values)

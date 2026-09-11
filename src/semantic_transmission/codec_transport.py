@@ -87,6 +87,7 @@ def send(cfg, repo, run):
               "decoder": {k: cfg[k] for k in ("seed", "steps")},
               "checkpoint_sha256": sha256(checkpoint), "segments": segments,
               "complex_dtype": "little_endian_complex64", "keyframes": []}
+    header["decoder"]["policy"] = cfg.get("decoder_policy", "endpoint_exact")
     output = run / "transmitter"
     output.mkdir()
     payload = bytearray()
@@ -116,9 +117,10 @@ def send(cfg, repo, run):
 
 def channel(cfg, repo, run):
     import numpy as np
+    import subprocess
     from .metadata_channel import transmit
     packet = (run / "transmitter/metadata.bin").read_bytes()
-    restored, report = transmit(packet, cfg["snr_db"], cfg["seed"])
+    restored, report = transmit(packet, cfg["snr_db"], cfg.get("channel_seed", cfg["seed"]))
     try:
         header, payload = unpack(restored)
     except (ValueError, UnicodeError) as error:
@@ -133,10 +135,19 @@ def channel(cfg, repo, run):
     if len(sent) != expected or not np.isfinite(sent).all():
         raise ValueError("visual transport stream length/nonfinite error")
     # Same unit-power complex AWGN law as the official NTSCC channel.
-    rng = np.random.default_rng(cfg["seed"])
-    sigma = math.sqrt(1 / (2 * 10 ** (cfg["snr_db"] / 10)))
-    noise = (rng.normal(0, sigma, len(sent)) + 1j * rng.normal(0, sigma, len(sent))).astype("<c8")
-    (sent + noise).astype("<c8").tofile(output / "visual.c64")
+    rng_name = "numpy_PCG64"
+    if cfg.get("visual_channel") == "official_torch_cuda":
+        from .cli import settings
+        env = os.environ.copy()
+        env.pop("CUDA_VISIBLE_DEVICES", None)
+        subprocess.run([settings(repo)["python"], "-m", "semantic_transmission.codec_transport",
+                        "visual_channel", str(run)], env=env, check=True)
+        rng_name = "official_NTSCC_Channel_gaussian_noise_layer_torch_cuda"
+    else:
+        rng = np.random.default_rng(cfg["seed"])
+        sigma = math.sqrt(1 / (2 * 10 ** (cfg["snr_db"] / 10)))
+        noise = (rng.normal(0, sigma, len(sent)) + 1j * rng.normal(0, sigma, len(sent))).astype("<c8")
+        (sent + noise).astype("<c8").tofile(output / "visual.c64")
     digital_uses = report["complex_channel_uses"]
     pixels = 3 * cfg["width"] * cfg["height"] * cfg["frames"]
     report.update(status="PASSED", metadata_exact_match=restored == packet,
@@ -146,9 +157,29 @@ def channel(cfg, repo, run):
         complete_sample_dependent_model_input_accounting=True,
         physical_link_overhead_included=False,
         shared_prior="installed model checkpoints, code and fixed architecture/configuration",
-        visual_awgn_rng="numpy_PCG64", visual_tx_mean_power=float(np.mean(np.abs(sent) ** 2)),
+        visual_awgn_rng=rng_name, channel_seed=cfg.get("channel_seed", cfg["seed"]),
+        visual_tx_mean_power=float(np.mean(np.abs(sent) ** 2)),
         received_files={p.name: {"bytes": p.stat().st_size, "sha256": sha256(p)} for p in output.iterdir()})
     write_json(run / "channel_accounting.json", report)
+
+
+def visual_channel(cfg, repo, run):
+    """Apply the released GPU AWGN implementation to each transmitted keyframe."""
+    import numpy as np
+    import torch
+    from types import SimpleNamespace
+    sys.path.insert(0, str(repo / ".local/vendor/NTSCC_JSAC22"))
+    from channel.channel import Channel
+    torch.manual_seed(cfg.get("channel_seed", cfg["seed"]))
+    header, _ = unpack((run / "received/metadata.bin").read_bytes())
+    sent = np.fromfile(run / "transmitter/visual.c64", dtype="<c8")
+    channel_model = Channel(SimpleNamespace(channel={"type": "awgn", "chan_param": cfg["snr_db"]},
+                                            device=torch.device("cuda"), logger=None))
+    with (run / "received/visual.c64").open("xb") as stream, torch.inference_mode():
+        for item in header["keyframes"]:
+            offset, count = item["complex_offset"], item["complex_count"]
+            symbols = torch.from_numpy(sent[offset:offset + count].copy()).cuda()
+            channel_model.channel_forward(symbols).cpu().numpy().astype("<c8").tofile(stream)
 
 
 def receive(cfg, repo, run):
@@ -196,7 +227,11 @@ def reconstruct(cfg, repo, run):
     from .decoder_runner import run as run_decoder
     inputs = json.loads((run / "receiver/decoder_inputs.json").read_text())
     video, decoder = inputs["video"], inputs["decoder"]
-    template = (repo / "configs/rtx4080_opensora.py").read_text()
+    policy = decoder.get("policy", "endpoint_exact")
+    templates = {"official_release": "official_opensora.py", "endpoint_exact": "rtx4080_opensora.py"}
+    if policy not in templates:
+        raise ValueError(f"unknown received decoder policy: {policy}")
+    template = (repo / "configs" / templates[policy]).read_text()
     template += f"\nimage_size=({video['height']},{video['width']})\nfps={video['fps']}\nsave_fps={video['fps']}\n"
     template += f"seed={decoder['seed']}\nscheduler['num_sampling_steps']={decoder['steps']}\nsave_frames=True\nverbose=2\n"
     template += f"model['enable_flash_attn']={cfg.get('flash_attn', False)!r}\n"
@@ -214,7 +249,7 @@ def reconstruct(cfg, repo, run):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("stage", choices=["send", "channel", "receive", "reconstruct"])
+    parser.add_argument("stage", choices=["send", "channel", "visual_channel", "receive", "reconstruct"])
     parser.add_argument("run_dir", type=Path)
     args = parser.parse_args()
     run = args.run_dir.resolve()

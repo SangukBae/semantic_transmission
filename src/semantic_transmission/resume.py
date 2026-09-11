@@ -42,10 +42,21 @@ def completed_runs(previous_roots, cfg, sources):
             videos = list((run / "receiver/reconstruction").glob("*.mp4"))
             if len(videos) != 1 or sha256(videos[0]) != quality["video_sha256"]:
                 raise ValueError(f"reconstructed video changed: {run}")
-            if any(quality["video"][key] != cfg[key] for key in ("width", "height", "frames", "fps")):
+            expected_frames = cfg["frames"]
+            if cfg.get("decoder_policy") == "official_release":
+                from .temporal import output_source_indices
+                received = json.loads((run / "receiver/decoder_inputs.json").read_text())
+                mapping = output_source_indices(received["indices"], "official_release")
+                if quality.get("output_source_indices") != mapping:
+                    raise ValueError(f"official concatenation frame mapping changed: {run}")
+                expected_frames = len(mapping)
+                normalized = run / "data/normalized.mp4"
+                if sha256(normalized) != quality.get("reference_sha256"):
+                    raise ValueError(f"normalized reference changed: {run}")
+            if quality["video"]["frames"] != expected_frames or any(quality["video"][key] != cfg[key] for key in ("width", "height", "fps")):
                 raise ValueError(f"reconstruction dimensions changed: {run}")
             frames = videos[0].parent / (videos[0].stem + "_frames")
-            if len(list(frames.glob("*.png"))) != cfg["frames"]:
+            if len(list(frames.glob("*.png"))) != expected_frames:
                 raise ValueError(f"reconstruction frames missing: {run}")
             sender = json.loads((run / "sender_accounting.json").read_text())
             if set(sender["transmitter_files"]) != {"metadata.bin", "visual.c64"}:

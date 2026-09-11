@@ -172,9 +172,9 @@ def main(args):
     trust_remote_code=True).eval()
 
     model.chat = types.MethodType(custom_chat, model)
-    if args.cpu_static_head:
+    if args.cpu_static_head or args.gpu_static_head:
         from semantic_transmission.internvl_memory import place_internvl
-        model = place_internvl(model)
+        model = place_internvl(model, gpu_head=args.gpu_static_head)
     elif not args.load_in_8bit and not args.cpu_offload:
         model.cuda()
     logging.info(f"Model loaded from {model_path}")
@@ -317,6 +317,7 @@ if __name__ == '__main__':
     parser.add_argument("--load-in-8bit", action="store_true", help="Local 16GB development profile")
     parser.add_argument("--cpu-offload", action="store_true", help="Preserve BF16 weights with CPU offload")
     parser.add_argument("--cpu-static-head", action="store_true", help="CPU vocabulary tables, BF16 vision/transformer on GPU")
+    parser.add_argument("--gpu-static-head", action="store_true", help="BF16 GPU output head; CPU BF16 embedding lookup")
     parser.add_argument("--flash-attn", action="store_true")
     parser.add_argument("--max-new-tokens", type=int, default=1024)
     parser.add_argument("--max-tiles", type=int, default=12)
@@ -338,3 +339,12 @@ if __name__ == '__main__':
     logging.StreamHandler()
 ])
     main(args)
+    from pathlib import Path
+    from semantic_transmission.artifacts import write_json
+    write_json(Path.cwd() / "selector_resources.json", {
+        "torch": torch.__version__, "gpu": torch.cuda.get_device_name(),
+        "peak_allocated_bytes": torch.cuda.max_memory_allocated(),
+        "peak_reserved_bytes": torch.cuda.max_memory_reserved(),
+        "gpu_vocabulary_streaming": args.gpu_static_head,
+        "weight_quantization": "int8" if args.load_in_8bit else None,
+    })

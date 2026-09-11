@@ -534,8 +534,9 @@ if __name__ == "__main__":
                     if loop_i > 0:
                         # Encode exactly one overlap block, including for dense SKEM cuts.
                         previous = video_clips[-1]
-                        overlap = conditioning_indices(previous.shape[2], dframe_to_frame(condition_frame_length))
-                        previous = previous[:, :, overlap]
+                        if cfg.get("decoder_policy") != "official_release":
+                            overlap = conditioning_indices(previous.shape[2], dframe_to_frame(condition_frame_length))
+                            previous = previous[:, :, overlap]
                         refs, ms = append_generated(
                             vae, previous, refs, ms, loop_i, condition_frame_length, condition_frame_edit
                         )
@@ -567,7 +568,8 @@ if __name__ == "__main__":
                         save_path = save_paths[idx]
                         video = [video_clips[i][idx] for i in range(loop)]
                         for i in range(1, loop):
-                            video[i] = video[i][:, trim_prefix(i, dframe_to_frame(condition_frame_length)) :]
+                            video[i] = video[i][:, trim_prefix(i, dframe_to_frame(condition_frame_length),
+                                                              cfg.get("decoder_policy", "endpoint_exact")) :]
                         video = torch.cat(video, dim=1)
                         if cfg.get("save_frames", False):
                             # Preserve pre-MP4 uint8 pixels for a common evaluation boundary.

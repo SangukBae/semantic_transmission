@@ -19,18 +19,22 @@ def main():
     if not path.is_file():
         raise FileNotFoundError("local continuation config missing: .local/etri_continue.json")
     config = json.loads(path.read_text())
-    roots = [Path(p) for p in config.get("run_history", [])]
+    profile = repo / "configs/etri_official.json"
+    profile_name = json.loads(profile.read_text())["profile"]
+    history = config.setdefault("run_history_by_profile", {}).setdefault(profile_name, [])
+    roots = [Path(p) for p in history]
     tag = datetime.datetime.now().strftime("%Y%m%d_%H%M%S") + "_" + uuid.uuid4().hex[:6]
-    output = repo / "outputs" / ("etri10_hq_" + tag)
-    command = ["--input-dir", config["input_dir"], "--output", str(output)]
+    output = repo / "outputs" / ("etri10_official_" + tag)
+    command = ["--input-dir", config["input_dir"], "--output", str(output), "--profile", str(profile)]
     for previous in reversed(roots):
         command += ["--reuse-completed-from", str(previous)]
     if args.dry_run:
         command += ["--dry-run"]
     else:
-        config.setdefault("run_history", []).append(str(output))
+        history.append(str(output))
         write_json(path, config)
     print(f"결과 폴더: {output}", flush=True)
+    print(f"실행 설정: {profile_name} (576×320, 24 fps, SKEM+DSA)", flush=True)
     print("완료된 영상은 검증 후 재사용하며, 미완료 영상은 처음부터 생성합니다.", flush=True)
     research(command)
     if not args.dry_run:
