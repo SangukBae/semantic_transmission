@@ -94,6 +94,11 @@ outputs/                   실행별 로그·측정값·복원 영상 (Git 제�
 
 새로운 모델 모듈과 실험 설정은 원본 기준선과 구분하여 추가하고, 실행 manifest와 측정값을 함께 보관합니다.
 
+## 연구 문서
+
+- [모델 구조](docs/MODEL_ARCHITECTURE.md): 현재 SKEM+DSA 송신단·채널·수신단의 Mermaid 블록다이어그램
+- [ETRI 개발 계획](docs/ETRI_DEVELOPMENT_PLAN.md): 네 가지 연구 목표, 새 평가 지표 1~2개 개발, 여섯 단계의 작업과 검증 기준
+
 ## 검증과 범위
 
 ```bash
