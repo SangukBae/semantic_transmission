@@ -36,6 +36,20 @@ semtx smoke --selector skim --skim-keyframes 3 --frames 33 --output outputs/skim
 
 ## ETRI 전체 영상 실행
 
+이 컴퓨터에서 완료된 영상을 재사용하고 나머지를 생성하려면, 상위 `Semantic` 폴더에서
+다음 명령 하나를 실행하면 됩니다. Conda 활성화는 스크립트가 처리합니다.
+
+```bash
+bash semantic_transmission/scripts/run_etri_remaining.sh
+```
+
+로컬 `.local/etri_continue.json`에 입력 경로와 실행 이력을 기록합니다. 현재 이력에는
+완료된 `01_person_walk`가 있으므로 첫 실행은 2~10번을 생성합니다. 매번 새 결과 폴더를
+출력하고, 완료된 영상은 원본·설정·복원 MP4·전송 파일을 검증한 뒤 복사해 한 배치로 모읍니다.
+중단 후 같은 명령을 다시 실행하면 검증이 끝난 영상은 재사용하고, 미완료 영상은 처음부터
+생성합니다. 두 명령의 동시 실행은 잠금으로 방지합니다. `--dry-run`을 붙이면 모델을
+실행하지 않고 재사용/생성 목록만 확인합니다.
+
 100프레임·512×256·10fps 원본을 그대로 사용하는 SKEM+DSA 프로필은 별도 실행기로 제공합니다.
 InternVL BF16과 Open-Sora 50 sampling steps를 사용하며, 16GB GPU에서는 모델을 순서대로
 올리고 CPU 메모리를 함께 사용합니다. 모든 프레임의 의미를 비교하므로 시간이 오래 걸립니다.

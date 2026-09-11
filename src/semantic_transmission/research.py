@@ -17,13 +17,15 @@ def utc():
     return datetime.datetime.now(datetime.timezone.utc).isoformat()
 
 
-def main():
+def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--input-dir", required=True, type=Path)
     parser.add_argument("--output", required=True, type=Path)
     parser.add_argument("--profile", type=Path)
     parser.add_argument("--video", action="append", help="optional video stem filter")
-    args = parser.parse_args()
+    parser.add_argument("--reuse-completed-from", type=Path, action="append", default=[])
+    parser.add_argument("--dry-run", action="store_true", help="verify inputs and reuse candidates without running models")
+    args = parser.parse_args(argv)
     repo = repository()
     local = settings(repo)
     if doctor(repo)["status"] != "PASSED":
@@ -43,6 +45,13 @@ def main():
             raise ValueError(f"{path.name} differs from the frozen video profile: {info}")
         sources.append({"id": path.stem, "path": str(path), "sha256": sha256(path), **info})
     root = args.output.resolve()
+    from .resume import completed_runs, copy_completed
+    reusable = completed_runs(args.reuse_completed_from, cfg, sources)
+    if args.dry_run:
+        print(json.dumps({"status": "DRY_RUN_PASSED", "output": str(root),
+                          "reused": list(reusable),
+                          "to_generate": [s["id"] for s in sources if s["id"] not in reusable]}, indent=2))
+        return
     root.mkdir(parents=True, exist_ok=False)
     state = {"status": "RUNNING", "started": utc(), "code": git_state(repo),
              "profile_sha256": sha256(profile), "inputs": sources, "runs": [],
@@ -60,6 +69,14 @@ def main():
     try:
         for source in sources:
             run = root / source["id"]
+            if source["id"] in reusable:
+                record = copy_completed(reusable[source["id"]], run)
+                state["runs"].append(record)
+                state["completed_videos"] += 1
+                write_json(run / "run_manifest.json", record)
+                write_json(root / "batch_manifest.json", state)
+                print(f"Reused verified video {state['completed_videos']}/{len(sources)}: {source['id']}", flush=True)
+                continue
             run.mkdir()
             (run / "logs").mkdir()
             write_json(run / "run_config.json", dict(cfg, input=source["path"]))

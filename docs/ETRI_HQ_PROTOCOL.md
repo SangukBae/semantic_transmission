@@ -95,7 +95,14 @@ python scripts/render_etri_comparison.py \
   --comparison outputs/etri10_hq_new/comparison
 ```
 
-Runs use new output directories and stop at a failing stage. Focused probes and
+Runs use new output directories and stop at a failing stage. `--reuse-completed-from`
+can copy entirely successful videos into a new batch after checking the profile,
+source identity, all stage return codes, reconstruction hash and transmitted-file
+hashes. An interrupted parent batch may supply its completed videos; partial videos
+are regenerated from their first stage. Each copied record retains `reused_from`
+and `execution_code`, so copying is never presented as new model execution.
+The one-command local entrypoint is `bash scripts/run_etri_remaining.sh`.
+Focused probes and
 failed attempts remain separate from the frozen full batch. Raw ETRI videos,
 receiver videos and model weights remain local, outside Git.
 
