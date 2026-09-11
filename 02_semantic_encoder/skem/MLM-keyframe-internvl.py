@@ -160,17 +160,22 @@ def custom_chat(self, tokenizer, pixel_values, question, generation_config, hist
 
 def main(args): 
     model_path = args.model_path
+    offload_kwargs = ({"device_map": "auto", "max_memory": {0: "10GiB", "cpu": "40GiB"}}
+                      if args.cpu_offload else {"device_map": "auto" if args.load_in_8bit else None})
     model = AutoModel.from_pretrained(
     model_path,
     torch_dtype=torch.bfloat16,
     load_in_8bit=args.load_in_8bit,
-    device_map="auto" if args.load_in_8bit else None,
+    **offload_kwargs,
     low_cpu_mem_usage=True,
     use_flash_attn=args.flash_attn,
     trust_remote_code=True).eval()
 
     model.chat = types.MethodType(custom_chat, model)
-    if not args.load_in_8bit:
+    if args.cpu_static_head:
+        from semantic_transmission.internvl_memory import place_internvl
+        model = place_internvl(model)
+    elif not args.load_in_8bit and not args.cpu_offload:
         model.cuda()
     logging.info(f"Model loaded from {model_path}")
     logging.info(f"Model is in {model.device}")
@@ -237,7 +242,7 @@ def main(args):
                 tokenizer,
                 pixel_values,
                 question1,
-                generation_config,
+                dict(generation_config, output_scores=False),
                 num_patches_list=num_patches_list,
                 history=None,
                 return_history=True,
@@ -272,7 +277,7 @@ def main(args):
                 logging.info(f"diff: {diff}")
 
             # 计算no_prob和yes_prob的比值
-            ratio = no_prob / yes_prob
+            ratio = no_prob / yes_prob if yes_prob else float("inf")
             logging.info(f"ratio: {ratio}")
 
             # if no_prob >0.5:
@@ -310,6 +315,8 @@ if __name__ == '__main__':
     prompt_compare_image='''**Compare the two descriptions of the images you have given.** Focus on the semantic similarity of the images: the positions of key objects in the scene, any objects that have appeared or disappeared and the extent of changes in the background environment. Determine if these aspects depict the exact same scene. **Only respond with "yes" if they match, otherwise respond with "no".**'''
     parser.add_argument('--model_path', type=str, default='OpenGVLab/InternVL2-8B')
     parser.add_argument("--load-in-8bit", action="store_true", help="Local 16GB development profile")
+    parser.add_argument("--cpu-offload", action="store_true", help="Preserve BF16 weights with CPU offload")
+    parser.add_argument("--cpu-static-head", action="store_true", help="CPU vocabulary tables, BF16 vision/transformer on GPU")
     parser.add_argument("--flash-attn", action="store_true")
     parser.add_argument("--max-new-tokens", type=int, default=1024)
     parser.add_argument("--max-tiles", type=int, default=12)

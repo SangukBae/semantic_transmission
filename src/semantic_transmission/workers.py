@@ -33,14 +33,22 @@ def csv_write(path, rows, fields):
 
 def prepare(cfg, repo, run):
     import cv2
+    import shutil
     data = run / "data"
     frames = data / "frames/sample"
     frames.mkdir(parents=True)
     normalized = data / "normalized.mp4"
     width, height = cfg["width"], cfg["height"]
-    subprocess.run(["ffmpeg", "-v", "error", "-nostdin", "-i", cfg["input"], "-vf",
-                    f"scale={width}:{height},fps={cfg['fps']}", "-frames:v", str(cfg["frames"]),
-                    "-an", "-c:v", "libx264", "-pix_fmt", "yuv420p", str(normalized)], check=True)
+    if cfg.get("preserve_input", False):
+        from .video_io import probe
+        info = probe(cfg["input"])
+        if (info["width"], info["height"], info["frames"], info["fps"]) != (width, height, cfg["frames"], cfg["fps"]):
+            raise ValueError(f"input differs from the frozen profile: {info}")
+        shutil.copyfile(cfg["input"], normalized)
+    else:
+        subprocess.run(["ffmpeg", "-v", "error", "-nostdin", "-i", cfg["input"], "-vf",
+                        f"scale={width}:{height},fps={cfg['fps']}", "-frames:v", str(cfg["frames"]),
+                        "-an", "-c:v", "libx264", "-pix_fmt", "yuv420p", str(normalized)], check=True)
     cap = cv2.VideoCapture(str(normalized))
     index = 0
     while True:
@@ -74,6 +82,12 @@ def select(cfg, repo, run):
                    "--max-new-tokens", str(cfg["max_new_tokens"]), "--max-tiles", str(cfg["max_tiles"])]
         if cfg["internvl_8bit"]:
             command.append("--load-in-8bit")
+        elif cfg.get("internvl_static_cpu_head", False):
+            command.append("--cpu-static-head")
+        elif cfg.get("internvl_cpu_offload", False):
+            command.append("--cpu-offload")
+        if cfg.get("flash_attn", False):
+            command.append("--flash-attn")
         env = os.environ.copy()
         env["PYTHONPATH"] = str(repo / ".local/vendor/InternVL") + os.pathsep + env.get("PYTHONPATH", "")
         subprocess.run(command, cwd=run, env=env, check=True)
@@ -87,7 +101,8 @@ def select(cfg, repo, run):
     if len(indices) < 2 or indices[0] != 0 or indices[-1] != cfg["frames"] - 1:
         raise ValueError("keyframes do not cover both video endpoints")
     write_json(run / "keyframes.json", {"indices": indices, "selector": cfg["selector"],
-                                        "precision": "int8" if cfg["internvl_8bit"] else "bf16"})
+                                        "precision": ("int8" if cfg["internvl_8bit"] else "bf16")
+                                        if cfg["selector"] == "skem" else None})
 
 
 def source_images(run, indices):
@@ -126,13 +141,26 @@ def caption(cfg, repo, run):
     rows = []
     for segment, (start, end) in enumerate(zip(indices, indices[1:])):
         sampled = np.linspace(start, end, 4).round().astype(int).tolist()
+        if cfg.get("paper_caption", False):
+            # Upstream get_index: centered samples from the half-open semantic segment.
+            size = float(max(1, end - start) - 1) / 4
+            sampled = [start + int(size / 2) + int(np.round(size * i)) for i in range(4)]
         images = source_images(run, sampled)
         prompt = ("USER: <image>\nDescribe this video. Pay attention to the objects, their actions, "
                   "and the background. Use no more than three sentences. ASSISTANT:")
+        if cfg.get("paper_caption", False):
+            import ast
+            tree = ast.parse((repo / ".local/vendor/Open-Sora/tools/caption/pllava_dir/caption_pllava.py").read_text())
+            call = next(node.value for node in tree.body if isinstance(node, ast.Assign)
+                        and any(isinstance(t, ast.Name) and t.id == "conv_template" for t in node.targets))
+            system = ast.literal_eval(next(k.value for k in call.keywords if k.arg == "system"))
+            # Exact single-turn MM_INTERLEAF Conversation.get_prompt output.
+            # Avoid importing the optional video-dataset evaluation stack.
+            prompt = system + " USER:<image> Describe the video in details. ASSISTANT:"
         inputs = processor(text=prompt, images=images, return_tensors="pt").to("cuda", torch.bfloat16)
         with torch.inference_mode():
             output = model.generate(**inputs, media_type="video", do_sample=False,
-                                    max_new_tokens=cfg["max_new_tokens"])
+                                    max_new_tokens=cfg.get("caption_max_new_tokens", cfg["max_new_tokens"]))
         text = processor.batch_decode(output, skip_special_tokens=True)[0].split("ASSISTANT:")[-1].strip()
         if not text:
             raise RuntimeError("PLLaVA returned an empty caption")
@@ -156,6 +184,8 @@ def flow(cfg, repo, run):
     rows = json.loads((run / "captions.json").read_text())
     for row, (start, end) in zip(rows, zip(indices, indices[1:])):
         sampled = np.linspace(start, end, 4).round().astype(int).tolist()
+        if cfg.get("paper_flow", False):
+            sampled = [min(start + i, max(start, end - 1)) for i in (0, 10, 20, 30)]
         images = torch.stack([pil_to_tensor(image) for image in source_images(run, sampled)]).float().cuda()
         images = F.interpolate(images, size=(320, 576), mode="bilinear", align_corners=True)
         # One pair per invocation bounds VRAM, while retaining the upstream flow-score definition.

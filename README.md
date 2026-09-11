@@ -34,6 +34,24 @@ semtx smoke --input /path/to/video.mp4 --frames 33 --output outputs/custom_skem
 semtx smoke --selector skim --skim-keyframes 3 --frames 33 --output outputs/skim_two_segments
 ```
 
+## ETRI 전체 영상 실행
+
+100프레임·512×256·10fps 원본을 그대로 사용하는 SKEM+DSA 프로필은 별도 실행기로 제공합니다.
+InternVL BF16과 Open-Sora 50 sampling steps를 사용하며, 16GB GPU에서는 모델을 순서대로
+올리고 CPU 메모리를 함께 사용합니다. 모든 프레임의 의미를 비교하므로 시간이 오래 걸립니다.
+
+```bash
+bash scripts/bootstrap_hq.sh
+source scripts/activate.sh
+python -m semantic_transmission.research \
+  --input-dir ../sgdjscc_lab/data/etri_video_eval/processed \
+  --output outputs/etri10_hq_new
+```
+
+이 실행기는 NTSCC 연속 심벌과 캡션·광류·rate-index·정규화 정보의 실제 송수신 파일을
+분리하고 전송량을 기록합니다. 기존 결과의 패킷 검증 및 공통 화질 평가 방법은
+[ETRI 실험 프로토콜](docs/ETRI_HQ_PROTOCOL.md)에 있습니다.
+
 ## 연구 코드 구조
 
 ```text
@@ -65,8 +83,9 @@ python scripts/probe_environment.py
 기본 실행은 **17프레임, 256×256, 10 sampling steps의 실제 모델 실행 확인용**입니다.
 논문 성능 재현이나 ETRI 목표 달성을 의미하지 않습니다. InternVL int8, PLLaVA CPU offload 등
 16GB GPU를 위한 설정 차이를 기록했습니다. 현재 실행기는 공개된 NTSCC **10dB 체크포인트**를 지원하며,
-0–8dB 저자 체크포인트와 DVST는 제공되지 않았습니다. NTSCC 내부 rate-index의 별도 전송이 아직
-구현되지 않아 전체 시스템의 완전한 전송량 계산으로 해석하면 안 됩니다.
+0–8dB 저자 체크포인트와 DVST는 제공되지 않았습니다. 기본 `smoke` 실행의 전송량에는
+rate-index가 빠져 있습니다. 위 ETRI 실행기는 이를 포함한 모든 영상별 모델 입력을 계측하며,
+연속 JSCC 심벌의 복소수 파일 크기와 실제 무선 bit 수를 구분합니다.
 
 ## 원저작물
 

@@ -569,6 +569,14 @@ if __name__ == "__main__":
                         for i in range(1, loop):
                             video[i] = video[i][:, trim_prefix(i, dframe_to_frame(condition_frame_length)) :]
                         video = torch.cat(video, dim=1)
+                        if cfg.get("save_frames", False):
+                            # Preserve pre-MP4 uint8 pixels for a common evaluation boundary.
+                            frames_dir = save_path + "_frames"
+                            os.makedirs(frames_dir, exist_ok=False)
+                            frames_uint8 = (video.clamp(-1, 1).add(1).div(2).mul(255).add(0.5)
+                                            .clamp(0, 255).permute(1, 2, 3, 0).to("cpu", torch.uint8))
+                            for frame_number, frame in enumerate(frames_uint8):
+                                Image.fromarray(frame.numpy()).save(os.path.join(frames_dir, f"{frame_number:05d}.png"))
                         save_path = save_sample(
                             video,
                             fps=save_fps,
