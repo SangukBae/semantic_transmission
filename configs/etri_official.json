@@ -22,6 +22,8 @@
   "internvl_cpu_offload": false,
   "internvl_static_cpu_head": false,
   "internvl_gpu_head": true,
+  "internvl_allocator": "expandable_segments:True",
+  "internvl_offload_layers": 1,
   "flash_attn": true,
   "caption_attention": "flash_attention_2",
   "paper_caption": true,

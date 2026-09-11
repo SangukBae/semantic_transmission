@@ -1,0 +1,51 @@
+{
+  "scope": "memory validation, not full-video research evidence",
+  "status": "PASSED",
+  "real_candidate_indices": [
+    4,
+    140,
+    239
+  ],
+  "same_probabilities_after_layer_staging": true,
+  "actual_psss_probabilities": [
+    0.11466355621814728,
+    0.7477002739906311,
+    0.07403991371393204,
+    0.7960041165351868,
+    0.07395978271961212,
+    0.7951425909996033
+  ],
+  "real_pair_resources": {
+    "torch": "2.4.1+cu121",
+    "gpu": "NVIDIA GeForce RTX 4080",
+    "peak_allocated_bytes": 15384543744,
+    "peak_reserved_bytes": 15420358656,
+    "gpu_vocabulary_streaming": true,
+    "staged_transformer_layers": 1,
+    "weight_quantization": null
+  },
+  "synthetic_stress": {
+    "status": "PASSED",
+    "scope": "synthetic maximum-context memory stress; not research output",
+    "history_tokens": 1024,
+    "generated_tokens": 1024,
+    "force_max_generation": true,
+    "torch": "2.4.1+cu121",
+    "peak_allocated_bytes": 15791118336,
+    "peak_reserved_bytes": 15839789056,
+    "finite_psss_distribution": true
+  },
+  "stress_cpu_weights_pinned": false,
+  "real_pair_cpu_weights_pinned": true,
+  "first_attempt": {
+    "root": "outputs/etri01_official_20260911_v1",
+    "status": "FAILED",
+    "stage": "select",
+    "reason": "CUDA out of memory at second-round prompt for candidate 4"
+  },
+  "fix": "8192-row streamed GPU vocabulary, release blocks before next copy, expandable allocator, one BF16 transformer layer staged from CPU",
+  "source_files": {
+    "src/semantic_transmission/internvl_memory.py": "87c2bdfbbdd0bbf058812e12fde509c38337f9a9e4cd2a8a6000b542b887cbbe",
+    "scripts/probe_internvl_memory.py": "b7f4a0941156116e910fb937932d6da8df510a22ca5c17d5b948e13b09f8d894"
+  }
+}

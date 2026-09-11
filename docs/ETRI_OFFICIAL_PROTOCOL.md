@@ -42,13 +42,15 @@ and used locally corrected overlap/alignment rules. Its artifacts remain under
   local correction. It is not evidence that the paper intended every edge case.
 - A 16 GB RTX 4080 cannot hold InternVL's full GPU working set. Vision tiles and
   feed-forward token chunks run sequentially in BF16; embedding lookup stays in
-  CPU BF16; the BF16 vocabulary projection runs on CUDA in independent row blocks.
+  CPU BF16; the BF16 vocabulary projection runs on CUDA in independent 8192-row blocks.
+  One transformer layer retains its weights on CPU and stages them to CUDA for each
+  forward pass. This preserves GPU BF16 arithmetic while leaving room for long
+  second-round prompts. An expandable CUDA allocator limits fragmentation.
   PLLaVA uses sequential CPU offload; T5 runs in its upstream default FP32 on CPU.
   No int8/int4 weight quantization is used. Kernel/library/device placement changes
   can affect numerical rounding and SKEM decisions.
-  A Torch 2.4.1 probe with the actual 92553×4096 output weights found a maximum BF16 logit
-  difference of 0.001953125 between streamed and single-matrix projection; this
-  is explicitly not a bitwise-parity claim.
+  Streaming vocabulary rows changes the GEMM shape and can change BF16 rounding;
+  the numerical probe artifacts explicitly do not claim bitwise equivalence.
 - InternVL has its own environment matching the release's inference versions:
   Python 3.9.19, Torch 2.4.1+cu121, Transformers 4.37.2, FlashAttention 2.6.3,
   NumPy 2.0.2, Accelerate .34.2. Other stages retain the working core runtime
@@ -95,3 +97,12 @@ are recorded below only after generation and validation actually finish.
 The existing HQ baseline comparator assumes 100 frames at the original geometry;
 it must not be used unchanged to claim a matched comparison for this 240-frame
 normalized protocol.
+
+The [integration preflight](validation/2026-09-11-official-preflight.json) produced
+a 240-frame/10-second video and verified transport/evaluation, using only two SKEM
+candidate comparisons. A first full attempt then failed at candidate 4 due to CUDA
+memory pressure. The [memory validation](validation/2026-09-11-internvl-memory.json)
+records the repair: the failing real pair and two other pairs passed, with identical
+PSSS probabilities before/after layer staging. A separate synthetic 1024-token
+history plus 1024 generated-token stress also passed. Synthetic stress outputs are
+not used as semantic information in any research reconstruction.

@@ -42,16 +42,19 @@ class LastTokenHead(torch.nn.Module):
         # Vocabulary rows are independent; retain the released BF16 CUDA dot products
         # while streaming the 724 MiB output matrix in bounded blocks.
         logits = []
-        for start in range(0, self.weight.shape[0], 16384):
-            weight = self.weight[start:start + 16384].to(values.device, non_blocking=True)
+        for start in range(0, self.weight.shape[0], 8192):
+            weight = self.weight[start:start + 8192].to(values.device, non_blocking=True)
             bias = self.module.bias
             if bias is not None:
-                bias = bias[start:start + 16384].to(values.device)
+                bias = bias[start:start + 8192].to(values.device)
             logits.append(torch.nn.functional.linear(values[:, -1:], weight, bias))
+            # Release before copying the next block; RHS-first assignment otherwise
+            # keeps two full GPU weight blocks alive during long second-round prompts.
+            del weight, bias
         return torch.cat(logits, dim=-1)
 
 
-def place_internvl(model, *, gpu_head=False):
+def place_internvl(model, *, gpu_head=False, cpu_layers=0):
     language = model.language_model
     class GpuExecution(type(language)):
         @property
@@ -81,6 +84,17 @@ def place_internvl(model, *, gpu_head=False):
                 return forward(values)
             return torch.cat([forward(chunk) for chunk in values.split(128, dim=1)], dim=1)
         layer.feed_forward.forward = chunked_ffn
+    if cpu_layers:
+        from accelerate import cpu_offload
+        if not 0 < cpu_layers < len(language.model.layers):
+            raise ValueError("CPU layer count must leave the first layer on CUDA")
+        for layer in language.model.layers[-cpu_layers:]:
+            # Retain a CPU master copy and stage the whole layer once per forward.
+            # All matrix operations still execute on CUDA with original BF16 weights.
+            layer.cpu()
+            cpu_weights = {name: value.pin_memory() for name, value in layer.state_dict().items()}
+            cpu_offload(layer, execution_device=torch.device("cuda"), state_dict=cpu_weights,
+                        preload_module_classes=[type(layer).__name__])
     original_extract = model.extract_feature
     cached_pixels = cached_features = None
     def extract_sequential(pixel_values):

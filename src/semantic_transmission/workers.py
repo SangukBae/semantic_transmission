@@ -105,9 +105,14 @@ def select(cfg, repo, run):
             command.append("--cpu-offload")
         if cfg.get("flash_attn", False):
             command.append("--flash-attn")
+        if cfg.get("internvl_offload_layers"):
+            command += ["--cpu-layers", str(cfg["internvl_offload_layers"])]
         env = os.environ.copy()
         env["PYTHONPATH"] = os.pathsep.join([str(repo / "src"), str(repo / ".local/vendor/InternVL")])
-        write_json(run / "selector_runtime.json", {"command": command, "pythonpath": env["PYTHONPATH"]})
+        if cfg.get("internvl_allocator"):
+            env["PYTORCH_CUDA_ALLOC_CONF"] = cfg["internvl_allocator"]
+        write_json(run / "selector_runtime.json", {"command": command, "pythonpath": env["PYTHONPATH"],
+                    "allocator": env.get("PYTORCH_CUDA_ALLOC_CONF")})
         subprocess.run(command, cwd=run, env=env, check=True)
     else:
         target.mkdir()
@@ -205,9 +210,17 @@ def caption(cfg, repo, run):
             prompt = system + " USER:<image> Describe the video in details. ASSISTANT:"
         inputs = processor(text=prompt, images=images, return_tensors="pt").to("cuda", torch.bfloat16)
         with torch.inference_mode():
+            generation = {}
+            if clips is not None:
+                generation = dict(num_beams=1, min_length=1, top_p=0.9,
+                                  repetition_penalty=1.0, length_penalty=1, temperature=1.0)
             output = model.generate(**inputs, media_type="video", do_sample=False,
-                                    max_new_tokens=cfg.get("caption_max_new_tokens", cfg["max_new_tokens"]))
-        text = processor.batch_decode(output, skip_special_tokens=True)[0].split("ASSISTANT:")[-1].strip()
+                                    max_new_tokens=cfg.get("caption_max_new_tokens", cfg["max_new_tokens"]),
+                                    **generation)
+        text = processor.batch_decode(output, skip_special_tokens=True,
+                                      clean_up_tokenization_spaces=False)[0].split("ASSISTANT:")[-1].strip()
+        if clips is not None:
+            text = text.removesuffix("</s>").strip().replace("\n", " ")
         if not text:
             raise RuntimeError("PLLaVA returned an empty caption")
         rows.append({"path": f"clips/sample/{segment:05d}.mp4", "text": text, "flow": 0.0})

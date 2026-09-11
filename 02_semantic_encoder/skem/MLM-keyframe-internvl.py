@@ -174,7 +174,7 @@ def main(args):
     model.chat = types.MethodType(custom_chat, model)
     if args.cpu_static_head or args.gpu_static_head:
         from semantic_transmission.internvl_memory import place_internvl
-        model = place_internvl(model, gpu_head=args.gpu_static_head)
+        model = place_internvl(model, gpu_head=args.gpu_static_head, cpu_layers=args.cpu_layers)
     elif not args.load_in_8bit and not args.cpu_offload:
         model.cuda()
     logging.info(f"Model loaded from {model_path}")
@@ -318,6 +318,7 @@ if __name__ == '__main__':
     parser.add_argument("--cpu-offload", action="store_true", help="Preserve BF16 weights with CPU offload")
     parser.add_argument("--cpu-static-head", action="store_true", help="CPU vocabulary tables, BF16 vision/transformer on GPU")
     parser.add_argument("--gpu-static-head", action="store_true", help="BF16 GPU output head; CPU BF16 embedding lookup")
+    parser.add_argument("--cpu-layers", type=int, default=0, help="Stage this many final BF16 layers from CPU to CUDA")
     parser.add_argument("--flash-attn", action="store_true")
     parser.add_argument("--max-new-tokens", type=int, default=1024)
     parser.add_argument("--max-tiles", type=int, default=12)
@@ -346,5 +347,6 @@ if __name__ == '__main__':
         "peak_allocated_bytes": torch.cuda.max_memory_allocated(),
         "peak_reserved_bytes": torch.cuda.max_memory_reserved(),
         "gpu_vocabulary_streaming": args.gpu_static_head,
+        "staged_transformer_layers": args.cpu_layers,
         "weight_quantization": "int8" if args.load_in_8bit else None,
     })
