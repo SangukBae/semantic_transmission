@@ -1,0 +1,86 @@
+{
+  "created_at": "2026-09-17T10:32:29.211590+00:00",
+  "status": "PASSED",
+  "scope": "Git publication preparation, portable shell selection and CPU regression checks; not Windows/WSL GPU execution or completed data transfer",
+  "initial_origin_main": "3e074703bfc9c23c702b3409016de4738c2cb654",
+  "initial_changed_or_untracked_files": 166,
+  "preserved_original_source_snapshot": "66fc8fd4",
+  "checks": {
+    "original_workstation_suite": {
+      "passed": 175,
+      "skipped": 1
+    },
+    "clean_git_export_cpu_suite": {
+      "passed": 178,
+      "skipped": 1,
+      "seconds": 42.98,
+      "workstation_settings_present": false,
+      "datasets_present": false,
+      "experiment_outputs_present": false,
+      "environment": "fresh Python 3.10 venv; torch 2.2.2+cpu, torchvision 0.17.2+cpu; environment/requirements-test.txt",
+      "skip_reason": "GPU parity requires explicit LGVSC_GPU_TESTS=1 and local reconstruction artifacts"
+    },
+    "pip_check": "PASSED",
+    "python_compile_count": 147,
+    "shell_syntax_count": 24,
+    "json_parse_count": 32,
+    "new_migration_links": "PASSED",
+    "git_diff_check": "PASSED",
+    "unexpected_new_binary_or_credential_patterns": [],
+    "active_model_source_bytes_unchanged": true
+  },
+  "clean_export_defect_fixed": "Six campaign orchestration tests previously read ignored .local/settings.json or model_paths.json. They now create isolated settings fixtures and stub only Git provenance for synthetic stage execution.",
+  "destination": {
+    "os": "Windows 11",
+    "gpu": "same as current NVIDIA GeForce RTX 4080 16GB",
+    "execution_route": "WSL2 Ubuntu",
+    "gpu_execution_validated_on_destination": false
+  },
+  "not_in_git": {
+    "datasets": {
+      "path": "/legend/semantic_transmission/datasets",
+      "approx_allocated_GiB": 33
+    },
+    "outputs": {
+      "path": "outputs",
+      "approx_allocated_GiB_at_audit": 95,
+      "actively_growing": true
+    },
+    "core_model_snapshots": {
+      "internvl": {
+        "revision": "6fb9ad6924f69424e57fab2ab061d707688f0296",
+        "snapshot_file_bytes": 16154622581
+      },
+      "stdit": {
+        "revision": "9a8583918505ee93bd9fae8dd5ce32e1f9334c71",
+        "snapshot_file_bytes": 4835599160
+      },
+      "vae": {
+        "revision": "33d153e9b5a9f771a8a84f98bd3f46458a8ed0bf",
+        "snapshot_file_bytes": 1573431221
+      },
+      "t5": {
+        "revision": "c9c625d2ec93667ec579ede125fd3811d1f81d37",
+        "snapshot_file_bytes": 19050133392
+      },
+      "pllava": {
+        "revision": "825854ada92c52460b3e91902725528c0696fbcb",
+        "snapshot_file_bytes": 14263630743
+      },
+      "vae2d": {
+        "revision": "2c17b4e85261cd549b4068d086b7c2ba9d468e9f",
+        "snapshot_file_bytes": 334643869
+      }
+    },
+    "local_checkpoint_directory": ".local/checkpoints",
+    "metric_models": ".local/metric_v2_models",
+    "metric_python_inherits_external_environment": "semantic-diffusers",
+    "resume_and_local_validation": [
+      ".local/etri_continue.json",
+      ".local/webvid5_history.json",
+      ".local/validation"
+    ],
+    "optional_sgd_comparison": "sibling sgdjscc_lab checkout, checkpoints and ptest environment; dirty checkout not changed or published by this audit"
+  },
+  "ongoing_webvid_experiment": "Observed alive; no process stopped, no existing experiment artifacts modified"
+}

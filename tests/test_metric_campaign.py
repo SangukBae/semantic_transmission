@@ -18,7 +18,24 @@ def config():
             'bootstrap_iterations': 20, 'minimum_positive_sources': 2}
 
 
-def test_worker_invokes_virtualenv_path_without_dereferencing_python(tmp_path):
+@pytest.fixture
+def local_campaign_repo(tmp_path, monkeypatch):
+    """Orchestration fixtures must not read a developer's ignored installation."""
+    import shutil
+    import sys
+    from semantic_transmission import metric_campaign_real as real
+    repo = tmp_path / 'fixture_repo'
+    shutil.copytree(c.REPO / 'configs', repo / 'configs')
+    c.save(repo / '.local/settings.json', {'python': sys.executable,
+                                         'channel_python': sys.executable})
+    c.save(repo / '.local/model_paths.json', {'fixture_model': str(repo / 'models')})
+    monkeypatch.setattr(c, 'REPO', repo)
+    monkeypatch.setattr(real, 'REPO', repo)
+    monkeypatch.setattr(real, 'git_state', lambda root: {'commit': 'test-fixture', 'dirty': False})
+    return repo
+
+
+def test_worker_invokes_virtualenv_path_without_dereferencing_python(tmp_path, local_campaign_repo):
     import os
     import subprocess
     import sys
@@ -38,7 +55,7 @@ def test_worker_invokes_virtualenv_path_without_dereferencing_python(tmp_path):
     assert prefix == str(venv)
 
 
-def test_preflight_detects_missing_sam2_with_the_worker_environment():
+def test_preflight_detects_missing_sam2_with_the_worker_environment(local_campaign_repo):
     cfg = config()
     def missing(command, **kwargs):
         assert command[0] == c.worker_command(cfg, c.REPO, '01_cross', 'visual')[0]
@@ -62,7 +79,7 @@ def fake_runner(root, called, fail=None):
     return run
 
 
-def test_sequence_resumes_and_scientific_failure_does_not_stop(tmp_path):
+def test_sequence_resumes_and_scientific_failure_does_not_stop(tmp_path, local_campaign_repo):
     called = []
     c.execute(tmp_path, config(), runner=fake_runner(tmp_path, called))
     assert called == c.tasks(config())
@@ -73,7 +90,7 @@ def test_sequence_resumes_and_scientific_failure_does_not_stop(tmp_path):
     assert c.read(tmp_path / 'state.json')['execution_status'] == 'COMPLETED'
 
 
-def test_failure_stops_before_following_stage_and_resume_detects_tampering(tmp_path):
+def test_failure_stops_before_following_stage_and_resume_detects_tampering(tmp_path, local_campaign_repo):
     called = []
     with pytest.raises(RuntimeError, match='exited 3'):
         c.execute(tmp_path, config(), runner=fake_runner(tmp_path, called, ('01_cross', 'visual')))
@@ -215,7 +232,7 @@ def test_natural_truth_uses_masks_and_edit_indices_and_does_not_label_unknown_ob
             assert r['truth']['uep'] > 0 and not r['truth'].get('fso_presence')
 
 
-def test_export_preserves_declared_duration_and_reconstruction_resume(tmp_path, monkeypatch):
+def test_export_preserves_declared_duration_and_reconstruction_resume(tmp_path, monkeypatch, local_campaign_repo):
     from semantic_transmission import metric_campaign_real as real
     from semantic_transmission.video_io import probe
     corpus = cases.Corpus(tmp_path, '03_natural')
@@ -268,7 +285,7 @@ def test_model_change_is_compared_against_truth_not_assumed_from_step_count():
     assert model_change_agreement(rows, config())['uep']['status'] == 'NOT_PASSED'
 
 
-def test_actual_lgvsc_stage_order_and_driver_environment_are_preserved(tmp_path):
+def test_actual_lgvsc_stage_order_and_driver_environment_are_preserved(tmp_path, local_campaign_repo):
     from semantic_transmission.metric_campaign_real import run_attempt
     from semantic_transmission.resume import STAGES
     cfg = config()
