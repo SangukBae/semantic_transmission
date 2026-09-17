@@ -1,0 +1,172 @@
+{
+  "date": "2026-09-17",
+  "status": "PASSED",
+  "scope": "OOM_FIX_REGRESSION_AND_THREE_REAL_SKEM_COMPARISONS_ONLY",
+  "full_five_video_evaluation_restarted": false,
+  "failure": {
+    "run": "outputs/webvid5_20260917_153638_6b1098",
+    "stage": "select",
+    "completed_comparisons": 98,
+    "failed_comparison": 99,
+    "stage_seconds": 4527.914424984001,
+    "reason": "torch.OutOfMemoryError: CUDA out of memory",
+    "requested_allocation_mib": 112,
+    "available_gpu_mib": 3.69,
+    "competing_process_pid": 531354,
+    "competing_process_memory_mib": 913.74,
+    "competing_process_program": "unknown; already exited at diagnosis"
+  },
+  "profile_changes": {
+    "internvl_compact_kv_cache": {
+      "before": null,
+      "after": true
+    },
+    "profile": {
+      "before": "webvid5_diverse_official_v1",
+      "after": "webvid5_diverse_official_v2_memory"
+    },
+    "internvl_offload_layers": {
+      "before": 1,
+      "after": 3
+    }
+  },
+  "selected_gpu_regression": {
+    "status": "PASSED",
+    "scope": "three real SKEM comparisons around the failed frame, not full-video validation",
+    "root": "/home/sangukbae/ETRI/Semantic/semantic_transmission/outputs/webvid5_oom_probe_20260917_174445",
+    "cpu_layers": 3,
+    "compact_kv_cache": true,
+    "returncode": 0,
+    "seconds": 255.5397738310021,
+    "reserved_competing_tensor_bytes": 1073741824,
+    "pairs": [
+      {
+        "frame_index": 98,
+        "no_prob": 0.31334570050239563,
+        "yes_prob": 0.2153591513633728,
+        "diff": 0.09798654913902283
+      },
+      {
+        "frame_index": 99,
+        "no_prob": 0.25136324763298035,
+        "yes_prob": 0.4144279360771179,
+        "diff": -0.16306468844413757
+      },
+      {
+        "frame_index": 100,
+        "no_prob": 0.343725323677063,
+        "yes_prob": 0.3033365309238434,
+        "diff": 0.040388792753219604
+      }
+    ],
+    "minimum_sampled_free_mib": 473,
+    "maximum_sampled_used_mib": 15469,
+    "command": [
+      "/home/sangukbae/anaconda3/envs/lgvsc-internvl/bin/python",
+      "/home/sangukbae/ETRI/Semantic/semantic_transmission/02_semantic_encoder/skem/MLM-keyframe-internvl.py",
+      "--csv-path",
+      "/home/sangukbae/ETRI/Semantic/semantic_transmission/outputs/webvid5_oom_probe_20260917_174445/videos.csv",
+      "--method",
+      "internvl_diff_0.35",
+      "--model_path",
+      "/home/sangukbae/.cache/huggingface/hub/models--OpenGVLab--InternVL2-8B/snapshots/6fb9ad6924f69424e57fab2ab061d707688f0296",
+      "--threshold",
+      "0.35",
+      "--max-new-tokens",
+      "1024",
+      "--max-tiles",
+      "12",
+      "--gpu-static-head",
+      "--flash-attn",
+      "--cpu-layers",
+      "3",
+      "--compact-kv-cache"
+    ],
+    "selector_resources": {
+      "torch": "2.4.1+cu121",
+      "gpu": "NVIDIA GeForce RTX 4080",
+      "peak_allocated_bytes": 13878116864,
+      "peak_reserved_bytes": 13975420928,
+      "gpu_vocabulary_streaming": true,
+      "staged_transformer_layers": 3,
+      "kv_cache_compaction": true,
+      "weight_quantization": null
+    }
+  },
+  "three_probabilities_identical_to_four_layer_reference": true,
+  "comparison_98_probabilities_identical_to_original_one_layer_run": true,
+  "trials": [
+    {
+      "path": "outputs/webvid5_oom_probe_20260917_173416/probe_result.json",
+      "status": "FAILED",
+      "cpu_layers": 3,
+      "compact_kv_cache": null,
+      "minimum_sampled_free_mib": 442,
+      "seconds": 75.00343336000151
+    },
+    {
+      "path": "outputs/webvid5_oom_probe_20260917_173646/probe_result.json",
+      "status": "PASSED",
+      "cpu_layers": 4,
+      "compact_kv_cache": null,
+      "minimum_sampled_free_mib": 177,
+      "seconds": 303.08437320099983
+    },
+    {
+      "path": "outputs/webvid5_oom_probe_20260917_174224/probe_result.json",
+      "status": "FAILED",
+      "cpu_layers": 2,
+      "compact_kv_cache": true,
+      "minimum_sampled_free_mib": 75,
+      "seconds": 120.04034561300068
+    },
+    {
+      "path": "outputs/webvid5_oom_probe_20260917_174445/probe_result.json",
+      "status": "PASSED",
+      "cpu_layers": 3,
+      "compact_kv_cache": true,
+      "minimum_sampled_free_mib": 473,
+      "seconds": 255.5397738310021
+    }
+  ],
+  "tests": {
+    "full_suite": {
+      "passed": 175,
+      "skipped": 1,
+      "seconds": 43.11
+    },
+    "post_profile_change_targeted": {
+      "passed": 16,
+      "seconds": 0.62
+    }
+  },
+  "dry_run": "DRY_RUN_PASSED",
+  "preserved_failed_run_files": 408,
+  "git_diff_check": "PASSED",
+  "timing_estimate": {
+    "comparison_seconds": 73.249,
+    "other_seconds_per_frame": 1.97,
+    "basis": "초기 98회 실측과 수정 전후 동일 비교의 시간 비율로 보정한 잠정 추정",
+    "old_completed_comparisons": 98,
+    "old_comparison_seconds": 45.56951020408163,
+    "paired_timing_calibration_samples": 1,
+    "paired_timing_ratio": 1.6074146430112901
+  },
+  "limitations": [
+    "Three comparisons only; no full-video or five-video completion evidence.",
+    "No guarantee against arbitrarily large concurrent GPU allocations.",
+    "Unfinished first video restarts from its beginning."
+  ],
+  "files_sha256": {
+    "02_semantic_encoder/skem/MLM-keyframe-internvl.py": "e22f25df07a90770421e8418453dc1d18c12c8d837e35cba22e058af84413ad3",
+    "src/semantic_transmission/internvl_memory.py": "e7d2b89c3d427096f041d2b5652284ea74d015cf5bfe3a432ca7fdb13d21d6af",
+    "src/semantic_transmission/workers.py": "d50f930a32ee4ed3c7fc5a62a294ded348928e5c4ae78fef535c387891b80974",
+    "src/semantic_transmission/research.py": "8fe0ebbf85671434141c8bed6c8e561327998b4c47350beb0afd6d14225096aa",
+    "src/semantic_transmission/webvid5.py": "01e3366f898e85a2a54fab3496060e0c035b6340bc867b222b91edffdf882743",
+    "configs/webvid5.json": "88f932cba08aad0c969afcc0de5f3c53fa8527bb9d77e609305251eea53eaf9a",
+    "configs/webvid5_manifest.json": "6f788ba72a3adc540f8b7b18cadb4b3b9b47cc8597e09a9f31370fd1bb87bfba",
+    "tests/test_internvl_memory.py": "ae7a8439d721f1b40ad2eb20c263874e8e6bfe29e368cad11911c09255d7368d",
+    "tests/test_webvid5.py": "eaea613b1403e61cb52e1d9ef4d5b26d7bc3a9e1605d02c64b6523a7900f787f",
+    "docs/WEBVID5_VALIDATION.md": "27af4f5b906103f0760a529b376606e533f4ffc1f0d8603bd889ab273994cfdb"
+  }
+}

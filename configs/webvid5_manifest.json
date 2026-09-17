@@ -1,0 +1,85 @@
+{
+  "cohort": "webvid5_diverse_v1",
+  "selected_at": "2026-09-17",
+  "scope": "DEVELOPMENT_PILOT",
+  "selection_basis": "원본 영상의 5개 시점 접촉 시트를 보고 선정. 복원 결과를 보기 전에 고정한 목적 표집이며 무작위·대표 표본이 아니다. 유형은 주된 특성이며 서로 배타적이지 않다.",
+  "profile": "configs/webvid5.json",
+  "profile_sha256": "88f932cba08aad0c969afcc0de5f3c53fa8527bb9d77e609305251eea53eaf9a",
+  "videos": [
+    {
+      "category": "low_motion",
+      "label": "저동작 장면",
+      "filename": "stock-footage-candle-flowers.mp4",
+      "raw_sha256": "65f0e6cf23061fcf4846af53def23a739ea911b34510fd412b1b353daf30e887",
+      "processed_sha256": "5b1629df5d11726299f511533a19bbf09a0abe2fbda89a3fd5947aa09d491091",
+      "frames": 181,
+      "width": 576,
+      "height": 320,
+      "fps": 24,
+      "selection_reason": "등불의 중심 위치와 장면 구성이 비교적 안정적이며 초점·밝기가 변한다.",
+      "review_focus": "등불의 형태와 개수 유지, 불필요한 객체 생성 여부"
+    },
+    {
+      "category": "single_subject",
+      "label": "한 사람의 이동",
+      "filename": "stock-footage-beautiful-girl-with-scarf-flying-in-wind-running-in-wheat-field-in-sunset-freedom-beauty-health.mp4",
+      "raw_sha256": "9662008728091aca7b6be24611fecf5545467226ce9e2b3631ef60e4cb1eea59",
+      "processed_sha256": "ff9ee19b230f75a86928e4422f45ee4c0bc12ddfa7836097800a8f00ccc874a0",
+      "frames": 337,
+      "width": 576,
+      "height": 320,
+      "fps": 24,
+      "selection_reason": "들판에서 한 사람이 이동·회전하며 스카프가 바람에 움직인다.",
+      "review_focus": "사람 수, 이동 방향, 회전과 스카프 동작 순서"
+    },
+    {
+      "category": "fast_motion",
+      "label": "빠른 이동",
+      "filename": "stock-footage-toksovo-russia-february-team-of-sled-dogs-husky-and-greyhound-with-musher-running.mp4",
+      "raw_sha256": "d4d9b0cb327a603b70f168d647529d1b4e2142925ef9b286b973f85e7cd57df6",
+      "processed_sha256": "bb6ad48ea56445a437d9034139fd3f5e9f46d1795bc414a7fb6b66cd3d536425",
+      "frames": 384,
+      "width": 576,
+      "height": 320,
+      "fps": 24,
+      "selection_reason": "썰매견과 사람이 눈길을 따라 카메라 쪽으로 달려와 옆으로 지나간다.",
+      "review_focus": "접근·통과 동선, 개와 사람의 소실·추가, 빠른 움직임의 연속성"
+    },
+    {
+      "category": "camera_motion",
+      "label": "카메라 이동",
+      "filename": "stock-footage-aerial-drone-panoramic-video-of-famous-port-and-marina-of-zea-with-luxury-yachts-docked-as-seen.mp4",
+      "raw_sha256": "10d5cd04e7ddb96cbaa8b0ffb4e0557604fac8f7927fa7075ffed0f94b272cd8",
+      "processed_sha256": "8820a386c2d86059c4bd0746a73390e9eaae4f90b7f6a509a72e5dafff1a752a",
+      "frames": 384,
+      "width": 576,
+      "height": 320,
+      "fps": 24,
+      "selection_reason": "항구를 내려다보는 드론의 이동에 따라 지형과 정박 선박의 화면상 위치가 변한다.",
+      "review_focus": "카메라 이동 방향, 항구·선박 구조 유지, 배경의 비정상 변형"
+    },
+    {
+      "category": "multi_object_occlusion",
+      "label": "여러 객체와 가림",
+      "filename": "stock-footage--commuters-people-walking-in-the-city-slow-motion.mp4",
+      "raw_sha256": "1669a7b1bc9f815b3675ab8413d7ad5e916d36c6feb0ffd823ac4a4f8a38edd7",
+      "processed_sha256": "4177cd3ae20695d3e1259d126a92b880d739888c4ae7ee64fda487e73b3be214",
+      "frames": 384,
+      "width": 576,
+      "height": 320,
+      "fps": 24,
+      "selection_reason": "낮은 시점에서 여러 보행자의 다리가 화면을 드나들고 서로를 가린다.",
+      "review_focus": "등장·퇴장과 가림 순서, 다리 추가·소실, 보행 방향"
+    }
+  ],
+  "execution_revision": "v2_memory_20260917",
+  "runtime_estimate": {
+    "comparison_seconds": 73.249,
+    "other_seconds_per_frame": 1.97,
+    "basis": "초기 98회 실측과 수정 전후 동일 비교의 시간 비율로 보정한 잠정 추정",
+    "old_completed_comparisons": 98,
+    "old_comparison_seconds": 45.56951020408163,
+    "paired_timing_calibration_samples": 1,
+    "paired_timing_ratio": 1.6074146430112901
+  }
+}

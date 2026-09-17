@@ -1,0 +1,40 @@
+{
+  "date": "2026-09-17",
+  "scope": "WEBVID5_RUNNER_IMPLEMENTATION_AND_PREFLIGHT_ONLY",
+  "full_five_video_model_evaluation_started": false,
+  "cohort": "webvid5_diverse_v1",
+  "videos": 5,
+  "input_frames": 1670,
+  "status": "PASSED",
+  "targeted_tests": {
+    "passed": 25,
+    "skipped": 1
+  },
+  "full_test_suite": {
+    "passed": 169,
+    "skipped": 1,
+    "seconds": 41.84
+  },
+  "preflight": {
+    "status": "DRY_RUN_PASSED",
+    "working_directory": "/tmp",
+    "five_raw_sha256_matches": true,
+    "five_processed_sha256_matches": true,
+    "full_input_lengths_verified": true,
+    "new_batches": 0,
+    "history_or_lock_modified": false
+  },
+  "shell_syntax": "PASSED",
+  "git_diff_check": "PASSED",
+  "model_execution_estimate_hours": 17.5,
+  "estimate_is_measured_for_this_cohort": false,
+  "manual_semantic_review": "NOT_STARTED",
+  "files_sha256": {
+    "scripts/run_webvid5.sh": "6867b94f8785f7e2b55a015f0dfa120df1415f61889d0d928c7bc9f52b917060",
+    "src/semantic_transmission/webvid5.py": "de6310cfb8aeff63492f6e03e3af8ff226d9a239fdc2444564e06a96d01dbc01",
+    "tests/test_webvid5.py": "02b7b863932b726b207eadd238df26e94163d2ea5354534f6449e201a325b2ed",
+    "configs/webvid5.json": "6e0df030f7d4902a473554b9ea7194376b73b0280dd935aa8591a8d1240a4160",
+    "configs/webvid5_manifest.json": "04b49a336da8158c09b38ec1b2a0c3c8ab18e20bbe085a113b35f4b84b11998e",
+    "docs/WEBVID5_VALIDATION.md": "d864e3cc843e8a5056cdd94d1b124bdcc9d8ede209e8eee8318d44713320ea20"
+  }
+}

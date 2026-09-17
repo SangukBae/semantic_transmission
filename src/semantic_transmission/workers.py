@@ -107,6 +107,8 @@ def select(cfg, repo, run):
             command.append("--flash-attn")
         if cfg.get("internvl_offload_layers"):
             command += ["--cpu-layers", str(cfg["internvl_offload_layers"])]
+        if cfg.get("internvl_compact_kv_cache", False):
+            command.append("--compact-kv-cache")
         env = os.environ.copy()
         env["PYTHONPATH"] = os.pathsep.join([str(repo / "src"), str(repo / ".local/vendor/InternVL")])
         if cfg.get("internvl_allocator"):

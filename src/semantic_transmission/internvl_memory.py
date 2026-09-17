@@ -6,6 +6,22 @@ projects on CPU in FP32. Both consume only final-position generation logits.
 import torch
 
 
+def compact_kv_cache(cache):
+    """Keep exact K/V values without retaining a larger fused-QKV backing tensor."""
+    if cache is None:
+        return None
+    return tuple(value.clone(memory_format=torch.contiguous_format)
+                 if value.untyped_storage().nbytes() > value.numel() * value.element_size()
+                 else value for value in cache)
+
+
+def compact_attention_output(module, inputs, output):
+    # InternLM2's prefill value cache is a view of its fused QKV projection.
+    # Copy after attention so the attention kernel and its inputs are unchanged.
+    attention, weights, cache = output
+    return attention, weights, compact_kv_cache(cache)
+
+
 class CpuVocabulary(torch.nn.Module):
     def __init__(self, module, *, last_token_only=False, dtype=torch.float32):
         super().__init__()
@@ -54,8 +70,10 @@ class LastTokenHead(torch.nn.Module):
         return torch.cat(logits, dim=-1)
 
 
-def place_internvl(model, *, gpu_head=False, cpu_layers=0):
+def place_internvl(model, *, gpu_head=False, cpu_layers=0, compact_cache=False):
     language = model.language_model
+    if not 0 <= cpu_layers < len(language.model.layers):
+        raise ValueError("CPU layer count must leave the first layer on CUDA")
     class GpuExecution(type(language)):
         @property
         def device(self):
@@ -75,9 +93,13 @@ def place_internvl(model, *, gpu_head=False, cpu_layers=0):
         rotary.cos_cached = rotary.cos_cached[:4096].clone()
         rotary.sin_cached = rotary.sin_cached[:4096].clone()
         rotary.max_seq_len_cached = min(rotary.max_seq_len_cached, 4096)
-    language.model.layers.cuda()
+    # Do not temporarily put CPU-staged layers on CUDA during initialization.
+    for layer in language.model.layers[:len(language.model.layers) - cpu_layers]:
+        layer.cuda()
     language.model.norm.cuda()
     for layer in language.model.layers:
+        if compact_cache:
+            layer.attention.register_forward_hook(compact_attention_output)
         original_ffn = layer.feed_forward.forward
         def chunked_ffn(values, forward=original_ffn):
             if values.shape[1] <= 128:
@@ -86,8 +108,6 @@ def place_internvl(model, *, gpu_head=False, cpu_layers=0):
         layer.feed_forward.forward = chunked_ffn
     if cpu_layers:
         from accelerate import cpu_offload
-        if not 0 < cpu_layers < len(language.model.layers):
-            raise ValueError("CPU layer count must leave the first layer on CUDA")
         for layer in language.model.layers[-cpu_layers:]:
             # Retain a CPU master copy and stage the whole layer once per forward.
             # All matrix operations still execute on CUDA with original BF16 weights.
