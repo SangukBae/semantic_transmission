@@ -1,0 +1,8 @@
+# CPU regressions only. Install the torch/torchvision CPU pair separately.
+numpy==1.26.4
+scipy==1.15.3
+pillow==10.4.0
+opencv-python-headless==4.11.0.86
+scikit-image==0.24.0
+imageio-ffmpeg==0.5.1
+pytest==8.3.5
