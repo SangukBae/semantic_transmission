@@ -5,13 +5,10 @@ cd "$metric_repo"
 metric_phase="${1:?phase required}"
 metric_output="${2:?output required}"
 export PYTHONNOUSERSITE=1 PYTHONPATH="$metric_repo/src"
-unset LD_LIBRARY_PATH
-metric_python=/home/sangukbae/anaconda3/envs/lgvsc/bin/python
+source "$metric_repo/scripts/metric_runtime.sh"
+semtx_metric_runtime "$metric_repo"
 if [[ "$metric_phase" == visual || "$metric_phase" == development ]]; then
-  metric_python="$metric_repo/.local/metric_v2_env/bin/python"
-fi
-if [[ "$metric_phase" == visual || "$metric_phase" == pixel ]]; then
-  export LD_LIBRARY_PATH="$metric_repo/.local/metric_v2_driver/extracted/usr/lib/x86_64-linux-gnu"
+  metric_python="$metric_object_python"
 fi
 if [[ "$metric_phase" == declare ]]; then
   "$metric_python" scripts/report_metric_v4.py --output "$metric_output" --declare

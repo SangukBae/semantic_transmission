@@ -7,13 +7,9 @@ metric_output="${2:?fresh output directory required}"
 shift 2
 export PYTHONNOUSERSITE=1
 export PYTHONPATH="$metric_repo/src"
-unset LD_LIBRARY_PATH
-metric_driver="$metric_repo/.local/metric_v2_driver/extracted/usr/lib/x86_64-linux-gnu"
-if grep -q '580.173.02' /proc/driver/nvidia/version && test -f "$metric_driver/libcuda.so.580.173.02"; then
-  export LD_LIBRARY_PATH="$metric_driver"
-fi
-metric_motion_python=/home/sangukbae/anaconda3/envs/lgvsc/bin/python
-metric_object_python="$metric_repo/.local/metric_v2_env/bin/python"
+source "$metric_repo/scripts/metric_runtime.sh"
+semtx_metric_runtime "$metric_repo"
+metric_motion_python="$metric_python"
 case "$metric_stage" in
   prepare|truth_audit)
     exec "$metric_motion_python" -m semantic_transmission.metric_v3_validation "$metric_stage" --output "$metric_output" "$@" ;;

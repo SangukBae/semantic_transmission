@@ -6,15 +6,11 @@ metric_stage="${1:?stage required}"
 metric_output="${2:?output required}"
 shift 2
 export PYTHONNOUSERSITE=1 PYTHONPATH="$metric_repo/src"
-unset LD_LIBRARY_PATH
-metric_driver="$metric_repo/.local/metric_v2_driver/extracted/usr/lib/x86_64-linux-gnu"
-if grep -q '580.173.02' /proc/driver/nvidia/version && test -f "$metric_driver/libcuda.so.580.173.02"; then
-  export LD_LIBRARY_PATH="$metric_driver"
-fi
-metric_python=/home/sangukbae/anaconda3/envs/lgvsc/bin/python
+source "$metric_repo/scripts/metric_runtime.sh"
+semtx_metric_runtime "$metric_repo"
 case "$metric_stage" in
   visual-development|visual-heldout)
-    exec "$metric_repo/.local/metric_v2_env/bin/python" -m semantic_transmission.metric_v3_formal run --output "$metric_output" --part visual --split "${metric_stage#visual-}" ;;
+    exec "$metric_object_python" -m semantic_transmission.metric_v3_formal run --output "$metric_output" --part visual --split "${metric_stage#visual-}" ;;
   pixel-development|pixel-heldout)
     exec "$metric_python" -m semantic_transmission.metric_v3_formal run --output "$metric_output" --part pixel --split "${metric_stage#pixel-}" ;;
   prepare|calibrate|verify)
