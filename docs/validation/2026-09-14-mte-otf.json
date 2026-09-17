@@ -1,0 +1,702 @@
+{
+  "date": "2026-09-14",
+  "status": "IMPLEMENTATION_AND_CONTROLLED_PILOT_COMPLETED",
+  "etri_stage_one_complete": false,
+  "new_human_review_used": false,
+  "human_annotations_used": {
+    "candidate_inputs": false,
+    "candidate_error_truth": false,
+    "independent_extractor_audit": "existing DAVIS annotations only; no new human review"
+  },
+  "code": {
+    "base_commit": "3e074703bfc9c23c702b3409016de4738c2cb654",
+    "working_tree_dirty": true,
+    "frozen_metric_hashes": {
+      "motion_metric.py": "7702703fe94eae781f4767955a18d2c46b4db21964f9a029a04b85b2b80b3132",
+      "object_metric.py": "cb0013f2cd2ba4f948fbf4bba3ecfa17fb1b7ecb1b90ce009d71ff22aa812d52",
+      "metric_v2_cases.py": "7fac42446b1da658119663b2675dac9e64b0d7871eb14e0c2a5b90c70292d7a6",
+      "metric_v2_validation.py": "e1a2f2c6c5218e2c0b31b65d7e5374a7d80b5cd463f5c923f20b7f68b63d7994",
+      "automatic_metrics.py": "4619558a185690e1a88b37256e3f8c71eb74ded315cb890b02a9cd820fef9e27",
+      "temporal_baselines.py": "609672d7e501b8c61409ee9821f720963394b80ad6b787e97d7cec892fddefdd",
+      "automatic_validation.py": "196c14a77bcc57c25760068aa01fb028e24eec16114cd205d5f5618fbbe95210"
+    }
+  },
+  "run": "outputs/mte_otf_20260914_v1",
+  "controlled": {
+    "sources": 48,
+    "cases": 1176,
+    "sources_by_domain_split": {
+      "public_video/development": 8,
+      "public_video/heldout": 16,
+      "rendered/development": 8,
+      "rendered/heldout": 16
+    },
+    "cases_by_domain_target": {
+      "public_video/control": 96,
+      "public_video/motion": 288,
+      "rendered/control": 144,
+      "rendered/motion": 432,
+      "rendered/object": 216
+    },
+    "candidate_results": {
+      "public_video/motion": {
+        "threshold": 0.36398074668452196,
+        "direction": 1,
+        "development_controls": 32,
+        "heldout_fpr": 0.046875,
+        "control_coverage": 1.0,
+        "errors": {
+          "freeze": {
+            "cases": 48,
+            "coverage": 1.0,
+            "tpr_abstentions_as_misses": 0.9166666666666666,
+            "tpr_source_bootstrap_95ci": [
+              0.8125,
+              1.0
+            ],
+            "auc": 0.95703125,
+            "by_severity": {
+              "0.125": {
+                "cases": 16,
+                "tpr": 0.8125
+              },
+              "0.25": {
+                "cases": 16,
+                "tpr": 0.9375
+              },
+              "0.5": {
+                "cases": 16,
+                "tpr": 1.0
+              }
+            }
+          },
+          "lag": {
+            "cases": 48,
+            "coverage": 1.0,
+            "tpr_abstentions_as_misses": 0.9791666666666666,
+            "tpr_source_bootstrap_95ci": [
+              0.9375,
+              1.0
+            ],
+            "auc": 0.9957682291666666,
+            "by_severity": {
+              "0.125": {
+                "cases": 16,
+                "tpr": 0.9375
+              },
+              "0.25": {
+                "cases": 16,
+                "tpr": 1.0
+              },
+              "0.5": {
+                "cases": 16,
+                "tpr": 1.0
+              }
+            }
+          },
+          "reverse": {
+            "cases": 48,
+            "coverage": 1.0,
+            "tpr_abstentions_as_misses": 0.7916666666666666,
+            "tpr_source_bootstrap_95ci": [
+              0.6875,
+              0.9067708333333329
+            ],
+            "auc": 0.9267578125,
+            "by_severity": {
+              "0.125": {
+                "cases": 16,
+                "tpr": 0.5
+              },
+              "0.25": {
+                "cases": 16,
+                "tpr": 0.875
+              },
+              "0.5": {
+                "cases": 16,
+                "tpr": 1.0
+              }
+            }
+          },
+          "swap": {
+            "cases": 48,
+            "coverage": 1.0,
+            "tpr_abstentions_as_misses": 0.75,
+            "tpr_source_bootstrap_95ci": [
+              0.625,
+              0.875
+            ],
+            "auc": 0.9235026041666666,
+            "by_severity": {
+              "0.125": {
+                "cases": 16,
+                "tpr": 0.4375
+              },
+              "0.25": {
+                "cases": 16,
+                "tpr": 0.875
+              },
+              "0.5": {
+                "cases": 16,
+                "tpr": 0.9375
+              }
+            }
+          }
+        },
+        "heldout_fpr_source_bootstrap_95ci": [
+          0.0,
+          0.09375
+        ],
+        "gate": "NOT_PASSED"
+      },
+      "rendered/motion": {
+        "threshold": 0.31313178120929486,
+        "direction": 1,
+        "development_controls": 48,
+        "heldout_fpr": 0.0625,
+        "control_coverage": 1.0,
+        "errors": {
+          "freeze": {
+            "cases": 48,
+            "coverage": 1.0,
+            "tpr_abstentions_as_misses": 1.0,
+            "tpr_source_bootstrap_95ci": [
+              1.0,
+              1.0
+            ],
+            "auc": 1.0,
+            "by_severity": {
+              "0.125": {
+                "cases": 16,
+                "tpr": 1.0
+              },
+              "0.25": {
+                "cases": 16,
+                "tpr": 1.0
+              },
+              "0.5": {
+                "cases": 16,
+                "tpr": 1.0
+              }
+            }
+          },
+          "lag": {
+            "cases": 48,
+            "coverage": 1.0,
+            "tpr_abstentions_as_misses": 1.0,
+            "tpr_source_bootstrap_95ci": [
+              1.0,
+              1.0
+            ],
+            "auc": 1.0,
+            "by_severity": {
+              "0.125": {
+                "cases": 16,
+                "tpr": 1.0
+              },
+              "0.25": {
+                "cases": 16,
+                "tpr": 1.0
+              },
+              "0.5": {
+                "cases": 16,
+                "tpr": 1.0
+              }
+            }
+          },
+          "motion_freeze": {
+            "cases": 48,
+            "coverage": 1.0,
+            "tpr_abstentions_as_misses": 1.0,
+            "tpr_source_bootstrap_95ci": [
+              1.0,
+              1.0
+            ],
+            "auc": 1.0,
+            "by_severity": {
+              "0.125": {
+                "cases": 16,
+                "tpr": 1.0
+              },
+              "0.25": {
+                "cases": 16,
+                "tpr": 1.0
+              },
+              "0.5": {
+                "cases": 16,
+                "tpr": 1.0
+              }
+            }
+          },
+          "motion_reverse": {
+            "cases": 48,
+            "coverage": 1.0,
+            "tpr_abstentions_as_misses": 0.2916666666666667,
+            "tpr_source_bootstrap_95ci": [
+              0.125,
+              0.4791666666666667
+            ],
+            "auc": 0.6618923611111112,
+            "by_severity": {
+              "0.125": {
+                "cases": 16,
+                "tpr": 0.125
+              },
+              "0.25": {
+                "cases": 16,
+                "tpr": 0.3125
+              },
+              "0.5": {
+                "cases": 16,
+                "tpr": 0.4375
+              }
+            }
+          },
+          "reverse": {
+            "cases": 48,
+            "coverage": 1.0,
+            "tpr_abstentions_as_misses": 0.7291666666666666,
+            "tpr_source_bootstrap_95ci": [
+              0.6765625,
+              0.7916666666666666
+            ],
+            "auc": 0.9292534722222222,
+            "by_severity": {
+              "0.125": {
+                "cases": 16,
+                "tpr": 0.1875
+              },
+              "0.25": {
+                "cases": 16,
+                "tpr": 1.0
+              },
+              "0.5": {
+                "cases": 16,
+                "tpr": 1.0
+              }
+            }
+          },
+          "swap": {
+            "cases": 48,
+            "coverage": 1.0,
+            "tpr_abstentions_as_misses": 0.75,
+            "tpr_source_bootstrap_95ci": [
+              0.6875,
+              0.8125
+            ],
+            "auc": 0.935546875,
+            "by_severity": {
+              "0.125": {
+                "cases": 16,
+                "tpr": 0.25
+              },
+              "0.25": {
+                "cases": 16,
+                "tpr": 1.0
+              },
+              "0.5": {
+                "cases": 16,
+                "tpr": 1.0
+              }
+            }
+          }
+        },
+        "heldout_fpr_source_bootstrap_95ci": [
+          0.015364583333333348,
+          0.11458333333333333
+        ],
+        "gate": "NOT_PASSED"
+      },
+      "rendered/object": {
+        "threshold": 0.18518518518518523,
+        "direction": 1,
+        "development_controls": 48,
+        "heldout_fpr": 0.0,
+        "control_coverage": 1.0,
+        "errors": {
+          "object_addition": {
+            "cases": 48,
+            "coverage": 1.0,
+            "tpr_abstentions_as_misses": 0.0,
+            "tpr_source_bootstrap_95ci": [
+              0.0,
+              0.0
+            ],
+            "auc": 0.7377387152777778,
+            "by_severity": {
+              "0.125": {
+                "cases": 16,
+                "tpr": 0.0
+              },
+              "0.25": {
+                "cases": 16,
+                "tpr": 0.0
+              },
+              "0.5": {
+                "cases": 16,
+                "tpr": 0.0
+              }
+            }
+          },
+          "object_omission": {
+            "cases": 48,
+            "coverage": 1.0,
+            "tpr_abstentions_as_misses": 1.0,
+            "tpr_source_bootstrap_95ci": [
+              1.0,
+              1.0
+            ],
+            "auc": 1.0,
+            "by_severity": {
+              "0.125": {
+                "cases": 16,
+                "tpr": 1.0
+              },
+              "0.25": {
+                "cases": 16,
+                "tpr": 1.0
+              },
+              "0.5": {
+                "cases": 16,
+                "tpr": 1.0
+              }
+            }
+          },
+          "object_shape": {
+            "cases": 48,
+            "coverage": 1.0,
+            "tpr_abstentions_as_misses": 0.3333333333333333,
+            "tpr_source_bootstrap_95ci": [
+              0.3333333333333333,
+              0.3333333333333333
+            ],
+            "auc": 0.8786892361111112,
+            "by_severity": {
+              "0.125": {
+                "cases": 16,
+                "tpr": 0.0
+              },
+              "0.25": {
+                "cases": 16,
+                "tpr": 0.0
+              },
+              "0.5": {
+                "cases": 16,
+                "tpr": 1.0
+              }
+            }
+          }
+        },
+        "heldout_fpr_source_bootstrap_95ci": [
+          0.0,
+          0.0
+        ],
+        "gate": "NOT_PASSED"
+      }
+    },
+    "candidate_advantage": {
+      "public_video/motion": {
+        "candidate": "mte_tail",
+        "superiority_criterion": false,
+        "candidate_gate": "NOT_PASSED",
+        "adopt_for_controlled_pilot": false
+      },
+      "rendered/motion": {
+        "candidate": "mte_tail",
+        "superiority_criterion": true,
+        "candidate_gate": "NOT_PASSED",
+        "adopt_for_controlled_pilot": false
+      },
+      "rendered/object": {
+        "candidate": "otf_distortion_error",
+        "superiority_criterion": true,
+        "candidate_gate": "NOT_PASSED",
+        "adopt_for_controlled_pilot": false
+      }
+    }
+  },
+  "independent_extractor_audit": {
+    "object": {
+      "public_video/development": {
+        "sources": 8,
+        "annotated_object_frames": 556,
+        "matched_object_frames": 233,
+        "predicted_object_frames": 1802,
+        "recall_iou50": 0.41906474820143885,
+        "precision_iou50": null
+      },
+      "public_video/heldout": {
+        "sources": 16,
+        "annotated_object_frames": 709,
+        "matched_object_frames": 246,
+        "predicted_object_frames": 2736,
+        "recall_iou50": 0.3469675599435825,
+        "precision_iou50": null
+      },
+      "rendered/development": {
+        "sources": 8,
+        "annotated_object_frames": 640,
+        "matched_object_frames": 559,
+        "predicted_object_frames": 564,
+        "recall_iou50": 0.8734375,
+        "precision_iou50": 0.9911347517730497
+      },
+      "rendered/heldout": {
+        "sources": 16,
+        "annotated_object_frames": 1280,
+        "matched_object_frames": 1139,
+        "predicted_object_frames": 1160,
+        "recall_iou50": 0.88984375,
+        "precision_iou50": 0.9818965517241379
+      }
+    },
+    "motion": {
+      "development": {
+        "sources": 8,
+        "renderer_turn_events": 12,
+        "matched_turn_events": 0,
+        "mean_source_foreground_epe_px": 1.7807210746909208
+      },
+      "heldout": {
+        "sources": 16,
+        "renderer_turn_events": 22,
+        "matched_turn_events": 1,
+        "mean_source_foreground_epe_px": 1.8112324344424842
+      }
+    }
+  },
+  "reversal_truth_audit": {
+    "development": {
+      "cases": 24,
+      "zero_opposed_transitions": 3
+    },
+    "heldout": {
+      "cases": 48,
+      "zero_opposed_transitions": 9
+    }
+  },
+  "typed_object_supplement": {
+    "scope": "subscores assigned to their originally intended error types; supplementary only, no replacement of primary frozen gate",
+    "results": {
+      "object_addition": {
+        "metric": "hor",
+        "threshold": 0.140625,
+        "tpr": 0.3333333333333333,
+        "fpr": 0.0,
+        "auc": 0.9963107638888888
+      },
+      "object_omission": {
+        "metric": "oor",
+        "threshold": 0.22535211267605637,
+        "tpr": 0.9791666666666666,
+        "fpr": 0.0,
+        "auc": 1.0
+      },
+      "object_shape": {
+        "metric": "odr",
+        "threshold": 0.03636363636363636,
+        "tpr": 1.0,
+        "fpr": 0.0,
+        "auc": 1.0
+      }
+    }
+  },
+  "closest_tracking_baseline_comparison": {
+    "public_video": {
+      "idf1_mask_error": {
+        "threshold": 0.42772861356932157,
+        "fpr": 0.046875,
+        "errors": {},
+        "otf_minus_baseline_within_source_auc": null,
+        "otf_minus_baseline_source_bootstrap_95ci": null,
+        "paired_sources": 0
+      },
+      "frame_mask_error": {
+        "threshold": 0.3411764705882353,
+        "fpr": 0.03125,
+        "errors": {},
+        "otf_minus_baseline_within_source_auc": null,
+        "otf_minus_baseline_source_bootstrap_95ci": null,
+        "paired_sources": 0
+      }
+    },
+    "rendered": {
+      "idf1_mask_error": {
+        "threshold": 0.20588235294117652,
+        "fpr": 0.0,
+        "errors": {
+          "object_addition": {
+            "auc": 0.7360026041666666,
+            "tpr": 0.0,
+            "coverage": 1.0
+          },
+          "object_omission": {
+            "auc": 1.0,
+            "tpr": 0.9791666666666666,
+            "coverage": 1.0
+          },
+          "object_shape": {
+            "auc": 0.8818359375,
+            "tpr": 0.3125,
+            "coverage": 1.0
+          }
+        },
+        "otf_minus_baseline_within_source_auc": 0.0,
+        "otf_minus_baseline_source_bootstrap_95ci": [
+          0.0,
+          0.0
+        ],
+        "paired_sources": 16
+      },
+      "frame_mask_error": {
+        "threshold": 0.13235294117647056,
+        "fpr": 0.0,
+        "errors": {
+          "object_addition": {
+            "auc": 0.7368706597222222,
+            "tpr": 0.0625,
+            "coverage": 1.0
+          },
+          "object_omission": {
+            "auc": 0.7632378472222222,
+            "tpr": 0.16666666666666666,
+            "coverage": 1.0
+          },
+          "object_shape": {
+            "auc": 0.8827039930555556,
+            "tpr": 0.3333333333333333,
+            "coverage": 1.0
+          }
+        },
+        "otf_minus_baseline_within_source_auc": 0.08043981481481483,
+        "otf_minus_baseline_source_bootstrap_95ci": [
+          0.05613425925925924,
+          0.10041956018518518
+        ],
+        "paired_sources": 16
+      }
+    }
+  },
+  "real_reconstruction_diagnostics": {
+    "new_reconstructions_generated": 0,
+    "semantic_ground_truth": null,
+    "matched_rate_model_ranking": false,
+    "stages": {
+      "motion": {
+        "status": "COMPLETED",
+        "pairs": 6,
+        "minimum_sample_coverage": 1.0,
+        "maximum_timestamp_offset_s": 0.01666666666666683,
+        "samples_per_pair": [
+          80,
+          80,
+          6,
+          3,
+          3,
+          6
+        ]
+      },
+      "object": {
+        "status": "COMPLETED",
+        "pairs": 6,
+        "minimum_sample_coverage": 1.0,
+        "maximum_timestamp_offset_s": 0.01666666666666683,
+        "samples_per_pair": [
+          80,
+          80,
+          6,
+          3,
+          3,
+          6
+        ]
+      }
+    }
+  },
+  "repeatability": {
+    "motion": {
+      "case_id": "renderer__260914100__object_omission_0.25",
+      "scope": "fixed-pair numerical repeatability; not independent reconstruction seeds",
+      "fresh_caches": true,
+      "numeric_values": 94,
+      "max_abs_difference": 0.0,
+      "structural_mismatches": []
+    },
+    "object": {
+      "case_id": "renderer__260914100__object_omission_0.25",
+      "scope": "fixed-pair numerical repeatability; not independent reconstruction seeds",
+      "fresh_caches": true,
+      "numeric_values": 33,
+      "max_abs_difference": 0.0,
+      "structural_mismatches": []
+    }
+  },
+  "tests": {
+    "command": "env -u PYTHONPATH -u LD_LIBRARY_PATH PYTHONNOUSERSITE=1 PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 /home/sangukbae/anaconda3/envs/lgvsc/bin/python -m pytest -q",
+    "passed": 50,
+    "duration_s": 1.13,
+    "evidence": "pytest completion output observed in this task; no separate stdout log retained",
+    "scope": "unit and regression checks; not semantic validity evidence"
+  },
+  "integrity": {
+    "model_hashes": true,
+    "model_revisions": true,
+    "metric_code_hashes": true,
+    "frozen_statistics_script": true,
+    "score_counts": {
+      "motion": 1176,
+      "object": 456
+    },
+    "identity_invariants": true,
+    "score_bounds": true,
+    "case_provenance": true
+  },
+  "timing": {
+    "motion": {
+      "stage": "motion",
+      "completed": 1176,
+      "total": 1176,
+      "elapsed_s": 1152.445636510849,
+      "status": "COMPLETED"
+    },
+    "object": {
+      "stage": "object",
+      "completed": 456,
+      "total": 456,
+      "elapsed_s": 1868.1995432376862,
+      "status": "COMPLETED"
+    }
+  },
+  "limitations": [
+    "Both candidate gates NOT_PASSED; novelty not demonstrated.",
+    "No human agreement or labelled real-reconstruction error accuracy measured.",
+    "Public JPEG playback uses assigned 8 Hz, not native capture timestamps.",
+    "Renderer heldout shares development scene and trajectory families.",
+    "Twelve renderer reversal interventions have zero actually opposed motion transitions; primary gate not relabelled.",
+    "DAVIS pretrained-model training independence not established.",
+    "MTE event component matched only one of 34 source turn events.",
+    "Global NVIDIA driver mismatch persists; this run used process-local compatible libraries.",
+    "Fixed-pair repeatability is not independent reconstruction-seed replication."
+  ],
+  "artifact_sha256": {
+    "protocol.json": "c749d871a255e4ff751a172efb8b129e317c0f374cc3b5153499fdb9337a6723",
+    "preparation.json": "bd3eb8bea7c7a5a02a8ba950fcb9676f56988f56ea47814e1090452ab9b63675",
+    "cases.jsonl": "945e8f7592b275d1da9da59b5db9e1ce177770aa667b9a5f0f1b147459ac7a4d",
+    "summary.json": "3232deb892da86a5be4ab49ce6347fb753c79dd856d2c0a6bd49a045d8d6e41a",
+    "scores.csv": "990745036b823b64697e341d093fc518efa7b39c9303489183208d51ddb4ffe3",
+    "paired_comparisons.json": "16123413e29f38982f938ca92440953e4f859ac02ae9233177aa47368fa56a22",
+    "tracking_baseline_protocol.json": "ec009b1d557b083bd433c41f4d1c1998409c98ece09b062a8aca25830820ab4f",
+    "tracking_baseline_comparison.json": "f65e2e91820c805537fe1d2d0d16764b685e50609b59b96fadcf03b534416165",
+    "typed_object_diagnostics.json": "3f7579c009da5b760637e19a4008b97f8c6a47387a0918de5101ec6ef9c43475",
+    "object_extractor_audit.json": "26a871707097ac45990f9485ba07baae53efd235cbdb55542ac2c20ede011923",
+    "motion_extractor_audit.json": "5e57444b34d39a07fdcf5b82039aeccced6dd0f28909d3b1243016859381b707",
+    "renderer_control_audit.json": "109fd6dd0ab6f1f79fc1c7cc7d15731862083c3b1c6fa1a395a0e74262869070",
+    "reversal_truth_audit.json": "5a0ab9fb6fb709743e26e853178a7cb978802624a5028fa0526a6a871ea32165",
+    "supplementary_diagnostics.json": "b8c99be9ad1816522ef3f32991e4788fc7002a2381e560f0d88ab2e038362866",
+    "real_pairs.json": "0064db9906825a496a3e60daea77fade6c859e779cf86a4d0fa84f0b2d29beae",
+    "real_motion_scores.json": "8ecda003d7521fca4d1cb145e19fdf39daf2997c665dc9558f589e1ff364c335",
+    "real_object_scores.json": "74b196afcab84304b3afbd81ffb4f067a3bb7085d0f57df0dbae8cf588f67eb3",
+    "motion_repeatability.json": "6974918f51ea3c54ce057f0e963f55adce476c7ccf1f1c7130c710fa7e08674b",
+    "object_repeatability.json": "9c56fa15d930a7c8b18aca2897dd78526c760072a43a3eeeb68baa52be0e0295",
+    "integrity.json": "03d64f79345118b27088eaad8f82da78053e0e8a208a2f02f8c5d60ae783b600"
+  }
+}

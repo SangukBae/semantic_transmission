@@ -1,0 +1,145 @@
+{
+  "date": "2026-09-12",
+  "status": "IMPLEMENTATION_AND_INITIAL_EXPERIMENTS_COMPLETED",
+  "human_review_used": false,
+  "human_annotations_used_as_ground_truth": false,
+  "code": {
+    "commit": "3e074703bfc9c23c702b3409016de4738c2cb654",
+    "dirty": true
+  },
+  "controlled": {
+    "sources": 125,
+    "cases": 2432,
+    "real_sources": 77,
+    "rendered_sources": 48,
+    "frames_per_source": 12,
+    "resolution": [
+      224,
+      128
+    ],
+    "candidate_gates": {
+      "rte": {
+        "status": "NOT_PASSED",
+        "failures": [
+          "heldout control FPR > 0.1 or unavailable",
+          "reverse: auc < 0.9 or unavailable",
+          "reverse: tpr < 0.8 or unavailable",
+          "freeze: auc < 0.9 or unavailable",
+          "freeze: tpr < 0.8 or unavailable",
+          "lag: median_severity_spearman < 0.5 or unavailable",
+          "swap: auc < 0.9 or unavailable",
+          "swap: tpr < 0.8 or unavailable"
+        ]
+      },
+      "lssd": {
+        "status": "NOT_PASSED",
+        "failures": [
+          "object_addition: tpr < 0.8 or unavailable",
+          "object_omission: tpr < 0.8 or unavailable",
+          "object_shape: tpr < 0.8 or unavailable"
+        ]
+      }
+    }
+  },
+  "existing_reconstruction_diagnostics": {
+    "pairs": 11,
+    "windows": 33,
+    "semantic_ground_truth": null
+  },
+  "input_checks": {
+    "webvid": {
+      "status": "DRY_RUN_PASSED",
+      "inputs": 53,
+      "reused": 0,
+      "to_generate": 53,
+      "min_frames": 150,
+      "max_frames": 384
+    },
+    "kinetics": {
+      "status": "DRY_RUN_PASSED",
+      "inputs": 14,
+      "reused": 0,
+      "to_generate": 14,
+      "min_frames": 213,
+      "max_frames": 241
+    },
+    "resume": {
+      "status": "DRY_RUN_PASSED",
+      "inputs": 2,
+      "reused": 2,
+      "to_generate": 0,
+      "min_frames": 9,
+      "max_frames": 17
+    }
+  },
+  "lgvsc_new_input_runs": {
+    "batch": "outputs/lgvsc_variable_skem_smoke_20260912",
+    "status": "PASSED",
+    "completed": 2,
+    "source_frames": [
+      17,
+      9
+    ],
+    "selector": "SKEM",
+    "steps": 30,
+    "scope": "two short real-source clips; not the full 67-video corpus"
+  },
+  "sgd_new_input_runs": [
+    {
+      "manifest": "outputs/sgd_bridge_webvid55_prefix_20260912_v1/manifest.json",
+      "sha256": "263bff0e193319df40c0a6b385f3f3a10781845e643fe9fc5bd451ac7a6d5a10",
+      "frames": 9,
+      "seconds": 399.8273437023163,
+      "steps": 50,
+      "use_text": true,
+      "backend_scope": "framewise SGD-JSCC AWGN; full diffusion and ControlNet; no interframe reuse"
+    },
+    {
+      "manifest": "outputs/sgd_bridge_kinetics400_14_prefix_20260912_v1/manifest.json",
+      "sha256": "a99cf7bd091f6b5b1ce047cba5a1683aa195f001d83bc2d3b050e50ff405df81",
+      "frames": 17,
+      "seconds": 748.3036286830902,
+      "steps": 50,
+      "use_text": true,
+      "backend_scope": "framewise SGD-JSCC AWGN; full diffusion and ControlNet; no interframe reuse"
+    }
+  ],
+  "common_new_input_evaluation": {
+    "status": "COMPLETED",
+    "pairs": 4,
+    "all_sample_coverage_complete": true
+  },
+  "tests": {
+    "status": "PASSED",
+    "passed": 33,
+    "command": "PYTHONNOUSERSITE=1 PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 lgvsc/bin/python -m pytest -q tests"
+  },
+  "metric_repeatability": {
+    "status": "PASSED",
+    "source_sha256": "55849d0adac7a1e279793740a310e31126bd7d9b9eb7eb57bda78132f088ad29",
+    "reconstruction_sha256": "0bfe8ab8e9a3640b91925b122c40956daa0e284bb2e6fa27f4932147bded2248",
+    "repeats": 2,
+    "feature_cache_cleared_between_repeats": true,
+    "compared_numeric_values": 31,
+    "max_absolute_delta": 0.0,
+    "tolerance": 1e-06,
+    "scope": "Metric repeatability on one fixed decoded pair; not independent reconstruction seeds or human agreement"
+  },
+  "full_67_video_regeneration": "NOT_RUN",
+  "general_real_video_semantic_validity": "NOT_ESTABLISHED",
+  "metric_novelty": "NOT_ESTABLISHED",
+  "artifact_sha256": {
+    "outputs/automatic_validation_20260912_v1/protocol.json": "1709a4ec5ec3e14b92d0f49445eb558d843080a19884aba5440f06e823017d94",
+    "outputs/automatic_validation_20260912_v1/summary.json": "921acb00e1dd2c7b34f1c2de56a81b9cfe879648236118b62a5e203e1f1c9e4f",
+    "outputs/automatic_validation_20260912_v1/cases.jsonl": "be21ce87f66732bb1b5885b3c475dedab7dbc49e5bb02e285cab0ecfbe2ad702",
+    "outputs/automatic_validation_20260912_v1/additional_baselines/summary.json": "73d08bdbc21279d09d86448ac0db769f052bb24a5595f49f2896bb4c7ebad5f4",
+    "outputs/automatic_validation_20260912_v1/diagnostic_windows.json": "d552b49a88a1f015c6a3b21583258228a70d8c78db3137cfaa9dde540d49b124",
+    "outputs/automatic_validation_20260912_v1/new_input_pair_scores.json": "7e281065ad102c9348bccc84070a73b880f4a56a7a66a0cc7038bb2b8efb2075",
+    "outputs/automatic_validation_20260912_v1/metric_repeatability.json": "c467376feff1e9f4760f987bfef402bc643be63aadb913e9a398c683be011115",
+    "outputs/automatic_validation_20260912_v1/statistics_replay.json": "5f144d4b14d0cf97659b065f0aa298f2cc61d89fcba7c35e120209c0b17443b2",
+    "outputs/automatic_validation_20260912_v1/REPORT.md": "8c11b417a849da6b211e61ffb1e85f8c2e2c007a943ab958467ca25528225815",
+    "outputs/automatic_validation_20260912_v1/report.html": "342b7154650f9c6684ccc604b8b45f8ae208794bc1981691f1bbefb5b3cee9b2",
+    "outputs/automatic_validation_20260912_v1/real_diagnostics.html": "4ceff50a857c9a4887a88a954aba1d9935f422ff0fc80172543e00af1b4b6939",
+    "outputs/automatic_validation_20260912_v1/detection_rates.svg": "54095321d7870756791b4c02c2e0da2626d7c0b1e08b3bdec5b6d37ee870ad58"
+  }
+}
