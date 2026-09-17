@@ -4,7 +4,8 @@ import json
 from pathlib import Path
 import shutil
 
-from .artifacts import sha256
+from .artifacts import sha256, write_json
+from .input_contract import video_config
 
 STAGES = ["prepare", "select", "caption", "flow", "send", "channel", "receive", "reconstruct", "evaluate"]
 
@@ -34,19 +35,29 @@ def completed_runs(previous_roots, cfg, sources):
             source = inputs[name]
             if old_inputs[name]["sha256"] != source["sha256"]:
                 raise ValueError(f"resume source changed: {name}")
-            if json.loads((run / "run_config.json").read_text()) != dict(cfg, input=source["path"]):
+            # A dataset may move disks without changing the source bytes. Validate
+            # the historical configuration against its own input manifest.
+            resolved = video_config(cfg, source) if cfg.get("variable_length") else cfg
+            if json.loads((run / "run_config.json").read_text()) != dict(resolved, input=old_inputs[name]["path"]):
                 raise ValueError(f"resume video configuration changed: {run}")
             quality = json.loads((run / "quality.json").read_text())
             if quality["status"] != "PASSED" or quality["source_sha256"] != source["sha256"]:
                 raise ValueError(f"unverified reconstruction: {run}")
+            if "evaluation_profile" in cfg and quality.get("evaluation_profile") != cfg["evaluation_profile"]:
+                raise ValueError(f"resume evaluation profile differs: {run}")
             videos = list((run / "receiver/reconstruction").glob("*.mp4"))
             if len(videos) != 1 or sha256(videos[0]) != quality["video_sha256"]:
                 raise ValueError(f"reconstructed video changed: {run}")
-            expected_frames = cfg["frames"]
+            expected_frames = resolved["frames"]
             if cfg.get("decoder_policy") == "official_release":
-                from .temporal import output_source_indices
+                from .temporal import output_source_indices, resolve_concatenation_policy
                 received = json.loads((run / "receiver/decoder_inputs.json").read_text())
-                mapping = output_source_indices(received["indices"], "official_release")
+                concatenation = resolve_concatenation_policy("official_release", cfg.get("concatenation_policy"))
+                received_concat = resolve_concatenation_policy(received["decoder"].get("policy", "endpoint_exact"),
+                                                               received["decoder"].get("concatenation_policy"))
+                if concatenation != received_concat:
+                    raise ValueError(f"received concatenation policy changed: {run}")
+                mapping = output_source_indices(received["indices"], concatenation)
                 if quality.get("output_source_indices") != mapping:
                     raise ValueError(f"official concatenation frame mapping changed: {run}")
                 expected_frames = len(mapping)
@@ -68,7 +79,7 @@ def completed_runs(previous_roots, cfg, sources):
             for filename in ("channel_accounting.json", "receiver_accounting.json"):
                 if json.loads((run / filename).read_text())["status"] != "PASSED":
                     raise ValueError(f"transport did not pass: {run}")
-            reusable[name] = {"path": run, "record": record, "code": manifest["code"]}
+            reusable[name] = {"path": run, "record": record, "code": manifest["code"], "source": source}
     return reusable
 
 
@@ -77,4 +88,12 @@ def copy_completed(item, destination):
     record = copy.deepcopy(item["record"])
     record["reused_from"] = str(item["path"])
     record.setdefault("execution_code", item["code"])
+    config_path = Path(destination) / "run_config.json"
+    config = json.loads(config_path.read_text())
+    if config["input"] != item["source"]["path"]:
+        record["source_relocation"] = {"previous_path": config["input"],
+                                       "current_path": item["source"]["path"],
+                                       "sha256": item["source"]["sha256"]}
+        config["input"] = item["source"]["path"]
+        write_json(config_path, config)
     return record

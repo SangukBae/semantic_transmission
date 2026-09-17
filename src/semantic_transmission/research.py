@@ -11,6 +11,7 @@ import time
 from .artifacts import git_state, runtime_state, sha256, write_json
 from .cli import doctor, repository, settings
 from .video_io import probe
+from .input_contract import video_config
 
 
 def utc():
@@ -43,9 +44,7 @@ def main(argv=None):
     sources = []
     for path in videos:
         info = probe(path)
-        expected_source = cfg.get("source_video", cfg)
-        if any(info[key] != expected_source[key] for key in ("frames", "width", "height", "fps")):
-            raise ValueError(f"{path.name} differs from the frozen video profile: {info}")
+        video_config(cfg, info)
         sources.append({"id": path.stem, "path": str(path), "sha256": sha256(path), **info})
     root = args.output.resolve()
     from .resume import completed_runs, copy_completed
@@ -53,7 +52,8 @@ def main(argv=None):
     if args.dry_run:
         print(json.dumps({"status": "DRY_RUN_PASSED", "output": str(root),
                           "reused": list(reusable),
-                          "to_generate": [s["id"] for s in sources if s["id"] not in reusable]}, indent=2))
+                          "to_generate": [s["id"] for s in sources if s["id"] not in reusable],
+                          "resolved_frames": {s["id"]: video_config(cfg, s)["frames"] for s in sources}}, indent=2))
         return
     root.mkdir(parents=True, exist_ok=False)
     state = {"status": "RUNNING", "started": utc(), "code": git_state(repo),
@@ -84,7 +84,7 @@ def main(argv=None):
                 continue
             run.mkdir()
             (run / "logs").mkdir()
-            write_json(run / "run_config.json", dict(cfg, input=source["path"]))
+            write_json(run / "run_config.json", dict(video_config(cfg, source), input=source["path"]))
             record = {"id": source["id"], "status": "RUNNING", "started": utc(), "stages": []}
             state["runs"].append(record)
             for stage, module in stages:
@@ -108,7 +108,13 @@ def main(argv=None):
                 if result.returncode:
                     record["status"] = "FAILED"
                     state["failed_videos"] += 1
-                    raise RuntimeError(f"{source['id']}/{stage} failed; see its stage log")
+                    log = run / "logs" / f"{stage}.log"
+                    with log.open("rb") as stream:
+                        stream.seek(max(0, log.stat().st_size - 65536))
+                        tail = stream.read().decode(errors="replace")
+                    reason = ("CUDA out of memory" if "OutOfMemoryError: CUDA out of memory" in tail
+                              else f"exit code {result.returncode}")
+                    raise RuntimeError(f"{source['id']}/{stage} failed ({reason}); see {log}")
             record.update(status="PASSED", finished=utc())
             state["completed_videos"] += 1
             write_json(run / "run_manifest.json", record)

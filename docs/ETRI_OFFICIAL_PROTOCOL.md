@@ -1,5 +1,10 @@
 # ETRI: published LGVSC execution profile
 
+**2026-09-17 update:** current configurations use profile v2, the five official
+quality metrics, itemized transport accounting and independent final concatenation.
+See [LGVSC_ALIGNMENT.md](LGVSC_ALIGNMENT.md). The v1 commands, reuse history and
+measurements below are historical; their artifacts are preserved unchanged.
+
 This profile follows the published **SKEM + DSA code path**, pinned to
 [TT2TER/LGVSC 50c9ff98](https://github.com/TT2TER/LGVSC/tree/50c9ff98fb1aaa8136aef2e41e02bbb0d1a2d1c3).
 It supersedes the previous HQ profile for `scripts/run_etri_remaining.sh`.

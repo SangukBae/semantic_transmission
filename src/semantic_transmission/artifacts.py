@@ -43,7 +43,8 @@ def runtime_state(repo, local):
     import imageio_ffmpeg
     packages = {}
     for name in ("torch", "torchvision", "transformers", "flash-attn", "apex", "colossalai",
-                 "diffusers", "accelerate", "peft", "numpy", "av", "moviepy", "imageio-ffmpeg"):
+                 "diffusers", "accelerate", "peft", "numpy", "av", "moviepy", "imageio-ffmpeg",
+                 "clip", "lpips", "DISTS-pytorch", "scikit-image", "opencv-python"):
         try:
             packages[name] = importlib.metadata.version(name)
         except importlib.metadata.PackageNotFoundError:

@@ -1,6 +1,7 @@
 import os
 import faulthandler
-from semantic_transmission.temporal import trim_prefix, segment_lengths, conditioning_indices
+from semantic_transmission.temporal import (segment_lengths, conditioning_indices,
+    concatenate_segments, resolve_concatenation_policy)
 import time
 from pprint import pformat
 
@@ -567,10 +568,9 @@ if __name__ == "__main__":
                             logger.info("Prompt: %s", batch_prompt)
                         save_path = save_paths[idx]
                         video = [video_clips[i][idx] for i in range(loop)]
-                        for i in range(1, loop):
-                            video[i] = video[i][:, trim_prefix(i, dframe_to_frame(condition_frame_length),
-                                                              cfg.get("decoder_policy", "endpoint_exact")) :]
-                        video = torch.cat(video, dim=1)
+                        video = concatenate_segments(video, dframe_to_frame(condition_frame_length),
+                            resolve_concatenation_policy(cfg.get("decoder_policy", "endpoint_exact"),
+                                                         cfg.get("concatenation_policy")))
                         if cfg.get("save_frames", False):
                             # Preserve pre-MP4 uint8 pixels for a common evaluation boundary.
                             frames_dir = save_path + "_frames"

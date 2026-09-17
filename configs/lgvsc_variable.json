@@ -1,15 +1,9 @@
 {
-  "profile": "etri_lgvsc_official_release_v2",
-  "frames": 240,
+  "profile": "lgvsc_preprocessed_variable_v2",
+  "frames": 384,
   "width": 576,
   "height": 320,
   "fps": 24,
-  "source_video": {
-    "frames": 100,
-    "width": 512,
-    "height": 256,
-    "fps": 10
-  },
   "steps": 30,
   "seed": 42,
   "channel_seed": 1024,
@@ -33,12 +27,14 @@
   "caption_attention": "flash_attention_2",
   "paper_caption": true,
   "paper_flow": true,
-  "preserve_input": false,
-  "official_preprocessing": true,
+  "preserve_input": true,
+  "official_preprocessing": false,
   "official_semantic_clips": true,
   "decoder_policy": "official_release",
   "snr_db": 10,
   "paper_reproduction": false,
+  "max_frames": 384,
+  "variable_length": true,
   "evaluation_profile": "lgvsc_official_metrics_v1",
   "concatenation_policy": "official_release"
 }

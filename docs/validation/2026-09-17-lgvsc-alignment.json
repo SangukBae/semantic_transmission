@@ -1,0 +1,134 @@
+{
+  "created_at": "2026-09-17T04:54:25.190882+00:00",
+  "status": "PASSED",
+  "scope": "implementation/regression/GPU integration; not WebVid55 or paper aggregate reproduction",
+  "changes": {
+    "metrics": "PSNR, grayscale SSIM, LPIPS-VGG, CLIP ViT-B/32 cosine01, DISTS",
+    "selection_stride": 1,
+    "transport": "disjoint bytes, information/padding/parity bits, visual/digital/total CBR",
+    "concatenation": "independent final concatenation, official generation retained"
+  },
+  "tests": {
+    "targeted_with_gpu": {
+      "passed": 31,
+      "failed": 0,
+      "seconds": 8.27,
+      "reference": "functions extracted directly from pinned 06_evaluation/final_score.py; GPU LPIPS/CLIP/DISTS tolerance 1e-6; pixel metrics exact",
+      "command": "env -u PYTHONPATH -u LD_LIBRARY_PATH PYTHONNOUSERSITE=1 PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 LGVSC_GPU_TESTS=1 OMP_NUM_THREADS=8 /home/sangukbae/anaconda3/envs/lgvsc/bin/python -m pytest -q tests/test_lgvsc_alignment.py tests/test_official_profile.py tests/test_research_runtime.py tests/test_wire.py tests/test_resume.py"
+    },
+    "full_suite": {
+      "passed": 159,
+      "skipped": 1,
+      "failed": 0,
+      "seconds": 47.16,
+      "skip_reason": "GPU parity opt-in test; executed separately",
+      "command": "env -u PYTHONPATH -u LD_LIBRARY_PATH PYTHONNOUSERSITE=1 PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 OMP_NUM_THREADS=8 /home/sangukbae/anaconda3/envs/lgvsc/bin/python -m pytest -q --disable-warnings"
+    },
+    "pip_check": "PASSED",
+    "python_compile": "PASSED",
+    "shell_syntax": "PASSED",
+    "git_diff_check": "PASSED"
+  },
+  "hardware": "NVIDIA GeForce RTX 4080 16GB",
+  "existing_etri_reevaluation": {
+    "path": "outputs/lgvsc_alignment_20260917_v1/etri01/quality.json",
+    "original_output_frames": 241,
+    "deduplicated_view_frames": 240,
+    "generation_rerun": false,
+    "mp4_reencoded": false,
+    "evaluation_peak_allocated_bytes": {
+      "lossless_frames": {
+        "device": "cuda",
+        "batch_size": 1,
+        "model_loading": "sequential",
+        "peak_allocated_bytes": 531102720
+      },
+      "delivered_mp4": {
+        "device": "cuda",
+        "batch_size": 1,
+        "model_loading": "sequential",
+        "peak_allocated_bytes": 545537024
+      }
+    }
+  },
+  "changed_pipeline_integration": {
+    "path": "outputs/lgvsc_alignment_20260917_v1/webvid9_runtime/integration.json",
+    "input_frames": 9,
+    "cached_stages": [
+      "prepare",
+      "select",
+      "caption",
+      "flow"
+    ],
+    "executed_stages": [
+      {
+        "stage": "send",
+        "returncode": 0,
+        "seconds": 3.3800301589999435
+      },
+      {
+        "stage": "channel",
+        "returncode": 0,
+        "seconds": 4.3656799520003915
+      },
+      {
+        "stage": "receive",
+        "returncode": 0,
+        "seconds": 2.981923743000152
+      },
+      {
+        "stage": "reconstruct",
+        "returncode": 0,
+        "seconds": 38.78472229599993
+      },
+      {
+        "stage": "evaluate",
+        "returncode": 0,
+        "seconds": 8.98863550599981
+      }
+    ],
+    "decoder": {
+      "concatenation_policy": "endpoint_exact",
+      "policy": "official_release",
+      "seed": 42,
+      "steps": 30
+    },
+    "metadata_exact_match": true,
+    "output_frames": 9,
+    "limitation": "single-segment GPU reconstruction; nonuniform multisegment concatenation covered by tensor regression and the existing 241-frame comparison"
+  },
+  "historical_files_preserved": {
+    "count": 593,
+    "changed": []
+  },
+  "source_sha256": {
+    "src/semantic_transmission/official_quality.py": "bb6a416326e9eb95c12a8d2f7f5c81c80dc7ac51c496414967f2b58971b96de6",
+    "src/semantic_transmission/transmission_accounting.py": "72ac234f118222d0c588dfeff505de0efdbdd199e5fb75a25511f501ad5b970b",
+    "src/semantic_transmission/research_quality.py": "3a509179ff0f83fe33a793e71a21167e2444b84c164b3272f85094a8a15a1c6e",
+    "src/semantic_transmission/codec_transport.py": "7ae8bc42dfe05c95359098a1600fe83db715f74a7f7265b9d5452305ca76a563",
+    "src/semantic_transmission/temporal.py": "36b06469eed91ffcda0bf442c3d63f0a4cde1ddc37889f23447056596eaf2e6a",
+    "src/semantic_transmission/resume.py": "ca1e03e073a5affc8b20a0a39cc624b1485b5ecf307405e6c7149ad84d628708",
+    "src/semantic_transmission/artifacts.py": "14d38ae089cd9551a28eb68f1efa6d0bca48a5b2236f0a1a044632920a13bca7",
+    "04_semantic_decoder/scripts/mydemo_new_align_sh.py": "db249b5908e3563805b3147e60bd167050687752894a7be7dcb81e9e2eb1bbde",
+    "configs/etri_official.json": "7f7e58fbf2bfafeea79b84a043dd31dd0195e3066752fac3f7e03c59d35a1013",
+    "configs/lgvsc_variable.json": "c74bbf18f234d3b84a89ed5582b7c0d2969bbaaa0e9c8a43c5a8e9ad00de30e2",
+    "configs/lgvsc_webvid_select.json": "de4a70e8b98505657bcafc44a55294b01fd4b5e4d31646383932f9c8d3ccd46c",
+    "configs/lgvsc_variable_endpoint_exact.json": "62bc0bce80c00e4db098f599d2cf2505af392a515160ef91ad151b67df176608",
+    "requirements-evaluation.txt": "6f884793c492b890d892eda8f74f42df5adb2f0dff3715dcdf32427c71111e56",
+    "scripts/bootstrap_official.sh": "1920c465c389236c65247650ad770a6a5bd078bbfa973964d7ee7c755d2c5a1c",
+    "tests/test_lgvsc_alignment.py": "9fe56650551d38d6cfe9c3081968ae6184c4579d9764a3b045c1e4eb92a76fe8",
+    "tests/test_resume.py": "1ff2a44a4d2df035a3955e7c87fa64c7230084c6db4bcc2febbf7979ad8009be"
+  },
+  "artifacts": {
+    "outputs/lgvsc_alignment_20260917_v1/etri01/quality.json": "ce6bb50be6e0289f215a30bc3252cc56057a427b2cd648538cdb2c425582cf2d",
+    "outputs/lgvsc_alignment_20260917_v1/etri01_transmission.json": "4dfbabc1b87e2f7c9ffa7dcefc41a505cfbc6459d6fb41339c18cce319fed81a",
+    "outputs/lgvsc_alignment_20260917_v1/webvid9_runtime/integration.json": "00fa25f799766bb45c8969d1fba1602152b904620e8fa3ee1c6c0859ac5672ad",
+    "outputs/lgvsc_alignment_20260917_v1/webvid9_runtime/quality.json": "ed33a9c09b94a1508b6aa8557bd15fedeaca6e62c11ac6f34ba13996186c79c4",
+    "outputs/lgvsc_alignment_20260917_v1/webvid9_runtime/channel_accounting.json": "ac62de7bab5a17047e58f4b18ff9cfdc565a0ee0403ddb2a300e2e9285ef8531"
+  },
+  "remaining_limits": [
+    "53/55 original WebVid sources available; full-corpus model evaluation unrun",
+    "missing SNR-specific author checkpoints",
+    "GPU memory adaptations and dependency differences remain"
+  ]
+}

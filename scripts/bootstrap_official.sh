@@ -12,4 +12,5 @@ if [[ ! -x .local/cuda-build/bin/nvcc || ! -f .local/cuda-build/include/cuda_pro
     cuda-nvcc=12.1.105 cuda-cudart-dev=12.1.105 cuda-cccl=12.1.109 cuda-profiler-api=12.1.105
 fi
 "$base/envs/lgvsc/bin/python" scripts/install_apex.py
+"$base/envs/lgvsc/bin/python" -m pip install --no-deps -r requirements-evaluation.txt
 "$base/envs/lgvsc/bin/python" -m pip check

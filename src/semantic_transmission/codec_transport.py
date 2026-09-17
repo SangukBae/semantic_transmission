@@ -13,6 +13,8 @@ import sys
 
 from .artifacts import sha256, write_json
 from .wire import pack, unpack, pack_indices, unpack_indices
+from .temporal import resolve_concatenation_policy
+from .transmission_accounting import packet_breakdown, channel_breakdown
 
 
 def load_codec(repo):
@@ -88,6 +90,9 @@ def send(cfg, repo, run):
               "checkpoint_sha256": sha256(checkpoint), "segments": segments,
               "complex_dtype": "little_endian_complex64", "keyframes": []}
     header["decoder"]["policy"] = cfg.get("decoder_policy", "endpoint_exact")
+    if "concatenation_policy" in cfg:
+        header["decoder"]["concatenation_policy"] = resolve_concatenation_policy(
+            header["decoder"]["policy"], cfg["concatenation_policy"])
     output = run / "transmitter"
     output.mkdir()
     payload = bytearray()
@@ -111,6 +116,7 @@ def send(cfg, repo, run):
         "header_json_and_framing_bytes": len(packet) - len(payload),
         "caption_utf8_bytes": sum(len(s["text"].encode("utf-8")) for s in segments),
         "serialized_model_input_bytes": offset * 8 + len(packet),
+        "metadata_breakdown": packet_breakdown(packet),
         "visual_rf_bits": None, "visual_rf_bits_reason": "continuous_amplitude_JSCC_symbols",
         "transmitter_files": {p.name: {"bytes": p.stat().st_size, "sha256": sha256(p)} for p in output.iterdir()}})
 
@@ -159,6 +165,7 @@ def channel(cfg, repo, run):
         shared_prior="installed model checkpoints, code and fixed architecture/configuration",
         visual_awgn_rng=rng_name, channel_seed=cfg.get("channel_seed", cfg["seed"]),
         visual_tx_mean_power=float(np.mean(np.abs(sent) ** 2)),
+        transmission_breakdown=channel_breakdown(packet, len(sent), header["video"], report),
         received_files={p.name: {"bytes": p.stat().st_size, "sha256": sha256(p)} for p in output.iterdir()})
     write_json(run / "channel_accounting.json", report)
 
@@ -223,9 +230,8 @@ def receive(cfg, repo, run):
         "note": "decoded conditioning files are receiver products, not transmitter traffic"})
 
 
-def reconstruct(cfg, repo, run):
-    from .decoder_runner import run as run_decoder
-    inputs = json.loads((run / "receiver/decoder_inputs.json").read_text())
+def decoder_config_text(cfg, repo, inputs):
+    """Select the model recipe independently of final concatenation."""
     video, decoder = inputs["video"], inputs["decoder"]
     policy = decoder.get("policy", "endpoint_exact")
     templates = {"official_release": "official_opensora.py", "endpoint_exact": "rtx4080_opensora.py"}
@@ -235,9 +241,18 @@ def reconstruct(cfg, repo, run):
     template += f"\nimage_size=({video['height']},{video['width']})\nfps={video['fps']}\nsave_fps={video['fps']}\n"
     template += f"seed={decoder['seed']}\nscheduler['num_sampling_steps']={decoder['steps']}\nsave_frames=True\nverbose=2\n"
     template += f"model['enable_flash_attn']={cfg.get('flash_attn', False)!r}\n"
+    concatenation = resolve_concatenation_policy(policy, decoder.get("concatenation_policy"))
+    template += f"concatenation_policy={concatenation!r}\n"
     for key, field in (("stdit", "model"), ("vae", "vae"), ("t5", "text_encoder")):
         template += f"{field}['from_pretrained']={cfg['models'][key]!r}\n"
     template += f"vae['vae_2d_path']={cfg['models']['vae2d']!r}\n"
+    return template
+
+
+def reconstruct(cfg, repo, run):
+    from .decoder_runner import run as run_decoder
+    inputs = json.loads((run / "receiver/decoder_inputs.json").read_text())
+    template = decoder_config_text(cfg, repo, inputs)
     path = run / "receiver/decoder_config.py"
     path.write_text(template)
     env = os.environ.copy()

@@ -70,15 +70,28 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("stage", choices=["evaluate"])
     parser.add_argument("run_dir", type=Path)
+    parser.add_argument("--output-dir", type=Path, help="new directory for reevaluation; preserves old results")
+    parser.add_argument("--evaluation-profile", choices=["legacy_hq_v1", "lgvsc_official_metrics_v1"])
+    parser.add_argument("--compare-concatenation", action="store_true",
+                        help="also score a view without repeated shared endpoints; no model rerun")
     args = parser.parse_args()
     run = args.run_dir.resolve()
     cfg = json.loads((run / "run_config.json").read_text())
-    video = next((run / "receiver/reconstruction").glob("*.mp4"))
+    destination = args.output_dir.resolve() if args.output_dir else run
+    if args.output_dir:
+        destination.mkdir(parents=True, exist_ok=False)
+    elif (run / "quality.json").exists():
+        parser.error("quality.json already exists; use --output-dir to preserve historical results")
+    videos = list((run / "receiver/reconstruction").glob("*.mp4"))
+    if len(videos) != 1:
+        raise ValueError("evaluation requires exactly one reconstructed MP4")
+    video = videos[0]
     info = probe(video)
-    from .temporal import output_source_indices
+    from .temporal import output_source_indices, resolve_concatenation_policy, unique_output_positions
     inputs = json.loads((run / "receiver/decoder_inputs.json").read_text())
     policy = inputs["decoder"].get("policy", "endpoint_exact")
-    mapping = output_source_indices(inputs["indices"], policy)
+    concatenation = resolve_concatenation_policy(policy, inputs["decoder"].get("concatenation_policy"))
+    mapping = output_source_indices(inputs["indices"], concatenation)
     if info["frames"] != len(mapping) or any(info[k] != cfg[k] for k in ("fps", "width", "height")):
         raise ValueError(f"output temporal contract mismatch: {info}")
     reference = run / "data/normalized.mp4"
@@ -86,19 +99,59 @@ def main():
     if len(source) != cfg["frames"] or max(mapping) != len(source) - 1:
         raise ValueError("normalized reference timeline differs from the profile")
     source = source[mapping]
-    metrics = Metrics()
+    from .official_quality import OfficialMetrics, PROFILE, summarize
+    evaluation = args.evaluation_profile or cfg.get("evaluation_profile", "legacy_hq_v1")
+    if evaluation not in {PROFILE, "legacy_hq_v1"}:
+        raise ValueError(f"unknown evaluation profile: {evaluation}")
+    metrics = OfficialMetrics() if evaluation == PROFILE else Metrics()
+    if args.compare_concatenation and evaluation != PROFILE:
+        raise ValueError("concatenation comparison requires official metrics")
+    # Old inputs may have moved disks; the run's recorded source hash remains
+    # provenance, never substitute the normalized reference's hash for it.
+    historical = run / "quality.json"
+    if Path(cfg["input"]).is_file():
+        source_hash = sha256(cfg["input"])
+    elif historical.is_file():
+        source_hash = json.loads(historical.read_text())["source_sha256"]
+    else:
+        raise FileNotFoundError(cfg["input"])
+    if historical.is_file():
+        old = json.loads(historical.read_text())
+        if old["video_sha256"] != sha256(video) or old["source_sha256"] != source_hash:
+            raise ValueError("historical video/source changed before reevaluation")
+        if "reference_sha256" in old and old["reference_sha256"] != sha256(reference):
+            raise ValueError("historical normalized reference changed before reevaluation")
     result = {"status": "PASSED", "video": info, "video_sha256": sha256(video),
-              "source_sha256": sha256(cfg["input"]), "reference_sha256": sha256(reference),
+              "source_sha256": source_hash, "source_file_verified_now": Path(cfg["input"]).is_file(),
+              "reference_sha256": sha256(reference),
               "reference": str(reference), "output_source_indices": mapping,
               "decoder_policy": policy,
-              "evaluation": "frame_mean_RGB_uint8_SSIM_gaussian11_LPIPS_Alex"}
-    for boundary, values in (("lossless_frames", read_frames(video.with_suffix("").with_name(video.stem + "_frames"))),
-                             ("delivered_mp4", read_video(video))):
+              "concatenation_policy": concatenation, "evaluation_profile": evaluation,
+              "evaluation": ("frame_mean_PSNR_SSIM_gray_LPIPS_VGG_CLIP_ViTB32_cosine01_DISTS"
+                             if evaluation == PROFILE else "frame_mean_RGB_uint8_SSIM_gaussian11_LPIPS_Alex")}
+    if historical.is_file():
+        result["reevaluated_from_quality_sha256"] = sha256(historical)
+    for boundary in ("lossless_frames", "delivered_mp4"):
+        values = (read_frames(video.with_suffix("").with_name(video.stem + "_frames"))
+                  if boundary == "lossless_frames" else read_video(video))
         summary, rows = metrics.evaluate(source, values)
         result[boundary] = summary
-        with (run / f"quality_{boundary}.csv").open("w", newline="") as stream:
+        if evaluation == PROFILE:
+            result.setdefault("evaluation_resources", {})[boundary] = metrics.resources
+        if args.compare_concatenation:
+            positions = unique_output_positions(inputs["indices"], concatenation)
+            selected = [dict(rows[i], frame=j, generated_frame=i, source_frame=mapping[i])
+                        for j, i in enumerate(positions)]
+            comparison = result.setdefault("endpoint_exact_view", {
+                "scope": "same generated pixels, later duplicate boundaries removed; no generation rerun or MP4 reencode",
+                "kept_generated_indices": positions, "output_source_indices": [mapping[i] for i in positions]})
+            comparison[boundary] = summarize(selected, (len(selected), *values.shape[1:]))
+            with (destination / f"quality_endpoint_exact_{boundary}.csv").open("x", newline="") as stream:
+                writer = csv.DictWriter(stream, fieldnames=list(selected[0])); writer.writeheader(); writer.writerows(selected)
+        with (destination / f"quality_{boundary}.csv").open("x", newline="") as stream:
             writer = csv.DictWriter(stream, fieldnames=list(rows[0]));writer.writeheader();writer.writerows(rows)
-    write_json(run / "quality.json", result)
+        del values
+    write_json(destination / "quality.json", result)
 
 
 if __name__ == "__main__":
