@@ -36,6 +36,9 @@ semtx smoke --selector skim --skim-keyframes 3 --frames 33 --output outputs/skim
 
 ## ETRI 전체 영상 실행
 
+LGVSC 평가·학습 데이터의 SSD 위치와 확보/검증 명령은
+[로컬 데이터셋 안내](docs/LOCAL_DATASETS.md)에 정리되어 있습니다.
+
 이 컴퓨터에서 완료된 영상을 재사용하고 나머지를 생성하려면, 상위 `Semantic` 폴더에서
 다음 명령 하나를 실행하면 됩니다. Conda 활성화는 스크립트가 처리합니다.
 
@@ -44,6 +47,10 @@ bash semantic_transmission/scripts/run_etri_remaining.sh
 ```
 
 현재 명령은 [공식 공개 코드 설정](configs/etri_official.json)을 사용합니다.
+2026-09-17부터 v2 프로필은 공식 5개 화질 지표와 항목별 전송량 집계를 사용합니다.
+경계 중복 제거는 생성 설정과 독립된 옵션입니다. 기존 결과 재평가와 WebVid 실행 방법은
+[정합성 수정 안내](docs/LGVSC_ALIGNMENT.md)에 있습니다. v1 완료 결과는 보존되며,
+v2 이어하기에서 새 평가까지 완료된 결과로 재사용하지 않습니다.
 576×320·24fps 전처리, 전체 프레임 SKEM, 공식 구간 캡션/광류, Open-Sora 30단계·시드 42를
 적용합니다. 자세한 일치 범위와 공개 코드의 제약은 [공식 설정 실행 기록](docs/ETRI_OFFICIAL_PROTOCOL.md)에 있습니다.
 
@@ -52,7 +59,8 @@ bash semantic_transmission/scripts/run_etri_remaining.sh
 오른쪽 이동 후 중앙 복귀 동선이 관찰됐습니다. 보행 자세와 동작 시점까지 원본과 같지는 않습니다.
 
 로컬 `.local/etri_continue.json`에 입력 경로와 **프로필별** 실행 이력을 기록합니다.
-같은 새 설정으로 검증이 끝난 `01_person_walk`를 재사용하고 2~10번을 생성합니다. 매번 새 결과 폴더를
+현재 v2 전체 파이프라인 완료 이력은 없으므로 첫 실행은 1~10번을 생성합니다.
+이후에는 같은 v2 설정으로 검증이 끝난 영상만 재사용합니다. 매번 새 결과 폴더를
 출력하고, 완료된 영상은 원본·설정·복원 MP4·전송 파일을 검증한 뒤 복사해 한 배치로 모읍니다.
 중단 후 같은 명령을 다시 실행하면 검증이 끝난 영상은 재사용하고, 미완료 영상은 처음부터
 생성합니다. 두 명령의 동시 실행은 잠금으로 방지합니다. `--dry-run`을 붙이면 모델을
@@ -66,7 +74,7 @@ InternVL BF16과 Open-Sora 50 sampling steps를 사용하며, 16GB GPU에서는 
 bash scripts/bootstrap_hq.sh
 source scripts/activate.sh
 python -m semantic_transmission.research \
-  --input-dir ../sgdjscc_lab/data/etri_video_eval/processed \
+  --input-dir data/etri_video_eval/processed \
   --output outputs/etri10_hq_new
 ```
 
@@ -76,6 +84,26 @@ python -m semantic_transmission.research \
 
 공식 설정의 환경을 새 컴퓨터에 구성하려면 `bash scripts/bootstrap_official.sh`를 실행합니다.
 GPU 실행 검증 결과와 환경 차이는 위 프로토콜 문서에 기록합니다.
+
+## WebVid 서로 다른 유형 5편 검증
+
+이 컴퓨터에서는 상위 `Semantic` 폴더에서 다음 명령 하나로 실행합니다.
+Conda 활성화와 영상 선택은 자동으로 처리합니다.
+
+```bash
+bash semantic_transmission/scripts/run_webvid5.sh
+```
+
+저동작 장면·한 사람의 이동·빠른 이동·카메라 이동·여러 객체와 가림에 해당하는 5편을
+고정해, 총 1,670프레임의 전송·복원과 공식 5개 화질 지표 평가를 순차 실행합니다.
+RTX 4080 16GB용 메모리 보완 v2 설정의 잠정 예상은 약 35시간이며 장면에 따라 달라집니다.
+`--dry-run`은 모델 실행 없이 입력·환경·재사용 가능 여부만 확인합니다.
+중단 후 같은 명령을 다시 입력하면 검증이 끝난 영상은 재사용하고, 미완료 영상은 처음부터 실행합니다.
+
+결과는 `outputs/webvid5_날짜_시간_식별자/`의 `summary.json`, `per_video_metrics.csv`,
+원본/복원 비교용 `report.html`에 저장합니다. 눈에 보이는 의미 오류는 `manual_review.csv`에
+별도로 기록합니다. **5편은 개발용 초기 검증이며 WebVid 전체 성능의 입증이 아닙니다.**
+선정 목록·실행 조건·재사용 범위는 [WebVid5 실행 안내](docs/WEBVID5_VALIDATION.md)를 참고하세요.
 
 ## 연구 코드 구조
 
@@ -98,6 +126,8 @@ outputs/                   실행별 로그·측정값·복원 영상 (Git 제�
 
 - [모델 구조](docs/MODEL_ARCHITECTURE.md): 현재 SKEM+DSA 송신단·채널·수신단의 Mermaid 블록다이어그램
 - [ETRI 개발 계획](docs/ETRI_DEVELOPMENT_PLAN.md): 네 가지 연구 목표, 새 평가 지표 1~2개 개발, 여섯 단계의 작업과 검증 기준
+- [잔존 오류·사건 지연·STA 검증 결과](docs/EVENT_DURATION_STA_RESULTS.md): 새 합성 원본 24개·720건 평가.
+  잔존 오류 후보만 이번 통제 기준을 통과했으며 자연 영상의 유효성·논문 신규성은 미입증
 
 ## 검증과 범위
 
@@ -122,3 +152,30 @@ rate-index가 빠져 있습니다. 위 ETRI 실행기는 이를 포함한 모든
 LGVSC: A Large-Model-Driven Generative Video Semantic Communication Framework.
 저자·논문 인용 정보는 [CITATION.cff](CITATION.cff)와 [원본 README](README_UPSTREAM.md),
 라이선스는 [LICENSE](LICENSE)를 참조하세요. 외부 모델과 데이터에는 각각의 라이선스가 적용됩니다.
+
+## 사람 검수 없는 지표 개발
+
+[ERE·STA 본 평가 결과와 분석](docs/ERE_STA_FORMAL_RESULTS.md): 독립 평가를 완료했으며 두 후보의
+주 채택 기준은 미달이다. ERE 시간 오류 검출률은 11.1%, STA 주 원인 판정 정확도는 52.6%였다.
+STA에 동일한 개발 분류기를 붙인 보조 비교는 99.2%였지만, 주 규칙은 정상 외형 변화에서
+41.6%를 오탐했다. 실제 복원 6쌍 진단과 [선행 연구·신규성 검토](docs/ERE_STA_NOVELTY_REVIEW.md)도 정리했다.
+
+[ERE·STA v3.1 수정·재감사 결과](docs/ERE_STA_REAUDIT_RESULTS.md): 존재·움직임 분리와 내용 의존
+근거 판정을 적용했다. 합성 개발 사건 재현율 95.8%·정밀도 92.0%, 방향 전환 16/16,
+STA 규칙 6/6으로 필수 관문이 통과했다. 공개 영상은 진단 전용이며 이 재감사 시점에는 본 성능
+비교·영상 귀착 실험을 실행하지 않았다. [1회차 관문 실패 기록](docs/ERE_STA_RESULTS.md)도 보존한다.
+
+[MTE·OTF 2차 구현·검증 결과](docs/MTE_OTF_RESULTS.md)와
+[수식·자동 정답·재현 방법](docs/MTE_OTF_PROTOCOL.md)을 정리했다.
+새 공개 영상 24개와 합성 장면 24개에서 파생한 1,176개 사례를 평가하고,
+기존 복원 6쌍에도 계산했다. 두 후보는 채택 기준 미달이며 신규성도 입증되지 않았다.
+
+[1차 작업 결과](docs/AUTOMATIC_METRIC_RESULTS.md)를 확인할 수 있습니다.
+[자동 정답·후보 수식·실행 방법](docs/AUTOMATIC_METRIC_PROTOCOL.md)에 1차 실험과 한계를 정리했다.
+자동 평가 기반을 구현했으며 첫 두 지표 후보는 채택 기준 미달이다. 실제 복원의 의미 오류가
+확정되었다는 뜻은 아니다.
+
+[FSO·EOI·UEP 후속 검증 일괄 실행](docs/METRIC_VALIDATION_CAMPAIGN.md):
+`bash scripts/run_metric_validation.sh`로 오류×외형 교차 → 구성 요소 비교 → 자연 영상·실제 LGVSC 복원을
+순차 실행한다. 동일 명령으로 재개하며 `--dry-run`으로 입력과 예상 시간을 확인한다.
+실제 복원의 독립 정답이 없으면 최종 정확도 판정을 보류한다.
