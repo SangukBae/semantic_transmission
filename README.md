@@ -6,6 +6,9 @@
 
 ## 시작하기
 
+**Windows 11 / RTX 4080으로 이전할 때는 [WSL2 설치·파일 이전 안내](docs/MIGRATION_WINDOWS.md)를 먼저 확인하세요.**
+데이터·모델 가중치·전체 실험 결과는 GitHub에 포함되지 않으며, 새 환경 설치와 별도 복사가 필요합니다.
+
 Linux, NVIDIA GPU/드라이버, Conda, ffmpeg가 필요합니다. 기본 Conda 경로는 `~/anaconda3`이며
 다르면 `CONDA_BASE`를 지정합니다. 모델 가중치와 환경 설치에는 수십 GB의 디스크가 필요합니다.
 
