@@ -1,0 +1,720 @@
+{
+  "date": "2026-09-14",
+  "recorded_unix": 1789390994.9393704,
+  "recorded_local": "2026-09-14T22:03:14.939386+09:00",
+  "status": "COMPLETED_CONTROLLED_GHOST_CRITERIA_PASSED_DELAY_AND_STA_NOT_PASSED",
+  "run": "outputs/event_duration_sta_20260914_v1",
+  "base_commit": "3e074703bfc9c23c702b3409016de4738c2cb654",
+  "working_tree_dirty": true,
+  "new_human_review_used": false,
+  "natural_video_or_actual_LGVSC_generator_validity_established": false,
+  "novelty_demonstrated": false,
+  "public_dataset_new_run": false,
+  "data": {
+    "development_sources": 48,
+    "STA_fit_sources": 16,
+    "STA_rejection_calibration_sources": 32,
+    "new_procedural_families": 3,
+    "heldout_sources": 24,
+    "new_cases": 720,
+    "corpus_cases": {
+      "event": 312,
+      "sta": 360,
+      "unobservable": 48
+    },
+    "STA_eligible": 316,
+    "STA_excluded_by_independent_event_truth": 44,
+    "timed_event_signatures": 19,
+    "source_ID_and_RGB_overlap": false,
+    "event_truth": {
+      "truth_events": 104,
+      "matched_source_events": 104,
+      "predicted_source_events": 113,
+      "sources": 24,
+      "recall": 1.0,
+      "precision": 0.9203539823008849
+    }
+  },
+  "primary": {
+    "ghost": {
+      "adoption_gate": true,
+      "candidate": "ghost_max",
+      "detection": {
+        "auc": 0.98125,
+        "positive": {
+          "cases": 96,
+          "measured": 96,
+          "coverage": 1.0,
+          "detected": 96,
+          "rate": 1.0,
+          "source_95ci": [
+            1.0,
+            1.0
+          ]
+        },
+        "normal": {
+          "cases": 120,
+          "measured": 120,
+          "coverage": 1.0,
+          "detected": 3,
+          "rate": 0.025,
+          "source_95ci": [
+            0.0,
+            0.075
+          ]
+        },
+        "threshold": 0.0,
+        "detection_gate": true
+      },
+      "by_kind": {
+        "ghost_hold": {
+          "auc": 0.9833333333333333,
+          "positive": {
+            "cases": 72,
+            "measured": 72,
+            "coverage": 1.0,
+            "detected": 72,
+            "rate": 1.0,
+            "source_95ci": [
+              1.0,
+              1.0
+            ]
+          },
+          "normal": {
+            "cases": 120,
+            "measured": 120,
+            "coverage": 1.0,
+            "detected": 3,
+            "rate": 0.025,
+            "source_95ci": [
+              0.0,
+              0.075
+            ]
+          },
+          "threshold": 0.0,
+          "detection_gate": true
+        },
+        "ghost_return": {
+          "auc": 0.975,
+          "positive": {
+            "cases": 24,
+            "measured": 24,
+            "coverage": 1.0,
+            "detected": 24,
+            "rate": 1.0,
+            "source_95ci": [
+              1.0,
+              1.0
+            ]
+          },
+          "normal": {
+            "cases": 120,
+            "measured": 120,
+            "coverage": 1.0,
+            "detected": 3,
+            "rate": 0.025,
+            "source_95ci": [
+              0.0,
+              0.075
+            ]
+          },
+          "threshold": 0.0,
+          "detection_gate": true
+        }
+      },
+      "numerical_agreement": {
+        "cases": 96,
+        "measured": 96,
+        "target_event_coverage": 1.0,
+        "mean_absolute_error": 0.0,
+        "MAE_source_95ci": [
+          0.0,
+          0.0
+        ],
+        "scope": "External target-event and true-identity correspondence; coverage includes missed source events"
+      }
+    },
+    "delay": {
+      "adoption_gate": false,
+      "candidate": "delay_max",
+      "detection": {
+        "auc": 0.6801649305555556,
+        "positive": {
+          "cases": 96,
+          "measured": 96,
+          "coverage": 1.0,
+          "detected": 0,
+          "rate": 0.0,
+          "source_95ci": [
+            0.0,
+            0.0
+          ]
+        },
+        "normal": {
+          "cases": 120,
+          "measured": 120,
+          "coverage": 1.0,
+          "detected": 0,
+          "rate": 0.0,
+          "source_95ci": [
+            0.0,
+            0.0
+          ]
+        },
+        "threshold": 1.0,
+        "detection_gate": false
+      },
+      "by_kind": {
+        "event_delay": {
+          "auc": 0.6443865740740741,
+          "positive": {
+            "cases": 72,
+            "measured": 72,
+            "coverage": 1.0,
+            "detected": 0,
+            "rate": 0.0,
+            "source_95ci": [
+              0.0,
+              0.0
+            ]
+          },
+          "normal": {
+            "cases": 120,
+            "measured": 120,
+            "coverage": 1.0,
+            "detected": 0,
+            "rate": 0.0,
+            "source_95ci": [
+              0.0,
+              0.0
+            ]
+          },
+          "threshold": 1.0,
+          "detection_gate": false
+        },
+        "never_update": {
+          "auc": 0.7875,
+          "positive": {
+            "cases": 24,
+            "measured": 24,
+            "coverage": 1.0,
+            "detected": 0,
+            "rate": 0.0,
+            "source_95ci": [
+              0.0,
+              0.0
+            ]
+          },
+          "normal": {
+            "cases": 120,
+            "measured": 120,
+            "coverage": 1.0,
+            "detected": 0,
+            "rate": 0.0,
+            "source_95ci": [
+              0.0,
+              0.0
+            ]
+          },
+          "threshold": 1.0,
+          "detection_gate": false
+        }
+      },
+      "numerical_agreement": {
+        "cases": 96,
+        "measured": 96,
+        "target_event_coverage": 1.0,
+        "mean_absolute_error": 0.0013020833333333333,
+        "MAE_source_95ci": [
+          0.0,
+          0.00390625
+        ],
+        "scope": "External target-event and true-identity correspondence; coverage includes missed source events",
+        "observed_delay_pairs": 72,
+        "observed_delay_MAE_s": 0.001736111111111111,
+        "deadline_miss": {
+          "tp": 24,
+          "fp": 0,
+          "fn": 0,
+          "f1": 1.0
+        }
+      }
+    }
+  },
+  "STA": {
+    "sta": {
+      "class_recall": {
+        "normal": 0.525,
+        "edr": 0.5405405405405406,
+        "clr": 0.5135135135135135,
+        "gfr": 0.5675675675675675,
+        "ghr": 0.8125
+      },
+      "macro_accuracy": 0.5918243243243244,
+      "fault_macro_accuracy": 0.6085304054054054,
+      "cases": 316,
+      "coverage": 0.6740506329113924,
+      "accuracy_measured_only": 0.8497652582159625,
+      "normal_false_alarm_rate": 0.11666666666666667,
+      "normal_abstention_rate": 0.35833333333333334,
+      "confusion": {
+        "normal": {
+          "normal": 63,
+          "abstain": 43,
+          "gfr": 10,
+          "ghr": 4
+        },
+        "edr": {
+          "edr": 20,
+          "abstain": 15,
+          "normal": 2
+        },
+        "clr": {
+          "clr": 38,
+          "abstain": 32,
+          "normal": 4
+        },
+        "gfr": {
+          "abstain": 11,
+          "gfr": 21,
+          "normal": 5
+        },
+        "ghr": {
+          "ghr": 39,
+          "gfr": 7,
+          "abstain": 2
+        }
+      },
+      "macro_accuracy_source_95ci": [
+        0.5038393493761141,
+        0.6862738473767885
+      ],
+      "fault_macro_accuracy_source_95ci": [
+        0.4982471955128205,
+        0.7267150360780984
+      ],
+      "coverage_source_95ci": [
+        0.5914358654128711,
+        0.7562560876623377
+      ],
+      "normal_false_alarm_rate_source_95ci": [
+        0.058333333333333334,
+        0.175
+      ],
+      "normal_abstention_rate_source_95ci": [
+        0.2916666666666667,
+        0.42520833333333313
+      ],
+      "gate": false,
+      "rejection_reasons": {
+        "outside_development_radius": 94,
+        "ambiguous_classes": 9
+      },
+      "bootstrap_scope": "Source-cluster resampling with pooled class recall recomputed; per-source descriptive means can differ"
+    },
+    "sta_without_rejection": {
+      "class_recall": {
+        "normal": 0.5916666666666667,
+        "edr": 0.9459459459459459,
+        "clr": 0.9459459459459459,
+        "gfr": 0.7567567567567568,
+        "ghr": 0.8333333333333334
+      },
+      "macro_accuracy": 0.8147297297297296,
+      "fault_macro_accuracy": 0.8704954954954955,
+      "cases": 316,
+      "coverage": 1.0,
+      "accuracy_measured_only": 0.7721518987341772,
+      "normal_false_alarm_rate": 0.4083333333333333,
+      "normal_abstention_rate": 0.0,
+      "confusion": {
+        "normal": {
+          "normal": 71,
+          "gfr": 40,
+          "ghr": 9
+        },
+        "edr": {
+          "edr": 35,
+          "normal": 2
+        },
+        "clr": {
+          "clr": 70,
+          "normal": 4
+        },
+        "gfr": {
+          "gfr": 28,
+          "ghr": 4,
+          "normal": 5
+        },
+        "ghr": {
+          "ghr": 40,
+          "gfr": 8
+        }
+      },
+      "macro_accuracy_source_95ci": [
+        0.7590390211640211,
+        0.8589329212454212
+      ],
+      "fault_macro_accuracy_source_95ci": [
+        0.796577162114846,
+        0.9322916666666666
+      ],
+      "coverage_source_95ci": [
+        1.0,
+        1.0
+      ],
+      "normal_false_alarm_rate_source_95ci": [
+        0.36666666666666664,
+        0.45
+      ],
+      "normal_abstention_rate_source_95ci": [
+        0.0,
+        0.0
+      ],
+      "gate": false,
+      "rejection_reasons": {},
+      "bootstrap_scope": "Source-cluster resampling with pooled class recall recomputed; per-source descriptive means can differ"
+    },
+    "stage": {
+      "class_recall": {
+        "normal": 0.4,
+        "edr": 0.13513513513513514,
+        "clr": 0.13513513513513514,
+        "gfr": 0.0,
+        "ghr": 0.5
+      },
+      "macro_accuracy": 0.23405405405405405,
+      "fault_macro_accuracy": 0.19256756756756757,
+      "cases": 316,
+      "coverage": 0.4873417721518987,
+      "accuracy_measured_only": 0.564935064935065,
+      "normal_false_alarm_rate": 0.20833333333333334,
+      "normal_abstention_rate": 0.39166666666666666,
+      "confusion": {
+        "normal": {
+          "ghr": 24,
+          "abstain": 47,
+          "normal": 48,
+          "gfr": 1
+        },
+        "edr": {
+          "abstain": 32,
+          "edr": 5
+        },
+        "clr": {
+          "abstain": 54,
+          "ghr": 10,
+          "clr": 10
+        },
+        "gfr": {
+          "ghr": 32,
+          "abstain": 5
+        },
+        "ghr": {
+          "ghr": 24,
+          "abstain": 24
+        }
+      },
+      "macro_accuracy_source_95ci": [
+        0.1984621155288822,
+        0.27730388925510874
+      ],
+      "fault_macro_accuracy_source_95ci": [
+        0.14807764441110277,
+        0.24662986156888597
+      ],
+      "coverage_source_95ci": [
+        0.4542682926829268,
+        0.5250160256410257
+      ],
+      "normal_false_alarm_rate_source_95ci": [
+        0.2,
+        0.225
+      ],
+      "normal_abstention_rate_source_95ci": [
+        0.375,
+        0.4
+      ],
+      "gate": false,
+      "rejection_reasons": {
+        "outside_development_radius": 108,
+        "ambiguous_classes": 54
+      },
+      "bootstrap_scope": "Source-cluster resampling with pooled class recall recomputed; per-source descriptive means can differ"
+    },
+    "stage_without_rejection": {
+      "class_recall": {
+        "normal": 0.6,
+        "edr": 0.13513513513513514,
+        "clr": 0.16216216216216217,
+        "gfr": 0.0,
+        "ghr": 1.0
+      },
+      "macro_accuracy": 0.37945945945945947,
+      "fault_macro_accuracy": 0.32432432432432434,
+      "cases": 316,
+      "coverage": 1.0,
+      "accuracy_measured_only": 0.43354430379746833,
+      "normal_false_alarm_rate": 0.4,
+      "normal_abstention_rate": 0.0,
+      "confusion": {
+        "normal": {
+          "ghr": 24,
+          "normal": 72,
+          "gfr": 24
+        },
+        "edr": {
+          "ghr": 32,
+          "edr": 5
+        },
+        "clr": {
+          "ghr": 62,
+          "clr": 12
+        },
+        "gfr": {
+          "ghr": 37
+        },
+        "ghr": {
+          "ghr": 48
+        }
+      },
+      "macro_accuracy_source_95ci": [
+        0.3416216216216216,
+        0.42270656370656373
+      ],
+      "fault_macro_accuracy_source_95ci": [
+        0.27702702702702703,
+        0.37838320463320463
+      ],
+      "coverage_source_95ci": [
+        1.0,
+        1.0
+      ],
+      "normal_false_alarm_rate_source_95ci": [
+        0.4,
+        0.4
+      ],
+      "normal_abstention_rate_source_95ci": [
+        0.0,
+        0.0
+      ],
+      "gate": false,
+      "rejection_reasons": {},
+      "bootstrap_scope": "Source-cluster resampling with pooled class recall recomputed; per-source descriptive means can differ"
+    },
+    "technical_fixture": {
+      "cases": 48,
+      "abstained": 48,
+      "scope": "missing-input routing fixtures; not evidence of semantic uncertainty detection"
+    },
+    "same_input_paired_difference": {
+      "mean_source_macro_accuracy_difference": 0.3070833333333333,
+      "source_95ci": [
+        0.21748958333333335,
+        0.40086458333333336
+      ]
+    }
+  },
+  "source_pairing": {
+    "absent_opportunities": 5473,
+    "unpairable": 0,
+    "raw_additions": 384,
+    "raw_pairable_opportunities": 5473,
+    "source_positive_excluded": 0,
+    "paired_opportunities": 5473,
+    "paired_additions": 384,
+    "present_opportunities": 34463,
+    "source_detected_present": 34203,
+    "raw_h_add": 0.07016261648090627,
+    "source_paired_h_add": 0.07016261648090627,
+    "source_present_recall": 0.99245567710298,
+    "scope": "Repeated case opportunities, known source entities only; counts are not independent videos; this is a diagnostic using the same extractor"
+  },
+  "implementation": {
+    "RGB_only_candidate_features": true,
+    "independent_renderer_truth_audit": true,
+    "full_horizon_and_censored_and_unobservable_distinguished": true,
+    "STA_five_classes_with_explicit_rejection": true,
+    "same_input_stage_distance_comparison": true,
+    "actual_PNG_packet_byte_replay": true,
+    "changes_to_metric_or_threshold_after_heldout_scoring": false
+  },
+  "validation": {
+    "metric_regression_tests": {
+      "passed": 103,
+      "elapsed_s": 14.09,
+      "log": "tests.log"
+    },
+    "report_numpy_scalar_json_roundtrip": "PASSED",
+    "shell_syntax": "PASSED",
+    "actual_input_failure_cases": 72,
+    "actual_input_valid_roundtrips": 24,
+    "integrity": {
+      "status": "PASSED",
+      "recorded_unix": 1789390443.735281,
+      "score_counts": {
+        "visual/event": 312,
+        "visual/sta": 360,
+        "visual/unobservable": 48,
+        "pixel/event": 312,
+        "pixel/sta": 360,
+        "pixel/unobservable": 48
+      },
+      "score_records": 1440,
+      "RGB_truth_files_verified": 2112,
+      "STA_packet_roundtrips": 360,
+      "packet_status_counts": {
+        "tx/ok": 11232,
+        "rx/ok": 10656,
+        "tx/packet_lost": 288,
+        "rx/packet_lost": 576,
+        "rx/checksum_failed": 288
+      },
+      "independent_target_truth_reproduced": 192,
+      "old_score_files_preserved": 5958,
+      "old_top_level_artifacts_preserved": 89,
+      "model_weight_hashes_verified": 4,
+      "source_ID_and_RGB_overlap": false,
+      "calibration_created_unix": 1789388795.5122986,
+      "first_heldout_score_mtime": 1789388872.8822312,
+      "last_heldout_score_mtime": 1789390394.1195111,
+      "interpretation": "Integrity and operational checks, not metric adoption"
+    },
+    "documentation_checks": {
+      "local_links_verified": 30,
+      "markdown_fences": "PASSED",
+      "git_diff_check": "PASSED",
+      "top_level_artifact_hashes_verified": 43,
+      "repository_hashes_verified": 18
+    }
+  },
+  "runtime": {
+    "visual": {
+      "started_unix": 1789388871.091754,
+      "torch": "2.12.0+cu130",
+      "numpy": "2.2.6",
+      "GPU": "NVIDIA GeForce RTX 4080",
+      "protocol_sha256": "928eceb7b27aded57672b2129fe10c773fdb057f9a4b95cbb8019c5a39ff3981",
+      "part": "visual",
+      "completed_unix": 1789390394.120998,
+      "elapsed_s": 1523.0292439460754
+    },
+    "pixel": {
+      "started_unix": 1789388872.0729165,
+      "torch": "2.2.2+cu121",
+      "numpy": "1.26.4",
+      "GPU": "NVIDIA GeForce RTX 4080",
+      "protocol_sha256": "928eceb7b27aded57672b2129fe10c773fdb057f9a4b95cbb8019c5a39ff3981",
+      "part": "pixel",
+      "completed_unix": 1789389254.9342654,
+      "elapsed_s": 382.8613488674164
+    }
+  },
+  "operations": {
+    "statistics_amendment_before_heldout": {
+      "created_unix": 1789388776.8408296,
+      "script_sha256": "0e76a75887f03ae7e2aebd15dbae7f97fb596801486b336b58882a40790aca75",
+      "heldout_scores_observed": 0,
+      "amendment_before_heldout_scoring": "Bootstrap recalculates class denominators after source resampling because independent truth eligibility can remove some classes per source. No metric or gate change."
+    },
+    "statistics_initial_declaration": {
+      "created_unix": 1789388645.5531428,
+      "script_sha256": "ebd61b632112ecfbfb8030280d367a8e3f0fbd628e57cf7d516801275691ca95",
+      "heldout_scores_observed": 0
+    },
+    "post_score_serialization_only": {
+      "recorded_unix": 1789390400.0070295,
+      "wrapper_sha256": "90ddbd7f116dc74d7c5a0399d074f068fbb35c9a752188cccd2188b7042a8b7c",
+      "frozen_statistics_sha256": "0e76a75887f03ae7e2aebd15dbae7f97fb596801486b336b58882a40790aca75",
+      "reason": "np.bool_ measured flags are not accepted by standard json; convert NumPy scalar types to native values",
+      "metric_changed": false,
+      "statistics_changed": false,
+      "threshold_changed": false
+    }
+  },
+  "protocol_sha256": "928eceb7b27aded57672b2129fe10c773fdb057f9a4b95cbb8019c5a39ff3981",
+  "calibration_sha256": "bb29f6a270703ecc6938da26a209f657da9db2c4dcc343f7e97b5bd8c72b6734",
+  "frozen_candidate_source_sha256": {
+    "event_duration_metric.py": "fce407b9635a8957e91dfc52e38b69da450922427e1cf5835a681e1dd3e7bed6",
+    "sta_selective.py": "fab22679d1f85530be4ca753000c239a5ee933ac167f1aaf8f20090595c0e313",
+    "metric_v4_cases.py": "631ec5b37736fc42a8fee149088fdccad996edca2e47b7feeeae54511c7fc4e9",
+    "metric_v4_audit.py": "f75b5c876f37acd730695edbe9909124ae687f9ee1c19e2ac3ab5225364f2120",
+    "metric_v4_pipeline.py": "1cb9666791d77866e5f902ef012335993f1b4216f4e992ff882359fcc3fa3d24",
+    "event_metric.py": "77002765c8244d0d8ebd0692cd765ba8a4a4c21928dd367c28ba184269354763",
+    "object_metric.py": "cb0013f2cd2ba4f948fbf4bba3ecfa17fb1b7ecb1b90ce009d71ff22aa812d52",
+    "motion_metric.py": "7702703fe94eae781f4767955a18d2c46b4db21964f9a029a04b85b2b80b3132",
+    "metric_v3_features.py": "96ff9cfee8b435416313dd840d51c74264f07577597365f220d73b66484223d1",
+    "sta_video_validation.py": "54a35ab392350767880ac041df3b12b7bd4ee3d1ad098447d2c0c99e442976fa",
+    "attribution_metric.py": "0c02f37ca3e6698bd8146d1c4391e484b052947a26b9d2c9b98efd30afe79726",
+    "automatic_metrics.py": "4619558a185690e1a88b37256e3f8c71eb74ded315cb890b02a9cd820fef9e27",
+    "temporal_baselines.py": "609672d7e501b8c61409ee9821f720963394b80ad6b787e97d7cec892fddefdd",
+    "tracking_baselines.py": "6ae2a91a397dca4c971a8dc942ef13025253c88795d24adee442eb37433be6c9",
+    "metric_v3_cases.py": "040734bec3052ce2b3e808faec1d47ed0b2340ede1beac8b63688f2c65b456b7",
+    "metric_v2_cases.py": "7fac42446b1da658119663b2675dac9e64b0d7871eb14e0c2a5b90c70292d7a6"
+  },
+  "artifact_sha256": {
+    "PROTOCOL.frozen.md": "de45451d342ac91cebded093eb884c23a672c37042b011eba707db8ad1b3ad94",
+    "STA_cases.csv": "312c91663b5617fb7854ba4455ab5c10f3ddef390048e796c272fed42cf79793",
+    "calibration.json": "bb29f6a270703ecc6938da26a209f657da9db2c4dcc343f7e97b5bd8c72b6734",
+    "calibration.sha256": "a0c725e515bb2058a311e78c05a9ce0f194c5bf43075ea1d788b760260ce6f69",
+    "cases.jsonl": "fbe19cdcc0417a807a7ef608451a0a26980ee268ad39212eb4003225e717aac1",
+    "completed_pixel.json": "f7f7be4a9e3c38a0caf0add7b81e38047f695f1a7dc7362f4b63d781ad535d83",
+    "completed_visual.json": "13ee96fb65800af71965c85cd41c54a82be0743d759f27adc2f8398a686ce64e",
+    "data_diversity_audit.json": "562b4cdd728cdf848699539f6663f80515c9bdbf5086f0f501d958bb90d0838b",
+    "descriptive_diagnostics.json": "5bb291e96a16feb1d9f5c0a57c33e5bba92c23fa8b72f9852b34e5359245d24c",
+    "development.log": "edebfd4f4482c3f69e889531268177390c077194e35b2597551bdc0fc36ae8a6",
+    "development_diagnostics.json": "129b6995206dabd6b7783a3a48a83b4fc50a2721243dc055ae9595c8801dbcf4",
+    "development_sta.json": "f4a4485019b67ff6db464abd7db676df80f52cb6b82c10e3424b4568602b4129",
+    "development_stage.json": "8409f82eceac4488eac86afc199007353949383eb519625ad9b108a8e40de318",
+    "event_cases.csv": "17c993fbd7200635100f944de0dfbbcbfe42591275095be7f37ae9135dfd4083",
+    "event_comparison.png": "efa872765f54f2a203b832b002619f4ff09aedfd31b56f40bcade8b86d53ac61",
+    "event_comparison.svg": "76590c249cb095650c3e20c7c56bd97ffd5fc020610bbfe047a9c9478b527df3",
+    "final_integrity.json": "c1d0b05e4943b7640545463b5c425d0572456e083ca8ce77b75a3e19f78e97f1",
+    "first_family_interim.json": "9f9463bb5c000866299602ae9b09486a3532440f407d7d3b2dcd52dc9713e7a1",
+    "ghost_false_alarm_diagnosis.json": "32abc0a7ac177a59787f055cfd3af7066cae037a6597ae63b0bf2c6bf3658862",
+    "input_adapter_audit.json": "4a12d041fb16b66bce3b1fb79de879948058186c6e0501e2d5a8967552c4d99b",
+    "input_adapter_audit.log": "236a02c9d4d34aea99eacc7213fe611252e0bbb375f200400f7b38db8c25f3ce",
+    "input_audit_declaration.json": "1b2237104237b87b0ebe5c7aca7d87e93509319ecc2b8bcc0f45a55e35339311",
+    "new_scene_examples.png": "ba64db33fdae6d44dd545bfd45578f014b44cb049916e7ec3d8a5f8749ebe864",
+    "numeric_agreement.png": "fb8edb62a789f72b42bed1b461c5a5ea8e001f865c4da1f0b2ca8c22c2d3771a",
+    "numeric_agreement.svg": "f50ee1abdde4e34d34894f901b60e532634be70fc6af31a9bea7c705e3ca2aa1",
+    "pixel.log": "4f1d6956ee74f8e72e77263d4c14c025cc68d2e5dc673432de724bc4a319195b",
+    "preparation.json": "6cd4b457668ca980bb584bb6071737b8ff2f36a5713ba90823e74880e0836dbc",
+    "protocol.json": "928eceb7b27aded57672b2129fe10c773fdb057f9a4b95cbb8019c5a39ff3981",
+    "report.log": "58b1cb5391e500794caae37fc9d0aca946debccf3b3f85c8ffdd2a5f687e6449",
+    "report_serialization_operation.json": "832e6b207ce55aa945057cc65f8875a50030c8124508e59033e5367459148e7d",
+    "runtime_pixel.json": "4f39ee59de859a934c8aa530adeb1e41846777dad9172e3ce0df39826c1cad0e",
+    "runtime_visual.json": "cddb8979a4d76542234ed4072a19d7299dcbb709f7eeeda943648d42f0a98fe8",
+    "score_artifact_sha256.json": "9a77e43157ca6b984c66076a923840e9de3d6a1892273a38e848d6b194a10e98",
+    "sources.json": "dd0909d8f9ce327a0e1c3b0bc948290c75cb82cf8ece21fed02d556275bd09da",
+    "sta_normal_rejection.png": "8811697eb135a5e5e4ead1fae4bea0869b8b4ef3267de675790a733e9d75badc",
+    "sta_normal_rejection.svg": "2103305dc81b222bae0063e4a60346e803691a49f7f7f002be3afa36b1dbb2b6",
+    "statistics_declaration.initial.json": "2c8bb44c87557f3b9737cf6d447bc6397147171cd9662e1eee0d4461460fb995",
+    "statistics_declaration.json": "24e541ed8cd2dc631028fb9ddac17dda51a4f7c1b848f5dbdf5e682110eab3e8",
+    "summary.json": "0fa92b3b8379d86e5315cce8700645a9f8579a569a42eb56fa78fb767573329a",
+    "tests.log": "2d6de7acb047ad3d0db58291bc8c7fef110b957b160fbc12d9e8f5b660d9424e",
+    "truth_audit.json": "1dc8ae549d00bb3893d251abda631b802c97ce99567692a270bbdbb5b4f8d6c0",
+    "verify.log": "61ecc09814ce000c32fffd7bcee1325a2984ee4916bb109464e9706e318184a5",
+    "visual.log": "0bfd359135c0e72a99ad433d3faa5c9ec3baa3a4eea71e0714fd43f09b7ad47a"
+  },
+  "repository_file_sha256": {
+    "src/semantic_transmission/event_duration_metric.py": "fce407b9635a8957e91dfc52e38b69da450922427e1cf5835a681e1dd3e7bed6",
+    "src/semantic_transmission/sta_selective.py": "fab22679d1f85530be4ca753000c239a5ee933ac167f1aaf8f20090595c0e313",
+    "src/semantic_transmission/metric_v4_cases.py": "631ec5b37736fc42a8fee149088fdccad996edca2e47b7feeeae54511c7fc4e9",
+    "src/semantic_transmission/metric_v4_audit.py": "f75b5c876f37acd730695edbe9909124ae687f9ee1c19e2ac3ab5225364f2120",
+    "src/semantic_transmission/metric_v4_pipeline.py": "1cb9666791d77866e5f902ef012335993f1b4216f4e992ff882359fcc3fa3d24",
+    "scripts/report_metric_v4.py": "0e76a75887f03ae7e2aebd15dbae7f97fb596801486b336b58882a40790aca75",
+    "scripts/run_metric_v4_report.py": "90ddbd7f116dc74d7c5a0399d074f068fbb35c9a752188cccd2188b7042a8b7c",
+    "scripts/run_metric_v4.sh": "a6539949def92aa8707121d3b2cde77785fba01127b7d66ea7b8b6f7eea68508",
+    "scripts/verify_metric_v4.py": "59e45b8faa42792d3130912662e0060e41a70b50b77d2b6b1ba3d742993195fc",
+    "scripts/audit_metric_v4_inputs.py": "01c4d0ad12c11d875bb53c80f319bc3ef1f4c2069a59d12fd5d214c6b340085e",
+    "scripts/plot_metric_v4.py": "961a5a4e919c8416bec1dd95791dda3640ca57924a8a5b48a923c6774bf7f02b",
+    "scripts/diagnose_metric_v4.py": "cd82b871478b67973109cba6aa98180e2ea347de523b1bc69736bc8e99e1c42f",
+    "tests/test_metric_v4.py": "b9a8a669690daa6771264350cbfcc2f61a2b5cfe390a7bf941b4d03c7e77ee8b",
+    "docs/EVENT_DURATION_STA_PROTOCOL.md": "3ea182207d1e5b0e3015ab8b2efa22c05181cdf081f6d3bb1306cf343bd4c063",
+    "docs/EVENT_DURATION_STA_RESULTS.md": "d13fd1a5eeb7b6a982af635c01952e0d8bf5e48bf169f62a8fc89e1f23e98017",
+    "docs/SGDJSCC_METRIC_TRANSFER_REVIEW.md": "05385688998e410e3608b1b109a27500eba4a3a804eb59b2b18d7b47b435f05e",
+    "docs/ETRI_DEVELOPMENT_PLAN.md": "e2eca592d3d7cf0f78868127736a233f97681b0974cee9e7e5d984e6daf49e8b",
+    "README.md": "8d9347a80c5ff77cb37375ac76869a4800f44a08172dc763b91e9444b043c198"
+  }
+}
