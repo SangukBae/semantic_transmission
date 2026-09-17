@@ -1,0 +1,226 @@
+{
+  "schema": "ere-sta-amendments-v2",
+  "policy": "Amendments are allowed only while no heldout candidate score has been observed. Each round records what had been observed at the time it was written.",
+  "rounds": [
+    {
+      "round": 1,
+      "date": "2026-09-14",
+      "stage": "before_any_execution",
+      "scores_observed": 0,
+      "extractor_audits_observed": 0,
+      "notes": "docs/ERE_STA_EXECUTION_NOTES.md",
+      "amendments": [
+        "Follow section 2.1: public sources 8+14=22, correcting section 9 typo 32.",
+        "Fix previously unspecified speed/association/smoothing details before any extractor audit.",
+        "For object_shape only, verify the prescribed twofold mask aspect-ratio change; event invariance is compatible with shape error.",
+        "Use annotation-only kinematics independent of the RGB event extractor for truth.",
+        "Report true fragmentation only in annotation audit, not as an inferred certified RGB statistic."
+      ],
+      "unchanged": [
+        "Synthetic event recall and precision each at least 0.8.",
+        "Synthetic object recall at least 0.8; public object scores diagnostic only.",
+        "No candidate pair scores before required gates pass.",
+        "No formula, threshold, or score-type retuning after heldout score inspection."
+      ]
+    },
+    {
+      "round": 2,
+      "date": "2026-09-14",
+      "stage": "after_development_extractor_gate",
+      "heldout_candidate_scores_observed": 0,
+      "development_extractor_audit_observed": true,
+      "observed_run": "outputs/ere_sta_20260914_v1",
+      "observed_development_numbers": {
+        "rendered_event_recall": 0.15625,
+        "rendered_event_precision": 0.15,
+        "rendered_turn_recall": 0.5,
+        "rendered_exit_recall": 0.0625,
+        "rendered_object_frame_recall": 0.9864457831325302,
+        "public_event_recall": 0.13636363636363635,
+        "public_object_frame_recall": 0.2034313725490196,
+        "sta_rule_checks_mismatching_expectation": 1
+      },
+      "rationale": "The round-1 gate failed for two separate reasons: a flow-only extractor cannot keep a stationary object present, so start/stop were recorded as enter/exit (31 and 15 nearest-event confusions); and turn recall was 8/16 even though type-agnostic matching reached 68/96. The STA support rule accepted a keyframe timestamp without readable content, attributing a channel fault to generation.",
+      "amendments": [
+        "Section 3: split ERE extraction into a presence channel (SAM2.1/DINOv2 tracks, as in object_metric.py) and a motion channel (RAFT residual flow). start/stop become motion-state transitions of a persisting presence track; enter/exit become presence-track birth/death.",
+        "Section 3: add a mandatory development-only re-selection of the turn-detection parameters (smoothing window, minimum speed, before/after angle), recorded before the re-audit.",
+        "Section 3: declare public-video ERE diagnostic-only, because the presence channel reached only 20.3% public object-frame recall.",
+        "Section 4.1: support now requires decodable content that agrees with the unit state, using the same tolerances as event matching. A keyframe whose content cannot be read (packet loss, checksum failure, extraction failure) counts as unsupported, so content corruption appears in CLR rather than GFR.",
+        "Section 4.3: add a mandatory six-case rule unit check; corrupt_keyframe_retained must yield CLR=1 with GFR 0 or null before any STA experiment runs.",
+        "Section 6: add presence-track recall, turn recall and the STA rule check as declared gates, and record the numbers of every development re-audit round.",
+        "Section 10: the revised metric code changes file hashes, so a new prepare run and output directory are required; the round-1 directory is preserved as the gate-failure record."
+      ],
+      "unchanged": [
+        "Adoption criteria in section 7.2: AUC >= 0.9, detection rate >= 0.8, control false alarm <= 0.1, coverage >= 0.95, and the paired-bootstrap advantage rule.",
+        "Mandatory gate level of 0.8 for synthetic event recall, event precision and object recall.",
+        "The ERE/SER and EDR/CLR/GFR/GHR formulas themselves.",
+        "Heldout sources and renderer seeds; no heldout candidate score has been computed.",
+        "No merging of start/enter or stop/exit and no threshold lowering to pass the gate."
+      ],
+      "residual_risk": "These amendments were written after seeing development-set gate numbers, which is the purpose of that set, but repeated development re-audits can overfit the extractor to it. Every re-audit round is logged here, and heldout sources stay unused until the mandatory gates pass. The revised ERE now depends on SAM2/DINOv2, so the round-1 rationale of keeping indicator 1 free of segmentation models no longer holds."
+    },
+    {
+      "round": 3,
+      "date": "2026-09-14",
+      "stage": "development_parameter_diagnosis_before_reaudit",
+      "recorded_unix": 1789371008.1245537,
+      "heldout_candidate_scores_observed": 0,
+      "heldout_sources_used_for_diagnosis": 0,
+      "development_sources": 16,
+      "parameter_configurations_compared": 54,
+      "diagnostics": "outputs/ere_sta_v31_development/diagnostics.json",
+      "diagnostics_sha256": "002cbafebc073f6a43d44fe2c00cbea9521d659b3ab20a719427591fd0eee3ae",
+      "selection_rule": "maximize minimum(event recall, event precision, turn recall), then event F1, then proximity to baseline",
+      "two_channel_baseline": {
+        "parameters": {
+          "smooth_frames": 5,
+          "minimum_speed_px_per_frame": 0.5,
+          "turn_angle_degrees": 90.0,
+          "turn_context_frames": 2
+        },
+        "true_events": 96,
+        "predicted_events": 106,
+        "matched_events": 93,
+        "recall": 0.96875,
+        "precision": 0.8773584905660378,
+        "turn_recall": 1.0
+      },
+      "selected": {
+        "parameters": {
+          "smooth_frames": 7,
+          "minimum_speed_px_per_frame": 0.25,
+          "turn_angle_degrees": 150.0,
+          "turn_context_frames": 2
+        },
+        "true_events": 96,
+        "predicted_events": 100,
+        "matched_events": 92,
+        "recall": 0.9583333333333334,
+        "precision": 0.92,
+        "turn_recall": 1.0
+      },
+      "observations": [
+        "Both the two-channel baseline and selected setting already recover 16/16 turns; parameter selection primarily improves precision, not turn recall.",
+        "Compared with the two-channel baseline, precision rises from 87.7358% to 92%, recall changes from 96.875% to 95.8333%.",
+        "Development diagnostics are tuning evidence, not independent validation."
+      ],
+      "implementation_details": [
+        "Presence uses unmodified ObjectExtractor and associate_frames.",
+        "Activity uses mask-mean camera-subtracted flow with two-frame state persistence.",
+        "Turn direction uses camera-stabilized centroids, selected odd-width smoothing, and separate before/after context.",
+        "Minimum per-track event separation remains three frames; presence boundary events take priority, then local angle peaks, then motion-state changes.",
+        "Stationary enter/exit retains the existing zero-speed direction convention.",
+        "Decoded keyframe state must agree with the event; failed decoding/checksum/extraction is unsupported, while an intact caption can still independently support it."
+      ],
+      "reaudit_status": "COMPLETED_SEE_ROUND_4",
+      "mandatory_gate_threshold": 0.8
+    },
+    {
+      "round": 4,
+      "date": "2026-09-14",
+      "stage": "after_development_reaudit",
+      "recorded_unix": 1789371513.6022956,
+      "observed_run": "outputs/ere_sta_20260914_v2",
+      "development_reaudit_number": 2,
+      "heldout_candidate_scores_observed": 0,
+      "required_gates_status": "PASSED",
+      "observed_development_numbers": {
+        "rendered/event": {
+          "sources": 16,
+          "true_events": 96,
+          "predicted_events": 100,
+          "matched_events": 92,
+          "recall": 0.9583333333333334,
+          "precision": 0.92,
+          "required": true,
+          "passed": true
+        },
+        "rendered/turn": {
+          "sources": 16,
+          "true_events": 16,
+          "matched_events": 16,
+          "recall": 1.0,
+          "required": true,
+          "passed": true
+        },
+        "rendered/object": {
+          "sources": 16,
+          "annotated_object_frames": 1328,
+          "matched_object_frames": 1310,
+          "recall": 0.9864457831325302,
+          "required": true,
+          "passed": true,
+          "scope": "required_gate"
+        },
+        "public_video/event": {
+          "sources": 8,
+          "true_events": 66,
+          "predicted_events": 710,
+          "matched_events": 6,
+          "recall": 0.09090909090909091,
+          "precision": 0.008450704225352112,
+          "required": false,
+          "passed": false
+        },
+        "public_video/turn": {
+          "sources": 8,
+          "true_events": 59,
+          "matched_events": 4,
+          "recall": 0.06779661016949153,
+          "required": false,
+          "passed": false
+        },
+        "public_video/object": {
+          "sources": 8,
+          "annotated_object_frames": 408,
+          "matched_object_frames": 83,
+          "recall": 0.2034313725490196,
+          "required": false,
+          "passed": false,
+          "scope": "diagnostic_only"
+        },
+        "sta/rules": {
+          "sources": 0,
+          "cases": 6,
+          "matched_events": 6,
+          "recall": 1.0,
+          "required": true,
+          "passed": true
+        }
+      },
+      "event_parameters": {
+        "activity_px": 0.25,
+        "minimum_area_fraction": 0.003,
+        "maximum_gap_frames": 2,
+        "maximum_distance_diagonal": 0.1,
+        "smooth_frames": 7,
+        "minimum_speed_px_per_frame": 0.25,
+        "speed_bin_edges_px_per_frame": [
+          1.5,
+          4.0
+        ],
+        "minimum_event_separation_s": 0.375,
+        "matching_tolerance_s": 0.25,
+        "turn_angle_degrees": 150.0,
+        "turn_context_frames": 2,
+        "state_persistence_frames": 2
+      },
+      "event_environment": {
+        "stage": "event",
+        "python": "3.10.20",
+        "torch": "2.12.0+cu130",
+        "numpy": "2.2.6",
+        "gpu": "NVIDIA GeForce RTX 4080",
+        "candidate_scores_observed": 0
+      },
+      "reaudit_scope": "synthetic development 16 and public development 8; no heldout metric/model inference",
+      "formula_changes_after_prepare": false,
+      "public_precision_scope": "correspondence ratio to selected DAVIS object annotations, not exhaustive real-event precision",
+      "notes": [
+        "All required synthetic and STA rule gates passed at the unchanged 0.8 thresholds.",
+        "Development parameter selection and re-audit use the same development sources; this is not independent generalization evidence.",
+        "Formal ERE/SER error detection, baseline comparison and STA decoded-video attribution accuracy remain unrun."
+      ]
+    }
+  ]
+}

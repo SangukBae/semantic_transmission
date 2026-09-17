@@ -1,0 +1,567 @@
+{
+  "date": "2026-09-14",
+  "recorded_unix": 1789372109.6465394,
+  "status": "PRE_SCORE_GATE_PASSED",
+  "run": "outputs/ere_sta_20260914_v2",
+  "previous_run_preserved": "outputs/ere_sta_20260914_v1",
+  "base_commit": "3e074703bfc9c23c702b3409016de4738c2cb654",
+  "working_tree_dirty": true,
+  "new_human_review_used": false,
+  "implementation": {
+    "event_audit_uses_object_environment": true,
+    "presence_reuses_ObjectExtractor_and_association": true,
+    "per_presence_track_residual_motion_state": true,
+    "sta_content_dependent_support_and_decode_status": true,
+    "keyframe_byte_decode_adapter": true,
+    "post_gate_full_comparison_runner": false,
+    "sta_full_video_tx_rx_adapter_and_simulated_decoder": false
+  },
+  "development_diagnosis": {
+    "path": "outputs/ere_sta_v31_development/diagnostics.json",
+    "sha256": "002cbafebc073f6a43d44fe2c00cbea9521d659b3ab20a719427591fd0eee3ae",
+    "development_sources": 16,
+    "configurations": 54,
+    "selected_parameters": {
+      "smooth_frames": 7,
+      "minimum_speed_px_per_frame": 0.25,
+      "turn_angle_degrees": 150.0,
+      "turn_context_frames": 2
+    },
+    "two_channel_baseline": {
+      "parameters": {
+        "smooth_frames": 5,
+        "minimum_speed_px_per_frame": 0.5,
+        "turn_angle_degrees": 90.0,
+        "turn_context_frames": 2
+      },
+      "true_events": 96,
+      "predicted_events": 106,
+      "matched_events": 93,
+      "recall": 0.96875,
+      "precision": 0.8773584905660378,
+      "turn_recall": 1.0
+    },
+    "selected": {
+      "parameters": {
+        "smooth_frames": 7,
+        "minimum_speed_px_per_frame": 0.25,
+        "turn_angle_degrees": 150.0,
+        "turn_context_frames": 2
+      },
+      "true_events": 96,
+      "predicted_events": 100,
+      "matched_events": 92,
+      "recall": 0.9583333333333334,
+      "precision": 0.92,
+      "turn_recall": 1.0
+    },
+    "selection_rule": "maximize minimum of event recall/precision/turn recall, then event F1, then proximity to baseline parameters",
+    "scope": "tuning and re-audit use the same 16 synthetic development sources; not independent validation",
+    "declaration_unix": 1789370896.9178102,
+    "diagnosis_completed_unix": 1789370904.6329243,
+    "amendment_registered_unix": 1789371008.1245537,
+    "new_prepare_unix": 1789371076.781528,
+    "post_reaudit_record_unix": 1789371513.6022956
+  },
+  "data": {
+    "sources": 70,
+    "sources_by_split": {
+      "public_video/development": 8,
+      "public_video/heldout": 14,
+      "rendered/development": 16,
+      "rendered/heldout": 32
+    },
+    "raw_cases": 2216,
+    "eligible_cases": 2211,
+    "excluded_cases": 5,
+    "invariant_controls": 656,
+    "preparation": {
+      "sources": 70,
+      "cases": 2216,
+      "protocol.json_sha256": "1af10178c592c15200138c48a42d49e01faf560cf2e1fed488bee281f8f8368e",
+      "cases.jsonl_sha256": "9a84fe913c16cbc0f53bc1ce1ec0e59584155c4b5c3ceaada10c65ca36c78e4e",
+      "data_reused_from": "outputs/ere_sta_20260914_v1",
+      "all_rgb_and_truth_hashes_verified": true,
+      "copy_policy": "independent file copies, no symlinks or hardlinks",
+      "scope": "same pre-score corpus; not a new independent data sample"
+    },
+    "heldout_metric_or_learned_model_inputs": 0,
+    "heldout_candidate_scores_observed": 0,
+    "heldout_scope": "read only for data integrity and truth eligibility, not learned-model inference or parameter selection"
+  },
+  "extractor_gate": {
+    "status": "PASSED",
+    "gates": {
+      "rendered/event": {
+        "sources": 16,
+        "true_events": 96,
+        "predicted_events": 100,
+        "matched_events": 92,
+        "recall": 0.9583333333333334,
+        "precision": 0.92,
+        "required": true,
+        "passed": true
+      },
+      "rendered/turn": {
+        "sources": 16,
+        "true_events": 16,
+        "matched_events": 16,
+        "recall": 1.0,
+        "required": true,
+        "passed": true
+      },
+      "rendered/object": {
+        "sources": 16,
+        "annotated_object_frames": 1328,
+        "matched_object_frames": 1310,
+        "recall": 0.9864457831325302,
+        "required": true,
+        "passed": true,
+        "scope": "required_gate"
+      },
+      "public_video/event": {
+        "sources": 8,
+        "true_events": 66,
+        "predicted_events": 710,
+        "matched_events": 6,
+        "recall": 0.09090909090909091,
+        "precision": 0.008450704225352112,
+        "required": false,
+        "passed": false
+      },
+      "public_video/turn": {
+        "sources": 8,
+        "true_events": 59,
+        "matched_events": 4,
+        "recall": 0.06779661016949153,
+        "required": false,
+        "passed": false
+      },
+      "public_video/object": {
+        "sources": 8,
+        "annotated_object_frames": 408,
+        "matched_object_frames": 83,
+        "recall": 0.2034313725490196,
+        "required": false,
+        "passed": false,
+        "scope": "diagnostic_only"
+      },
+      "sta/rules": {
+        "sources": 0,
+        "cases": 6,
+        "matched_events": 6,
+        "recall": 1.0,
+        "required": true,
+        "passed": true
+      }
+    },
+    "scores_observed": 0,
+    "downstream": "ELIGIBLE"
+  },
+  "sta_rule_checks": {
+    "status": "PASSED",
+    "cases": 6,
+    "passed": 6,
+    "results": [
+      {
+        "name": "untouched",
+        "computed": {
+          "edr": 0.0,
+          "clr": 0.0,
+          "gfr": 0.0,
+          "ghr": 0.0,
+          "numerators_denominators": {
+            "edr": [
+              0,
+              2
+            ],
+            "clr": [
+              0,
+              2
+            ],
+            "gfr": [
+              0,
+              2
+            ],
+            "ghr": [
+              0,
+              2
+            ]
+          },
+          "reference_support_tx": [
+            true,
+            true
+          ],
+          "reference_support_rx": [
+            true,
+            true
+          ],
+          "reconstruction_support_rx": [
+            true,
+            true
+          ],
+          "rx_supported_without_tx_support": 0,
+          "unreadable_keyframes": {
+            "tx": [],
+            "rx": []
+          },
+          "scope": "support-rule attribution; not proof of decoder causality"
+        },
+        "expected": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "passed": true
+      },
+      {
+        "name": "tx_omission",
+        "computed": {
+          "edr": 1.0,
+          "clr": null,
+          "gfr": null,
+          "ghr": null,
+          "numerators_denominators": {
+            "edr": [
+              2,
+              2
+            ],
+            "clr": [
+              0,
+              0
+            ],
+            "gfr": [
+              0,
+              0
+            ],
+            "ghr": [
+              0,
+              0
+            ]
+          },
+          "reference_support_tx": [
+            false,
+            false
+          ],
+          "reference_support_rx": [
+            false,
+            false
+          ],
+          "reconstruction_support_rx": [],
+          "rx_supported_without_tx_support": 0,
+          "unreadable_keyframes": {
+            "tx": [],
+            "rx": []
+          },
+          "scope": "support-rule attribution; not proof of decoder causality"
+        },
+        "expected": [
+          1.0,
+          null,
+          null,
+          null
+        ],
+        "passed": true
+      },
+      {
+        "name": "packet_drop",
+        "computed": {
+          "edr": 0.0,
+          "clr": 1.0,
+          "gfr": null,
+          "ghr": null,
+          "numerators_denominators": {
+            "edr": [
+              0,
+              2
+            ],
+            "clr": [
+              2,
+              2
+            ],
+            "gfr": [
+              0,
+              0
+            ],
+            "ghr": [
+              0,
+              0
+            ]
+          },
+          "reference_support_tx": [
+            true,
+            true
+          ],
+          "reference_support_rx": [
+            false,
+            false
+          ],
+          "reconstruction_support_rx": [],
+          "rx_supported_without_tx_support": 0,
+          "unreadable_keyframes": {
+            "tx": [],
+            "rx": []
+          },
+          "scope": "support-rule attribution; not proof of decoder causality"
+        },
+        "expected": [
+          0.0,
+          1.0,
+          null,
+          null
+        ],
+        "passed": true
+      },
+      {
+        "name": "generation_omission",
+        "computed": {
+          "edr": 0.0,
+          "clr": 0.0,
+          "gfr": 1.0,
+          "ghr": null,
+          "numerators_denominators": {
+            "edr": [
+              0,
+              2
+            ],
+            "clr": [
+              0,
+              2
+            ],
+            "gfr": [
+              2,
+              2
+            ],
+            "ghr": [
+              0,
+              0
+            ]
+          },
+          "reference_support_tx": [
+            true,
+            true
+          ],
+          "reference_support_rx": [
+            true,
+            true
+          ],
+          "reconstruction_support_rx": [],
+          "rx_supported_without_tx_support": 0,
+          "unreadable_keyframes": {
+            "tx": [],
+            "rx": []
+          },
+          "scope": "support-rule attribution; not proof of decoder causality"
+        },
+        "expected": [
+          0.0,
+          0.0,
+          1.0,
+          null
+        ],
+        "passed": true
+      },
+      {
+        "name": "unsupported_addition",
+        "computed": {
+          "edr": 0.0,
+          "clr": 0.0,
+          "gfr": 0.0,
+          "ghr": 0.3333333333333333,
+          "numerators_denominators": {
+            "edr": [
+              0,
+              2
+            ],
+            "clr": [
+              0,
+              2
+            ],
+            "gfr": [
+              0,
+              2
+            ],
+            "ghr": [
+              1,
+              3
+            ]
+          },
+          "reference_support_tx": [
+            true,
+            true
+          ],
+          "reference_support_rx": [
+            true,
+            true
+          ],
+          "reconstruction_support_rx": [
+            true,
+            true,
+            false
+          ],
+          "rx_supported_without_tx_support": 0,
+          "unreadable_keyframes": {
+            "tx": [],
+            "rx": []
+          },
+          "scope": "support-rule attribution; not proof of decoder causality"
+        },
+        "expected": [
+          0.0,
+          0.0,
+          0.0,
+          0.3333333333333333
+        ],
+        "passed": true
+      },
+      {
+        "name": "corrupt_keyframe_retained",
+        "computed": {
+          "edr": 0.0,
+          "clr": 1.0,
+          "gfr": null,
+          "ghr": null,
+          "numerators_denominators": {
+            "edr": [
+              0,
+              2
+            ],
+            "clr": [
+              2,
+              2
+            ],
+            "gfr": [
+              0,
+              0
+            ],
+            "ghr": [
+              0,
+              0
+            ]
+          },
+          "reference_support_tx": [
+            true,
+            true
+          ],
+          "reference_support_rx": [
+            false,
+            false
+          ],
+          "reconstruction_support_rx": [],
+          "rx_supported_without_tx_support": 0,
+          "unreadable_keyframes": {
+            "tx": [],
+            "rx": [
+              "checksum_failed",
+              "checksum_failed"
+            ]
+          },
+          "scope": "support-rule attribution; not proof of decoder causality"
+        },
+        "expected": [
+          0.0,
+          1.0,
+          null,
+          null
+        ],
+        "passed": true
+      }
+    ],
+    "scope": "analytical support-rule checks, not decoded-video or heldout attribution accuracy"
+  },
+  "public_precision_scope": "6/710 is correspondence to selected DAVIS annotation events, not exhaustive event precision; unmatched predictions are not all certified false positives",
+  "environments": {
+    "event": {
+      "stage": "event",
+      "python": "3.10.20",
+      "torch": "2.12.0+cu130",
+      "numpy": "2.2.6",
+      "gpu": "NVIDIA GeForce RTX 4080",
+      "candidate_scores_observed": 0
+    },
+    "object": {
+      "stage": "object",
+      "python": "3.10.20",
+      "torch": "2.12.0+cu130",
+      "numpy": "2.2.6",
+      "gpu": "NVIDIA GeForce RTX 4080",
+      "candidate_scores_observed": 0
+    }
+  },
+  "driver_policy": "process-local LD_LIBRARY_PATH compatibility libraries; no system driver changes",
+  "tests": {
+    "passed": 79,
+    "log": "outputs/ere_sta_20260914_v2/tests.log",
+    "command": "env -u PYTHONPATH -u LD_LIBRARY_PATH PYTHONNOUSERSITE=1 PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 /home/sangukbae/anaconda3/envs/lgvsc/bin/python -m pytest -q"
+  },
+  "integrity": {
+    "new_frozen_code_scripts_protocol_diagnosis_verified": true,
+    "new_required_gates_passed": true,
+    "old_v30_recorded_artifact_hashes_preserved": 16,
+    "old_v30_frozen_source_hashes_preserved": 11,
+    "mte_otf_v2_frozen_code_and_protocol_verified": true,
+    "data_manifest_matches_v30": true,
+    "separate_copied_files_checked": 4572,
+    "copied_files_no_symlinks_or_shared_inodes": true,
+    "development_diagnosis_precedes_amendment_and_prepare_and_reaudit": true,
+    "selected_development_numbers_reproduced_with_fresh_object_cache": true,
+    "audit_sources_all_development": true,
+    "candidate_score_files": 0,
+    "model_checks": {
+      "sam2_weights_sha256": true,
+      "dino_weights_sha256": true,
+      "raft_weights_sha256": true,
+      "sam2_commit": true,
+      "sam2_clean": true,
+      "dinov2_commit": true,
+      "dinov2_clean": true
+    }
+  },
+  "code_sha256": {
+    "event_metric.py": "77002765c8244d0d8ebd0692cd765ba8a4a4c21928dd367c28ba184269354763",
+    "attribution_metric.py": "0c02f37ca3e6698bd8146d1c4391e484b052947a26b9d2c9b98efd30afe79726",
+    "metric_v3_cases.py": "040734bec3052ce2b3e808faec1d47ed0b2340ede1beac8b63688f2c65b456b7",
+    "metric_v3_validation.py": "96a3336f8e5d8be66464361957d55e6892834e5b26ffb74d0ab00e9c018d18e7",
+    "object_metric.py": "cb0013f2cd2ba4f948fbf4bba3ecfa17fb1b7ecb1b90ce009d71ff22aa812d52",
+    "motion_metric.py": "7702703fe94eae781f4767955a18d2c46b4db21964f9a029a04b85b2b80b3132",
+    "automatic_metrics.py": "4619558a185690e1a88b37256e3f8c71eb74ded315cb890b02a9cd820fef9e27",
+    "temporal_baselines.py": "609672d7e501b8c61409ee9821f720963394b80ad6b787e97d7cec892fddefdd",
+    "tracking_baselines.py": "6ae2a91a397dca4c971a8dc942ef13025253c88795d24adee442eb37433be6c9",
+    "automatic_validation.py": "196c14a77bcc57c25760068aa01fb028e24eec16114cd205d5f5618fbbe95210",
+    "metric_v2_cases.py": "7fac42446b1da658119663b2675dac9e64b0d7871eb14e0c2a5b90c70292d7a6"
+  },
+  "script_sha256": {
+    "run_metric_v3.sh": "1e396ff4985da22b5dc03a49ec2e8d3b03c2dd3af0aebb46d28c1465fe7b56bf",
+    "report_metric_v3.py": "60a99f4248a50a6a04cfb0030aef0d22d47dbee2f48b88e1a8120af33a9f8c93",
+    "diagnose_event_v31.py": "0a22287203c19ff6764dc402c682829661a16f3ff49ab10b87a1299ed8c00bc7"
+  },
+  "artifact_sha256": {
+    "protocol.json": "1af10178c592c15200138c48a42d49e01faf560cf2e1fed488bee281f8f8368e",
+    "preparation.json": "b697abe7329a5123e97207e450c738bdc2589e8841ceae6399b9ce2b597db090",
+    "cases.jsonl": "9a84fe913c16cbc0f53bc1ce1ec0e59584155c4b5c3ceaada10c65ca36c78e4e",
+    "ERE_STA_PROTOCOL.requested.md": "537ba28ed3f72946d32466fc83c15e12baac99eb9193d0a3b6b8a9ff0b1dcfb5",
+    "ERE_STA_PROTOCOL.frozen.md": "537ba28ed3f72946d32466fc83c15e12baac99eb9193d0a3b6b8a9ff0b1dcfb5",
+    "ERE_STA_EXECUTION_NOTES.frozen.md": "7f36639032e95cb4ba7f10e759d26d79c1c363129ecdff734fc25cc455504bdf",
+    "development_diagnostics.json": "002cbafebc073f6a43d44fe2c00cbea9521d659b3ab20a719427591fd0eee3ae",
+    "model_preflight.json": "d9de96634c48b1276ec0cc5149c2b49a897e2d885facc752bf72a689935e783c",
+    "truth_audit.json": "5fc4a7d72e02dd5e7b3e25c4be020c50de741ab11c098d7b60b8f8023e49cdc0",
+    "event_extractor_audit.json": "cdb848a2bde62ecaba74ba4a51023230769ac40c32a5b063e7153e8e9fea60b1",
+    "object_extractor_audit.json": "ee408643d0f0d4ef3763023fbe44d7be2cdf86b657adb2057110152b6c8996f0",
+    "extractor_gate.json": "b85bfb2ec87829dbb8d13e832db0b3e04e5fb729e2ef65cae74e20adf470867e",
+    "sta_rule_checks.json": "3f780a12b028a304f7887ba0d16d94d6ba56c5fa531c14802cfb2f82d4b28356",
+    "reaudit_record.json": "e544615e481b3a6db95f156aa1165d114a6e57e1ab85a3678b04f5a6db717d7a",
+    "summary.json": "36102d27f0769afb7f9f2a09db84d3f410a928d0d661cb36573a6b6157271cc5",
+    "REPORT.md": "b0b8bd37c85a5b38d36371d239372a0d55a5cf1e355c157aa79c3bfde51b7cd2",
+    "tests.log": "bd2f9aad15bb69dd8ece0a5df991a1863bcb3b0f981b35f055623c1e41704223",
+    "event_reaudit_comparison.json": "7aeea63d932da1e12109e4130ef1edfcbc15e46c7e37e6b1a6daac71e0f192d8",
+    "event_reaudit_comparison.png": "c7ce1719929e1ba838ffb9e7e9289e1be4ddd76ee1d022d2f889b7c07ffd510c",
+    "event_reaudit_comparison.svg": "33429ec393afb7f431e75b8a72251cf26523531b30c114498ae688d8d294865b"
+  },
+  "result_document": "docs/ERE_STA_REAUDIT_RESULTS.md",
+  "result_document_sha256": "c08e2627f432a4c290500bf6ee664915318fdd7a199a12e6c1b6271572edf990",
+  "ere_formal_results": null,
+  "sta_formal_results": null,
+  "etri_stage_one_complete": false,
+  "novelty_demonstrated": false
+}

@@ -1,0 +1,301 @@
+{
+  "date": "2026-09-14",
+  "status": "PRE_SCORE_GATE_NOT_PASSED",
+  "requested_protocol": "docs/ERE_STA_PROTOCOL.md",
+  "run": "outputs/ere_sta_20260914_v1",
+  "base_commit": "3e074703bfc9c23c702b3409016de4738c2cb654",
+  "working_tree_dirty": true,
+  "implementation": {
+    "ere_rgb_extractor_and_formula": true,
+    "sta_explicit_support_and_rates": true,
+    "source_generation_and_truth_audit": true,
+    "mandatory_development_extractor_gate": true,
+    "post_gate_full_comparison_runner": false,
+    "sta_rgb_tx_rx_adapter_and_simulated_decoder": false
+  },
+  "new_human_review_used": false,
+  "existing_human_annotations": "DAVIS masks used only in truth eligibility and independent extractor audit",
+  "data": {
+    "sources": 70,
+    "sources_by_split": {
+      "public_video/development": 8,
+      "public_video/heldout": 14,
+      "rendered/development": 16,
+      "rendered/heldout": 32
+    },
+    "raw_cases": 2216,
+    "eligible_cases": 2211,
+    "excluded_cases": 5,
+    "counts_by_domain_kind_and_acceptance": {
+      "public_video/control/True": 176,
+      "public_video/reverse/False": 3,
+      "public_video/reverse/True": 63,
+      "public_video/freeze/True": 66,
+      "public_video/lag/True": 66,
+      "public_video/swap/True": 64,
+      "public_video/swap/False": 2,
+      "rendered/control/True": 480,
+      "rendered/reverse/True": 144,
+      "rendered/freeze/True": 144,
+      "rendered/lag/True": 144,
+      "rendered/swap/True": 144,
+      "rendered/motion_reverse/True": 144,
+      "rendered/motion_freeze/True": 144,
+      "rendered/object_addition/True": 144,
+      "rendered/object_omission/True": 144,
+      "rendered/object_shape/True": 144
+    },
+    "previous_source_overlap": [],
+    "previous_seed_overlap": [],
+    "heldout_metric_scores_observed": 0
+  },
+  "pre_score_amendment": {
+    "date": "2026-09-14",
+    "scores_observed": 0,
+    "extractor_audits_observed": 0,
+    "notes": "docs/ERE_STA_EXECUTION_NOTES.md",
+    "amendments": [
+      "Follow section 2.1: public sources 8+14=22, correcting section 9 typo 32.",
+      "Fix previously unspecified speed/association/smoothing details before any extractor audit.",
+      "For object_shape only, verify the prescribed twofold mask aspect-ratio change; event invariance is compatible with shape error.",
+      "Use annotation-only kinematics independent of the RGB event extractor for truth.",
+      "Report true fragmentation only in annotation audit, not as an inferred certified RGB statistic."
+    ],
+    "unchanged": [
+      "Synthetic event recall and precision each at least 0.8.",
+      "Synthetic object recall at least 0.8; public object scores diagnostic only.",
+      "No candidate pair scores before required gates pass.",
+      "No formula, threshold, or score-type retuning after heldout score inspection."
+    ]
+  },
+  "extractor_gate": {
+    "status": "NOT_PASSED",
+    "gates": {
+      "rendered/event": {
+        "sources": 16,
+        "true_events": 96,
+        "predicted_events": 100,
+        "matched_events": 15,
+        "recall": 0.15625,
+        "precision": 0.15,
+        "required": true,
+        "passed": false
+      },
+      "rendered/object": {
+        "sources": 16,
+        "annotated_object_frames": 1328,
+        "matched_object_frames": 1310,
+        "recall": 0.9864457831325302,
+        "required": true,
+        "passed": true,
+        "scope": "required_gate"
+      },
+      "public_video/event": {
+        "sources": 8,
+        "true_events": 66,
+        "predicted_events": 100,
+        "matched_events": 9,
+        "recall": 0.13636363636363635,
+        "precision": 0.09,
+        "required": false,
+        "passed": false
+      },
+      "public_video/object": {
+        "sources": 8,
+        "annotated_object_frames": 408,
+        "matched_object_frames": 83,
+        "recall": 0.2034313725490196,
+        "required": false,
+        "passed": false,
+        "scope": "diagnostic_only"
+      }
+    },
+    "scores_observed": 0,
+    "downstream": "NOT_RUN_GATE_FAILED"
+  },
+  "event_failure_diagnostics": {
+    "scope": "post-audit failure analysis, not revised matching, no change to gates or metric formulas",
+    "results": {
+      "rendered": {
+        "events_by_kind": {
+          "start": 32,
+          "enter": 16,
+          "turn": 16,
+          "stop": 16,
+          "exit": 16
+        },
+        "matched_by_kind": {
+          "turn": 8,
+          "enter": 6,
+          "exit": 1
+        },
+        "relaxed_diagnostic_only": {
+          "ignore_direction": {
+            "matched": 15,
+            "true": 96,
+            "recall": 0.15625
+          },
+          "ignore_direction_and_type": {
+            "matched": 68,
+            "true": 96,
+            "recall": 0.7083333333333334
+          }
+        },
+        "nearest_event_confusions": {
+          "ignore_direction": {
+            "turn -> turn": 8,
+            "enter -> enter": 6,
+            "exit -> exit": 1
+          },
+          "ignore_direction_and_type": {
+            "start -> enter": 31,
+            "turn -> turn": 8,
+            "stop -> exit": 15,
+            "exit -> enter": 3,
+            "turn -> stop": 7,
+            "stop -> enter": 1,
+            "enter -> exit": 2,
+            "turn -> exit": 1
+          }
+        },
+        "extra_fragment_tracks": 16,
+        "truth_linked_tracks": 64
+      },
+      "public_video": {
+        "events_by_kind": {
+          "turn": 59,
+          "exit": 2,
+          "start": 3,
+          "enter": 1,
+          "stop": 1
+        },
+        "matched_by_kind": {
+          "turn": 8,
+          "start": 1
+        },
+        "relaxed_diagnostic_only": {
+          "ignore_direction": {
+            "matched": 12,
+            "true": 66,
+            "recall": 0.18181818181818182
+          },
+          "ignore_direction_and_type": {
+            "matched": 46,
+            "true": 66,
+            "recall": 0.696969696969697
+          }
+        },
+        "nearest_event_confusions": {
+          "ignore_direction": {
+            "turn -> turn": 11,
+            "start -> start": 1
+          },
+          "ignore_direction_and_type": {
+            "turn -> enter": 20,
+            "turn -> start": 2,
+            "turn -> turn": 7,
+            "turn -> stop": 5,
+            "exit -> turn": 1,
+            "turn -> exit": 9,
+            "start -> start": 1,
+            "start -> turn": 1
+          }
+        },
+        "extra_fragment_tracks": 33,
+        "truth_linked_tracks": 43
+      }
+    }
+  },
+  "sta_rule_checks": {
+    "count": 6,
+    "scope": "six analytical rule examples, no video corpus, no decoder run, no heldout attribution accuracy",
+    "known_failure": "Retained keyframe timestamps satisfy event support even if visual content is corrupt; CLR=0, GFR=1 in this example."
+  },
+  "tests": {
+    "passed": 67,
+    "duration_s": 3.86,
+    "stdout_log": "outputs/ere_sta_20260914_v1/tests.log",
+    "command": "env -u PYTHONPATH -u LD_LIBRARY_PATH PYTHONNOUSERSITE=1 PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 /home/sangukbae/anaconda3/envs/lgvsc/bin/python -m pytest -q"
+  },
+  "scoring_guards": {
+    "status": "PASSED",
+    "checks": {
+      "event": {
+        "returncode": 1,
+        "blocked_for_expected_reason": true
+      },
+      "object": {
+        "returncode": 1,
+        "blocked_for_expected_reason": true
+      },
+      "attribution": {
+        "returncode": 1,
+        "blocked_for_expected_reason": true
+      }
+    },
+    "formal_score_files": 0
+  },
+  "formal_results": {
+    "ere_auc": null,
+    "sta_attribution_accuracy": null,
+    "baseline_comparison": null,
+    "real_reconstruction_diagnostics": null,
+    "reason": "Required synthetic event extractor gate failed; protocol section 6 prohibits downstream scoring."
+  },
+  "model_preflight": {
+    "sam2_weights_sha256": true,
+    "dino_weights_sha256": true,
+    "raft_weights_sha256": true,
+    "sam2_revision": true,
+    "sam2_clean": true,
+    "dinov2_revision": true,
+    "dinov2_clean": true
+  },
+  "environments": {
+    "event": {
+      "python": "3.10.21",
+      "torch": "2.2.2+cu121",
+      "numpy": "1.26.4",
+      "gpu": "NVIDIA GeForce RTX 4080"
+    },
+    "object": {
+      "python": "3.10.20",
+      "torch": "2.12.0+cu130",
+      "numpy": "2.2.6",
+      "gpu": "NVIDIA GeForce RTX 4080"
+    }
+  },
+  "code_sha256": {
+    "event_metric.py": "35acbe7add5b62318092a08f46ae6b127b172062153c916afbf19c46b739a08c",
+    "attribution_metric.py": "fcc87eb262ebc6f874bfa633ee5543ef83ae1a8f7d731240aad1dbd130069255",
+    "metric_v3_cases.py": "040734bec3052ce2b3e808faec1d47ed0b2340ede1beac8b63688f2c65b456b7",
+    "metric_v3_validation.py": "7a22f998e2cdb8b4ad5366ef4c5e2589f3c33281277b31cb1c14a1d9314a9baa",
+    "object_metric.py": "cb0013f2cd2ba4f948fbf4bba3ecfa17fb1b7ecb1b90ce009d71ff22aa812d52",
+    "motion_metric.py": "7702703fe94eae781f4767955a18d2c46b4db21964f9a029a04b85b2b80b3132",
+    "automatic_metrics.py": "4619558a185690e1a88b37256e3f8c71eb74ded315cb890b02a9cd820fef9e27",
+    "temporal_baselines.py": "609672d7e501b8c61409ee9821f720963394b80ad6b787e97d7cec892fddefdd",
+    "tracking_baselines.py": "6ae2a91a397dca4c971a8dc942ef13025253c88795d24adee442eb37433be6c9",
+    "automatic_validation.py": "196c14a77bcc57c25760068aa01fb028e24eec16114cd205d5f5618fbbe95210",
+    "metric_v2_cases.py": "7fac42446b1da658119663b2675dac9e64b0d7871eb14e0c2a5b90c70292d7a6"
+  },
+  "artifact_sha256": {
+    "protocol.json": "7f6e5ad6c333e92cd18031596319cf839bf445714e5a6edaad5222575f258693",
+    "preparation.json": "acba48b7275c7949c5ad10efa62c4ddce70cd8d1a526129e4e70d043882ebc62",
+    "cases.jsonl": "9a84fe913c16cbc0f53bc1ce1ec0e59584155c4b5c3ceaada10c65ca36c78e4e",
+    "ERE_STA_PROTOCOL.requested.md": "0eeae4a7b9ecde5754ab1bdad16f16c9a87a46f7981bc87c3f815cf973c3845d",
+    "ERE_STA_PROTOCOL.frozen.md": "0eeae4a7b9ecde5754ab1bdad16f16c9a87a46f7981bc87c3f815cf973c3845d",
+    "ERE_STA_EXECUTION_NOTES.frozen.md": "3cd9bab957f7c72a71f7062720a9f13f5c55973c58a19fef5d7809e57510799e",
+    "model_preflight.json": "e0234b0a7a5ea8a592abca30a16bc42907b7aba9c97cc9c746c9b26100d91488",
+    "truth_audit.json": "5fc4a7d72e02dd5e7b3e25c4be020c50de741ab11c098d7b60b8f8023e49cdc0",
+    "event_extractor_audit.json": "aaf63ad5e5867465f7d2f356ae992e87f61b06c896a9a721c3f8938b44bae4f8",
+    "object_extractor_audit.json": "ee408643d0f0d4ef3763023fbe44d7be2cdf86b657adb2057110152b6c8996f0",
+    "extractor_gate.json": "d21b224a85f245e94b90501bce4e3cac3846b96a0cae3904a2659178c54af78b",
+    "event_gate_diagnostics.json": "1f6fc599d6b9205b22035f15fa9654f9f4f07293e12000db93b641873b410d6c",
+    "sta_rule_checks.json": "80903d8f46cbf36ac0f18d9a71d3344a190d08425342ab5f50a38c00fb2fec8d",
+    "scoring_guard_checks.json": "90e2af1382e16e3e02fecba643ca4dbe8d5e567225257203001f6cb032575c52",
+    "summary.json": "2bea53649728c522f4f20ed3808b5c2132d04cc5b9422a33289b938b05e153da",
+    "tests.log": "df67bfc9f4083150a9811d2b9dd7a33ea6869fa117abfdcfbbf963e72ecd54e2"
+  },
+  "etri_stage_one_complete": false,
+  "novelty_demonstrated": false
+}

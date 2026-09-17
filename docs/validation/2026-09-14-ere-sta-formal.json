@@ -1,0 +1,1443 @@
+{
+  "date": "2026-09-14",
+  "recorded_unix": 1789384548.5392742,
+  "recorded_local": "2026-09-14T20:15:48.539368+09:00",
+  "status": "COMPLETED_PRIMARY_CRITERIA_NOT_PASSED",
+  "run": "outputs/ere_sta_formal_20260914_v1",
+  "base_run_preserved": "/home/sangukbae/ETRI/Semantic/semantic_transmission/outputs/ere_sta_20260914_v2",
+  "base_commit": "3e074703bfc9c23c702b3409016de4738c2cb654",
+  "working_tree_dirty": true,
+  "new_human_review_used": false,
+  "existing_DAVIS_human_object_masks_used": true,
+  "implementation": {
+    "post_gate_comparison_and_frozen_development_calibration": true,
+    "RGB_only_visual_and_pixel_observers": true,
+    "no_truth_or_intervention_labels_in_scoring_observer": true,
+    "STA_full_video_TX_RX_packet_adapter": true,
+    "actual_PNG_byte_checksum_decode_and_hold": true,
+    "controlled_actual_LGVSC_generator_causal_validation": false,
+    "unlabelled_existing_LGVSC_and_SGD_diagnostics": true,
+    "primary_metric_formula_parameters_or_acceptance_criteria_changed_during_formal_run": false
+  },
+  "data": {
+    "ERE_object_development_sources": {
+      "rendered": 16,
+      "public_DAVIS": 8
+    },
+    "ERE_object_heldout_sources": {
+      "rendered": 32,
+      "public_DAVIS": 14
+    },
+    "ERE_object_cases": {
+      "development": 751,
+      "heldout": 1460,
+      "all": 2211
+    },
+    "STA_cases": {
+      "development": 256,
+      "heldout": 512,
+      "all": 768,
+      "heldout_faults": 480,
+      "heldout_identity_normals": 32
+    },
+    "STA_semantic_normal_supplement": {
+      "development": 160,
+      "heldout": 320
+    },
+    "source_ID_and_RGB_hash_overlap": false,
+    "renderer_scene_families": 1,
+    "renderer_object_event_order_templates": 1,
+    "rendered_source_truth_events_per_clip": 6,
+    "unique_rendered_timed_event_signatures": {
+      "development": 14,
+      "heldout": 24
+    },
+    "public_scope": "diagnostic only; selected-object DAVIS mask trajectories; every third frame, at most 32 frames, evaluated at trial playback 8 Hz",
+    "new_scene_type_or_natural_video_distribution_generalization_established": false
+  },
+  "primary_ERE": {
+    "adoption_gate": false,
+    "superiority_over_all_registered_comparators": false,
+    "registered_comparators": [
+      "psnr_db",
+      "ssim",
+      "lpips_alex",
+      "clip_cosine",
+      "rte",
+      "lssd",
+      "tlp_alex",
+      "tof_farneback",
+      "tof_raft_small",
+      "mte_tail",
+      "otf_error",
+      "oor",
+      "hor",
+      "odr",
+      "idf1_mask_error",
+      "tlp_alex_segments",
+      "tof_farneback_segments",
+      "tof_raft_segments"
+    ],
+    "rendered_threshold": 0.5,
+    "strict_comparison": ">",
+    "by_motion_kind": {
+      "reverse": {
+        "threshold": 0.5,
+        "auc": 0.651416015625,
+        "positive": {
+          "cases": 96,
+          "measured": 96,
+          "coverage": 1.0,
+          "detected": 0,
+          "rate_abstentions_as_no_detection": 0.0,
+          "rate_measurable_only": 0.0,
+          "source_bootstrap_95ci": [
+            0.0,
+            0.0
+          ]
+        },
+        "control": {
+          "cases": 320,
+          "measured": 320,
+          "coverage": 1.0,
+          "detected": 5,
+          "rate_abstentions_as_no_detection": 0.015625,
+          "rate_measurable_only": 0.015625,
+          "source_bootstrap_95ci": [
+            0.003125,
+            0.028125000000000004
+          ]
+        },
+        "passed": false,
+        "by_severity": {
+          "0.125": {
+            "cases": 32,
+            "measured": 32,
+            "coverage": 1.0,
+            "detected": 0,
+            "rate_abstentions_as_no_detection": 0.0,
+            "rate_measurable_only": 0.0,
+            "source_bootstrap_95ci": [
+              0.0,
+              0.0
+            ]
+          },
+          "0.25": {
+            "cases": 32,
+            "measured": 32,
+            "coverage": 1.0,
+            "detected": 0,
+            "rate_abstentions_as_no_detection": 0.0,
+            "rate_measurable_only": 0.0,
+            "source_bootstrap_95ci": [
+              0.0,
+              0.0
+            ]
+          },
+          "0.5": {
+            "cases": 32,
+            "measured": 32,
+            "coverage": 1.0,
+            "detected": 0,
+            "rate_abstentions_as_no_detection": 0.0,
+            "rate_measurable_only": 0.0,
+            "source_bootstrap_95ci": [
+              0.0,
+              0.0
+            ]
+          }
+        }
+      },
+      "freeze": {
+        "threshold": 0.5,
+        "auc": 0.74853515625,
+        "positive": {
+          "cases": 96,
+          "measured": 96,
+          "coverage": 1.0,
+          "detected": 0,
+          "rate_abstentions_as_no_detection": 0.0,
+          "rate_measurable_only": 0.0,
+          "source_bootstrap_95ci": [
+            0.0,
+            0.0
+          ]
+        },
+        "control": {
+          "cases": 320,
+          "measured": 320,
+          "coverage": 1.0,
+          "detected": 5,
+          "rate_abstentions_as_no_detection": 0.015625,
+          "rate_measurable_only": 0.015625,
+          "source_bootstrap_95ci": [
+            0.003125,
+            0.028125000000000004
+          ]
+        },
+        "passed": false,
+        "by_severity": {
+          "0.125": {
+            "cases": 32,
+            "measured": 32,
+            "coverage": 1.0,
+            "detected": 0,
+            "rate_abstentions_as_no_detection": 0.0,
+            "rate_measurable_only": 0.0,
+            "source_bootstrap_95ci": [
+              0.0,
+              0.0
+            ]
+          },
+          "0.25": {
+            "cases": 32,
+            "measured": 32,
+            "coverage": 1.0,
+            "detected": 0,
+            "rate_abstentions_as_no_detection": 0.0,
+            "rate_measurable_only": 0.0,
+            "source_bootstrap_95ci": [
+              0.0,
+              0.0
+            ]
+          },
+          "0.5": {
+            "cases": 32,
+            "measured": 32,
+            "coverage": 1.0,
+            "detected": 0,
+            "rate_abstentions_as_no_detection": 0.0,
+            "rate_measurable_only": 0.0,
+            "source_bootstrap_95ci": [
+              0.0,
+              0.0
+            ]
+          }
+        }
+      },
+      "swap": {
+        "threshold": 0.5,
+        "auc": 0.6258951822916666,
+        "positive": {
+          "cases": 96,
+          "measured": 96,
+          "coverage": 1.0,
+          "detected": 0,
+          "rate_abstentions_as_no_detection": 0.0,
+          "rate_measurable_only": 0.0,
+          "source_bootstrap_95ci": [
+            0.0,
+            0.0
+          ]
+        },
+        "control": {
+          "cases": 320,
+          "measured": 320,
+          "coverage": 1.0,
+          "detected": 5,
+          "rate_abstentions_as_no_detection": 0.015625,
+          "rate_measurable_only": 0.015625,
+          "source_bootstrap_95ci": [
+            0.003125,
+            0.028125000000000004
+          ]
+        },
+        "passed": false,
+        "by_severity": {
+          "0.125": {
+            "cases": 32,
+            "measured": 32,
+            "coverage": 1.0,
+            "detected": 0,
+            "rate_abstentions_as_no_detection": 0.0,
+            "rate_measurable_only": 0.0,
+            "source_bootstrap_95ci": [
+              0.0,
+              0.0
+            ]
+          },
+          "0.25": {
+            "cases": 32,
+            "measured": 32,
+            "coverage": 1.0,
+            "detected": 0,
+            "rate_abstentions_as_no_detection": 0.0,
+            "rate_measurable_only": 0.0,
+            "source_bootstrap_95ci": [
+              0.0,
+              0.0
+            ]
+          },
+          "0.5": {
+            "cases": 32,
+            "measured": 32,
+            "coverage": 1.0,
+            "detected": 0,
+            "rate_abstentions_as_no_detection": 0.0,
+            "rate_measurable_only": 0.0,
+            "source_bootstrap_95ci": [
+              0.0,
+              0.0
+            ]
+          }
+        }
+      },
+      "lag": {
+        "threshold": 0.5,
+        "auc": 0.86865234375,
+        "positive": {
+          "cases": 96,
+          "measured": 96,
+          "coverage": 1.0,
+          "detected": 64,
+          "rate_abstentions_as_no_detection": 0.6666666666666666,
+          "rate_measurable_only": 0.6666666666666666,
+          "source_bootstrap_95ci": [
+            0.6666666666666666,
+            0.6666666666666666
+          ]
+        },
+        "control": {
+          "cases": 320,
+          "measured": 320,
+          "coverage": 1.0,
+          "detected": 5,
+          "rate_abstentions_as_no_detection": 0.015625,
+          "rate_measurable_only": 0.015625,
+          "source_bootstrap_95ci": [
+            0.003125,
+            0.028125000000000004
+          ]
+        },
+        "passed": false,
+        "by_severity": {
+          "0.125": {
+            "cases": 32,
+            "measured": 32,
+            "coverage": 1.0,
+            "detected": 0,
+            "rate_abstentions_as_no_detection": 0.0,
+            "rate_measurable_only": 0.0,
+            "source_bootstrap_95ci": [
+              0.0,
+              0.0
+            ]
+          },
+          "0.25": {
+            "cases": 32,
+            "measured": 32,
+            "coverage": 1.0,
+            "detected": 32,
+            "rate_abstentions_as_no_detection": 1.0,
+            "rate_measurable_only": 1.0,
+            "source_bootstrap_95ci": [
+              1.0,
+              1.0
+            ]
+          },
+          "0.5": {
+            "cases": 32,
+            "measured": 32,
+            "coverage": 1.0,
+            "detected": 32,
+            "rate_abstentions_as_no_detection": 1.0,
+            "rate_measurable_only": 1.0,
+            "source_bootstrap_95ci": [
+              1.0,
+              1.0
+            ]
+          }
+        }
+      },
+      "motion_reverse": {
+        "threshold": 0.5,
+        "auc": 0.651416015625,
+        "positive": {
+          "cases": 96,
+          "measured": 96,
+          "coverage": 1.0,
+          "detected": 0,
+          "rate_abstentions_as_no_detection": 0.0,
+          "rate_measurable_only": 0.0,
+          "source_bootstrap_95ci": [
+            0.0,
+            0.0
+          ]
+        },
+        "control": {
+          "cases": 320,
+          "measured": 320,
+          "coverage": 1.0,
+          "detected": 5,
+          "rate_abstentions_as_no_detection": 0.015625,
+          "rate_measurable_only": 0.015625,
+          "source_bootstrap_95ci": [
+            0.003125,
+            0.028125000000000004
+          ]
+        },
+        "passed": false,
+        "by_severity": {
+          "0.125": {
+            "cases": 32,
+            "measured": 32,
+            "coverage": 1.0,
+            "detected": 0,
+            "rate_abstentions_as_no_detection": 0.0,
+            "rate_measurable_only": 0.0,
+            "source_bootstrap_95ci": [
+              0.0,
+              0.0
+            ]
+          },
+          "0.25": {
+            "cases": 32,
+            "measured": 32,
+            "coverage": 1.0,
+            "detected": 0,
+            "rate_abstentions_as_no_detection": 0.0,
+            "rate_measurable_only": 0.0,
+            "source_bootstrap_95ci": [
+              0.0,
+              0.0
+            ]
+          },
+          "0.5": {
+            "cases": 32,
+            "measured": 32,
+            "coverage": 1.0,
+            "detected": 0,
+            "rate_abstentions_as_no_detection": 0.0,
+            "rate_measurable_only": 0.0,
+            "source_bootstrap_95ci": [
+              0.0,
+              0.0
+            ]
+          }
+        }
+      },
+      "motion_freeze": {
+        "threshold": 0.5,
+        "auc": 0.7525553385416667,
+        "positive": {
+          "cases": 96,
+          "measured": 96,
+          "coverage": 1.0,
+          "detected": 0,
+          "rate_abstentions_as_no_detection": 0.0,
+          "rate_measurable_only": 0.0,
+          "source_bootstrap_95ci": [
+            0.0,
+            0.0
+          ]
+        },
+        "control": {
+          "cases": 320,
+          "measured": 320,
+          "coverage": 1.0,
+          "detected": 5,
+          "rate_abstentions_as_no_detection": 0.015625,
+          "rate_measurable_only": 0.015625,
+          "source_bootstrap_95ci": [
+            0.003125,
+            0.028125000000000004
+          ]
+        },
+        "passed": false,
+        "by_severity": {
+          "0.125": {
+            "cases": 32,
+            "measured": 32,
+            "coverage": 1.0,
+            "detected": 0,
+            "rate_abstentions_as_no_detection": 0.0,
+            "rate_measurable_only": 0.0,
+            "source_bootstrap_95ci": [
+              0.0,
+              0.0
+            ]
+          },
+          "0.25": {
+            "cases": 32,
+            "measured": 32,
+            "coverage": 1.0,
+            "detected": 0,
+            "rate_abstentions_as_no_detection": 0.0,
+            "rate_measurable_only": 0.0,
+            "source_bootstrap_95ci": [
+              0.0,
+              0.0
+            ]
+          },
+          "0.5": {
+            "cases": 32,
+            "measured": 32,
+            "coverage": 1.0,
+            "detected": 0,
+            "rate_abstentions_as_no_detection": 0.0,
+            "rate_measurable_only": 0.0,
+            "source_bootstrap_95ci": [
+              0.0,
+              0.0
+            ]
+          }
+        }
+      }
+    },
+    "all_motion_detected": 64,
+    "all_motion_cases": 576,
+    "short_motion_detected": 0,
+    "short_motion_cases": 192,
+    "rendered_SER_supplement": {
+      "threshold": 0.5,
+      "auc": 0.7940212673611111,
+      "positive": {
+        "cases": 576,
+        "measured": 576,
+        "coverage": 1.0,
+        "detected": 98,
+        "rate_abstentions_as_no_detection": 0.1701388888888889,
+        "rate_measurable_only": 0.1701388888888889,
+        "source_bootstrap_95ci": [
+          0.15104166666666669,
+          0.19097222222222224
+        ]
+      },
+      "control": {
+        "cases": 320,
+        "measured": 320,
+        "coverage": 1.0,
+        "detected": 7,
+        "rate_abstentions_as_no_detection": 0.021875,
+        "rate_measurable_only": 0.021875,
+        "source_bootstrap_95ci": [
+          0.009375000000000001,
+          0.037500000000000006
+        ]
+      },
+      "passed": false,
+      "by_severity": {
+        "0.125": {
+          "cases": 192,
+          "measured": 192,
+          "coverage": 1.0,
+          "detected": 0,
+          "rate_abstentions_as_no_detection": 0.0,
+          "rate_measurable_only": 0.0,
+          "source_bootstrap_95ci": [
+            0.0,
+            0.0
+          ]
+        },
+        "0.25": {
+          "cases": 192,
+          "measured": 192,
+          "coverage": 1.0,
+          "detected": 32,
+          "rate_abstentions_as_no_detection": 0.16666666666666666,
+          "rate_measurable_only": 0.16666666666666666,
+          "source_bootstrap_95ci": [
+            0.16666666666666666,
+            0.16666666666666666
+          ]
+        },
+        "0.5": {
+          "cases": 192,
+          "measured": 192,
+          "coverage": 1.0,
+          "detected": 66,
+          "rate_abstentions_as_no_detection": 0.34375,
+          "rate_measurable_only": 0.34375,
+          "source_bootstrap_95ci": [
+            0.2864583333333333,
+            0.40625
+          ]
+        }
+      }
+    },
+    "heldout_source_extractor_audit": {
+      "public_video": {
+        "true": 69,
+        "predicted": 830,
+        "matched": 13,
+        "true_turns": 57,
+        "matched_turns": 9,
+        "sources": 14,
+        "recall": 0.18840579710144928,
+        "precision": 0.01566265060240964,
+        "turn_recall": 0.15789473684210525,
+        "public_precision_scope": "selected-object annotation correspondence, not exhaustive event precision"
+      },
+      "rendered": {
+        "true": 192,
+        "predicted": 201,
+        "matched": 190,
+        "true_turns": 32,
+        "matched_turns": 32,
+        "sources": 32,
+        "recall": 0.9895833333333334,
+        "precision": 0.945273631840796,
+        "turn_recall": 1.0,
+        "public_precision_scope": "selected-object annotation correspondence, not exhaustive event precision"
+      }
+    },
+    "public_precision_note": "selected annotated-object correspondence only; predicted events on other objects are not exhaustive false positives",
+    "posthoc_target_alignment": {
+      "rendered/extra_only": {
+        "cases": 244,
+        "ere": {
+          "auc": 0.5284387807377049,
+          "positive": {
+            "cases": 244,
+            "measured": 244,
+            "coverage": 1.0,
+            "detected": 0,
+            "rate_abstentions_as_no_detection": 0.0,
+            "rate_measurable_only": 0.0,
+            "source_bootstrap_95ci": [
+              0.0,
+              0.0
+            ]
+          }
+        },
+        "ser": {
+          "auc": 0.6261846823770492,
+          "positive": {
+            "cases": 244,
+            "measured": 244,
+            "coverage": 1.0,
+            "detected": 0,
+            "rate_abstentions_as_no_detection": 0.0,
+            "rate_measurable_only": 0.0,
+            "source_bootstrap_95ci": [
+              0.0,
+              0.0
+            ]
+          }
+        }
+      },
+      "rendered/has_missing": {
+        "cases": 332,
+        "ere": {
+          "auc": 0.8545604292168675,
+          "positive": {
+            "cases": 332,
+            "measured": 332,
+            "coverage": 1.0,
+            "detected": 64,
+            "rate_abstentions_as_no_detection": 0.1927710843373494,
+            "rate_measurable_only": 0.1927710843373494,
+            "source_bootstrap_95ci": [
+              0.18638306138306138,
+              0.20775058275058272
+            ]
+          }
+        },
+        "ser": {
+          "auc": 0.917371046686747,
+          "positive": {
+            "cases": 332,
+            "measured": 332,
+            "coverage": 1.0,
+            "detected": 98,
+            "rate_abstentions_as_no_detection": 0.29518072289156627,
+            "rate_measurable_only": 0.29518072289156627,
+            "source_bootstrap_95ci": [
+              0.2623379224941725,
+              0.33913777195027195
+            ]
+          }
+        }
+      },
+      "public_video/extra_only": {
+        "cases": 41,
+        "ere": {
+          "auc": 0.29104965156794427,
+          "positive": {
+            "cases": 41,
+            "measured": 41,
+            "coverage": 1.0,
+            "detected": 0,
+            "rate_abstentions_as_no_detection": 0.0,
+            "rate_measurable_only": 0.0,
+            "source_bootstrap_95ci": [
+              0.0,
+              0.0
+            ]
+          }
+        },
+        "ser": {
+          "auc": 0.35256968641114983,
+          "positive": {
+            "cases": 41,
+            "measured": 41,
+            "coverage": 1.0,
+            "detected": 1,
+            "rate_abstentions_as_no_detection": 0.024390243902439025,
+            "rate_measurable_only": 0.024390243902439025,
+            "source_bootstrap_95ci": [
+              0.0,
+              0.041666666666666664
+            ]
+          }
+        }
+      },
+      "public_video/has_missing": {
+        "cases": 123,
+        "ere": {
+          "auc": 0.49056329849012775,
+          "positive": {
+            "cases": 123,
+            "measured": 123,
+            "coverage": 1.0,
+            "detected": 8,
+            "rate_abstentions_as_no_detection": 0.06504065040650407,
+            "rate_measurable_only": 0.06504065040650407,
+            "source_bootstrap_95ci": [
+              0.014492501546072978,
+              0.15280032467532467
+            ]
+          }
+        },
+        "ser": {
+          "auc": 0.5994846109175378,
+          "positive": {
+            "cases": 123,
+            "measured": 123,
+            "coverage": 1.0,
+            "detected": 15,
+            "rate_abstentions_as_no_detection": 0.12195121951219512,
+            "rate_measurable_only": 0.12195121951219512,
+            "source_bootstrap_95ci": [
+              0.048185941043083894,
+              0.24449855699855694
+            ]
+          }
+        }
+      }
+    },
+    "failure_interpretation": "Good source extraction does not imply appearance-invariant event matching; all six AUC values below 0.9; annotation-only subgrouping does not replace primary labels/gates"
+  },
+  "primary_STA": {
+    "macro_accuracy": 0.5260416666666667,
+    "class_recall": {
+      "edr": 0.4791666666666667,
+      "clr": 0.4791666666666667,
+      "gfr": 0.14583333333333334,
+      "ghr": 1.0
+    },
+    "confusion_counts": {
+      "edr": {
+        "ghr": 50,
+        "edr": 46
+      },
+      "clr": {
+        "ghr": 100,
+        "clr": 92
+      },
+      "gfr": {
+        "ghr": 82,
+        "gfr": 14
+      },
+      "ghr": {
+        "ghr": 96
+      }
+    },
+    "fault_cases": 480,
+    "source_bootstrap_95ci": [
+      0.49218749999999994,
+      0.5651041666666666
+    ],
+    "normal_false_alarm_rate": 0.0,
+    "components": {
+      "edr": {
+        "target_vs_normal_auc": 1.0,
+        "target_vs_other_fault_auc": 1.0,
+        "threshold": 0.0,
+        "target": {
+          "cases": 96,
+          "measured": 96,
+          "coverage": 1.0,
+          "detected": 96,
+          "rate_abstentions_as_no_detection": 1.0,
+          "rate_measurable_only": 1.0,
+          "source_bootstrap_95ci": [
+            1.0,
+            1.0
+          ]
+        },
+        "normal": {
+          "cases": 32,
+          "measured": 32,
+          "coverage": 1.0,
+          "detected": 0,
+          "rate_abstentions_as_no_detection": 0.0,
+          "rate_measurable_only": 0.0,
+          "source_bootstrap_95ci": [
+            0.0,
+            0.0
+          ]
+        }
+      },
+      "clr": {
+        "target_vs_normal_auc": 1.0,
+        "target_vs_other_fault_auc": 1.0,
+        "threshold": 0.0,
+        "target": {
+          "cases": 192,
+          "measured": 192,
+          "coverage": 1.0,
+          "detected": 192,
+          "rate_abstentions_as_no_detection": 1.0,
+          "rate_measurable_only": 1.0,
+          "source_bootstrap_95ci": [
+            1.0,
+            1.0
+          ]
+        },
+        "normal": {
+          "cases": 32,
+          "measured": 32,
+          "coverage": 1.0,
+          "detected": 0,
+          "rate_abstentions_as_no_detection": 0.0,
+          "rate_measurable_only": 0.0,
+          "source_bootstrap_95ci": [
+            0.0,
+            0.0
+          ]
+        }
+      },
+      "gfr": {
+        "target_vs_normal_auc": 1.0,
+        "target_vs_other_fault_auc": 0.9993082682291666,
+        "threshold": 0.0,
+        "target": {
+          "cases": 96,
+          "measured": 96,
+          "coverage": 1.0,
+          "detected": 96,
+          "rate_abstentions_as_no_detection": 1.0,
+          "rate_measurable_only": 1.0,
+          "source_bootstrap_95ci": [
+            1.0,
+            1.0
+          ]
+        },
+        "normal": {
+          "cases": 32,
+          "measured": 32,
+          "coverage": 1.0,
+          "detected": 0,
+          "rate_abstentions_as_no_detection": 0.0,
+          "rate_measurable_only": 0.0,
+          "source_bootstrap_95ci": [
+            0.0,
+            0.0
+          ]
+        }
+      },
+      "ghr": {
+        "target_vs_normal_auc": 1.0,
+        "target_vs_other_fault_auc": 0.7841796875,
+        "threshold": 0.0,
+        "target": {
+          "cases": 96,
+          "measured": 96,
+          "coverage": 1.0,
+          "detected": 96,
+          "rate_abstentions_as_no_detection": 1.0,
+          "rate_measurable_only": 1.0,
+          "source_bootstrap_95ci": [
+            1.0,
+            1.0
+          ]
+        },
+        "normal": {
+          "cases": 32,
+          "measured": 32,
+          "coverage": 1.0,
+          "detected": 0,
+          "rate_abstentions_as_no_detection": 0.0,
+          "rate_measurable_only": 0.0,
+          "source_bootstrap_95ci": [
+            0.0,
+            0.0
+          ]
+        }
+      }
+    },
+    "adoption_gate": false,
+    "chance_macro_accuracy": 0.25,
+    "scope": "32 PNG keyframes, no captions, checksum verification, zero-order-hold raster decoder; no actual generative model"
+  },
+  "STA_supplements": {
+    "declarations_before_first_primary_heldout_score": true,
+    "same_classifier_head": {
+      "macro_accuracy": 0.9921875,
+      "class_recall": {
+        "edr": 1.0,
+        "clr": 1.0,
+        "gfr": 1.0,
+        "ghr": 0.96875
+      },
+      "confusion_counts": {
+        "edr": {
+          "edr": 96
+        },
+        "clr": {
+          "clr": 192
+        },
+        "gfr": {
+          "gfr": 96
+        },
+        "ghr": {
+          "ghr": 93,
+          "gfr": 3
+        }
+      },
+      "fault_cases": 480,
+      "source_bootstrap_95ci": [
+        0.9765625,
+        1.0
+      ],
+      "by_kind_severity": {
+        "bit_corruption/0.125": 1.0,
+        "bit_corruption/0.25": 1.0,
+        "bit_corruption/0.5": 1.0,
+        "generation_freeze/0.125": 1.0,
+        "generation_freeze/0.25": 1.0,
+        "generation_freeze/0.5": 1.0,
+        "packet_loss/0.125": 1.0,
+        "packet_loss/0.25": 1.0,
+        "packet_loss/0.5": 1.0,
+        "tx_omission/0.125": 1.0,
+        "tx_omission/0.25": 1.0,
+        "tx_omission/0.5": 1.0,
+        "unsupported_addition/0.125": 0.96875,
+        "unsupported_addition/0.25": 0.96875,
+        "unsupported_addition/0.5": 0.96875
+      }
+    },
+    "same_classifier_scope": "Same classifier as baselines on STA features; primary adoption test remains unchanged",
+    "same_input_pixel_baselines": {
+      "mse": {
+        "macro_accuracy": 0.6458333333333334,
+        "source_bootstrap_95ci": [
+          0.6145833333333333,
+          0.6796874999999999
+        ],
+        "class_recall": {
+          "edr": 0.7083333333333334,
+          "clr": 0.7916666666666666,
+          "gfr": 0.4166666666666667,
+          "ghr": 0.6666666666666666
+        }
+      },
+      "mae": {
+        "macro_accuracy": 0.6614583333333334,
+        "source_bootstrap_95ci": [
+          0.6354166666666665,
+          0.6875
+        ],
+        "class_recall": {
+          "edr": 0.7083333333333334,
+          "clr": 0.875,
+          "gfr": 0.3958333333333333,
+          "ghr": 0.6666666666666666
+        }
+      },
+      "mse_and_mae": {
+        "macro_accuracy": 0.6484375,
+        "source_bootstrap_95ci": [
+          0.6210286458333333,
+          0.6744791666666666
+        ],
+        "class_recall": {
+          "edr": 0.6979166666666666,
+          "clr": 0.8333333333333334,
+          "gfr": 0.3958333333333333,
+          "ghr": 0.6666666666666666
+        }
+      }
+    },
+    "head_vs_same_input_source_paired_comparisons": {
+      "mse": {
+        "mean_source_macro_accuracy_difference_STA_features_minus_baseline": 0.34635416666666674,
+        "source_bootstrap_95ci": [
+          0.30989583333333337,
+          0.3828125000000001
+        ],
+        "paired_sources": 32,
+        "scope": "predeclared STA feature classifier and same-input baselines; same classifier family, post-hoc paired CI, no retuning"
+      },
+      "mae": {
+        "mean_source_macro_accuracy_difference_STA_features_minus_baseline": 0.33072916666666674,
+        "source_bootstrap_95ci": [
+          0.29811197916666676,
+          0.36458333333333337
+        ],
+        "paired_sources": 32,
+        "scope": "predeclared STA feature classifier and same-input baselines; same classifier family, post-hoc paired CI, no retuning"
+      },
+      "mse_and_mae": {
+        "mean_source_macro_accuracy_difference_STA_features_minus_baseline": 0.34375000000000006,
+        "source_bootstrap_95ci": [
+          0.30729166666666674,
+          0.37760416666666674
+        ],
+        "paired_sources": 32,
+        "scope": "predeclared STA feature classifier and same-input baselines; same classifier family, post-hoc paired CI, no retuning"
+      }
+    },
+    "primary_STA_semantic_normal_false_alarm": {
+      "all": {
+        "cases": 320,
+        "false_alarms": 133,
+        "false_alarm_rate": 0.415625,
+        "source_bootstrap_95ci": [
+          0.30921875000000004,
+          0.5125
+        ]
+      },
+      "pixel": {
+        "cases": 128,
+        "false_alarms": 33,
+        "false_alarm_rate": 0.2578125,
+        "source_bootstrap_95ci": [
+          0.1328125,
+          0.359375
+        ]
+      },
+      "rerender": {
+        "cases": 192,
+        "false_alarms": 100,
+        "false_alarm_rate": 0.5208333333333334,
+        "source_bootstrap_95ci": [
+          0.41666666666666663,
+          0.6197916666666666
+        ]
+      },
+      "brightness20": {
+        "cases": 32,
+        "false_alarms": 14,
+        "false_alarm_rate": 0.4375,
+        "source_bootstrap_95ci": [
+          0.25,
+          0.59375
+        ]
+      },
+      "gamma075": {
+        "cases": 32,
+        "false_alarms": 9,
+        "false_alarm_rate": 0.28125,
+        "source_bootstrap_95ci": [
+          0.125,
+          0.4375
+        ]
+      },
+      "identity": {
+        "cases": 32,
+        "false_alarms": 0,
+        "false_alarm_rate": 0.0,
+        "source_bootstrap_95ci": [
+          0.0,
+          0.0
+        ]
+      },
+      "jpeg75": {
+        "cases": 32,
+        "false_alarms": 10,
+        "false_alarm_rate": 0.3125,
+        "source_bootstrap_95ci": [
+          0.125,
+          0.46875
+        ]
+      },
+      "restyle_camera": {
+        "cases": 32,
+        "false_alarms": 32,
+        "false_alarm_rate": 1.0,
+        "source_bootstrap_95ci": [
+          1.0,
+          1.0
+        ]
+      },
+      "restyle_gait": {
+        "cases": 32,
+        "false_alarms": 12,
+        "false_alarm_rate": 0.375,
+        "source_bootstrap_95ci": [
+          0.21875,
+          0.53125
+        ]
+      },
+      "restyle_instance": {
+        "cases": 32,
+        "false_alarms": 10,
+        "false_alarm_rate": 0.3125,
+        "source_bootstrap_95ci": [
+          0.13984375000000004,
+          0.46875
+        ]
+      },
+      "restyle_lighting": {
+        "cases": 32,
+        "false_alarms": 13,
+        "false_alarm_rate": 0.40625,
+        "source_bootstrap_95ci": [
+          0.21875,
+          0.5625
+        ]
+      },
+      "restyle_palette": {
+        "cases": 32,
+        "false_alarms": 12,
+        "false_alarm_rate": 0.375,
+        "source_bootstrap_95ci": [
+          0.1875,
+          0.5625
+        ]
+      },
+      "restyle_texture": {
+        "cases": 32,
+        "false_alarms": 21,
+        "false_alarm_rate": 0.65625,
+        "source_bootstrap_95ci": [
+          0.46875,
+          0.78125
+        ]
+      }
+    },
+    "primary_component_fault_vs_semantic_normal_auc": {
+      "edr": 1.0,
+      "clr": 1.0,
+      "gfr": 0.837451171875,
+      "ghr": 0.9050618489583333
+    },
+    "head_normal_or_rejection_class_evaluated": false,
+    "numeric_component_rates_validated_against_true_unit_attribution": false,
+    "primary_labels_or_thresholds_replaced_after_observing_results": false,
+    "posthoc_GFR_target_alignment": {
+      "has_missing": {
+        "cases": 89,
+        "predicted_gfr": 14,
+        "predicted_gfr_rate": 0.15730337078651685,
+        "predictions": {
+          "edr": 0,
+          "clr": 0,
+          "gfr": 14,
+          "ghr": 75,
+          "normal": 0
+        },
+        "scope": "post-hoc target-alignment diagnostic; original primary labels/gate retained; extra-only events are outside an omission-only GFR target"
+      },
+      "extra_only": {
+        "cases": 7,
+        "predicted_gfr": 0,
+        "predicted_gfr_rate": 0.0,
+        "predictions": {
+          "edr": 0,
+          "clr": 0,
+          "gfr": 0,
+          "ghr": 7,
+          "normal": 0
+        },
+        "scope": "post-hoc target-alignment diagnostic; original primary labels/gate retained; extra-only events are outside an omission-only GFR target"
+      }
+    },
+    "input_hash_based_macro_accuracy_ceiling": {
+      "source_and_final_RGB": 0.5,
+      "source_TX_RX_final_RGB": 1.0
+    },
+    "interpretation": "Predeclared fault-only STA features + fixed classifier discriminate the known intervention labels well. This does not fix the primary rule or validate normal robustness, calibrated semantic error rates, or real decoder causal attribution."
+  },
+  "real_reconstruction_diagnostics": {
+    "status": "COMPLETED",
+    "pairs": 6,
+    "STA_available_pairs": 3,
+    "ERE_measured_pairs": 2,
+    "ERE_null_handling": "Source with fewer than two inferred events abstains; null is not zero",
+    "semantic_ground_truth": null,
+    "model_ranking_claimed": false,
+    "sparse_keyframe_and_literal_caption_adapter_only": true,
+    "transmitted_optical_flow_interpreted": false,
+    "off_grid_keyframe_status_pixel_alignment_fixed_before_diagnostic_run": true,
+    "adapter_regression": "24 fps index 16 first applies at 8 Hz sample 6, not sample 5; offset 1/12 seconds"
+  },
+  "verification": {
+    "primary_and_supplement_integrity": {
+      "status": "PASSED",
+      "recorded_unix": 1789384370.3212364,
+      "score_counts": {
+        "visual/ere/development": 751,
+        "visual/ere/heldout": 1460,
+        "pixel/ere/development": 751,
+        "pixel/ere/heldout": 1460,
+        "visual/sta/development": 256,
+        "visual/sta/heldout": 512,
+        "pixel/sta/development": 256,
+        "pixel/sta/heldout": 512
+      },
+      "total_score_records": 5958,
+      "source_overlap": [],
+      "source_pixel_overlap": [],
+      "chronology": {
+        "last_development_score_mtime": 1789378086.3727226,
+        "calibration_created_unix": 1789378092.1499414,
+        "first_heldout_score_mtime": 1789378099.8481379,
+        "last_heldout_score_mtime": 1789383201.7117813
+      },
+      "preserved_previous_runs": {
+        "outputs/ere_sta_20260914_v1": {
+          "recorded_artifacts_verified": 16,
+          "frozen_code_files_verified": 11
+        },
+        "outputs/ere_sta_20260914_v2": {
+          "recorded_artifacts_verified": 20,
+          "frozen_code_files_verified": 11
+        }
+      },
+      "model_weight_hashes_verified": 4,
+      "model_source_commits_verified": 2,
+      "model_source_worktrees_clean": true,
+      "original_public_RGB_and_annotation_files_verified": 1068,
+      "STA_packet_and_transport_files_rechecked": 1536,
+      "supplementary_semantic_controls_verified": 480,
+      "supplementary_STA_classifier_predictions_verified": 512,
+      "early_ERE_summary_matches_final": true,
+      "protocol_sha256": "4f6645339924d3ef9e6f03153ac8104f995bd0ffa7b9d411e7a9b81f79b6b9b9",
+      "calibration_sha256": "fb80848d2700aeeba97c0e36ae520054d7f505c8fe53b3032c2a2fd35dfc790e",
+      "note": "All scored RGB hashes were additionally checked when each formal observer loaded its input."
+    },
+    "transport_replay": {
+      "status": "PASSED",
+      "cases": 768,
+      "packet_status_counts": {
+        "tx/ok": 23232,
+        "rx/ok": 20544,
+        "tx/packet_lost": 1344,
+        "rx/packet_lost": 2688,
+        "rx/checksum_failed": 1344
+      },
+      "elapsed_s": 11.037494421005249,
+      "scope": "independent byte/checksum/PNG decoding and zero-order hold replay matches every stored TX/RX RGB SHA; no metric scores read",
+      "source_truth_used": false
+    },
+    "truth_target_reproduction": {
+      "status": "PASSED",
+      "recorded_unix": 1789383904.2874322,
+      "script_sha256": "05e44413e64607030e4b5a3b4f9d001c0a4642ebbc75350c45868e6d11476570",
+      "verified_files": [
+        "truth_metric_scope.json",
+        "sta_truth_target_audit.json"
+      ],
+      "ere_cases": 1123,
+      "sta_cases": 624
+    },
+    "regression_tests": {
+      "status": "PASSED",
+      "passed": 92,
+      "elapsed_s": 3.99,
+      "log": "tests_final.log",
+      "previous_91_test_log_preserved": "tests.log"
+    },
+    "scientific_figures_visually_checked": [
+      "ere_baseline_matrix.png",
+      "sta_input_matched_comparison.png",
+      "sta_normal_false_alarms.png"
+    ],
+    "documentation_and_script_checks": {
+      "status": "PASSED",
+      "recorded_unix": 1789384581.4025328,
+      "documents": 6,
+      "local_links_checked": 65,
+      "python_AST_checked": 17,
+      "shell_files_or_document_blocks_syntax_checked": 9,
+      "git_diff_check": "PASSED",
+      "failures": []
+    }
+  },
+  "runtime": {
+    "visual": {
+      "started_unix": 1789374329.9110243,
+      "torch": "2.12.0+cu130",
+      "numpy": "2.2.6",
+      "gpu": "NVIDIA GeForce RTX 4080",
+      "part": "visual",
+      "split": "development"
+    },
+    "pixel": {
+      "started_unix": 1789375387.78626,
+      "torch": "2.2.2+cu121",
+      "numpy": "1.26.4",
+      "gpu": "NVIDIA GeForce RTX 4080",
+      "part": "pixel",
+      "split": "development"
+    },
+    "CPU_python": "/home/sangukbae/anaconda3/envs/lgvsc/bin/python",
+    "object_python": "/home/sangukbae/ETRI/Semantic/semantic_transmission/.local/metric_v2_env/bin/python",
+    "driver_library_override": "process-only .local/metric_v2_driver/extracted/usr/lib/x86_64-linux-gnu",
+    "system_driver_modified": false,
+    "exact_memoization_probe": {
+      "created_unix": 1789374849.5559325,
+      "script_sha256": "f6c56d1d0f2f390f2f175cb3b5498c0caf8b0916bd627be97bcb7ed85c0c01e5",
+      "heldout_scores_observed": 0,
+      "results": [
+        {
+          "case": "davis__varanus-cage__brightness20",
+          "all_outputs_exactly_equal": true,
+          "uncached_s": 3.5650064945220947,
+          "memoized_s": 1.5373404026031494
+        },
+        {
+          "case": "davis__koala__identity",
+          "all_outputs_exactly_equal": true,
+          "uncached_s": 6.243262767791748,
+          "memoized_s": 2.6411936283111572
+        }
+      ],
+      "scope": "CPU scoring of existing development RGB observations only"
+    },
+    "model_hashes_and_source_commits": {
+      "root": "/home/sangukbae/ETRI/Semantic/semantic_transmission/.local/metric_v2_models",
+      "sam2_commit": "2b90b9f5ceec907a1c18123530e92e794ad901a4",
+      "dinov2_commit": "7764ea0f912e53c92e82eb78a2a1631e92725fc8",
+      "sam2_weights_sha256": "7402e0d864fa82708a20fbd15bc84245c2f26dff0eb43a4b5b93452deb34be69",
+      "dino_weights_sha256": "b938bf1bc15cd2ec0feacfe3a1bb553fe8ea9ca46a7e1d8d00217f29aef60cd9",
+      "raft": "torchvision raft_small C_T_V2, 12 updates, FP32",
+      "raft_weights_sha256": "01064c6dba73b0fc9fc8edf772248560a00a3acfd62ac6677e9eeebad9680e27",
+      "clip_weights_sha256": "40d365715913c9da98579312b702a82c18be219cc2a73407c4526f58eba950af"
+    }
+  },
+  "research_status": {
+    "requested_validation_and_analysis_completed": true,
+    "ERE_adopted_as_validated_metric": false,
+    "STA_adopted_as_validated_metric": false,
+    "novelty_demonstrated": false,
+    "ETRI_stage_1_completed": false,
+    "novelty_review_scope": "limited primary-paper, author-code and official-documentation review; not an exhaustive novelty proof",
+    "next_revalidation_requires": "new heldout source and scene families after any metric or decision-rule changes"
+  },
+  "protocol_sha256": "4f6645339924d3ef9e6f03153ac8104f995bd0ffa7b9d411e7a9b81f79b6b9b9",
+  "calibration_sha256": "fb80848d2700aeeba97c0e36ae520054d7f505c8fe53b3032c2a2fd35dfc790e",
+  "artifact_sha256": {
+    "EXECUTION.frozen.md": "267f133d3cbd1ed414a07202f25f57942b66dec1358a4faf78e81e62040f7053",
+    "REPORT.md": "5729772b61d19a6d43581cf14dc9d480fc1b240661526fa88578b2761adbfafa",
+    "analysis.json": "d104f66e8e61be4b2d0f2c283dc153b3527f928553a5bb3702765d4d9f4f2670",
+    "analysis.log": "2b508595dde3f2daaec6cfa0a5407224aa9a904b373dd8b55fca5685c8048769",
+    "calibrate.log": "52bdd367677d408c574090879c61a286987315278376498c99d646b7e4da2557",
+    "calibration.json": "fb80848d2700aeeba97c0e36ae520054d7f505c8fe53b3032c2a2fd35dfc790e",
+    "calibration.sha256": "bd8b129ee48294317274a01555cdf8dcac76e00a8549dceb51cb4f7707efc077",
+    "cases.jsonl": "767f7f3e4ed5f93475a77a66e4e163c6abe6cfd64892279acd4d7cecd5776d40",
+    "comparison.png": "47252aa9c6b13d3e315fd2300c79f103794c3324e0cca56e0e14f81404ac2690",
+    "comparison.svg": "8c85668e074335ba6e44d71c5e3683c064d43df53ad22c1633feb78f827d94c3",
+    "completed_pixel_development.concurrent.json": "fdd6f13587c154aaf57db1dcc00b70a2307e6de3504be0a1a61e7ead188c3d95",
+    "completed_pixel_development.json": "5863f3668432638e76212e92c59a686383c4930b61de9a54ff343662f1799168",
+    "completed_pixel_heldout.concurrent.json": "25198a89cc1f7d699120926684c6f2565f4562d84e665594b0871ee6a93f9905",
+    "completed_pixel_heldout.json": "1d524c8bd573ea7d297322e3cd8c16ac86895b61d316d9d7c1e7707a0f7aa9f5",
+    "completed_visual_development.json": "64492f211bdedadd76e958f250a8a39769ccad04de9f6fd7639e649b3576f67a",
+    "completed_visual_heldout.json": "1c363f519d09ccbba411d2a4bc809b5554101ff846b9c53e82f14c30f278aed9",
+    "concurrent_development_operation.json": "dcd812976fe3b20728552ffa744ac1628986c924e07722b8759cdeec9b38b9d9",
+    "data_diversity_audit.json": "d2c8de253d69c9a1645f7853218d2b1af875f02c1d5a434c872b31460711f1fd",
+    "ere_baseline_matrix.png": "db13038cc4a1f536d79c5f33a7751e29169cf08881e9588d73eaa1e149a81c44",
+    "ere_baseline_matrix.svg": "4919f35739891a6fb5f98f4fd95a6edc906956ab6925212de897cc2ba0f38de5",
+    "ere_heldout_interim.json": "fa50204e3ad4db5d5cae616d894ada53a47c7059b1ab4c6018b22140e6cc0297",
+    "final_integrity.json": "62dc611db6d5a2885dc906d9412e9ebe798ac2f67204a76c5046ae3d272857ac",
+    "final_integrity.log": "189aa9204c0cad5d898c723732bc93e5f3a197d5b679878da7e35ae5d05745c0",
+    "input_information_audit.json": "f9fab71df9488d8b98d68d4f9ba0262658776ebe3512b2d7475e6a183f2e7ccb",
+    "memoization_activation.json": "4d60fdd923f13148a8f22efe7efba2106e3a296c3e9dd681c7cbd195538dcefc",
+    "memoization_probe.json": "f8a3e9a88dc0267933cc022171917e25184afe670a3d4a474ec0eb927b6d0f64",
+    "memoization_probe.log": "091dfddb0d614f38f57a9e1ca36848b64eabc83965f9bc6a2ddb849a948e56eb",
+    "memoization_runtime_development.json": "d81676f21ba87105f112a4296ed6f9b983deb877bd3b0a36e74f35049d313a38",
+    "memoization_runtime_heldout.json": "e15924d925ad4792dc990e83e154c8e5595b35763880b3c8643007b09e3585a7",
+    "pixel-development.concurrent.log": "977a65f26aa7ad21b22cef6ce941347a7718da56f699a26aff0e245d7ae9e1f9",
+    "pixel-development.log": "a1e323da4c3ed892d1d80c186d6e9c92222341a0c811d5182e5902ad00d4a3e4",
+    "pixel-heldout.concurrent.log": "cf7cb8e2a6781a8202b3880071b08a8bf62e175f1b02eb0d71908cd19099299e",
+    "pixel-heldout.log": "a1e323da4c3ed892d1d80c186d6e9c92222341a0c811d5182e5902ad00d4a3e4",
+    "preparation.json": "ec4682c4baea2736a76b66c6f3c6d4d65fdc8a0170dacb851bc07383307aeb8d",
+    "protocol.json": "4f6645339924d3ef9e6f03153ac8104f995bd0ffa7b9d411e7a9b81f79b6b9b9",
+    "public_event_definition_diagnostic.json": "ed381235e347e3b9d66aab1e78d7b03380b6c70adf214e9c9480a3831930cdf5",
+    "public_heldout_extractor_interim.json": "f956210d3fe71706cb92dd78f77edf8f4a98a5e2ba5890e63b60cde253a4af05",
+    "real_pair_diagnostic_declaration.json": "3354c422a00938a273a8cd9895d62f62a70203dd6c28290d162ab71831f35c50",
+    "real_pair_diagnostics.json": "ec436eec6d91a3d09436524254897bacafa9d25251cc75747ec80c3cd4007ea8",
+    "real_pair_diagnostics.log": "f578186095680d4e0d2f132c3bb6dc922aae5375af5a84ae62b74685d4779b5e",
+    "real_pair_diagnostics.partial.json": "d2819e62c8cbb60b3c87ade47cd46ac82dd58616227af4bfd253b23e1a6e4204",
+    "runtime_pixel_development.concurrent.json": "cd31ae30b43610055529f6439e7a0d6dd46b00bd2163ce12e9d0dc7f44eb76d0",
+    "runtime_pixel_development.json": "048aa6370f72ed5a9117a17348ce3cbf0d66a3a8529060dde2c4cc19413bb666",
+    "runtime_pixel_heldout.concurrent.json": "88f671ca9e2e40519dd24614f54eab79732645b0a24839f28c0423ee840f476f",
+    "runtime_pixel_heldout.json": "bc893282d1e5ec648d64569a08a1a1e3e951941d0aef4569b5735a660a317efe",
+    "runtime_visual_development.initial.json": "ecf933126f1ef9b6676badaf168a4210f9b5f11091a40edc30f3cb0c9783b2d3",
+    "runtime_visual_development.json": "6ecc9935c59c3d9c9fb40a2cac88b057199833fa4bce15e233b50fb3ffb37c10",
+    "runtime_visual_heldout.json": "9e89afd603ecb57b158a4582022edacb04375b653a717b05170f6d61c448a9cd",
+    "same_input_baseline_calibration.json": "02996055ccf48f90ab55d3487e4c4c0a63af4dce70b296fc5e1968b4bcb2b377",
+    "same_input_baseline_declaration.json": "e5fb7da027449b6e299ce2a5314318c71c642034f7eb0a8324652f83a0df06e5",
+    "same_input_baseline_development.json": "b137b7b4d240952766df3b97e6ad459a4c37e435f95a73f93aaeef59257edbe1",
+    "same_input_baseline_heldout.json": "a9d6ef224f0816426567f9ecba12af17d5a0e4daffb76cc60f6cba7b098de550",
+    "same_input_baseline_results.json": "aa03bd4e459f883730ec2c4cb73bb9c4077af367296411234cfd3ad32bbc0435",
+    "same_input_baselines.log": "33954f991d691edb742c37c2bba59009e06ecd70b375470431d32c070b3b64aa",
+    "score_artifact_sha256.json": "2771fcdd5036d4b080f6bca0a96f6412540dc2fb6eea9386d8244563dbfa4109",
+    "scores.csv": "139bab6681a2f5615dfd391d7bdbe1ce7c4329c06d2c720bf135cb7120175c0f",
+    "sta_cases.jsonl": "42bef8e70137e5fe8aac32b695fb0458f13852e571ecdcbde770af17dc5ff264",
+    "sta_classifier_head.log": "ef6b5e79abd1995dfcc1beff833f4dfa9495638b7a3b731626d5a317c6c56297",
+    "sta_classifier_head_calibration.json": "c91eb597fe0f54dab316991ce35ea1bcbef12de4db788c2babfc25e77064e38e",
+    "sta_classifier_head_declaration.json": "2f89791d5197f197e1a2df39191c2b5f451320d08e443f951daf60184e773c73",
+    "sta_classifier_head_results.json": "1a534595bb4c76985100451d085c111d07b064472e35b09a07adc296a7f48218",
+    "sta_input_matched_comparison.png": "1b376353fd186ccfa9888dc6855911a7c1003d3821d84c965eeded24197e2479",
+    "sta_input_matched_comparison.svg": "2b98ad83567c16458e06cec15f3654d2aa0e9e2ae6c6a9c56eabe8923cb91747",
+    "sta_normal_false_alarms.png": "fc19a6d96c5786b37f26ade8e6ece86f4d1039d6ec15b58cfce91b3e6303cc8a",
+    "sta_normal_false_alarms.svg": "c88bdea755f03f563949762dd5e1cf491d8c8682d282c6b89462b1364c3e2422",
+    "sta_predictions.json": "d9d9244b28438742d0354557e1725575d6ce8daf2907e78f3383a52100fc8c6a",
+    "sta_semantic_controls.log": "116d12746c0e50bb8a1ef190ad097d59892603ac9376495e58adf96e0a563c40",
+    "sta_semantic_controls_declaration.json": "deb8095fb47f0a85cdbcdc01fcac687939c5352b995a07c0773814865ab011eb",
+    "sta_semantic_controls_development.json": "cca0a72c5f3ff5c4e27ecebbaff81801abb71d5df260c181991aa0f8af712cfd",
+    "sta_semantic_controls_heldout.json": "1e27c1a189fb829a869b68b907945001de7da3027f504ca8d8f9c9d50e29e64b",
+    "sta_semantic_controls_preflight.json": "e557b31933043aceb7a4dd0c81088570c8c287f6f5091c1ba505cb9bb0408a20",
+    "sta_stage_illustration.json": "4b90e56060a0867469df730cb076dc9f6361188f903b37122dadfa5943737f47",
+    "sta_stage_illustration.png": "8da1a580dd15716e058d65c131f974b68b613f375a935257eac6a91244d6df10",
+    "sta_stage_illustration.svg": "62330dbbee43d2deeaa905d06db35a14816a31643e22094d85840f318cb6f29c",
+    "sta_truth_target_audit.json": "1bbfd7794aec121e7524e1506faef2c038411ee3013dae4b09af64006c42f8b2",
+    "summarize.log": "ef7570977b9284b334f41130e0a055e8b22b4278843a58de090427547035a130",
+    "summary.json": "5757bbf24f7149951c9712ac92a750038a668fbf4f46487262c61e3955c498dd",
+    "target_audit_reproduction.json": "4d0c76d954d64ccda2946f16a8630f3fd0ac22a2067711a42cdd25ce6bca72da",
+    "tests.log": "8d98f58e805c20b6e79de84fffeb5ffe9f2a45bf7a6af3938a10f5ecd582ded1",
+    "tests_final.log": "2de6ef375ecadf1c6998d2f79d16b5c06d6a8c0145f3d2539ddd2c9890f04530",
+    "transport_replay_audit.json": "1bd8037e073038570ac8665ca4c141db446482c370cee772f373eff35f526c4d",
+    "truth_eligibility.json": "34f0e065198ab9531a203cfa226b17503ad715791a76a08dcae07b75926cbc29",
+    "truth_metric_scope.json": "634ed831ce9ec827fd3d0aa5a0729b0d5fcd2de5192fe15f391f254b360fc575",
+    "visual-development.log": "6cc7c012f93b3240bcb4f04f598b009c8a99e3f77903bce243895b2e11628116",
+    "visual-development.memoized.log": "5bc1e72c67c7e283d9a3d60f2ad657f323293b855f8718f13cea5c7b6097a8f4",
+    "visual-heldout.log": "9ba47e1cede24a38b91ac628871d0db1d43db764d7ed01c2b6f51d6884393d0e",
+    "visual_preflight.json": "7d5b74401bf098891cb8213d9dbf0d29d950ff44b84fe184679129524443dd69",
+    "workflow_status.json": "0e7cc130a35253714c5437a417eca4efa045203eecb52afd51d8d0c385447e7e",
+    "documentation_checks.json": "9563c8e9433a79c4df7a3495643e54c2a87b77b6d71bba5c9fe9517a955795e4"
+  },
+  "implementation_and_test_sha256": {
+    "src/semantic_transmission/metric_v3_features.py": "96ff9cfee8b435416313dd840d51c74264f07577597365f220d73b66484223d1",
+    "src/semantic_transmission/sta_video_validation.py": "54a35ab392350767880ac041df3b12b7bd4ee3d1ad098447d2c0c99e442976fa",
+    "src/semantic_transmission/metric_v3_formal.py": "b18933ceb123045ff5eb8f992d4c8f98d44d20d9366aa40295767cb8504934a0",
+    "src/semantic_transmission/metric_v3_statistics.py": "dd5da3ae4ea60bfef658a5c994ddce95b42a32c12b467306cb47057a4d6ffffc",
+    "scripts/run_metric_v3_formal.sh": "7ba31570f2d1566649e1295e9dec7ccbeaa2f2d167745aa3207664495292ac18",
+    "scripts/report_metric_v3_formal.py": "2e0cfdcab494dcb0b036094381c528350ed33b41dee01d66ffe8d89277fbb596",
+    "scripts/run_metric_v3_memoized.py": "f6c56d1d0f2f390f2f175cb3b5498c0caf8b0916bd627be97bcb7ed85c0c01e5",
+    "scripts/evaluate_sta_same_input_baselines.py": "3f590d599baf9d188858dcb6232b827beb745f90123e0cd0fa9ba6d440ddaefe",
+    "scripts/evaluate_sta_semantic_controls.py": "60dd1d01ee93c3cd55151c89eb829e9f652c123343bd4308ed3bee907fc6918d",
+    "scripts/evaluate_sta_classifier_head.py": "317097735bf7029b339fbe9d89338ea6bc0795276e022acd0113aa1b532da9f8",
+    "scripts/diagnose_metric_v3_pairs.py": "665e2aa791b59ff1ec8721da6d24de998d38652c549991c282a5dc7a84ea9642",
+    "scripts/analyze_metric_v3_formal.py": "eda7ab52bcc63fceffb1b85215f7c2f8914b2274eae42a671c091b8e13db8b1e",
+    "scripts/verify_metric_v3_formal.py": "7679f648b794f802ba9ae0bec8f608548660d79dd2c85b445c169fcc5ab9f6ca",
+    "scripts/audit_metric_v3_targets.py": "05e44413e64607030e4b5a3b4f9d001c0a4642ebbc75350c45868e6d11476570",
+    "tests/test_metric_v3_formal.py": "7bc5cfae3d78931db572e4f3717a0ecb3c565232ddb2a36f7d6969e444c4411b",
+    "tests/test_metric_v3_pair_adapter.py": "01169266145fb87a3b2bd53705c5da99ce2f3c90d1fdd75548bae83ca0ff1050",
+    "tests/test_metric_v3_statistics_pipeline.py": "2c745f2cbb87d5dccd5956ac2aef78e621a43a5ff1dae04cb6052ad2218f5de3",
+    "tests/test_sta_same_input_baselines.py": "3b4329c7611eb771faac68de86e1c377060bc65fde07a014587ba71a0bbc0160"
+  },
+  "document_sha256": {
+    "README.md": "0ee6a7f532f5967bf44924eb132ed07b57e62eeaf3a2c23f7edd48823e5d1dca",
+    "docs/ETRI_DEVELOPMENT_PLAN.md": "d4bd0618df3d99c12f5f9826b5e5e17c4711cecda9864826cb02bb1424606a4d",
+    "docs/ERE_STA_PROTOCOL.md": "d6e00ffe35804f03771e21b56663ec954fae6b33378c9b175c8f08ead53449c9",
+    "docs/ERE_STA_FORMAL_RESULTS.md": "13ca384f52c6487825341f1516042b4e8a10cf1d19b13bd1f7b7613790eeac71",
+    "docs/ERE_STA_FORMAL_EXECUTION.md": "527c0a2604ff3080a2e44851a9db3d7784acc42153e5e9dd487daf9126c0eae9",
+    "docs/ERE_STA_NOVELTY_REVIEW.md": "9a80b3f872e19f93f7331ec693a0abfe6888cd66b99c4d9eb3af01e363067e03"
+  }
+}
