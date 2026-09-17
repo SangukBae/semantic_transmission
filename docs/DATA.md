@@ -1,5 +1,8 @@
 # Data sources & how to obtain them
 
+This computer's SSD layout, acquisition status reports, and verification commands
+are documented in [LOCAL_DATASETS.md](LOCAL_DATASETS.md).
+
 LGVSC uses **public** datasets only. We do not redistribute the full datasets; below is
 exactly what we used and where to get it, so a third party can reproduce our results.
 

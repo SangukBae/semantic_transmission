@@ -12,6 +12,8 @@ from semantic_transmission.research_quality import read_video
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--sgd-repo", type=Path, required=True)
+    parser.add_argument("--input-dir", type=Path,
+                        default=Path(__file__).resolve().parents[1] / "data/etri_video_eval/processed")
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
     sgd = args.sgd_repo.resolve()
@@ -33,7 +35,7 @@ def main():
         size = sum(p.stat().st_size for p in files)
         if size != int(row["total_bundle_bytes"]):
             raise ValueError("historical packet byte total mismatch")
-        source = sgd / f"data/etri_video_eval/processed/{video}.mp4"
+        source = args.input_dir / f"{video}.mp4"
         decoded = read_video(source)
         old = worker / f"logs/{video}_frames"
         original = np.stack([np.asarray(Image.open(p).convert("RGB")) for p in sorted(old.glob("*.png"))])

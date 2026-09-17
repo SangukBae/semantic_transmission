@@ -1,0 +1,81 @@
+{
+  "created_at": "2026-09-11T11:30:02.169920+00:00",
+  "status": "PARTIAL_MISSING_TWO_WEBVID_SOURCES",
+  "dataset_root": "/legend/semantic_transmission/datasets",
+  "package_link": "/home/sangukbae/ETRI/Semantic/semantic_transmission/data",
+  "old_datasets_deleted": true,
+  "deleted_allocated_bytes": 719408902144,
+  "etri_preserved_videos": 10,
+  "datasets": {
+    "webvid55": {
+      "target": 55,
+      "exact_source_hash_matches": 53,
+      "preprocessed_decode_verified": 53
+    },
+    "kinetics400_14": {
+      "target": 14,
+      "exact_source_hash_matches": 14,
+      "preprocessed_decode_verified": 14
+    }
+  },
+  "openimages": {
+    "selected": 100000,
+    "unique_ids": 100000,
+    "verified": 100000,
+    "failures": [],
+    "unexpected_ids": [],
+    "complete": true,
+    "paper_exact_training_subset": false
+  },
+  "missing_webvid": [
+    {
+      "filename": "stock-footage-in-a-park-a-small-white-dog-is-waiting-on-a-leash-next-to-its-owner-who-is-sitting-on-a-bench-it.mp4",
+      "sha256": "77f0d7de33024733de86f5211860c447bfe1274bfa7367e5a662830eea83752d",
+      "status": "unavailable",
+      "source": "https://ak.picdn.net/shutterstock/videos/1018898026/preview/stock-footage-in-a-park-a-small-white-dog-is-waiting-on-a-leash-next-to-its-owner-who-is-sitting-on-a-bench-it.mp4",
+      "error": "403 Client Error: Forbidden for url: https://ak.picdn.net/shutterstock/videos/1018898026/preview/stock-footage-in-a-park-a-small-white-dog-is-waiting-on-a-leash-next-to-its-owner-who-is-sitting-on-a-bench-it.mp4",
+      "acquisition_scope": "Original public URL unavailable; no byte-identical public archive obtained.",
+      "additional_sources_checked": [
+        "lucas-ventura/WebVid individual-file inventory (no matching IDs)",
+        "jxie/webvid_10m text index (partial index; inconclusive)"
+      ]
+    },
+    {
+      "filename": "stock-footage-norway-pulpit-rock-falls.mp4",
+      "sha256": "16906dbe96ed314fb71f60b268aa84cb9c7bdac02de74d7e10b3e9ce18b553f4",
+      "status": "unavailable",
+      "source": "https://ak.picdn.net/shutterstock/videos/4440995/preview/stock-footage-norway-pulpit-rock-falls.mp4",
+      "error": "403 Client Error: Forbidden for url: https://ak.picdn.net/shutterstock/videos/4440995/preview/stock-footage-norway-pulpit-rock-falls.mp4",
+      "acquisition_scope": "Original public URL unavailable; no byte-identical public archive obtained.",
+      "additional_sources_checked": [
+        "lucas-ventura/WebVid individual-file inventory (no matching IDs)",
+        "jxie/webvid_10m text index (partial index; inconclusive)"
+      ]
+    }
+  ],
+  "disk": {
+    "total": 1006980812800,
+    "used": 52943847424,
+    "free": 902809714688
+  },
+  "validation": {
+    "tests_passed": 23,
+    "etri_dry_run": "PASSED",
+    "reused_existing_videos": [
+      "01_person_walk"
+    ],
+    "models_trained": false,
+    "new_reconstructions_generated": false
+  },
+  "reports": {
+    "evaluation_audit.json": "/legend/semantic_transmission/datasets/reports/evaluation_audit.json",
+    "kinetics_acquisition.json": "/legend/semantic_transmission/datasets/reports/kinetics_acquisition.json",
+    "migration.json": "/legend/semantic_transmission/datasets/reports/migration.json",
+    "openimages_acquisition.json": "/legend/semantic_transmission/datasets/reports/openimages_acquisition.json",
+    "openimages_integrity.json": "/legend/semantic_transmission/datasets/reports/openimages_integrity.json",
+    "preprocessing.json": "/legend/semantic_transmission/datasets/reports/preprocessing.json",
+    "provisioning_sources.json": "/legend/semantic_transmission/datasets/reports/provisioning_sources.json",
+    "webvid_acquisition.json": "/legend/semantic_transmission/datasets/reports/webvid_acquisition.json",
+    "webvid_missing.json": "/legend/semantic_transmission/datasets/reports/webvid_missing.json"
+  }
+}
