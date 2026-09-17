@@ -1,0 +1,37 @@
+{
+  "schema": "metric-campaign-python-launch-fix-v1",
+  "recorded_unix": 1789462660.9022453,
+  "cause": "Path.resolve dereferenced venv/bin/python and launched the base interpreter without SAM2",
+  "fix": "Preserve the virtualenv executable path and import evaluation dependencies in preflight",
+  "tests": {
+    "passed": 139,
+    "seconds": 43.6,
+    "new_regressions": [
+      "real virtualenv prefix preserved through controller-selected executable",
+      "missing SAM2 rejected by preflight"
+    ]
+  },
+  "calibration_replay": {
+    "exact_rows": 600,
+    "thresholds_identical": true,
+    "archived_under": "/home/sangukbae/ETRI/Semantic/semantic_transmission/outputs/metric_validation_20260916_v1/amendments/0001_calibration_replay"
+  },
+  "preserved_stages": [
+    "01_cross/prepare",
+    "01_cross/calibrate"
+  ],
+  "resume": {
+    "status": "RUNNING",
+    "task": "01_cross/visual",
+    "observed_score_count": 13,
+    "case_count": 1800,
+    "tmux_session": "metric_validation_20260916"
+  },
+  "files": {
+    "/home/sangukbae/ETRI/Semantic/semantic_transmission/outputs/metric_validation_20260916_v1/amendments/0001_python_venv.json": "0ac8fd1e6c529dfa08debb60deb6a44ecc5ad7bb0beeb4c1bc3194c67e1bcb8a",
+    "/home/sangukbae/ETRI/Semantic/semantic_transmission/scripts/repair_metric_campaign_python.py": "95d34e23cd7ccd82833e33b698924c2659a7e6402b8079e5e0396c8898bce7a1",
+    "/home/sangukbae/ETRI/Semantic/semantic_transmission/src/semantic_transmission/metric_campaign.py": "15c11b0d61d73a517c36d969327c226a9e8581a4b71709e6a4ebc394d5cb8f85",
+    "/home/sangukbae/ETRI/Semantic/semantic_transmission/tests/test_metric_campaign.py": "0b744009a4bac7fd92a24b65a461d8ce94abaf6e3d9d33df06e6f4a4a76df389"
+  },
+  "scientific_acceptance": null
+}

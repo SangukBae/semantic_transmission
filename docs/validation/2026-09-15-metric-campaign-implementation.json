@@ -1,0 +1,257 @@
+{
+  "schema": "metric-campaign-implementation-check-v1",
+  "date": "2026-09-15",
+  "scope": "implementation and bounded engineering smoke; not completed research validation",
+  "full_campaign_executed": false,
+  "fresh_full_LGVSC_reconstruction_executed": false,
+  "tests": {
+    "passed": 137,
+    "seconds": 43.26,
+    "command": "PYTHONNOUSERSITE=1 PYTHONPATH=src PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 /home/sangukbae/anaconda3/envs/lgvsc/bin/python -m pytest -q"
+  },
+  "dry_run": {
+    "passed": true,
+    "created_campaign_output": false,
+    "estimate": {
+      "hours": {
+        "01_cross": [
+          2.38,
+          4.81
+        ],
+        "02_components": [
+          0.56,
+          1.9
+        ],
+        "03_natural": [
+          10.1,
+          19.11
+        ]
+      },
+      "total_hours": [
+        13.04,
+        25.82
+      ],
+      "case_budget": {
+        "cross": 1800,
+        "rx": 180,
+        "natural_upper_bound": 600
+      },
+      "LGVSC_runs": 12,
+      "seconds_per_LGVSC_input": 4.0,
+      "observed_visual_seconds_per_case": 3.2051503037412963,
+      "observed_LGVSC_seconds_per_input_second": 825.2749433000001,
+      "scope": "estimated command wall time on RTX 4080; excludes independent annotation creation, new model development, novelty research, GPU contention and reruns after scientific failure"
+    }
+  },
+  "engineering_checks": {
+    "sequential_order_failure_stop_resume_tamper_and_lock": true,
+    "actual_LGVSC_worker_stage_order_test": "injected execution; existing completed-run verifier retained",
+    "gpu_visual_cases": 4,
+    "gpu_pixel_cases": 4,
+    "current_visual_scalars_per_case": 28,
+    "previous_600_development_normals_processed": true,
+    "optimized_ablation_calibration_equivalence_pairs": 3,
+    "davis_indexed_palette_annotation_adapter": true,
+    "actual_unused_natural_controlled_pairs_prepared": 15,
+    "exported_input": {
+      "width": 576,
+      "height": 320,
+      "frames": 96,
+      "fps": 24,
+      "seconds": 4
+    },
+    "existing_prepare_worker_executed": true,
+    "existing_real_LGVSC_RX_adapter": {
+      "source_id": "01_person_walk",
+      "samples": 80,
+      "received_slots": 2,
+      "sample_coverage": 1.0
+    },
+    "report_marks_single_source_smoke_insufficient": true,
+    "v5_frozen_modules_unchanged": 14
+  },
+  "visual_smoke": [
+    {
+      "case_id": "smoke__source__addition_absent",
+      "scores": {
+        "fso_presence": 0.0,
+        "fso_premature": 0.0,
+        "fso_motion": 0.0,
+        "fso_heading": 0.0,
+        "eoi": 0.0,
+        "uep": 1.0,
+        "ghost_max": 0.0,
+        "delay_max": 0.0,
+        "sfr_inferred": 0.012903225806451613,
+        "ere": 0.0,
+        "ser": 0.33333333333333337,
+        "tlp_alex": null,
+        "mte_tail": 0.8821632983286761,
+        "idf1_mask_error": 0.018867924528301883,
+        "lpips_alex": null,
+        "tof_farneback": null,
+        "fso_presence_raw": 0.0,
+        "fso_premature_raw": 0.0,
+        "fso_motion_raw": 0.0,
+        "fso_motion_absolute_speed": 0.0,
+        "fso_heading_raw": 0.0,
+        "fso_heading_source_heading": 0.0,
+        "fso_heading_absolute_speed": 0.0,
+        "eoi_missing_penalty": 0.0,
+        "eoi_kendall": 0.0,
+        "eoi_time_limited_matching": 0.0,
+        "uep_source_only": 1.0,
+        "uep_rx_only": 1.0
+      }
+    },
+    {
+      "case_id": "smoke__source__addition_supported",
+      "scores": {
+        "fso_presence": 0.0,
+        "fso_premature": 0.0,
+        "fso_motion": 0.0,
+        "fso_heading": 0.0,
+        "eoi": 0.0,
+        "uep": 0.0,
+        "ghost_max": 0.0,
+        "delay_max": 0.0,
+        "sfr_inferred": 0.012903225806451613,
+        "ere": 0.0,
+        "ser": 0.33333333333333337,
+        "tlp_alex": null,
+        "mte_tail": 0.8821632983286761,
+        "idf1_mask_error": 0.018867924528301883,
+        "lpips_alex": null,
+        "tof_farneback": null,
+        "fso_presence_raw": 0.0,
+        "fso_premature_raw": 0.0,
+        "fso_motion_raw": 0.0,
+        "fso_motion_absolute_speed": 0.0,
+        "fso_heading_raw": 0.0,
+        "fso_heading_source_heading": 0.0,
+        "fso_heading_absolute_speed": 0.0,
+        "eoi_missing_penalty": 0.0,
+        "eoi_kendall": 0.0,
+        "eoi_time_limited_matching": 0.0,
+        "uep_source_only": 1.0,
+        "uep_rx_only": 0.0
+      }
+    },
+    {
+      "case_id": "smoke__source__heading_texture",
+      "scores": {
+        "fso_presence": 0.0,
+        "fso_premature": 0.0,
+        "fso_motion": 1.0,
+        "fso_heading": 0.25,
+        "eoi": null,
+        "uep": 0.0,
+        "ghost_max": 0.0,
+        "delay_max": 1.0,
+        "sfr_inferred": 0.0,
+        "ere": 0.75,
+        "ser": 0.5,
+        "tlp_alex": null,
+        "mte_tail": null,
+        "idf1_mask_error": 0.004784688995215336,
+        "lpips_alex": null,
+        "tof_farneback": null,
+        "fso_presence_raw": 0.0,
+        "fso_premature_raw": 0.0,
+        "fso_motion_raw": 1.0,
+        "fso_motion_absolute_speed": 1.0,
+        "fso_heading_raw": 0.25,
+        "fso_heading_source_heading": 0.25,
+        "fso_heading_absolute_speed": 0.25,
+        "eoi_missing_penalty": 1.0,
+        "eoi_kendall": null,
+        "eoi_time_limited_matching": null,
+        "uep_source_only": 0.0,
+        "uep_rx_only": 0.25
+      }
+    },
+    {
+      "case_id": "smoke__source__normal",
+      "scores": {
+        "fso_presence": 0.0,
+        "fso_premature": 0.0,
+        "fso_motion": 0.0,
+        "fso_heading": 0.0,
+        "eoi": 0.0,
+        "uep": 0.0,
+        "ghost_max": 0.0,
+        "delay_max": 0.0,
+        "sfr_inferred": 0.0,
+        "ere": 0.0,
+        "ser": 0.0,
+        "tlp_alex": null,
+        "mte_tail": null,
+        "idf1_mask_error": 0.0,
+        "lpips_alex": null,
+        "tof_farneback": null,
+        "fso_presence_raw": 0.0,
+        "fso_premature_raw": 0.0,
+        "fso_motion_raw": 0.0,
+        "fso_motion_absolute_speed": 0.0,
+        "fso_heading_raw": 0.0,
+        "fso_heading_source_heading": 0.0,
+        "fso_heading_absolute_speed": 0.0,
+        "eoi_missing_penalty": 0.0,
+        "eoi_kendall": 0.0,
+        "eoi_time_limited_matching": 0.0,
+        "uep_source_only": 0.0,
+        "uep_rx_only": 0.0
+      }
+    }
+  ],
+  "pixel_smoke": [
+    {
+      "case_id": "smoke__source__addition_absent",
+      "scores": {
+        "lpips_alex": 0.00917626521550119,
+        "tlp_alex": 0.004708357620984316,
+        "tof_farneback": 0.007055689115077257
+      }
+    },
+    {
+      "case_id": "smoke__source__addition_supported",
+      "scores": {
+        "lpips_alex": 0.00917626521550119,
+        "tlp_alex": 0.004708357620984316,
+        "tof_farneback": 0.007055689115077257
+      }
+    },
+    {
+      "case_id": "smoke__source__heading_texture",
+      "scores": {
+        "lpips_alex": 0.5171255841851234,
+        "tlp_alex": 0.009744958020746708,
+        "tof_farneback": 0.15090134739875793
+      }
+    },
+    {
+      "case_id": "smoke__source__normal",
+      "scores": {
+        "lpips_alex": 0.0,
+        "tlp_alex": 0.0,
+        "tof_farneback": 0.0
+      }
+    }
+  ],
+  "implementation_sha256": {
+    "/home/sangukbae/ETRI/Semantic/semantic_transmission/configs/metric_validation.json": "00e6b26eee26a31c3a4cf0b1c66c27a86344b8cae702d0ea93c542b1d6c0c327",
+    "/home/sangukbae/ETRI/Semantic/semantic_transmission/scripts/run_metric_validation.sh": "5229709f4c866acf61c355be8f5b7c614ef8501942bb11e7070c6ec03edcf07c",
+    "/home/sangukbae/ETRI/Semantic/semantic_transmission/src/semantic_transmission/metric_campaign.py": "0d00c359a30f877b90d067ea9f4a76a8a19de4eadefdc7cf4fb25cc1ac65aa2f",
+    "/home/sangukbae/ETRI/Semantic/semantic_transmission/src/semantic_transmission/metric_campaign_cases.py": "a8f34bf7e715f3928905da3a52efb8eb4b550e11576e2282ccff317e03492b4b",
+    "/home/sangukbae/ETRI/Semantic/semantic_transmission/src/semantic_transmission/metric_campaign_real.py": "8ab2af0c61980dc71a7c1c90883d18921e128bda42612c89613ca5ab1b4292c9",
+    "/home/sangukbae/ETRI/Semantic/semantic_transmission/src/semantic_transmission/metric_campaign_scoring.py": "cfb3a9e76055ba5e154960ec528dac6830d0dab0a570f7212f3bf72fac1cb90b",
+    "/home/sangukbae/ETRI/Semantic/semantic_transmission/src/semantic_transmission/metric_campaign_worker.py": "8cb20653d31f0d1b3df0a7157775a1f77ba3ca3571fe6c4eaa4c349dd6b77e54",
+    "/home/sangukbae/ETRI/Semantic/semantic_transmission/tests/test_metric_campaign.py": "4e41760e93f5f7a39df9bf412ee74734b5be63611a3b7531dc2357f581024aaf"
+  },
+  "remaining_research_evidence": [
+    "full crossed and RX campaign",
+    "full natural and actual LGVSC campaign",
+    "independent generated-reconstruction truth",
+    "research novelty"
+  ]
+}

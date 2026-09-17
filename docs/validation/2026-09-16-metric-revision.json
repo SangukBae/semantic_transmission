@@ -1,0 +1,79 @@
+{
+  "date": "2026-09-16",
+  "implementation_status": "IMPLEMENTED_AND_REEVALUATED",
+  "scientific_status": "DEVELOPMENT_ONLY",
+  "natural_stabilization_achieved": false,
+  "output": "/home/sangukbae/ETRI/Semantic/semantic_transmission/outputs/metric_revision_20260916_v6",
+  "execution": {
+    "execution_status": "COMPLETED",
+    "scientific_status": "DEVELOPMENT_ONLY",
+    "seconds": 277.86077904701233,
+    "declaration_sha256": "320a7fc53ca2790720a64c8a47617ae4b645a748d3017a36038490adb0bf6bb9",
+    "reports": {
+      "04_existing_reconstructions": "2c6953cf092cecd24ee2fcb290bacda8d4d340ca708cd171cf527c27ff95b334",
+      "03_natural": "d85d5ec0fe35e8004b635c38eaeb85c70c84f4bf93a149d0ddf54a57e2b99eec",
+      "02_components": "8e593acbcc6f481a8d8993ac86ea728f70bbbb281ce190a55f27e2b083249cca",
+      "01_cross": "53ba4680615859db20d4036f065129336e29b896246c119eec579006178c2fc9"
+    },
+    "original_campaign_files_unchanged": true,
+    "generated_new_reconstructions": 0
+  },
+  "verification": {
+    "execution_status": "VERIFIED",
+    "scientific_status": "DEVELOPMENT_ONLY",
+    "scored_rows": 2592,
+    "original_files_verified": 11674,
+    "observation_caches_verified": 2573,
+    "phases": 4,
+    "reviewed_reconstructions": 12,
+    "numeric_uep_negative_labels": 4,
+    "independent_positive_labels": 0,
+    "scorer_used_to_generate_visual_labels": false,
+    "check_scope": "SHA256, row input/result signatures, exact report joins, direct pairwise UEP AUC, label evidence hashes",
+    "human_truth_verified": false
+  },
+  "tests": {
+    "full_suite_before_final_four_tests": {
+      "passed": 147,
+      "seconds": 42.98
+    },
+    "final_targeted_suite": {
+      "passed": 12,
+      "seconds": 0.25,
+      "includes_eight_previously_counted_tests": true
+    },
+    "distinct_tests_passed": 151,
+    "shell_syntax": "PASSED",
+    "python_ast_files": 6,
+    "git_diff_check": "PASSED"
+  },
+  "source_files": {
+    "/home/sangukbae/ETRI/Semantic/semantic_transmission/docs/METRIC_REVISION_PROTOCOL.md": "36f209a4b92f81bf27426a3c67cfb7db7d9be87fb9ca7bcf81799f61ad630509",
+    "/home/sangukbae/ETRI/Semantic/semantic_transmission/docs/METRIC_REVISION_RESULTS.md": "c9c93c04e86dd4776f983b231b0cc3c798db03e907a4ae2ee8f2ef6cd5deb668",
+    "/home/sangukbae/ETRI/Semantic/semantic_transmission/docs/validation/2026-09-16-metric-revision-visual-review.json": "3e827215f642aee5d824b8bfa2ee9f0fe9979c25803ce88267053a943718f638",
+    "/home/sangukbae/ETRI/Semantic/semantic_transmission/scripts/assess_metric_revision_review.py": "d196192e176fd3202c77c181452f6b8b817fc88dd9dadc41f83cce4ed4abb193",
+    "/home/sangukbae/ETRI/Semantic/semantic_transmission/scripts/audit_metric_revision_truth.py": "0406dea459870eb39b523fbcaa0bfef5bdefa5e75dc14d9a4175eb26421ad9e5",
+    "/home/sangukbae/ETRI/Semantic/semantic_transmission/scripts/prepare_metric_revision_review.py": "75e116d2e6303f257228b0b4508b43ea3116d2a7fb55c6692cad7d4f3398aecc",
+    "/home/sangukbae/ETRI/Semantic/semantic_transmission/scripts/run_metric_revision.sh": "0c897a8cdb3bf07993b2b60198c806fd5cd10c437fdb18a1ece9db868f430fe4",
+    "/home/sangukbae/ETRI/Semantic/semantic_transmission/scripts/verify_metric_revision.py": "7cd3201704a0d83436d4e049875520fd3df7c72f9805b6c42ab4fd346ee150a2",
+    "/home/sangukbae/ETRI/Semantic/semantic_transmission/src/semantic_transmission/metric_revision.py": "c64382c6ff496d05ab37059680278700e7a1f1b14569353ff558f8e7cb26ca70",
+    "/home/sangukbae/ETRI/Semantic/semantic_transmission/src/semantic_transmission/metric_revision_audit.py": "01a977250cd4200410efc0f2b42aeecb519ff39374ed0e07757a371b7742355e",
+    "/home/sangukbae/ETRI/Semantic/semantic_transmission/tests/test_metric_revision.py": "c621aeb6c12dd83d904ba43703f284210fc1f86f8773c7b1200f6d5df34c1af7"
+  },
+  "evidence": {
+    "/home/sangukbae/ETRI/Semantic/semantic_transmission/outputs/metric_revision_20260916_v6/aligned_synthetic_truth.json": "8599a3714cda4935f76b6e4a2f3eccf6aa5f3b6bfa3097b270e580454d8a24a3",
+    "/home/sangukbae/ETRI/Semantic/semantic_transmission/outputs/metric_revision_20260916_v6/independent_assessments/receipt.json": "a20f97048fbf5d4a593995cc544905589030d88e69aa4c67a6a865265ab17910",
+    "/home/sangukbae/ETRI/Semantic/semantic_transmission/outputs/metric_revision_20260916_v6/independent_truth.json": "f218d76730ba3b0db53143534dd7efc9c87d90aa6d07c94eb1e33aa5ff0a6692",
+    "/home/sangukbae/ETRI/Semantic/semantic_transmission/outputs/metric_revision_20260916_v6/review/unsupported_regions.png": "ecf6127c2d5e345a4d7bb1e94d6627cc051b79b2ed9a0ce5142501012a455afd",
+    "/home/sangukbae/ETRI/Semantic/semantic_transmission/outputs/metric_revision_20260916_v6/summary.json": "c1ba2acf759e1ee38f82131fad62aa037f9a4f08bb37b622759dfe24f492ee44",
+    "/home/sangukbae/ETRI/Semantic/semantic_transmission/outputs/metric_revision_20260916_v6/verification.json": "4c45fe93bfdf2ba9b6d54bfebc45b3495e74a3d1ec0486750ab9882bae64837e"
+  },
+  "limitations": [
+    "Known development inputs reused after v5 outcomes were seen",
+    "No independent v6 threshold calibration",
+    "Camera-invariant world motion is not established by the new image-plane contract",
+    "Twelve AI visual reviews: only four UEP-negative scalar labels from two independent sources",
+    "No precise FSO/EOI reconstruction scalar labels, no positive reconstruction labels, no human verification",
+    "Natural UEP false alarms remain 32/40; all twelve generated UEP scores still saturate at 1.0"
+  ]
+}

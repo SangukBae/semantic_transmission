@@ -1,0 +1,22 @@
+{
+  "schema": "metric-validation-campaign-v1",
+  "base_run": "outputs/fso_uep_20260915_v1",
+  "synthetic_sources_per_family": 8,
+  "synthetic_seed": 260916300,
+  "rx_sources_per_family": 4,
+  "rx_seed": 260926300,
+  "styles": ["identity", "brightness20", "texture", "camera", "palette"],
+  "natural_sources": 8,
+  "natural_frames": 32,
+  "natural_stride": 1,
+  "natural_seed": 20260916,
+  "davis_root": "data/metric_v2_public/DAVIS",
+  "reconstruction_sources": 6,
+  "reconstruction_steps": [30, 10],
+  "reconstruction_profile": "configs/lgvsc_variable.json",
+  "reconstruction_truth": null,
+  "bootstrap_iterations": 1000,
+  "minimum_positive_sources": 5,
+  "evaluation_python": ".local/metric_v2_env/bin/python",
+  "driver_library": ".local/metric_v2_driver/extracted/usr/lib/x86_64-linux-gnu"
+}

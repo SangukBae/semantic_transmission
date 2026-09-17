@@ -1,0 +1,131 @@
+{
+  "schema": "metric-revision-ai-visual-notes-v1",
+  "reviewer": "Codex AI visual reviewer",
+  "human_reviewed": false,
+  "prior_information": "Reviewer saw aggregate v5 outcomes. Step labels and candidate scores were omitted from contact sheets. v6 scores were not consulted to author these notes.",
+  "sampling": "All 32 aligned 8-Hz samples in each source/reconstruction pair; RX decoded slots also inspected. Intervals are half-open frame indices.",
+  "object_contract": "Recognizable scene entities. Texture changes, grass blades, shadows and deformed parts of an existing entity are not automatically new entities. Fine distant entities and ambiguous double exposures remain uncertain.",
+  "numeric_truth_policy": "Only unambiguous absence of new entities yields whole-clip UEP=0. No exact FSO or EOI scalar is inferred from coarse visual event descriptions. Unavailable and uncertain values remain null.",
+  "rows": [
+    {
+      "review_id": "R01",
+      "primary_entity": "woman in a patterned shirt moving away through a cafe",
+      "source_visible": [[0, 32]],
+      "reconstruction_visible": [[0, 32]],
+      "uncertain_frames": [[9, 16]],
+      "uep": null,
+      "observations": "The main woman remains identifiable. Around frames 9-15, foreground/background people and furniture dissolve across positions. Whole-scene instance addition cannot be separated reliably from ghosted prior positions.",
+      "fso_eoi_unavailable_reason": "No precisely timed independently measured stop/turn/order queries; other people are not exhaustively identified."
+    },
+    {
+      "review_id": "R02",
+      "primary_entity": "yellow-shirt skateboarder; second black-clad cyclist already visible in the source",
+      "source_visible": [[0, 32]],
+      "reconstruction_visible": [[0, 32]],
+      "uncertain_frames": [],
+      "uep": 0.0,
+      "observations": "The skateboarder, backpack, board and cyclist have source counterparts. The cyclist moves discontinuously between image positions near frames 14-22. This is a trajectory/visibility error of a known cyclist; no distinct extra person or vehicle is visible in the sampled clip.",
+      "fso_eoi_unavailable_reason": "Source/target trajectory and motion direction differ, but pixel-speed/angle thresholds cannot be established exactly from the contact sheet."
+    },
+    {
+      "review_id": "R03",
+      "primary_entity": "foreground surfer among other surfers and boards",
+      "source_visible": [[0, 32]],
+      "reconstruction_visible": [[0, 32]],
+      "uncertain_frames": [[2, 8], [23, 32]],
+      "uep": null,
+      "observations": "The major surfers have source counterparts. Fine boards, spray, distant heads and temporary surfboard shapes cannot be exhaustively identified; an exact whole-scene addition count is uncertain.",
+      "fso_eoi_unavailable_reason": "Occlusion by spray and falling surfers prevent exact disappearance/reappearance and turn timestamps."
+    },
+    {
+      "review_id": "R04",
+      "primary_entity": "single skateboarder inside a concrete bowl",
+      "source_visible": [[0, 32]],
+      "reconstruction_visible": [[0, 12], [20, 32]],
+      "uncertain_frames": [[12, 20]],
+      "uep": null,
+      "observations": "Around frames 12-19 there are faint body/board traces at separated positions; the principal skater shifts discontinuously. Distant spectators also deform. Distinct entity addition versus duplicated temporal traces is ambiguous.",
+      "fso_eoi_unavailable_reason": "Source skater does not cleanly exit the clip; reconstruction ghosting does not supply a source-anchored exit query."
+    },
+    {
+      "review_id": "R05",
+      "primary_entity": "blue-white city bus",
+      "source_visible": [[0, 32]],
+      "reconstruction_visible": [[0, 32]],
+      "uncertain_frames": [[4, 32]],
+      "uep": null,
+      "observations": "One bus is continuously visible. The foreground sign/blue roadside structure becomes person-like in reconstruction. At this resolution a new person cannot be distinguished confidently from a deformed sign.",
+      "fso_eoi_unavailable_reason": "No exact center-trajectory annotation; the apparent source motion is mixed with camera motion."
+    },
+    {
+      "review_id": "R06",
+      "primary_entity": "woman in patterned shirt moving through cafe",
+      "source_visible": [[0, 32]],
+      "reconstruction_visible": [[0, 32]],
+      "uncertain_frames": [[9, 20]],
+      "uep": null,
+      "observations": "The principal woman persists. Frames 9-19 show extensive double exposure and transitions of people, tables and foreground seating. Instance identity cannot be exhaustively resolved.",
+      "fso_eoi_unavailable_reason": "Crowded background and ghosting prevent precise independent event matching."
+    },
+    {
+      "review_id": "R07",
+      "primary_entity": "blue-white city bus",
+      "source_visible": [[0, 32]],
+      "reconstruction_visible": [[0, 32]],
+      "uncertain_frames": [[4, 32]],
+      "uep": null,
+      "observations": "The bus remains identifiable. A blue/red sign area near the lower right changes shape and appears human-like; this is uncertain as a discrete added entity.",
+      "fso_eoi_unavailable_reason": "Exact stop/turn occupancy requires independently annotated trajectories, not a coarse visual judgement."
+    },
+    {
+      "review_id": "R08",
+      "primary_entity": "foreground surfer among multiple surfers",
+      "source_visible": [[0, 32]],
+      "reconstruction_visible": [[0, 20], [24, 32]],
+      "uncertain_frames": [[20, 24]],
+      "uep": null,
+      "observations": "Around frames 20-23 the foreground body/board is blended into large light shapes and spray. Distant surfers and loose boards make exhaustive entity addition judgement uncertain.",
+      "fso_eoi_unavailable_reason": "Ambiguous occlusion and deformed boards prevent exact event/occupancy labels."
+    },
+    {
+      "review_id": "R09",
+      "primary_entity": "yellow-shirt skateboarder and source-existing cyclist",
+      "source_visible": [[0, 32]],
+      "reconstruction_visible": [[0, 32]],
+      "uncertain_frames": [],
+      "uep": 0.0,
+      "observations": "The known skateboarder and cyclist remain the two recognizable people. The cyclist vanishes from one region and appears at another near frames 14-22; there is no distinct additional person/vehicle at the evaluation samples.",
+      "fso_eoi_unavailable_reason": "Discontinuous identity position is visible, but exact threshold-defined stop/turn events are not independently measured."
+    },
+    {
+      "review_id": "R10",
+      "primary_entity": "skateboarder inside concrete bowl",
+      "source_visible": [[0, 32]],
+      "reconstruction_visible": [[0, 32]],
+      "uncertain_frames": [[12, 24]],
+      "uep": null,
+      "observations": "The principal skater is recognizable but body geometry, board and position change sharply. Distant spectators cannot be exhaustively matched, so absence of every additional entity is not certified.",
+      "fso_eoi_unavailable_reason": "An apparent change of body pose is not enough to label threshold-defined center-heading inversion."
+    },
+    {
+      "review_id": "R11",
+      "primary_entity": "single approaching rally car on rural road",
+      "source_visible": [[0, 32]],
+      "reconstruction_visible": [[0, 32]],
+      "uncertain_frames": [],
+      "uep": 0.0,
+      "observations": "A single source-existing car approaches throughout the samples. Road, grass, trees and distant spectators remain background counterparts. No additional recognizable scene entity is visible.",
+      "fso_eoi_unavailable_reason": "No clean exit/entrance or independently measured source stop/turn sequence in this short excerpt."
+    },
+    {
+      "review_id": "R12",
+      "primary_entity": "single approaching rally car on rural road",
+      "source_visible": [[0, 32]],
+      "reconstruction_visible": [[0, 32]],
+      "uncertain_frames": [],
+      "uep": 0.0,
+      "observations": "The single car and background scene entities have source counterparts at all evaluation samples. No discrete added entity is visible; vegetation texture variation is outside instance-addition truth.",
+      "fso_eoi_unavailable_reason": "No sufficiently resolved, independently timed source state transition or event-order pair."
+    }
+  ]
+}
