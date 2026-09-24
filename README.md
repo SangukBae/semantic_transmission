@@ -7,7 +7,11 @@
 ## 시작하기
 
 **Windows 11 / RTX 4080으로 이전할 때는 [WSL2 설치·파일 이전 안내](docs/MIGRATION_WINDOWS.md)를 먼저 확인하세요.**
+이 PC의 T9 복원 위치·실행 환경·검증 결과는 [WSL 로컬 설정 기록](docs/WSL_LOCAL_SETUP.md)에 정리합니다.
 데이터·모델 가중치·전체 실험 결과는 GitHub에 포함되지 않으며, 새 환경 설치와 별도 복사가 필요합니다.
+
+ETRI 후속 연구의 최신 입력은 [장시간 평가 입력 v1](docs/ETRI_BENCHMARK_V1.md)입니다.
+60초 60개 원본과 120초 확장 6개를 준비·검증했으며, 독립 정답과 장시간 LGVSC 완화 성능평가는 남아 있습니다.
 
 Linux, NVIDIA GPU/드라이버, Conda, ffmpeg가 필요합니다. 기본 Conda 경로는 `~/anaconda3`이며
 다르면 `CONDA_BASE`를 지정합니다. 모델 가중치와 환경 설치에는 수십 GB의 디스크가 필요합니다.
@@ -88,6 +92,22 @@ python -m semantic_transmission.research \
 공식 설정의 환경을 새 컴퓨터에 구성하려면 `bash scripts/bootstrap_official.sh`를 실행합니다.
 GPU 실행 검증 결과와 환경 차이는 위 프로토콜 문서에 기록합니다.
 
+## WebVid 한 편으로 개선 전후 비교
+
+이 WSL 컴퓨터에서 명령 하나로 기존 설정, 정렬 보정, 원본 키프레임 진단,
+정렬 보정+최대 1초 키프레임 간격의 네 조건을 복원·평가한다.
+기본 영상은 들판에서 한 사람이 이동·회전하는 337프레임 WebVid 영상이다.
+
+```bash
+bash scripts/run_webvid_ablation.sh
+```
+
+Conda 활성화와 영상 선택을 자동으로 처리한다. 결과 폴더에 `comparison.html`,
+비교 MP4, 5개 화질 지표와 전송량을 담은 `REPORT.md`를 생성한다.
+같은 명령을 다시 실행하면 완료 단계의 해시를 확인하고 재사용한다.
+`--dry-run`은 추론 없이 사전 점검만 수행한다. 처음에는 약 8~10시간으로 예상한다.
+조건·이어하기 범위·옵션은 [WebVid 한 편 비교 안내](docs/WEBVID_ONE_ABLATION.md)를 참고한다.
+
 ## WebVid 서로 다른 유형 5편 검증
 
 이 컴퓨터에서는 상위 `Semantic` 폴더에서 다음 명령 하나로 실행합니다.
@@ -107,6 +127,17 @@ RTX 4080 16GB용 메모리 보완 v2 설정의 잠정 예상은 약 35시간이�
 원본/복원 비교용 `report.html`에 저장합니다. 눈에 보이는 의미 오류는 `manual_review.csv`에
 별도로 기록합니다. **5편은 개발용 초기 검증이며 WebVid 전체 성능의 입증이 아닙니다.**
 선정 목록·실행 조건·재사용 범위는 [WebVid5 실행 안내](docs/WEBVID5_VALIDATION.md)를 참고하세요.
+
+## 복원 품질 개선안 일괄 검증
+
+```bash
+bash scripts/run_quality_validation.sh
+```
+
+키프레임 보정 → 같은 전송 예산에서 저해상도 제약·적응형 키프레임 비교 → 별도 5편·3개 시드 평가를 실행합니다.
+현재 검증의 진행률은 한 줄에서 갱신하고 완료 시 한 문장을 남깁니다. 같은 명령으로 중단 지점부터 재개합니다.
+실제 실행 범위·비교 조건·결과 파일·출력 예시는 [복원 품질 검증 안내](docs/QUALITY_VALIDATION.md)를 참고하세요.
+`--demo`는 출력 시연, `--dry-run`은 사전 점검입니다. 전체 품질 개선 결과는 아직 미검증입니다.
 
 ## 연구 코드 구조
 

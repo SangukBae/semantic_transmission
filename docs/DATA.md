@@ -6,6 +6,34 @@ are documented in [LOCAL_DATASETS.md](LOCAL_DATASETS.md).
 LGVSC uses **public** datasets only. We do not redistribute the full datasets; below is
 exactly what we used and where to get it, so a third party can reproduce our results.
 
+## Current ETRI follow-up data scope — 2026-09-21
+
+2026-09-24 execution update: [ETRI benchmark v1](ETRI_BENCHMARK_V1.md) contains
+60 distinct-source, continuous 60-second inputs (20 per provisional transition
+stratum; TVSum and ClipShots crossed in every stratum and split) plus six 120-second
+extensions of held-out sources. Development/calibration/test counts are 18/12/30.
+All 66 files passed full decoding and timing checks. The original
+[six-video pilot](ETRI_LONG_VIDEO_INPUTS.md) is preserved. Independent reference
+annotations and long-video LGVSC reconstruction/mitigation evaluation remain pending.
+
+The [follow-up email](ETRI_FOLLOWUP_EMAIL_SUMMARY.md) is the current requirements
+source. The short-clip datasets below retain their paper/development roles; they
+do not establish coverage of the new long-video evaluation.
+
+- Assess and pursue **at least 60 seconds of real consecutive source footage** per
+  test video, with low, ordinary and frequent scene changes. Include object entries,
+  exits and background changes. Natural edits within the source are allowed; looping
+  or joining unrelated short clips to meet the duration target is not.
+- Preserve source identity, source/time-range hashes and metadata, timestamps,
+  frame correspondence, category evidence and source-level development/test splits.
+  Keep the original videos for internal evaluation as requested in the email.
+- Prepare a separate duration-preserving path. The legacy Stage 01 truncates at
+  16 seconds; neither that output nor the combined duration of multiple short clips
+  satisfies the long-video target. The separate 60-second inputs above preserve duration.
+- Use [the follow-up protocol](ETRI_FOLLOWUP_PROTOCOL.md) for category definitions,
+  feasibility checks and paired AWGN evaluation. Five minutes is a comparison in
+  the email, not a required duration.
+
 ## 1. Main test set — WebVid
 
 - **What we used:** 55 video clips randomly sampled from the **WebVid** dataset
@@ -38,14 +66,25 @@ exactly what we used and where to get it, so a third party can reproduce our res
 
 ## 3. NTSCC training data — OpenImages frames
 
-- **What we used:** ~100k still frames to train the NTSCC keyframe codec
-  (lr 1e-4, batch 64-ish, 100 epochs; see paper / `03_jscc_transmission/ntscc/`).
+- **Paper-reported training:** 100k frames for the NTSCC keyframe codec
+  (lr 1e-4, batch 64, 100 epochs). This is not a record of training performed in this checkout.
 - **Source:** **OpenImages** (boxable subset) — https://storage.googleapis.com/openimages/web/index.html .
   The upstream NTSCC repo (https://github.com/wsxtyrdd/NTSCC_JSAC22) documents the
   training data layout; our `config.py` `train_data_dir`/`test_data_dir` point there.
 - The released checkpoints `ntscc_hyperprior_quality_{1..4}_psnr.pth` are quality levels;
   the paper's main results use quality 4 (SNR=10). SNR 0–8 used separately-trained
   weights (not in this repo — see `docs/CODE_WALKTHROUGH.md` provenance note).
+
+The [local dataset inventory](LOCAL_DATASETS.md) records a separate reproducible
+100,000-image OpenImages sample, with no model training performed in that acquisition
+record. The [2026-09-18 audit](LGVSC_PAPER_IMPLEMENTATION_AUDIT.md) found that the public
+quality-4 checkpoint documentation describes 500k OpenImages images; identity with
+the paper's training weights has not been established.
+
+This image-codec history does not describe the training of the whole video pipeline.
+The [model overview](MODEL_ARCHITECTURE.md) separates NTSCC, the caption/selection/flow
+models and Open-Sora. Their checkpoint-specific image/video training provenance and
+the need for additional video training remain follow-up review items.
 
 ## 4. Bundled smoke-test sample
 

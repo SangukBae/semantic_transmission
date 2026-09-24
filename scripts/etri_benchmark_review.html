@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ETRI 평가 입력 검토</title>
+<style>
+*{box-sizing:border-box}body{font:16px/1.5 system-ui,sans-serif;margin:0;background:#111923;color:#e8eef7}header,main{max-width:1400px;margin:auto;padding:20px}header{border-bottom:1px solid #344050}h1{font-size:25px;margin:0}p{margin:8px 0}.muted{color:#a8b8ce}.notice{background:#293349;padding:12px;border-left:4px solid #ecc56b}select,input,button,textarea{font:inherit;background:#1b2839;color:inherit;border:1px solid #536681;border-radius:5px;padding:7px}button{cursor:pointer}button:hover{background:#344966}label{display:inline-block;margin:5px}input[type=number]{width:100px}input[type=text]{max-width:250px}#grid{display:grid;grid-template-columns:270px 1fr;gap:20px}#list{max-height:85vh;overflow:auto}#list button{display:block;width:100%;text-align:left;margin:5px 0;font-size:14px}#list button.active{border-color:#71c3fd;background:#29415d}video{width:100%;max-height:520px;background:#000}#sheet{width:100%;margin-top:12px}#cuts button{font-size:13px;margin:3px}textarea{width:100%;min-height:80px}details{background:#1a2636;padding:12px;margin:12px 0}a{color:#8ed0ff}#saved{white-space:pre-wrap;max-height:200px;overflow:auto;font-size:13px}.controls{display:flex;flex-wrap:wrap;gap:6px;align-items:center}#caption{white-space:pre-wrap}.badge{display:inline-block;background:#293c55;padding:2px 7px;border-radius:4px;font-size:13px;margin:2px}@media(max-width:760px){#grid{grid-template-columns:1fr}#list{max-height:240px}header,main{padding:12px}}
+</style>
+<header><h1>ETRI 장시간 평가 입력 검토</h1><p>60초 본 세트 60개 · 120초 확장 6개 · 개발 18 / 교정 12 / 평가 30</p>
+<p class="notice">입력 영상과 예비 경계·내용 메모입니다. 독립 정답 검수와 LGVSC 완화 전후 평가는 아직 완료되지 않았습니다. 아래 전환 후보는 누락·오탐이 있을 수 있습니다.</p>
+<p><a href="manifest.csv">영상 목록 CSV</a> · <a href="reports/readiness_audit.json">준비 상태</a> · <a href="plans/paired_jobs.csv">대응 실험 목록</a></p></header>
+<main><div class="controls"><label>유형 <select id="level"><option value="">전체</option><option>low</option><option>medium</option><option>high</option></select></label><label>용도 <select id="split"><option value="">전체</option><option>development</option><option>calibration</option><option>test</option></select></label><label>출처 <select id="dataset"><option value="">전체</option><option>TVSum</option><option>ClipShots</option></select></label><label>길이 <select id="role"><option value="">전체</option><option value="primary_60s">60초</option><option value="extension_120s">120초</option></select></label><label>검색 <input id="search" type="text" placeholder="ID, 내용, 태그"></label><span id="count"></span></div>
+<div id="grid"><nav id="list" aria-label="영상 목록"></nav><article><h2 id="title"></h2><div id="badges"></div><video id="player" controls preload="metadata"></video>
+<div class="controls"><button id="back">−1프레임</button><button id="next">+1프레임</button><button id="startMark">시작 시각 기록</button><button id="endMark">종료 시각 기록</button><span id="time"></span></div>
+<p class="muted">재생 화면은 호환성을 위한 검토용 미리보기입니다. 정밀 객체 판정·실험은 <a id="master" download>기준 입력 파일</a>을 사용합니다.</p><p id="caption"></p><p id="identity" class="muted"></p>
+<details open><summary>예비 전환 후보 — 클릭하면 해당 시점으로 이동</summary><div id="cuts"></div><p class="muted">shot 편집 경계와 의미적인 scene 전환을 구분해서 검수합니다. 정상 가림·퇴장·원본 마술·원본 자막은 생성 오류가 아닙니다.</p></details>
+<details><summary>원본 개요 이미지</summary><img id="sheet" alt="시간 순서의 원본 영상 개요"></details>
+<details open><summary>검수 메모 기록</summary><p class="muted">현재 영상 전체를 재생하며 누락된 경계와 객체·동작도 추가합니다. 기록은 이 브라우저에 임시 저장되며 JSON 내보내기로 보관합니다. 내보내기는 정답 확정을 뜻하지 않습니다.</p>
+<label>검수자 ID <input id="reviewer" type="text" placeholder="reviewer_A"></label><label>종류 <select id="kind"><option value="shot">shot 경계</option><option value="semantic_scene">의미적 scene 전환</option><option value="object">객체 변화</option><option value="action">동작·관계</option><option value="uncertain">미확정</option><option value="full_review_note">전체 검수 메모</option></select></label><label>판정 <select id="decision"><option>UNRESOLVED</option><option>CONFIRMED</option><option>REJECTED</option></select></label><br>
+<label>시작(초) <input id="t0" type="number" step="0.041667" min="0" value="0"></label><label>종료(초) <input id="t1" type="number" step="0.041667" min="0" value="0"></label><textarea id="note" placeholder="보이는 객체·동작, 전환 근거, 가림/퇴장 여부, 불확실한 점"></textarea>
+<div class="controls"><button id="saveNote">메모 저장</button><button id="export">검수 JSON 내보내기</button><button id="undo">마지막 메모 취소</button></div><p id="message" role="status"></p><div id="saved"></div></details>
+</article></div></main>
+<script>
+const data=/*__DATA__*/;
+const $=id=>document.getElementById(id), storageKey='etri-benchmark-v1-20260924-review';
+let selected=data[0], notes=[];
+try{notes=JSON.parse(localStorage.getItem(storageKey)||'[]')}catch(e){notes=[]}
+function persist(){try{localStorage.setItem(storageKey,JSON.stringify(notes))}catch(e){$('message').textContent='브라우저 저장 실패: JSON을 내보내 보관하세요.'}}
+function showNotes(){$('saved').textContent=notes.filter(n=>n.id===selected.id).map(n=>`${n.reviewer_id} | ${n.start_sec.toFixed(3)}–${n.end_sec.toFixed(3)} | ${n.kind} | ${n.decision}\n${n.note}`).join('\n\n')}
+function choose(row){selected=row;$('title').textContent=row.id;$('player').src=row.video;$('master').href=row.master;$('sheet').src=row.sheet;$('caption').textContent=row.observations_ko;$('identity').textContent=`원본 ${row.source_id} | 원본 시작 ${row.clip_start_sec}초 | 그룹 ${row.content_group}`;
+ $('badges').replaceChildren();for(const t of [row.dataset,row.level,row.split,row.category,`${row.clip_duration_sec}초`,...row.tags]){const s=document.createElement('span');s.className='badge';s.textContent=t;$('badges').append(s)}
+ $('cuts').replaceChildren();const c=row.boundaries.candidates;if(!c.length){$('cuts').textContent='검출 후보 없음. 전환이 없다는 확정 판정은 아닙니다.'}
+ for(const e of c){const b=document.createElement('button');b.textContent=`${e.peak_sec.toFixed(2)}초 · p=${e.probability.toFixed(2)}`;b.onclick=()=>{$('player').currentTime=Math.max(0,e.peak_sec-.6);$('t0').value=e.start_sec.toFixed(6);$('t1').value=e.end_sec.toFixed(6)};$('cuts').append(b)}
+ $('t0').max=$('t1').max=row.clip_duration_sec;$('t0').value=$('t1').value=0;showNotes();renderList();}
+function renderList(){const query=$('search').value.toLowerCase();const rows=data.filter(r=>['level','split','dataset','role'].every(k=>!$(k).value||r[k]===$(k).value)&&JSON.stringify(r).toLowerCase().includes(query));$('count').textContent=`${rows.length}개`;$('list').replaceChildren();for(const r of rows){const b=document.createElement('button');b.className=r.id===selected.id?'active':'';b.textContent=`${r.id}\n${r.split} · ${r.category}`;b.onclick=()=>choose(r);$('list').append(b)}}
+for(const k of ['level','split','dataset','role','search'])$(k).oninput=renderList;
+$('player').ontimeupdate=()=>{$('time').textContent=`입력 ${$('player').currentTime.toFixed(3)}초 / 원본 ${($('player').currentTime+selected.clip_start_sec).toFixed(3)}초`};
+$('back').onclick=()=>{$('player').pause();$('player').currentTime=Math.max(0,$('player').currentTime-1/24)};
+$('next').onclick=()=>{$('player').pause();$('player').currentTime=Math.min(selected.clip_duration_sec,$('player').currentTime+1/24)};
+$('startMark').onclick=()=>{$('t0').value=$('player').currentTime.toFixed(6)};$('endMark').onclick=()=>{$('t1').value=$('player').currentTime.toFixed(6)};
+$('saveNote').onclick=()=>{const reviewer=$('reviewer').value.trim(),a=Number($('t0').value),b=Number($('t1').value),note=$('note').value.trim();if(!reviewer||!note||!Number.isFinite(a)||!Number.isFinite(b)||a<0||b<a||b>selected.clip_duration_sec){$('message').textContent='검수자·메모와 영상 범위 내 시작/종료 시각을 입력하세요.';return}notes.push({id:selected.id,processed_sha256:selected.processed_sha256,reviewer_id:reviewer,start_sec:a,end_sec:b,kind:$('kind').value,decision:$('decision').value,note,created_at_utc:new Date().toISOString(),adjudicated:false});persist();showNotes();$('message').textContent='메모를 저장했습니다. 독립 정답 확정은 별도 검수 후 수행합니다.'};
+$('undo').onclick=()=>{const i=notes.map(n=>n.id).lastIndexOf(selected.id);if(i>=0){notes.splice(i,1);persist();showNotes()}};
+$('export').onclick=()=>{const payload={schema_version:1,benchmark:'etri_benchmark_v1_20260924',status:'REVIEW_NOTES_NOT_ADJUDICATED_TRUTH',exported_at_utc:new Date().toISOString(),notes};const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='etri-source-review-'+Date.now()+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)};
+choose(data[0]);
+</script></html>
