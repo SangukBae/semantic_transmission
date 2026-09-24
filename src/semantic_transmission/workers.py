@@ -13,6 +13,7 @@ import subprocess
 import sys
 
 from .artifacts import sha256, write_json
+from .validation_progress import emit as validation_progress
 
 
 def load_module(path, name):
@@ -226,6 +227,7 @@ def caption(cfg, repo, run):
         if not text:
             raise RuntimeError("PLLaVA returned an empty caption")
         rows.append({"path": f"clips/sample/{segment:05d}.mp4", "text": text, "flow": 0.0})
+        validation_progress(segment + 1, len(indices) - 1)
     write_json(run / "captions.json", rows)
     if clips is not None:
         write_json(run / "caption_sampling.json", sampling)

@@ -37,7 +37,7 @@ class OfficialMetrics:
     def __init__(self, device="cuda"):
         self.device = device
 
-    def evaluate(self, source, reconstructed):
+    def evaluate(self, source, reconstructed, progress=None):
         import numpy as np
         import torch
         from PIL import Image
@@ -48,8 +48,13 @@ class OfficialMetrics:
             raise ValueError("quality inputs must be nonempty decoded RGB uint8")
         if str(self.device).startswith("cuda"):
             torch.cuda.reset_peak_memory_stats()
-        rows = [dict(frame=i, **pixel_scores(a, b))
-                for i, (a, b) in enumerate(zip(source, reconstructed))]
+        rows = []
+        completed, total = 0, len(source) * 4
+        for i, (a, b) in enumerate(zip(source, reconstructed)):
+            rows.append(dict(frame=i, **pixel_scores(a, b)))
+            completed += 1
+            if progress is not None:
+                progress(completed, total)
         for metric in ("lpips_vgg", "clip", "dists"):
             print(f"Evaluating {metric}: {len(rows)} frames", flush=True)
             if metric == "lpips_vgg":
@@ -79,6 +84,9 @@ class OfficialMetrics:
                                     for v in (a, b))
                             value = model(x, y).item()
                         row[metric] = float(value)
+                        completed += 1
+                        if progress is not None:
+                            progress(completed, total)
             finally:
                 del model
                 gc.collect()

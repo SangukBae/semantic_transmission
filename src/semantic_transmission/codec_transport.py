@@ -15,6 +15,7 @@ from .artifacts import sha256, write_json
 from .wire import pack, unpack, pack_indices, unpack_indices
 from .temporal import resolve_concatenation_policy
 from .transmission_accounting import packet_breakdown, channel_breakdown
+from .validation_progress import emit as validation_progress
 
 
 def load_codec(repo):
@@ -108,6 +109,7 @@ def send(cfg, repo, run):
             payload.extend(raw_rates)
             stream.write(values.cpu().numpy().astype("<c8").tobytes())
             offset += values.numel()
+            validation_progress(len(header["keyframes"]), len(indices))
     packet = pack(header, payload)
     (output / "metadata.bin").write_bytes(packet)
     write_json(run / "sender_accounting.json", {"visual_complex_channel_uses": offset,
@@ -183,10 +185,11 @@ def visual_channel(cfg, repo, run):
     channel_model = Channel(SimpleNamespace(channel={"type": "awgn", "chan_param": cfg["snr_db"]},
                                             device=torch.device("cuda"), logger=None))
     with (run / "received/visual.c64").open("xb") as stream, torch.inference_mode():
-        for item in header["keyframes"]:
+        for frame_number, item in enumerate(header["keyframes"]):
             offset, count = item["complex_offset"], item["complex_count"]
             symbols = torch.from_numpy(sent[offset:offset + count].copy()).cuda()
             channel_model.channel_forward(symbols).cpu().numpy().astype("<c8").tofile(stream)
+            validation_progress(frame_number + 1, len(header["keyframes"]))
 
 
 def receive(cfg, repo, run):

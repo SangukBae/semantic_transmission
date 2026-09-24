@@ -13,6 +13,7 @@ from torchvision.transforms.functional import InterpolationMode
 from transformers import AutoModel, AutoTokenizer
 from internvl_chat.internvl.conversation import get_conv_template
 import types #用于动态绑定方法
+from semantic_transmission.validation_progress import emit as validation_progress
 
 IMAGENET_MEAN = (0.485, 0.456, 0.406)
 IMAGENET_STD = (0.229, 0.224, 0.225)
@@ -215,7 +216,7 @@ def main(args):
             all_frames.append(frame)
         qbar = tqdm(total = len(all_frames), desc = 'Processing frames')
 
-        for frame_file in all_frames:
+        for progress_index, frame_file in enumerate(all_frames):
             if cur_frame == "": # 第一帧
                 cur_frame = frame_file
                 frame_number = frame_file.split('/')[-1].split('.')[0]
@@ -226,6 +227,7 @@ def main(args):
                 key_frame_file = key_frame_path + '/' + frame_number + '.png'
                 shutil.copy(frame_file, key_frame_file)
                 logging.info(f"frame_file: {frame_file.split('/')[-2]}")
+                validation_progress(progress_index + 1, len(all_frames))
                 continue
             logging.info(f"frame_index: {frame_file.split('/')[-1].split('.')[0]}")
 
@@ -294,6 +296,7 @@ def main(args):
                 shutil.copy(frame_file, key_frame_file)
             logging.info(f"frame_numbers: {frame_numbers}")
             qbar.update(1)
+            validation_progress(progress_index + 1, len(all_frames))
 
         #将最后一帧也当作关键帧拷贝到关键帧文件夹中
         frame_file = all_frames[-1]

@@ -1,5 +1,6 @@
 import os
 import faulthandler
+from semantic_transmission.validation_progress import emit as validation_progress
 from semantic_transmission.temporal import (segment_lengths, conditioning_indices,
     concatenate_segments, resolve_concatenation_policy)
 import time
@@ -560,6 +561,7 @@ if __name__ == "__main__":
                     
                     samples = vae.decode(samples.to(dtype), num_frames=num_frames)
                     video_clips.append(samples)
+                    validation_progress(loop_i + 1, loop)
 
                 # == save samples ==
                 if is_main_process():
