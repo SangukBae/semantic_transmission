@@ -389,7 +389,10 @@ if __name__ == "__main__":
         # loop = cfg.get("loop", 1)
         condition_frame_length = cfg.get("condition_frame_length", 5)
         condition_frame_edit = cfg.get("condition_frame_edit", 0)
-        align = cfg.get("align", None)
+        conditioning_alignment = cfg.get("conditioning_alignment", "official_release")
+        if conditioning_alignment not in {"official_release", "endpoint_exact"}:
+            raise ValueError(f"Unknown conditioning alignment: {conditioning_alignment}")
+        align = None if conditioning_alignment == "endpoint_exact" else cfg.get("align", None)
 
         os.makedirs(save_dir, exist_ok=True)
         # sample_name = cfg.get("sample_name", None)
@@ -546,7 +549,11 @@ if __name__ == "__main__":
                     if loop_i > 0:
                         # Encode exactly one overlap block, including for dense SKEM cuts.
                         previous = video_clips[-1]
-                        if cfg.get("decoder_policy") != "official_release":
+                        if (conditioning_alignment == "endpoint_exact"
+                                or cfg.get("decoder_policy") != "official_release"
+                                or previous.shape[2] < dframe_to_frame(condition_frame_length)):
+                            # A short first segment cannot supply five reference latents.
+                            # Left-pad only that case; retain the released path for long clips.
                             overlap = conditioning_indices(previous.shape[2], dframe_to_frame(condition_frame_length))
                             previous = previous[:, :, overlap]
                         refs, ms = append_generated(
