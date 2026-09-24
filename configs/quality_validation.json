@@ -1,0 +1,83 @@
+{
+  "version": 1,
+  "description": "Training-free correction, low-resolution side channel and budgeted keyframe validation",
+  "development": [
+    {
+      "id": "etri_person",
+      "base": "outputs/diagnostics/etri01_ablation_20260917/replay"
+    },
+    {
+      "id": "webvid_person",
+      "base": "outputs/webvid1_ablation_single_subject_611ed735e038/baseline"
+    }
+  ],
+  "heldout": [
+    {
+      "id": "low_motion",
+      "filename": "stock-footage-candle-flowers.mp4",
+      "sha256": "5b1629df5d11726299f511533a19bbf09a0abe2fbda89a3fd5947aa09d491091",
+      "frames": 181,
+      "width": 576,
+      "height": 320,
+      "fps": 24
+    },
+    {
+      "id": "fast_motion",
+      "filename": "stock-footage-toksovo-russia-february-team-of-sled-dogs-husky-and-greyhound-with-musher-running.mp4",
+      "sha256": "bb6ad48ea56445a437d9034139fd3f5e9f46d1795bc414a7fb6b66cd3d536425",
+      "frames": 384,
+      "width": 576,
+      "height": 320,
+      "fps": 24
+    },
+    {
+      "id": "camera_motion",
+      "filename": "stock-footage-aerial-drone-panoramic-video-of-famous-port-and-marina-of-zea-with-luxury-yachts-docked-as-seen.mp4",
+      "sha256": "8820a386c2d86059c4bd0746a73390e9eaae4f90b7f6a509a72e5dafff1a752a",
+      "frames": 384,
+      "width": 576,
+      "height": 320,
+      "fps": 24
+    },
+    {
+      "id": "multi_object_occlusion",
+      "filename": "stock-footage--commuters-people-walking-in-the-city-slow-motion.mp4",
+      "sha256": "4177cd3ae20695d3e1259d126a92b880d739888c4ae7ee64fda487e73b3be214",
+      "frames": 384,
+      "width": 576,
+      "height": 320,
+      "fps": 24
+    },
+    {
+      "id": "animal_action",
+      "filename": "stock-footage-cat-licks-himself-on-the-green-grass.mp4",
+      "sha256": "da4612cfe2559217df89f97ab438e6e076628ba735a40f7ddb6562c50beec679",
+      "frames": 315,
+      "width": 576,
+      "height": 320,
+      "fps": 24.0
+    }
+  ],
+  "selection_rule": "Four preselected non-development WebVid categories plus cat action; fixed before this campaign. Independence means excluded from tuning in this campaign, not unseen in all prior research.",
+  "anchor_strengths": [
+    0.0,
+    0.25,
+    0.5,
+    0.75
+  ],
+  "lowres_strength": 0.5,
+  "lowres_size": [
+    72,
+    40
+  ],
+  "lowres_crf": 30,
+  "budget_multiplier": 2.0,
+  "seeds": [
+    42,
+    43,
+    44
+  ],
+  "steps": 30,
+  "snr_db": 10,
+  "channel_seed": 1024
+}
