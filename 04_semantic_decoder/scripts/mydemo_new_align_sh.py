@@ -1,5 +1,6 @@
 import os
 import faulthandler
+from semantic_transmission.exact_reuse import DiffusionModelReuse
 from semantic_transmission.validation_progress import emit as validation_progress
 from semantic_transmission.temporal import (segment_lengths, conditioning_indices,
     concatenate_segments, resolve_concatenation_policy)
@@ -295,11 +296,20 @@ if __name__ == "__main__":
     if cfg.get("text_encoder_device", device) != device:
         # Keep the 4.7B T5 on CPU; transfer only its small conditioning tensors.
         original_encode = text_encoder.encode
+        text_embedding_cache = {}
         def encode_to_sampling_device(text):
+            key = tuple(text)
+            if cfg.get("cache_text_embeddings", False) and key in text_embedding_cache:
+                encoded = text_embedding_cache[key]
+            else:
+                encoded = original_encode(text)
+                if cfg.get("cache_text_embeddings", False):
+                    text_embedding_cache[key] = encoded
             return {name: tensor.to(device=device, dtype=dtype if tensor.is_floating_point() else tensor.dtype)
-                    for name, tensor in original_encode(text).items()}
+                    for name, tensor in encoded.items()}
         text_encoder.encode = encode_to_sampling_device
     vae = build_module(cfg.vae, MODELS).to(device, dtype).eval()
+    model_reuse = DiffusionModelReuse(cfg.model, device, cfg.get("reuse_diffusion_model", True))
 
     # == prepare video size ==
     image_size = cfg.get("image_size", None)
@@ -510,7 +520,7 @@ if __name__ == "__main__":
                     # == build diffusion model ==
                     input_size = (num_frames, *image_size)
                     latent_size = vae.get_latent_size(input_size)
-                    model = (
+                    model = model_reuse.get(lambda: (
                         build_module(
                             cfg.model,
                             MODELS,
@@ -522,7 +532,7 @@ if __name__ == "__main__":
                         )
                         .to(device, dtype)
                         .eval()
-                    )
+                    ), latent_size)
                     text_encoder.y_embedder = model.y_embedder  # required for classifier-free guidance
 
                     # == build scheduler ==
@@ -593,3 +603,4 @@ if __name__ == "__main__":
             start_idx += len(batch_prompts)
         logger.info("Inference finished.")
         logger.info("Saved %s samples to %s", start_idx, save_dir)
+    logger.info("Exact diffusion model reuse: builds=%s hits=%s", model_reuse.builds, model_reuse.hits)

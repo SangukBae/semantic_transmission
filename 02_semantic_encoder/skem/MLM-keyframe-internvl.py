@@ -13,6 +13,7 @@ from torchvision.transforms.functional import InterpolationMode
 from transformers import AutoModel, AutoTokenizer
 from internvl_chat.internvl.conversation import get_conv_template
 import types #用于动态绑定方法
+from semantic_transmission.exact_reuse import FrameTensorCache
 from semantic_transmission.validation_progress import emit as validation_progress
 
 IMAGENET_MEAN = (0.485, 0.456, 0.406)
@@ -205,6 +206,10 @@ def main(args):
 
     # 开始遍历所有的frame_paths
     for frame_path in frame_paths:
+        frame_cache = FrameTensorCache(
+            lambda path: load_image(path, max_num=args.max_tiles).to(torch.bfloat16).cuda(),
+            enabled=not args.no_frame_cache,
+        )
         all_frames = []
         frame_numbers = []
         cur_describe = ""
@@ -232,8 +237,8 @@ def main(args):
             logging.info(f"frame_index: {frame_file.split('/')[-1].split('.')[0]}")
 
             # 读取新一帧的图片
-            pixel_values1 = load_image(cur_frame, max_num=args.max_tiles).to(torch.bfloat16).cuda()
-            pixel_values2 = load_image(frame_file, max_num=args.max_tiles).to(torch.bfloat16).cuda()
+            pixel_values1 = frame_cache.get(cur_frame)
+            pixel_values2 = frame_cache.get(frame_file)
             pixel_values = torch.cat([pixel_values1, pixel_values2], dim=0)
             num_patches_list = [pixel_values1.size(0), pixel_values2.size(0)]
 
@@ -307,6 +312,8 @@ def main(args):
         logging.info(f"coping {frame_file} to {key_frame_file}")
         shutil.copy(frame_file, key_frame_file)
 
+        logging.info("Exact frame reuse: loads=%s hits=%s", frame_cache.loads, frame_cache.hits)
+
 
 
 
@@ -327,6 +334,8 @@ if __name__ == '__main__':
     parser.add_argument("--flash-attn", action="store_true")
     parser.add_argument("--max-new-tokens", type=int, default=1024)
     parser.add_argument("--max-tiles", type=int, default=12)
+    parser.add_argument("--no-frame-cache", action="store_true",
+                        help="Disable exact preprocessed-frame reuse for A/B verification")
     parser.add_argument("--csv-path", type=str, required=True)
     parser.add_argument("--method", type=str, default="intervl")
     parser.add_argument("--q1", type=str, default=prompt_ask_image)
