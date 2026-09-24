@@ -1,0 +1,69 @@
+\begin{thebibliography}{10}
+
+\bibitem{ying2026specialist}
+K.~Ying, Z.~Gao, T.~Yang, J.~Zhang, X.~Cheng, T.~Q. Quek, and H.~V. Poor, ``From specialist to large models: A paradigm evolution towards semantic-aware mimo,'' {\em IEEE Communications Magazine}, pp.~1--8, 2026.
+
+\bibitem{yinYinhangGenerativeVideoSemantic2025}
+H.~Yin, L.~Qiao, Y.~Ma, S.~Sun, K.~Li, Z.~Gao, and D.~Niyato, ``Generative video semantic communication via multimodal semantic fusion with large model,'' {\em {IEEE} Trans. Veh. Technol.}, vol.~75, no.~1, pp.~1701--1706, 2026.
+
+\bibitem{wangDVSTWirelessDeepVideo2023}
+S.~Wang, J.~Dai, Z.~Liang, K.~Niu, Z.~Si, C.~Dong, X.~Qin, and P.~Zhang, ``Wireless deep video semantic transmission,'' {\em {IEEE} J. Select. Areas Commun.}, vol.~41, pp.~214--229, Jan. 2023.
+
+\bibitem{tongMultimodalSemanticCommunication2025}
+H.~Tong, H.~Li, H.~Du, Z.~Yang, C.~Yin, and D.~Niyato, ``Multimodal semantic communication for generative audio-driven video conferencing,'' {\em IEEE Wireless Commun. Lett.}, vol.~14, pp.~93--97, Jan. 2025.
+
+\bibitem{guoVideoQASCAdaptiveSemantic2025a}
+J.~Guo, W.~Chen, Y.~Sun, J.~Xu, and B.~Ai, ``Videoqa-sc: Adaptive semantic communication for video question answering,'' {\em {IEEE} J. Select. Areas Commun.}, vol.~43, pp.~2462--2477, July 2025.
+
+\bibitem{qiaoTokenCommunicationsLarge2025}
+L.~{Qiao}, M.~B. {Mashhadi}, Z.~{Gao}, R.~{Tafazolli}, M.~{Bennis}, and D.~{Niyato}, ``Token communications: A large model-driven framework for cross-modal context-aware semantic communications,'' {\em {IEEE} Wireless Commun.}, vol.~32, pp.~80--88, Jan. 2025.
+
+\bibitem{li2025large}
+Z.~Li, Z.~Gao, X.~Liu, Z.~Wang, X.~Zhou, L.~Liu, Y.~Wu, W.~Feng, and Y.~Huang, ``Large model enabled embodied intelligence for 6g integrated perception, communication, and computation network,'' {\em arXiv preprint arXiv:2512.15109}, 2025.
+
+\bibitem{liu2024sorareviewbackgroundtechnology}
+Y.~Liu, K.~Zhang, Y.~Li, Z.~Yan, C.~Gao, R.~Chen, Z.~Yuan, Y.~Huang, H.~Sun, J.~Gao, L.~He, and L.~Sun, ``Sora: A review on background, technology, limitations, and opportunities of large vision models,'' {\em arXiv preprint arXiv:2402.17177}, 2024.
+
+\bibitem{qiaoLatencyAwareGenerativeSemantic2024}
+L.~Qiao, M.~B. Mashhadi, Z.~Gao, C.~H. Foh, P.~Xiao, and M.~Bennis, ``Latency-aware generative semantic communications with pre-trained diffusion models,'' {\em IEEE Wireless Commun. Lett.}, vol.~13, pp.~2652--2656, Oct. 2024.
+
+\bibitem{NTSCC}
+J.~Dai, S.~Wang, K.~Tan, Z.~Si, X.~Qin, K.~Niu, and P.~Zhang, ``Nonlinear transform source-channel coding for semantic communications,'' {\em {IEEE} J. Select. Areas Commun.}, vol.~40, no.~8, pp.~2300--2316, 2022.
+
+\bibitem{TIFA}
+Y.~Hu {\em et~al.}, ``Tifa: Accurate and interpretable text-to-image faithfulness evaluation with question answering,'' in {\em Proc. IEEE Int. Conf. Comput. Vis. (ICCV)}, pp.~20349--20360, 2023.
+
+\bibitem{opticalflow}
+H.~Xu, J.~Zhang, J.~Cai, H.~Rezatofighi, F.~Yu, D.~Tao, and A.~Geiger, ``Unifying flow, stereo and depth estimation,'' {\em IEEE Trans. Pattern Anal. Mach. Intell.}, vol.~45, no.~11, pp.~13941--13958, 2023.
+
+\bibitem{chen2024internvlscalingvisionfoundation}
+Z.~Chen {\em et~al.}, ``Internvl: Scaling up vision foundation models and aligning for generic visual-linguistic tasks,'' in {\em Proc. IEEE Conf. Comput. Vis. Pattern Recognit. (CVPR)}, pp.~24185--24198, June 2024.
+
+\bibitem{opensora}
+Z.~Zheng, X.~Peng, T.~Yang, C.~Shen, S.~Li, H.~Liu, Y.~Zhou, T.~Li, and Y.~You, ``Open-sora: Democratizing efficient video production for all,'' {\em arXiv preprint arXiv:2412.20404}, 2024.
+
+\bibitem{WebVid}
+M.~Bain, A.~Nagrani, G.~Varol, and A.~Zisserman, ``Frozen in time: A joint video and image encoder for end-to-end retrieval,'' in {\em Proc. IEEE Int. Conf. Comput. Vis. (ICCV)}, pp.~1728--1738, October 2021.
+
+\bibitem{Kinetics400}
+J.~Carreira and A.~Zisserman, ``Quo vadis, action recognition? a new model and the kinetics dataset,'' in {\em Proc. IEEE Conf. Comput. Vis. Pattern Recognit. (CVPR)}, pp.~6299--6308, July 2017.
+
+\bibitem{h264}
+{ITU-T and ISO/IEC JTC 1}, ``Advanced video coding for generic audiovisual services.'' ITU-T Recommendation H.264 and ISO/IEC 14496-10, 2010.
+
+\bibitem{h265}
+G.~J. Sullivan, J.-R. Ohm, W.-J. Han, and T.~Wiegand, ``Overview of the high efficiency video coding (hevc) standard,'' {\em IEEE Trans. Circuit Syst. Video Technol.}, vol.~22, no.~12, pp.~1649--1668, 2012.
+
+\bibitem{xu2024pllavaparameterfreellava}
+L.~Xu, Y.~Zhao, D.~Zhou, Z.~Lin, S.~K. Ng, and J.~Feng, ``Pllava: Parameter-free llava extension from images to videos for video dense captioning,'' 2024.
+
+\bibitem{TimeSformer}
+G.~Bertasius, H.~Wang, and L.~Torresani, ``Is space-time attention all you need for video understanding?,'' in {\em Proc. Int. Conf. Mach. Learn. (ICML)}, July 2021.
+
+\bibitem{depth_anything_v2}
+L.~Yang, B.~Kang, Z.~Huang, Z.~Zhao, X.~Xu, J.~Feng, and H.~Zhao, ``Depth anything v2,'' {\em Proc. Adv. Neural Inf. Process. Syst. (NeurIPS)}, vol.~37, pp.~21875--21911, 2024.
+
+\bibitem{zhangbertscore}
+T.~Zhang, V.~Kishore, F.~Wu, K.~Q. Weinberger, and Y.~Artzi, ``Bertscore: Evaluating text generation with bert,'' in {\em Proc. Int. Conf. Learn. Representations (ICLR)}, 2020.
+
+\end{thebibliography}

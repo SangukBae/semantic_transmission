@@ -1,5 +1,12 @@
 # Local LGVSC research environment
 
+**ETRI follow-up scope (2026-09-21):** use this document for local setup and
+smoke execution. The [email summary](ETRI_FOLLOWUP_EMAIL_SUMMARY.md) and
+[follow-up protocol](ETRI_FOLLOWUP_PROTOCOL.md) govern current research:
+AWGN hallucination detection/mitigation and longer continuous-video evaluation.
+Short smoke runs below remain installation checks; they do not establish
+60-second support, three-category coverage or mitigation success.
+
 This repository preserves the history and staged implementation of
 [TT2TER/LGVSC](https://github.com/TT2TER/LGVSC) at
 `50c9ff98fb1aaa8136aef2e41e02bbb0d1a2d1c3` and adds an executable local research path.

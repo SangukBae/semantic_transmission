@@ -1,5 +1,11 @@
 # ETRI 10-video reconstruction and traffic comparison
 
+**2026-09-21 scope:** this is the earlier fixed 10-second development protocol.
+Its settings and measurements remain historical evidence. Current R&D follows the
+[ETRI follow-up requirements](ETRI_FOLLOWUP_EMAIL_SUMMARY.md) and
+[long-video AWGN protocol](ETRI_FOLLOWUP_PROTOCOL.md); the commands below do not
+by themselves supply the new three-category, source/before/after evaluation.
+
 This is an ETRI development-set application of the official LGVSC SKEM+DSA
 architecture. It is not a reproduction of the paper's 55-video WebVid benchmark or
 of the authors' unavailable NTSCC training checkpoint collection.

@@ -1,5 +1,14 @@
 # Reproducibility statement
 
+**Local ETRI scope (2026-09-21):** the paper-oriented SKEM measurements below are
+preserved in their original scope. They do not validate the new
+[ETRI follow-up requirements](ETRI_FOLLOWUP_EMAIL_SUMMARY.md) or prove that the
+current checkout reproduces the complete paper. See the dated
+[local implementation audit](LGVSC_PAPER_IMPLEMENTATION_AUDIT.md) for that distinction.
+Future paired AWGN runs must freeze source timelines, checkpoints, code, seeds,
+transport costs and independent error evidence under the
+[follow-up protocol](ETRI_FOLLOWUP_PROTOCOL.md).
+
 LGVSC contains a **multimodal-LLM-in-the-loop** component — the SKEM keyframe selector
 (`02_semantic_encoder/skem/`), which queries InternVL2-8B and inserts a keyframe whenever
 the relative PSSS score `S_rel = P("No") − P("Yes")` exceeds the divergence threshold

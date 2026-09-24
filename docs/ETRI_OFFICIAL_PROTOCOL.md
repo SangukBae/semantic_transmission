@@ -1,5 +1,12 @@
 # ETRI: published LGVSC execution profile
 
+**2026-09-21 scope:** this document preserves the short-video baseline and its
+execution history. Current R&D follows the [ETRI email](ETRI_FOLLOWUP_EMAIL_SUMMARY.md)
+and [follow-up protocol](ETRI_FOLLOWUP_PROTOCOL.md): AWGN hallucination detection and
+mitigation, a feasibility target of 60+ consecutive seconds in three scene-change
+categories, and source/before/after comparisons. The fixed 10-second inputs and
+16-second preprocessing below do not implement that long-video evaluation.
+
 **2026-09-17 update:** current configurations use profile v2, the five official
 quality metrics, itemized transport accounting and independent final concatenation.
 See [LGVSC_ALIGNMENT.md](LGVSC_ALIGNMENT.md). The v1 commands, reuse history and

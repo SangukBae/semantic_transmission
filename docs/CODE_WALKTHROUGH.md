@@ -1,5 +1,13 @@
 # LGVSC — code walkthrough in data-flow order
 
+**ETRI follow-up scope (2026-09-21):** this is an explanation of the existing
+numbered scripts, not an implementation checklist already completed for the new
+[requirements](ETRI_FOLLOWUP_EMAIL_SUMMARY.md). The legacy 16-second truncation
+needs a separate duration-preserving path for long-video work. Current module
+limitations are described in [MODEL_ARCHITECTURE.md](MODEL_ARCHITECTURE.md);
+planned AWGN comparisons, scene updates and fallback evaluation are defined in
+[ETRI_FOLLOWUP_PROTOCOL.md](ETRI_FOLLOWUP_PROTOCOL.md).
+
 Every canonical script, its key functions, what it does, its parameters, and the exact
 file it reads / writes. Read top-to-bottom; the **CSV chain** threads the whole pipeline:
 

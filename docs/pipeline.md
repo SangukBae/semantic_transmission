@@ -4,6 +4,14 @@ This document explains what each stage does, the exact data that flows between
 stages, and where the paper's modules live in the code. Read it alongside the
 per-stage `README.md` files.
 
+**ETRI follow-up scope (2026-09-21):** this walkthrough describes the existing
+pipeline. Current research requirements and planned extensions are in the
+[email summary](ETRI_FOLLOWUP_EMAIL_SUMMARY.md), [development plan](ETRI_DEVELOPMENT_PLAN.md)
+and [evaluation protocol](ETRI_FOLLOWUP_PROTOCOL.md). In particular, the legacy
+16-second preparation below must not be used unchanged for the 60+ second target.
+SKEM boundaries and scalar flow are not evidence that scene-change recovery or
+explicit object speed/action transmission has been validated.
+
 ## 0. Notation recap (from the paper)
 
 - A video `X ∈ R^{F×H×W×C}` is split into `N` semantic segments `S_1..S_N` at

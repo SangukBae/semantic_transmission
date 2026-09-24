@@ -1,0 +1,646 @@
+{
+  "checked_utc": "2026-09-21T07:08:22.810866+00:00",
+  "audit_type": "static selected-path review; no external model execution",
+  "repositories": [
+    {
+      "repo": "edshkim98/HalluGen",
+      "commit": "924c40b0b2718cef9d7e079aaf56a7df85679490",
+      "commit_date": "2026-04-29T04:41:30Z",
+      "selected_anchors": [
+        {
+          "path": "SHAFE.py",
+          "line": 402,
+          "expected_text": "class SHAFE",
+          "url": "https://github.com/edshkim98/HalluGen/blob/924c40b0b2718cef9d7e079aaf56a7df85679490/SHAFE.py#L402"
+        },
+        {
+          "path": "SHAFE.py",
+          "line": 442,
+          "expected_text": "def forward",
+          "url": "https://github.com/edshkim98/HalluGen/blob/924c40b0b2718cef9d7e079aaf56a7df85679490/SHAFE.py#L442"
+        },
+        {
+          "path": "guided_diffusion/condition_methods.py",
+          "line": 851,
+          "expected_text": "class PosteriorSampling",
+          "url": "https://github.com/edshkim98/HalluGen/blob/924c40b0b2718cef9d7e079aaf56a7df85679490/guided_diffusion/condition_methods.py#L851"
+        }
+      ],
+      "paper_claim": "논문 SHAFE는 원본 참조형이며 별도의 RX형 CNN과 다르다.",
+      "finding": "SHAFE 기본 ResNet·softmax 온도·FFT cutoff와 grayscale 채널 반복을 확인했다. RGB 입력 adapter와 해상도 교정이 필요하다. README는 active development로 표시한다."
+    },
+    {
+      "repo": "edshkim98/DynamicDPS",
+      "commit": "0a29e70112b993e637c2237f1d5764794347bda4",
+      "commit_date": "2026-07-03T17:39:39Z",
+      "selected_anchors": [
+        {
+          "path": "test.py",
+          "line": 182,
+          "expected_text": "closest_time_idx",
+          "url": "https://github.com/edshkim98/DynamicDPS/blob/0a29e70112b993e637c2237f1d5764794347bda4/test.py#L182"
+        },
+        {
+          "path": "test_src/test.py",
+          "line": 225,
+          "expected_text": "closest_time = 299",
+          "url": "https://github.com/edshkim98/DynamicDPS/blob/0a29e70112b993e637c2237f1d5764794347bda4/test_src/test.py#L225"
+        },
+        {
+          "path": "guided_diffusion/condition_methods.py",
+          "line": 400,
+          "expected_text": "kwargs['line_search']",
+          "url": "https://github.com/edshkim98/DynamicDPS/blob/0a29e70112b993e637c2237f1d5764794347bda4/guided_diffusion/condition_methods.py#L400"
+        }
+      ],
+      "paper_claim": "논문은 데이터 일관성에 따른 적응 시작과 Wolfe 기반 보정을 설명한다.",
+      "finding": "기본 test.py의 memory-bank 경로와 test_src의 고정 시작값이 다르다. line search는 t>5이고 5의 배수인 step에서 호출된다. MRI 관측 모델을 NTSCC 심벌 모델로 대체하는 별도 연구가 필요하다."
+    },
+    {
+      "repo": "DIDSR/sfrc",
+      "commit": "527fbf56a3b87552047971b6bb9b5b909c5cddfa",
+      "commit_date": "2026-06-10T21:04:56Z",
+      "selected_anchors": [
+        {
+          "path": "main.py",
+          "line": 27,
+          "expected_text": "frc-threshold",
+          "url": "https://github.com/DIDSR/sfrc/blob/527fbf56a3b87552047971b6bb9b5b909c5cddfa/main.py#L27"
+        },
+        {
+          "path": "main.py",
+          "line": 50,
+          "expected_text": "'--ht'",
+          "url": "https://github.com/DIDSR/sfrc/blob/527fbf56a3b87552047971b6bb9b5b909c5cddfa/main.py#L50"
+        }
+      ],
+      "paper_claim": "참조와 복원 패치의 주파수 상관을 이용한다.",
+      "finding": "상관 cutoff와 hallucination threshold가 별도 인자다. 참조·patch 크기·영상 모달리티별 교정이 필요하며 시간축·객체 오류 분류기는 제공하지 않는다."
+    },
+    {
+      "repo": "taco-group/SparkVSR",
+      "commit": "a082284b80005bb5615c0f5f5f5ed66650b1b1e7",
+      "commit_date": "2026-08-03T04:15:32Z",
+      "selected_anchors": [
+        {
+          "path": "sparkvsr_inference_script.py",
+          "line": 572,
+          "expected_text": "noise_pred_uncond",
+          "url": "https://github.com/taco-group/SparkVSR/blob/a082284b80005bb5615c0f5f5f5ed66650b1b1e7/sparkvsr_inference_script.py#L572"
+        },
+        {
+          "path": "sparkvsr_inference_script.py",
+          "line": 623,
+          "expected_text": "ref_mode",
+          "url": "https://github.com/taco-group/SparkVSR/blob/a082284b80005bb5615c0f5f5f5ed66650b1b1e7/sparkvsr_inference_script.py#L623"
+        },
+        {
+          "path": "sparkvsr_inference_script.py",
+          "line": 1022,
+          "expected_text": "make_temporal_chunks",
+          "url": "https://github.com/taco-group/SparkVSR/blob/a082284b80005bb5615c0f5f5f5ed66650b1b1e7/sparkvsr_inference_script.py#L1022"
+        }
+      ],
+      "paper_claim": "전체 LR 영상과 희소 HR reference를 융합한다. RFG 무참조 분기에도 LR 관측이 남는다.",
+      "finding": "RFG 보간·no_ref/gt/api/pisasr·시간 chunk 실행을 확인했다. GT reference는 oracle이며 API reference는 본 내부 원본 실험에 사용하지 않는다. LGVSC 수신 keyframe adapter는 별도 구현이다."
+    },
+    {
+      "repo": "JyChen9811/STCDiT",
+      "commit": "7c4be6e2774b1bdf51658d1e495a0a3a3ace3772",
+      "commit_date": "2026-06-04T10:28:18Z",
+      "selected_anchors": [
+        {
+          "path": "Inference/video_motion_detection.py",
+          "line": 7,
+          "expected_text": "def analyze_video_motion",
+          "url": "https://github.com/JyChen9811/STCDiT/blob/7c4be6e2774b1bdf51658d1e495a0a3a3ace3772/Inference/video_motion_detection.py#L7"
+        },
+        {
+          "path": "Inference/test_STCDiT_tiny.py",
+          "line": 110,
+          "expected_text": "analyze_video_motion",
+          "url": "https://github.com/JyChen9811/STCDiT/blob/7c4be6e2774b1bdf51658d1e495a0a3a3ace3772/Inference/test_STCDiT_tiny.py#L110"
+        },
+        {
+          "path": "diffsynth/pipelines/wan_video_t2v_tiny.py",
+          "line": 638,
+          "expected_text": "for start, end in segments",
+          "url": "https://github.com/JyChen9811/STCDiT/blob/7c4be6e2774b1bdf51658d1e495a0a3a3ace3772/diffsynth/pipelines/wan_video_t2v_tiny.py#L638"
+        }
+      ],
+      "paper_claim": "운동별 VAE 분할과 각 구간 첫-frame anchor를 사용한다.",
+      "finding": "이번 정적 감사는 tiny의 입력·운동 분석·구간 인코딩 경로를 중심으로 했다. 전체 논문 large 학습·성능을 재현한 감사는 아니다. 프레임 수 보정과 경계 매핑을 검증해야 한다."
+    },
+    {
+      "repo": "ByteDance-Seed/SeedVR",
+      "commit": "e4de8c24441a67e1b7df56abea10645059bb1185",
+      "commit_date": "2026-01-27T06:02:23Z",
+      "selected_anchors": [
+        {
+          "path": "projects/inference_seedvr2_3b.py",
+          "line": 140,
+          "expected_text": "sample_steps=1",
+          "url": "https://github.com/ByteDance-Seed/SeedVR/blob/e4de8c24441a67e1b7df56abea10645059bb1185/projects/inference_seedvr2_3b.py#L140"
+        }
+      ],
+      "paper_claim": "SeedVR2는 한 단계 생성 복원이다.",
+      "finding": "1-step 실행 경로를 확인했다. README의 prototype/over-generation 한계를 유지한다. 공개 H100 조건은 RTX 4080에서의 실행·속도 검증을 대신하지 않는다."
+    },
+    {
+      "repo": "OpenImagingLab/FlashVSR",
+      "commit": "cf910c61a60733e610e9c6e8b607f80c3a6c202b",
+      "commit_date": "2026-09-01T09:55:34Z",
+      "selected_anchors": [
+        {
+          "path": "examples/WanVSR/infer_flashvsr_v1.1_full.py",
+          "line": 155,
+          "expected_text": "torch.stack",
+          "url": "https://github.com/OpenImagingLab/FlashVSR/blob/cf910c61a60733e610e9c6e8b607f80c3a6c202b/examples/WanVSR/infer_flashvsr_v1.1_full.py#L155"
+        },
+        {
+          "path": "examples/WanVSR/infer_flashvsr_v1.1_full.py",
+          "line": 205,
+          "expected_text": "num_inference_steps=1",
+          "url": "https://github.com/OpenImagingLab/FlashVSR/blob/cf910c61a60733e610e9c6e8b607f80c3a6c202b/examples/WanVSR/infer_flashvsr_v1.1_full.py#L205"
+        },
+        {
+          "path": "diffsynth/pipelines/flashvsr_full.py",
+          "line": 358,
+          "expected_text": "is_stream = True",
+          "url": "https://github.com/OpenImagingLab/FlashVSR/blob/cf910c61a60733e610e9c6e8b607f80c3a6c202b/diffsynth/pipelines/flashvsr_full.py#L358"
+        }
+      ],
+      "paper_claim": "논문은 diffusion 모델의 streaming과 효율을 설명한다.",
+      "finding": "공개 full 예제는 입력 프레임을 모아 tensor로 만든다. 모델 내부의 순차 처리와 입출력 전체의 상수 메모리는 별개다. v1.1 full을 조사한 결과를 tiny 또는 논문 버전 전체로 확대하지 않는다."
+    },
+    {
+      "repo": "NJU-PCALab/STAR",
+      "commit": "69b8bc53e4bb04267265fa9a288ee30882c5b2ed",
+      "commit_date": "2025-07-02T08:31:22Z",
+      "selected_anchors": [
+        {
+          "path": "cogvideox-based/sat/sgm/modules/diffusionmodules/loss.py",
+          "line": 140,
+          "expected_text": "torch.fft.rfft2",
+          "url": "https://github.com/NJU-PCALab/STAR/blob/69b8bc53e4bb04267265fa9a288ee30882c5b2ed/cogvideox-based/sat/sgm/modules/diffusionmodules/loss.py#L140"
+        },
+        {
+          "path": "cogvideox-based/sat/sgm/modules/diffusionmodules/loss.py",
+          "line": 269,
+          "expected_text": "timesteps/999",
+          "url": "https://github.com/NJU-PCALab/STAR/blob/69b8bc53e4bb04267265fa9a288ee30882c5b2ed/cogvideox-based/sat/sgm/modules/diffusionmodules/loss.py#L269"
+        },
+        {
+          "path": "video_super_resolution/scripts/inference_sr.py",
+          "line": 56,
+          "expected_text": "load_video",
+          "url": "https://github.com/NJU-PCALab/STAR/blob/69b8bc53e4bb04267265fa9a288ee30882c5b2ed/video_super_resolution/scripts/inference_sr.py#L56"
+        }
+      ],
+      "paper_claim": "영상 prior와 시간별 주파수 손실을 학습에 활용한다.",
+      "finding": "선택한 CogVideoX 손실 경로에 Fourier 분해와 timestep별 가중치가 있다. 전체 LR 영상 입력을 확인했다. 손실만 복사한 무학습 decoder 개선으로 표시하지 않는다."
+    },
+    {
+      "repo": "saic-fi/RAR",
+      "commit": "ce1885cf06a61dc23ba2232472d766807ad0870b",
+      "commit_date": "2026-05-20T09:25:33Z",
+      "selected_anchors": [
+        {
+          "path": "run.py",
+          "line": 542,
+          "expected_text": "for n_round",
+          "url": "https://github.com/saic-fi/RAR/blob/ce1885cf06a61dc23ba2232472d766807ad0870b/run.py#L542"
+        },
+        {
+          "path": "run.py",
+          "line": 638,
+          "expected_text": "quality_compare_noref",
+          "url": "https://github.com/saic-fi/RAR/blob/ce1885cf06a61dc23ba2232472d766807ad0870b/run.py#L638"
+        },
+        {
+          "path": "run.py",
+          "line": 648,
+          "expected_text": "Image B",
+          "url": "https://github.com/saic-fi/RAR/blob/ce1885cf06a61dc23ba2232472d766807ad0870b/run.py#L648"
+        }
+      ],
+      "paper_claim": "복원과 품질 판정을 반복하며 정지를 결정한다.",
+      "finding": "현재·직전 결과를 no-reference 품질 질문으로 비교한다. ETRI 원본 의미 오류 판정과 다르다. 모든 train/test 경로를 실행 검증한 것은 아니다."
+    }
+  ],
+  "selected_files": [
+    {
+      "repo": "edshkim98/HalluGen",
+      "file": "SHAFE.py",
+      "commit": "924c40b0b2718cef9d7e079aaf56a7df85679490",
+      "url": "https://raw.githubusercontent.com/edshkim98/HalluGen/924c40b0b2718cef9d7e079aaf56a7df85679490/SHAFE.py",
+      "sha256": "88075de02c7b61e5a86c7a6845dad12fbdad801d2ccaaabefdc3dab8b6a5835c",
+      "bytes": 17754
+    },
+    {
+      "repo": "edshkim98/HalluGen",
+      "file": "hallubench_new.py",
+      "commit": "924c40b0b2718cef9d7e079aaf56a7df85679490",
+      "url": "https://raw.githubusercontent.com/edshkim98/HalluGen/924c40b0b2718cef9d7e079aaf56a7df85679490/hallubench_new.py",
+      "sha256": "2ad3281baab48ed03faf68892f0824e07a2315da426f62a7eb8161eaed174b71",
+      "bytes": 27264
+    },
+    {
+      "repo": "edshkim98/HalluGen",
+      "file": "image_sample_hallugen.py",
+      "commit": "924c40b0b2718cef9d7e079aaf56a7df85679490",
+      "url": "https://raw.githubusercontent.com/edshkim98/HalluGen/924c40b0b2718cef9d7e079aaf56a7df85679490/image_sample_hallugen.py",
+      "sha256": "e5ec02353eb5fcb24a8525821a0f82dd07a7f533a6b189f6dbf2454b27c3bd05",
+      "bytes": 16115
+    },
+    {
+      "repo": "edshkim98/HalluGen",
+      "file": "guided_diffusion/condition_methods.py",
+      "commit": "924c40b0b2718cef9d7e079aaf56a7df85679490",
+      "url": "https://raw.githubusercontent.com/edshkim98/HalluGen/924c40b0b2718cef9d7e079aaf56a7df85679490/guided_diffusion/condition_methods.py",
+      "sha256": "a4c58b94db1deff22932ae36bdff0c569de55d22a54c4e91523a9d7cf7df177f",
+      "bytes": 43111
+    },
+    {
+      "repo": "edshkim98/HalluGen",
+      "file": "configs.yaml",
+      "commit": "924c40b0b2718cef9d7e079aaf56a7df85679490",
+      "url": "https://raw.githubusercontent.com/edshkim98/HalluGen/924c40b0b2718cef9d7e079aaf56a7df85679490/configs.yaml",
+      "sha256": "40b844a5dea50954c1d367f8bb10b37974749072a81e482636260b40d35776e3",
+      "bytes": 2182
+    },
+    {
+      "repo": "edshkim98/DynamicDPS",
+      "file": "test.py",
+      "commit": "0a29e70112b993e637c2237f1d5764794347bda4",
+      "url": "https://raw.githubusercontent.com/edshkim98/DynamicDPS/0a29e70112b993e637c2237f1d5764794347bda4/test.py",
+      "sha256": "4adb7a893b60ee4d5d74bd57e9400c383469cbfac989ae7b7ed5eccbf4a3f1b6",
+      "bytes": 9970
+    },
+    {
+      "repo": "edshkim98/DynamicDPS",
+      "file": "configs.yaml",
+      "commit": "0a29e70112b993e637c2237f1d5764794347bda4",
+      "url": "https://raw.githubusercontent.com/edshkim98/DynamicDPS/0a29e70112b993e637c2237f1d5764794347bda4/configs.yaml",
+      "sha256": "484bd3670510bd128405b230fc45580274c44159cf3e0e84485b291cd4f42992",
+      "bytes": 729
+    },
+    {
+      "repo": "edshkim98/DynamicDPS",
+      "file": "guided_diffusion/gaussian_diffusion.py",
+      "commit": "0a29e70112b993e637c2237f1d5764794347bda4",
+      "url": "https://raw.githubusercontent.com/edshkim98/DynamicDPS/0a29e70112b993e637c2237f1d5764794347bda4/guided_diffusion/gaussian_diffusion.py",
+      "sha256": "62072a62b0d43ca940f91063103810adeab61ae99e373fc2d57f900734b0bb7d",
+      "bytes": 38543
+    },
+    {
+      "repo": "edshkim98/DynamicDPS",
+      "file": "guided_diffusion/condition_methods.py",
+      "commit": "0a29e70112b993e637c2237f1d5764794347bda4",
+      "url": "https://raw.githubusercontent.com/edshkim98/DynamicDPS/0a29e70112b993e637c2237f1d5764794347bda4/guided_diffusion/condition_methods.py",
+      "sha256": "6d9c379045229218fde8f5c162c7ac1a0bf59fc3ea86cde5f648172705d3046c",
+      "bytes": 19284
+    },
+    {
+      "repo": "edshkim98/DynamicDPS",
+      "file": "test_src/test.py",
+      "commit": "0a29e70112b993e637c2237f1d5764794347bda4",
+      "url": "https://raw.githubusercontent.com/edshkim98/DynamicDPS/0a29e70112b993e637c2237f1d5764794347bda4/test_src/test.py",
+      "sha256": "106d4f5a9d996ec6dac2482b5204f5f6273d2127afcedc352fb9f1dc49b9994e",
+      "bytes": 12847
+    },
+    {
+      "repo": "edshkim98/DynamicDPS",
+      "file": "test_src/guided_diffusion/measurements.py",
+      "commit": "0a29e70112b993e637c2237f1d5764794347bda4",
+      "url": "https://raw.githubusercontent.com/edshkim98/DynamicDPS/0a29e70112b993e637c2237f1d5764794347bda4/test_src/guided_diffusion/measurements.py",
+      "sha256": "9df61a21e644634534e8ec69e447a1bbc718be082a3fee380ebf3db1f0a262ac",
+      "bytes": 11538
+    },
+    {
+      "repo": "taco-group/SparkVSR",
+      "file": "sparkvsr_inference_script.py",
+      "commit": "a082284b80005bb5615c0f5f5f5ed66650b1b1e7",
+      "url": "https://raw.githubusercontent.com/taco-group/SparkVSR/a082284b80005bb5615c0f5f5f5ed66650b1b1e7/sparkvsr_inference_script.py",
+      "sha256": "fa559781d708d6a8baddb34334332656a75144a2a2390d16791e160a1cbc1900",
+      "bytes": 46561
+    },
+    {
+      "repo": "taco-group/SparkVSR",
+      "file": "sparkvsr_inference.sh",
+      "commit": "a082284b80005bb5615c0f5f5f5ed66650b1b1e7",
+      "url": "https://raw.githubusercontent.com/taco-group/SparkVSR/a082284b80005bb5615c0f5f5f5ed66650b1b1e7/sparkvsr_inference.sh",
+      "sha256": "2e80f3807ac8c24e1e884b59debdad0f7ebf494e9310b80354044af99122cf93",
+      "bytes": 1777
+    },
+    {
+      "repo": "taco-group/SparkVSR",
+      "file": "finetune/models/SparkVSR/sparkvsr_s1_ref_trainer.py",
+      "commit": "a082284b80005bb5615c0f5f5f5ed66650b1b1e7",
+      "url": "https://raw.githubusercontent.com/taco-group/SparkVSR/a082284b80005bb5615c0f5f5f5ed66650b1b1e7/finetune/models/SparkVSR/sparkvsr_s1_ref_trainer.py",
+      "sha256": "c30840819e745e22c058a08fca875177e0b92f69a2c4b3f2e83bf1a4ee916689",
+      "bytes": 36529
+    },
+    {
+      "repo": "taco-group/SparkVSR",
+      "file": "finetune/models/SparkVSR/sparkvsr_s2_ref_trainer.py",
+      "commit": "a082284b80005bb5615c0f5f5f5ed66650b1b1e7",
+      "url": "https://raw.githubusercontent.com/taco-group/SparkVSR/a082284b80005bb5615c0f5f5f5ed66650b1b1e7/finetune/models/SparkVSR/sparkvsr_s2_ref_trainer.py",
+      "sha256": "3828b185602b00d70be981811cd202b313610481e8ab57a2142636eccf696626",
+      "bytes": 38222
+    },
+    {
+      "repo": "JyChen9811/STCDiT",
+      "file": "Inference/test_STCDiT_tiny.py",
+      "commit": "7c4be6e2774b1bdf51658d1e495a0a3a3ace3772",
+      "url": "https://raw.githubusercontent.com/JyChen9811/STCDiT/7c4be6e2774b1bdf51658d1e495a0a3a3ace3772/Inference/test_STCDiT_tiny.py",
+      "sha256": "d4df96651d0320bc53b11ce5772c3b1e600d76d75a7dad99296c624fe0020490",
+      "bytes": 5062
+    },
+    {
+      "repo": "JyChen9811/STCDiT",
+      "file": "Inference/video_motion_detection.py",
+      "commit": "7c4be6e2774b1bdf51658d1e495a0a3a3ace3772",
+      "url": "https://raw.githubusercontent.com/JyChen9811/STCDiT/7c4be6e2774b1bdf51658d1e495a0a3a3ace3772/Inference/video_motion_detection.py",
+      "sha256": "c8d17b724e01b931748b526d47a3755387f5dd90dddb9013dc4042c856471d46",
+      "bytes": 7475
+    },
+    {
+      "repo": "JyChen9811/STCDiT",
+      "file": "diffsynth/pipelines/wan_video_t2v_tiny.py",
+      "commit": "7c4be6e2774b1bdf51658d1e495a0a3a3ace3772",
+      "url": "https://raw.githubusercontent.com/JyChen9811/STCDiT/7c4be6e2774b1bdf51658d1e495a0a3a3ace3772/diffsynth/pipelines/wan_video_t2v_tiny.py",
+      "sha256": "232c9cca87c2fe2cc35a9e40be8130337179a8b1328cc289ab9c7c07c9a5167f",
+      "bytes": 38138
+    },
+    {
+      "repo": "JyChen9811/STCDiT",
+      "file": "diffsynth/models/wan_video_dit_t2v_tiny.py",
+      "commit": "7c4be6e2774b1bdf51658d1e495a0a3a3ace3772",
+      "url": "https://raw.githubusercontent.com/JyChen9811/STCDiT/7c4be6e2774b1bdf51658d1e495a0a3a3ace3772/diffsynth/models/wan_video_dit_t2v_tiny.py",
+      "sha256": "8d854bf6371b78fe12d4a0496a2c4b4f0386502a1a59ca3718d28a7f2dc7a2fb",
+      "bytes": 34945
+    },
+    {
+      "repo": "ByteDance-Seed/SeedVR",
+      "file": "projects/inference_seedvr2_3b.py",
+      "commit": "e4de8c24441a67e1b7df56abea10645059bb1185",
+      "url": "https://raw.githubusercontent.com/ByteDance-Seed/SeedVR/e4de8c24441a67e1b7df56abea10645059bb1185/projects/inference_seedvr2_3b.py",
+      "sha256": "089de47cd576bfd51b63b77b8f430146ae85bdd98bc2076011f869e54e2922ee",
+      "bytes": 12781
+    },
+    {
+      "repo": "ByteDance-Seed/SeedVR",
+      "file": "projects/video_diffusion_sr/infer.py",
+      "commit": "e4de8c24441a67e1b7df56abea10645059bb1185",
+      "url": "https://raw.githubusercontent.com/ByteDance-Seed/SeedVR/e4de8c24441a67e1b7df56abea10645059bb1185/projects/video_diffusion_sr/infer.py",
+      "sha256": "8a4034c343cb8bdc816dc6e5686f8843be2812d7cc77786160a12af272d885ae",
+      "bytes": 13308
+    },
+    {
+      "repo": "ByteDance-Seed/SeedVR",
+      "file": "models/dit_v2/window.py",
+      "commit": "e4de8c24441a67e1b7df56abea10645059bb1185",
+      "url": "https://raw.githubusercontent.com/ByteDance-Seed/SeedVR/e4de8c24441a67e1b7df56abea10645059bb1185/models/dit_v2/window.py",
+      "sha256": "61b3e0235e25d3e901271186bbaa43a90dcc1552f003daa3d2844b5126ce7e84",
+      "bytes": 3371
+    },
+    {
+      "repo": "saic-fi/RAR",
+      "file": "main.py",
+      "commit": "ce1885cf06a61dc23ba2232472d766807ad0870b",
+      "url": "https://raw.githubusercontent.com/saic-fi/RAR/ce1885cf06a61dc23ba2232472d766807ad0870b/main.py",
+      "sha256": "1b6d8fe8795799194435f3fecada76c839227c0388867ff72839e2a677987a34",
+      "bytes": 81
+    },
+    {
+      "repo": "saic-fi/RAR",
+      "file": "run.py",
+      "commit": "ce1885cf06a61dc23ba2232472d766807ad0870b",
+      "url": "https://raw.githubusercontent.com/saic-fi/RAR/ce1885cf06a61dc23ba2232472d766807ad0870b/run.py",
+      "sha256": "185aadceaad08b76ff6d37a7fff0b1284f5280103d6dcd26ca40b32cc97bdbb8",
+      "bytes": 41658
+    },
+    {
+      "repo": "saic-fi/RAR",
+      "file": "configs/infer_cfg.yaml",
+      "commit": "ce1885cf06a61dc23ba2232472d766807ad0870b",
+      "url": "https://raw.githubusercontent.com/saic-fi/RAR/ce1885cf06a61dc23ba2232472d766807ad0870b/configs/infer_cfg.yaml",
+      "sha256": "01762851bd1010cc4edc941f8312ee54d35e0730dcbf0618997abce5818f245f",
+      "bytes": 6570
+    },
+    {
+      "repo": "saic-fi/RAR",
+      "file": "diffusion/model/qa_connector.py",
+      "commit": "ce1885cf06a61dc23ba2232472d766807ad0870b",
+      "url": "https://raw.githubusercontent.com/saic-fi/RAR/ce1885cf06a61dc23ba2232472d766807ad0870b/diffusion/model/qa_connector.py",
+      "sha256": "c53f2202567491ab40285c87eb57fb76769e2fc9679d5eab70c1d4e511c54cc7",
+      "bytes": 12386
+    },
+    {
+      "repo": "DIDSR/sfrc",
+      "file": "main.py",
+      "commit": "527fbf56a3b87552047971b6bb9b5b909c5cddfa",
+      "url": "https://raw.githubusercontent.com/DIDSR/sfrc/527fbf56a3b87552047971b6bb9b5b909c5cddfa/main.py",
+      "sha256": "298185da241ce48d9ac25bc6fea88bea2ef7d95e124589f655e216100cf9cd6b",
+      "bytes": 12551
+    },
+    {
+      "repo": "DIDSR/sfrc",
+      "file": "src/frc_utils.py",
+      "commit": "527fbf56a3b87552047971b6bb9b5b909c5cddfa",
+      "url": "https://raw.githubusercontent.com/DIDSR/sfrc/527fbf56a3b87552047971b6bb9b5b909c5cddfa/src/frc_utils.py",
+      "sha256": "15d2b818d3557fe8f410c57a0384db90ad23add379e6dd6bad69986114f12b04",
+      "bytes": 17537
+    },
+    {
+      "repo": "DIDSR/sfrc",
+      "file": "src/sfrc_in_mpi.py",
+      "commit": "527fbf56a3b87552047971b6bb9b5b909c5cddfa",
+      "url": "https://raw.githubusercontent.com/DIDSR/sfrc/527fbf56a3b87552047971b6bb9b5b909c5cddfa/src/sfrc_in_mpi.py",
+      "sha256": "dadc0cf1af239ec4e997af59de58263a25687cf2cfd900ff16ab658230b7ff07",
+      "bytes": 6903
+    },
+    {
+      "repo": "OpenImagingLab/FlashVSR",
+      "file": "examples/WanVSR/infer_flashvsr_v1.1_full.py",
+      "commit": "cf910c61a60733e610e9c6e8b607f80c3a6c202b",
+      "url": "https://raw.githubusercontent.com/OpenImagingLab/FlashVSR/cf910c61a60733e610e9c6e8b607f80c3a6c202b/examples/WanVSR/infer_flashvsr_v1.1_full.py",
+      "sha256": "84797551ecb0cdd253110683da634115cfc686a6132db37e36e01088bf5d4315",
+      "bytes": 8668
+    },
+    {
+      "repo": "OpenImagingLab/FlashVSR",
+      "file": "diffsynth/pipelines/flashvsr_full.py",
+      "commit": "cf910c61a60733e610e9c6e8b607f80c3a6c202b",
+      "url": "https://raw.githubusercontent.com/OpenImagingLab/FlashVSR/cf910c61a60733e610e9c6e8b607f80c3a6c202b/diffsynth/pipelines/flashvsr_full.py",
+      "sha256": "50371bf7dcb574ac8f5d108209fdcb572eda61ff4df8771a77cc0cd82d2c2e91",
+      "bytes": 24828
+    },
+    {
+      "repo": "OpenImagingLab/FlashVSR",
+      "file": "diffsynth/pipelines/flashvsr_tiny_long.py",
+      "commit": "cf910c61a60733e610e9c6e8b607f80c3a6c202b",
+      "url": "https://raw.githubusercontent.com/OpenImagingLab/FlashVSR/cf910c61a60733e610e9c6e8b607f80c3a6c202b/diffsynth/pipelines/flashvsr_tiny_long.py",
+      "sha256": "64f0378eb3adf0ea02f190e5793c0ed66ca65cf7b52b9786679e26e7ecf7f113",
+      "bytes": 24566
+    },
+    {
+      "repo": "NJU-PCALab/STAR",
+      "file": "video_super_resolution/scripts/train_sr.py",
+      "commit": "69b8bc53e4bb04267265fa9a288ee30882c5b2ed",
+      "url": "https://raw.githubusercontent.com/NJU-PCALab/STAR/69b8bc53e4bb04267265fa9a288ee30882c5b2ed/video_super_resolution/scripts/train_sr.py",
+      "sha256": "41dde099c35b0c419986ecb33045017c4283826ccc0e3acf4421e42810dd64f8",
+      "bytes": 28137
+    },
+    {
+      "repo": "NJU-PCALab/STAR",
+      "file": "video_super_resolution/scripts/inference_sr.py",
+      "commit": "69b8bc53e4bb04267265fa9a288ee30882c5b2ed",
+      "url": "https://raw.githubusercontent.com/NJU-PCALab/STAR/69b8bc53e4bb04267265fa9a288ee30882c5b2ed/video_super_resolution/scripts/inference_sr.py",
+      "sha256": "1a78595cec91679f7972a28acb270204691d764452141050cfd5ae1f7eb4c48a",
+      "bytes": 4819
+    },
+    {
+      "repo": "NJU-PCALab/STAR",
+      "file": "cogvideox-based/sat/sgm/modules/diffusionmodules/loss.py",
+      "commit": "69b8bc53e4bb04267265fa9a288ee30882c5b2ed",
+      "url": "https://raw.githubusercontent.com/NJU-PCALab/STAR/69b8bc53e4bb04267265fa9a288ee30882c5b2ed/cogvideox-based/sat/sgm/modules/diffusionmodules/loss.py",
+      "sha256": "1824e8dccf9d5e5045748f3276fd52c8b142bca1093a8dac261e3fdf30662928",
+      "bytes": 12226
+    }
+  ],
+  "papers": [
+    {
+      "arxiv": "2512.03345",
+      "version_read": "2512.03345v1",
+      "url": "https://arxiv.org/html/2512.03345v1",
+      "sha256": "9511ebca593ce47816bdce6b00f16234697c0398b32d9d3bf8d4f06285b1ada1"
+    },
+    {
+      "arxiv": "2503.01075",
+      "version_read": "2503.01075v2",
+      "url": "https://arxiv.org/html/2503.01075v2",
+      "sha256": "df2ecdb3247514be70d57e276b8e4cc5caa21fb0871e975336fe1c8aadce4f7b"
+    },
+    {
+      "arxiv": "2603.04673",
+      "version_read": "2603.04673v2",
+      "url": "https://arxiv.org/html/2603.04673v2",
+      "sha256": "f7720d87f0a746cd288cdffa43a59ce92ea275f52fe60b4da04df1eef00ba35a"
+    },
+    {
+      "arxiv": "2603.16864",
+      "version_read": "2603.16864v1",
+      "url": "https://arxiv.org/html/2603.16864v1",
+      "sha256": "8978e5326f679347e0914b16a43677850287b1bf66569a5ddfc970ad1c4437f6"
+    },
+    {
+      "arxiv": "2511.18786",
+      "version_read": "2511.18786v1",
+      "url": "https://arxiv.org/html/2511.18786v1",
+      "sha256": "b2ae6ef9b3d8f01e66f3a5924346dbb20d9c07064fb7796b4295b3980eb17f0a"
+    },
+    {
+      "arxiv": "2506.05301",
+      "version_read": "2506.05301v2",
+      "url": "https://arxiv.org/html/2506.05301v2",
+      "sha256": "69d39e8c25a4d8539940aa16e2961b1c2915a0d8317ab28d5af38afd8c17065d"
+    },
+    {
+      "arxiv": "2510.12747",
+      "version_read": "2510.12747v1",
+      "url": "https://arxiv.org/html/2510.12747v1",
+      "sha256": "16f70726faef423a8f9ec62c6651861a5b00775cb65f9e7cab4c24a04b967116"
+    },
+    {
+      "arxiv": "2501.02976",
+      "version_read": "2501.02976v1",
+      "url": "https://arxiv.org/html/2501.02976v1",
+      "sha256": "4fd1168f0a6f50a94f8e4eea52c337d7c650dc229eb06c93b6f46614d267e586"
+    },
+    {
+      "arxiv": "2606.02331",
+      "version_read": "2606.02331v1",
+      "url": "https://arxiv.org/html/2606.02331v1",
+      "sha256": "3a1f7f9473877e63df357136fe833d15bb294b5d7b3e055fd746cf0b1e00ee7a"
+    },
+    {
+      "arxiv": "2603.26385",
+      "version_read": "2603.26385v1",
+      "url": "https://arxiv.org/html/2603.26385v1",
+      "sha256": "a6264e25b0159b1bf4f37ae07ca3237f501c2215d586d32f94a010c1ac530ded"
+    },
+    {
+      "arxiv": "2608.26476",
+      "version_read": "2608.26476v1",
+      "url": "https://arxiv.org/html/2608.26476v1",
+      "sha256": "dbd24a5b3caf90b66b4c4d497595f326090b0faccdb9210ee2131c678feb81f4"
+    },
+    {
+      "arxiv": "2609.09895",
+      "version_read": "2609.09895v1",
+      "url": "https://arxiv.org/html/2609.09895v1",
+      "sha256": "624adb60d51a1ec3f4dee8c46e8482ece885fb6b174b31e5b61fdb7b53c1006c"
+    },
+    {
+      "arxiv": "2508.03177",
+      "version_read": "2508.03177v2",
+      "url": "https://arxiv.org/html/2508.03177v2",
+      "sha256": "022454c83e1f01c139328ffe5c37854ab9239c4aeec42b02521119cb41706bba"
+    },
+    {
+      "arxiv": "2606.12899",
+      "version_read": "2606.12899v2",
+      "url": "https://arxiv.org/html/2606.12899v2",
+      "sha256": "c5afa10fdb37dce577f4a9043af22cd963d2e09668e050a01a827b36819ec2e5"
+    }
+  ],
+  "local_evidence": [
+    {
+      "path": "docs/ETRI_FOLLOWUP_EMAIL_SUMMARY.md",
+      "sha256": "ced9e17834528c43cdc6ec3a1dd859f8091d6e931d24ac9e84822ae910420dab"
+    },
+    {
+      "path": "docs/ETRI_FOLLOWUP_PROTOCOL.md",
+      "sha256": "c07cd8d4458aef3edac3d42e0fd460de24ac274a15ef50eff27ad9169328682d"
+    },
+    {
+      "path": "docs/METRIC_DEVELOPMENT_STRATEGY.md",
+      "sha256": "39ac252de81ea522e3a1ba041a7df61f7bc19df0eeb056e00f673b967fe025d2"
+    },
+    {
+      "path": "docs/LGVSC_PAPER_IMPLEMENTATION_AUDIT.md",
+      "sha256": "35d83714ba6a680ae357108e5b04dbb2162d00b4a87ae9014206f20df0a2c9b7"
+    },
+    {
+      "path": "configs/etri_official.json",
+      "sha256": "7f7e58fbf2bfafeea79b84a043dd31dd0195e3066752fac3f7e03c59d35a1013"
+    },
+    {
+      "path": "configs/lgvsc_variable.json",
+      "sha256": "c74bbf18f234d3b84a89ed5582b7c0d2969bbaaa0e9c8a43c5a8e9ad00de30e2"
+    },
+    {
+      "path": "configs/models.json",
+      "sha256": "01395317bfaca0137df3d3a25214324e1464aca3da16ff96c33f5a25d46e5a8c"
+    },
+    {
+      "path": "configs/rtx4080_opensora.py",
+      "sha256": "9a33d2f2382dd9a8f0cd54e5bbf826618d842475256a3586a8601258480d2119"
+    },
+    {
+      "path": "src/semantic_transmission/workers.py",
+      "sha256": "45e57fffba629e7e6d10542d75f695b037b3cc137453c6f9c8a2a8bfb085454f"
+    },
+    {
+      "path": "src/semantic_transmission/codec_transport.py",
+      "sha256": "738def2f4047e6e554e8454e6c0099246fb84d8a32369cf4c76434bb94cdfd1d"
+    },
+    {
+      "path": "04_semantic_decoder/scripts/mydemo_new_align_sh.py",
+      "sha256": "ceb193b0211270e5f858dcee2e6aa5c13b9696290d93166fff7cfcf7f7ab0d6c"
+    }
+  ],
+  "integrity_errors": []
+}
