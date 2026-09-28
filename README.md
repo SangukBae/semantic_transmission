@@ -6,8 +6,9 @@
 
 ## 처음 보는 분께
 
-[**과제 목표와 현재 현황**](docs/README.md) → [다음 개발 작업](docs/ETRI_DEVELOPMENT_PLAN.md) →
-[평가·보고 기준](docs/ETRI_FOLLOWUP_PROTOCOL.md) 순서로 읽으면 됩니다.
+[**과제 목표와 현재 현황**](docs/README.md) → [개발·평가 계획](docs/ETRI_DEVELOPMENT_PLAN.md) →
+[실험 결과](docs/ETRI_COMBINED_REFERENCE_DIAGNOSIS.md) 순서로 읽으면 됩니다.
+문서는 [핵심 8개](docs/README.md#documents)로 통합했습니다. 재현용 동결 원문 8개는 별도로 유지합니다.
 
 기존 네 목표는 **E1 시간축 신뢰성 · E2 할루시네이션 검출·완화 · E3 평가 지표 신뢰성 · E4 전송량 절감**입니다.
 [ETRI 후속 메일](docs/ETRI_FOLLOWUP_EMAIL_SUMMARY.md)에 따라 AWGN 채널에서 검출·완화에 집중하고,
@@ -21,7 +22,7 @@
 - **남은 검증:** 60초 전체 완화 비교, 중·고전환 평가, 독립 오류 정답, 씬 체인지 누락 대안과 동적 의미정보 보강입니다.
 
 복원 실행 성공은 할루시네이션 완화 성공을 뜻하지 않습니다.
-수치·판정·산출물 경로는 [현황 문서](docs/README.md), 과거 결과는 [실험 기록 목록](docs/EXPERIMENT_INDEX.md)에서 확인합니다.
+수치·판정·산출물은 [모델 실험](docs/ETRI_COMBINED_REFERENCE_DIAGNOSIS.md)과 [지표 연구](docs/METRICS.md)에서 확인합니다.
 
 ## 실행 시작
 
@@ -37,9 +38,9 @@ semtx doctor
 semtx smoke --output outputs/my_first_skem
 ```
 
-기본 `smoke`는 짧은 설치 점검입니다. 60초 복원은 [실행 안내](docs/ETRI_60S_RUN.md)를 따릅니다.
+기본 `smoke`는 짧은 설치 점검입니다. 60초 복원은 [실행 안내](docs/RUN_GUIDE.md#long-video)를 따릅니다.
 이미 구축된 환경의 명령, 실패 복구, 과거 실험 실행은 [실행 명령 모음](docs/RUN_GUIDE.md)에 모았습니다.
-Windows 이전은 [WSL2 설치·이전](docs/MIGRATION_WINDOWS.md), 이 PC의 경로는 [WSL 기록](docs/WSL_LOCAL_SETUP.md)을 참고하세요.
+Windows/WSL 이전과 이 PC의 경로도 [설치·복구 안내](docs/RUN_GUIDE.md)에 통합했습니다.
 
 ## 코드와 문서
 
@@ -52,8 +53,8 @@ Windows 이전은 [WSL2 설치·이전](docs/MIGRATION_WINDOWS.md), 이 PC의 �
 | `01_data_prep/` ~ `07_downstream/` | LGVSC 공개 구현의 단계별 코드 |
 | `data/` · `.local/` · `outputs/` | 로컬 데이터, 모델·환경, 실험 산출물; Git 제외 |
 
-[모델 구조](docs/MODEL_ARCHITECTURE.md) · [논문·구현 일치 범위](docs/LGVSC_PAPER_IMPLEMENTATION_AUDIT.md) ·
-[환경과 개발 안내](docs/LOCAL_RESEARCH.md)
+[모델 구조](docs/MODEL_ARCHITECTURE.md) · [논문·구현 일치 범위](docs/MODEL_ARCHITECTURE.md#reproduction) ·
+[환경과 개발 안내](docs/RUN_GUIDE.md#setup)
 
 ## 원저작물
 

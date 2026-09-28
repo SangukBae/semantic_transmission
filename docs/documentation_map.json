@@ -1,0 +1,402 @@
+{
+  "version": 1,
+  "date": "2026-09-28",
+  "previous_commit": "f41bc8885e8d8409e59b162fe7be63c0d11ee737",
+  "previous_docs_markdown_count": 62,
+  "current_docs_markdown_count": 16,
+  "core_documents": [
+    "docs/DATA.md",
+    "docs/ETRI_COMBINED_REFERENCE_DIAGNOSIS.md",
+    "docs/ETRI_DEVELOPMENT_PLAN.md",
+    "docs/ETRI_FOLLOWUP_EMAIL_SUMMARY.md",
+    "docs/METRICS.md",
+    "docs/MODEL_ARCHITECTURE.md",
+    "docs/README.md",
+    "docs/RUN_GUIDE.md"
+  ],
+  "frozen_runtime_inputs": [
+    "docs/ERE_STA_EXECUTION_NOTES.md",
+    "docs/ERE_STA_FORMAL_EXECUTION.md",
+    "docs/ERE_STA_PROTOCOL.md",
+    "docs/ETRI_BENCHMARK_V1.md",
+    "docs/EVENT_DURATION_STA_PROTOCOL.md",
+    "docs/FSO_UEP_PROTOCOL.md",
+    "docs/METRIC_REVISION_PROTOCOL.md",
+    "docs/METRIC_VALIDATION_CAMPAIGN.md"
+  ],
+  "historical_links": "Resolve relative links inside frozen originals and historical JSON in previous_commit. Live navigation uses core_documents. Model source and outputs are unchanged.",
+  "documents": [
+    {
+      "previous_path": "docs/AUTOMATIC_METRIC_PROTOCOL.md",
+      "current_document": "docs/METRICS.md#history",
+      "treatment": "merged_and_removed",
+      "previous_sha256": "1b6a10e63dfa26a005fee0710ec3c727b7d203f469eea5efb05811ca21bf55eb"
+    },
+    {
+      "previous_path": "docs/AUTOMATIC_METRIC_RESULTS.md",
+      "current_document": "docs/METRICS.md#history",
+      "treatment": "merged_and_removed",
+      "previous_sha256": "e79f439633296484540fec7587f6e0248cfaaf24684d465c5d394b2d4f34d9e9"
+    },
+    {
+      "previous_path": "docs/CODE_WALKTHROUGH.md",
+      "current_document": "docs/MODEL_ARCHITECTURE.md#implementation",
+      "treatment": "merged_and_removed",
+      "previous_sha256": "b871c51ac696e53376ad268cfdc35b35d453c05dca42947b94f5429611033b32"
+    },
+    {
+      "previous_path": "docs/DATA.md",
+      "current_document": "docs/DATA.md",
+      "treatment": "retained_or_rewritten",
+      "previous_sha256": "a1dd16ecc3b1c14ce753c121ad571b7187b5bdea0f888f0c5876de9cd964d4ef"
+    },
+    {
+      "previous_path": "docs/ERE_STA_EXECUTION_NOTES.md",
+      "current_document": "docs/ERE_STA_EXECUTION_NOTES.md",
+      "treatment": "frozen_unchanged",
+      "previous_sha256": "7f36639032e95cb4ba7f10e759d26d79c1c363129ecdff734fc25cc455504bdf"
+    },
+    {
+      "previous_path": "docs/ERE_STA_FORMAL_EXECUTION.md",
+      "current_document": "docs/ERE_STA_FORMAL_EXECUTION.md",
+      "treatment": "frozen_unchanged",
+      "previous_sha256": "527c0a2604ff3080a2e44851a9db3d7784acc42153e5e9dd487daf9126c0eae9"
+    },
+    {
+      "previous_path": "docs/ERE_STA_FORMAL_RESULTS.md",
+      "current_document": "docs/METRICS.md#history",
+      "treatment": "merged_and_removed",
+      "previous_sha256": "13ca384f52c6487825341f1516042b4e8a10cf1d19b13bd1f7b7613790eeac71"
+    },
+    {
+      "previous_path": "docs/ERE_STA_NOVELTY_REVIEW.md",
+      "current_document": "docs/METRICS.md#history",
+      "treatment": "merged_and_removed",
+      "previous_sha256": "9a80b3f872e19f93f7331ec693a0abfe6888cd66b99c4d9eb3af01e363067e03"
+    },
+    {
+      "previous_path": "docs/ERE_STA_PROTOCOL.md",
+      "current_document": "docs/ERE_STA_PROTOCOL.md",
+      "treatment": "frozen_unchanged",
+      "previous_sha256": "d6e00ffe35804f03771e21b56663ec954fae6b33378c9b175c8f08ead53449c9"
+    },
+    {
+      "previous_path": "docs/ERE_STA_REAUDIT_RESULTS.md",
+      "current_document": "docs/METRICS.md#history",
+      "treatment": "merged_and_removed",
+      "previous_sha256": "c08e2627f432a4c290500bf6ee664915318fdd7a199a12e6c1b6271572edf990"
+    },
+    {
+      "previous_path": "docs/ERE_STA_RESULTS.md",
+      "current_document": "docs/METRICS.md#history",
+      "treatment": "merged_and_removed",
+      "previous_sha256": "29e8973c7b6c8b98f248be8a8fa5ca96aa4fe736999facff4cc37a59c85b2743"
+    },
+    {
+      "previous_path": "docs/ETRI01_DECODER_ABLATION.md",
+      "current_document": "docs/ETRI_COMBINED_REFERENCE_DIAGNOSIS.md#legacy",
+      "treatment": "merged_and_removed",
+      "previous_sha256": "5aefd118935e24f69ab6856715603ec309b6120bc6ceb05cc52a19f8a14680d6"
+    },
+    {
+      "previous_path": "docs/ETRI_60S_CHECK.md",
+      "current_document": "docs/RUN_GUIDE.md#long-video",
+      "treatment": "merged_and_removed",
+      "previous_sha256": "59a341fa82cdbeb9d621353749a6acb9e0c3daeef8191482045fe800f680c25d"
+    },
+    {
+      "previous_path": "docs/ETRI_60S_RUN.md",
+      "current_document": "docs/RUN_GUIDE.md#long-video",
+      "treatment": "merged_and_removed",
+      "previous_sha256": "224ebaf92d500b7dcd3609a2d2d669084af0d4fca374ef1c4e5294483ba334d3"
+    },
+    {
+      "previous_path": "docs/ETRI_AI_SOURCE_REVIEW.md",
+      "current_document": "docs/DATA.md#review",
+      "treatment": "merged_and_removed",
+      "previous_sha256": "b1bbb6bb244aed850d8c17f23cc7980e0714cf55b538f2478d8350dc03295f43"
+    },
+    {
+      "previous_path": "docs/ETRI_BENCHMARK_V1.md",
+      "current_document": "docs/ETRI_BENCHMARK_V1.md",
+      "treatment": "frozen_unchanged",
+      "previous_sha256": "17fdfc5cd9e39eec9b1b8a40480636270a48cc5e4c7ebf094260fe80d17d2fb0"
+    },
+    {
+      "previous_path": "docs/ETRI_COMBINED_REFERENCE_DIAGNOSIS.md",
+      "current_document": "docs/ETRI_COMBINED_REFERENCE_DIAGNOSIS.md",
+      "treatment": "retained_or_rewritten",
+      "previous_sha256": "4c62272e7e45c70dd65d2a64b3c31472b65545eeb9befe57e35e69cb0d9b4534"
+    },
+    {
+      "previous_path": "docs/ETRI_CONDITIONING_DIAGNOSIS.md",
+      "current_document": "docs/ETRI_COMBINED_REFERENCE_DIAGNOSIS.md#decoder",
+      "treatment": "merged_and_removed",
+      "previous_sha256": "b965d60a9ca750cf4257d56d24beb196976525b9d4eefd86016c329a69442e5f"
+    },
+    {
+      "previous_path": "docs/ETRI_DEVELOPMENT_PLAN.md",
+      "current_document": "docs/ETRI_DEVELOPMENT_PLAN.md",
+      "treatment": "retained_or_rewritten",
+      "previous_sha256": "91756b19ce085d94a6542458c7b63f9307ea4c51193195b487a9f1f782347aa7"
+    },
+    {
+      "previous_path": "docs/ETRI_FOLLOWUP_EMAIL_SUMMARY.md",
+      "current_document": "docs/ETRI_FOLLOWUP_EMAIL_SUMMARY.md",
+      "treatment": "retained_or_rewritten",
+      "previous_sha256": "2f511f2240fab1fe7a06184bba1b44ff4c0f37f7e7e481eca73c2ee19e58aba2"
+    },
+    {
+      "previous_path": "docs/ETRI_FOLLOWUP_PROTOCOL.md",
+      "current_document": "docs/ETRI_DEVELOPMENT_PLAN.md#evaluation",
+      "treatment": "merged_and_removed",
+      "previous_sha256": "1968259b4af97e63ed55042010fa1752ecdb106a494ed4e0de4be8871132d613"
+    },
+    {
+      "previous_path": "docs/ETRI_HQ_PROTOCOL.md",
+      "current_document": "docs/ETRI_COMBINED_REFERENCE_DIAGNOSIS.md#legacy",
+      "treatment": "merged_and_removed",
+      "previous_sha256": "ebdf4a50882650e3dbc13efc9785248fe88c2bf7ce09aa90b9c6922111c28a6b"
+    },
+    {
+      "previous_path": "docs/ETRI_LONG_VIDEO_INPUTS.md",
+      "current_document": "docs/DATA.md#inputs",
+      "treatment": "merged_and_removed",
+      "previous_sha256": "a678991302d388f26d6464eba0675a9338b9a3635a91a301eedb3f9dbd31e019"
+    },
+    {
+      "previous_path": "docs/ETRI_OFFICIAL_PROTOCOL.md",
+      "current_document": "docs/ETRI_COMBINED_REFERENCE_DIAGNOSIS.md#legacy",
+      "treatment": "merged_and_removed",
+      "previous_sha256": "e79820c80ce1da1db820a1230c6e5a0a0b4cc2de2c72e9c1a87dddafcf940c1c"
+    },
+    {
+      "previous_path": "docs/ETRI_TAIL_REFERENCE_DIAGNOSIS.md",
+      "current_document": "docs/ETRI_COMBINED_REFERENCE_DIAGNOSIS.md#decoder",
+      "treatment": "merged_and_removed",
+      "previous_sha256": "933589f7fa1599943501ba5bf1d5573f396d1f1e0ed5596d710d7cf23d7a3b57"
+    },
+    {
+      "previous_path": "docs/EVENT_DURATION_STA_PROTOCOL.md",
+      "current_document": "docs/EVENT_DURATION_STA_PROTOCOL.md",
+      "treatment": "frozen_unchanged",
+      "previous_sha256": "3ea182207d1e5b0e3015ab8b2efa22c05181cdf081f6d3bb1306cf343bd4c063"
+    },
+    {
+      "previous_path": "docs/EVENT_DURATION_STA_RESULTS.md",
+      "current_document": "docs/METRICS.md#history",
+      "treatment": "merged_and_removed",
+      "previous_sha256": "d13fd1a5eeb7b6a982af635c01952e0d8bf5e48bf169f62a8fc89e1f23e98017"
+    },
+    {
+      "previous_path": "docs/EXACT_REUSE_VALIDATION.md",
+      "current_document": "docs/ETRI_COMBINED_REFERENCE_DIAGNOSIS.md#reuse",
+      "treatment": "merged_and_removed",
+      "previous_sha256": "0a873e19b660d499c61283bde094336bf7245fc8ac78a7fa4dee00536b440e2d"
+    },
+    {
+      "previous_path": "docs/EXPERIMENT_INDEX.md",
+      "current_document": "docs/README.md#documents",
+      "treatment": "merged_and_removed",
+      "previous_sha256": "b5bea397dde8a78a131d18b58c402a6edc5aa87efec23bcb8f76e88c41bf0a1d"
+    },
+    {
+      "previous_path": "docs/FSO_UEP_PROTOCOL.md",
+      "current_document": "docs/FSO_UEP_PROTOCOL.md",
+      "treatment": "frozen_unchanged",
+      "previous_sha256": "3fb5c0cafc74c59b3707158d2b60f84c84d57bb9c37ed9f013ad51fd4401448d"
+    },
+    {
+      "previous_path": "docs/FSO_UEP_RESULTS.md",
+      "current_document": "docs/METRICS.md#history",
+      "treatment": "merged_and_removed",
+      "previous_sha256": "56222fe8abad503895862a3d71ec589dfaed468b01afa98c691e53d5e745c792"
+    },
+    {
+      "previous_path": "docs/LGVSC_ALIGNMENT.md",
+      "current_document": "docs/MODEL_ARCHITECTURE.md#reproduction",
+      "treatment": "merged_and_removed",
+      "previous_sha256": "939d82d843fe10f1a02977292e57a7da591f387a4d39275d4f74389562e02114"
+    },
+    {
+      "previous_path": "docs/LGVSC_PAPER_IMPLEMENTATION_AUDIT.md",
+      "current_document": "docs/MODEL_ARCHITECTURE.md#reproduction",
+      "treatment": "merged_and_removed",
+      "previous_sha256": "35d83714ba6a680ae357108e5b04dbb2162d00b4a87ae9014206f20df0a2c9b7"
+    },
+    {
+      "previous_path": "docs/LOCAL_DATASETS.md",
+      "current_document": "docs/DATA.md#inputs",
+      "treatment": "merged_and_removed",
+      "previous_sha256": "d2e4913f43d468cde9c0d70000fcdec8cc4d1085b98a7702e0dbc40a8d5bfacf"
+    },
+    {
+      "previous_path": "docs/LOCAL_RESEARCH.md",
+      "current_document": "docs/RUN_GUIDE.md#setup",
+      "treatment": "merged_and_removed",
+      "previous_sha256": "d5d1d0e1d0ef51b64383def52905d98ba197aeff140e48e7e1138a23c055871b"
+    },
+    {
+      "previous_path": "docs/METRIC_DEVELOPMENT_STRATEGY.md",
+      "current_document": "docs/ETRI_DEVELOPMENT_PLAN.md#metrics",
+      "treatment": "merged_and_removed",
+      "previous_sha256": "75bb201084b4a618c98e3c7df9223e17e83bf451630e87e790d8ef84f9b4f78f"
+    },
+    {
+      "previous_path": "docs/METRIC_REVISION_PROTOCOL.md",
+      "current_document": "docs/METRIC_REVISION_PROTOCOL.md",
+      "treatment": "frozen_unchanged",
+      "previous_sha256": "36f209a4b92f81bf27426a3c67cfb7db7d9be87fb9ca7bcf81799f61ad630509"
+    },
+    {
+      "previous_path": "docs/METRIC_REVISION_RESULTS.md",
+      "current_document": "docs/METRICS.md#latest",
+      "treatment": "merged_and_removed",
+      "previous_sha256": "c9c93c04e86dd4776f983b231b0cc3c798db03e907a4ae2ee8f2ef6cd5deb668"
+    },
+    {
+      "previous_path": "docs/METRIC_VALIDATION_CAMPAIGN.md",
+      "current_document": "docs/METRIC_VALIDATION_CAMPAIGN.md",
+      "treatment": "frozen_unchanged",
+      "previous_sha256": "0a9518d72d5b42cc43e596e6ac4902b062ccfdeaa0370296ed4461298682b15d"
+    },
+    {
+      "previous_path": "docs/MIGRATION_WINDOWS.md",
+      "current_document": "docs/RUN_GUIDE.md#migration",
+      "treatment": "merged_and_removed",
+      "previous_sha256": "07a8fd4b5fdfe0cb2af6ea08dee8238f0a4036890ecd225a1aa793e06f921c3b"
+    },
+    {
+      "previous_path": "docs/MODEL_ARCHITECTURE.md",
+      "current_document": "docs/MODEL_ARCHITECTURE.md",
+      "treatment": "retained_or_rewritten",
+      "previous_sha256": "1bbe02d3ebe1dd9bbb0d6f32f40503db00cc2721a3ac04c8025a65936b75563c"
+    },
+    {
+      "previous_path": "docs/MTE_OTF_PROTOCOL.md",
+      "current_document": "docs/METRICS.md#history",
+      "treatment": "merged_and_removed",
+      "previous_sha256": "ac2b5f771de985ba153dfc849c29415312579eecc6f118fbafcd5135f826086d"
+    },
+    {
+      "previous_path": "docs/MTE_OTF_RESULTS.md",
+      "current_document": "docs/METRICS.md#history",
+      "treatment": "merged_and_removed",
+      "previous_sha256": "604ca0c77c5915d49d39d52df5908099bad45a78ac2edf8469ee079cd97439ea"
+    },
+    {
+      "previous_path": "docs/QUALITY_VALIDATION.md",
+      "current_document": "docs/ETRI_COMBINED_REFERENCE_DIAGNOSIS.md#legacy",
+      "treatment": "merged_and_removed",
+      "previous_sha256": "b7491ee583c8ea8ee44d54da11455c73722277c8db9ef9e5b67304b5f0dc859f"
+    },
+    {
+      "previous_path": "docs/README.md",
+      "current_document": "docs/README.md",
+      "treatment": "retained_or_rewritten",
+      "previous_sha256": "be95ff95266a0df6ccc8a44ec1cd7494127533472d2d56d1317503e01bcae896"
+    },
+    {
+      "previous_path": "docs/REPRODUCIBILITY.md",
+      "current_document": "docs/MODEL_ARCHITECTURE.md#reproduction",
+      "treatment": "merged_and_removed",
+      "previous_sha256": "06ae7829166ac58f90632fa1edc1b407973f561038cd2502262aa3481c97ef9a"
+    },
+    {
+      "previous_path": "docs/RUN_GUIDE.md",
+      "current_document": "docs/RUN_GUIDE.md",
+      "treatment": "retained_or_rewritten",
+      "previous_sha256": "a3012d7fba8e7f7aa101e7d9e25bf41528e6706e8b9258da49b614da556c4a1e"
+    },
+    {
+      "previous_path": "docs/SGDJSCC_METRIC_TRANSFER_REVIEW.md",
+      "current_document": "docs/METRICS.md#history",
+      "treatment": "merged_and_removed",
+      "previous_sha256": "05385688998e410e3608b1b109a27500eba4a3a804eb59b2b18d7b47b435f05e"
+    },
+    {
+      "previous_path": "docs/SMOKE_TEST.md",
+      "current_document": "docs/RUN_GUIDE.md#setup",
+      "treatment": "merged_and_removed",
+      "previous_sha256": "abe67e7c3a9fdbe8ddfaa48ce0b5e0e37a9b0b030e5de308c97315598757c326"
+    },
+    {
+      "previous_path": "docs/VALIDATION.md",
+      "current_document": "docs/RUN_GUIDE.md#setup",
+      "treatment": "merged_and_removed",
+      "previous_sha256": "da6abf5782230398438606558d6dbe5c8c533055a0db58c423868a3d72ac8b03"
+    },
+    {
+      "previous_path": "docs/WEBVID5_VALIDATION.md",
+      "current_document": "docs/ETRI_COMBINED_REFERENCE_DIAGNOSIS.md#legacy",
+      "treatment": "merged_and_removed",
+      "previous_sha256": "ada001cbcf3eaa798a90742597aff04c4ffe89211db51475d37796663e40de96"
+    },
+    {
+      "previous_path": "docs/WEBVID_ONE_ABLATION.md",
+      "current_document": "docs/ETRI_COMBINED_REFERENCE_DIAGNOSIS.md#legacy",
+      "treatment": "merged_and_removed",
+      "previous_sha256": "6dbd0adc00d705090bf15116788b475ad48694e8d063696f5fffff4b10081ead"
+    },
+    {
+      "previous_path": "docs/WSL_LOCAL_SETUP.md",
+      "current_document": "docs/RUN_GUIDE.md#migration",
+      "treatment": "merged_and_removed",
+      "previous_sha256": "3f0183a08d50abc9320ce9c8c87f4a00a735d2bb96760cbb7e453fc5e6356d33"
+    },
+    {
+      "previous_path": "docs/pipeline.md",
+      "current_document": "docs/MODEL_ARCHITECTURE.md#implementation",
+      "treatment": "merged_and_removed",
+      "previous_sha256": "f0b46e48c3a2bb8fbf25ba10daffd3c8e951cd2184ed6b57919ed0bc11dfec0d"
+    },
+    {
+      "previous_path": "docs/research/ETRI_HALLUCINATION_CODE_AUDIT_2026-09-21.md",
+      "current_document": "docs/ETRI_DEVELOPMENT_PLAN.md#candidates",
+      "treatment": "merged_and_removed",
+      "previous_sha256": "9976f2bd97855e1ca3d3d8cbcdef902008517a004e4810069985cc5fc2d02756"
+    },
+    {
+      "previous_path": "docs/research/ETRI_HALLUCINATION_LITERATURE_REVIEW_2026-09-21.md",
+      "current_document": "docs/ETRI_DEVELOPMENT_PLAN.md#candidates",
+      "treatment": "merged_and_removed",
+      "previous_sha256": "bcc27e177d80187d623d405a1035b36a17e7675635b7f37b8b5b943e00cfe6e8"
+    },
+    {
+      "previous_path": "docs/research/ETRI_LGVSC_HALLUCINATION_EXPERIMENT_PLAN_2026-09-21.md",
+      "current_document": "docs/ETRI_DEVELOPMENT_PLAN.md#candidates",
+      "treatment": "merged_and_removed",
+      "previous_sha256": "221aa99098ad433f4f156a154404ac62d571c8faeec66e6f7c32c671ae6911eb"
+    },
+    {
+      "previous_path": "docs/research/ETRI_LGVSC_LEARNED_KEYFRAME_SELECTOR_PROPOSAL_2026-09-21.md",
+      "current_document": "docs/ETRI_DEVELOPMENT_PLAN.md#candidates",
+      "treatment": "merged_and_removed",
+      "previous_sha256": "9bc5de66ff4656520af008c8b30713c6a9440b4c03596d91d6064110aebc1735"
+    },
+    {
+      "previous_path": "docs/research/ETRI_LONG_VIDEO_DATASET_REVIEW_2026-09-24.md",
+      "current_document": "docs/DATA.md#inputs",
+      "treatment": "merged_and_removed",
+      "previous_sha256": "a38eec437deeba179f9ee845b58984e889a425331c71411289430f8a02b1650c"
+    },
+    {
+      "previous_path": "docs/research/archive/2026-09-21-before-prioritization/ETRI_HALLUCINATION_CODE_AUDIT_2026-09-21.md",
+      "current_document": "docs/ETRI_DEVELOPMENT_PLAN.md#candidates",
+      "treatment": "merged_and_removed",
+      "previous_sha256": "1ce591076613ebe0d00c85ce7b0157fa5cdead8d7d77c3fe833f3b1c5f324501"
+    },
+    {
+      "previous_path": "docs/research/archive/2026-09-21-before-prioritization/ETRI_HALLUCINATION_LITERATURE_REVIEW_2026-09-21.md",
+      "current_document": "docs/ETRI_DEVELOPMENT_PLAN.md#candidates",
+      "treatment": "merged_and_removed",
+      "previous_sha256": "1ed087f65c864533741f0ac3d2cd2e9f19b70717fbdc125ab3217270c3bf2c22"
+    },
+    {
+      "previous_path": "docs/research/archive/2026-09-21-before-prioritization/ETRI_LGVSC_HALLUCINATION_EXPERIMENT_PLAN_2026-09-21.md",
+      "current_document": "docs/ETRI_DEVELOPMENT_PLAN.md#candidates",
+      "treatment": "merged_and_removed",
+      "previous_sha256": "b86e3840ce78c24f3f91b333c7c80be972efff56b9d9042905ed89357c856246"
+    }
+  ]
+}

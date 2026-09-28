@@ -2,7 +2,7 @@
 
 상태 기준: **2026-09-28**. 현재 현황은 이 문서에서 관리한다.
 [메일 요구사항](ETRI_FOLLOWUP_EMAIL_SUMMARY.md) → [개발 계획](ETRI_DEVELOPMENT_PLAN.md) →
-[평가·보고 기준](ETRI_FOLLOWUP_PROTOCOL.md)으로 이어진다.
+[평가·보고 기준](ETRI_DEVELOPMENT_PLAN.md#evaluation)으로 이어진다.
 
 ## 어떤 연구인가
 
@@ -42,7 +42,7 @@
 | 전송량 | 시각·메타데이터 전송량 계측. 최근 수신단 변경의 추가 전송량 0 | 의미 정확도를 유지하는 전송량 절감 효과 입증 |
 
 입력 66개는 독립 원본 66개가 아니다. 120초 확장은 원본 6개의 긴 구간이며,
-**396개 대응 작업은 계획된 수량**이다. [입력 설계](ETRI_BENCHMARK_V1.md) · [AI 검수](ETRI_AI_SOURCE_REVIEW.md)
+**396개 대응 작업은 계획된 수량**이다. [입력·분할·검수](DATA.md)
 
 ## 최신 실험에서 배운 점
 
@@ -58,30 +58,49 @@
 
 같은 수신 데이터와 대응 생성 잡음을 사용했지만, **한 영상·한 시드의 짧게 재시작한 구간**이다.
 원래 60초의 누적 상태를 재현한 실험이나 할루시네이션 감소율 검증은 아니다.
-[조건 진단](ETRI_CONDITIONING_DIAGNOSIS.md) · [17프레임 참조](ETRI_TAIL_REFERENCE_DIAGNOSIS.md) ·
-[최신 결합 실험](ETRI_COMBINED_REFERENCE_DIAGNOSIS.md)
+[세 조건 진단을 통합한 실험 결과](ETRI_COMBINED_REFERENCE_DIAGNOSIS.md#decoder)
 
 실행 비용도 과제다. 원래 SKEM에 23시간 19분, 이를 재사용한 뒤 나머지 실행에 112.44분이 걸렸다.
 새 지표는 별도 개발 중이며, UEP의 정상 자연 영상 오경보 32/40과 실제 복원 12/12의 점수 포화가 남아 있다.
-[지표 판정 근거](METRIC_REVISION_RESULTS.md)
+[지표 판정 근거](METRICS.md#latest)
 
-## 결과 확인과 다음 행동
+<a id="documents"></a>
+## 핵심 문서 8개
 
 현재 다음 작업은 **수신 키프레임의 잠재표현과 VAE 시간축 대응을 분리 검사**하는 것이다.
 진행 조건과 장시간 확장 순서는 [개발 계획](ETRI_DEVELOPMENT_PLAN.md)을 따른다.
 
-| 문서·자료 | 용도 |
+| 문서 | 읽는 목적 |
 |---|---|
-| [60초 실행·결과 안내](ETRI_60S_RUN.md) | 완료 상태, 실행·재개 명령, 결과 경로 |
-| [실행 명령 모음](RUN_GUIDE.md) | 설치, 짧은 점검, 장시간 실행, 이전 실험 |
-| [새 지표 개발 지침](METRIC_DEVELOPMENT_STRATEGY.md) | E3의 설계·채택 원칙 |
-| [실험 기록 목록](EXPERIMENT_INDEX.md) | 입력·모델·지표별 상세 근거와 과거 기록 |
-| [60초 비교 영상](../outputs/etri_60s_tv_low_08_42057b2ee8ed/comparison.mp4) | 원본/기준선; 로컬 전용 |
-| [네 조건 비교 페이지](../outputs/etri_combined_reference_20260928/review.html) | 원본/기준선/세 변경안; 로컬 전용 |
+| [현황 — 이 문서](README.md) | 과제 소개, E1~E4와 이메일의 연결, 완료·미완료 |
+| [이메일 요약](ETRI_FOLLOWUP_EMAIL_SUMMARY.md) | 요구사항의 출처와 범위 |
+| [개발·평가 계획](ETRI_DEVELOPMENT_PLAN.md) | 다음 작업, 공통 평가·보고 기준, 지표 원칙·후속 후보 |
+| [설치·실행·복구](RUN_GUIDE.md) | 환경·이전, 60초 실행·재개, 기존 실험 명령 |
+| [모델·구현](MODEL_ARCHITECTURE.md) | 구조·코드 위치, 논문 대응·로컬 변경·학습 한계 |
+| [데이터·주석](DATA.md) | 장시간 입력, 분할·검수·기존 자료·확보 경로 |
+| [모델 실험 결과](ETRI_COMBINED_REFERENCE_DIAGNOSIS.md) | 60초 기준선, 네 조건 비교, 기존 품질·가속 결과 |
+| [지표 연구 기록](METRICS.md) | 최신 후보 판정과 이전 실험의 성공·실패 |
+
+[60초 원본/복원 비교](../outputs/etri_60s_tv_low_08_42057b2ee8ed/comparison.mp4) ·
+[네 조건 비교 페이지](../outputs/etri_combined_reference_20260928/review.html)
 
 `outputs/`와 `data/` 링크는 산출물이 있는 로컬 환경에서 열린다. GitHub에는 문서의 요약과 경로만 제공한다.
 완료 근거는 [RESULT.json](../outputs/etri_60s_tv_low_08_42057b2ee8ed/RESULT.json)의
 `PASS_60S_RECONSTRUCTION`이다. `hallucination_review=PENDING`, `hallucination_mitigation_verified=false`는 유지된다.
 
-문서별 날짜는 해당 기록의 시점이다. 동결된 입력·실험 문서에 남은 과거의 ‘미실행’은 당시 상태이며,
-프로젝트 현재 상태는 이 문서와 최신 실행 산출물로 판단한다. 새 실행 후에는 현황·계획·실행 안내를 함께 갱신한다.
+## 동결 원문과 상세 이력
+
+`docs/`의 Markdown은 **62개에서 16개로 통폐합**했다. 일반 독자는 위 8개만 읽으면 된다.
+나머지 8개는 실행기가 직접 읽거나 해시를 검사하는 입력으로 경로·바이트를 보존한다.
+
+- 입력 동결: `ETRI_BENCHMARK_V1.md`
+- 지표 동결: `ERE_STA_PROTOCOL.md`, `ERE_STA_EXECUTION_NOTES.md`, `ERE_STA_FORMAL_EXECUTION.md`,
+  `EVENT_DURATION_STA_PROTOCOL.md`, `FSO_UEP_PROTOCOL.md`, `METRIC_VALIDATION_CAMPAIGN.md`, `METRIC_REVISION_PROTOCOL.md`
+
+동결 원문과 과거 JSON의 상대 링크·상태는 당시 버전 기준이다. 상세 내용은
+[통합 전 Git 버전](https://github.com/SangukBae/semantic_transmission/tree/f41bc8885e8d8409e59b162fe7be63c0d11ee737/docs)에서 연결 문서와 함께 읽는다.
+[파일별 통합 경로·원본 해시](documentation_map.json)로 삭제 문서의 목적지와 원문을 찾을 수 있다.
+로컬에서도 `git show f41bc88:docs/이전파일명.md`로 원문을 확인할 수 있다.
+
+동결 원문 속 ‘미실행’은 작성 당시 상태다. 현재 상태는 이 문서와 최신 실행 산출물로 판단한다.
+새 실험은 핵심 문서의 현황·계획·해당 결과 절에 반영하고, 별도 Markdown은 독립 동결이 필요한 경우에만 추가한다.
