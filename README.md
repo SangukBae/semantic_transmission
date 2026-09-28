@@ -41,6 +41,53 @@ semtx smoke --input /path/to/video.mp4 --frames 33 --output outputs/custom_skem
 semtx smoke --selector skim --skim-keyframes 3 --frames 33 --output outputs/skim_two_segments
 ```
 
+## ETRI 60초 실행 준비 점검
+
+저장소 폴더에서 다음 명령으로 개발용 `tv_low_08`의 60초 입력 전체와 시간축·재개 처리를
+검사하고, 짧은 실제 모델 실행으로 두 생성 구간의 연결을 점검합니다.
+
+```bash
+bash scripts/check_etri_60s.sh
+```
+
+같은 명령은 검증된 완료 단계를 재사용합니다. `--dry-run`은 읽기 전용 점검,
+`--cpu-only`는 모델 추론을 제외한 검사입니다.
+설정·산출물·검증 범위는 [실행 안내](docs/ETRI_60S_CHECK.md)를 확인합니다.
+
+60초 **전체 복원**은 다음 명령입니다. SKEM 1,439회 비교부터 영상 생성·지표·동기 비교 영상까지
+실행하며, 첫 실행은 약 15~35시간을 예상합니다. 같은 명령으로 SKEM·캡션 진행 상태와 완료 단계를
+재사용합니다. 자세한 범위와 메모리 제약은 [전체 복원 안내](docs/ETRI_60S_RUN.md)에 있습니다.
+
+```bash
+bash scripts/run_etri_60s.sh
+```
+
+`tv_low_08`의 기존 캡션 실패 실행은 다음 한 명령으로 복구합니다. 기존 SKEM 결과를 검증해
+재사용하고, 109개 클립을 프레임 기준으로 생성·검사한 뒤 캡션부터 전체 복원까지 진행합니다.
+기존 실패 폴더는 보존하며, 캡션은 구간마다 저장합니다. 남은 자동 실행은 약 3~6시간 추정입니다.
+
+```bash
+bash scripts/recover_etri_60s.sh
+```
+
+완료된 `tv_low_08`의 오류 시점·영역과 생성 조건 대응 실험은
+[60초 기준선 오류·조건 정렬 진단](docs/ETRI_CONDITIONING_DIAGNOSIS.md)에 정리합니다.
+기존 60초 복원과 별도로, 동일 수신 자료를 이용한 짧은 구간의 기준선·변경안을 비교합니다.
+
+정렬을 유지하고 이전 생성 영상의 마지막 17프레임만 참조하는 후속 비교는 다음 명령으로 실행합니다.
+범위·난수 통제·결과는 [참조 구간 실험](docs/ETRI_TAIL_REFERENCE_DIAGNOSIS.md)에 있습니다.
+
+```bash
+bash scripts/check_etri_tail_reference.sh
+```
+
+마지막 17프레임 참조와 반올림 해제를 함께 적용한 네 조건 비교는 다음 명령으로 실행합니다.
+짧은 세 구간의 진단이며, 진행 상태와 결과는 [결합 실험](docs/ETRI_COMBINED_REFERENCE_DIAGNOSIS.md)에 기록합니다.
+
+```bash
+bash scripts/check_etri_combined_reference.sh
+```
+
 ## ETRI 전체 영상 실행
 
 LGVSC 평가·학습 데이터의 SSD 위치와 확보/검증 명령은
