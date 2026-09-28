@@ -549,6 +549,8 @@ if __name__ == "__main__":
                     if loop_i > 0:
                         # Encode exactly one overlap block, including for dense SKEM cuts.
                         previous = video_clips[-1]
+                        if cfg.get("cpu_video_storage", False):
+                            previous = previous.to(device=device, dtype=dtype)
                         if (conditioning_alignment == "endpoint_exact"
                                 or cfg.get("decoder_policy") != "official_release"
                                 or previous.shape[2] < dframe_to_frame(condition_frame_length)):
@@ -559,6 +561,8 @@ if __name__ == "__main__":
                         refs, ms = append_generated(
                             vae, previous, refs, ms, loop_i, condition_frame_length, condition_frame_edit
                         )
+                        if cfg.get("cpu_video_storage", False):
+                            del previous
                     print("loop_i", loop_i, "batch_prompts_loop", batch_prompts_loop, "refs", len(refs), "ms", ms)
                     # == sampling ==
                     z = torch.randn(len(batch_prompts), vae.out_channels, *latent_size, device=device, dtype=dtype)
@@ -577,7 +581,9 @@ if __name__ == "__main__":
                     )
                     
                     samples = vae.decode(samples.to(dtype), num_frames=num_frames)
-                    video_clips.append(samples)
+                    video_clips.append(samples.cpu() if cfg.get("cpu_video_storage", False) else samples)
+                    if cfg.get("cpu_video_storage", False):
+                        del samples
                     validation_progress(loop_i + 1, loop)
 
                 # == save samples ==
