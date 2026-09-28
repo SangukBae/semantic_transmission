@@ -6,7 +6,7 @@ are documented in [LOCAL_DATASETS.md](LOCAL_DATASETS.md).
 LGVSC uses **public** datasets only. We do not redistribute the full datasets; below is
 exactly what we used and where to get it, so a third party can reproduce our results.
 
-## Current ETRI follow-up data scope — 2026-09-21
+## Current ETRI follow-up data scope — 2026-09-28
 
 2026-09-24 execution update: [ETRI benchmark v1](ETRI_BENCHMARK_V1.md) contains
 60 distinct-source, continuous 60-second inputs (20 per provisional transition
@@ -14,7 +14,11 @@ stratum; TVSum and ClipShots crossed in every stratum and split) plus six 120-se
 extensions of held-out sources. Development/calibration/test counts are 18/12/30.
 All 66 files passed full decoding and timing checks. The original
 [six-video pilot](ETRI_LONG_VIDEO_INPUTS.md) is preserved. Independent reference
-annotations and long-video LGVSC reconstruction/mitigation evaluation remain pending.
+annotations and the full evaluation remain pending. One low-transition development input,
+`tv_low_08`, has since completed a full 60-second reconstruction. Full-duration mitigation,
+medium/high-transition reconstruction and 120-second execution remain unverified.
+See [current project status](README.md), [60-second execution](ETRI_60S_RUN.md) and
+[AI sampled source review](ETRI_AI_SOURCE_REVIEW.md) for subsequent progress.
 
 The [follow-up email](ETRI_FOLLOWUP_EMAIL_SUMMARY.md) is the current requirements
 source. The short-clip datasets below retain their paper/development roles; they
@@ -27,7 +31,7 @@ do not establish coverage of the new long-video evaluation.
 - Preserve source identity, source/time-range hashes and metadata, timestamps,
   frame correspondence, category evidence and source-level development/test splits.
   Keep the original videos for internal evaluation as requested in the email.
-- Prepare a separate duration-preserving path. The legacy Stage 01 truncates at
+- Use the separate [duration-preserving runner](ETRI_60S_RUN.md). The legacy Stage 01 truncates at
   16 seconds; neither that output nor the combined duration of multiple short clips
   satisfies the long-video target. The separate 60-second inputs above preserve duration.
 - Use [the follow-up protocol](ETRI_FOLLOWUP_PROTOCOL.md) for category definitions,

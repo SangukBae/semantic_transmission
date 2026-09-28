@@ -1,20 +1,32 @@
-# semantic_transmission
+# ETRI 영상 의미 통신 연구
 
-[LGVSC 공식 구현](https://github.com/TT2TER/LGVSC)을 기반으로 한 영상 의미 통신 연구 저장소입니다.
-공식 저장소의 이력을 보존하고, **RTX 4080 16GB에서 실제 모델을 실행하는 환경과 검증 가능한 파이프라인**을 추가했습니다.
-이 저장소는 SangukBae의 연구용 파생 저장소이며, 논문 저자의 공식 저장소는 위 링크입니다.
+**적은 전송량으로 영상의 객체·동작·시간 흐름을 보존하고, 생성 복원의 할루시네이션을 줄이는 과제입니다.**
+[LGVSC 공개 구현](https://github.com/TT2TER/LGVSC)을 기반으로 키프레임과 장면 설명을 전송하고,
+수신단의 생성 모델로 영상을 복원합니다. 이 저장소는 SangukBae의 연구용 파생 저장소입니다.
 
-## 시작하기
+## 처음 보는 분께
 
-**Windows 11 / RTX 4080으로 이전할 때는 [WSL2 설치·파일 이전 안내](docs/MIGRATION_WINDOWS.md)를 먼저 확인하세요.**
-이 PC의 T9 복원 위치·실행 환경·검증 결과는 [WSL 로컬 설정 기록](docs/WSL_LOCAL_SETUP.md)에 정리합니다.
-데이터·모델 가중치·전체 실험 결과는 GitHub에 포함되지 않으며, 새 환경 설치와 별도 복사가 필요합니다.
+[**과제 목표와 현재 현황**](docs/README.md) → [다음 개발 작업](docs/ETRI_DEVELOPMENT_PLAN.md) →
+[평가·보고 기준](docs/ETRI_FOLLOWUP_PROTOCOL.md) 순서로 읽으면 됩니다.
 
-ETRI 후속 연구의 최신 입력은 [장시간 평가 입력 v1](docs/ETRI_BENCHMARK_V1.md)입니다.
-60초 60개 원본과 120초 확장 6개를 준비·검증했으며, 독립 정답과 장시간 LGVSC 완화 성능평가는 남아 있습니다.
+기존 네 목표는 **E1 시간축 신뢰성 · E2 할루시네이션 검출·완화 · E3 평가 지표 신뢰성 · E4 전송량 절감**입니다.
+[ETRI 후속 메일](docs/ETRI_FOLLOWUP_EMAIL_SUMMARY.md)에 따라 AWGN 채널에서 검출·완화에 집중하고,
+실제 연속 60초 이상·장면전환 저/중/고 영상으로 성공과 실패를 확인합니다.
 
-Linux, NVIDIA GPU/드라이버, Conda, ffmpeg가 필요합니다. 기본 Conda 경로는 `~/anaconda3`이며
-다르면 `CONDA_BASE`를 지정합니다. 모델 가중치와 환경 설치에는 수십 GB의 디스크가 필요합니다.
+## 현재 상태 — 2026-09-28
+
+- **입력 준비:** 60초 원본 60개(유형별 20개), 120초 확장 6개. 개발/교정/평가를 분리했습니다.
+- **실제 복원:** 저전환 개발 영상 한 편의 60초·1,440프레임 복원을 완료했습니다.
+- **개선 실험:** 같은 영상의 짧은 세 구간에서 생성 조건 변경을 비교했습니다. 일부 개선과 새 왜곡이 함께 있어 기본값 채택을 보류했습니다.
+- **남은 검증:** 60초 전체 완화 비교, 중·고전환 평가, 독립 오류 정답, 씬 체인지 누락 대안과 동적 의미정보 보강입니다.
+
+복원 실행 성공은 할루시네이션 완화 성공을 뜻하지 않습니다.
+수치·판정·산출물 경로는 [현황 문서](docs/README.md), 과거 결과는 [실험 기록 목록](docs/EXPERIMENT_INDEX.md)에서 확인합니다.
+
+## 실행 시작
+
+Linux/WSL2, NVIDIA GPU, Conda, FFmpeg가 필요합니다. 로컬 검증 장비는 RTX 4080 16GB입니다.
+**데이터·모델 가중치·복원 영상은 Git에 포함되지 않으므로 별도 준비가 필요합니다.**
 
 ```bash
 git clone https://github.com/SangukBae/semantic_transmission.git
@@ -25,238 +37,26 @@ semtx doctor
 semtx smoke --output outputs/my_first_skem
 ```
 
-이미 구축된 이 컴퓨터에서는 `source scripts/activate.sh`부터 실행하면 됩니다.
-`lgvsc`는 PyTorch/CUDA 모델 실행 환경, `lgvsc-channel`은 Sionna/LDPC 전송 환경입니다.
-설치 스크립트는 소스와 가중치 버전을 고정하고, 재실행 시 다운로드 캐시를 재사용합니다.
+기본 `smoke`는 짧은 설치 점검입니다. 60초 복원은 [실행 안내](docs/ETRI_60S_RUN.md)를 따릅니다.
+이미 구축된 환경의 명령, 실패 복구, 과거 실험 실행은 [실행 명령 모음](docs/RUN_GUIDE.md)에 모았습니다.
+Windows 이전은 [WSL2 설치·이전](docs/MIGRATION_WINDOWS.md), 이 PC의 경로는 [WSL 기록](docs/WSL_LOCAL_SETUP.md)을 참고하세요.
 
-실행 순서는 **영상 준비 → InternVL SKEM → PLLaVA 자막 → UniMatch 광류 → NTSCC 키프레임 전송
-→ LDPC 자막·광류 전송 → Open-Sora 영상 복원 → 프레임 수·화질 검증**입니다.
-각 모델을 별도 프로세스에서 실행하며, 단계가 실패하면 중단하고 로그와 실패 상태를 남깁니다.
-출력 폴더는 실행마다 새 이름을 사용해야 합니다.
+## 코드와 문서
 
-```bash
-# 자신의 영상
-semtx smoke --input /path/to/video.mp4 --frames 33 --output outputs/custom_skem
-# 균일한 키프레임 세 개로 두 구간의 연결 확인
-semtx smoke --selector skim --skim-keyframes 3 --frames 33 --output outputs/skim_two_segments
-```
+| 위치 | 역할 |
+|---|---|
+| [src/semantic_transmission/](src/semantic_transmission/) | 실행기, 송수신, 평가·결과 기록 |
+| [configs/](configs/) · [scripts/](scripts/) | 실험 설정, 설치·실행 명령 |
+| [tests/](tests/) | 시간축·패킷·재개·오류 처리 검사 |
+| [docs/](docs/README.md) | 과제 현황, 개발 계획, 실행·실험 근거 |
+| `01_data_prep/` ~ `07_downstream/` | LGVSC 공개 구현의 단계별 코드 |
+| `data/` · `.local/` · `outputs/` | 로컬 데이터, 모델·환경, 실험 산출물; Git 제외 |
 
-## ETRI 60초 실행 준비 점검
-
-저장소 폴더에서 다음 명령으로 개발용 `tv_low_08`의 60초 입력 전체와 시간축·재개 처리를
-검사하고, 짧은 실제 모델 실행으로 두 생성 구간의 연결을 점검합니다.
-
-```bash
-bash scripts/check_etri_60s.sh
-```
-
-같은 명령은 검증된 완료 단계를 재사용합니다. `--dry-run`은 읽기 전용 점검,
-`--cpu-only`는 모델 추론을 제외한 검사입니다.
-설정·산출물·검증 범위는 [실행 안내](docs/ETRI_60S_CHECK.md)를 확인합니다.
-
-60초 **전체 복원**은 다음 명령입니다. SKEM 1,439회 비교부터 영상 생성·지표·동기 비교 영상까지
-실행하며, 첫 실행은 약 15~35시간을 예상합니다. 같은 명령으로 SKEM·캡션 진행 상태와 완료 단계를
-재사용합니다. 자세한 범위와 메모리 제약은 [전체 복원 안내](docs/ETRI_60S_RUN.md)에 있습니다.
-
-```bash
-bash scripts/run_etri_60s.sh
-```
-
-`tv_low_08`의 기존 캡션 실패 실행은 다음 한 명령으로 복구합니다. 기존 SKEM 결과를 검증해
-재사용하고, 109개 클립을 프레임 기준으로 생성·검사한 뒤 캡션부터 전체 복원까지 진행합니다.
-기존 실패 폴더는 보존하며, 캡션은 구간마다 저장합니다. 남은 자동 실행은 약 3~6시간 추정입니다.
-
-```bash
-bash scripts/recover_etri_60s.sh
-```
-
-완료된 `tv_low_08`의 오류 시점·영역과 생성 조건 대응 실험은
-[60초 기준선 오류·조건 정렬 진단](docs/ETRI_CONDITIONING_DIAGNOSIS.md)에 정리합니다.
-기존 60초 복원과 별도로, 동일 수신 자료를 이용한 짧은 구간의 기준선·변경안을 비교합니다.
-
-정렬을 유지하고 이전 생성 영상의 마지막 17프레임만 참조하는 후속 비교는 다음 명령으로 실행합니다.
-범위·난수 통제·결과는 [참조 구간 실험](docs/ETRI_TAIL_REFERENCE_DIAGNOSIS.md)에 있습니다.
-
-```bash
-bash scripts/check_etri_tail_reference.sh
-```
-
-마지막 17프레임 참조와 반올림 해제를 함께 적용한 네 조건 비교는 다음 명령으로 실행합니다.
-짧은 세 구간의 진단이며, 진행 상태와 결과는 [결합 실험](docs/ETRI_COMBINED_REFERENCE_DIAGNOSIS.md)에 기록합니다.
-
-```bash
-bash scripts/check_etri_combined_reference.sh
-```
-
-## ETRI 전체 영상 실행
-
-LGVSC 평가·학습 데이터의 SSD 위치와 확보/검증 명령은
-[로컬 데이터셋 안내](docs/LOCAL_DATASETS.md)에 정리되어 있습니다.
-
-이 컴퓨터에서 완료된 영상을 재사용하고 나머지를 생성하려면, 상위 `Semantic` 폴더에서
-다음 명령 하나를 실행하면 됩니다. Conda 활성화는 스크립트가 처리합니다.
-
-```bash
-bash semantic_transmission/scripts/run_etri_remaining.sh
-```
-
-현재 명령은 [공식 공개 코드 설정](configs/etri_official.json)을 사용합니다.
-2026-09-17부터 v2 프로필은 공식 5개 화질 지표와 항목별 전송량 집계를 사용합니다.
-경계 중복 제거는 생성 설정과 독립된 옵션입니다. 기존 결과 재평가와 WebVid 실행 방법은
-[정합성 수정 안내](docs/LGVSC_ALIGNMENT.md)에 있습니다. v1 완료 결과는 보존되며,
-v2 이어하기에서 새 평가까지 완료된 결과로 재사용하지 않습니다.
-576×320·24fps 전처리, 전체 프레임 SKEM, 공식 구간 캡션/광류, Open-Sora 30단계·시드 42를
-적용합니다. 자세한 일치 범위와 공개 코드의 제약은 [공식 설정 실행 기록](docs/ETRI_OFFICIAL_PROTOCOL.md)에 있습니다.
-
-2026-09-11 첫 영상은 전체 239개 SKEM 비교와 송수신·생성·평가를 완료했습니다.
-결과는 `outputs/etri01_official_20260911_v2/01_person_walk/receiver/reconstruction/sample_0000.mp4`이며,
-오른쪽 이동 후 중앙 복귀 동선이 관찰됐습니다. 보행 자세와 동작 시점까지 원본과 같지는 않습니다.
-
-로컬 `.local/etri_continue.json`에 입력 경로와 **프로필별** 실행 이력을 기록합니다.
-현재 v2 전체 파이프라인 완료 이력은 없으므로 첫 실행은 1~10번을 생성합니다.
-이후에는 같은 v2 설정으로 검증이 끝난 영상만 재사용합니다. 매번 새 결과 폴더를
-출력하고, 완료된 영상은 원본·설정·복원 MP4·전송 파일을 검증한 뒤 복사해 한 배치로 모읍니다.
-중단 후 같은 명령을 다시 실행하면 검증이 끝난 영상은 재사용하고, 미완료 영상은 처음부터
-생성합니다. 두 명령의 동시 실행은 잠금으로 방지합니다. `--dry-run`을 붙이면 모델을
-실행하지 않고 재사용/생성 목록만 확인합니다.
-
-이전 100프레임·512×256·10fps 원본을 그대로 사용하는 HQ 프로필도 별도 실행기로 보존합니다.
-InternVL BF16과 Open-Sora 50 sampling steps를 사용하며, 16GB GPU에서는 모델을 순서대로
-올리고 CPU 메모리를 함께 사용합니다. 모든 프레임의 의미를 비교하므로 시간이 오래 걸립니다.
-
-```bash
-bash scripts/bootstrap_hq.sh
-source scripts/activate.sh
-python -m semantic_transmission.research \
-  --input-dir data/etri_video_eval/processed \
-  --output outputs/etri10_hq_new
-```
-
-이 실행기는 NTSCC 연속 심벌과 캡션·광류·rate-index·정규화 정보의 실제 송수신 파일을
-분리하고 전송량을 기록합니다. 기존 결과의 패킷 검증 및 공통 화질 평가 방법은
-[ETRI 실험 프로토콜](docs/ETRI_HQ_PROTOCOL.md)에 있습니다.
-
-공식 설정의 환경을 새 컴퓨터에 구성하려면 `bash scripts/bootstrap_official.sh`를 실행합니다.
-GPU 실행 검증 결과와 환경 차이는 위 프로토콜 문서에 기록합니다.
-
-## WebVid 한 편으로 개선 전후 비교
-
-이 WSL 컴퓨터에서 명령 하나로 기존 설정, 정렬 보정, 원본 키프레임 진단,
-정렬 보정+최대 1초 키프레임 간격의 네 조건을 복원·평가한다.
-기본 영상은 들판에서 한 사람이 이동·회전하는 337프레임 WebVid 영상이다.
-
-```bash
-bash scripts/run_webvid_ablation.sh
-```
-
-Conda 활성화와 영상 선택을 자동으로 처리한다. 결과 폴더에 `comparison.html`,
-비교 MP4, 5개 화질 지표와 전송량을 담은 `REPORT.md`를 생성한다.
-같은 명령을 다시 실행하면 완료 단계의 해시를 확인하고 재사용한다.
-`--dry-run`은 추론 없이 사전 점검만 수행한다. 처음에는 약 8~10시간으로 예상한다.
-조건·이어하기 범위·옵션은 [WebVid 한 편 비교 안내](docs/WEBVID_ONE_ABLATION.md)를 참고한다.
-
-## WebVid 서로 다른 유형 5편 검증
-
-이 컴퓨터에서는 상위 `Semantic` 폴더에서 다음 명령 하나로 실행합니다.
-Conda 활성화와 영상 선택은 자동으로 처리합니다.
-
-```bash
-bash semantic_transmission/scripts/run_webvid5.sh
-```
-
-저동작 장면·한 사람의 이동·빠른 이동·카메라 이동·여러 객체와 가림에 해당하는 5편을
-고정해, 총 1,670프레임의 전송·복원과 공식 5개 화질 지표 평가를 순차 실행합니다.
-RTX 4080 16GB용 메모리 보완 v2 설정의 잠정 예상은 약 35시간이며 장면에 따라 달라집니다.
-`--dry-run`은 모델 실행 없이 입력·환경·재사용 가능 여부만 확인합니다.
-중단 후 같은 명령을 다시 입력하면 검증이 끝난 영상은 재사용하고, 미완료 영상은 처음부터 실행합니다.
-
-결과는 `outputs/webvid5_날짜_시간_식별자/`의 `summary.json`, `per_video_metrics.csv`,
-원본/복원 비교용 `report.html`에 저장합니다. 눈에 보이는 의미 오류는 `manual_review.csv`에
-별도로 기록합니다. **5편은 개발용 초기 검증이며 WebVid 전체 성능의 입증이 아닙니다.**
-선정 목록·실행 조건·재사용 범위는 [WebVid5 실행 안내](docs/WEBVID5_VALIDATION.md)를 참고하세요.
-
-## 복원 품질 개선안 일괄 검증
-
-```bash
-bash scripts/run_quality_validation.sh
-```
-
-키프레임 보정 → 같은 전송 예산에서 저해상도 제약·적응형 키프레임 비교 → 별도 5편·3개 시드 평가를 실행합니다.
-현재 검증의 진행률은 한 줄에서 갱신하고 완료 시 한 문장을 남깁니다. 같은 명령으로 중단 지점부터 재개합니다.
-실제 실행 범위·비교 조건·결과 파일·출력 예시는 [복원 품질 검증 안내](docs/QUALITY_VALIDATION.md)를 참고하세요.
-`--demo`는 출력 시연, `--dry-run`은 사전 점검입니다. 전체 품질 개선 결과는 아직 미검증입니다.
-
-## 연구 코드 구조
-
-```text
-src/semantic_transmission/  실행기, 실제 모델 단계, 패킷·채널, 결과 기록
-configs/                   RTX 4080 설정, 외부 소스·모델 버전
-scripts/                   환경 설치, 다운로드, 활성화, GPU 점검
-patches/                   외부 라이브러리의 작은 호환성 수정
-tests/                     패킷, CSV, 시간축, 실패 처리 회귀 검사
-environment/               의존성 및 검증 환경 기록
-docs/                      연구 범위, 실행 방법, 검증 결과
-01_data_prep/ ... 07_downstream/  공식 구현의 단계별 코드
-.local/                    외부 소스·로컬 설정·가중치 링크 (Git 제외)
-outputs/                   실행별 로그·측정값·복원 영상 (Git 제외)
-```
-
-새로운 모델 모듈과 실험 설정은 원본 기준선과 구분하여 추가하고, 실행 manifest와 측정값을 함께 보관합니다.
-
-## 연구 문서
-
-- [모델 구조](docs/MODEL_ARCHITECTURE.md): 현재 SKEM+DSA 송신단·채널·수신단의 Mermaid 블록다이어그램
-- [ETRI 개발 계획](docs/ETRI_DEVELOPMENT_PLAN.md): 네 가지 연구 목표, 새 평가 지표 1~2개 개발, 여섯 단계의 작업과 검증 기준
-- [잔존 오류·사건 지연·STA 검증 결과](docs/EVENT_DURATION_STA_RESULTS.md): 새 합성 원본 24개·720건 평가.
-  잔존 오류 후보만 이번 통제 기준을 통과했으며 자연 영상의 유효성·논문 신규성은 미입증
-
-## 검증과 범위
-
-```bash
-python -m unittest discover -s tests -v
-python scripts/probe_environment.py
-```
-
-자세한 환경·변경점·제약은 [로컬 연구 안내](docs/LOCAL_RESEARCH.md)를 참고하세요.
-실제 GPU에서 완료한 세 가지 실행과 회귀 검사 결과는 [검증 기록](docs/VALIDATION.md)에 있습니다.
-원 논문의 설치·실험 설명은 [원본 README](README_UPSTREAM.md)에 보존했습니다.
-
-기본 실행은 **17프레임, 256×256, 10 sampling steps의 실제 모델 실행 확인용**입니다.
-논문 성능 재현이나 ETRI 목표 달성을 의미하지 않습니다. InternVL int8, PLLaVA CPU offload 등
-16GB GPU를 위한 설정 차이를 기록했습니다. 현재 실행기는 공개된 NTSCC **10dB 체크포인트**를 지원하며,
-0–8dB 저자 체크포인트와 DVST는 제공되지 않았습니다. 기본 `smoke` 실행의 전송량에는
-rate-index가 빠져 있습니다. 위 ETRI 실행기는 이를 포함한 모든 영상별 모델 입력을 계측하며,
-연속 JSCC 심벌의 복소수 파일 크기와 실제 무선 bit 수를 구분합니다.
+[모델 구조](docs/MODEL_ARCHITECTURE.md) · [논문·구현 일치 범위](docs/LGVSC_PAPER_IMPLEMENTATION_AUDIT.md) ·
+[환경과 개발 안내](docs/LOCAL_RESEARCH.md)
 
 ## 원저작물
 
-LGVSC: A Large-Model-Driven Generative Video Semantic Communication Framework.
-저자·논문 인용 정보는 [CITATION.cff](CITATION.cff)와 [원본 README](README_UPSTREAM.md),
-라이선스는 [LICENSE](LICENSE)를 참조하세요. 외부 모델과 데이터에는 각각의 라이선스가 적용됩니다.
-
-## 사람 검수 없는 지표 개발
-
-[ERE·STA 본 평가 결과와 분석](docs/ERE_STA_FORMAL_RESULTS.md): 독립 평가를 완료했으며 두 후보의
-주 채택 기준은 미달이다. ERE 시간 오류 검출률은 11.1%, STA 주 원인 판정 정확도는 52.6%였다.
-STA에 동일한 개발 분류기를 붙인 보조 비교는 99.2%였지만, 주 규칙은 정상 외형 변화에서
-41.6%를 오탐했다. 실제 복원 6쌍 진단과 [선행 연구·신규성 검토](docs/ERE_STA_NOVELTY_REVIEW.md)도 정리했다.
-
-[ERE·STA v3.1 수정·재감사 결과](docs/ERE_STA_REAUDIT_RESULTS.md): 존재·움직임 분리와 내용 의존
-근거 판정을 적용했다. 합성 개발 사건 재현율 95.8%·정밀도 92.0%, 방향 전환 16/16,
-STA 규칙 6/6으로 필수 관문이 통과했다. 공개 영상은 진단 전용이며 이 재감사 시점에는 본 성능
-비교·영상 귀착 실험을 실행하지 않았다. [1회차 관문 실패 기록](docs/ERE_STA_RESULTS.md)도 보존한다.
-
-[MTE·OTF 2차 구현·검증 결과](docs/MTE_OTF_RESULTS.md)와
-[수식·자동 정답·재현 방법](docs/MTE_OTF_PROTOCOL.md)을 정리했다.
-새 공개 영상 24개와 합성 장면 24개에서 파생한 1,176개 사례를 평가하고,
-기존 복원 6쌍에도 계산했다. 두 후보는 채택 기준 미달이며 신규성도 입증되지 않았다.
-
-[1차 작업 결과](docs/AUTOMATIC_METRIC_RESULTS.md)를 확인할 수 있습니다.
-[자동 정답·후보 수식·실행 방법](docs/AUTOMATIC_METRIC_PROTOCOL.md)에 1차 실험과 한계를 정리했다.
-자동 평가 기반을 구현했으며 첫 두 지표 후보는 채택 기준 미달이다. 실제 복원의 의미 오류가
-확정되었다는 뜻은 아니다.
-
-[FSO·EOI·UEP 후속 검증 일괄 실행](docs/METRIC_VALIDATION_CAMPAIGN.md):
-`bash scripts/run_metric_validation.sh`로 오류×외형 교차 → 구성 요소 비교 → 자연 영상·실제 LGVSC 복원을
-순차 실행한다. 동일 명령으로 재개하며 `--dry-run`으로 입력과 예상 시간을 확인한다.
-실제 복원의 독립 정답이 없으면 최종 정확도 판정을 보류한다.
+원 논문은 *LGVSC: A Large-Model-Driven Generative Video Semantic Communication Framework*입니다.
+저자·인용은 [CITATION.cff](CITATION.cff), 원본 설명은 [README_UPSTREAM.md](README_UPSTREAM.md),
+라이선스는 [LICENSE](LICENSE)와 [외부 저작물 안내](THIRD_PARTY_NOTICES.md)를 확인하세요.

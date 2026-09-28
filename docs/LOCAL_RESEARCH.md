@@ -1,5 +1,9 @@
 # Local LGVSC research environment
 
+For the current ETRI goals, completed 60-second baseline and remaining work, start
+with [project status](README.md). Use [the command guide](RUN_GUIDE.md) for the current
+long-video workflow; the smoke profile below remains a separate installation check.
+
 **ETRI follow-up scope (2026-09-21):** use this document for local setup and
 smoke execution. The [email summary](ETRI_FOLLOWUP_EMAIL_SUMMARY.md) and
 [follow-up protocol](ETRI_FOLLOWUP_PROTOCOL.md) govern current research:
