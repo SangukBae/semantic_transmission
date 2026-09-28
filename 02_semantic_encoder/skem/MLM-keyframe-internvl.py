@@ -221,7 +221,29 @@ def main(args):
             all_frames.append(frame)
         qbar = tqdm(total = len(all_frames), desc = 'Processing frames')
 
+        checkpoint = None
+        if getattr(args, "resume_state", None):
+            from semantic_transmission.selection_checkpoint import SelectionCheckpoint
+            if len(frame_paths) != 1:
+                raise ValueError("resume-state requires exactly one video")
+            contract = {k: v for k, v in vars(args).items() if k != "resume_state"}
+            contract["execution_signature"] = os.environ.get("ETRI_RUN_SIGNATURE")
+            checkpoint = SelectionCheckpoint(args.resume_state, contract, all_frames)
+            if checkpoint.done:
+                frame_numbers = list(checkpoint.selected)
+                paths_by_number = {os.path.splitext(os.path.basename(p))[0]: p for p in all_frames}
+                cur_frame = paths_by_number[frame_numbers[-1]]
+                key_frame_path = frame_path + '/key_frames' + method
+                os.makedirs(key_frame_path, exist_ok=True)
+                for number in frame_numbers:
+                    shutil.copy(paths_by_number[number], key_frame_path + '/' + number + '.png')
+                qbar.update(checkpoint.done)
+                validation_progress(checkpoint.done, len(all_frames))
+                logging.info("Resuming SKEM after %s/%s frames", checkpoint.done, len(all_frames))
+
         for progress_index, frame_file in enumerate(all_frames):
+            if checkpoint is not None and progress_index < checkpoint.done:
+                continue
             if cur_frame == "": # 第一帧
                 cur_frame = frame_file
                 frame_number = frame_file.split('/')[-1].split('.')[0]
@@ -232,6 +254,8 @@ def main(args):
                 key_frame_file = key_frame_path + '/' + frame_number + '.png'
                 shutil.copy(frame_file, key_frame_file)
                 logging.info(f"frame_file: {frame_file.split('/')[-2]}")
+                if checkpoint is not None:
+                    checkpoint.save(progress_index + 1, frame_numbers)
                 validation_progress(progress_index + 1, len(all_frames))
                 continue
             logging.info(f"frame_index: {frame_file.split('/')[-1].split('.')[0]}")
@@ -300,6 +324,8 @@ def main(args):
                 key_frame_file = key_frame_path + '/' + frame_number + '.png'
                 shutil.copy(frame_file, key_frame_file)
             logging.info(f"frame_numbers: {frame_numbers}")
+            if checkpoint is not None:
+                checkpoint.save(progress_index + 1, frame_numbers)
             qbar.update(1)
             validation_progress(progress_index + 1, len(all_frames))
 
@@ -337,6 +363,7 @@ if __name__ == '__main__':
     parser.add_argument("--no-frame-cache", action="store_true",
                         help="Disable exact preprocessed-frame reuse for A/B verification")
     parser.add_argument("--csv-path", type=str, required=True)
+    parser.add_argument("--resume-state", help="Atomic per-frame checkpoint for one immutable video")
     parser.add_argument("--method", type=str, default="intervl")
     parser.add_argument("--q1", type=str, default=prompt_ask_image)
     parser.add_argument("--q2", type=str, default=prompt_compare_image)

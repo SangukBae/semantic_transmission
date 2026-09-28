@@ -110,6 +110,8 @@ def select(cfg, repo, run):
             command += ["--cpu-layers", str(cfg["internvl_offload_layers"])]
         if cfg.get("internvl_compact_kv_cache", False):
             command.append("--compact-kv-cache")
+        if cfg.get("selector_checkpoint"):
+            command += ["--resume-state", cfg["selector_checkpoint"]]
         env = os.environ.copy()
         env["PYTHONPATH"] = os.pathsep.join([str(repo / "src"), str(repo / ".local/vendor/InternVL")])
         if cfg.get("internvl_allocator"):
@@ -136,8 +138,14 @@ def source_images(run, indices):
     return [Image.open(run / f"data/frames/sample/{i}.png").convert("RGB") for i in indices]
 
 
-def semantic_clips(run, indices, fps):
-    """Use the release's MoviePy stream-copy subclips, including its timestamp behavior."""
+def semantic_clips(run, indices, fps, cfg=None):
+    """Preserve release subclips unless frame-exact extraction is requested."""
+    policy = (cfg or {}).get("semantic_clip_policy", "official_release")
+    if policy == "frame_exact":
+        from .semantic_clips import prepare_frame_exact_clips
+        return prepare_frame_exact_clips(cfg, run)
+    if policy != "official_release":
+        raise ValueError(f"unknown semantic clip policy: {policy}")
     from moviepy.video.io.ffmpeg_tools import ffmpeg_extract_subclip
     directory = run / "data/clips/sample"
     directory.mkdir(parents=True, exist_ok=True)
@@ -151,8 +159,15 @@ def semantic_clips(run, indices, fps):
     return paths
 
 
-def caption(cfg, repo, run):
-    import numpy as np
+def prepare_semantic_clips(cfg, repo, run):
+    if cfg.get("semantic_clip_policy") != "frame_exact" or not cfg.get("official_semantic_clips"):
+        raise ValueError("semantic clip preflight requires frame_exact semantic clips")
+    from .semantic_clips import prepare_frame_exact_clips
+    return prepare_frame_exact_clips(cfg, run)
+
+
+def _load_caption_inference(cfg, repo):
+    """Load PLLaVA only after every clip and existing checkpoint is validated."""
     import torch
     from accelerate import init_empty_weights, load_checkpoint_and_dispatch
     from peft import get_peft_model, LoraConfig, TaskType
@@ -178,43 +193,12 @@ def caption(cfg, repo, run):
                                                                  "PllavaMultiModalProjector"])
     model.eval()
     processor = PllavaProcessor.from_pretrained(model_dir)
-    indices = json.loads((run / "keyframes.json").read_text())["indices"]
-    clips = semantic_clips(run, indices, cfg["fps"]) if cfg.get("official_semantic_clips") else None
-    rows = []
-    sampling = []
-    for segment, (start, end) in enumerate(zip(indices, indices[1:])):
-        sampled = np.linspace(start, end, 4).round().astype(int).tolist()
-        if cfg.get("paper_caption", False):
-            # Upstream get_index: centered samples from the half-open semantic segment.
-            size = float(max(1, end - start) - 1) / 4
-            sampled = [start + int(size / 2) + int(np.round(size * i)) for i in range(4)]
-        images = source_images(run, sampled)
-        if clips is not None:
-            sys.path.insert(0, str(repo / ".local/vendor/Open-Sora"))
-            from opensora.datasets.read_video import read_video_av
-            from torchvision.transforms import Resize
-            from PIL import Image
-            decoded, _, _ = read_video_av(str(clips[segment]), pts_unit="sec", output_format="THWC")
-            size = float(len(decoded) - 1) / 4
-            sampled = [int(size / 2) + int(np.round(size * i)) for i in range(4)]
-            images = [Resize(672)(Image.fromarray(decoded[i].numpy())) for i in sampled]
-            sampling.append({"clip": str(clips[segment]), "decoded_frames": len(decoded),
-                             "indices": sampled, "resize_short_edge": 672})
-        prompt = ("USER: <image>\nDescribe this video. Pay attention to the objects, their actions, "
-                  "and the background. Use no more than three sentences. ASSISTANT:")
-        if cfg.get("paper_caption", False):
-            import ast
-            tree = ast.parse((repo / ".local/vendor/Open-Sora/tools/caption/pllava_dir/caption_pllava.py").read_text())
-            call = next(node.value for node in tree.body if isinstance(node, ast.Assign)
-                        and any(isinstance(t, ast.Name) and t.id == "conv_template" for t in node.targets))
-            system = ast.literal_eval(next(k.value for k in call.keywords if k.arg == "system"))
-            # Exact single-turn MM_INTERLEAF Conversation.get_prompt output.
-            # Avoid importing the optional video-dataset evaluation stack.
-            prompt = system + " USER:<image> Describe the video in details. ASSISTANT:"
+
+    def infer(images, prompt, use_clips):
         inputs = processor(text=prompt, images=images, return_tensors="pt").to("cuda", torch.bfloat16)
         with torch.inference_mode():
             generation = {}
-            if clips is not None:
+            if use_clips:
                 generation = dict(num_beams=1, min_length=1, top_p=0.9,
                                   repetition_penalty=1.0, length_penalty=1, temperature=1.0)
             output = model.generate(**inputs, media_type="video", do_sample=False,
@@ -222,11 +206,81 @@ def caption(cfg, repo, run):
                                     **generation)
         text = processor.batch_decode(output, skip_special_tokens=True,
                                       clean_up_tokenization_spaces=False)[0].split("ASSISTANT:")[-1].strip()
-        if clips is not None:
+        if use_clips:
             text = text.removesuffix("</s>").strip().replace("\n", " ")
         if not text:
             raise RuntimeError("PLLaVA returned an empty caption")
-        rows.append({"path": f"clips/sample/{segment:05d}.mp4", "text": text, "flow": 0.0})
+        return text
+
+    return infer
+
+
+def _caption_prompt(cfg, repo):
+    prompt = ("USER: <image>\nDescribe this video. Pay attention to the objects, their actions, "
+              "and the background. Use no more than three sentences. ASSISTANT:")
+    if cfg.get("paper_caption", False):
+        import ast
+        tree = ast.parse((repo / ".local/vendor/Open-Sora/tools/caption/pllava_dir/caption_pllava.py").read_text())
+        call = next(node.value for node in tree.body if isinstance(node, ast.Assign)
+                    and any(isinstance(t, ast.Name) and t.id == "conv_template" for t in node.targets))
+        system = ast.literal_eval(next(k.value for k in call.keywords if k.arg == "system"))
+        # Exact single-turn MM_INTERLEAF Conversation.get_prompt output.
+        prompt = system + " USER:<image> Describe the video in details. ASSISTANT:"
+    return prompt
+
+
+def _caption_images(cfg, repo, run, start, end, clip):
+    import numpy as np
+    if clip is not None:
+        sys.path.insert(0, str(repo / ".local/vendor/Open-Sora"))
+        from opensora.datasets.read_video import read_video_av
+        from torchvision.transforms import Resize
+        from PIL import Image
+        decoded, _, _ = read_video_av(str(clip), pts_unit="sec", output_format="THWC")
+        if not len(decoded):
+            raise ValueError(f"caption clip has no decoded frames: {clip}")
+        size = float(len(decoded) - 1) / 4
+        sampled = [int(size / 2) + int(np.round(size * i)) for i in range(4)]
+        return ([Resize(672)(Image.fromarray(decoded[i].numpy())) for i in sampled],
+                {"clip": str(clip), "decoded_frames": len(decoded),
+                 "indices": sampled, "resize_short_edge": 672})
+    sampled = np.linspace(start, end, 4).round().astype(int).tolist()
+    if cfg.get("paper_caption", False):
+        size = float(max(1, end - start) - 1) / 4
+        sampled = [start + int(size / 2) + int(np.round(size * i)) for i in range(4)]
+    return source_images(run, sampled), None
+
+
+def caption(cfg, repo, run):
+    indices = json.loads((run / "keyframes.json").read_text())["indices"]
+    clips = semantic_clips(run, indices, cfg["fps"], cfg) if cfg.get("official_semantic_clips") else None
+    prompt = _caption_prompt(cfg, repo)
+    checkpoint = None
+    if cfg.get("caption_checkpoint"):
+        from .caption_checkpoint import CaptionCheckpoint, checkpoint_identity
+        identity = checkpoint_identity(cfg, repo, run, indices, clips, prompt)
+        checkpoint = CaptionCheckpoint(cfg["caption_checkpoint"], identity, len(indices) - 1,
+                                       require_sampling=clips is not None)
+    rows = []
+    sampling = []
+    if checkpoint:
+        rows = [record["row"] for record in checkpoint.records]
+        sampling = [record["sampling"] for record in checkpoint.records] if clips is not None else []
+        validation_progress(len(rows), len(indices) - 1)
+    infer = _load_caption_inference(cfg, repo) if len(rows) < len(indices) - 1 else None
+    completed = len(rows)
+    for segment, (start, end) in enumerate(zip(indices, indices[1:])):
+        if segment < completed:
+            continue
+        images, sample = _caption_images(cfg, repo, run, start, end,
+                                         clips[segment] if clips is not None else None)
+        text = infer(images, prompt, clips is not None)
+        row = {"path": f"clips/sample/{segment:05d}.mp4", "text": text, "flow": 0.0}
+        if checkpoint:
+            checkpoint.save(segment, row, sample)
+        rows.append(row)
+        if clips is not None:
+            sampling.append(sample)
         validation_progress(segment + 1, len(indices) - 1)
     write_json(run / "captions.json", rows)
     if clips is not None:
@@ -234,6 +288,9 @@ def caption(cfg, repo, run):
 
 
 def flow(cfg, repo, run):
+    indices = json.loads((run / "keyframes.json").read_text())["indices"]
+    rows = json.loads((run / "captions.json").read_text())
+    clips = semantic_clips(run, indices, cfg["fps"], cfg) if cfg.get("official_semantic_clips") else None
     import numpy as np
     import torch
     import torch.nn.functional as F
@@ -245,9 +302,6 @@ def flow(cfg, repo, run):
                      ffn_dim_expansion=4, num_transformer_layers=6, reg_refine=True, task="flow")
     model.load_state_dict(torch.load(repo / ".local/checkpoints/unimatch.pth", map_location="cpu")["model"])
     model = model.cuda().eval()
-    indices = json.loads((run / "keyframes.json").read_text())["indices"]
-    rows = json.loads((run / "captions.json").read_text())
-    clips = semantic_clips(run, indices, cfg["fps"]) if cfg.get("official_semantic_clips") else None
     sampling = []
     for segment, (row, (start, end)) in enumerate(zip(rows, zip(indices, indices[1:]))):
         sampled = np.linspace(start, end, 4).round().astype(int).tolist()
@@ -255,10 +309,16 @@ def flow(cfg, repo, run):
             sampled = [min(start + i, max(start, end - 1)) for i in (0, 10, 20, 30)]
         images = torch.stack([pil_to_tensor(image) for image in source_images(run, sampled)]).float().cuda()
         if clips is not None:
-            from tools.datasets.utils import extract_frames
-            extracted = extract_frames(str(clips[segment]), frame_inds=[0, 10, 20, 30], backend="opencv")
+            sample = {"clip": str(clips[segment]), "requested_indices": [0, 10, 20, 30]}
+            if cfg.get("semantic_clip_policy") == "frame_exact":
+                from .semantic_clips import sample_clip_frames
+                extracted, actual_indices = sample_clip_frames(clips[segment], [0, 10, 20, 30])
+                sample.update(actual_indices=actual_indices, backend="sequential_opencv")
+            else:
+                from tools.datasets.utils import extract_frames
+                extracted = extract_frames(str(clips[segment]), frame_inds=[0, 10, 20, 30], backend="opencv")
             images = torch.stack([pil_to_tensor(image) for image in extracted]).float().cuda()
-            sampling.append({"clip": str(clips[segment]), "requested_indices": [0, 10, 20, 30]})
+            sampling.append(sample)
         images = F.interpolate(images, size=(320, 576), mode="bilinear", align_corners=True)
         # The official profile evaluates the original three-pair batch.
         scores = []
@@ -376,13 +436,14 @@ def evaluate(cfg, repo, run):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("stage", choices=["prepare", "select", "caption", "flow", "ntscc", "decode", "evaluate"])
+    parser.add_argument("stage", choices=["prepare", "select", "prepare-semantic-clips", "caption", "flow", "ntscc", "decode", "evaluate"])
     parser.add_argument("run_dir", type=Path)
     args = parser.parse_args()
     repo, run = Path(__file__).resolve().parents[2], args.run_dir.resolve()
     cfg = json.loads((run / "run_config.json").read_text())
     os.environ.setdefault("OMP_NUM_THREADS", "8")
-    functions = {"prepare": prepare, "select": select, "caption": caption, "flow": flow,
+    functions = {"prepare": prepare, "select": select, "prepare-semantic-clips": prepare_semantic_clips,
+                 "caption": caption, "flow": flow,
                  "ntscc": ntscc, "decode": decode_video, "evaluate": evaluate}
     functions[args.stage](cfg, repo, run)
 
