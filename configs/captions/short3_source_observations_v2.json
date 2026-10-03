@@ -1,0 +1,68 @@
+{
+  "scope": "Assistant source-only observations for offline hybrid selection; not independent ground truth. Overview sampled every four frames at 24 fps; additional consecutive person frames inspected around 162-194.",
+  "videos": {
+    "single_subject": {
+      "baseline": "outputs/webvid1_ablation_single_subject_611ed735e038/baseline",
+      "description_ko": "밀밭에서 흰 원피스 인물이 무늬 있는 얇은 천을 들고 회전",
+      "candidates": [
+        [0, true, "영상 시작"],
+        [12, false, "천의 펼침과 팔 자세 변화"],
+        [24, true, "천이 머리와 얼굴 앞을 가림"],
+        [40, false, "천이 접히며 팔과 천의 위치 변화"],
+        [52, true, "가려졌던 얼굴이 드러나기 시작"],
+        [56, true, "정면 얼굴과 두 팔이 보임"],
+        [72, false, "팔을 펼친 회전 자세 변화"],
+        [92, true, "인물이 옆모습으로 돌아 얼굴 가시성 변화"],
+        [112, true, "천이 머리 앞을 다시 가림"],
+        [128, false, "역광 아래 천의 수평 형태 변화"],
+        [148, true, "천 아래 얼굴이 다시 드러나기 시작"],
+        [156, true, "한 팔을 올린 정면 자세와 드러난 얼굴"],
+        [172, false, "천을 옆으로 펼치며 회전"],
+        [196, true, "천이 상체 앞을 지나며 가림 증가"],
+        [216, true, "천과 머리카락으로 얼굴이 가려짐"],
+        [236, true, "옆모습 머리가 천 위로 드러남"],
+        [248, true, "천을 낮추고 등을 보이며 팔을 옆으로 펼침"],
+        [256, false, "낮아진 천과 팔의 펼침 자세 변화"],
+        [268, true, "회전하며 얼굴이 다시 보임"],
+        [288, true, "들어 올린 천이 얼굴 앞을 가림"],
+        [304, false, "천과 인물의 회전 자세 변화"],
+        [312, true, "역광과 천에 의해 얼굴이 거의 보이지 않음"],
+        [324, false, "끝부분 천의 세로 펼침 변화"],
+        [336, true, "영상 끝"]
+      ]
+    },
+    "candle_flowers": {
+      "baseline": "outputs/quality_validation_e8babaef576c/heldout/low_motion/seeds/42/baseline",
+      "description_ko": "노란 둥근 등갓을 아래에서 촬영; 흐린 화면이 점차 선명해짐",
+      "filename_warning": "The legacy candle-flowers filename does not describe the visible source. No flowers or candle flame are visible; captions must describe the actual lampshade.",
+      "candidates": [
+        [0, true, "영상 시작; 크게 흐린 노란 등갓"],
+        [40, false, "밝은 중심과 바깥 윤곽의 초점 변화 후보"],
+        [84, false, "등갓의 세로 이음선이 드러나는 초점 변화"],
+        [108, false, "가로 골격과 아래쪽 개구부가 선명해짐"],
+        [148, false, "선명해진 등갓의 세부 무늬 유지 여부"],
+        [180, true, "영상 끝; 골격과 원형 개구부가 보임"]
+      ]
+    },
+    "person_walk": {
+      "baseline": "outputs/etri01_official_20260911_v2/01_person_walk",
+      "description_ko": "베이지 벽 앞에서 파란 코트 인물이 오른쪽으로 걷다가 돌아 왼쪽으로 걷기",
+      "temporal_note": "The frozen source itself has brief horizontal framing jumps. Dense review around 162-194 confirmed these are present in the source; do not label them as newly generated errors or silently stabilize them.",
+      "candidates": [
+        [0, true, "왼쪽 가장자리에서 인물 일부가 보이는 시작"],
+        [8, true, "보행 인물의 전신이 화면 안에 들어옴"],
+        [44, false, "오른쪽 보행 중 팔과 다리 자세 변화"],
+        [92, false, "화면 중앙으로 이동한 전신 구도"],
+        [140, false, "오른쪽으로 이동한 위치와 보행 자세"],
+        [166, true, "원본 구도 변동으로 오른쪽 가장자리에서 인물 일부가 잘림"],
+        [167, true, "직후 원본 구도에서 인물 전신이 다시 보임"],
+        [176, true, "오른쪽 보행을 멈추며 몸과 얼굴을 돌리기 시작"],
+        [180, true, "정면에 가까운 회전 중간 자세"],
+        [184, true, "얼굴과 몸이 왼쪽을 향하는 자세"],
+        [196, true, "왼쪽으로 걷는 동작 시작"],
+        [220, false, "왼쪽 보행의 위치와 팔 다리 자세 변화"],
+        [239, true, "영상 끝"]
+      ]
+    }
+  }
+}
