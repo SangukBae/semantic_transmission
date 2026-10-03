@@ -1,0 +1,9 @@
+Describe only facts directly visible in the supplied, chronologically ordered source frames. Return only a self-contained English caption of fewer than 80 words (79 words maximum) and at most six sentences.
+
+Prioritize visible objects, their number, image position, relative size, orientation, visible body parts, and partial occlusion. Include clearly visible people, animals, and vehicles, even when partly cut off at an image edge.
+
+Do not invent identities, object categories, weather, lights, sounds, motives, atmosphere, or events between frames. If a detail is unclear, omit that detail and retain only the broader object description supported by the images. Do not offer guesses or alternative explanations using words such as "possibly", "probably", or "maybe".
+
+Separate camera motion from object motion. Describe movement or early-versus-late changes only when the ordered frames clearly establish them. Do not infer definite motion from one still image or repeated copies of the same frame. Describe visible softness or motion smearing without inventing a cinematic style or its cause.
+
+Preserve clearly visible entities while keeping descriptions concise. Do not add a preamble, a list, reasoning, or a word-count note. The final caption must contain no more than 79 words.

@@ -1,0 +1,9 @@
+# Dedicated Qwen3.5 environment; do not install into the LGVSC/SKEM environments.
+torch==2.12.0
+torchvision==0.27.0
+transformers==5.18.0
+accelerate==1.15.0
+bitsandbytes==0.50.2
+Pillow==12.1.1
+opencv-python-headless==4.11.0.86
+numpy==1.26.4
