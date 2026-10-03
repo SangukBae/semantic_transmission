@@ -1,0 +1,652 @@
+{
+  "as_of_date": "2026-10-03",
+  "timezone": "Asia/Seoul",
+  "scope": "Documentation reconciliation of completed and incomplete local research; no new model inference or frozen artifact mutation.",
+  "evidence_storage": "Original outputs, videos, data and weights remain local and git-ignored; this bounded summary and original JSON hashes are versioned.",
+  "independent_hallucination_mitigation_verified": false,
+  "documents": {
+    "docs/README.md": "current status",
+    "docs/ETRI_DEVELOPMENT_PLAN.md": "next experiments and acceptance boundaries",
+    "docs/MODEL_ARCHITECTURE.md": "processing and caption provenance",
+    "docs/DATA.md": "inputs and extraction status",
+    "docs/RUN_GUIDE.md": "commands and recovery",
+    "docs/ETRI_COMBINED_REFERENCE_DIAGNOSIS.md": "measured results, failures and limitations",
+    "docs/FC_LGVSC_LOCAL_EXTRACTION.md": "Qwen3-VL setup and batch operation",
+    "docs/QWEN35_LOCAL_SETUP.md": "Qwen3.5 setup and execution"
+  },
+  "validation": {
+    "cpu_pytest": {
+      "passed": 556,
+      "skipped": 2,
+      "seconds": 65.22,
+      "python": "/home/sangukbae/anaconda3/envs/lgvsc/bin/python",
+      "environment": {
+        "PYTEST_DISABLE_PLUGIN_AUTOLOAD": "1",
+        "PYTHONPATH": "src",
+        "CUDA_VISIBLE_DEVICES": "",
+        "OMP_NUM_THREADS": "2",
+        "MKL_NUM_THREADS": "2"
+      },
+      "command": "python -m pytest -q",
+      "note": "Disable unrelated ROS pytest plugin autoload; no environment package changes."
+    },
+    "syntax": {
+      "python_files": 81,
+      "shell_files": 17
+    },
+    "qwen35_dependency_check": "uv pip check passed, 61 packages",
+    "markdown_paths_added": [],
+    "local_document_links_checked": 246,
+    "evidence_json_hashes_checked": 19,
+    "git_diff_check": "PASSED"
+  },
+  "evidence": [
+    {
+      "path": "outputs/fc_lgvsc_four_comparison_20261001/COMPARISON.json",
+      "sha256": "6319cbcac908396b30a7a2e96891c12c02ca38e0351e806750ceac943279daef",
+      "facts": {
+        "status": "COMPARISON_COMPLETE_AI_SAMPLE_REVIEW",
+        "current_generation_total_seconds": 3412.7005863100057,
+        "baseline_receiver_total_seconds": 6104.118038527062,
+        "current_successful_stage_window_seconds": 3830.945005,
+        "current_successful_stage_sum_seconds": 3713.4583063740283,
+        "independent_semantic_review": "PENDING",
+        "hallucination_mitigation_verified": false,
+        "quality_scope": "Same source frame timeline. Original decoded MP4 metrics; repeated legacy boundary frames removed for the three short videos. Cached baseline metrics verified against video/source hashes; current stage artifacts and mean CSV values verified.",
+        "time_scope": "Baseline reconstruct includes inline T5. Current generation reuses FP32 tensors prepared earlier. The column adding historical T5 is a reference sum, not a newly measured cold run. Selection, caption authoring and sender costs excluded from receiver times. Stage window includes audits, evaluation, comparison and hashing between stages; launch/preflight/terminal exit overhead excluded.",
+        "analyzer_sha256": "7a4b1e5587b9a3d5f7bf045a58dd47247fed778f087a33e53aa8717c31497310",
+        "reviewed_timestamps": 29,
+        "conclusion": "4편 모두 PSNR·SSIM·LPIPS·DISTS 평균 개선. TVSum·등갓은 CLIP도 개선하지만 밀밭·보행은 소폭 감소. 일부 중요한 시점에서는 원본에 없는 얼굴·무늬와 위치 오류가 있어 할루시네이션 완화는 미입증."
+      },
+      "videos": [
+        {
+          "video": "tv_low_08",
+          "frames": 1440,
+          "quality_before": {
+            "psnr_db": 14.854699533851297,
+            "ssim": 0.6482286094639159,
+            "lpips_vgg": 0.38808770284781025,
+            "clip": 0.9363761054144966,
+            "dists": 0.18066232378284136,
+            "frames": 1440,
+            "shape": [
+              1440,
+              320,
+              576,
+              3
+            ]
+          },
+          "quality_after": {
+            "psnr_db": 15.187746761833548,
+            "ssim": 0.6566996489556176,
+            "lpips_vgg": 0.37527962553625305,
+            "clip": 0.939500257703993,
+            "dists": 0.17470932168265182,
+            "frames": 1440,
+            "shape": [
+              1440,
+              320,
+              576,
+              3
+            ]
+          },
+          "baseline_keyframes": 110,
+          "current_keyframes": 79,
+          "baseline_channel_uses": 1849166,
+          "current_channel_uses": 1294078,
+          "baseline_receiver_including_t5_seconds": 3266.04479807202,
+          "current_cached_generation_seconds": 2247.064317584038,
+          "historical_t5_preparation_seconds": 442.24665576801635,
+          "legacy_generation_noise_matched": false
+        },
+        {
+          "video": "single_subject",
+          "frames": 337,
+          "quality_before": {
+            "psnr_db": 21.61944633166452,
+            "ssim": 0.6800421794181901,
+            "lpips_vgg": 0.3001317782907882,
+            "clip": 0.9476401671457715,
+            "dists": 0.16023070044616564,
+            "frames": 337,
+            "shape": [
+              337,
+              320,
+              576,
+              3
+            ]
+          },
+          "quality_after": {
+            "psnr_db": 21.931924246627425,
+            "ssim": 0.692194843270212,
+            "lpips_vgg": 0.2861507029579372,
+            "clip": 0.9401464264187686,
+            "dists": 0.1528157781068932,
+            "frames": 337,
+            "shape": [
+              337,
+              320,
+              576,
+              3
+            ]
+          },
+          "baseline_keyframes": 14,
+          "current_keyframes": 20,
+          "baseline_channel_uses": 422048,
+          "current_channel_uses": 589355,
+          "baseline_receiver_including_t5_seconds": 2066.4972343800036,
+          "current_cached_generation_seconds": 526.508388777962,
+          "historical_t5_preparation_seconds": 195.35723885102198,
+          "legacy_generation_noise_matched": false
+        },
+        {
+          "video": "candle_flowers",
+          "frames": 181,
+          "quality_before": {
+            "psnr_db": 32.733124993108355,
+            "ssim": 0.9391053857279561,
+            "lpips_vgg": 0.20793463322668446,
+            "clip": 0.97479416652279,
+            "dists": 0.11537175481490668,
+            "frames": 181,
+            "shape": [
+              181,
+              320,
+              576,
+              3
+            ]
+          },
+          "quality_after": {
+            "psnr_db": 33.58307957387378,
+            "ssim": 0.9517945285884976,
+            "lpips_vgg": 0.1720775023349741,
+            "clip": 0.9806103785393646,
+            "dists": 0.08144857145804726,
+            "frames": 181,
+            "shape": [
+              181,
+              320,
+              576,
+              3
+            ]
+          },
+          "baseline_keyframes": 3,
+          "current_keyframes": 9,
+          "baseline_channel_uses": 50274,
+          "current_channel_uses": 146807,
+          "baseline_receiver_including_t5_seconds": 493.32978748799906,
+          "current_cached_generation_seconds": 246.40468161005992,
+          "historical_t5_preparation_seconds": 130.50797212298494,
+          "legacy_generation_noise_matched": false
+        },
+        {
+          "video": "person_walk",
+          "frames": 240,
+          "quality_before": {
+            "psnr_db": 19.682307959095176,
+            "ssim": 0.7671119569732933,
+            "lpips_vgg": 0.3686264413098494,
+            "clip": 0.9377349853515625,
+            "dists": 0.16822609454393386,
+            "frames": 240,
+            "shape": [
+              240,
+              320,
+              576,
+              3
+            ]
+          },
+          "quality_after": {
+            "psnr_db": 21.062955789188106,
+            "ssim": 0.792895354123344,
+            "lpips_vgg": 0.3388317011296749,
+            "clip": 0.93533935546875,
+            "dists": 0.15448321104049684,
+            "frames": 240,
+            "shape": [
+              240,
+              320,
+              576,
+              3
+            ]
+          },
+          "baseline_keyframes": 3,
+          "current_keyframes": 16,
+          "baseline_channel_uses": 65911,
+          "current_channel_uses": 358163,
+          "baseline_receiver_including_t5_seconds": 278.24621858703904,
+          "current_cached_generation_seconds": 392.7231983379461,
+          "historical_t5_preparation_seconds": 169.933987705037,
+          "legacy_generation_noise_matched": false
+        }
+      ]
+    },
+    {
+      "path": "outputs/fc_lgvsc_four_comparison_20261001/AI_REVIEW.json",
+      "sha256": "b833a6b173f8b6446b96f5b3c81722691fcd5c6ac90c4f5bca48cef93f6c1568",
+      "facts": {
+        "status": "AI_EXPLORATORY_FRAME_REVIEW_COMPLETE",
+        "conclusion": "4편 모두 PSNR·SSIM·LPIPS·DISTS 평균 개선. TVSum·등갓은 CLIP도 개선하지만 밀밭·보행은 소폭 감소. 일부 중요한 시점에서는 원본에 없는 얼굴·무늬와 위치 오류가 있어 할루시네이션 완화는 미입증.",
+        "scope": "Final MP4 frame samples at 29 timestamps, selected from prior failures and comparisons. AI exploratory review, not blinded or independent labels.",
+        "independent_ground_truth": false,
+        "hallucination_mitigation_verified": false
+      }
+    },
+    {
+      "path": "outputs/etri_hybrid_keys_tv_low_08_v1/selection_execution.json",
+      "sha256": "9d78ee2cb23b7e5ad3ca09d41b238d7e47329a250814aa87445e9dd256760d28",
+      "facts": {
+        "returncode": 0,
+        "seconds": 750.1894744809833,
+        "log": "outputs/etri_hybrid_keys_tv_low_08_v1/logs/select_1790694268202247081.log",
+        "completed_utc": "2026-09-29T15:17:43.076881+00:00",
+        "reconstruction_started": false
+      }
+    },
+    {
+      "path": "outputs/fc_lgvsc_webvid_tvsum_full_20261001/preparation_status.json",
+      "sha256": "9c0eb19dc84b5cb77a0cca598de0f95fca20c5915aab2018c41d69f3e22749f1",
+      "facts": {
+        "videos": 103,
+        "sources_prepared": 103,
+        "stage": "SOURCE_PREPARATION_ONLY",
+        "updated_utc": "2026-10-01T13:37:39.933200+00:00"
+      }
+    },
+    {
+      "path": "outputs/fc_lgvsc_webvid_tvsum_full_20261001/extraction_status.json",
+      "sha256": "7586992c4e957af2f7deeeb0d90268b28b5e267c0082479f2bf00cc59f7a22b1",
+      "facts": {
+        "updated_utc": "2026-10-02T06:09:50.269752+00:00",
+        "scope": "All locally stored original WebVid and TVSum videos, full duration, no 16/60-second truncation",
+        "videos": 103,
+        "sources_prepared": 103,
+        "extractions_complete": 103,
+        "keyframes": 15660,
+        "captions": 15557,
+        "reconstruction_started": false,
+        "hallucination_mitigation_verified": false
+      },
+      "skem_zero_comparison_videos": 102
+    },
+    {
+      "path": "outputs/fc_lgvsc_webvid_tvsum_full_20261001/assistant_direct_completion_audit.json",
+      "sha256": "b59bfede103b910cd13b5b9781597db8410c636a260ced9b6f4f9b31e9433eac",
+      "facts": {
+        "status": "PASS_ALL_103_EXTRACTIONS_COMPLETE",
+        "completed_utc": "2026-10-02T06:10:04.790539+00:00",
+        "scope": "Full-duration local originals: 53 WebVid and 50 TVSum; normalized to 576x320 at 24 FPS.",
+        "reconstruction_started": false,
+        "independent_ground_truth": false,
+        "hallucination_mitigation_verified": false
+      }
+    },
+    {
+      "path": "outputs/fc_lgvsc_auto_20261002/status.json",
+      "sha256": "44ae0d7f52977f2ccdd0aed8b0ff9e2d695155e7695ae09c59c5995779858445",
+      "facts": {
+        "status": "STOPPED",
+        "updated_utc": "2026-10-02T06:22:08.564566+00:00",
+        "pid": 41859,
+        "active": null,
+        "total": 103,
+        "completed": 7,
+        "failed": 1,
+        "error": "stop requested by signal 15",
+        "config_signature": "61053064207652b83706645a0228b7195716cf777c1fd1d21690d2ec5745090e"
+      }
+    },
+    {
+      "path": "outputs/fc_lgvsc_auto_20261002/paused_for_faithful_correction.json",
+      "sha256": "b4e38798a53eaaca6b94fbcee24d45d656757db116cb85d60a349c95f449fcf4",
+      "facts": {
+        "requested_utc": "2026-10-02T06:22:08.096627+00:00",
+        "pid": 41859,
+        "reason": "Temporarily yield GPU for user-requested faithful FC-LGVSC direct-extraction correction. Preserve all completed and checkpointed automatic artifacts; resume after correction selection.",
+        "resume_command": "bash scripts/run_fc_auto_extraction.sh start --root outputs/fc_lgvsc_auto_20261002"
+      }
+    },
+    {
+      "path": "outputs/fc_lgvsc_webvid_tvsum_faithful_20261002/paused_for_qwen_caption_comparison.json",
+      "sha256": "e0558db8c24fe9a0b146fb94033900e9542f7969d648294edb92ebf3d34e064b",
+      "facts": {
+        "status": "STOPPED_RESUMABLE",
+        "created_utc": "2026-10-02T09:07:30.941086+00:00",
+        "pid": 52700,
+        "user_requested": true,
+        "signal": "SIGINT",
+        "completed_scores_preserved": true,
+        "resume_command": "/home/sangukbae/anaconda3/envs/lgvsc-internvl/bin/python scripts/correct_fc_dataset_extraction.py run",
+        "note": "Atomic per-pair checkpoints are reused on restart; an in-flight pair may need recomputation.",
+        "checked_utc": "2026-10-02T09:07:34.945726+00:00",
+        "completed_video_selections": 64,
+        "saved_pair_scores": 132
+      }
+    },
+    {
+      "path": "outputs/fc_lgvsc_webvid_tvsum_faithful_20261002_v2/handoff_status.json",
+      "sha256": "74e9ddc7d8d31f461a81b9db5c60b6201c1f0bc527fdb1ad4844dcde14677a4e",
+      "facts": {
+        "status": "SELECTION_RUNNING_CAPTION_REVIEW_PENDING",
+        "effective_root": "/home/sangukbae/semantic_transmission/outputs/fc_lgvsc_webvid_tvsum_faithful_20261002_v2",
+        "base_root": "/home/sangukbae/semantic_transmission/outputs/fc_lgvsc_webvid_tvsum_faithful_20261002",
+        "classified_videos": 103,
+        "base_webvid_selection_complete": 53,
+        "effective_webvid_captions_complete": 52,
+        "completion_claimed": false
+      }
+    },
+    {
+      "path": "outputs/fc_lgvsc_webvid_tvsum_faithful_20261002_v2/selection_chain_status.json",
+      "sha256": "ebd81310e8563fc2aeb8f6fd262b0f7d894c8c9eee9d8880dcc6f530acc3efbd",
+      "facts": {
+        "state": "ERROR",
+        "utc": "2026-10-02T09:07:53Z",
+        "error": "RuntimeError('Base correction worker exited before its completion marker; inspect selection_batch.log and resume its cached run.')"
+      }
+    },
+    {
+      "path": "outputs/fc_lgvsc_webvid_tvsum_faithful_20261002_v2/revision_manifest.json",
+      "sha256": "f611a0794890e7f44a5dd566649a4263470f0922c0464a658b33f2e7dd21bb98",
+      "facts": {
+        "created_utc": "2026-10-02T07:11:11.956683+00:00",
+        "base_root": "/home/sangukbae/semantic_transmission/outputs/fc_lgvsc_webvid_tvsum_faithful_20261002",
+        "effective_root": "/home/sangukbae/semantic_transmission/outputs/fc_lgvsc_webvid_tvsum_faithful_20261002_v2",
+        "unchanged_videos_linked": 102,
+        "revised_video": "webvid_031_c225fee8",
+        "reason": "New direct review identifies hand re-entry at frame 124; restore protection and rerun original sequential SKEM. All prior artifacts stay immutable.",
+        "status": "PENDING_SELECTION_AND_CAPTION_VALIDATION"
+      }
+    },
+    {
+      "path": "outputs/caption_accuracy_tv_low_08_20261002/RESULT.json",
+      "sha256": "96dbb39a380820c8b097e830f5dfe25fc9edea38fd66c41c52eb8a4a3e5e1016",
+      "facts": {
+        "status": "MATCHED_CAPTION_CONTENT_AI_REVIEW_COMPLETE",
+        "created_utc": "2026-10-02T08:14:33.360479+00:00",
+        "source": "tv_low_08",
+        "paired_segments": 65,
+        "covered_seconds": 48.291666666666664,
+        "source_sample_slots": 260,
+        "unique_source_sample_frames": 254,
+        "source_identity_and_alignment_verified": true,
+        "reviewer": "Codex assistant in current conversation",
+        "independent": false,
+        "blinded": false,
+        "ground_truth": "Direct AI observation of source images; no independent human ground truth",
+        "inference_executed": false,
+        "gpu_used": false,
+        "caption_texts_modified": false,
+        "scope": "Existing PLLaVA-7B captions versus existing GPT-authored faithful_v2 captions on the 65 exact matching intervals. All matched pairs reviewed, no outcome-driven subsampling.",
+        "pairs_sha256": "3ec538fdd0e0ab6e5ad25d949869280caa9a7090180b30f1bb1e73b2a962a41c",
+        "review_code_sha256": "0169ee8e6690377366e6a87ba56c346e77bd5a0d3ffad786ee7cb072dc3390ea"
+      }
+    },
+    {
+      "path": "outputs/caption_compare_qwen_tv_low_08_20261002/RESULT.json",
+      "sha256": "bb1e41621ffd0135c5a3fdb9bdefeed8390ed11dcce29e23c6ca8bd55f39cf26",
+      "facts": {
+        "status": "LOCAL_QWEN_CAPTION_COMPARISON_COMPLETE_AI_SOURCE_REVIEW",
+        "created_utc": "2026-10-02T10:40:50.565852+00:00",
+        "model": "Qwen/Qwen3.5-9B",
+        "revision": "c202236235762e1c871ad0ccb60c8ee5ba337b9a",
+        "quantization": "nf4",
+        "source": "tv_low_08",
+        "inference_executed": true,
+        "local_only": true,
+        "gpu_used": true,
+        "independent": false,
+        "blinded": false,
+        "ground_truth": "Source-image AI observation; no independent human labels",
+        "all_fc_segments": 78,
+        "exact_three_way_segments": 65,
+        "all_fc_covered_seconds": 59.958333333333336,
+        "matched_covered_seconds": 48.291666666666664,
+        "source_identity_verified": true,
+        "input_frames_and_intervals_verified": true,
+        "review_file": "review_annotations.json",
+        "frozen_baseline_review": "outputs/caption_accuracy_tv_low_08_20261002/RESULT.json",
+        "protocol": "inputs.json",
+        "inference_config": "inference_config.json"
+      },
+      "primary_matched_summary": {
+        "pllava": {
+          "reviewed_segments": 65,
+          "clear_error_segments": 39,
+          "clear_error_segment_percent": 60.0,
+          "visible_entity_omission_segments": 46,
+          "visible_entity_omission_percent": 70.76923076923077,
+          "mean_words": 100.8923076923077,
+          "over_80_words_segments": 58
+        },
+        "qwen": {
+          "reviewed_segments": 65,
+          "clear_error_segments": 15,
+          "clear_error_segment_percent": 23.076923076923077,
+          "visible_entity_omission_segments": 18,
+          "visible_entity_omission_percent": 27.692307692307693,
+          "mean_words": 80.96923076923076,
+          "over_80_words_segments": 29
+        },
+        "fc_lgvsc": {
+          "reviewed_segments": 65,
+          "clear_error_segments": 0,
+          "clear_error_segment_percent": 0.0,
+          "visible_entity_omission_segments": 2,
+          "visible_entity_omission_percent": 3.076923076923077,
+          "mean_words": 55.76923076923077,
+          "over_80_words_segments": 0
+        }
+      },
+      "full_78_summary": {
+        "qwen": {
+          "reviewed_segments": 78,
+          "clear_error_segments": 16,
+          "clear_error_segment_percent": 20.512820512820515,
+          "visible_entity_omission_segments": 21,
+          "visible_entity_omission_percent": 26.923076923076923,
+          "mean_words": 80.92307692307692,
+          "over_80_words_segments": 36
+        },
+        "fc_lgvsc": {
+          "reviewed_segments": 78,
+          "clear_error_segments": 0,
+          "clear_error_segment_percent": 0.0,
+          "visible_entity_omission_segments": 3,
+          "visible_entity_omission_percent": 3.8461538461538463,
+          "mean_words": 55.61538461538461,
+          "over_80_words_segments": 0
+        }
+      }
+    },
+    {
+      "path": "outputs/qwen35_capacity_20261002/RESULT.json",
+      "sha256": "fd2c3b2f7d9d14eeee254086da85756d58b841ca95aab844dff34e3d1459e5fe",
+      "facts": {
+        "status": "SIX_PROFILES_48_CAPTIONS_COMPLETE_AI_DIAGNOSTIC_REVIEW",
+        "created_utc": "2026-10-02T13:05:21.619304+00:00",
+        "model": "Qwen/Qwen3.5-9B",
+        "revision": "c202236235762e1c871ad0ccb60c8ee5ba337b9a",
+        "completed_captions": 48,
+        "oom_count": 0,
+        "truncated_count": 0,
+        "independent": false,
+        "blinded": false,
+        "source_identity_verified": true,
+        "recommended_profile": "detail: NF4, up to 16 frames",
+        "maximum_tested_profile": "max: INT8, up to 16 frames",
+        "recommendation_reason": "NF4/16 and INT8/8 each had 3/8 diagnostic error segments; INT8/8 also omitted one vehicle and ran roughly three times slower. INT8/16 introduced an incorrect all-hoods claim. Higher precision did not consistently improve this subset.",
+        "baseline_preserved": true,
+        "existing_caption_pipeline_replaced": false,
+        "skem_resumed": false
+      },
+      "profiles": [
+        {
+          "quantization": "nf4",
+          "target_frame_count": 4,
+          "completed": 8,
+          "error_segments": 4,
+          "omission_segments": 0,
+          "mean_generation_seconds": 5.343954223000765,
+          "peak_pytorch_allocated_gib": 7.6843180656433105
+        },
+        {
+          "quantization": "nf4",
+          "target_frame_count": 8,
+          "completed": 8,
+          "error_segments": 4,
+          "omission_segments": 0,
+          "mean_generation_seconds": 5.16075732362151,
+          "peak_pytorch_allocated_gib": 7.923319339752197
+        },
+        {
+          "quantization": "nf4",
+          "target_frame_count": 16,
+          "completed": 8,
+          "error_segments": 3,
+          "omission_segments": 0,
+          "mean_generation_seconds": 5.610209521748402,
+          "peak_pytorch_allocated_gib": 8.411165714263916
+        },
+        {
+          "quantization": "int8",
+          "target_frame_count": 4,
+          "completed": 8,
+          "error_segments": 5,
+          "omission_segments": 1,
+          "mean_generation_seconds": 16.881545696751346,
+          "peak_pytorch_allocated_gib": 11.01316785812378
+        },
+        {
+          "quantization": "int8",
+          "target_frame_count": 8,
+          "completed": 8,
+          "error_segments": 3,
+          "omission_segments": 1,
+          "mean_generation_seconds": 17.996089287373252,
+          "peak_pytorch_allocated_gib": 11.252205848693848
+        },
+        {
+          "quantization": "int8",
+          "target_frame_count": 16,
+          "completed": 8,
+          "error_segments": 4,
+          "omission_segments": 0,
+          "mean_generation_seconds": 16.592601270875093,
+          "peak_pytorch_allocated_gib": 11.740103721618652
+        }
+      ]
+    },
+    {
+      "path": "outputs/caption_context_qwen_tv_low_08_20261003/RESULT.json",
+      "sha256": "9871259df304c66bb4c87ea73504829de3cafc631617364612d2dabccd9723cf",
+      "facts": {
+        "status": "PAIRED_CAPTION_EXTRACTION_COMPLETE",
+        "created_utc": "2026-10-02T16:36:54.147644+00:00",
+        "model_id": "Qwen/Qwen3.5-9B",
+        "model_revision": "c202236235762e1c871ad0ccb60c8ee5ba337b9a",
+        "quantization": "nf4",
+        "source": "tv_low_08",
+        "intervals": 78,
+        "captions_total": 156,
+        "covered_seconds": 59.958333333333336,
+        "fps": 24,
+        "context_intervals": 76,
+        "context_seconds": 2.0,
+        "all_under_80_words": true,
+        "all_at_most_six_sentences": true,
+        "truncated": 0,
+        "original_target_samples_retained": true,
+        "paired_visual_token_budgets_equal": true,
+        "final_session_wall_seconds": 888.1422670790053,
+        "format_validation_is_not_accuracy_validation": true,
+        "independent_human_evaluation": false,
+        "full_78_accuracy_evaluated": false,
+        "reconstructed_video_evaluated": false,
+        "measured_channel_uses": null
+      }
+    },
+    {
+      "path": "outputs/caption_context_qwen_tv_low_08_20261003_accuracy/RESULT.json",
+      "sha256": "5bf6ec6fc103449ee283ff2ba385eef2c15a434950ff6c11db4caee729d6c146",
+      "facts": {
+        "status": "ALL_78_INTERVALS_PAIRED_AI_SOURCE_SAMPLE_REVIEW_COMPLETE",
+        "created_utc": "2026-10-02T16:58:18.635093+00:00",
+        "source": "tv_low_08",
+        "full_intervals": 78,
+        "matched_pllava_intervals": 65,
+        "inference_root": "/home/sangukbae/semantic_transmission/outputs/caption_context_qwen_tv_low_08_20261003",
+        "independent": false,
+        "blinded": false,
+        "unit": "Intervals containing at least one clear factual error; omissions separately",
+        "reconstructed_video_evaluated": false,
+        "annotations_file": "review_annotations.json"
+      },
+      "full_78": {
+        "old_qwen": {
+          "reviewed_intervals": 78,
+          "clear_error_intervals": 16,
+          "omission_intervals": 21
+        },
+        "target_only": {
+          "reviewed_intervals": 78,
+          "clear_error_intervals": 27,
+          "omission_intervals": 21
+        },
+        "context": {
+          "reviewed_intervals": 78,
+          "clear_error_intervals": 20,
+          "omission_intervals": 14
+        },
+        "fc_lgvsc": {
+          "reviewed_intervals": 78,
+          "clear_error_intervals": 0,
+          "omission_intervals": 3
+        }
+      }
+    },
+    {
+      "path": "outputs/qwen35_keyframe_timing_single_subject_20261003/RESULT.json",
+      "sha256": "26e4971f38f6e35e63a72d091313e164a8acd331816ec87eb905316256eedd56",
+      "facts": {
+        "status": "PASS_30_PAIR_TIMING",
+        "created_utc": "2026-10-03T11:28:30.099735+00:00",
+        "model_id": "Qwen/Qwen3.5-9B",
+        "quantization": "nf4",
+        "timed_pairs": 30,
+        "mean_pair_seconds": 1.1382708616668726,
+        "median_pair_seconds": 1.1280469860002995,
+        "min_pair_seconds": 0.9839673820006283,
+        "max_pair_seconds": 1.7184203819997492,
+        "mean_generation_seconds": 1.1283838808997946,
+        "mean_generated_tokens": 20.6,
+        "timed_batch_seconds": 34.18731014500008,
+        "record_overhead_per_pair_seconds": 0.0013061431664633952,
+        "model_load_seconds": 16.910196864999307,
+        "model_and_processor_setup_seconds": 19.429774881000412,
+        "warmup_seconds": 3.1667309799995564,
+        "total_pilot_wall_seconds": 56.82455246299833,
+        "selected_candidates": 2,
+        "all_outputs_valid": true,
+        "full_video_comparisons": 336,
+        "projected_full_selection_seconds": 402.3276485050013,
+        "projection_scope": "One model load + 336 short single-call decisions; existing source PNGs; excludes source decoding, captions, transmission and reconstruction",
+        "uncertainty": "Block-mean range is descriptive, not a confidence interval; full-run references/output lengths and GPU load may differ",
+        "peak_pytorch_allocated_gib": 7.5753326416015625,
+        "peak_pytorch_reserved_gib": 7.638671875,
+        "quality_verified": false,
+        "full_video_selection_completed": false,
+        "plan_sha256": "c082b10816a33fba8d573bfb1667f4d87d8383c2d8eb89ef70703d77c907b574"
+      }
+    },
+    {
+      "path": "outputs/qwen35_keyframe_timing_single_subject_20261003/verification.json",
+      "sha256": "9e95b698c2213d952dcf570d8761920c584e47a4042a1d6959cdfec7f07d8985",
+      "facts": {
+        "status": "PASS",
+        "created_utc": "2026-10-03T11:30:01.657823+00:00",
+        "scope": "Timing and artifact integrity only; no independent semantic accuracy or full-video validation."
+      }
+    }
+  ]
+}
