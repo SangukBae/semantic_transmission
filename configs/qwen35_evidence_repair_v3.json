@@ -1,0 +1,3622 @@
+{
+  "version": 3,
+  "seed": 20261007,
+  "epochs": 2,
+  "lr": 2e-05,
+  "gradient_accumulation": 4,
+  "lora_rank": 32,
+  "lora_alpha": 64,
+  "grounding_weight": 0.3,
+  "judgment_weight": 0.1,
+  "preference_weight": 0.1,
+  "preference_margin": 0.1,
+  "arms": {
+    "caption": [],
+    "evidence": [
+      "evidence"
+    ],
+    "judgment": [
+      "evidence",
+      "judgment"
+    ],
+    "preference": [
+      "evidence",
+      "judgment",
+      "preference"
+    ]
+  },
+  "source_run": "outputs/qwen35_grounded_v1",
+  "parent_checkpoint": "outputs/qwen35_astra_transfer_v1/teacher_r32/update-000044-e002-n0000",
+  "checkpoint_policy": "Predeclared last epoch; existing validation is development-only, no new final test prepared.",
+  "annotation_policy": "Codex source review27 windows, original Astra caption replay elsewhere. Reallocate1 previously new source to development, excluded from the chosen parent checkpoint training. Old tests excluded. No new independent final test.",
+  "records": [
+    {
+      "id": "webvid_005_ba30bf76_w0",
+      "split": "train",
+      "source_sha256": "ba30bf760f616bbfe701a6eaafb9808dd4864fae8a85a58fe65996a99bee849e",
+      "frame_sha256": [
+        "12576a31674cf771deaa853eb30fbcd037c467735b71a11f7ae301beadbab2b6",
+        "cbb12b275835509f8c01faa4748c614939f3886691a771e69ea2268c8812b7c7",
+        "be81f7c4bc7e091ba72dff4fb7ccdfeac025f007475699437a5056ec538bbca6",
+        "9e5f2ffd10e9ace1d3cccc0ea56acee73589e3e91544a464a3a1dcde48a30ca6"
+      ],
+      "caption": "An overhead view shows parallel soil rows. A green tractor first appears partly at the lower edge, then advances upward until its body and wide trailing implement are visible. The soil rows keep their arrangement.",
+      "evidence_queries": [
+        {
+          "text": "A tractor appears at the lower edge and advances into view.",
+          "phases": [
+            {
+              "text": "Only soil rows are visible.",
+              "positions": [
+                0
+              ]
+            },
+            {
+              "text": "The tractor is partly clipped by the lower edge.",
+              "positions": [
+                1,
+                2
+              ]
+            },
+            {
+              "text": "The tractor and trailing implement are within the view.",
+              "positions": [
+                3
+              ]
+            }
+          ]
+        },
+        {
+          "text": "The tractor is clipped by the lower edge.",
+          "phases": [
+            {
+              "text": "Only part of the tractor is visible at the lower border.",
+              "positions": [
+                1,
+                2
+              ]
+            }
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "text": "A tractor appears at the lower edge and advances into view.",
+          "verdict": "supported",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "All required visible phases are present in chronological order."
+        },
+        {
+          "text": "The tractor retreats downward and disappears from the view.",
+          "verdict": "contradicted",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "The observed direction, order or visible states oppose this description."
+        },
+        {
+          "text": "A tractor appears at the lower edge and advances into view.",
+          "verdict": "insufficient",
+          "observations": [
+            0
+          ],
+          "reason": "The supplied subset lacks a required temporal phase; absence of that evidence does not prove the event false."
+        },
+        {
+          "text": "A green tractor is visible.",
+          "verdict": "supported",
+          "observations": [
+            2
+          ],
+          "reason": "This visible state is supported by the supplied single observation; a motion conclusion is not required."
+        },
+        {
+          "text": "The tractor body is blue.",
+          "verdict": "contradicted",
+          "observations": [
+            2
+          ],
+          "reason": "The visible object attribute or pose contradicts this statement."
+        },
+        {
+          "text": "The driver is wearing glasses.",
+          "verdict": "insufficient",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "The driver is too small and partly enclosed to resolve eyewear."
+        }
+      ],
+      "preference_pairs": [
+        {
+          "rejected": "An overhead view shows a green tractor on parallel soil rows.",
+          "kind": "omission",
+          "reason": "The scene description omits the reviewed action or change."
+        },
+        {
+          "rejected": "An overhead view shows parallel soil rows. A green tractor first appears partly at the lower edge, then advances upward until its body and wide trailing implement are visible. The soil rows keep their arrangement. The tractor retreats downward and disappears from the view.",
+          "kind": "contradiction",
+          "reason": "An added sentence conflicts with the observed action; length-normalized scoring is used."
+        }
+      ],
+      "review": {
+        "author": "Codex assistant",
+        "source_only": true,
+        "independent_astra": false,
+        "human_truth": false,
+        "sheet": "/home/sangukbae/semantic_transmission/outputs/qwen35_evidence_repair_v1/review/webvid_005_ba30bf76_w0.png",
+        "sheet_sha256": "397dcc5bae8333df29c2ac497ac22c47a47ca60ce6b0e8f03a118d0b390b99e0",
+        "viewed_positions": [
+          0,
+          1,
+          2,
+          3
+        ]
+      }
+    },
+    {
+      "id": "webvid_025_efae75c7_w0",
+      "split": "train",
+      "source_sha256": "efae75c745a48738e4c8c19d1e1777eea2ecb18e1fe22463fd255ce99d698078",
+      "frame_sha256": [
+        "250fe0854e757f9738671ff9bcb1dc7a79adc03128156f26eb07c562c48a53af",
+        "c7433ba5b711ecb91725196d96ca4b215e79504f449a9b3a5d39aa8bbc6c7186",
+        "2c274269f3a4bdcd4ada352d4b22db8c783bb30ff199816ae08c87411df212c6",
+        "348617faa6584ffd510a131433a5f84ffef0df95cd8be84f005d24ebe0c5558a"
+      ],
+      "caption": "A person holds a gold-colored bowl of pastel pieces, rotates its opening forward and downward, and begins spilling pieces onto the white surface. The carved white pedestal stays beside the person.",
+      "evidence_queries": [
+        {
+          "text": "The bowl changes from upright to tilted and pieces begin falling.",
+          "phases": [
+            {
+              "text": "The bowl opening points upward and holds the pieces.",
+              "positions": [
+                0,
+                1
+              ]
+            },
+            {
+              "text": "The bowl is angled forward with the pieces still inside.",
+              "positions": [
+                2
+              ]
+            },
+            {
+              "text": "Pieces are visibly below the downward-facing rim.",
+              "positions": [
+                3
+              ]
+            }
+          ]
+        },
+        {
+          "text": "Pieces are visibly falling below the rim.",
+          "phases": [
+            {
+              "text": "Pastel pieces are separated below the bowl.",
+              "positions": [
+                3
+              ]
+            }
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "text": "The bowl changes from upright to tilted and pieces begin falling.",
+          "verdict": "supported",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "All required visible phases are present in chronological order."
+        },
+        {
+          "text": "The bowl turns upright as scattered pieces rise from the floor into it.",
+          "verdict": "contradicted",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "The observed direction, order or visible states oppose this description."
+        },
+        {
+          "text": "The bowl changes from upright to tilted and pieces begin falling.",
+          "verdict": "insufficient",
+          "observations": [
+            0
+          ],
+          "reason": "The supplied subset lacks a required temporal phase; absence of that evidence does not prove the event false."
+        },
+        {
+          "text": "A gold-colored bowl contains pastel pieces.",
+          "verdict": "supported",
+          "observations": [
+            2
+          ],
+          "reason": "This visible state is supported by the supplied single observation; a motion conclusion is not required."
+        },
+        {
+          "text": "The decorated bowl is blue.",
+          "verdict": "contradicted",
+          "observations": [
+            2
+          ],
+          "reason": "The visible object attribute or pose contradicts this statement."
+        },
+        {
+          "text": "The person is wearing glasses.",
+          "verdict": "insufficient",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "The person's face is outside the supplied framing."
+        }
+      ],
+      "preference_pairs": [
+        {
+          "rejected": "A person holds a gold-colored bowl beside a white carved pedestal.",
+          "kind": "omission",
+          "reason": "The scene description omits the reviewed action or change."
+        },
+        {
+          "rejected": "A person holds a gold-colored bowl of pastel pieces, rotates its opening forward and downward, and begins spilling pieces onto the white surface. The carved white pedestal stays beside the person. The bowl turns upright as scattered pieces rise from the floor into it.",
+          "kind": "contradiction",
+          "reason": "An added sentence conflicts with the observed action; length-normalized scoring is used."
+        }
+      ],
+      "review": {
+        "author": "Codex assistant",
+        "source_only": true,
+        "independent_astra": false,
+        "human_truth": false,
+        "sheet": "/home/sangukbae/semantic_transmission/outputs/qwen35_evidence_repair_v1/review/webvid_025_efae75c7_w0.png",
+        "sheet_sha256": "dfaeae05e31b2068a9d123bf942c71b0b6c9e010fa048860bf35187ac70eca0b",
+        "viewed_positions": [
+          0,
+          1,
+          2,
+          3
+        ]
+      }
+    },
+    {
+      "id": "webvid_025_efae75c7_w1",
+      "split": "train",
+      "source_sha256": "efae75c745a48738e4c8c19d1e1777eea2ecb18e1fe22463fd255ce99d698078",
+      "frame_sha256": [
+        "6a808d7d950abe5e9a0091622438ab9f6c9cc0d941f7c6bced604176fd0ca145",
+        "d8107ae583bd8e17d1ca0edb77b67599c79ff62174e0544a00a7a0a3551eae0c",
+        "b14a6c7c903436102eb01b64dac65a1108aef5525489519debb88f835c6dabd9",
+        "eabaa39b43565b7c84312bce661ef409f59b3c2bb5c1caf92cdc32a410f80fae"
+      ],
+      "caption": "Hands tilt a decorated bowl farther downward as pastel pieces fall onto the white surface. Pieces remain inside during the pour, then the bowl becomes nearly inverted and its interior is hidden by the final view.",
+      "evidence_queries": [
+        {
+          "text": "The bowl tips farther downward while pieces fall out.",
+          "phases": [
+            {
+              "text": "Several pastel pieces remain inside the forward-tilted bowl.",
+              "positions": [
+                0,
+                1
+              ]
+            },
+            {
+              "text": "A cluster spills below the more steeply tilted rim.",
+              "positions": [
+                2
+              ]
+            },
+            {
+              "text": "The bowl is nearly inverted and its opening faces away.",
+              "positions": [
+                3
+              ]
+            }
+          ]
+        },
+        {
+          "text": "A cluster of pastel pieces spills below the rim.",
+          "phases": [
+            {
+              "text": "Multiple pieces form a falling cluster below the steep rim.",
+              "positions": [
+                2
+              ]
+            }
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "text": "The bowl tips farther downward while pieces fall out.",
+          "verdict": "supported",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "All required visible phases are present in chronological order."
+        },
+        {
+          "text": "The hands turn the bowl upright while pastel pieces rise back into it.",
+          "verdict": "contradicted",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "The observed direction, order or visible states oppose this description."
+        },
+        {
+          "text": "The bowl tips farther downward while pieces fall out.",
+          "verdict": "insufficient",
+          "observations": [
+            0
+          ],
+          "reason": "The supplied subset lacks a required temporal phase; absence of that evidence does not prove the event false."
+        },
+        {
+          "text": "Hands hold a decorated bowl.",
+          "verdict": "supported",
+          "observations": [
+            2
+          ],
+          "reason": "This visible state is supported by the supplied single observation; a motion conclusion is not required."
+        },
+        {
+          "text": "The decorated bowl is blue.",
+          "verdict": "contradicted",
+          "observations": [
+            2
+          ],
+          "reason": "The visible object attribute or pose contradicts this statement."
+        },
+        {
+          "text": "The person is wearing glasses.",
+          "verdict": "insufficient",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "The person's face is outside the supplied framing."
+        }
+      ],
+      "preference_pairs": [
+        {
+          "rejected": "Hands hold a decorated bowl above a white surface.",
+          "kind": "omission",
+          "reason": "The scene description omits the reviewed action or change."
+        },
+        {
+          "rejected": "Hands tilt a decorated bowl farther downward as pastel pieces fall onto the white surface. Pieces remain inside during the pour, then the bowl becomes nearly inverted and its interior is hidden by the final view. The hands turn the bowl upright while pastel pieces rise back into it.",
+          "kind": "contradiction",
+          "reason": "An added sentence conflicts with the observed action; length-normalized scoring is used."
+        }
+      ],
+      "review": {
+        "author": "Codex assistant",
+        "source_only": true,
+        "independent_astra": false,
+        "human_truth": false,
+        "sheet": "/home/sangukbae/semantic_transmission/outputs/qwen35_evidence_repair_v1/review/webvid_025_efae75c7_w1.png",
+        "sheet_sha256": "7537e6a8d3331210e571d59dcf4a76f68f2877c83afc4588df1b176c100ba481",
+        "viewed_positions": [
+          0,
+          1,
+          2,
+          3
+        ]
+      }
+    },
+    {
+      "id": "webvid_051_1d4f4957_w0",
+      "split": "train",
+      "source_sha256": "1d4f4957081cb5eec39846ada63e07b8741b4482201dc087e0a685066228ad66",
+      "frame_sha256": [
+        "6daf8f08d8a9626160576b3680b95c35611919c083693eb7137ed81f8e5cdb8f",
+        "0effbf8ed57ef52f78fb9a4d5563da4cdb1922510fec6b679e85e11325a458af",
+        "270181369f980d9144cafb16ff4ec25babe0a3c085d56ff39f4e60616622f580",
+        "e0e0d29161ce4caa6cc89bb80a03a1b57c0c1303bb861c115f0bf99f0cf8da90"
+      ],
+      "caption": "A hand holds a clear water container upright beside potted cacti, tilts it over the right-hand pots, and moves it leftward while pouring. The pots retain their arrangement on the table as the viewpoint shifts slightly.",
+      "evidence_queries": [
+        {
+          "text": "The container changes from upright to tilted while water is poured over the pots.",
+          "phases": [
+            {
+              "text": "The clear container is upright at the right.",
+              "positions": [
+                0
+              ]
+            },
+            {
+              "text": "The container is tipped with its lip over the right-side pots.",
+              "positions": [
+                1
+              ]
+            },
+            {
+              "text": "A stream falls from the tilted lip nearer the middle pots.",
+              "positions": [
+                2
+              ]
+            }
+          ]
+        },
+        {
+          "text": "The container is upright at the right.",
+          "phases": [
+            {
+              "text": "The upright clear container holds water at the right side.",
+              "positions": [
+                0
+              ]
+            }
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "text": "The container changes from upright to tilted while water is poured over the pots.",
+          "verdict": "supported",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "All required visible phases are present in chronological order."
+        },
+        {
+          "text": "The container changes from tilted to upright before any pouring is shown.",
+          "verdict": "contradicted",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "The observed direction, order or visible states oppose this description."
+        },
+        {
+          "text": "The container changes from upright to tilted while water is poured over the pots.",
+          "verdict": "insufficient",
+          "observations": [
+            0
+          ],
+          "reason": "The supplied subset lacks a required temporal phase; absence of that evidence does not prove the event false."
+        },
+        {
+          "text": "Potted cacti occupy the table.",
+          "verdict": "supported",
+          "observations": [
+            2
+          ],
+          "reason": "This visible state is supported by the supplied single observation; a motion conclusion is not required."
+        },
+        {
+          "text": "The container is an opaque black vessel.",
+          "verdict": "contradicted",
+          "observations": [
+            2
+          ],
+          "reason": "The visible object attribute or pose contradicts this statement."
+        },
+        {
+          "text": "The person holding the container is wearing glasses.",
+          "verdict": "insufficient",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "Only a hand and part of an arm are shown."
+        }
+      ],
+      "preference_pairs": [
+        {
+          "rejected": "A hand holds a clear water container beside several potted cacti.",
+          "kind": "omission",
+          "reason": "The scene description omits the reviewed action or change."
+        },
+        {
+          "rejected": "A hand holds a clear water container upright beside potted cacti, tilts it over the right-hand pots, and moves it leftward while pouring. The pots retain their arrangement on the table as the viewpoint shifts slightly. The container changes from tilted to upright before any pouring is shown.",
+          "kind": "contradiction",
+          "reason": "An added sentence conflicts with the observed action; length-normalized scoring is used."
+        }
+      ],
+      "review": {
+        "author": "Codex assistant",
+        "source_only": true,
+        "independent_astra": false,
+        "human_truth": false,
+        "sheet": "/home/sangukbae/semantic_transmission/outputs/qwen35_evidence_repair_v1/review/webvid_051_1d4f4957_w0.png",
+        "sheet_sha256": "d16b86ac4c8b5b9ed10f0ec7baaca0c96fb72a9769f4a53cc9d1b334384edb5c",
+        "viewed_positions": [
+          0,
+          1,
+          2,
+          3
+        ]
+      }
+    },
+    {
+      "id": "webvid_051_1d4f4957_w3",
+      "split": "train",
+      "source_sha256": "1d4f4957081cb5eec39846ada63e07b8741b4482201dc087e0a685066228ad66",
+      "frame_sha256": [
+        "ec4fdd37fc647caaf6224ca915b1ddbb442b3178ca0e6342da09c71fa25232cb",
+        "edb8a95cf8e64be860f407ebb670e6c6aa380a3c8635ac53513a611e752a9327",
+        "a581a27ec00e54f1cdb25b1c45319f736fab377e463ba648ed3d500cdd432e1b",
+        "1214680855ed8dc8bb76620c3257255da0c48e26b9ee2c978fd87b2b5950c8f7"
+      ],
+      "caption": "A tilted clear container pours water toward a large round cactus in the foreground. It shifts left toward the rear-left pot, while the pots retain their arrangement. The visible stream becomes thinner near the end.",
+      "evidence_queries": [
+        {
+          "text": "The pouring location shifts from the foreground cactus toward the left rear pot.",
+          "phases": [
+            {
+              "text": "The stream is above the large foreground cactus.",
+              "positions": [
+                0,
+                1
+              ]
+            },
+            {
+              "text": "The container lip has shifted left toward the rear pot.",
+              "positions": [
+                2,
+                3
+              ]
+            }
+          ]
+        },
+        {
+          "text": "The stream is above the large foreground cactus.",
+          "phases": [
+            {
+              "text": "The pouring lip and stream align with the foreground round cactus.",
+              "positions": [
+                0,
+                1
+              ]
+            }
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "text": "The pouring location shifts from the foreground cactus toward the left rear pot.",
+          "verdict": "supported",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "All required visible phases are present in chronological order."
+        },
+        {
+          "text": "The pouring location moves from the left rear pot toward the large foreground cactus.",
+          "verdict": "contradicted",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "The observed direction, order or visible states oppose this description."
+        },
+        {
+          "text": "The pouring location shifts from the foreground cactus toward the left rear pot.",
+          "verdict": "insufficient",
+          "observations": [
+            0
+          ],
+          "reason": "The supplied subset lacks a required temporal phase; absence of that evidence does not prove the event false."
+        },
+        {
+          "text": "Several cacti sit in pots.",
+          "verdict": "supported",
+          "observations": [
+            2
+          ],
+          "reason": "This visible state is supported by the supplied single observation; a motion conclusion is not required."
+        },
+        {
+          "text": "The container is an opaque black vessel.",
+          "verdict": "contradicted",
+          "observations": [
+            2
+          ],
+          "reason": "The visible object attribute or pose contradicts this statement."
+        },
+        {
+          "text": "The person holding the container is wearing glasses.",
+          "verdict": "insufficient",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "The person's head is outside the supplied framing."
+        }
+      ],
+      "preference_pairs": [
+        {
+          "rejected": "A tilted clear container is above a table of potted cacti.",
+          "kind": "omission",
+          "reason": "The scene description omits the reviewed action or change."
+        },
+        {
+          "rejected": "A tilted clear container pours water toward a large round cactus in the foreground. It shifts left toward the rear-left pot, while the pots retain their arrangement. The visible stream becomes thinner near the end. The pouring location moves from the left rear pot toward the large foreground cactus.",
+          "kind": "contradiction",
+          "reason": "An added sentence conflicts with the observed action; length-normalized scoring is used."
+        }
+      ],
+      "review": {
+        "author": "Codex assistant",
+        "source_only": true,
+        "independent_astra": false,
+        "human_truth": false,
+        "sheet": "/home/sangukbae/semantic_transmission/outputs/qwen35_evidence_repair_v1/review/webvid_051_1d4f4957_w3.png",
+        "sheet_sha256": "816ca9950129b24d11797f7a7391da0015f531ea5be953ec94caf93352d20b2f",
+        "viewed_positions": [
+          0,
+          1,
+          2,
+          3
+        ]
+      }
+    },
+    {
+      "id": "webvid_012_9bdbf20f_w0",
+      "split": "train",
+      "source_sha256": "9bdbf20f478df15025a1c2c277eb1afc43a4dda51f71191304ab5d5773fc48a5",
+      "frame_sha256": [
+        "81d5310ab0f354aea0e934b646a86d1b8dcbfe8e025283343d330a1a03dbca3b",
+        "45439705a64d0d190a6636c6b380268e21325e5b9cfc4a2449c75e0cff9a1d9d",
+        "08a6e45950a426115a3991fa3f6315c14f52bf1d59678f6027146c268284a1b7",
+        "4f0fee5f33e70c016a22f2125d5c7e3c154fec8d73776e9ca6984a38ef4b4c3a"
+      ],
+      "caption": "A tabby cat sits on grass with one hind leg stretched upward and outward. Its head shifts while bent toward its belly, while the raised leg and seated body retain a similar pose.",
+      "evidence_queries": [
+        {
+          "text": "The cat changes its head position while keeping a hind leg raised.",
+          "phases": [
+            {
+              "text": "The head is tucked low against the belly.",
+              "positions": [
+                0,
+                1
+              ]
+            },
+            {
+              "text": "More of the face is visible as the head shifts.",
+              "positions": [
+                2,
+                3
+              ]
+            }
+          ]
+        },
+        {
+          "text": "The hind leg stays raised across the observations.",
+          "phases": [
+            {
+              "text": "An extended hind leg points outward above the grass.",
+              "positions": [
+                0,
+                1,
+                2,
+                3
+              ]
+            }
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "text": "The cat changes its head position while keeping a hind leg raised.",
+          "verdict": "supported",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "All required visible phases are present in chronological order."
+        },
+        {
+          "text": "The cat lowers its raised hind leg and walks out of view.",
+          "verdict": "contradicted",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "The observed direction, order or visible states oppose this description."
+        },
+        {
+          "text": "The cat changes its head position while keeping a hind leg raised.",
+          "verdict": "insufficient",
+          "observations": [
+            0
+          ],
+          "reason": "The supplied subset lacks a required temporal phase; absence of that evidence does not prove the event false."
+        },
+        {
+          "text": "A tabby cat has a hind leg raised.",
+          "verdict": "supported",
+          "observations": [
+            2
+          ],
+          "reason": "This visible state is supported by the supplied single observation; a motion conclusion is not required."
+        },
+        {
+          "text": "The cat has all four paws on the grass.",
+          "verdict": "contradicted",
+          "observations": [
+            2
+          ],
+          "reason": "The visible object attribute or pose contradicts this statement."
+        },
+        {
+          "text": "The cat has a collar around its neck.",
+          "verdict": "insufficient",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "The neck is tucked into the grooming pose and the collar region is not resolved."
+        }
+      ],
+      "preference_pairs": [
+        {
+          "rejected": "A tabby cat sits on grass with one hind leg raised.",
+          "kind": "omission",
+          "reason": "The scene description omits the reviewed action or change."
+        },
+        {
+          "rejected": "A tabby cat sits on grass with one hind leg stretched upward and outward. Its head shifts while bent toward its belly, while the raised leg and seated body retain a similar pose. The cat lowers its raised hind leg and walks out of view.",
+          "kind": "contradiction",
+          "reason": "An added sentence conflicts with the observed action; length-normalized scoring is used."
+        }
+      ],
+      "review": {
+        "author": "Codex assistant",
+        "source_only": true,
+        "independent_astra": false,
+        "human_truth": false,
+        "sheet": "/home/sangukbae/semantic_transmission/outputs/qwen35_evidence_repair_v1/review/webvid_012_9bdbf20f_w0.png",
+        "sheet_sha256": "70a34c5c94b2babec16afa04e6b62f272cb56dfa2048a95c08206cdcd936ddca",
+        "viewed_positions": [
+          0,
+          1,
+          2,
+          3
+        ]
+      }
+    },
+    {
+      "id": "webvid_017_6db8f5a7_w0",
+      "split": "train",
+      "source_sha256": "6db8f5a72299a92d7fcbeda028789793d8dd3dd6bf70b826e5e722b48520df3c",
+      "frame_sha256": [
+        "84abc16422e80c7a4a6a4dc186d5384905434a2a777e54ff55e4e56b2fc45905",
+        "54c5b308535d412370ebfde54f33f355cd86e76259aa6607a02762a807db3626",
+        "f41877fd7a355b38aa6b0aebc329632164c7488c490ce0128960e638254d4d43",
+        "3b46f2b5f8dcf3ea9054ba07ce92bb8fbb554159abf9c05aaa2cdbab81faf4c3"
+      ],
+      "caption": "Golden grain stalks change their lean in the foreground beneath gray clouds. The distant tree line and horizon remain nearly fixed while the foreground heads sway.",
+      "evidence_queries": [
+        {
+          "text": "Foreground grain heads change their lean relative to the stable horizon.",
+          "phases": [
+            {
+              "text": "Foreground stalks have one arrangement relative to the distant trees.",
+              "positions": [
+                0
+              ]
+            },
+            {
+              "text": "The foreground stalk arrangement has changed while the tree line stays aligned.",
+              "positions": [
+                1,
+                2,
+                3
+              ]
+            }
+          ]
+        },
+        {
+          "text": "The distant trees retain their horizon position.",
+          "phases": [
+            {
+              "text": "The same distant tree group remains aligned with the horizon.",
+              "positions": [
+                0,
+                1,
+                2,
+                3
+              ]
+            }
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "text": "Foreground grain heads change their lean relative to the stable horizon.",
+          "verdict": "supported",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "All required visible phases are present in chronological order."
+        },
+        {
+          "text": "The distant tree line crosses the frame while all foreground stalks remain motionless.",
+          "verdict": "contradicted",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "The observed direction, order or visible states oppose this description."
+        },
+        {
+          "text": "Foreground grain heads change their lean relative to the stable horizon.",
+          "verdict": "insufficient",
+          "observations": [
+            0
+          ],
+          "reason": "The supplied subset lacks a required temporal phase; absence of that evidence does not prove the event false."
+        },
+        {
+          "text": "Golden grain fills the foreground.",
+          "verdict": "supported",
+          "observations": [
+            2
+          ],
+          "reason": "This visible state is supported by the supplied single observation; a motion conclusion is not required."
+        },
+        {
+          "text": "The foreground grain is covered in snow.",
+          "verdict": "contradicted",
+          "observations": [
+            2
+          ],
+          "reason": "The visible object attribute or pose contradicts this statement."
+        },
+        {
+          "text": "The grain stalks are wet.",
+          "verdict": "insufficient",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "The images do not resolve wetness on the stalk surfaces."
+        }
+      ],
+      "preference_pairs": [
+        {
+          "rejected": "A golden field lies beneath gray clouds with trees on the horizon.",
+          "kind": "omission",
+          "reason": "The scene description omits the reviewed action or change."
+        },
+        {
+          "rejected": "Golden grain stalks change their lean in the foreground beneath gray clouds. The distant tree line and horizon remain nearly fixed while the foreground heads sway. The distant tree line crosses the frame while all foreground stalks remain motionless.",
+          "kind": "contradiction",
+          "reason": "An added sentence conflicts with the observed action; length-normalized scoring is used."
+        }
+      ],
+      "review": {
+        "author": "Codex assistant",
+        "source_only": true,
+        "independent_astra": false,
+        "human_truth": false,
+        "sheet": "/home/sangukbae/semantic_transmission/outputs/qwen35_evidence_repair_v1/review/webvid_017_6db8f5a7_w0.png",
+        "sheet_sha256": "b8f937f54e5348b6ba62b5e7e1f63136e53ff4bb699a6d6194f4b0a06412aba2",
+        "viewed_positions": [
+          0,
+          1,
+          2,
+          3
+        ]
+      }
+    },
+    {
+      "id": "webvid_026_b15906e2_w0",
+      "split": "train",
+      "source_sha256": "b15906e22502927350d1bf3208671b81fa28fde9bd4656337a3c9d03474098a6",
+      "frame_sha256": [
+        "e88c4da5188f756d705f27107b58ea1db077f272ea566a934b7c93e410541fda",
+        "e84530bdb280de0e7b55d54e1ab3a74dc863b4a95162fab14ccfa49462921b34",
+        "45d344e98db9b6916fab4ee24ed4286d013793d2e1718a0ccc6a4c91e6f0968e",
+        "718f12f2bb424bb0ba15c74bf586115544faa4251eacc808c916fe0767870098"
+      ],
+      "caption": "A yellow-and-white boat moves left across the water relative to the hillside buildings. More of its stern becomes visible as it advances, with a wake trailing to the right and the distant shoreline nearly fixed.",
+      "evidence_queries": [
+        {
+          "text": "The boat moves left relative to the hillside buildings.",
+          "phases": [
+            {
+              "text": "The boat occupies the far right and its stern is clipped.",
+              "positions": [
+                0
+              ]
+            },
+            {
+              "text": "The whole boat is visible farther left relative to the shoreline.",
+              "positions": [
+                1,
+                2,
+                3
+              ]
+            }
+          ]
+        },
+        {
+          "text": "The stern is clipped by the right image edge.",
+          "phases": [
+            {
+              "text": "The right part of the boat extends beyond the image.",
+              "positions": [
+                0
+              ]
+            }
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "text": "The boat moves left relative to the hillside buildings.",
+          "verdict": "supported",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "All required visible phases are present in chronological order."
+        },
+        {
+          "text": "The boat moves right relative to the hillside buildings.",
+          "verdict": "contradicted",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "The observed direction, order or visible states oppose this description."
+        },
+        {
+          "text": "The boat moves left relative to the hillside buildings.",
+          "verdict": "insufficient",
+          "observations": [
+            0
+          ],
+          "reason": "The supplied subset lacks a required temporal phase; absence of that evidence does not prove the event false."
+        },
+        {
+          "text": "A yellow-and-white boat is on the water.",
+          "verdict": "supported",
+          "observations": [
+            2
+          ],
+          "reason": "This visible state is supported by the supplied single observation; a motion conclusion is not required."
+        },
+        {
+          "text": "The boat has a blue lower hull.",
+          "verdict": "contradicted",
+          "observations": [
+            2
+          ],
+          "reason": "The visible object attribute or pose contradicts this statement."
+        },
+        {
+          "text": "The boat's captain is wearing glasses.",
+          "verdict": "insufficient",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "The people and cabin are too distant to identify the captain or eyewear."
+        }
+      ],
+      "preference_pairs": [
+        {
+          "rejected": "A yellow-and-white boat is in front of a hillside covered with buildings.",
+          "kind": "omission",
+          "reason": "The scene description omits the reviewed action or change."
+        },
+        {
+          "rejected": "A yellow-and-white boat moves left across the water relative to the hillside buildings. More of its stern becomes visible as it advances, with a wake trailing to the right and the distant shoreline nearly fixed. The boat moves right relative to the hillside buildings.",
+          "kind": "contradiction",
+          "reason": "An added sentence conflicts with the observed action; length-normalized scoring is used."
+        }
+      ],
+      "review": {
+        "author": "Codex assistant",
+        "source_only": true,
+        "independent_astra": false,
+        "human_truth": false,
+        "sheet": "/home/sangukbae/semantic_transmission/outputs/qwen35_evidence_repair_v1/review/webvid_026_b15906e2_w0.png",
+        "sheet_sha256": "fb8f619e6659ba1a6cc919184310a8e81a2cac49a7d210f7f3d1d03a4460b65b",
+        "viewed_positions": [
+          0,
+          1,
+          2,
+          3
+        ]
+      }
+    },
+    {
+      "id": "webvid_010_98ae3279_w0",
+      "split": "train",
+      "source_sha256": "98ae32797996c31aa7e58db1aff33da30f9efe9b9628a2c9a595435dc74d11de",
+      "frame_sha256": [
+        "064a06c085cafb46596ccd8eee7afe4fede952fe4b814118eb2061d987976383",
+        "72af65c1d0c97c0e74a3294b6b5b1499d7df8e3a4d8dc4982967f96f1e451f41",
+        "7023554dd890bb6e4a902f58b23d98efe7c1874765cd7e9ef4775fcf6f1c328d",
+        "5f42bc39423767f31ae4713382e476351d14d7501d6954995b100a0598b4791d"
+      ],
+      "caption": "Water pours over a dark rock ledge and splashes outward across lower rocks. The water and spray patterns change while the ledge and large rock outlines remain nearly fixed among green foliage.",
+      "evidence_queries": [
+        {
+          "text": "Water and spray patterns change around nearly fixed rock outlines.",
+          "phases": [
+            {
+              "text": "The spray forms one pattern below the rock ledge.",
+              "positions": [
+                0
+              ]
+            },
+            {
+              "text": "The spray pattern differs while the ledge outline stays aligned.",
+              "positions": [
+                1,
+                2,
+                3
+              ]
+            }
+          ]
+        },
+        {
+          "text": "The large rock ledge retains its outline.",
+          "phases": [
+            {
+              "text": "The upper dark ledge occupies the same part of the scene.",
+              "positions": [
+                0,
+                1,
+                2,
+                3
+              ]
+            }
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "text": "Water and spray patterns change around nearly fixed rock outlines.",
+          "verdict": "supported",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "All required visible phases are present in chronological order."
+        },
+        {
+          "text": "The large rock ledge slides sideways while the falling water remains frozen.",
+          "verdict": "contradicted",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "The observed direction, order or visible states oppose this description."
+        },
+        {
+          "text": "Water and spray patterns change around nearly fixed rock outlines.",
+          "verdict": "insufficient",
+          "observations": [
+            0
+          ],
+          "reason": "The supplied subset lacks a required temporal phase; absence of that evidence does not prove the event false."
+        },
+        {
+          "text": "Water is visible below a dark rock ledge.",
+          "verdict": "supported",
+          "observations": [
+            2
+          ],
+          "reason": "This visible state is supported by the supplied single observation; a motion conclusion is not required."
+        },
+        {
+          "text": "The rock ledge is covered with white snow.",
+          "verdict": "contradicted",
+          "observations": [
+            2
+          ],
+          "reason": "The visible object attribute or pose contradicts this statement."
+        },
+        {
+          "text": "The water is flowing directly toward the camera.",
+          "verdict": "insufficient",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "The oblique sampled patterns do not establish a precise camera-relative three-dimensional flow direction."
+        }
+      ],
+      "preference_pairs": [
+        {
+          "rejected": "Dark rocks and dense green foliage surround a waterfall.",
+          "kind": "omission",
+          "reason": "The scene description omits the reviewed action or change."
+        },
+        {
+          "rejected": "Water pours over a dark rock ledge and splashes outward across lower rocks. The water and spray patterns change while the ledge and large rock outlines remain nearly fixed among green foliage. The large rock ledge slides sideways while the falling water remains frozen.",
+          "kind": "contradiction",
+          "reason": "An added sentence conflicts with the observed action; length-normalized scoring is used."
+        }
+      ],
+      "review": {
+        "author": "Codex assistant",
+        "source_only": true,
+        "independent_astra": false,
+        "human_truth": false,
+        "sheet": "/home/sangukbae/semantic_transmission/outputs/qwen35_evidence_repair_v1/review/webvid_010_98ae3279_w0.png",
+        "sheet_sha256": "5a92380318971346b82adea3f8db4ea15e80c3b11ef1ca4fac49a1a939daa4e3",
+        "viewed_positions": [
+          0,
+          1,
+          2,
+          3
+        ]
+      }
+    },
+    {
+      "id": "a00_tvsum_004_d8c2669f",
+      "split": "train",
+      "source_sha256": "d8c2669fbd08e8b2f35ebce82dfe5aa6cbf7e8fbee56df9e971ca12b7dd9e322",
+      "frame_sha256": [
+        "40b4ccdb99ab4bddb0f60d794088c186b9263e6c6f6853f2f37a84203582afa4",
+        "87cfecafc433f5154c38ff6ba28216396e729cb126e8d1333b1223d031e3884e",
+        "9e05e1b1e657c3562acbe91d7cdc2a3205b615a6d906c821d2c5a840de4c5d38",
+        "e32c0a81d5cb7fd421285a1e8dd20a992c93dc1ed9c0f39ac246e28e9fff446d"
+      ],
+      "caption": "A person in a red apron lifts a pale dog from below table level, holds it above the table, and places it standing on the tabletop. A closer view then shows a red brush against the dog's back.",
+      "evidence_queries": [
+        {
+          "text": "The dog is lifted from below table level onto the tabletop.",
+          "phases": [
+            {
+              "text": "The dog is below table level beside the bent person.",
+              "positions": [
+                0
+              ]
+            },
+            {
+              "text": "The person holds the dog above the tabletop.",
+              "positions": [
+                1
+              ]
+            },
+            {
+              "text": "The dog stands on the table.",
+              "positions": [
+                2
+              ]
+            }
+          ]
+        },
+        {
+          "text": "A red brush is against the dog's back.",
+          "phases": [
+            {
+              "text": "A closer view shows the red brush on the pale dog.",
+              "positions": [
+                3
+              ]
+            }
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "text": "The person is wearing glasses.",
+          "verdict": "supported",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "Eyeglasses are visible on the person lifting the dog."
+        },
+        {
+          "text": "The dog is lifted from below table level onto the tabletop.",
+          "verdict": "supported",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "All required visible phases are present in chronological order."
+        },
+        {
+          "text": "The person takes the standing dog off the table and lowers it toward the floor.",
+          "verdict": "contradicted",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "The observed direction, order or visible states oppose this description."
+        },
+        {
+          "text": "The dog is lifted from below table level onto the tabletop.",
+          "verdict": "insufficient",
+          "observations": [
+            0
+          ],
+          "reason": "The supplied subset lacks a required temporal phase; absence of that evidence does not prove the event false."
+        },
+        {
+          "text": "A pale dog stands on a table.",
+          "verdict": "supported",
+          "observations": [
+            2
+          ],
+          "reason": "This visible state is supported by the supplied single observation; a motion conclusion is not required."
+        },
+        {
+          "text": "The dog has a black coat.",
+          "verdict": "contradicted",
+          "observations": [
+            2
+          ],
+          "reason": "The visible object attribute or pose contradicts this statement."
+        },
+        {
+          "text": "The dog is wearing a tag with its name on it.",
+          "verdict": "insufficient",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "No name is legible on a collar tag in the supplied views."
+        }
+      ],
+      "preference_pairs": [
+        {
+          "rejected": "A person in a red apron is beside a pale dog and a grooming table.",
+          "kind": "omission",
+          "reason": "The scene description omits the reviewed action or change."
+        },
+        {
+          "rejected": "A person in a red apron lifts a pale dog from below table level, holds it above the table, and places it standing on the tabletop. A closer view then shows a red brush against the dog's back. The person takes the standing dog off the table and lowers it toward the floor.",
+          "kind": "contradiction",
+          "reason": "An added sentence conflicts with the observed action; length-normalized scoring is used."
+        }
+      ],
+      "review": {
+        "author": "Codex assistant",
+        "source_only": true,
+        "independent_astra": false,
+        "human_truth": false,
+        "sheet": "/home/sangukbae/semantic_transmission/outputs/qwen35_evidence_repair_v1/review/a00_tvsum_004_d8c2669f.png",
+        "sheet_sha256": "ae1e7edc21728510be1f3ce2b4ed79f0e00abce2952eeb7cafecad2c9b761412",
+        "viewed_positions": [
+          0,
+          1,
+          2,
+          3
+        ]
+      }
+    },
+    {
+      "id": "a02_tvsum_004_d8c2669f",
+      "split": "train",
+      "source_sha256": "d8c2669fbd08e8b2f35ebce82dfe5aa6cbf7e8fbee56df9e971ca12b7dd9e322",
+      "frame_sha256": [
+        "65c47ec7b87658629534495ec37247bd480c1a9ca0943c4e5a2b09bee2469a93",
+        "d8ea5b8d32d632222362909f66c5b22ef33fc793d5bcceede4022da3e3f46492",
+        "8af76dde45b25801cd9d4655ca8caaf2db2d67fe6222838cb77eb97ef8708457",
+        "712ceefa227fcd64488f406bf4908e9ddf37c742dfac5f850cbc182a1946072f"
+      ],
+      "caption": "A tricolored dog lowers from sitting to lying with its head near the floor. A crouching person touches its head, and the dog rises back into a seated posture. A chain remains attached near its collar.",
+      "evidence_queries": [
+        {
+          "text": "The dog sits, lies down, then returns to sitting.",
+          "phases": [
+            {
+              "text": "The dog is seated before a person touches its head.",
+              "positions": [
+                0
+              ]
+            },
+            {
+              "text": "The dog lies with its head close to the floor.",
+              "positions": [
+                1,
+                2
+              ]
+            },
+            {
+              "text": "The dog is seated again beside the crouching person.",
+              "positions": [
+                3
+              ]
+            }
+          ]
+        },
+        {
+          "text": "The dog is lying with its head near the floor.",
+          "phases": [
+            {
+              "text": "The torso is low and the head rests close to the floor.",
+              "positions": [
+                1,
+                2
+              ]
+            }
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "text": "The dog sits, lies down, then returns to sitting.",
+          "verdict": "supported",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "All required visible phases are present in chronological order."
+        },
+        {
+          "text": "The dog stays seated throughout all the observations.",
+          "verdict": "contradicted",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "The observed direction, order or visible states oppose this description."
+        },
+        {
+          "text": "The dog sits, lies down, then returns to sitting.",
+          "verdict": "insufficient",
+          "observations": [
+            0,
+            3
+          ],
+          "reason": "The supplied subset lacks a required temporal phase; absence of that evidence does not prove the event false."
+        },
+        {
+          "text": "A tricolored dog wears a collar attached to a chain.",
+          "verdict": "supported",
+          "observations": [
+            2
+          ],
+          "reason": "This visible state is supported by the supplied single observation; a motion conclusion is not required."
+        },
+        {
+          "text": "The dog is standing upright on all four paws.",
+          "verdict": "contradicted",
+          "observations": [
+            2
+          ],
+          "reason": "The visible object attribute or pose contradicts this statement."
+        },
+        {
+          "text": "The person is holding food inside the closed hand.",
+          "verdict": "insufficient",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "The hand contents are not visible."
+        }
+      ],
+      "preference_pairs": [
+        {
+          "rejected": "A tricolored dog is beside a person on a tiled-room floor.",
+          "kind": "omission",
+          "reason": "The scene description omits the reviewed action or change."
+        },
+        {
+          "rejected": "A tricolored dog lowers from sitting to lying with its head near the floor. A crouching person touches its head, and the dog rises back into a seated posture. A chain remains attached near its collar. The dog stays seated throughout all the observations.",
+          "kind": "contradiction",
+          "reason": "An added sentence conflicts with the observed action; length-normalized scoring is used."
+        }
+      ],
+      "review": {
+        "author": "Codex assistant",
+        "source_only": true,
+        "independent_astra": false,
+        "human_truth": false,
+        "sheet": "/home/sangukbae/semantic_transmission/outputs/qwen35_evidence_repair_v1/review/a02_tvsum_004_d8c2669f.png",
+        "sheet_sha256": "49c9bb2758b8a80c5108fa2181f0e85965639ae66985ff110ddece454811ccbf",
+        "viewed_positions": [
+          0,
+          1,
+          2,
+          3
+        ]
+      }
+    },
+    {
+      "id": "a06_tvsum_034_43183ef7",
+      "split": "train",
+      "source_sha256": "43183ef7f35bfcbc39c122be797fdee5031103862c7c7da3b9ab74d222c79c9d",
+      "frame_sha256": [
+        "9d2b697f38098464e128718a4d8fafdad5ea9b827c1e2765983f63bd09f43330",
+        "3857a7854e3ee7eb1ca3ec047b59246f2377e8bf27d50611c885c3c822841e2c",
+        "284deff9bd1c2e1f03578722c29d43de493ef3518aab4ab90dae8f5c1a6420e5",
+        "959bb0c1b01deb8bf27229090495e6c5787de327d24d870e5209b3c0d3585a0a"
+      ],
+      "caption": "A person in a dark top and pale trousers is on a low roof, then airborne beside the edge, and next on the grass moving toward the camera. The view follows into a close shot of the person.",
+      "evidence_queries": [
+        {
+          "text": "The person moves from the roof through an airborne position to the ground.",
+          "phases": [
+            {
+              "text": "The person is on the roof.",
+              "positions": [
+                0
+              ]
+            },
+            {
+              "text": "The person is airborne beside the roof edge.",
+              "positions": [
+                1
+              ]
+            },
+            {
+              "text": "The person is on the grass below.",
+              "positions": [
+                2
+              ]
+            }
+          ]
+        },
+        {
+          "text": "The person is airborne beside the roof edge.",
+          "phases": [
+            {
+              "text": "The body is suspended beside the roof above the grass.",
+              "positions": [
+                1
+              ]
+            }
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "text": "The person moves from the roof through an airborne position to the ground.",
+          "verdict": "supported",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "All required visible phases are present in chronological order."
+        },
+        {
+          "text": "The person moves from the grass up onto the roof.",
+          "verdict": "contradicted",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "The observed direction, order or visible states oppose this description."
+        },
+        {
+          "text": "The person moves from the roof through an airborne position to the ground.",
+          "verdict": "insufficient",
+          "observations": [
+            0
+          ],
+          "reason": "The supplied subset lacks a required temporal phase; absence of that evidence does not prove the event false."
+        },
+        {
+          "text": "A person in pale trousers is on the grass.",
+          "verdict": "supported",
+          "observations": [
+            2
+          ],
+          "reason": "This visible state is supported by the supplied single observation; a motion conclusion is not required."
+        },
+        {
+          "text": "The person wears dark trousers.",
+          "verdict": "contradicted",
+          "observations": [
+            2
+          ],
+          "reason": "The visible object attribute or pose contradicts this statement."
+        },
+        {
+          "text": "The person has a microphone inside the shirt.",
+          "verdict": "insufficient",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "The inside of the shirt is not observed."
+        }
+      ],
+      "preference_pairs": [
+        {
+          "rejected": "A person in a dark top and pale trousers is near a low building.",
+          "kind": "omission",
+          "reason": "The scene description omits the reviewed action or change."
+        },
+        {
+          "rejected": "A person in a dark top and pale trousers is on a low roof, then airborne beside the edge, and next on the grass moving toward the camera. The view follows into a close shot of the person. The person moves from the grass up onto the roof.",
+          "kind": "contradiction",
+          "reason": "An added sentence conflicts with the observed action; length-normalized scoring is used."
+        }
+      ],
+      "review": {
+        "author": "Codex assistant",
+        "source_only": true,
+        "independent_astra": false,
+        "human_truth": false,
+        "sheet": "/home/sangukbae/semantic_transmission/outputs/qwen35_evidence_repair_v1/review/a06_tvsum_034_43183ef7.png",
+        "sheet_sha256": "db602f107363d46da0bf7ff17f165269e4625828b76fb75bcc13389ae81fbbf1",
+        "viewed_positions": [
+          0,
+          1,
+          2,
+          3
+        ]
+      }
+    },
+    {
+      "id": "a09_tvsum_041_0c91bfa8",
+      "split": "train",
+      "source_sha256": "0c91bfa880e3af0e1716e7456ada0a304a97911eef76b1cd4fdce5066a52e8f7",
+      "frame_sha256": [
+        "4859a5f5c107f68eedf6f827dd6785a7e994b691591ec4eb188923f296e61255",
+        "dd4a3a20bff8e318e3f5d44ff5feeee49508a6b43a184987dde17f671c388599",
+        "b8cff77b69ef50add444fa2d5359f52a57e4a98bcb9e627097fa186c269d6f3d",
+        "a5ff56b28711ea0e07f5dcea12731c60a7e90c04809d35909d9dc3d985aa3326"
+      ],
+      "caption": "A small brown dog lies in grass and changes its head position. As the view pans right, the wall and tree trunks shift left and the dog becomes cropped at the left edge, then leaves the visible frame. A running exit is not shown.",
+      "evidence_queries": [
+        {
+          "text": "Rightward camera movement progressively crops the lying dog at the left edge.",
+          "phases": [
+            {
+              "text": "The lying dog is broadly visible against the wall.",
+              "positions": [
+                0,
+                1
+              ]
+            },
+            {
+              "text": "Only part of the dog remains at the left edge.",
+              "positions": [
+                2
+              ]
+            },
+            {
+              "text": "The dog is outside the visible frame.",
+              "positions": [
+                3
+              ]
+            }
+          ]
+        },
+        {
+          "text": "Only part of the dog remains at the left edge.",
+          "phases": [
+            {
+              "text": "The head and a clipped part of the body remain along the left border.",
+              "positions": [
+                2
+              ]
+            }
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "text": "Rightward camera movement progressively crops the lying dog at the left edge.",
+          "verdict": "supported",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "All required visible phases are present in chronological order."
+        },
+        {
+          "text": "The view pans left and the dog becomes cropped at the right edge.",
+          "verdict": "contradicted",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "The observed direction, order or visible states oppose this description."
+        },
+        {
+          "text": "Rightward camera movement progressively crops the lying dog at the left edge.",
+          "verdict": "insufficient",
+          "observations": [
+            0
+          ],
+          "reason": "The supplied subset lacks a required temporal phase; absence of that evidence does not prove the event false."
+        },
+        {
+          "text": "Part of a brown dog is visible on grass.",
+          "verdict": "supported",
+          "observations": [
+            2
+          ],
+          "reason": "This visible state is supported by the supplied single observation; a motion conclusion is not required."
+        },
+        {
+          "text": "The visible dog has a white coat.",
+          "verdict": "contradicted",
+          "observations": [
+            2
+          ],
+          "reason": "The visible object attribute or pose contradicts this statement."
+        },
+        {
+          "text": "The dog stands up after it leaves the visible frame.",
+          "verdict": "insufficient",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "Its posture outside the observed frame is unavailable."
+        }
+      ],
+      "preference_pairs": [
+        {
+          "rejected": "A small brown dog lies on grass beside a pale wall.",
+          "kind": "omission",
+          "reason": "The scene description omits the reviewed action or change."
+        },
+        {
+          "rejected": "A small brown dog lies in grass and changes its head position. As the view pans right, the wall and tree trunks shift left and the dog becomes cropped at the left edge, then leaves the visible frame. A running exit is not shown. The view pans left and the dog becomes cropped at the right edge.",
+          "kind": "contradiction",
+          "reason": "An added sentence conflicts with the observed action; length-normalized scoring is used."
+        }
+      ],
+      "review": {
+        "author": "Codex assistant",
+        "source_only": true,
+        "independent_astra": false,
+        "human_truth": false,
+        "sheet": "/home/sangukbae/semantic_transmission/outputs/qwen35_evidence_repair_v1/review/a09_tvsum_041_0c91bfa8.png",
+        "sheet_sha256": "db056621dfce1bfa73b5ece128f6d2312b7ad57c2bc342827c360b95bc410d86",
+        "viewed_positions": [
+          0,
+          1,
+          2,
+          3
+        ]
+      }
+    },
+    {
+      "id": "a11_tvsum_041_0c91bfa8",
+      "split": "train",
+      "source_sha256": "0c91bfa880e3af0e1716e7456ada0a304a97911eef76b1cd4fdce5066a52e8f7",
+      "frame_sha256": [
+        "6a81b79a1f84b0be425036e5a4e6abf9e6c87c87873d34432e2527576c58c911",
+        "a9c2b743bc31e857c42e1b7c78621d1450f0cf034cf41ba93f3bbd46b4fd108a",
+        "c2169a8c6f789c7ded046ca2e09d975f1e6636caf296985316471cad6d002acd",
+        "5a18235a91faeef4e6b03261871755157747ba4a164c82d1ba0357d59def4231"
+      ],
+      "caption": "The view shifts across pale cushions to reveal a small brown dog lying on red fabric in a purple garment. Its head is first partly visible at the right edge, then its head and curled paws fill the view. The dog is not shown walking into the scene.",
+      "evidence_queries": [
+        {
+          "text": "The changing framing reveals a dog lying among cushions.",
+          "phases": [
+            {
+              "text": "Pale cushions fill the view and the dog is outside it.",
+              "positions": [
+                0
+              ]
+            },
+            {
+              "text": "Part of the dog's head appears at the right edge.",
+              "positions": [
+                1
+              ]
+            },
+            {
+              "text": "The dog's head and curled paws are clearly visible.",
+              "positions": [
+                2,
+                3
+              ]
+            }
+          ]
+        },
+        {
+          "text": "The dog's head is partly clipped at the right edge.",
+          "phases": [
+            {
+              "text": "Only part of the head and ear is visible beside red fabric.",
+              "positions": [
+                1
+              ]
+            }
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "text": "The changing framing reveals a dog lying among cushions.",
+          "verdict": "supported",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "All required visible phases are present in chronological order."
+        },
+        {
+          "text": "The view shifts away from the dog until only empty cushions remain.",
+          "verdict": "contradicted",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "The observed direction, order or visible states oppose this description."
+        },
+        {
+          "text": "The changing framing reveals a dog lying among cushions.",
+          "verdict": "insufficient",
+          "observations": [
+            0
+          ],
+          "reason": "The supplied subset lacks a required temporal phase; absence of that evidence does not prove the event false."
+        },
+        {
+          "text": "A brown dog lies on red fabric.",
+          "verdict": "supported",
+          "observations": [
+            2
+          ],
+          "reason": "This visible state is supported by the supplied single observation; a motion conclusion is not required."
+        },
+        {
+          "text": "The dog lies on blue fabric.",
+          "verdict": "contradicted",
+          "observations": [
+            2
+          ],
+          "reason": "The visible object attribute or pose contradicts this statement."
+        },
+        {
+          "text": "The dog is wearing a collar beneath the purple garment.",
+          "verdict": "insufficient",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "The collar region beneath the garment is not exposed."
+        }
+      ],
+      "preference_pairs": [
+        {
+          "rejected": "A small brown dog lies on red fabric among pale cushions.",
+          "kind": "omission",
+          "reason": "The scene description omits the reviewed action or change."
+        },
+        {
+          "rejected": "The view shifts across pale cushions to reveal a small brown dog lying on red fabric in a purple garment. Its head is first partly visible at the right edge, then its head and curled paws fill the view. The dog is not shown walking into the scene. The view shifts away from the dog until only empty cushions remain.",
+          "kind": "contradiction",
+          "reason": "An added sentence conflicts with the observed action; length-normalized scoring is used."
+        }
+      ],
+      "review": {
+        "author": "Codex assistant",
+        "source_only": true,
+        "independent_astra": false,
+        "human_truth": false,
+        "sheet": "/home/sangukbae/semantic_transmission/outputs/qwen35_evidence_repair_v1/review/a11_tvsum_041_0c91bfa8.png",
+        "sheet_sha256": "107745b1cb988f8c7cafd40a778b503748d72d4b9075e0f11cea7314717ed744",
+        "viewed_positions": [
+          0,
+          1,
+          2,
+          3
+        ]
+      }
+    },
+    {
+      "id": "g_tvsum_024_9476a6d8_w1",
+      "split": "validation",
+      "source_sha256": "9476a6d8bc6fdcff909fa2885ba82ba7696b3d05fca2f070e313139e434eabe3",
+      "frame_sha256": [
+        "31caa6f47ebdfa11da78358a80e61fe5d7b1e22edd5232f1067ac2d6d6c00766",
+        "318d7989baf0440bba6fd7af5818fa07b1786b63e03540271a9274858e02b9a8",
+        "462076264890b6489d2f510a27cc8426bbf494300aeff9c4dbd34d3833ca78d7",
+        "a32c0f729d78ca6f13502e19b224d70d971fbccb6820efa8550b263696830f3a"
+      ],
+      "caption": "The sequence shows a person low on pavement, then a closer view of a person lying with hands near their face. It cuts to a printed face on the pavement beside a hand, then to a crouching person in a blue shirt. The printed face is not another person lying there.",
+      "evidence_queries": [
+        {
+          "text": "The shown sequence changes from a lying person to a printed portrait and then a crouching person.",
+          "phases": [
+            {
+              "text": "A person lies with hands beside the face.",
+              "positions": [
+                1
+              ]
+            },
+            {
+              "text": "A printed portrait lies on the pavement beside a hand.",
+              "positions": [
+                2
+              ]
+            },
+            {
+              "text": "A crouching person wears a blue shirt.",
+              "positions": [
+                3
+              ]
+            }
+          ]
+        },
+        {
+          "text": "A printed portrait lies on the pavement.",
+          "phases": [
+            {
+              "text": "A flat printed face has visible paper edges on the pavement.",
+              "positions": [
+                2
+              ]
+            }
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "text": "The shown sequence changes from a lying person to a printed portrait and then a crouching person.",
+          "verdict": "supported",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "All required visible phases are present in chronological order."
+        },
+        {
+          "text": "The printed portrait is shown after the crouching person in the blue shirt.",
+          "verdict": "contradicted",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "The observed direction, order or visible states oppose this description."
+        },
+        {
+          "text": "The shown sequence changes from a lying person to a printed portrait and then a crouching person.",
+          "verdict": "insufficient",
+          "observations": [
+            0
+          ],
+          "reason": "The supplied subset lacks a required temporal phase; absence of that evidence does not prove the event false."
+        },
+        {
+          "text": "A printed portrait lies beside a hand on pavement.",
+          "verdict": "supported",
+          "observations": [
+            2
+          ],
+          "reason": "This visible state is supported by the supplied single observation; a motion conclusion is not required."
+        },
+        {
+          "text": "The printed face is on a standing three-dimensional person.",
+          "verdict": "contradicted",
+          "observations": [
+            2
+          ],
+          "reason": "The visible object attribute or pose contradicts this statement."
+        },
+        {
+          "text": "The person lying on the pavement is injured.",
+          "verdict": "insufficient",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "A pose and staged sequence do not establish an injury."
+        }
+      ],
+      "preference_pairs": [
+        {
+          "rejected": "People and a printed portrait are visible on pavement.",
+          "kind": "omission",
+          "reason": "The scene description omits the reviewed action or change."
+        },
+        {
+          "rejected": "The sequence shows a person low on pavement, then a closer view of a person lying with hands near their face. It cuts to a printed face on the pavement beside a hand, then to a crouching person in a blue shirt. The printed face is not another person lying there. The printed portrait is shown after the crouching person in the blue shirt.",
+          "kind": "contradiction",
+          "reason": "An added sentence conflicts with the observed action; length-normalized scoring is used."
+        }
+      ],
+      "review": {
+        "author": "Codex assistant",
+        "source_only": true,
+        "independent_astra": false,
+        "human_truth": false,
+        "sheet": "/home/sangukbae/semantic_transmission/outputs/qwen35_evidence_repair_v1/review/g_tvsum_024_9476a6d8_w1.png",
+        "sheet_sha256": "a530530c71eee66d8f51dbc95c58179007829032537353cdd6e5d4a00415c128",
+        "viewed_positions": [
+          0,
+          1,
+          2,
+          3
+        ]
+      }
+    },
+    {
+      "id": "g_webvid_008_852d56f2_w0",
+      "split": "train",
+      "source_sha256": "852d56f28c2002bbad7ed2f0a0102b93877b8194772c615e68f47791d1a5ccdb",
+      "frame_sha256": [
+        "1abc464d484556ff7c6307624371cc5f6c8f8d285f5da08699851aaae906b1c0",
+        "e54d7f3f39296908012c3df494841021a84626f2e2eb2d99a03d29d57c2010b4",
+        "4e226c52f4737dcdf5629acc227a17a6ac842d1cdf2966f853a7389305476e14",
+        "488145ac21212a6b1319094df5e7ed729924e6b94e2eaa82b2e974e78fbe4f7f"
+      ],
+      "caption": "An animated crescent moon cradles a closed-eyed brown bear beside a blue blanket. Yellow Z-shaped symbols rise above the bear and star brightness changes, while the moon and bear retain nearly the same positions.",
+      "evidence_queries": [
+        {
+          "text": "Yellow Z-shaped symbols shift upward above the bear.",
+          "phases": [
+            {
+              "text": "Yellow Z-shaped symbols are close above the bear's head.",
+              "positions": [
+                0,
+                1
+              ]
+            },
+            {
+              "text": "The upper symbols extend farther above the head.",
+              "positions": [
+                2,
+                3
+              ]
+            }
+          ]
+        },
+        {
+          "text": "The moon and bear retain nearly the same positions.",
+          "phases": [
+            {
+              "text": "The moon cradles the bear beside the hanging blue blanket.",
+              "positions": [
+                0,
+                1,
+                2,
+                3
+              ]
+            }
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "text": "Yellow Z-shaped symbols shift upward above the bear.",
+          "verdict": "supported",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "All required visible phases are present in chronological order."
+        },
+        {
+          "text": "The moon and bear travel across the sky while the Z-shaped symbols stay fixed.",
+          "verdict": "contradicted",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "The observed direction, order or visible states oppose this description."
+        },
+        {
+          "text": "Yellow Z-shaped symbols shift upward above the bear.",
+          "verdict": "insufficient",
+          "observations": [
+            0
+          ],
+          "reason": "The supplied subset lacks a required temporal phase; absence of that evidence does not prove the event false."
+        },
+        {
+          "text": "A crescent moon cradles a brown bear.",
+          "verdict": "supported",
+          "observations": [
+            2
+          ],
+          "reason": "This visible state is supported by the supplied single observation; a motion conclusion is not required."
+        },
+        {
+          "text": "The blanket beside the bear is red.",
+          "verdict": "contradicted",
+          "observations": [
+            2
+          ],
+          "reason": "The visible object attribute or pose contradicts this statement."
+        },
+        {
+          "text": "The bear's hidden paw is open.",
+          "verdict": "insufficient",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "The hidden paw is not shown."
+        }
+      ],
+      "preference_pairs": [
+        {
+          "rejected": "An animated crescent moon and brown bear appear against stars and clouds.",
+          "kind": "omission",
+          "reason": "The scene description omits the reviewed action or change."
+        },
+        {
+          "rejected": "An animated crescent moon cradles a closed-eyed brown bear beside a blue blanket. Yellow Z-shaped symbols rise above the bear and star brightness changes, while the moon and bear retain nearly the same positions. The moon and bear travel across the sky while the Z-shaped symbols stay fixed.",
+          "kind": "contradiction",
+          "reason": "An added sentence conflicts with the observed action; length-normalized scoring is used."
+        }
+      ],
+      "review": {
+        "author": "Codex assistant",
+        "source_only": true,
+        "independent_astra": false,
+        "human_truth": false,
+        "sheet": "/home/sangukbae/semantic_transmission/outputs/qwen35_evidence_repair_v1/review/g_webvid_008_852d56f2_w0.png",
+        "sheet_sha256": "4c258246e92f021837fbd2538bbe93dbb6feb68bdf484cc416d9f0ff16364aef",
+        "viewed_positions": [
+          0,
+          1,
+          2,
+          3
+        ]
+      }
+    },
+    {
+      "id": "g_webvid_044_eccec432_w0",
+      "split": "train",
+      "source_sha256": "eccec432a56826cb5b88afff99ceddd386c40a96f61d972c64ba625d00c90303",
+      "frame_sha256": [
+        "310b03dcfc4fcfb1f2dbe3d3e04accf6b952c0e31919895f92f780479ac959f4",
+        "d247b40353d9eae3ea5bd119bdd375d90b613f83b8d71465e3972031becd48cd",
+        "fd863d3566043c961a61594c8d93d7fb87c299f24ad2bbe737032661a7b5246d",
+        "8a2d34c77ba5fa6a4e2f1e46f9f7789c2966cf1cb7e3f70faf0391c3c1af036b"
+      ],
+      "caption": "The camera tilts upward across a decorated building and a statue. The parasol becomes fully visible while the lower steps and signs become more cropped. The statue keeps the same pose as its position shifts within the framing.",
+      "evidence_queries": [
+        {
+          "text": "An upward camera tilt reveals the parasol while cropping lower foreground details.",
+          "phases": [
+            {
+              "text": "The parasol is clipped by the upper edge and foreground steps are visible.",
+              "positions": [
+                0,
+                1
+              ]
+            },
+            {
+              "text": "The parasol is more fully visible while lower steps become cropped.",
+              "positions": [
+                2,
+                3
+              ]
+            }
+          ]
+        },
+        {
+          "text": "The parasol is clipped by the upper image edge.",
+          "phases": [
+            {
+              "text": "The upper edge cuts through the parasol canopy.",
+              "positions": [
+                0,
+                1
+              ]
+            }
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "text": "An upward camera tilt reveals the parasol while cropping lower foreground details.",
+          "verdict": "supported",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "All required visible phases are present in chronological order."
+        },
+        {
+          "text": "The camera tilts downward, cropping the parasol and revealing more foreground steps.",
+          "verdict": "contradicted",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "The observed direction, order or visible states oppose this description."
+        },
+        {
+          "text": "An upward camera tilt reveals the parasol while cropping lower foreground details.",
+          "verdict": "insufficient",
+          "observations": [
+            0
+          ],
+          "reason": "The supplied subset lacks a required temporal phase; absence of that evidence does not prove the event false."
+        },
+        {
+          "text": "A statue stands before a decorated building.",
+          "verdict": "supported",
+          "observations": [
+            2
+          ],
+          "reason": "This visible state is supported by the supplied single observation; a motion conclusion is not required."
+        },
+        {
+          "text": "The statue is seated on the steps.",
+          "verdict": "contradicted",
+          "observations": [
+            2
+          ],
+          "reason": "The visible object attribute or pose contradicts this statement."
+        },
+        {
+          "text": "The building doors are locked.",
+          "verdict": "insufficient",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "The lock state cannot be established from the facade view."
+        }
+      ],
+      "preference_pairs": [
+        {
+          "rejected": "A statue and parasol stand in front of a decorated building.",
+          "kind": "omission",
+          "reason": "The scene description omits the reviewed action or change."
+        },
+        {
+          "rejected": "The camera tilts upward across a decorated building and a statue. The parasol becomes fully visible while the lower steps and signs become more cropped. The statue keeps the same pose as its position shifts within the framing. The camera tilts downward, cropping the parasol and revealing more foreground steps.",
+          "kind": "contradiction",
+          "reason": "An added sentence conflicts with the observed action; length-normalized scoring is used."
+        }
+      ],
+      "review": {
+        "author": "Codex assistant",
+        "source_only": true,
+        "independent_astra": false,
+        "human_truth": false,
+        "sheet": "/home/sangukbae/semantic_transmission/outputs/qwen35_evidence_repair_v1/review/g_webvid_044_eccec432_w0.png",
+        "sheet_sha256": "400ce2047272b10dd22356674750b13c722a7116f9be028d706848d359b1b271",
+        "viewed_positions": [
+          0,
+          1,
+          2,
+          3
+        ]
+      }
+    },
+    {
+      "id": "g_webvid_022_f54228f7_w0",
+      "split": "train",
+      "source_sha256": "f54228f703560a52640c522b43754396c023f5d41032c4c373979ded21483bd1",
+      "frame_sha256": [
+        "9ddfefa1d3d9d9f24d614697441223e17a039b4492a23f2d5aaf40a8ca0cce69",
+        "8fdd30e9d9322779ac84b808ce2feba084a4d7975bdb75481897c5d3c45b114c",
+        "868399dc95de59f1294e430bf06f66222cfaf1adb0a7d9b8e5160747ac6a0c63",
+        "5369b415eb758d5a7067a1b73f14a29f312eaf57102770597904acb833213857"
+      ],
+      "caption": "Water tumbles through a channel between moss-covered rocks toward the lower foreground. White ripple and splash patterns change around the stones, while the moss-covered rock outlines and surrounding shrubs remain nearly fixed.",
+      "evidence_queries": [
+        {
+          "text": "Water patterns change between nearly fixed moss-covered rocks.",
+          "phases": [
+            {
+              "text": "White water forms one pattern around the central rocky drop.",
+              "positions": [
+                0
+              ]
+            },
+            {
+              "text": "The white-water pattern has changed while the rocks retain their outlines.",
+              "positions": [
+                1,
+                2,
+                3
+              ]
+            }
+          ]
+        },
+        {
+          "text": "The moss-covered rocks retain their arrangement.",
+          "phases": [
+            {
+              "text": "The green rock outlines remain aligned around the channel.",
+              "positions": [
+                0,
+                1,
+                2,
+                3
+              ]
+            }
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "text": "Water patterns change between nearly fixed moss-covered rocks.",
+          "verdict": "supported",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "All required visible phases are present in chronological order."
+        },
+        {
+          "text": "The moss-covered rocks slide downstream while the water surface stays unchanged.",
+          "verdict": "contradicted",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "The observed direction, order or visible states oppose this description."
+        },
+        {
+          "text": "Water patterns change between nearly fixed moss-covered rocks.",
+          "verdict": "insufficient",
+          "observations": [
+            0
+          ],
+          "reason": "The supplied subset lacks a required temporal phase; absence of that evidence does not prove the event false."
+        },
+        {
+          "text": "Moss covers rocks beside a narrow stream.",
+          "verdict": "supported",
+          "observations": [
+            2
+          ],
+          "reason": "This visible state is supported by the supplied single observation; a motion conclusion is not required."
+        },
+        {
+          "text": "The visible rocks are covered in white snow.",
+          "verdict": "contradicted",
+          "observations": [
+            2
+          ],
+          "reason": "The visible object attribute or pose contradicts this statement."
+        },
+        {
+          "text": "A fish is behind the moss-covered rock.",
+          "verdict": "insufficient",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "The hidden region behind the rock is not visible."
+        }
+      ],
+      "preference_pairs": [
+        {
+          "rejected": "Moss-covered rocks and green shrubs surround a narrow stream.",
+          "kind": "omission",
+          "reason": "The scene description omits the reviewed action or change."
+        },
+        {
+          "rejected": "Water tumbles through a channel between moss-covered rocks toward the lower foreground. White ripple and splash patterns change around the stones, while the moss-covered rock outlines and surrounding shrubs remain nearly fixed. The moss-covered rocks slide downstream while the water surface stays unchanged.",
+          "kind": "contradiction",
+          "reason": "An added sentence conflicts with the observed action; length-normalized scoring is used."
+        }
+      ],
+      "review": {
+        "author": "Codex assistant",
+        "source_only": true,
+        "independent_astra": false,
+        "human_truth": false,
+        "sheet": "/home/sangukbae/semantic_transmission/outputs/qwen35_evidence_repair_v1/review/g_webvid_022_f54228f7_w0.png",
+        "sheet_sha256": "93840775d96ed2451a5983a1654feed909a437f91c171cbee99cbb45aa34172f",
+        "viewed_positions": [
+          0,
+          1,
+          2,
+          3
+        ]
+      }
+    },
+    {
+      "id": "g_webvid_018_f6be073b_w0",
+      "split": "validation",
+      "source_sha256": "f6be073bddf183cceef62452b058075f3784f8ef163e5d88e3635b7505d48cdd",
+      "frame_sha256": [
+        "02f2fd55097f26375bf03486efaf1f3f5ac54ed9586d064e830cc7bd420e6dc4",
+        "4847940b7baaaa68bf06f29ff6eed9cf51fd9bd10c6d1a04017e59bcb9c61093",
+        "e4ce91ca16dfbd5588d5b7127a53c3beab1a4f8f2ad8a49085b8bd9fecf82ba2",
+        "4491ef7771e70c8ae322bcfb6c3cefde79c5333a801d5d1cd8e57d3920b4d285"
+      ],
+      "caption": "Ripple patterns change across a dark river between snowy banks. Snow-covered rocks along the near bank and the distant wooded hillside retain their positions under a gray sky. The four observations do not establish an exact downstream direction.",
+      "evidence_queries": [
+        {
+          "text": "River ripple patterns change while the snowy bank rocks remain nearly fixed.",
+          "phases": [
+            {
+              "text": "The river has one ripple arrangement beside the near-bank rocks.",
+              "positions": [
+                0
+              ]
+            },
+            {
+              "text": "The ripple arrangement differs while the same bank rocks remain aligned.",
+              "positions": [
+                1,
+                2,
+                3
+              ]
+            }
+          ]
+        },
+        {
+          "text": "Snow covers near-bank rocks.",
+          "phases": [
+            {
+              "text": "White snow caps the dark rocks along the near bank.",
+              "positions": [
+                0,
+                1,
+                2,
+                3
+              ]
+            }
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "text": "River ripple patterns change while the snowy bank rocks remain nearly fixed.",
+          "verdict": "supported",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "All required visible phases are present in chronological order."
+        },
+        {
+          "text": "The snowy bank rocks drift across the water while the river pattern remains unchanged.",
+          "verdict": "contradicted",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "The observed direction, order or visible states oppose this description."
+        },
+        {
+          "text": "River ripple patterns change while the snowy bank rocks remain nearly fixed.",
+          "verdict": "insufficient",
+          "observations": [
+            0
+          ],
+          "reason": "The supplied subset lacks a required temporal phase; absence of that evidence does not prove the event false."
+        },
+        {
+          "text": "Snow covers rocks along the river bank.",
+          "verdict": "supported",
+          "observations": [
+            2
+          ],
+          "reason": "This visible state is supported by the supplied single observation; a motion conclusion is not required."
+        },
+        {
+          "text": "The near-bank rocks are free of snow.",
+          "verdict": "contradicted",
+          "observations": [
+            2
+          ],
+          "reason": "The visible object attribute or pose contradicts this statement."
+        },
+        {
+          "text": "The river flows away from the camera.",
+          "verdict": "insufficient",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "Ripple patterns do not establish a precise downstream direction."
+        }
+      ],
+      "preference_pairs": [
+        {
+          "rejected": "A dark river runs between snow-covered rocks and a wooded hillside.",
+          "kind": "omission",
+          "reason": "The scene description omits the reviewed action or change."
+        },
+        {
+          "rejected": "Ripple patterns change across a dark river between snowy banks. Snow-covered rocks along the near bank and the distant wooded hillside retain their positions under a gray sky. The four observations do not establish an exact downstream direction. The snowy bank rocks drift across the water while the river pattern remains unchanged.",
+          "kind": "contradiction",
+          "reason": "An added sentence conflicts with the observed action; length-normalized scoring is used."
+        }
+      ],
+      "review": {
+        "author": "Codex assistant",
+        "source_only": true,
+        "independent_astra": false,
+        "human_truth": false,
+        "sheet": "/home/sangukbae/semantic_transmission/outputs/qwen35_evidence_repair_v1/review/g_webvid_018_f6be073b_w0.png",
+        "sheet_sha256": "287b075888ade01564d635b7ff1c9dbf20d45e560eedd5371de8f4d43f1ca5ba",
+        "viewed_positions": [
+          0,
+          1,
+          2,
+          3
+        ]
+      }
+    },
+    {
+      "id": "g_webvid_018_f6be073b_w2",
+      "split": "validation",
+      "source_sha256": "f6be073bddf183cceef62452b058075f3784f8ef163e5d88e3635b7505d48cdd",
+      "frame_sha256": [
+        "f8ca2359ebb96c02a1d5ead4451c55e4306e0f3e872bd532a9b416c8700284dc",
+        "15285e0bb0a1f7bb41eff2b7a7b08fc00b9a6ba32e4bd1b6f533c5a96afe7b35",
+        "6aec1574ed576e3e028986ba2c099cc985c8509e95b58a4304118f7d93849c2e",
+        "002d8a80b7e379e3a912ad7c0b93952a026486ccfb74b4c77c9b88bf3b2594bc"
+      ],
+      "caption": "Ripple patterns change across a dark river between snowy banks. Snow-covered rocks along the near bank and the distant wooded hillside retain their positions under a gray sky. The four observations do not establish an exact downstream direction.",
+      "evidence_queries": [
+        {
+          "text": "River ripple patterns change while the snowy bank rocks remain nearly fixed.",
+          "phases": [
+            {
+              "text": "The river has one ripple arrangement beside the near-bank rocks.",
+              "positions": [
+                0
+              ]
+            },
+            {
+              "text": "The ripple arrangement differs while the same bank rocks remain aligned.",
+              "positions": [
+                1,
+                2,
+                3
+              ]
+            }
+          ]
+        },
+        {
+          "text": "Snow covers near-bank rocks.",
+          "phases": [
+            {
+              "text": "White snow caps the dark rocks along the near bank.",
+              "positions": [
+                0,
+                1,
+                2,
+                3
+              ]
+            }
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "text": "River ripple patterns change while the snowy bank rocks remain nearly fixed.",
+          "verdict": "supported",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "All required visible phases are present in chronological order."
+        },
+        {
+          "text": "The snowy bank rocks drift across the water while the river pattern remains unchanged.",
+          "verdict": "contradicted",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "The observed direction, order or visible states oppose this description."
+        },
+        {
+          "text": "River ripple patterns change while the snowy bank rocks remain nearly fixed.",
+          "verdict": "insufficient",
+          "observations": [
+            0
+          ],
+          "reason": "The supplied subset lacks a required temporal phase; absence of that evidence does not prove the event false."
+        },
+        {
+          "text": "Snow covers rocks along the river bank.",
+          "verdict": "supported",
+          "observations": [
+            2
+          ],
+          "reason": "This visible state is supported by the supplied single observation; a motion conclusion is not required."
+        },
+        {
+          "text": "The near-bank rocks are free of snow.",
+          "verdict": "contradicted",
+          "observations": [
+            2
+          ],
+          "reason": "The visible object attribute or pose contradicts this statement."
+        },
+        {
+          "text": "The river flows away from the camera.",
+          "verdict": "insufficient",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "Ripple patterns do not establish a precise downstream direction."
+        }
+      ],
+      "preference_pairs": [
+        {
+          "rejected": "A dark river runs between snow-covered rocks and a wooded hillside.",
+          "kind": "omission",
+          "reason": "The scene description omits the reviewed action or change."
+        },
+        {
+          "rejected": "Ripple patterns change across a dark river between snowy banks. Snow-covered rocks along the near bank and the distant wooded hillside retain their positions under a gray sky. The four observations do not establish an exact downstream direction. The snowy bank rocks drift across the water while the river pattern remains unchanged.",
+          "kind": "contradiction",
+          "reason": "An added sentence conflicts with the observed action; length-normalized scoring is used."
+        }
+      ],
+      "review": {
+        "author": "Codex assistant",
+        "source_only": true,
+        "independent_astra": false,
+        "human_truth": false,
+        "sheet": "/home/sangukbae/semantic_transmission/outputs/qwen35_evidence_repair_v1/review/g_webvid_018_f6be073b_w2.png",
+        "sheet_sha256": "9f276ae207c221d5c5e5669457d3c4c20dcee8906ef7d4d979929b3e6b91426f",
+        "viewed_positions": [
+          0,
+          1,
+          2,
+          3
+        ]
+      }
+    },
+    {
+      "id": "g_webvid_035_dbea9ce6_w0",
+      "split": "validation",
+      "source_sha256": "dbea9ce625b56cda838ae8c1d6fae6fc08827093aae02ddfb238f57d8546ea23",
+      "frame_sha256": [
+        "424409c3a891d0c1712a20e437f6398898e920656e601c55bf39c3465bba3512",
+        "fca55237491be4d7b01417dc36a7551dc05a155145604033ce9b18c99ac7e124",
+        "67e50bcbde5b72787085cc13e735a2bdc80f0190750893207df6daed922ae286",
+        "283f65175b990d24ecbf5250a1db814f68ee54c5540594861812fb86574ea2d8"
+      ],
+      "caption": "A city skyline and foreground trees remain nearly fixed beneath a colored sky. The glow near the left horizon grows brighter and more orange across the observations. The brighter view does not show newly entering buildings.",
+      "evidence_queries": [
+        {
+          "text": "The glow near the left horizon grows brighter and more orange.",
+          "phases": [
+            {
+              "text": "The horizon glow is subdued pink-orange.",
+              "positions": [
+                0,
+                1
+              ]
+            },
+            {
+              "text": "The horizon glow is brighter and more orange.",
+              "positions": [
+                2,
+                3
+              ]
+            }
+          ]
+        },
+        {
+          "text": "The strongest orange glow is visible near the left horizon.",
+          "phases": [
+            {
+              "text": "A stronger orange glow illuminates the left horizon.",
+              "positions": [
+                2,
+                3
+              ]
+            }
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "text": "The glow near the left horizon grows brighter and more orange.",
+          "verdict": "supported",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "All required visible phases are present in chronological order."
+        },
+        {
+          "text": "The glow near the left horizon fades from bright orange into darkness.",
+          "verdict": "contradicted",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "The observed direction, order or visible states oppose this description."
+        },
+        {
+          "text": "The glow near the left horizon grows brighter and more orange.",
+          "verdict": "insufficient",
+          "observations": [
+            0
+          ],
+          "reason": "The supplied subset lacks a required temporal phase; absence of that evidence does not prove the event false."
+        },
+        {
+          "text": "Buildings and trees occupy the foreground.",
+          "verdict": "supported",
+          "observations": [
+            2
+          ],
+          "reason": "This visible state is supported by the supplied single observation; a motion conclusion is not required."
+        },
+        {
+          "text": "The left horizon glow is blue.",
+          "verdict": "contradicted",
+          "observations": [
+            2
+          ],
+          "reason": "The visible object attribute or pose contradicts this statement."
+        },
+        {
+          "text": "The foreground trees sway in the wind.",
+          "verdict": "insufficient",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "Any tree displacement is below what the supplied observations establish."
+        }
+      ],
+      "preference_pairs": [
+        {
+          "rejected": "A dense city skyline lies beneath a colored sky.",
+          "kind": "omission",
+          "reason": "The scene description omits the reviewed action or change."
+        },
+        {
+          "rejected": "A city skyline and foreground trees remain nearly fixed beneath a colored sky. The glow near the left horizon grows brighter and more orange across the observations. The brighter view does not show newly entering buildings. The glow near the left horizon fades from bright orange into darkness.",
+          "kind": "contradiction",
+          "reason": "An added sentence conflicts with the observed action; length-normalized scoring is used."
+        }
+      ],
+      "review": {
+        "author": "Codex assistant",
+        "source_only": true,
+        "independent_astra": false,
+        "human_truth": false,
+        "sheet": "/home/sangukbae/semantic_transmission/outputs/qwen35_evidence_repair_v1/review/g_webvid_035_dbea9ce6_w0.png",
+        "sheet_sha256": "18f08e8f8fd92d5ba7cf35c3a19b06388880a25bc2e91ebb571640f2fc8a4aae",
+        "viewed_positions": [
+          0,
+          1,
+          2,
+          3
+        ]
+      }
+    },
+    {
+      "id": "g_webvid_035_dbea9ce6_w2",
+      "split": "validation",
+      "source_sha256": "dbea9ce625b56cda838ae8c1d6fae6fc08827093aae02ddfb238f57d8546ea23",
+      "frame_sha256": [
+        "da0ddd1b7811d372faa782e7b581ff47ae8d5d107655d9f9aa4492053a6c8261",
+        "8f54b722af5da2a10197c09fe1edfae460037e455c44bee531712b0759409718",
+        "cdba3209fe5cdc18b7599a989adf7a4ef6d824b8c1375d643f483585a353f096",
+        "3873d84e366a0e1c7ff04b825f33064d41b9222913c0ce386c287065ac54e447"
+      ],
+      "caption": "A bright glow at the far left develops into a visible sun disk above the distant ridge. The disk rises along the left border while yellow light brightens the sky and city. The buildings and foreground trees keep nearly the same framing.",
+      "evidence_queries": [
+        {
+          "text": "A low glow becomes a visible sun disk higher along the left border.",
+          "phases": [
+            {
+              "text": "A low bright glow sits near the ridge at the far left.",
+              "positions": [
+                0,
+                1
+              ]
+            },
+            {
+              "text": "A rounded bright disk is visible above the ridge along the left edge.",
+              "positions": [
+                2,
+                3
+              ]
+            }
+          ]
+        },
+        {
+          "text": "A rounded sun disk is visible above the ridge.",
+          "phases": [
+            {
+              "text": "The rounded bright disk intersects the left image border above the ridge.",
+              "positions": [
+                2,
+                3
+              ]
+            }
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "text": "A low glow becomes a visible sun disk higher along the left border.",
+          "verdict": "supported",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "All required visible phases are present in chronological order."
+        },
+        {
+          "text": "The visible sun disk descends behind the ridge and disappears.",
+          "verdict": "contradicted",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "The observed direction, order or visible states oppose this description."
+        },
+        {
+          "text": "A low glow becomes a visible sun disk higher along the left border.",
+          "verdict": "insufficient",
+          "observations": [
+            0
+          ],
+          "reason": "The supplied subset lacks a required temporal phase; absence of that evidence does not prove the event false."
+        },
+        {
+          "text": "A city with rooftops and trees is visible.",
+          "verdict": "supported",
+          "observations": [
+            2
+          ],
+          "reason": "This visible state is supported by the supplied single observation; a motion conclusion is not required."
+        },
+        {
+          "text": "The visible bright sun disk is on the right side.",
+          "verdict": "contradicted",
+          "observations": [
+            2
+          ],
+          "reason": "The visible object attribute or pose contradicts this statement."
+        },
+        {
+          "text": "People walk along the distant streets.",
+          "verdict": "insufficient",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "The distant streets do not resolve individual pedestrians."
+        }
+      ],
+      "preference_pairs": [
+        {
+          "rejected": "A sunlit city skyline lies beneath a yellow sky.",
+          "kind": "omission",
+          "reason": "The scene description omits the reviewed action or change."
+        },
+        {
+          "rejected": "A bright glow at the far left develops into a visible sun disk above the distant ridge. The disk rises along the left border while yellow light brightens the sky and city. The buildings and foreground trees keep nearly the same framing. The visible sun disk descends behind the ridge and disappears.",
+          "kind": "contradiction",
+          "reason": "An added sentence conflicts with the observed action; length-normalized scoring is used."
+        }
+      ],
+      "review": {
+        "author": "Codex assistant",
+        "source_only": true,
+        "independent_astra": false,
+        "human_truth": false,
+        "sheet": "/home/sangukbae/semantic_transmission/outputs/qwen35_evidence_repair_v1/review/g_webvid_035_dbea9ce6_w2.png",
+        "sheet_sha256": "b1ecb072e420457b7cbe5086160c8a5b46a663e0644a638ae2b9a3c4c75d3904",
+        "viewed_positions": [
+          0,
+          1,
+          2,
+          3
+        ]
+      }
+    },
+    {
+      "id": "g_webvid_020_17fc133a_w0",
+      "split": "validation",
+      "source_sha256": "17fc133a61ca3890100e1815b7a7e63511a90ce5aa8b19ee92d872f3c7bd8d93",
+      "frame_sha256": [
+        "9af9826d73eb2f3a357899fc836479a9e0b8b0c0e6c3d50e658877d8ef700a8d",
+        "bccfcaa42eb3d57005d69f224fcec2fd9ac746d374a770eabfee71e47f49363c",
+        "a59c46c4e3f82ac7829fcb2f0de5e80919e4abcb03c6d8eba3fabfb47766eaa3",
+        "3babdac00f9b5ff7e5bdef6f545bd09eb3003362dcfdafd6094bb51b26180775"
+      ],
+      "caption": "An overhead view shows waves breaking around a green-and-dark rock shelf. The foam band changes shape and a broad bright crest spreads along its upper edge, while the central dark rock cluster remains nearly aligned. A definite downward camera movement is not established.",
+      "evidence_queries": [
+        {
+          "text": "Foam patterns change while the central dark rock cluster stays nearly aligned.",
+          "phases": [
+            {
+              "text": "Broken foam covers portions of the shelf beside the central rock cluster.",
+              "positions": [
+                0
+              ]
+            },
+            {
+              "text": "A bright crest runs across the upper part of the shelf.",
+              "positions": [
+                1,
+                2,
+                3
+              ]
+            }
+          ]
+        },
+        {
+          "text": "A broad bright foam crest covers the upper shelf.",
+          "phases": [
+            {
+              "text": "A dense white crest spans the upper shelf.",
+              "positions": [
+                2,
+                3
+              ]
+            }
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "text": "Foam patterns change while the central dark rock cluster stays nearly aligned.",
+          "verdict": "supported",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "All required visible phases are present in chronological order."
+        },
+        {
+          "text": "The central dark rock cluster moves across the frame while the foam stays unchanged.",
+          "verdict": "contradicted",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "The observed direction, order or visible states oppose this description."
+        },
+        {
+          "text": "Foam patterns change while the central dark rock cluster stays nearly aligned.",
+          "verdict": "insufficient",
+          "observations": [
+            0
+          ],
+          "reason": "The supplied subset lacks a required temporal phase; absence of that evidence does not prove the event false."
+        },
+        {
+          "text": "A dark rock cluster is surrounded by green shallows.",
+          "verdict": "supported",
+          "observations": [
+            2
+          ],
+          "reason": "This visible state is supported by the supplied single observation; a motion conclusion is not required."
+        },
+        {
+          "text": "The central dark rock cluster is entirely covered by foam.",
+          "verdict": "contradicted",
+          "observations": [
+            2
+          ],
+          "reason": "The visible object attribute or pose contradicts this statement."
+        },
+        {
+          "text": "The camera moves downward over the rock shelf.",
+          "verdict": "insufficient",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "These samples do not establish the claimed camera motion."
+        }
+      ],
+      "preference_pairs": [
+        {
+          "rejected": "An overhead view shows a dark rock cluster and green shallows.",
+          "kind": "omission",
+          "reason": "The scene description omits the reviewed action or change."
+        },
+        {
+          "rejected": "An overhead view shows waves breaking around a green-and-dark rock shelf. The foam band changes shape and a broad bright crest spreads along its upper edge, while the central dark rock cluster remains nearly aligned. A definite downward camera movement is not established. The central dark rock cluster moves across the frame while the foam stays unchanged.",
+          "kind": "contradiction",
+          "reason": "An added sentence conflicts with the observed action; length-normalized scoring is used."
+        }
+      ],
+      "review": {
+        "author": "Codex assistant",
+        "source_only": true,
+        "independent_astra": false,
+        "human_truth": false,
+        "sheet": "/home/sangukbae/semantic_transmission/outputs/qwen35_evidence_repair_v1/review/g_webvid_020_17fc133a_w0.png",
+        "sheet_sha256": "28ee0cd950c0a24373fbfd9e8cd7827d28a1b47f7cda6ab8653144c3386c0140",
+        "viewed_positions": [
+          0,
+          1,
+          2,
+          3
+        ]
+      }
+    },
+    {
+      "id": "g_webvid_020_17fc133a_w2",
+      "split": "validation",
+      "source_sha256": "17fc133a61ca3890100e1815b7a7e63511a90ce5aa8b19ee92d872f3c7bd8d93",
+      "frame_sha256": [
+        "7f88703862fdae7fecdb8758b260797e07d3ad8e3e7393718a94a5b6b8af8ef7",
+        "af315f2edbcb121975a7ff80e1684f0b2e588c2d18fdb890f09e7f8d53d61b9b",
+        "587fd4682159bbf3a93a78ff9edac0cda69fa4bf3a638799f73ed284706dbf0e",
+        "ff8b4f72492acc6989b2dbba23af4cf4c2c383592b3dd8d827b78a1061710dee"
+      ],
+      "caption": "Waves and foam change over a green rock shelf. A relatively narrow curved foam band gives way to broader, broken foam across the upper shelf. The central dark rock cluster retains nearly the same image position.",
+      "evidence_queries": [
+        {
+          "text": "Foam coverage changes from a narrow band to broader broken foam.",
+          "phases": [
+            {
+              "text": "A relatively narrow curved foam band borders the upper shelf.",
+              "positions": [
+                0,
+                1
+              ]
+            },
+            {
+              "text": "Broader broken foam covers more of the upper shelf.",
+              "positions": [
+                2,
+                3
+              ]
+            }
+          ]
+        },
+        {
+          "text": "A relatively narrow foam band borders the shelf.",
+          "phases": [
+            {
+              "text": "The curved upper foam band is relatively narrow.",
+              "positions": [
+                0,
+                1
+              ]
+            }
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "text": "Foam coverage changes from a narrow band to broader broken foam.",
+          "verdict": "supported",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "All required visible phases are present in chronological order."
+        },
+        {
+          "text": "The upper shelf changes from broadly covered foam to a narrow band by the final view.",
+          "verdict": "contradicted",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "The observed direction, order or visible states oppose this description."
+        },
+        {
+          "text": "Foam coverage changes from a narrow band to broader broken foam.",
+          "verdict": "insufficient",
+          "observations": [
+            0
+          ],
+          "reason": "The supplied subset lacks a required temporal phase; absence of that evidence does not prove the event false."
+        },
+        {
+          "text": "A central dark rock cluster sits amid green shallows.",
+          "verdict": "supported",
+          "observations": [
+            2
+          ],
+          "reason": "This visible state is supported by the supplied single observation; a motion conclusion is not required."
+        },
+        {
+          "text": "The central dark rock cluster is entirely covered by foam.",
+          "verdict": "contradicted",
+          "observations": [
+            2
+          ],
+          "reason": "The visible object attribute or pose contradicts this statement."
+        },
+        {
+          "text": "The camera moves downward over the rock shelf.",
+          "verdict": "insufficient",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "These samples do not establish the claimed camera motion."
+        }
+      ],
+      "preference_pairs": [
+        {
+          "rejected": "An overhead view shows rocks surrounded by green shallows and white foam.",
+          "kind": "omission",
+          "reason": "The scene description omits the reviewed action or change."
+        },
+        {
+          "rejected": "Waves and foam change over a green rock shelf. A relatively narrow curved foam band gives way to broader, broken foam across the upper shelf. The central dark rock cluster retains nearly the same image position. The upper shelf changes from broadly covered foam to a narrow band by the final view.",
+          "kind": "contradiction",
+          "reason": "An added sentence conflicts with the observed action; length-normalized scoring is used."
+        }
+      ],
+      "review": {
+        "author": "Codex assistant",
+        "source_only": true,
+        "independent_astra": false,
+        "human_truth": false,
+        "sheet": "/home/sangukbae/semantic_transmission/outputs/qwen35_evidence_repair_v1/review/g_webvid_020_17fc133a_w2.png",
+        "sheet_sha256": "51fc4ddce8678362659a5d4c936286ad0e29e4e31d6296683b5ee032a535b68f",
+        "viewed_positions": [
+          0,
+          1,
+          2,
+          3
+        ]
+      }
+    },
+    {
+      "id": "g_tvsum_024_9476a6d8_w0",
+      "split": "validation",
+      "source_sha256": "9476a6d8bc6fdcff909fa2885ba82ba7696b3d05fca2f070e313139e434eabe3",
+      "frame_sha256": [
+        "aff2d91d1721347c2f90bb98baa83b99e3e9de5c2a3ad45d14a86f1190f1a2f1",
+        "004abad4002f96e05a5b3718294792caf30114273ac817f482df18d05316841a",
+        "848f61b462bcae2b5293378ecaca26b54fa517c6626e6ed62bd09d0e8bce531a",
+        "41fc945e40d74dc08dc959085b090df35b9cb22b0939274d24ed2344be459768"
+      ],
+      "caption": "A black image is followed by views of a black-clad person bent low on pavement among others. The closer view shows their head lowered and an arm stretched toward another person who holds their hand. The sequence changes viewpoint.",
+      "evidence_queries": [
+        {
+          "text": "The sequence changes from a black image to a low posture and then a clearly extended arm.",
+          "phases": [
+            {
+              "text": "The observation is black.",
+              "positions": [
+                0
+              ]
+            },
+            {
+              "text": "A black-clad person is low among nearby people.",
+              "positions": [
+                1,
+                2
+              ]
+            },
+            {
+              "text": "An arm extends across the scene toward another person's hand.",
+              "positions": [
+                3
+              ]
+            }
+          ]
+        },
+        {
+          "text": "The observation is black.",
+          "phases": [
+            {
+              "text": "No scene details are visible in the black image.",
+              "positions": [
+                0
+              ]
+            }
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "text": "The sequence changes from a black image to a low posture and then a clearly extended arm.",
+          "verdict": "supported",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "The required visible stages appear in the stated order."
+        },
+        {
+          "text": "The person is shown extending an arm before the black image.",
+          "verdict": "contradicted",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "The provided frames show the opposite order or pose."
+        },
+        {
+          "text": "The sequence changes from a black image to a low posture and then a clearly extended arm.",
+          "verdict": "insufficient",
+          "observations": [
+            0
+          ],
+          "reason": "This observation omits required stages; an unobserved event is not automatically false."
+        },
+        {
+          "text": "A person in black clothing is bent low.",
+          "verdict": "supported",
+          "observations": [
+            2
+          ],
+          "reason": "The state is visibly established in this supplied observation."
+        },
+        {
+          "text": "The visible person wears a white coat.",
+          "verdict": "contradicted",
+          "observations": [
+            2
+          ],
+          "reason": "The visible object attribute or pose contradicts this statement."
+        },
+        {
+          "text": "The person bent low on pavement is injured.",
+          "verdict": "insufficient",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "The staged poses do not establish a physical injury."
+        }
+      ],
+      "preference_pairs": [
+        {
+          "rejected": "Black-clad people are on pavement in a public area.",
+          "kind": "omission",
+          "reason": "The observed sequence of changes is omitted."
+        },
+        {
+          "rejected": "A black image is followed by views of a black-clad person bent low on pavement among others. The closer view shows their head lowered and an arm stretched toward another person who holds their hand. The sequence changes viewpoint. The person is shown extending an arm before the black image.",
+          "kind": "contradiction",
+          "reason": "The added statement contradicts visible sequence evidence."
+        }
+      ],
+      "review": {
+        "author": "Codex assistant",
+        "source_only": true,
+        "independent_astra": false,
+        "human_truth": false,
+        "sheet": "/home/sangukbae/semantic_transmission/outputs/qwen35_evidence_repair_v2/review/g_tvsum_024_9476a6d8_w0.png",
+        "sheet_sha256": "9a6c61b0a97eeefcc8921bb47cf8f32380eddf8e6ea1ab3612094b375766a3f7",
+        "viewed_positions": [
+          0,
+          1,
+          2,
+          3
+        ]
+      }
+    },
+    {
+      "id": "g_tvsum_024_9476a6d8_w2",
+      "split": "validation",
+      "source_sha256": "9476a6d8bc6fdcff909fa2885ba82ba7696b3d05fca2f070e313139e434eabe3",
+      "frame_sha256": [
+        "ca44cdcc81b7049a572282bab0118659c955f2c7b1211a2fe876cb819d64644f",
+        "db06c561ace096b3fa81c23bd0b0c5104ccfdc72d7d243f98e1100d0add7ec1a",
+        "ed8e98c7808b01818b38fbeab31f5648d042993f9f229368f98a66f98b4ea457",
+        "18870ef0ad77c3c2173514002be118b51f78290a3d293cb2e73a3fafa9918f93"
+      ],
+      "caption": "A wide view shows people standing and kneeling in a paved square. The view cuts to a bearded person extending both hands, then to a close view of a printed face against patterned clothing. These are successive views, not one continuous shot of a single action.",
+      "evidence_queries": [
+        {
+          "text": "A wide group view is followed by extended hands and then a printed face.",
+          "phases": [
+            {
+              "text": "A group stands and kneels on the square.",
+              "positions": [
+                0,
+                1
+              ]
+            },
+            {
+              "text": "A bearded person extends both hands.",
+              "positions": [
+                2
+              ]
+            },
+            {
+              "text": "A printed face fills much of a close view against patterned clothing.",
+              "positions": [
+                3
+              ]
+            }
+          ]
+        },
+        {
+          "text": "A bearded person extends both hands.",
+          "phases": [
+            {
+              "text": "The foreground person's hands reach toward the left.",
+              "positions": [
+                2
+              ]
+            }
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "text": "A wide group view is followed by extended hands and then a printed face.",
+          "verdict": "supported",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "The required visible stages appear in the stated order."
+        },
+        {
+          "text": "The printed face appears before the close view of the extended hands.",
+          "verdict": "contradicted",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "The provided frames show the opposite order or pose."
+        },
+        {
+          "text": "A wide group view is followed by extended hands and then a printed face.",
+          "verdict": "insufficient",
+          "observations": [
+            0
+          ],
+          "reason": "This observation omits required stages; an unobserved event is not automatically false."
+        },
+        {
+          "text": "A bearded person extends both hands.",
+          "verdict": "supported",
+          "observations": [
+            2
+          ],
+          "reason": "The state is visibly established in this supplied observation."
+        },
+        {
+          "text": "The foreground person has both hands behind their back.",
+          "verdict": "contradicted",
+          "observations": [
+            2
+          ],
+          "reason": "The visible object attribute or pose contradicts this statement."
+        },
+        {
+          "text": "The bearded person is speaking.",
+          "verdict": "insufficient",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "Mouth posture in still samples does not establish speech or sound."
+        }
+      ],
+      "preference_pairs": [
+        {
+          "rejected": "People and a printed face are shown in a public square.",
+          "kind": "omission",
+          "reason": "The observed sequence of changes is omitted."
+        },
+        {
+          "rejected": "A wide view shows people standing and kneeling in a paved square. The view cuts to a bearded person extending both hands, then to a close view of a printed face against patterned clothing. These are successive views, not one continuous shot of a single action. The printed face appears before the close view of the extended hands.",
+          "kind": "contradiction",
+          "reason": "The added statement contradicts visible sequence evidence."
+        }
+      ],
+      "review": {
+        "author": "Codex assistant",
+        "source_only": true,
+        "independent_astra": false,
+        "human_truth": false,
+        "sheet": "/home/sangukbae/semantic_transmission/outputs/qwen35_evidence_repair_v2/review/g_tvsum_024_9476a6d8_w2.png",
+        "sheet_sha256": "8f7089d5ff05c2e8b62804c1f58a60362c7845d3c90502d3add814f0efda0b5a",
+        "viewed_positions": [
+          0,
+          1,
+          2,
+          3
+        ]
+      }
+    },
+    {
+      "id": "g_tvsum_024_9476a6d8_w3",
+      "split": "validation",
+      "source_sha256": "9476a6d8bc6fdcff909fa2885ba82ba7696b3d05fca2f070e313139e434eabe3",
+      "frame_sha256": [
+        "a081ba442b2b1a51a8df2ffb83aa7748990259e9b116a3976b44d8554efd4732",
+        "6724728beadee3bfcfe4b3fb33b4900c112f2d834751a31faada0516be4915f5",
+        "db8476d201b7bfa717442f40cfb8929f846c9834f3115e2ab1896f81c6c1f22b",
+        "3ee9b7ad2976fc7cf33da274dce6b843daab06582e4ac5d2f027dfbf0d454d93"
+      ],
+      "caption": "The sequence switches between people in a square: an extended arm in the foreground, a close view of a dark-haired person looking to the side, a wider group view with a round drum, and another close view of an arm pointing outward.",
+      "evidence_queries": [
+        {
+          "text": "A close face view is followed by a wide group view and then a close pointing arm.",
+          "phases": [
+            {
+              "text": "A dark-haired person's face is prominent in the foreground.",
+              "positions": [
+                1
+              ]
+            },
+            {
+              "text": "A wider view includes a group and a round drum.",
+              "positions": [
+                2
+              ]
+            },
+            {
+              "text": "A nearby person extends an arm pointing left across the view.",
+              "positions": [
+                3
+              ]
+            }
+          ]
+        },
+        {
+          "text": "A dark-haired person's face is prominent in the foreground.",
+          "phases": [
+            {
+              "text": "The dark-haired person looks to one side in a close view.",
+              "positions": [
+                1
+              ]
+            }
+          ]
+        }
+      ],
+      "claims": [
+        {
+          "text": "A close face view is followed by a wide group view and then a close pointing arm.",
+          "verdict": "supported",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "The required visible stages appear in the stated order."
+        },
+        {
+          "text": "The wider group view with the round drum appears before the close face view.",
+          "verdict": "contradicted",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "The provided frames show the opposite order or pose."
+        },
+        {
+          "text": "A close face view is followed by a wide group view and then a close pointing arm.",
+          "verdict": "insufficient",
+          "observations": [
+            0
+          ],
+          "reason": "This observation omits required stages; an unobserved event is not automatically false."
+        },
+        {
+          "text": "A round drum is visible among people in the square.",
+          "verdict": "supported",
+          "observations": [
+            2
+          ],
+          "reason": "The state is visibly established in this supplied observation."
+        },
+        {
+          "text": "The round drum is rectangular.",
+          "verdict": "contradicted",
+          "observations": [
+            2
+          ],
+          "reason": "The visible object attribute or pose contradicts this statement."
+        },
+        {
+          "text": "The round drum is producing a sound.",
+          "verdict": "insufficient",
+          "observations": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "reason": "Audio cannot be established from these supplied images."
+        }
+      ],
+      "preference_pairs": [
+        {
+          "rejected": "People stand and gesture in a paved public square.",
+          "kind": "omission",
+          "reason": "The observed sequence of changes is omitted."
+        },
+        {
+          "rejected": "The sequence switches between people in a square: an extended arm in the foreground, a close view of a dark-haired person looking to the side, a wider group view with a round drum, and another close view of an arm pointing outward. The wider group view with the round drum appears before the close face view.",
+          "kind": "contradiction",
+          "reason": "The added statement contradicts visible sequence evidence."
+        }
+      ],
+      "review": {
+        "author": "Codex assistant",
+        "source_only": true,
+        "independent_astra": false,
+        "human_truth": false,
+        "sheet": "/home/sangukbae/semantic_transmission/outputs/qwen35_evidence_repair_v2/review/g_tvsum_024_9476a6d8_w3.png",
+        "sheet_sha256": "8b8d4c10657b0d9e48887e311a289606c9e466f096393e089c59b6d473d22534",
+        "viewed_positions": [
+          0,
+          1,
+          2,
+          3
+        ]
+      }
+    }
+  ],
+  "development_source_ids": [
+    "VuWGsYPqAX8"
+  ],
+  "evidence_schedule": "All informative source-reviewed queries plus adjacent pairs derived from reviewed multi-phase paths; average query losses within each window."
+}
