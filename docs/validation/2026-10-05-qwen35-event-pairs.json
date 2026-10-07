@@ -1,0 +1,263 @@
+{
+  "date": "2026-10-05",
+  "checked_utc": "2026-10-04T16:53:04.819345+00:00",
+  "status": "COMPLETE_CAUSE_ANALYSIS_IMPLEMENTATION_AND_DEVELOPMENT_EVALUATION",
+  "video_id": "tv_low_08",
+  "duration_seconds": 60,
+  "frames": 1440,
+  "fps": 24,
+  "model_id": "Qwen/Qwen3.5-9B",
+  "model_revision": "c202236235762e1c871ad0ccb60c8ee5ba337b9a",
+  "quantization": "nf4",
+  "additional_extraction_model": false,
+  "caption_policy_changed": false,
+  "reference_sha256": "d6d074310c055c8f66505a305bed1d937e5fa76174ca5572aab3ddea0acdbe4a",
+  "evaluator_model": "gpt-6-astra",
+  "metrics": {
+    "baseline": {
+      "keyframes": 79,
+      "captions": 78,
+      "events": [
+        12,
+        18
+      ],
+      "errors": [
+        17,
+        60
+      ],
+      "facts": [
+        75,
+        123
+      ],
+      "successful_generation_seconds": 988.2261157789617
+    },
+    "pairs": {
+      "keyframes": 79,
+      "captions": 78,
+      "events": [
+        14,
+        18
+      ],
+      "errors": [
+        15,
+        60
+      ],
+      "facts": [
+        67,
+        123
+      ],
+      "successful_generation_seconds": 1006.8576577430649
+    },
+    "overlap_pairs": {
+      "keyframes": 79,
+      "captions": 78,
+      "events": [
+        12,
+        18
+      ],
+      "errors": [
+        15,
+        60
+      ],
+      "facts": [
+        63,
+        123
+      ],
+      "successful_generation_seconds": 1552.0468817030414
+    }
+  },
+  "comparisons": {
+    "pairs": {
+      "resolved_error_bins": [
+        8,
+        13,
+        55,
+        57
+      ],
+      "new_error_bins": [
+        9,
+        10
+      ],
+      "recalled_fact_delta": -8,
+      "recovered_events": [
+        "e02",
+        "e14",
+        "e15",
+        "e16"
+      ],
+      "lost_events": [
+        "e06",
+        "e07"
+      ]
+    },
+    "overlap_pairs": {
+      "resolved_error_bins": [
+        13,
+        42,
+        43,
+        45,
+        55,
+        57
+      ],
+      "new_error_bins": [
+        1,
+        4,
+        6,
+        41
+      ],
+      "recalled_fact_delta": -12,
+      "recovered_events": [
+        "e02",
+        "e14",
+        "e15",
+        "e16"
+      ],
+      "lost_events": [
+        "e00",
+        "e06",
+        "e07",
+        "e11"
+      ]
+    }
+  },
+  "new_actual_judged_method_bins": 65,
+  "exact_historical_input_label_reuse": 55,
+  "historical_baseline_bins": 60,
+  "total_validated_method_bin_pairs": 180,
+  "same_new_arm_output_consistency": {
+    "status": "PASS_IDENTICAL_OUTPUT_PRIMARY_LABEL_CONSISTENCY",
+    "identical_bins": [
+      2,
+      3,
+      14,
+      15,
+      20,
+      21,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51,
+      52,
+      53,
+      54,
+      55,
+      56,
+      57,
+      58,
+      59
+    ],
+    "primary_label_differences": [],
+    "description": "Separate actual Astra judgments agree on fact IDs and clear-error bin status for identical new-arm caption text and intervals; reason wording may differ."
+  },
+  "tests": {
+    "passed": 79,
+    "command": "env -u PYTHONPATH PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 /home/sangukbae/anaconda3/envs/lgvsc/bin/python -m pytest -q tests/test_qwen35_event_pairs.py tests/test_qwen35_event_pairs_eval.py tests/test_qwen35_state_delta.py tests/test_qwen35_state_delta_eval.py tests/test_qwen35_feedback.py tests/test_qwen35_feedback_eval.py tests/test_auto_extraction.py tests/test_fc_lgvsc_qwen35.py tests/test_qwen35_context.py tests/test_assisted_captions.py"
+  },
+  "artifact_validation": {
+    "all_source_png_hashes": true,
+    "model_provenance": true,
+    "original_caption_notes_and_prompt_policy": true,
+    "first_last_target_frames_preserved": true,
+    "exact_key_count": 79,
+    "caption_count": 78,
+    "max_gap": 24,
+    "solver_optimality_and_replay": true,
+    "exact_error_quotes_and_source_ids": true,
+    "exported_keyframe_hashes": true,
+    "report_images": 181,
+    "report_sections": 60,
+    "fresh_root_reference_only_diagnosis": true,
+    "git_diff_check": true,
+    "shell_and_python_syntax": true,
+    "document_links": true
+  },
+  "original_observed_image_event_availability": 18,
+  "reference_only_optimal_minimum_keys": 64,
+  "oracle_not_used_in_extraction": true,
+  "original_proposed_pair_count": 44,
+  "original_one_sided_pair_count": 17,
+  "actual_new_inference": {
+    "successful_calls": 77,
+    "successful_generation_seconds": 798.5391031370527,
+    "failed_calls": 0,
+    "failed_generation_seconds": 0,
+    "execution": {
+      "started_utc": "2026-10-04T16:30:04.396016+00:00",
+      "ended_utc": "2026-10-04T16:43:53.685307+00:00",
+      "elapsed_seconds": 827.7613826550078
+    }
+  },
+  "sampled_device_usage": {
+    "samples": 298,
+    "peak_used_mib": 12426,
+    "min_free_mib": 3625,
+    "scope": "2-second samples, device-wide including other processes, begins after initial loading"
+  },
+  "conclusion": "Partial event recovery with pair-preserving selection, but no all-metric improvement; essential-fact recall decreases. Extra overlapping observation does not improve coverage and further decreases fact recall.",
+  "default_pipeline_changed": false,
+  "training": false,
+  "human_ground_truth": false,
+  "unseen_video_validation": false,
+  "reconstruction_evaluated": false,
+  "limitations": [
+    "Known single development video with AI source reference",
+    "Frozen reference informed error diagnosis; no reference coordinates were extractor inputs",
+    "Sequential anonymous judging, not simultaneous randomization",
+    "Caption intervals and sampled frames change with selection",
+    "No human, unseen-video, receiver or actual transmission validation",
+    "Successful-generation sums include required cached calls, exclude loading/failures/I/O"
+  ],
+  "artifacts": {
+    "scripts/run_qwen35_event_pairs.sh": "43f97edb4ed3ab401772628142e6d2a9a88afddfb57e8a7fd911853bd430ad51",
+    "src/semantic_transmission/qwen35_event_pairs.py": "b049f0d161268e06d3bc37d60b06ac0f099c6a2920a318a0aa8c3d4d5f110ec3",
+    "src/semantic_transmission/qwen35_event_pairs_eval.py": "a4016ab5775b92d263fc5e2de1aaaaaf9e5bcbb1d86bc34669637c4b236b2ba4",
+    "tests/test_qwen35_event_pairs.py": "15a5a3f4268d12cc1881de5a9b742d84b8102750c2642c010696a3987c039a71",
+    "tests/test_qwen35_event_pairs_eval.py": "97788e05b888a868fea09e945894c54e5865e3ecdaf77d6fe3aa3f5c726d82ac",
+    "/home/sangukbae/semantic_transmission/outputs/qwen35_event_pairs_20261005/plan.json": "5db24c84b0a5f6965a943c002d33724d7862765090244a5e29c493d73921b08f",
+    "/home/sangukbae/semantic_transmission/outputs/qwen35_event_pairs_20261005/EXTRACTION_RESULT.json": "82bba8b8a53ff2308f1325c0e6645465f36348ba5812c1ecc770dc64ba8efb51",
+    "/home/sangukbae/semantic_transmission/outputs/qwen35_event_pairs_20261005/selection_replay_audit.json": "c092a4bcf4925fb26466c145025c27c2786e5317da4dc184e240964ca2969208",
+    "/home/sangukbae/semantic_transmission/outputs/qwen35_event_pairs_20261005/final_integrity_check.log": "2cba239152932818571dfa76d21ca126fdf3da63d842411722ce4a992f7c902d",
+    "/home/sangukbae/semantic_transmission/outputs/qwen35_event_pairs_20261005/diagnosis.json": "f7baf0691b0cb0e053aa8083af5aaf432b1671dd6ea6c1b1ea675aed1892cbe8",
+    "/home/sangukbae/semantic_transmission/outputs/qwen35_event_pairs_20261005/reference_feasibility.json": "387966c9edf7e03458451310ee55e068fb39b88d998a69f7261f8e1842a18b75",
+    "/home/sangukbae/semantic_transmission/outputs/qwen35_event_pairs_20261005/source_pair_diagnostic.json": "8d9d7d1f4cbd397cb29d886e44fd36a20d277b7a27d1d9e5b2a0dd913417d16c",
+    "/home/sangukbae/semantic_transmission/outputs/qwen35_event_pairs_20261005/diagnostic_source_grid.jpg": "dd3b41cf355ec546de86a8afa69f8dd04d95c15bbd0bb053feccd25fef1c56ba",
+    "/home/sangukbae/semantic_transmission/outputs/qwen35_event_pairs_20261005/evaluation/RESULT.json": "45ce38dd44b6d0097a5758f8625045897010d17da65a8e5223c906884629073c",
+    "/home/sangukbae/semantic_transmission/outputs/qwen35_event_pairs_20261005/evaluation/report.html": "bdaa7b1160e0c55e154c47435aea4c9b068af2ad71b17c5460f01e969a052a42",
+    "/home/sangukbae/semantic_transmission/outputs/qwen35_event_pairs_20261005/evaluation/report_manifest.json": "eef7817fa393e0e6579b43adea90eff125bcbdb5670f8f5cb64b8cd8b6ba9f6a",
+    "/home/sangukbae/semantic_transmission/outputs/qwen35_event_pairs_20261005/evaluation/judge_consistency.json": "24e27a09de772178bf3265067794d24e23092a289ab9012cf4a12063ea031c26",
+    "/home/sangukbae/semantic_transmission/outputs/qwen35_event_pairs_20261005/evaluation/judgments/M36_00_09.json": "1ec494e3c8b85d3a6d3123be6889185ae735096aaa800811ac09c9a22de6ddaa",
+    "/home/sangukbae/semantic_transmission/outputs/qwen35_event_pairs_20261005/evaluation/judgments/M36_10_19.json": "1976a9e441c2faac7fdd6aee426b7c183aeacf8d866c075d5045d68e69176dcc",
+    "/home/sangukbae/semantic_transmission/outputs/qwen35_event_pairs_20261005/evaluation/judgments/M36_20_29.json": "7a52a9a2dacb8ecc6603c453048553befabd2934c2a17c8d7e47a876ed6368d6",
+    "/home/sangukbae/semantic_transmission/outputs/qwen35_event_pairs_20261005/evaluation/judgments/M36_30_39.json": "0f58065db477e398a9f127f5bf663de7ec560d213621ca47115cd9ddb5345a5e",
+    "/home/sangukbae/semantic_transmission/outputs/qwen35_event_pairs_20261005/evaluation/judgments/M36_40_49.json": "48ce8845af0f11de7afe6ab095af1cb4bf87ec7b160687bfcfab42e618e96dbf",
+    "/home/sangukbae/semantic_transmission/outputs/qwen35_event_pairs_20261005/evaluation/judgments/M36_50_59.json": "c6544d0a48367ddd9ad900a9fc595ecc9db9a6177c33f987534630d27dfbca83",
+    "/home/sangukbae/semantic_transmission/outputs/qwen35_event_pairs_20261005/evaluation/judgments/M71_00_09.json": "26f2f6fe761eed1a9fc1cf92c5e8868630b446c4d35575fa38e3238c933f2aa0",
+    "/home/sangukbae/semantic_transmission/outputs/qwen35_event_pairs_20261005/evaluation/judgments/M71_10_19.json": "901e0fe6aeb5a19c65edd589e2255397cafd7f496494e82dfbbccbfeaa283288",
+    "/home/sangukbae/semantic_transmission/outputs/qwen35_event_pairs_20261005/evaluation/judgments/M71_20_29.json": "57ae900d8b6d222c358f34d9440350a2e078bfdc793de7707f99817460ab9046",
+    "/home/sangukbae/semantic_transmission/outputs/qwen35_event_pairs_20261005/evaluation/judgments/M71_30_39.json": "be1da0872512ec8eaf5cd65af66eb799f9facaa346971b3fa6a73da011fe4aa1",
+    "/home/sangukbae/semantic_transmission/outputs/qwen35_event_pairs_20261005/evaluation/judgments/M71_40_49.json": "4ecd9d2e35b34d81b5433165ec23b04052da6275f87e7a1942347c56d56aa56a",
+    "/home/sangukbae/semantic_transmission/outputs/qwen35_event_pairs_20261005/evaluation/judgments/M71_50_59.json": "04b19e49eb80e7cc68463c3b9ec38dc5304153a43855504169caf94cd295236b",
+    "/home/sangukbae/semantic_transmission/outputs/qwen35_event_pairs_20261005/evaluation/judgments/M84_00_09.json": "8d57416d42e482077ba30fa27a9fae86e39b27ed3aab7a7df2fda3e8a35db3ea",
+    "/home/sangukbae/semantic_transmission/outputs/qwen35_event_pairs_20261005/evaluation/judgments/M84_10_19.json": "a1e0b222d0485883229c2bd59d31c3a7135bb97c827c55b0a1ae3a876f47efe6",
+    "/home/sangukbae/semantic_transmission/outputs/qwen35_event_pairs_20261005/evaluation/judgments/M84_20_29.json": "c81562a4077329ff16eafb5e439ae5ea6940289be702d843b6e0c3186e2b8739",
+    "/home/sangukbae/semantic_transmission/outputs/qwen35_event_pairs_20261005/evaluation/judgments/M84_30_39.json": "4880b82a8dcf2d7471a217b6524bafd87cd99952ecbbe1c68bac6e882c035012",
+    "/home/sangukbae/semantic_transmission/outputs/qwen35_event_pairs_20261005/evaluation/judgments/M84_40_49.json": "a3d08f571d8504662a53beb012d1b8867245931d5db9d27c2fdd32f31bef29f0",
+    "/home/sangukbae/semantic_transmission/outputs/qwen35_event_pairs_20261005/evaluation/judgments/M84_50_59.json": "56e1d354e6eda5ce24403f97fda22f4a909cbe4ae339fac28a2789d701371dbb",
+    "/home/sangukbae/semantic_transmission/outputs/qwen35_event_pairs_20261005/evaluation/judgments/exact_input_reuse.json": "5cccfefb10045208651908775309cd24bf923a539aefb956affd0221b0d7275c"
+  }
+}

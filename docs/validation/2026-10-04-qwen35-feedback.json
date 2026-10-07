@@ -1,0 +1,257 @@
+{
+  "date": "2026-10-04",
+  "status": "COMPLETE_IMPLEMENTATION_EXTRACTION_ASTRA_EVALUATION_ANALYSIS",
+  "video": "tv_low_08",
+  "duration_seconds": 60,
+  "model_id": "Qwen/Qwen3.5-9B",
+  "model_revision": "c202236235762e1c871ad0ccb60c8ee5ba337b9a",
+  "quantization": "NF4",
+  "evaluator_model": "gpt-6-astra",
+  "reference_sha256": "d6d074310c055c8f66505a305bed1d937e5fa76174ca5572aab3ddea0acdbe4a",
+  "reference_source_frame_count": 443,
+  "reference_facts": 123,
+  "reference_events": 18,
+  "evaluated_bin_method_pairs": 180,
+  "exact_identical_input_label_reuse": 8,
+  "metrics": {
+    "historical": {
+      "keyframes": 79,
+      "captions": 78,
+      "event_coverage": [
+        12,
+        18
+      ],
+      "error_bins": [
+        29,
+        60
+      ],
+      "error_free_bins": [
+        31,
+        60
+      ],
+      "essential_facts": [
+        80,
+        123
+      ],
+      "essential_fact_recall": 0.6504065040650406,
+      "equal_count_uniform_event_coverage": 7,
+      "recommended_keyframe_f1": 0.4786324786324786,
+      "successful_unique_inference_seconds": null
+    },
+    "forward": {
+      "keyframes": 152,
+      "captions": 151,
+      "event_coverage": [
+        17,
+        18
+      ],
+      "error_bins": [
+        23,
+        60
+      ],
+      "error_free_bins": [
+        37,
+        60
+      ],
+      "essential_facts": [
+        76,
+        123
+      ],
+      "essential_fact_recall": 0.6178861788617886,
+      "equal_count_uniform_event_coverage": 18,
+      "recommended_keyframe_f1": 0.4,
+      "successful_unique_inference_seconds": 2442.774327068968
+    },
+    "feedback": {
+      "keyframes": 160,
+      "captions": 159,
+      "event_coverage": [
+        17,
+        18
+      ],
+      "error_bins": [
+        27,
+        60
+      ],
+      "error_free_bins": [
+        33,
+        60
+      ],
+      "essential_facts": [
+        77,
+        123
+      ],
+      "essential_fact_recall": 0.6260162601626016,
+      "equal_count_uniform_event_coverage": 15,
+      "recommended_keyframe_f1": 0.3838383838383838,
+      "successful_unique_inference_seconds": 4167.45347393498
+    }
+  },
+  "paired_changes": {
+    "historical_to_feedback": {
+      "resolved_error_bins": [
+        2,
+        11,
+        20,
+        28,
+        35,
+        40,
+        53,
+        54,
+        58,
+        59
+      ],
+      "new_error_bins": [
+        9,
+        24,
+        25,
+        41,
+        42,
+        47,
+        55,
+        57
+      ],
+      "net_error_free_bins": 2,
+      "recalled_fact_delta": -3,
+      "captured_event_delta": 5,
+      "keyframe_count_delta": 81
+    },
+    "forward_to_feedback": {
+      "resolved_error_bins": [
+        3,
+        12,
+        53
+      ],
+      "new_error_bins": [
+        10,
+        19,
+        29,
+        36,
+        42,
+        43,
+        44
+      ],
+      "net_error_free_bins": -4,
+      "recalled_fact_delta": 1,
+      "captured_event_delta": 0,
+      "keyframe_count_delta": 8
+    }
+  },
+  "feedback_validation": {
+    "status": "PASS_SOURCE_GROUNDED_FEEDBACK_TRACE",
+    "windows": 30,
+    "accepted_events": 14,
+    "deferred_events": 0,
+    "rejected_requests": 19,
+    "failed_audit_windows": []
+  },
+  "sampled_device_usage": {
+    "samples": 808,
+    "interval_seconds": 2,
+    "peak_used_mib": 12980,
+    "min_free_mib": 3071,
+    "scope": "Device-wide, includes display/other processes; starts after resumed model load"
+  },
+  "extraction": {
+    "status": "PASS_FEEDBACK_EXTRACTION_INTEGRITY",
+    "policy": "qwen35_shared_evidence_bounded_feedback_v1",
+    "video_id": "tv_low_08",
+    "duration_seconds": 60.0,
+    "arms": {
+      "forward": {
+        "keyframes": 152,
+        "captions": 151,
+        "unique_calls": 459,
+        "inference_seconds": 2442.774327068968,
+        "input_tokens": 765169,
+        "output_tokens": 46447,
+        "peak_allocated_gib": 8.303338527679443,
+        "keyframe_png_bytes": 19937513,
+        "caption_utf8_bytes": 40880
+      },
+      "feedback": {
+        "keyframes": 160,
+        "captions": 159,
+        "unique_calls": 761,
+        "inference_seconds": 4167.45347393498,
+        "input_tokens": 1428325,
+        "output_tokens": 79562,
+        "peak_allocated_gib": 8.615894317626953,
+        "keyframe_png_bytes": 20898155,
+        "caption_utf8_bytes": 43552
+      }
+    },
+    "model_id": "Qwen/Qwen3.5-9B",
+    "revision": "c202236235762e1c871ad0ccb60c8ee5ba337b9a",
+    "semantic_accuracy_verified": false,
+    "reconstruction_executed": false,
+    "signature": "3eb87712ab84f95d786976759f6ed7897a655bd9f10fcea8db18faac01c7ba91"
+  },
+  "decision": "DO_NOT_ADOPT_FEEDBACK_AS_DEFAULT: no event-coverage gain, four additional error bins, one extra recalled fact and higher compute relative to shared first pass",
+  "examples": [
+    {
+      "seconds": 42,
+      "forward": "dog",
+      "feedback": "cat",
+      "outcome": "Astra judged the change a dog-to-cat misidentification; actual feedback requested this false correction"
+    },
+    {
+      "seconds": 43.5,
+      "forward": "dog and person no longer visible",
+      "feedback": "dog and person walking in frame",
+      "outcome": "Astra judged newly added absent entities; source frame 1052 inspected by coordinator too"
+    }
+  ],
+  "checks": {
+    "tests_passed": 148,
+    "pytest_command": "PYTHONPATH=src /home/sangukbae/anaconda3/envs/lgvsc/bin/python -m pytest tests/test_qwen35_feedback.py tests/test_qwen35_feedback_eval.py tests/test_fc_lgvsc_qwen35.py tests/test_auto_extraction.py tests/test_hybrid_selection.py tests/test_assisted_captions.py tests/test_fc_lgvsc.py tests/test_condition_collision.py tests/test_short_schedule.py -q",
+    "tests_seconds": 2.85,
+    "python_compile": "PASS",
+    "shell_syntax": "PASS",
+    "git_diff_check": "PASS",
+    "frozen_inputs_and_report_manifest": "PASS",
+    "exact_judgment_quotes_and_all_180_pairs": "PASS",
+    "feedback_trace_replay": "PASS",
+    "actual_pinned_model_bytes": "PASS",
+    "report_svg_xml": "PASS",
+    "report_embedded_source_images": 182
+  },
+  "scope": {
+    "human_ground_truth": false,
+    "unseen_video_validation": false,
+    "reconstruction_executed": false,
+    "weight_training_executed": false,
+    "existing_four_sample_receiver_importer_compatible": false,
+    "equal_compute_comparison": false,
+    "fully_simultaneous_randomized_blind_review": false,
+    "historical_keyframes_provider": "preexisting assistant/InternVL pipeline, not Qwen",
+    "execution_caveat": "Development run resumed after schema-validation fixes with exact-input successful inference checkpoints retained, including raw retry prompts. Not a fresh uninterrupted wall-time or deterministic replay benchmark; inference seconds exclude failed calls, loading and IO."
+  },
+  "artifacts": {
+    "outputs/qwen35_feedback_20261003/plan.json": "858d858ef0abba1b7f5ba4cdf73ea8ae52a0099fd7826c1f94761821a8903e56",
+    "outputs/qwen35_feedback_20261003/forward.json": "e021d45d78959dbee41ff0a464170b847f9522687f731a0f2f6e1b93f6ba66c0",
+    "outputs/qwen35_feedback_20261003/feedback.json": "39afc275d1778743dfb81a5e1fb84dfd1c31d0793f65f949fa00c4c488dbbcd8",
+    "outputs/qwen35_feedback_20261003/feedback_requests.json": "529b23344aa2995c201060e020a92012b36e343284f6d3afb725bf7580112dfe",
+    "outputs/qwen35_feedback_20261003/EXTRACTION_RESULT.json": "9ab25d7300268ded4a7722b0d727a253832aaae854e9d221be05cd98f15e8f37",
+    "outputs/qwen35_feedback_20261003/model_bytes_verification.json": "16c814c91d9466c65bdc4fec83d5f5c40761c83d2119416e3b1dafd3429ff27f",
+    "outputs/qwen35_feedback_20261003/feedback_trace_audit.json": "1b81105151136e7b450fd61e1bf9e027d5f6a61127acb6fa29ce6f70c9050e20",
+    "outputs/qwen35_feedback_20261003/astra_reference/reference.json": "d6d074310c055c8f66505a305bed1d937e5fa76174ca5572aab3ddea0acdbe4a",
+    "outputs/qwen35_feedback_20261003/astra_reference/freeze.json": "aaf447430d3788c63303e6150d82cb192e37e4e29e3fbab43f4b742901bb98a0",
+    "outputs/qwen35_feedback_20261003/evaluation/agent_provenance.json": "2a8cb2f2da845eda055e29a2a154090b349db83133b79c590b0ea03ff7b68e1d",
+    "outputs/qwen35_feedback_20261003/evaluation/protocol.json": "25bc124e6e23cfe82331b73704c120d379e3d8846c04f3bd0f62c34abe6d1249",
+    "outputs/qwen35_feedback_20261003/evaluation/input_manifest.json": "317de35a8a3c89097b5fc2c8b41b67e85fd599f19ef4250f1ebd69965f20bcf1",
+    "outputs/qwen35_feedback_20261003/evaluation/RESULT.json": "65caff1a2194eabde07d8e7a47f49de11568bc8bfcc0e51cda86575656a44c59",
+    "outputs/qwen35_feedback_20261003/evaluation/operational_analysis.json": "c2e144c16877a6f7aa9ac2090baf38774b0d8c5f90dc65290dc4f15fbb2bd096",
+    "outputs/qwen35_feedback_20261003/evaluation/validated_judgments.json": "ce85bf6a759e56c8e86f5d857c67d6e73e8c84b8d474575b52a38aaae866548b",
+    "outputs/qwen35_feedback_20261003/evaluation/report_manifest.json": "965a7c6975cba82a40df67e40b4efd8339c2ec8c2cc37119a9aa43c65c78cec9",
+    "outputs/qwen35_feedback_20261003/evaluation/report.html": "7c6c77cef4c57d2799780b7eb3a3a420d5b0771193adbb54c4b5d2525a661b0e",
+    "src/semantic_transmission/qwen35_feedback.py": "db3f16596e03062d0b4319e254cb65908e04704a189abf1d689f6b22c013e18e",
+    "src/semantic_transmission/qwen35_feedback_eval.py": "774a1fb6a85ab3ef6cb4d47bdd75e634bb959dcd234e2c91925762a50741e8ee",
+    "src/semantic_transmission/qwen35_feedback_export.py": "59ca80d10f4f906a03079832833870ee0d20b12e7f4c9c83d959eeebf3b15935",
+    "scripts/run_qwen35_feedback.sh": "7e90e4fbfc11cba4cb6cf8ade67dbd4a2da9496245c3e5ca5753630a579c9266",
+    "scripts/reuse_qwen35_feedback_calls.py": "6fa40c375b4103a89589cfd8c1b3ca5a8e9c422e8111596434e69ffa9bb24ff9",
+    "scripts/prepare_qwen35_early_review.py": "ff525cddda799f9bc813308928727bf8b773901b5776df63f9432b9686e7ffab",
+    "tests/test_qwen35_feedback.py": "77eff520b5177e769f09116e6b20b05991364328eb97345225ede6a86845505b",
+    "tests/test_qwen35_feedback_eval.py": "29989daf2ea6c5ddfc0cb4c2665aff216f8195ec2f3783dc4f72e97598c9fb94"
+  }
+}

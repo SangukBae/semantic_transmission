@@ -1,0 +1,326 @@
+{
+  "date": "2026-10-04",
+  "checked_utc": "2026-10-04T03:23:15.300538+00:00",
+  "status": "COMPLETE_IMPLEMENTATION_EXTRACTION_ASTRA_DEVELOPMENT_EVALUATION",
+  "video": "tv_low_08",
+  "duration_seconds": 60,
+  "frames": 1440,
+  "fps": 24,
+  "model_id": "Qwen/Qwen3.5-9B",
+  "model_revision": "c202236235762e1c871ad0ccb60c8ee5ba337b9a",
+  "quantization": "NF4",
+  "additional_extraction_model": false,
+  "evaluator_model": "gpt-6-astra",
+  "reference_sha256": "d6d074310c055c8f66505a305bed1d937e5fa76174ca5572aab3ddea0acdbe4a",
+  "reference_source_frame_count": 443,
+  "actual_new_method_bin_judgments": 180,
+  "exact_identical_caption_interval_label_reuse": 60,
+  "validated_method_bin_pairs": 240,
+  "metrics": {
+    "fixed_state": {
+      "keyframes": 152,
+      "captions": 151,
+      "event_coverage": [
+        17,
+        18
+      ],
+      "error_bins": [
+        22,
+        60
+      ],
+      "essential_facts": [
+        71,
+        123
+      ],
+      "successful_generation_seconds": 1299.9145337740483
+    },
+    "budget_state": {
+      "keyframes": 79,
+      "captions": 78,
+      "event_coverage": [
+        12,
+        18
+      ],
+      "error_bins": [
+        17,
+        60
+      ],
+      "essential_facts": [
+        75,
+        123
+      ],
+      "successful_generation_seconds": 988.2261157789617
+    },
+    "uniform_state": {
+      "keyframes": 79,
+      "captions": 78,
+      "event_coverage": [
+        7,
+        18
+      ],
+      "error_bins": [
+        20,
+        60
+      ],
+      "essential_facts": [
+        77,
+        123
+      ],
+      "successful_generation_seconds": 995.4455186449632
+    },
+    "budget_checked": {
+      "keyframes": 79,
+      "captions": 78,
+      "event_coverage": [
+        12,
+        18
+      ],
+      "error_bins": [
+        17,
+        60
+      ],
+      "essential_facts": [
+        75,
+        123
+      ],
+      "successful_generation_seconds": 1044.1210260310036
+    }
+  },
+  "paired_changes": {
+    "fixed_caption": {
+      "resolved_error_bins": [
+        0,
+        1,
+        9,
+        12,
+        25,
+        30,
+        31,
+        41,
+        47,
+        48,
+        50,
+        52,
+        57
+      ],
+      "new_error_bins": [
+        7,
+        27,
+        34,
+        36,
+        37,
+        40,
+        43,
+        44,
+        45,
+        49,
+        54,
+        59
+      ],
+      "recalled_fact_delta": -5
+    },
+    "selection": {
+      "resolved_error_bins": [
+        4,
+        9,
+        25,
+        30,
+        31,
+        41,
+        53,
+        54
+      ],
+      "new_error_bins": [
+        13,
+        36,
+        55,
+        57,
+        58
+      ],
+      "recalled_fact_delta": -2
+    },
+    "correspondence": {
+      "resolved_error_bins": [],
+      "new_error_bins": [],
+      "recalled_fact_delta": 0
+    }
+  },
+  "fixed_input_comparison": {
+    "status": "PASS_IDENTICAL_TARGET_FRAMES_AND_VISUAL_GRIDS",
+    "intervals": 151,
+    "text_prompts_equal": false,
+    "compute_equal": false
+  },
+  "correspondence_validation": {
+    "status": "PASS_BOUNDED_SOURCE_CORRESPONDENCE_TRACE",
+    "checked_intervals": 12,
+    "schema_extension_path": "/home/sangukbae/semantic_transmission/outputs/qwen35_state_delta_20261004/correspondence_schema_extension.json",
+    "schema_extension_sha256": "e0304d367c104fd8ea9e61633cd7a5483d88db5ab8b0bbb844258a78919c5ff8",
+    "source_intervals": [
+      {
+        "segment": 0,
+        "start_seconds": 0.0,
+        "end_seconds": 0.8333333333333334
+      },
+      {
+        "segment": 1,
+        "start_seconds": 0.8333333333333334,
+        "end_seconds": 1.6666666666666667
+      },
+      {
+        "segment": 2,
+        "start_seconds": 1.6666666666666667,
+        "end_seconds": 1.8333333333333333
+      },
+      {
+        "segment": 3,
+        "start_seconds": 1.8333333333333333,
+        "end_seconds": 2.8333333333333335
+      },
+      {
+        "segment": 4,
+        "start_seconds": 2.8333333333333335,
+        "end_seconds": 3.0
+      },
+      {
+        "segment": 5,
+        "start_seconds": 3.0,
+        "end_seconds": 4.0
+      },
+      {
+        "segment": 6,
+        "start_seconds": 4.0,
+        "end_seconds": 4.5
+      },
+      {
+        "segment": 7,
+        "start_seconds": 4.5,
+        "end_seconds": 4.666666666666667
+      },
+      {
+        "segment": 8,
+        "start_seconds": 4.666666666666667,
+        "end_seconds": 5.625
+      },
+      {
+        "segment": 9,
+        "start_seconds": 5.625,
+        "end_seconds": 6.541666666666667
+      },
+      {
+        "segment": 10,
+        "start_seconds": 6.541666666666667,
+        "end_seconds": 7.5
+      },
+      {
+        "segment": 11,
+        "start_seconds": 7.5,
+        "end_seconds": 8.166666666666666
+      }
+    ],
+    "base_needs_check_count": 0,
+    "base_nonempty_uncertainty_count": 0,
+    "verdict_counts": {
+      "target": 24
+    },
+    "changed_intervals": [],
+    "removed_clauses": 0,
+    "anchor_unconfirmed": []
+  },
+  "syntax_recovery_validation": {
+    "status": "PASS_SYNTAX_NORMALIZATION_ALL_FIELDS_UNCHANGED",
+    "calls": 1,
+    "records": [
+      {
+        "path": "/home/sangukbae/semantic_transmission/outputs/qwen35_state_delta_20261004/calls/state_caption_schema/68a022969023f83d1c9dd6e938daa8b67e52d8a24b1d8f66068672ae9980b51a.json",
+        "parent": "/home/sangukbae/semantic_transmission/outputs/qwen35_state_delta_20261004/failed_attempts/state_caption_schema/68a022969023f83d1c9dd6e938daa8b67e52d8a24b1d8f66068672ae9980b51a_2.json",
+        "ids": [
+          1128,
+          1130,
+          1136,
+          1142,
+          1147,
+          1151
+        ]
+      }
+    ],
+    "runtime_extension_declared": true
+  },
+  "sampled_device_usage": {
+    "samples": 736,
+    "interval_seconds": 2,
+    "peak_used_mib": 11910,
+    "min_free_mib": 4141,
+    "scope": "Device-wide sampled usage including other processes; monitor begins after initial model load"
+  },
+  "peak_pytorch_allocated_gib": 8.319715976715088,
+  "tests": {
+    "passed": 72,
+    "pytest_plugin_autoload": false,
+    "command": "env -u PYTHONPATH PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 /home/sangukbae/anaconda3/envs/lgvsc/bin/python -m pytest -q tests/test_qwen35_state_delta.py tests/test_qwen35_state_delta_eval.py tests/test_qwen35_feedback.py tests/test_qwen35_feedback_eval.py tests/test_auto_extraction.py tests/test_fc_lgvsc_qwen35.py tests/test_qwen35_context.py tests/test_assisted_captions.py"
+  },
+  "artifact_verification": {
+    "all_1440_source_hashes": true,
+    "target_first_last_preserved": true,
+    "fixed_intervals_identical": 151,
+    "exact_key_budgets": true,
+    "source_selected_png_hashes": true,
+    "actual_raw_model_responses": true,
+    "exact_judgment_quotes_and_packet_hashes": true,
+    "html_source_images": 180,
+    "html_sections": 60,
+    "shell_syntax": true,
+    "python_compile": true
+  },
+  "conclusion": "Budget selection improves event coverage and error bins against equal-count uniform selection, but loses two recalled facts. Fixed-key state/delta loses five facts with only one fewer error bin. Correspondence makes no changes. Do not adopt the whole workflow as a general accuracy improvement.",
+  "default_pipeline_changed": false,
+  "training_executed": false,
+  "reconstruction_evaluated": false,
+  "human_ground_truth": false,
+  "unseen_video_validation": false,
+  "simultaneous_randomized_comparison": false,
+  "limitations": [
+    "Single previously analyzed development video and frozen AI reference",
+    "Sequential anonymous delivery, not simultaneous randomization",
+    "Exact-output label reuse is not independent new judging",
+    "Generation-only timings omit load, failed attempts and I/O; fixed-key condition omits prior key extraction",
+    "Format fixes and resumed calls prevent a fresh uninterrupted wall-time speed comparison",
+    "No actual transmission cost or receiver quality claim"
+  ],
+  "artifacts": {
+    "scripts/run_qwen35_state_delta.sh": "4a259716562a08c7ef5f15b46b6fdad31e20a8601dc89f7d429403fdc3ff50a2",
+    "src/semantic_transmission/qwen35_state_delta.py": "7a0f40ca30463d4eae1771d3fe18f503d9385dc98a9f3b8d501d9e25c88ba7c7",
+    "src/semantic_transmission/qwen35_state_delta_eval.py": "ee557dd0b3e56ef8f9d9ed12cd108e90107e9260b00a7827a61288990a648aad",
+    "src/semantic_transmission/qwen35_state_delta_match.py": "3ce029b5f2a321109b40daebac58c6cf465b437de12fccfab663d2e4158fa523",
+    "src/semantic_transmission/qwen35_state_delta_resume.py": "7c11eb8eceebde9660bbd60ee383e27370f863f461a1fbc2ddee64adf3386016",
+    "tests/test_qwen35_state_delta.py": "4fac50e04657729e19188e42f0da259a8d2e02c02d702a8201fad07909e9fc29",
+    "tests/test_qwen35_state_delta_eval.py": "aa6d2ab97eaa73370d1e650f234b1ee20f4bc6d185d1110abcdd5f0b0911503e",
+    "/home/sangukbae/semantic_transmission/outputs/qwen35_state_delta_20261004/evaluation/RESULT.json": "57da183b89d03d900bd85d7ea40db32ef7abfc93acc096353fad94650a940ebf",
+    "/home/sangukbae/semantic_transmission/outputs/qwen35_state_delta_20261004/evaluation/report.html": "8be309434f6eec501322f211887f24b9f98a345c639f8cdadff9558c4fa18f43",
+    "/home/sangukbae/semantic_transmission/outputs/qwen35_state_delta_20261004/evaluation/report_manifest.json": "de8720ff3cab521c182bed50be39b7160986326445695b8396cd4e1abd6a2898",
+    "/home/sangukbae/semantic_transmission/outputs/qwen35_state_delta_20261004/plan.json": "ce975b95e3873788a522b90f033d4fb2e60bb6fffa3f909c593997f58a395882",
+    "/home/sangukbae/semantic_transmission/outputs/qwen35_state_delta_20261004/EXTRACTION_RESULT.json": "13df56d821b19b4cf89cfffda1dca6595cbba160bcea531e03cd6aae4390e221",
+    "/home/sangukbae/semantic_transmission/outputs/qwen35_state_delta_20261004/final_integrity_check.log": "6759c36f4b3d2352943271da423f8ed8935f61e900c83fe9db43ffbb5548c22f",
+    "/home/sangukbae/semantic_transmission/outputs/qwen35_state_delta_20261004/syntax_recovery_extension_v3.json": "ee8dd20b7c6f2b60c3fbef7fef5ffc5c0ad6c7930bacc4c0cedbde52b19a90f2",
+    "/home/sangukbae/semantic_transmission/outputs/qwen35_state_delta_20261004/correspondence_schema_extension.json": "e0304d367c104fd8ea9e61633cd7a5483d88db5ab8b0bbb844258a78919c5ff8",
+    "/home/sangukbae/semantic_transmission/outputs/qwen35_state_delta_20261004/evaluation/judgments/M26_00_09.json": "7e2c00505b52554447f2d7cbc27ba1d38ef4a18687d793f4a0661b86f1a8171d",
+    "/home/sangukbae/semantic_transmission/outputs/qwen35_state_delta_20261004/evaluation/judgments/M26_10_19.json": "6bccd4c430e9a4f669d7a7e9147af676f8bab90b707036f47fbbe2fedbd3305d",
+    "/home/sangukbae/semantic_transmission/outputs/qwen35_state_delta_20261004/evaluation/judgments/M26_20_29.json": "ea459228b9569d401072aac96d62862f809127147100661ff1002a4dabf35fbc",
+    "/home/sangukbae/semantic_transmission/outputs/qwen35_state_delta_20261004/evaluation/judgments/M26_30_39.json": "3e743772205054bf577218db64e01f37260dcd73f293f0aa21fc5ee67d5ee4f7",
+    "/home/sangukbae/semantic_transmission/outputs/qwen35_state_delta_20261004/evaluation/judgments/M26_40_49.json": "b64c8a98588c2b4760db081c696223e998320d18aad955314c0b2f1e34d489f4",
+    "/home/sangukbae/semantic_transmission/outputs/qwen35_state_delta_20261004/evaluation/judgments/M26_50_59.json": "f41a4a945621c9b4c5bc5976847d4764de33fc83d0241ce978307dbf2c977a34",
+    "/home/sangukbae/semantic_transmission/outputs/qwen35_state_delta_20261004/evaluation/judgments/M48_00_09.json": "8552522ff8d77cc42e50b79536915ffe952fc7d36d1119e97236dcbb31aecb2d",
+    "/home/sangukbae/semantic_transmission/outputs/qwen35_state_delta_20261004/evaluation/judgments/M48_10_19.json": "b9c5ef19b5ee8ed32459c587858f24c651f32435c5a5b1bc0ebbc2075bc6bb44",
+    "/home/sangukbae/semantic_transmission/outputs/qwen35_state_delta_20261004/evaluation/judgments/M48_20_29.json": "ba5dd863ddcd1dbb97808eb5b01944d2251bb1159260f58b5465ddb79086a905",
+    "/home/sangukbae/semantic_transmission/outputs/qwen35_state_delta_20261004/evaluation/judgments/M48_30_39.json": "66a0a672c9c0d1dffab57a40a080f7e1c41d280c288e0911943a17eb11c1e6c7",
+    "/home/sangukbae/semantic_transmission/outputs/qwen35_state_delta_20261004/evaluation/judgments/M48_40_49.json": "ae57fa0b89b52ab9c64d67a3a97a6dd95b7cb4bbf6b3f339bc6158ac66a57c4e",
+    "/home/sangukbae/semantic_transmission/outputs/qwen35_state_delta_20261004/evaluation/judgments/M48_50_59.json": "5da907b617859136ea13af42960b0edb659321f4a875db8284b38271bf3e11ac",
+    "/home/sangukbae/semantic_transmission/outputs/qwen35_state_delta_20261004/evaluation/judgments/M71_00_09.json": "26f2f6fe761eed1a9fc1cf92c5e8868630b446c4d35575fa38e3238c933f2aa0",
+    "/home/sangukbae/semantic_transmission/outputs/qwen35_state_delta_20261004/evaluation/judgments/M71_10_19.json": "901e0fe6aeb5a19c65edd589e2255397cafd7f496494e82dfbbccbfeaa283288",
+    "/home/sangukbae/semantic_transmission/outputs/qwen35_state_delta_20261004/evaluation/judgments/M71_20_29.json": "57ae900d8b6d222c358f34d9440350a2e078bfdc793de7707f99817460ab9046",
+    "/home/sangukbae/semantic_transmission/outputs/qwen35_state_delta_20261004/evaluation/judgments/M71_30_39.json": "128afa77e98735fa041e9b1f79502df50fc9fcfab1982be23098130e766b5dc2",
+    "/home/sangukbae/semantic_transmission/outputs/qwen35_state_delta_20261004/evaluation/judgments/M71_40_49.json": "b951c556822ee9c2cd5732a0d587a3a6cbcb83214f7c34cac4a1ae969cd52f9d",
+    "/home/sangukbae/semantic_transmission/outputs/qwen35_state_delta_20261004/evaluation/judgments/M71_50_59.json": "264c6b117f85afc9f9c450d52f38793cad4647ec6e6f66988df19ea36a17141c",
+    "/home/sangukbae/semantic_transmission/outputs/qwen35_state_delta_20261004/evaluation/judgments/exact_input_reuse.json": "0e276dac04fd9707e8cbac11f98cf6353ec9d76584ff79c33e741590ceb8beee"
+  }
+}
