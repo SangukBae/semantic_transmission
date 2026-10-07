@@ -58,7 +58,8 @@ def test_one_frame_works_in_actual_caption_reader_and_flow_sampler(prepared):
     run, cfg = prepared
     clip = prepare_frame_exact_clips(cfg, run)[0]
     sys.path.insert(0, str(REPO / ".local/vendor/Open-Sora"))
-    from opensora.datasets.read_video import read_video_av
+    read_video_av = pytest.importorskip("opensora.datasets.read_video",
+        reason="Caption reader integration requires the pinned Open-Sora checkout").read_video_av
     decoded, _, _ = read_video_av(str(clip), pts_unit="sec", output_format="THWC")
     assert len(decoded) == 1
     extracted, actual_indices = sample_clip_frames(clip, [0, 10, 20, 30])

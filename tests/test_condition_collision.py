@@ -9,7 +9,10 @@ from semantic_transmission import condition_collision as fix
 
 @pytest.fixture
 def functions():
-    result = fix.upstream_functions(Path(__file__).resolve().parents[1])
+    repo = Path(__file__).resolve().parents[1]
+    if not (repo / ".local/vendor/Open-Sora/opensora/utils/inference_utils.py").is_file():
+        pytest.skip("Exact upstream mask regression requires the pinned Open-Sora checkout")
+    result = fix.upstream_functions(repo)
     result.apply_mask_strategy.__globals__["torch"] = torch
     return result
 

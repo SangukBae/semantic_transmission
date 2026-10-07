@@ -9,7 +9,8 @@ from semantic_transmission import short_schedule as fix
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / ".local/vendor/Open-Sora"))
-from opensora.schedulers import rf
+rf = pytest.importorskip("opensora.schedulers.rf",
+    reason="Open-Sora integration requires the pinned external checkout from bootstrap_official.sh")
 
 
 def arguments(n, dtype=torch.bfloat16):

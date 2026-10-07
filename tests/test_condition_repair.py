@@ -68,6 +68,8 @@ def test_reconstruction_uses_new_entry_and_unchanged_config(tmp_path, monkeypatc
 
 def test_actual_decoder_entry_routes_mask_through_guard(tmp_path, monkeypatch):
     torch = pytest.importorskip("torch")
+    if not (run.REPO / ".local/vendor/Open-Sora/opensora/utils/inference_utils.py").is_file():
+        pytest.skip("Decoder integration requires the pinned Open-Sora checkout")
     functions = fix.upstream_functions(run.REPO)
     functions.apply_mask_strategy.__globals__["torch"] = torch
     utils = types.SimpleNamespace(**vars(functions))
