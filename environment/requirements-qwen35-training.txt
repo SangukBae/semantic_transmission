@@ -1,0 +1,3 @@
+# Install into .local/qwen35_training_probe_deps beside the pinned inference env.
+# Qwen's existing torch/transformers/bitsandbytes versions are kept unchanged.
+peft==0.21.2

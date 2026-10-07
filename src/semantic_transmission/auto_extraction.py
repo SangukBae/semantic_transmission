@@ -245,6 +245,22 @@ class LocalVLM:
         return result
 
 
+def load_vlm(config):
+    if config.get("backend", "qwen3_vl") == "qwen35":
+        from .qwen35_backend import LocalQwen35
+        return LocalQwen35(config)
+    return LocalVLM(config)
+
+
+def caption_validator(config, review=False):
+    def validate(value):
+        validate_caption(value, review=review)
+        if len(value["caption"].split()) > config.get("caption_max_words", 80):
+            raise ValueError("caption exceeds configured word limit")
+        return value
+    return validate
+
+
 def infer_json(vlm, path, identity, images, labels, prompt, validator, tokens=640):
     """Content-bound atomic cache; all failed responses retained for audit."""
     signature = digest(identity)
@@ -252,11 +268,15 @@ def infer_json(vlm, path, identity, images, labels, prompt, validator, tokens=64
         value = unseal(path)
         if value["identity"] != identity:
             raise ValueError(f"inference cache identity changed: {path}")
+        if getattr(vlm, "config", {}).get("caption_adapter"):
+            from .qwen35_caption_adapter import verify_record
+            verify_record(vlm.config, value)
         validator(value["result"])
         return value["result"]
     for attempt in range(3):
         task = prompt if attempt == 0 else prompt + "\nYour previous response failed JSON/schema validation. Return ONLY the exact requested JSON; keep it concise."
-        response = vlm.generate(images, labels, task, tokens + attempt*192)
+        kwargs = {"task": identity["task"]} if getattr(vlm, "config", {}).get("caption_adapter") else {}
+        response = vlm.generate(images, labels, task, tokens + attempt*192, **kwargs)
         record = dict(identity=identity, signature=signature, attempt=attempt, created_utc=now(), **response)
         try:
             if response["truncated"]:
@@ -357,7 +377,7 @@ def propose(root, config, source):
     if sha256(source["source_path"]) != source["source_sha256"]:
         raise ValueError("original video changed")
     events = transnet(source, dest, config)
-    vlm = LocalVLM(config)
+    vlm = load_vlm(config)
     windows = list(proposal_windows(source["frames"],config["candidate_stride"],config["candidate_window_frames"]))
     uncertainties = []
     for n, ids in enumerate(windows):
@@ -367,11 +387,11 @@ def propose(root, config, source):
         identity = dict(config_signature=config["signature"], task="proposals", indices=ids,
                         frame_hashes=[source["source_frame_hashes"][str(i)] for i in ids])
         result = infer_json(vlm, dest / "observations" / f"{n:05d}.json", identity,
-            images, labels, PROPOSAL_PROMPT,
+            images, labels, config["prompts"]["proposals"],
             lambda x: validate_events(x, ids), tokens=768)
         for im in images: im.close()
         for event in result["events"]:
-            events.append(dict(event, origin="Qwen3-VL", observation_window=n))
+            events.append(dict(event, origin=config["model_id"], observation_window=n))
         uncertainties.extend(dict(window=n, text=t) for t in result["uncertainties"])
     by_frame = {0:dict(frame=0, mandatory=True, reasons=["first frame"]),
                 source["frames"]-1:dict(frame=source["frames"]-1, mandatory=True, reasons=["last frame"])}
@@ -443,7 +463,7 @@ def caption(root, config, source):
     dest = video_root(root,source)
     selection = unseal(dest / "selection.json")
     identity = dict(config_signature=config["signature"], selection_sha256=sha256(dest / "selection.json"))
-    vlm = LocalVLM(config)
+    vlm = load_vlm(config)
     rows = []
     pairs = list(zip(selection["indices"],selection["indices"][1:]))
     for n,(a,b) in enumerate(pairs):
@@ -454,25 +474,41 @@ def caption(root, config, source):
         item_id = dict(identity,segment=n,start=a,end_exclusive=b,source_indices=ids,
                        frame_hashes=[source["source_frame_hashes"][str(i)] for i in ids])
         draft = infer_json(vlm,dest/"captions_draft"/f"{n:05d}.json",dict(item_id,task="draft"),
-                           images,labels,CAPTION_PROMPT,validate_caption,tokens=384)
+                           images,labels,config["prompts"]["caption"],caption_validator(config),tokens=384)
         reviewed = infer_json(vlm,dest/"captions_review"/f"{n:05d}.json",
             dict(item_id,task="visual_review",draft_sha256=digest(draft)),images,labels,
-            REVIEW_PROMPT+draft["caption"],lambda x:validate_caption(x,review=True),tokens=384)
+            config["prompts"]["review"]+draft["caption"],caption_validator(config,review=True),tokens=384)
         rows.append(dict(segment=n,start=a,end_exclusive=b,source_indices=ids,
             start_seconds=a/24,end_seconds=b/24,caption=reviewed["caption"],
             uncertainties=reviewed["uncertainties"],removed_claims=reviewed["removed_claims"]))
         for im in images: im.close()
     write_json(dest / "captions.json",seal(dict(identity=identity,author=config["model_id"],
+        caption_adapter=config.get("caption_adapter"),
         model_revision=config["model_revision"],caption_sampling="PLLaVA four-sample half-open intervals",
         independent_verification=False,captions=rows)))
     progress(dest,"captions_complete",len(rows),len(rows))
 
 
-def verify_video(root, config, source):
+def verify_video(root, config, source, *, write_outputs=True):
     dest = video_root(root,source)
     proposals = unseal(dest/"proposals.json")
     selection = unseal(dest/"selection.json")
     captions = unseal(dest/"captions.json")
+    if config.get("backend") == "qwen35" and (
+            captions.get("author") != config["model_id"]
+            or captions.get("model_revision") != config["model_revision"]):
+        raise ValueError("caption model provenance mismatch")
+    if config.get("caption_adapter"):
+        from .qwen35_caption_adapter import verify_record
+        if captions.get("caption_adapter") != config["caption_adapter"]:
+            raise ValueError("caption bundle adapter provenance mismatch")
+        for n, ids in enumerate(proposal_windows(source["frames"], config["candidate_stride"], config["candidate_window_frames"])):
+            observation = unseal(dest / "observations" / f"{n:05d}.json")
+            expected = dict(config_signature=config["signature"], task="proposals", indices=ids,
+                frame_hashes=[source["source_frame_hashes"][str(i)] for i in ids])
+            if observation["identity"] != expected:
+                raise ValueError("proposal observation provenance mismatch")
+            verify_record(config, observation)
     for path_key,hash_key in [("normalized_video","normalized_sha256"),("source_path","source_sha256")]:
         if path_key in source and sha256(source[path_key]) != source[hash_key]:
             raise ValueError("source video bytes changed")
@@ -506,7 +542,7 @@ def verify_video(root, config, source):
     for n,(row,a,b) in enumerate(zip(captions["captions"],keys,keys[1:])):
         if (row["segment"],row["start"],row["end_exclusive"],row["source_indices"]) != (n,a,b,sample_indices(a,b)):
             raise ValueError("caption timeline mismatch")
-        validate_caption(row,review=True)
+        caption_validator(config,review=True)(row)
         review = unseal(dest/"captions_review"/f"{n:05d}.json")
         draft = unseal(dest/"captions_draft"/f"{n:05d}.json")
         item_id = dict(captions["identity"],segment=n,start=a,end_exclusive=b,source_indices=sample_indices(a,b),
@@ -517,6 +553,16 @@ def verify_video(root, config, source):
             raise ValueError("review provenance mismatch")
         if review["result"]["caption"] != row["caption"]:
             raise ValueError("caption differs from local inference record")
+        if config.get("backend") == "qwen35":
+            for record in (draft, review):
+                from .qwen35_caption_adapter import verify_record
+                verify_record(config, record)
+                runtime = record.get("model_runtime", {})
+                if (runtime.get("model_id"), runtime.get("revision"), runtime.get("quantization")) != (
+                        config["model_id"], config["model_revision"], config["quantization"]):
+                    raise ValueError("inference model provenance mismatch")
+                if record.get("truncated") is not False or parse_json(record["raw_text"]) != record["result"]:
+                    raise ValueError("caption differs from complete raw model response")
         for i in row["source_indices"]: check_frame(source,i)
     result = dict(status="COMPLETE_LOCAL_EXTRACTION",id=source["id"],dataset=source["dataset"],
         config_signature=config["signature"],frames=source["frames"],duration_seconds=source["frames"]/24,
@@ -527,8 +573,9 @@ def verify_video(root, config, source):
         reviewed_changed_segments=sum(bool(c["removed_claims"]) for c in captions["captions"]),
         finished_utc=now(),structural_validation="PASS",quality_equivalence="NOT_ESTABLISHED",
         transmission_or_reconstruction="NOT_RUN",independent_hallucination_validation="NOT_RUN")
-    write_json(dest/"result.json",seal(result))
-    render_video(dest,source,keys,captions["captions"])
+    if write_outputs:
+        write_json(dest/"result.json",seal(result))
+        render_video(dest,source,keys,captions["captions"])
     return result
 
 
@@ -583,7 +630,7 @@ def code_paths():
         for n in ["artifacts","assisted_captions","hybrid_selection","internvl_memory","exact_reuse","webvid5","cli"]]
 
 
-def initialize(root,prepared,ids=None,model_id=MODEL_ID,revision=REVISION,quantization=None):
+def initialize(root,prepared,ids=None,model_id=MODEL_ID,revision=REVISION,quantization=None, *, backend="qwen3_vl", caption_adapter=None):
     root.mkdir(parents=True,exist_ok=True)
     if (root/"run_config.json").exists():
         raise ValueError("output already initialized; use run to resume")
@@ -604,6 +651,13 @@ def initialize(root,prepared,ids=None,model_id=MODEL_ID,revision=REVISION,quanti
         for group in groups:
             if n<len(group):ordered.append(group[n])
     model_path=Path.home()/".cache/huggingface/hub"/("models--"+model_id.replace("/","--"))/"snapshots"/revision
+    if backend == "qwen35":
+        from .qwen35_backend import MODEL_ID as qwen_id, REVISION as qwen_revision, SNAPSHOT
+        if (model_id, revision, quantization) != (qwen_id, qwen_revision, "nf4"):
+            raise ValueError("Qwen3.5 backend requires the pinned 9B NF4 configuration")
+        model_path = SNAPSHOT
+    elif backend != "qwen3_vl":
+        raise ValueError("unknown extraction backend")
     if not (model_path/"model.safetensors.index.json").exists():
         raise FileNotFoundError("download pinned Qwen model first")
     template=read(prepared/"webvid/webvid_011_65f0e6cf/extraction/protocol.json")
@@ -628,6 +682,27 @@ def initialize(root,prepared,ids=None,model_id=MODEL_ID,revision=REVISION,quanti
         source_inventory_sha256=sha256(prepared/"inventory.json"),
         scope="full original duration, reuse normalized full 24FPS 576x320 frames",
         quality_equivalence="NOT_ESTABLISHED",inference_provider="LOCAL_ONLY")
+    if backend == "qwen35":
+        prompt_file = REPO / "configs/captions/faithful_visible_under80.txt"
+        # Retain the existing visible-facts policy, with a structured transport schema.
+        faithful = prompt_file.read_text().replace(
+            "Return only a self-contained English caption", "Write a self-contained English caption")
+        config.update(backend=backend, caption_max_words=79, max_pixels=262144,
+            local_python=str(REPO/".local/qwen35_env/bin/python"), enable_thinking=False)
+        config["prompts"]["caption"] = faithful + '\nReturn ONLY JSON: {"caption":"your caption", "uncertainties":[]}. No other text.'
+        config["prompts"]["review"] = REVIEW_PROMPT.replace("at most 72 words", "at most 79 words")
+        for p in [REPO/"src/semantic_transmission/qwen35_backend.py", prompt_file,
+                  REPO/"scripts/qwen35_caption.py", REPO/"scripts/qwen35_advanced_caption.py",
+                  REPO/"environment/requirements-qwen35.lock.txt"]:
+            config["code"][str(p)] = sha256(p)
+    if caption_adapter is not None:
+        if backend != "qwen35":
+            raise ValueError("caption adapter requires Qwen3.5")
+        from .qwen35_caption_adapter import verify_adapter
+        verify_adapter(caption_adapter)
+        config["caption_adapter"] = caption_adapter
+        p = REPO / "src/semantic_transmission/qwen35_caption_adapter.py"
+        config["code"][str(p)] = sha256(p)
     config["signature"]=digest(config)
     write_json(root/"run_config.json",config)
     report(root,config,status="READY")
@@ -639,6 +714,9 @@ def verify_config(config,models=False):
         raise ValueError("configuration signature mismatch")
     for p,h in {**config["code"],**config["transnet"]}.items():
         if sha256(p)!=h:raise ValueError(f"frozen code/TransNet changed: {p}")
+    if config.get("caption_adapter"):
+        from .qwen35_caption_adapter import verify_adapter
+        verify_adapter(config["caption_adapter"])
     if models:
         for p,info in {**config["model_files"],**config["skem"]["model_files"]}.items():
             if sha256(p)!=info["sha256"]:raise ValueError(f"model weights/config changed: {p}")

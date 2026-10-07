@@ -1,0 +1,97 @@
+{
+  "date": "2026-10-03",
+  "timezone": "Asia/Seoul",
+  "status": "PASS_QWEN35_FC_LGVSC_RECONSTRUCTION",
+  "policy": "fc_lgvsc_qwen35_nf4_v1",
+  "model": {
+    "id": "Qwen/Qwen3.5-9B",
+    "revision": "c202236235762e1c871ad0ccb60c8ee5ba337b9a",
+    "quantization": "nf4",
+    "local_only": true
+  },
+  "scope": "Prepared 7.5-second candle_flowers integration smoke, not a matched quality comparison or full dataset evaluation",
+  "extraction": {
+    "root": "outputs/fc_lgvsc_qwen35_smoke_20261003",
+    "frames": 180,
+    "fps": 24,
+    "proposal_windows": 4,
+    "proposed_events": 0,
+    "optional_skem_pairs": 0,
+    "keyframes": 9,
+    "captions": 8,
+    "draft_and_review_calls": 16,
+    "truncated_outputs": 0,
+    "failed_attempt_files": 0,
+    "note": "No discrete events proposed on this sample. Endpoints and 1-second anchors selected; optional SKEM routing is covered by unit tests, not by a nonzero GPU pair count here."
+  },
+  "reconstruction": {
+    "root": "outputs/fc_lgvsc_qwen35_smoke_20261003_reconstruction/webvid_011_65f0e6cf",
+    "completed_stages": 13,
+    "frames": 180,
+    "cross_segment_transfers": 7,
+    "all_lossless_frames_decoded": true,
+    "metrics": {
+      "psnr_db": 32.49317442338407,
+      "ssim": 0.9477505862892494,
+      "lpips_vgg": 0.17867424173487556,
+      "clip": 0.9728013780381944,
+      "dists": 0.08584833840529124,
+      "frames": 180,
+      "shape": [
+        180,
+        320,
+        576,
+        3
+      ]
+    },
+    "stage_seconds": {
+      "caption": 0.0713,
+      "channel": 5.5617,
+      "comparison": 0.5719,
+      "evaluate": 30.6359,
+      "flow": 6.6892,
+      "initialize": 0.0837,
+      "input-audit": 0.7327,
+      "output-audit": 0.8371,
+      "prepare-text": 161.1168,
+      "receive": 3.4972,
+      "reconstruct": 267.7462,
+      "semantic-clips": 2.8267,
+      "send": 4.2297
+    },
+    "resume": {
+      "reused_stages": 13,
+      "started_stages": 0
+    },
+    "video": "outputs/fc_lgvsc_qwen35_smoke_20261003_reconstruction/webvid_011_65f0e6cf/run/receiver/reconstruction/sample_0000.mp4"
+  },
+  "tests": {
+    "passed": 122,
+    "command": "PYTHONPATH=src /home/sangukbae/anaconda3/envs/lgvsc/bin/python -m pytest tests/test_fc_lgvsc_qwen35.py tests/test_auto_extraction.py tests/test_hybrid_selection.py tests/test_assisted_captions.py tests/test_fc_lgvsc.py tests/test_condition_collision.py tests/test_short_schedule.py -q"
+  },
+  "source_code_sha256": {
+    "src/semantic_transmission/auto_extraction.py": "1b128ac7536fcfd608d19477484dd02cb07a6c6310b812cd0a4669a43180aeea",
+    "src/semantic_transmission/qwen35_backend.py": "1370479c3a81d09af7044cac49fe4aa7c0b712d3625bf43bdc77899c2cde79b6",
+    "src/semantic_transmission/qwen35_conditions.py": "6a2ab717cad6164b828fec3f4aa11525bd6ebf4cb89497d2dd50a0b39e35c368",
+    "src/semantic_transmission/fc_lgvsc_qwen35.py": "7ad7a2d40127d8c7687bc83fb6f4a9f91bcaf67ed56bb4c8134289175f3aa5e3",
+    "scripts/run_fc_qwen35.sh": "40bdfd6f4abf1e2ff9c0408ac0ed8c4a5e63d04d19f47671484092cd3e233d35",
+    "tests/test_fc_lgvsc_qwen35.py": "5b44c6df7e3a93c9753d3e679505a9c9f2b6ed4d77dc1f8215272d6780b7bfa0"
+  },
+  "artifact_sha256": {
+    "outputs/fc_lgvsc_qwen35_smoke_20261003/run_config.json": "852f86f25da57a93b12a0a325139c93c9836fabd0c676a648adfe9070af6d83a",
+    "outputs/fc_lgvsc_qwen35_smoke_20261003/webvid/webvid_011_65f0e6cf/proposals.json": "da1862908ff8283a1f3aa4ef617e64466fa479c32e2dc0cdcc64f5ef8bfa28cd",
+    "outputs/fc_lgvsc_qwen35_smoke_20261003/webvid/webvid_011_65f0e6cf/selection.json": "4ce06687029be2ad2741afe2bf7fdeb86a43a28ad32260627f63dd1d2ca775ca",
+    "outputs/fc_lgvsc_qwen35_smoke_20261003/webvid/webvid_011_65f0e6cf/captions.json": "cc7a9fa987eb3ea791dc25914e22a76fa3ca13b8089f88321bbd992091b6a02c",
+    "outputs/fc_lgvsc_qwen35_smoke_20261003/webvid/webvid_011_65f0e6cf/result.json": "c522532211d089c95742ba7dd6366f2e420d8495f4648e7eeddc43880f9f8acc",
+    "outputs/fc_lgvsc_qwen35_smoke_20261003_reconstruction/webvid_011_65f0e6cf/execution_protocol.json": "b3114978da6d85f73432f2f4327aff1dfd325a0c536c48961c2067b7c762fd0b",
+    "outputs/fc_lgvsc_qwen35_smoke_20261003_reconstruction/webvid_011_65f0e6cf/RESULT.json": "83afc09043b3c1e38064f3823783e3c2bcdf16796d7b9faae1c1f767b845c80a",
+    "outputs/fc_lgvsc_qwen35_smoke_20261003_reconstruction/webvid_011_65f0e6cf/run/output_audit.json": "6353227bffbbafb711f3753046cd29dbb20ea57ba4120d5072c6909ce0a08dcd",
+    "outputs/fc_lgvsc_qwen35_smoke_20261003_reconstruction/webvid_011_65f0e6cf/run/caption_provenance.json": "02c88fb70766813bf7e49d033b826169a91fa9be1ce58ec2c2f56b0f512f7349",
+    "outputs/fc_lgvsc_qwen35_smoke_20261003_reconstruction/webvid_011_65f0e6cf/run/quality.json": "fa404a54a885fe2c65ac5461c4022c962de3f4c6856494ebe7a960320473bf32",
+    "outputs/fc_lgvsc_qwen35_smoke_20261003_reconstruction/webvid_011_65f0e6cf/run/channel_accounting.json": "a6468c6f986a13c756daa4961b6557aff62755a3bb980506a59c5d687de3cc3a"
+  },
+  "quality_equivalence": "NOT_ESTABLISHED",
+  "independent_semantic_review": "PENDING",
+  "hallucination_mitigation_verified": false,
+  "full_dataset_extraction_complete": false
+}
