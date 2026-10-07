@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "adapter_id": "qwen35_evidence_repair_v3_caption_e002_u000060",
+  "base_model": "Qwen/Qwen3.5-9B",
+  "base_revision": "c202236235762e1c871ad0ccb60c8ee5ba337b9a",
+  "rank": 32,
+  "alpha": 64,
+  "default_install_directory": "outputs/qwen35_evidence_repair_v3/caption/update-000060-e002-n0000/adapter",
+  "public_download_url": null,
+  "distribution_status": "LOCAL_HANDOFF_PREPARED_PUBLIC_HOSTING_NOT_PUBLISHED",
+  "files": {
+    "adapter_config.json": {
+      "sha256": "2f27e042e426fc291a644faf284ac2753ba192d0c4538d2964721cfaeaec3f75",
+      "bytes": 1371
+    },
+    "adapter_model.safetensors": {
+      "sha256": "2115bb4ab511b73e1b2781f2cb06a6288492ac8291e7bc84ee1157c29911af9d",
+      "bytes": 346302176
+    }
+  },
+  "package_command": "PYTHONPATH=src python3 -m semantic_transmission.caption_adapter_package export --output outputs/handoff/qwen35-caption-repair-e002.zip",
+  "scope": "Inference LoRA only. Base model, prepared source inventories, teacher annotations and training checkpoints must be obtained separately."
+}
