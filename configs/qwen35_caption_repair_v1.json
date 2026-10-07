@@ -1,0 +1,1915 @@
+{
+  "version": 1,
+  "scope": "Fixed-key caption repair pilot; no selector updates",
+  "seed": 20261005,
+  "epochs": 2,
+  "lr": 2e-05,
+  "gradient_accumulation": 4,
+  "new_train_repeats": 2,
+  "auxiliary_weight": 0.3,
+  "auxiliary_prompt": "These source video frames are in chronological order. What visible actions or changes occur, and in what order? Describe only changes supported by the supplied frames, distinguishing camera movement from object movement. Do not infer an action merely from a single pose. Return only a concise English answer.",
+  "arms": [
+    "caption_ce",
+    "caption_qa"
+  ],
+  "initialization": "Fresh base-model LoRA in both arms with identical seed; previous joint adapter is comparison only.",
+  "checkpoint_policy": "Common fixed-key caption CE on 16 previous validation windows and four new validation windows. Retain the lowest mean CE checkpoint, including epoch zero. Report free-generation semantic metrics separately.",
+  "adoption_gate": "On the six new test windows, complete fact and event counts must be no lower than both base and previous joint, with no more error windows; the known 14-window diagnostic must not regress on these counts. This small non-independent pilot cannot prove broad improvement.",
+  "records": [
+    {
+      "id": "a00_tvsum_004_d8c2669f",
+      "video_id": "tvsum_004_d8c2669f",
+      "split": "train",
+      "start": 1176,
+      "end": 1272,
+      "indices": [
+        1176,
+        1190,
+        1203,
+        1217,
+        1231,
+        1245,
+        1258,
+        1272
+      ],
+      "window": 0,
+      "keys": [
+        0,
+        3,
+        5,
+        7
+      ],
+      "facts": [
+        {
+          "id": "f1",
+          "text": "A man in a gray shirt and red apron handles a light-colored dog in a grooming room.",
+          "kind": "state",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        },
+        {
+          "id": "f2",
+          "text": "He lifts the dog from below the table onto the tabletop.",
+          "kind": "event",
+          "evidence_groups": [
+            [
+              0,
+              1
+            ],
+            [
+              3,
+              4,
+              5
+            ]
+          ]
+        },
+        {
+          "id": "f3",
+          "text": "After the dog is standing on the table, he brushes its back with a red brush.",
+          "kind": "event",
+          "evidence_groups": [
+            [
+              4,
+              5
+            ],
+            [
+              6,
+              7
+            ]
+          ]
+        }
+      ],
+      "caption": "A man in a gray shirt and red apron handles a light-colored dog in a grooming room. He lifts the dog from below the table onto the tabletop. After the dog is standing on the table, he brushes its back with a red brush.",
+      "qa_answer": "He lifts the dog from below the table onto the tabletop. After the dog is standing on the table, he brushes its back with a red brush.",
+      "annotation_provenance": "Source-only manual AI review by the same Codex assistant, before any Qwen generation in this run; not human or independent teacher ground truth."
+    },
+    {
+      "id": "a01_tvsum_004_d8c2669f",
+      "video_id": "tvsum_004_d8c2669f",
+      "split": "train",
+      "start": 1344,
+      "end": 1464,
+      "indices": [
+        1344,
+        1361,
+        1378,
+        1395,
+        1413,
+        1430,
+        1447,
+        1464
+      ],
+      "window": 1,
+      "keys": [
+        0,
+        2,
+        5,
+        7
+      ],
+      "facts": [
+        {
+          "id": "f1",
+          "text": "A man handles a small white dog in a tiled wash area.",
+          "kind": "state",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        },
+        {
+          "id": "f2",
+          "text": "He rubs the dog with his bare hands.",
+          "kind": "event",
+          "evidence_groups": [
+            [
+              0,
+              1
+            ],
+            [
+              2,
+              3,
+              4
+            ]
+          ]
+        },
+        {
+          "id": "f3",
+          "text": "After a cut to another angle, he rubs the dog while wearing blue gloves.",
+          "kind": "event",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            [
+              5,
+              6,
+              7
+            ]
+          ]
+        }
+      ],
+      "caption": "A man handles a small white dog in a tiled wash area. He rubs the dog with his bare hands. After a cut to another angle, he rubs the dog while wearing blue gloves.",
+      "qa_answer": "He rubs the dog with his bare hands. After a cut to another angle, he rubs the dog while wearing blue gloves.",
+      "annotation_provenance": "Source-only manual AI review by the same Codex assistant, before any Qwen generation in this run; not human or independent teacher ground truth."
+    },
+    {
+      "id": "a02_tvsum_004_d8c2669f",
+      "video_id": "tvsum_004_d8c2669f",
+      "split": "train",
+      "start": 2206,
+      "end": 2285,
+      "indices": [
+        2206,
+        2217,
+        2229,
+        2240,
+        2251,
+        2262,
+        2274,
+        2285
+      ],
+      "window": 2,
+      "keys": [
+        0,
+        3,
+        4,
+        7
+      ],
+      "facts": [
+        {
+          "id": "f1",
+          "text": "A black, brown and white dog wears a blue collar and is tethered beside a tiled wall.",
+          "kind": "state",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        },
+        {
+          "id": "f2",
+          "text": "The dog lowers itself from sitting to lying on the floor.",
+          "kind": "event",
+          "evidence_groups": [
+            [
+              0,
+              1
+            ],
+            [
+              3,
+              4
+            ]
+          ]
+        },
+        {
+          "id": "f3",
+          "text": "A crouching person reaches down and strokes its head.",
+          "kind": "event",
+          "evidence_groups": [
+            [
+              3
+            ],
+            [
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        },
+        {
+          "id": "f4",
+          "text": "The dog then raises its head and chest and returns to a sitting posture.",
+          "kind": "event",
+          "evidence_groups": [
+            [
+              3,
+              4
+            ],
+            [
+              7
+            ]
+          ]
+        }
+      ],
+      "caption": "A black, brown and white dog wears a blue collar and is tethered beside a tiled wall. The dog lowers itself from sitting to lying on the floor. A crouching person reaches down and strokes its head. The dog then raises its head and chest and returns to a sitting posture.",
+      "qa_answer": "The dog lowers itself from sitting to lying on the floor. A crouching person reaches down and strokes its head. The dog then raises its head and chest and returns to a sitting posture.",
+      "annotation_provenance": "Source-only manual AI review by the same Codex assistant, before any Qwen generation in this run; not human or independent teacher ground truth."
+    },
+    {
+      "id": "a03_tvsum_031_28f8d4d8",
+      "video_id": "tvsum_031_28f8d4d8",
+      "split": "train",
+      "start": 648,
+      "end": 792,
+      "indices": [
+        648,
+        669,
+        689,
+        710,
+        730,
+        751,
+        771,
+        792
+      ],
+      "window": 0,
+      "keys": [
+        0,
+        3,
+        5,
+        7
+      ],
+      "facts": [
+        {
+          "id": "f1",
+          "text": "A woman in yellow and a man in a dark suit stand beside a pale blue car with its hood open.",
+          "kind": "state",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2
+            ]
+          ]
+        },
+        {
+          "id": "f2",
+          "text": "The man gestures while the woman watches.",
+          "kind": "event",
+          "evidence_groups": [
+            [
+              3,
+              4
+            ],
+            [
+              5
+            ]
+          ]
+        },
+        {
+          "id": "f3",
+          "text": "The final close view shows a hand holding a cable connector at the front of the car.",
+          "kind": "state",
+          "evidence_groups": [
+            [
+              7
+            ]
+          ]
+        }
+      ],
+      "caption": "A woman in yellow and a man in a dark suit stand beside a pale blue car with its hood open. The man gestures while the woman watches. The final close view shows a hand holding a cable connector at the front of the car.",
+      "qa_answer": "The man gestures while the woman watches.",
+      "annotation_provenance": "Source-only manual AI review by the same Codex assistant, before any Qwen generation in this run; not human or independent teacher ground truth."
+    },
+    {
+      "id": "a04_tvsum_031_28f8d4d8",
+      "video_id": "tvsum_031_28f8d4d8",
+      "split": "train",
+      "start": 1927,
+      "end": 1973,
+      "indices": [
+        1927,
+        1934,
+        1940,
+        1947,
+        1953,
+        1960,
+        1966,
+        1973
+      ],
+      "window": 1,
+      "keys": [
+        0,
+        2,
+        5,
+        7
+      ],
+      "facts": [
+        {
+          "id": "f1",
+          "text": "A man sits in a small yellow open-sided vehicle inside an exhibition hall.",
+          "kind": "state",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        },
+        {
+          "id": "f2",
+          "text": "His hands are on the controls.",
+          "kind": "state",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        },
+        {
+          "id": "f3",
+          "text": "Other people walk behind the vehicle.",
+          "kind": "event",
+          "evidence_groups": [
+            [
+              0,
+              1
+            ],
+            [
+              5,
+              6,
+              7
+            ]
+          ]
+        },
+        {
+          "id": "f4",
+          "text": "The vehicle stays in roughly the same place across the supplied views.",
+          "kind": "state",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        }
+      ],
+      "caption": "A man sits in a small yellow open-sided vehicle inside an exhibition hall. His hands are on the controls. Other people walk behind the vehicle. The vehicle stays in roughly the same place across the supplied views.",
+      "qa_answer": "Other people walk behind the vehicle.",
+      "annotation_provenance": "Source-only manual AI review by the same Codex assistant, before any Qwen generation in this run; not human or independent teacher ground truth."
+    },
+    {
+      "id": "a05_tvsum_031_28f8d4d8",
+      "video_id": "tvsum_031_28f8d4d8",
+      "split": "train",
+      "start": 2616,
+      "end": 2688,
+      "indices": [
+        2616,
+        2626,
+        2637,
+        2647,
+        2657,
+        2667,
+        2678,
+        2688
+      ],
+      "window": 2,
+      "keys": [
+        0,
+        2,
+        5,
+        7
+      ],
+      "facts": [
+        {
+          "id": "f1",
+          "text": "A green miniature bus with illuminated headlights moves on an indoor model roadway.",
+          "kind": "state",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        },
+        {
+          "id": "f2",
+          "text": "The bus approaches the camera.",
+          "kind": "event",
+          "evidence_groups": [
+            [
+              0,
+              1
+            ],
+            [
+              2,
+              3,
+              4
+            ]
+          ]
+        },
+        {
+          "id": "f3",
+          "text": "It then passes toward the right side of the image, revealing its side.",
+          "kind": "event",
+          "evidence_groups": [
+            [
+              2,
+              3
+            ],
+            [
+              5,
+              6,
+              7
+            ]
+          ]
+        }
+      ],
+      "caption": "A green miniature bus with illuminated headlights moves on an indoor model roadway. The bus approaches the camera. It then passes toward the right side of the image, revealing its side.",
+      "qa_answer": "The bus approaches the camera. It then passes toward the right side of the image, revealing its side.",
+      "annotation_provenance": "Source-only manual AI review by the same Codex assistant, before any Qwen generation in this run; not human or independent teacher ground truth."
+    },
+    {
+      "id": "a06_tvsum_034_43183ef7",
+      "video_id": "tvsum_034_43183ef7",
+      "split": "train",
+      "start": 1920,
+      "end": 2088,
+      "indices": [
+        1920,
+        1944,
+        1968,
+        1992,
+        2016,
+        2040,
+        2064,
+        2088
+      ],
+      "window": 0,
+      "keys": [
+        0,
+        4,
+        5,
+        7
+      ],
+      "facts": [
+        {
+          "id": "f1",
+          "text": "A man in a black top and light trousers is on the roof of a low building.",
+          "kind": "state",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2,
+              3
+            ]
+          ]
+        },
+        {
+          "id": "f2",
+          "text": "He jumps down from the roof to the grass.",
+          "kind": "event",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2,
+              3
+            ],
+            [
+              4
+            ],
+            [
+              5,
+              6,
+              7
+            ]
+          ]
+        },
+        {
+          "id": "f3",
+          "text": "He then runs toward the camera.",
+          "kind": "event",
+          "evidence_groups": [
+            [
+              5
+            ],
+            [
+              6,
+              7
+            ]
+          ]
+        }
+      ],
+      "caption": "A man in a black top and light trousers is on the roof of a low building. He jumps down from the roof to the grass. He then runs toward the camera.",
+      "qa_answer": "He jumps down from the roof to the grass. He then runs toward the camera.",
+      "annotation_provenance": "Source-only manual AI review by the same Codex assistant, before any Qwen generation in this run; not human or independent teacher ground truth."
+    },
+    {
+      "id": "a07_tvsum_034_43183ef7",
+      "video_id": "tvsum_034_43183ef7",
+      "split": "train",
+      "start": 3312,
+      "end": 3456,
+      "indices": [
+        3312,
+        3333,
+        3353,
+        3374,
+        3394,
+        3415,
+        3435,
+        3456
+      ],
+      "window": 1,
+      "keys": [
+        0,
+        3,
+        5,
+        7
+      ],
+      "facts": [
+        {
+          "id": "f1",
+          "text": "Two men are beside the edge of a low roof.",
+          "kind": "state",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        },
+        {
+          "id": "f2",
+          "text": "One man is already standing on top.",
+          "kind": "state",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2,
+              3
+            ]
+          ]
+        },
+        {
+          "id": "f3",
+          "text": "The other man grips the edge and pulls himself up onto the roof.",
+          "kind": "event",
+          "evidence_groups": [
+            [
+              3,
+              4
+            ],
+            [
+              5,
+              6
+            ]
+          ]
+        },
+        {
+          "id": "f4",
+          "text": "Both men are above the edge by the end.",
+          "kind": "state",
+          "evidence_groups": [
+            [
+              7
+            ]
+          ]
+        }
+      ],
+      "caption": "Two men are beside the edge of a low roof. One man is already standing on top. The other man grips the edge and pulls himself up onto the roof. Both men are above the edge by the end.",
+      "qa_answer": "The other man grips the edge and pulls himself up onto the roof.",
+      "annotation_provenance": "Source-only manual AI review by the same Codex assistant, before any Qwen generation in this run; not human or independent teacher ground truth."
+    },
+    {
+      "id": "a08_tvsum_034_43183ef7",
+      "video_id": "tvsum_034_43183ef7",
+      "split": "train",
+      "start": 4680,
+      "end": 4776,
+      "indices": [
+        4680,
+        4694,
+        4707,
+        4721,
+        4735,
+        4749,
+        4762,
+        4776
+      ],
+      "window": 2,
+      "keys": [
+        0,
+        2,
+        5,
+        7
+      ],
+      "facts": [
+        {
+          "id": "f1",
+          "text": "A man balances upside down on his hands on a roof edge.",
+          "kind": "state",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        },
+        {
+          "id": "f2",
+          "text": "He wears a dark top and light trousers.",
+          "kind": "state",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        },
+        {
+          "id": "f3",
+          "text": "He maintains the inverted pose as the camera changes to a wider view.",
+          "kind": "event",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+            ],
+            [
+              7
+            ]
+          ]
+        }
+      ],
+      "caption": "A man balances upside down on his hands on a roof edge. He wears a dark top and light trousers. He maintains the inverted pose as the camera changes to a wider view.",
+      "qa_answer": "He maintains the inverted pose as the camera changes to a wider view.",
+      "annotation_provenance": "Source-only manual AI review by the same Codex assistant, before any Qwen generation in this run; not human or independent teacher ground truth."
+    },
+    {
+      "id": "a09_tvsum_041_0c91bfa8",
+      "video_id": "tvsum_041_0c91bfa8",
+      "split": "train",
+      "start": 1536,
+      "end": 1636,
+      "indices": [
+        1536,
+        1550,
+        1565,
+        1579,
+        1593,
+        1607,
+        1622,
+        1636
+      ],
+      "window": 0,
+      "keys": [
+        0,
+        2,
+        5,
+        7
+      ],
+      "facts": [
+        {
+          "id": "f1",
+          "text": "A small brown dog lies on its side in sunlit grass.",
+          "kind": "state",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        },
+        {
+          "id": "f2",
+          "text": "The dog moves its head while remaining on the ground.",
+          "kind": "event",
+          "evidence_groups": [
+            [
+              0,
+              1
+            ],
+            [
+              2,
+              3,
+              4
+            ]
+          ]
+        },
+        {
+          "id": "f3",
+          "text": "The camera pans to the right, moving the resting dog toward the left edge of the image.",
+          "kind": "event",
+          "evidence_groups": [
+            [
+              2,
+              3
+            ],
+            [
+              5,
+              6,
+              7
+            ]
+          ]
+        }
+      ],
+      "caption": "A small brown dog lies on its side in sunlit grass. The dog moves its head while remaining on the ground. The camera pans to the right, moving the resting dog toward the left edge of the image.",
+      "qa_answer": "The dog moves its head while remaining on the ground. The camera pans to the right, moving the resting dog toward the left edge of the image.",
+      "annotation_provenance": "Source-only manual AI review by the same Codex assistant, before any Qwen generation in this run; not human or independent teacher ground truth."
+    },
+    {
+      "id": "a10_tvsum_041_0c91bfa8",
+      "video_id": "tvsum_041_0c91bfa8",
+      "split": "train",
+      "start": 1764,
+      "end": 1814,
+      "indices": [
+        1764,
+        1771,
+        1778,
+        1785,
+        1793,
+        1800,
+        1807,
+        1814
+      ],
+      "window": 1,
+      "keys": [
+        1,
+        3,
+        5,
+        7
+      ],
+      "facts": [
+        {
+          "id": "f1",
+          "text": "A small brown dog with upright ears is on a lawn.",
+          "kind": "state",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        },
+        {
+          "id": "f2",
+          "text": "The dog walks toward the camera and becomes larger in the frame.",
+          "kind": "event",
+          "evidence_groups": [
+            [
+              1,
+              2
+            ],
+            [
+              5,
+              6,
+              7
+            ]
+          ]
+        },
+        {
+          "id": "f3",
+          "text": "A white wall and tree trunks are behind it.",
+          "kind": "state",
+          "evidence_groups": [
+            [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        }
+      ],
+      "caption": "A small brown dog with upright ears is on a lawn. The dog walks toward the camera and becomes larger in the frame. A white wall and tree trunks are behind it.",
+      "qa_answer": "The dog walks toward the camera and becomes larger in the frame.",
+      "annotation_provenance": "Source-only manual AI review by the same Codex assistant, before any Qwen generation in this run; not human or independent teacher ground truth."
+    },
+    {
+      "id": "a11_tvsum_041_0c91bfa8",
+      "video_id": "tvsum_041_0c91bfa8",
+      "split": "train",
+      "start": 2760,
+      "end": 2870,
+      "indices": [
+        2760,
+        2776,
+        2791,
+        2807,
+        2823,
+        2839,
+        2854,
+        2870
+      ],
+      "window": 2,
+      "keys": [
+        0,
+        2,
+        5,
+        7
+      ],
+      "facts": [
+        {
+          "id": "f1",
+          "text": "Light-colored cushions and a red blanket cover a sofa.",
+          "kind": "state",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        },
+        {
+          "id": "f2",
+          "text": "The camera pans right to reveal a small brown dog lying on the red blanket.",
+          "kind": "event",
+          "evidence_groups": [
+            [
+              0,
+              1
+            ],
+            [
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        },
+        {
+          "id": "f3",
+          "text": "The dog is on its back wearing a purple garment, with its paws bent above its body.",
+          "kind": "state",
+          "evidence_groups": [
+            [
+              5,
+              6,
+              7
+            ]
+          ]
+        }
+      ],
+      "caption": "Light-colored cushions and a red blanket cover a sofa. The camera pans right to reveal a small brown dog lying on the red blanket. The dog is on its back wearing a purple garment, with its paws bent above its body.",
+      "qa_answer": "The camera pans right to reveal a small brown dog lying on the red blanket.",
+      "annotation_provenance": "Source-only manual AI review by the same Codex assistant, before any Qwen generation in this run; not human or independent teacher ground truth."
+    },
+    {
+      "id": "a12_tvsum_035_7a3daec4",
+      "video_id": "tvsum_035_7a3daec4",
+      "split": "validation",
+      "start": 1164,
+      "end": 1255,
+      "indices": [
+        1164,
+        1177,
+        1190,
+        1203,
+        1216,
+        1229,
+        1242,
+        1255
+      ],
+      "window": 0,
+      "keys": [
+        1,
+        3,
+        5,
+        7
+      ],
+      "facts": [
+        {
+          "id": "f1",
+          "text": "A helmeted rider in dark clothing rides a light-colored bicycle on a street.",
+          "kind": "state",
+          "evidence_groups": [
+            [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        },
+        {
+          "id": "f2",
+          "text": "The cyclist approaches and passes across the view toward the right.",
+          "kind": "event",
+          "evidence_groups": [
+            [
+              1,
+              2
+            ],
+            [
+              3,
+              4,
+              5
+            ]
+          ]
+        },
+        {
+          "id": "f3",
+          "text": "The cyclist then recedes along the street.",
+          "kind": "event",
+          "evidence_groups": [
+            [
+              3,
+              4,
+              5
+            ],
+            [
+              6,
+              7
+            ]
+          ]
+        },
+        {
+          "id": "f4",
+          "text": "The camera pans to follow the rider.",
+          "kind": "state",
+          "evidence_groups": [
+            [
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        }
+      ],
+      "caption": "A helmeted rider in dark clothing rides a light-colored bicycle on a street. The cyclist approaches and passes across the view toward the right. The cyclist then recedes along the street. The camera pans to follow the rider.",
+      "qa_answer": "The cyclist approaches and passes across the view toward the right. The cyclist then recedes along the street.",
+      "annotation_provenance": "Source-only manual AI review by the same Codex assistant, before any Qwen generation in this run; not human or independent teacher ground truth."
+    },
+    {
+      "id": "a13_tvsum_035_7a3daec4",
+      "video_id": "tvsum_035_7a3daec4",
+      "split": "validation",
+      "start": 3216,
+      "end": 3274,
+      "indices": [
+        3216,
+        3224,
+        3233,
+        3241,
+        3249,
+        3257,
+        3266,
+        3274
+      ],
+      "window": 1,
+      "keys": [
+        0,
+        2,
+        4,
+        7
+      ],
+      "facts": [
+        {
+          "id": "f1",
+          "text": "A helmeted cyclist rides a light-colored bicycle along a street.",
+          "kind": "state",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        },
+        {
+          "id": "f2",
+          "text": "The cyclist travels from the left toward the right.",
+          "kind": "event",
+          "evidence_groups": [
+            [
+              0,
+              1
+            ],
+            [
+              6,
+              7
+            ]
+          ]
+        },
+        {
+          "id": "f3",
+          "text": "The rider leans forward and changes the bicycle angle briefly before continuing.",
+          "kind": "event",
+          "evidence_groups": [
+            [
+              1,
+              2
+            ],
+            [
+              3,
+              4,
+              5
+            ],
+            [
+              6,
+              7
+            ]
+          ]
+        },
+        {
+          "id": "f4",
+          "text": "An orange car and dark building are behind the cyclist.",
+          "kind": "state",
+          "evidence_groups": [
+            [
+              5,
+              6,
+              7
+            ]
+          ]
+        }
+      ],
+      "caption": "A helmeted cyclist rides a light-colored bicycle along a street. The cyclist travels from the left toward the right. The rider leans forward and changes the bicycle angle briefly before continuing. An orange car and dark building are behind the cyclist.",
+      "qa_answer": "The cyclist travels from the left toward the right. The rider leans forward and changes the bicycle angle briefly before continuing.",
+      "annotation_provenance": "Source-only manual AI review by the same Codex assistant, before any Qwen generation in this run; not human or independent teacher ground truth."
+    },
+    {
+      "id": "a14_tvsum_040_3354cee1",
+      "video_id": "tvsum_040_3354cee1",
+      "split": "validation",
+      "start": 2256,
+      "end": 2376,
+      "indices": [
+        2256,
+        2273,
+        2290,
+        2307,
+        2325,
+        2342,
+        2359,
+        2376
+      ],
+      "window": 0,
+      "keys": [
+        0,
+        2,
+        4,
+        7
+      ],
+      "facts": [
+        {
+          "id": "f1",
+          "text": "A large brown dog is at an open doorway.",
+          "kind": "state",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2
+            ]
+          ]
+        },
+        {
+          "id": "f2",
+          "text": "The dog walks out from the doorway onto a dark ramp or mat.",
+          "kind": "event",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2
+            ],
+            [
+              3,
+              4
+            ]
+          ]
+        },
+        {
+          "id": "f3",
+          "text": "It approaches the camera and turns toward the right.",
+          "kind": "event",
+          "evidence_groups": [
+            [
+              3,
+              4
+            ],
+            [
+              6,
+              7
+            ]
+          ]
+        },
+        {
+          "id": "f4",
+          "text": "The dog has short legs and floppy ears.",
+          "kind": "state",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        }
+      ],
+      "caption": "A large brown dog is at an open doorway. The dog walks out from the doorway onto a dark ramp or mat. It approaches the camera and turns toward the right. The dog has short legs and floppy ears.",
+      "qa_answer": "The dog walks out from the doorway onto a dark ramp or mat. It approaches the camera and turns toward the right.",
+      "annotation_provenance": "Source-only manual AI review by the same Codex assistant, before any Qwen generation in this run; not human or independent teacher ground truth."
+    },
+    {
+      "id": "a15_tvsum_040_3354cee1",
+      "video_id": "tvsum_040_3354cee1",
+      "split": "validation",
+      "start": 2640,
+      "end": 2736,
+      "indices": [
+        2640,
+        2654,
+        2667,
+        2681,
+        2695,
+        2709,
+        2722,
+        2736
+      ],
+      "window": 1,
+      "keys": [
+        0,
+        2,
+        4,
+        7
+      ],
+      "facts": [
+        {
+          "id": "f1",
+          "text": "A brown dog has its muzzle in a gray food bowl.",
+          "kind": "state",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        },
+        {
+          "id": "f2",
+          "text": "The bowl contains dry food around a raised central section.",
+          "kind": "state",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        },
+        {
+          "id": "f3",
+          "text": "The dog eats while moving its muzzle around the bowl.",
+          "kind": "event",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2
+            ],
+            [
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        }
+      ],
+      "caption": "A brown dog has its muzzle in a gray food bowl. The bowl contains dry food around a raised central section. The dog eats while moving its muzzle around the bowl.",
+      "qa_answer": "The dog eats while moving its muzzle around the bowl.",
+      "annotation_provenance": "Source-only manual AI review by the same Codex assistant, before any Qwen generation in this run; not human or independent teacher ground truth."
+    },
+    {
+      "id": "a16_tvsum_021_790c560f",
+      "video_id": "tvsum_021_790c560f",
+      "split": "test",
+      "start": 1130,
+      "end": 1174,
+      "indices": [
+        1130,
+        1136,
+        1143,
+        1149,
+        1155,
+        1161,
+        1168,
+        1174
+      ],
+      "window": 0,
+      "keys": [
+        0,
+        3,
+        5,
+        7
+      ],
+      "facts": [
+        {
+          "id": "f1",
+          "text": "A young man wearing a blue shirt is between concrete walls.",
+          "kind": "state",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        },
+        {
+          "id": "f2",
+          "text": "Several other people are around and above him.",
+          "kind": "state",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        },
+        {
+          "id": "f3",
+          "text": "He turns toward the wall and places a hand on its edge.",
+          "kind": "event",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2
+            ],
+            [
+              3,
+              4,
+              5
+            ]
+          ]
+        },
+        {
+          "id": "f4",
+          "text": "He briefly rises upward while bracing himself on the wall.",
+          "kind": "event",
+          "evidence_groups": [
+            [
+              3,
+              4,
+              5
+            ],
+            [
+              6,
+              7
+            ]
+          ]
+        }
+      ],
+      "caption": "A young man wearing a blue shirt is between concrete walls. Several other people are around and above him. He turns toward the wall and places a hand on its edge. He briefly rises upward while bracing himself on the wall.",
+      "qa_answer": "He turns toward the wall and places a hand on its edge. He briefly rises upward while bracing himself on the wall.",
+      "annotation_provenance": "Source-only manual AI review by the same Codex assistant, before any Qwen generation in this run; not human or independent teacher ground truth."
+    },
+    {
+      "id": "a17_tvsum_021_790c560f",
+      "video_id": "tvsum_021_790c560f",
+      "split": "test",
+      "start": 2208,
+      "end": 2318,
+      "indices": [
+        2208,
+        2224,
+        2239,
+        2255,
+        2271,
+        2287,
+        2302,
+        2318
+      ],
+      "window": 1,
+      "keys": [
+        0,
+        3,
+        5,
+        7
+      ],
+      "facts": [
+        {
+          "id": "f1",
+          "text": "Several young men lean forward with their arms extended.",
+          "kind": "state",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        },
+        {
+          "id": "f2",
+          "text": "The man closest to the camera wears a burgundy shirt and white earbuds.",
+          "kind": "state",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        },
+        {
+          "id": "f3",
+          "text": "He lowers his head and then raises it while smiling.",
+          "kind": "event",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2
+            ],
+            [
+              3
+            ],
+            [
+              4,
+              5,
+              6
+            ]
+          ]
+        },
+        {
+          "id": "f4",
+          "text": "The men remain grouped beside a low wall.",
+          "kind": "state",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        }
+      ],
+      "caption": "Several young men lean forward with their arms extended. The man closest to the camera wears a burgundy shirt and white earbuds. He lowers his head and then raises it while smiling. The men remain grouped beside a low wall.",
+      "qa_answer": "He lowers his head and then raises it while smiling.",
+      "annotation_provenance": "Source-only manual AI review by the same Codex assistant, before any Qwen generation in this run; not human or independent teacher ground truth."
+    },
+    {
+      "id": "a18_tvsum_021_790c560f",
+      "video_id": "tvsum_021_790c560f",
+      "split": "test",
+      "start": 5832,
+      "end": 5976,
+      "indices": [
+        5832,
+        5853,
+        5873,
+        5894,
+        5914,
+        5935,
+        5955,
+        5976
+      ],
+      "window": 2,
+      "keys": [
+        0,
+        3,
+        5,
+        7
+      ],
+      "facts": [
+        {
+          "id": "f1",
+          "text": "A man wearing white earbuds stands beside a wire fence.",
+          "kind": "state",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        },
+        {
+          "id": "f2",
+          "text": "He raises a black camera to his eye.",
+          "kind": "event",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2
+            ],
+            [
+              3,
+              4,
+              5,
+              6
+            ]
+          ]
+        },
+        {
+          "id": "f3",
+          "text": "He then lowers the camera again.",
+          "kind": "event",
+          "evidence_groups": [
+            [
+              3,
+              4,
+              5,
+              6
+            ],
+            [
+              7
+            ]
+          ]
+        },
+        {
+          "id": "f4",
+          "text": "Railway tracks and gravel are visible beyond the fence.",
+          "kind": "state",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        }
+      ],
+      "caption": "A man wearing white earbuds stands beside a wire fence. He raises a black camera to his eye. He then lowers the camera again. Railway tracks and gravel are visible beyond the fence.",
+      "qa_answer": "He raises a black camera to his eye. He then lowers the camera again.",
+      "annotation_provenance": "Source-only manual AI review by the same Codex assistant, before any Qwen generation in this run; not human or independent teacher ground truth."
+    },
+    {
+      "id": "a19_tvsum_044_b6767caf",
+      "video_id": "tvsum_044_b6767caf",
+      "split": "test",
+      "start": 1992,
+      "end": 2059,
+      "indices": [
+        1992,
+        2002,
+        2011,
+        2021,
+        2030,
+        2040,
+        2049,
+        2059
+      ],
+      "window": 0,
+      "keys": [
+        0,
+        2,
+        5,
+        7
+      ],
+      "facts": [
+        {
+          "id": "f1",
+          "text": "Railway rails cross an asphalt road.",
+          "kind": "state",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        },
+        {
+          "id": "f2",
+          "text": "Vehicles pass across the rails.",
+          "kind": "event",
+          "evidence_groups": [
+            [
+              0,
+              1
+            ],
+            [
+              2,
+              3,
+              4,
+              5
+            ]
+          ]
+        },
+        {
+          "id": "f3",
+          "text": "The near part of the crossing becomes empty after a vehicle passes.",
+          "kind": "event",
+          "evidence_groups": [
+            [
+              4,
+              5
+            ],
+            [
+              6,
+              7
+            ]
+          ]
+        },
+        {
+          "id": "f4",
+          "text": "A white curved road marking is beside gravel and leaves.",
+          "kind": "state",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        }
+      ],
+      "caption": "Railway rails cross an asphalt road. Vehicles pass across the rails. The near part of the crossing becomes empty after a vehicle passes. A white curved road marking is beside gravel and leaves.",
+      "qa_answer": "Vehicles pass across the rails. The near part of the crossing becomes empty after a vehicle passes.",
+      "annotation_provenance": "Source-only manual AI review by the same Codex assistant, before any Qwen generation in this run; not human or independent teacher ground truth."
+    },
+    {
+      "id": "a20_tvsum_044_b6767caf",
+      "video_id": "tvsum_044_b6767caf",
+      "split": "test",
+      "start": 2330,
+      "end": 2383,
+      "indices": [
+        2330,
+        2338,
+        2345,
+        2353,
+        2360,
+        2368,
+        2375,
+        2383
+      ],
+      "window": 1,
+      "keys": [
+        0,
+        2,
+        5,
+        7
+      ],
+      "facts": [
+        {
+          "id": "f1",
+          "text": "Cars are at a road crossing over railway tracks.",
+          "kind": "state",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        },
+        {
+          "id": "f2",
+          "text": "A red car crosses the tracks toward the right.",
+          "kind": "event",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2
+            ],
+            [
+              3,
+              4,
+              5
+            ]
+          ]
+        },
+        {
+          "id": "f3",
+          "text": "The red car leaves the view on the right.",
+          "kind": "event",
+          "evidence_groups": [
+            [
+              4,
+              5
+            ],
+            [
+              6,
+              7
+            ]
+          ]
+        },
+        {
+          "id": "f4",
+          "text": "A light-colored car follows behind it toward the crossing.",
+          "kind": "event",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2
+            ],
+            [
+              6,
+              7
+            ]
+          ]
+        }
+      ],
+      "caption": "Cars are at a road crossing over railway tracks. A red car crosses the tracks toward the right. The red car leaves the view on the right. A light-colored car follows behind it toward the crossing.",
+      "qa_answer": "A red car crosses the tracks toward the right. The red car leaves the view on the right. A light-colored car follows behind it toward the crossing.",
+      "annotation_provenance": "Source-only manual AI review by the same Codex assistant, before any Qwen generation in this run; not human or independent teacher ground truth."
+    },
+    {
+      "id": "a21_tvsum_044_b6767caf",
+      "video_id": "tvsum_044_b6767caf",
+      "split": "test",
+      "start": 2592,
+      "end": 2664,
+      "indices": [
+        2592,
+        2602,
+        2613,
+        2623,
+        2633,
+        2643,
+        2654,
+        2664
+      ],
+      "window": 2,
+      "keys": [
+        0,
+        2,
+        5,
+        7
+      ],
+      "facts": [
+        {
+          "id": "f1",
+          "text": "A yellow school bus is at a railway crossing.",
+          "kind": "state",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        },
+        {
+          "id": "f2",
+          "text": "The bus moves slowly toward the right across the tracks.",
+          "kind": "event",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2
+            ],
+            [
+              5,
+              6,
+              7
+            ]
+          ]
+        },
+        {
+          "id": "f3",
+          "text": "Railway signals and road traffic lights stand around the crossing.",
+          "kind": "state",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        },
+        {
+          "id": "f4",
+          "text": "Gravel and railway rails are in the foreground.",
+          "kind": "state",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        }
+      ],
+      "caption": "A yellow school bus is at a railway crossing. The bus moves slowly toward the right across the tracks. Railway signals and road traffic lights stand around the crossing. Gravel and railway rails are in the foreground.",
+      "qa_answer": "The bus moves slowly toward the right across the tracks.",
+      "annotation_provenance": "Source-only manual AI review by the same Codex assistant, before any Qwen generation in this run; not human or independent teacher ground truth."
+    }
+  ]
+}

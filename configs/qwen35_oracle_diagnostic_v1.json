@@ -1,0 +1,1232 @@
+{
+  "schema_version": 1,
+  "reviewer": "Codex source-image AI review; not independent, not human or GPT6-Astra ground truth",
+  "construction": "Source-only review of eight candidates plus 24 denser samples per window before any diagnostic Qwen output. Windows selected for visible actions from reserve sources. No existing model captions consulted.",
+  "scope": "New to the 24-source Qwen training/validation/test pilot, but historical project source extraction exists. Purposive diagnostic, not a random held-out generalization benchmark.",
+  "rubric": {
+    "fact_hit": "Caption must entail the complete atomic fact. Paraphrases accepted. Generic handling does not count a specific transition. Unsupported embellishments separately scored.",
+    "evidence": "All groups require a chronological distinct witness. Alternative valid before/after frames included. Single-group actions require only one witness.",
+    "error": "Count explicit unsupported visual claims; record ambiguous claims separately and do not count them as definite errors.",
+    "oracle": "Maximize event evidence count then all-fact evidence count then temporal spread over all 15 endpoint-inclusive four-key subsets; lexicographic tie break. Not an executable selector.",
+    "no_tuning": "No learning, prompt edits, checkpoint selection or selective retries based on these diagnostic rows."
+  },
+  "records": [
+    {
+      "id": "d00_tvsum_002_63a2f711",
+      "video_id": "tvsum_002_63a2f711",
+      "start": 449,
+      "end": 559,
+      "indices": [
+        449,
+        465,
+        480,
+        496,
+        512,
+        528,
+        543,
+        559
+      ],
+      "facts": [
+        {
+          "kind": "state",
+          "text": "A large shaggy black-and-white dog is beside a man.",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          "id": "f0"
+        },
+        {
+          "kind": "state",
+          "text": "The man is seated on a light-colored sofa.",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          "id": "f1"
+        },
+        {
+          "kind": "event",
+          "text": "The dog gets up from the floor onto the sofa.",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2,
+              3
+            ],
+            [
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          "id": "f2"
+        },
+        {
+          "kind": "event",
+          "text": "The dog changes from standing on the sofa to lying or settling down beside the man.",
+          "evidence_groups": [
+            [
+              4
+            ],
+            [
+              5,
+              6,
+              7
+            ]
+          ],
+          "id": "f3"
+        },
+        {
+          "kind": "event",
+          "text": "The man pets or strokes the dog.",
+          "evidence_groups": [
+            [
+              5,
+              6,
+              7
+            ]
+          ],
+          "id": "f4"
+        }
+      ],
+      "source_review_note": "Claims are limited to visually supported actions; no sound, motive or inferred identity."
+    },
+    {
+      "id": "d01_tvsum_002_63a2f711",
+      "video_id": "tvsum_002_63a2f711",
+      "start": 1872,
+      "end": 2088,
+      "indices": [
+        1872,
+        1903,
+        1934,
+        1965,
+        1995,
+        2026,
+        2057,
+        2088
+      ],
+      "facts": [
+        {
+          "kind": "state",
+          "text": "A person holds a dog paw.",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          "id": "f0"
+        },
+        {
+          "kind": "state",
+          "text": "A metal nail clipper is held near the paw.",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              3,
+              5,
+              6
+            ]
+          ],
+          "id": "f1"
+        },
+        {
+          "kind": "event",
+          "text": "The person brings the clipper against a claw.",
+          "evidence_groups": [
+            [
+              0,
+              2,
+              4
+            ],
+            [
+              1,
+              3,
+              5
+            ]
+          ],
+          "id": "f2"
+        },
+        {
+          "kind": "event",
+          "text": "The clipper is lowered away from the paw after contact.",
+          "evidence_groups": [
+            [
+              1,
+              3,
+              5
+            ],
+            [
+              6
+            ]
+          ],
+          "id": "f3"
+        }
+      ],
+      "source_review_note": "Claims are limited to visually supported actions; no sound, motive or inferred identity."
+    },
+    {
+      "id": "d02_tvsum_005_2779762f",
+      "video_id": "tvsum_005_2779762f",
+      "start": 300,
+      "end": 372,
+      "indices": [
+        300,
+        310,
+        321,
+        331,
+        341,
+        351,
+        362,
+        372
+      ],
+      "facts": [
+        {
+          "kind": "state",
+          "text": "A child wears a green top.",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          "id": "f0"
+        },
+        {
+          "kind": "state",
+          "text": "The child is on a small yellow bicycle.",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          "id": "f1"
+        },
+        {
+          "kind": "state",
+          "text": "There are people around a cobbled public square.",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          "id": "f2"
+        },
+        {
+          "kind": "event",
+          "text": "The child travels across the square away from the camera.",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2
+            ],
+            [
+              5,
+              6,
+              7
+            ]
+          ],
+          "id": "f3"
+        }
+      ],
+      "source_review_note": "Claims are limited to visually supported actions; no sound, motive or inferred identity."
+    },
+    {
+      "id": "d03_tvsum_005_2779762f",
+      "video_id": "tvsum_005_2779762f",
+      "start": 2436,
+      "end": 2532,
+      "indices": [
+        2436,
+        2450,
+        2463,
+        2477,
+        2491,
+        2505,
+        2518,
+        2532
+      ],
+      "facts": [
+        {
+          "kind": "state",
+          "text": "A group of helmeted cyclists is on the street.",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          "id": "f0"
+        },
+        {
+          "kind": "state",
+          "text": "Many riders wear matching light-colored jerseys.",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          "id": "f1"
+        },
+        {
+          "kind": "event",
+          "text": "Riders approach the camera and pass out of view to the right.",
+          "evidence_groups": [
+            [
+              0,
+              1
+            ],
+            [
+              2,
+              3
+            ],
+            [
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          "id": "f2"
+        },
+        {
+          "kind": "event",
+          "text": "A cyclist wearing red and black appears among the light-jersey riders.",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2
+            ],
+            [
+              4,
+              5,
+              6
+            ]
+          ],
+          "id": "f3"
+        }
+      ],
+      "source_review_note": "Claims are limited to visually supported actions; no sound, motive or inferred identity."
+    },
+    {
+      "id": "d04_tvsum_018_dff35488",
+      "video_id": "tvsum_018_dff35488",
+      "start": 1044,
+      "end": 1152,
+      "indices": [
+        1044,
+        1059,
+        1075,
+        1090,
+        1106,
+        1121,
+        1137,
+        1152
+      ],
+      "facts": [
+        {
+          "kind": "state",
+          "text": "A man in black stands beside a bicycle.",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2,
+              3
+            ]
+          ],
+          "id": "f0"
+        },
+        {
+          "kind": "state",
+          "text": "The bicycle is upright on a sidewalk beside a dark building.",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          "id": "f1"
+        },
+        {
+          "kind": "event",
+          "text": "The man lets go of the bicycle and walks away to the right.",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2,
+              3
+            ],
+            [
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          "id": "f2"
+        },
+        {
+          "kind": "event",
+          "text": "The bicycle remains behind after the man exits the right edge.",
+          "evidence_groups": [
+            [
+              4,
+              5
+            ],
+            [
+              7
+            ]
+          ],
+          "id": "f3"
+        }
+      ],
+      "source_review_note": "Claims are limited to visually supported actions; no sound, motive or inferred identity."
+    },
+    {
+      "id": "d05_tvsum_018_dff35488",
+      "video_id": "tvsum_018_dff35488",
+      "start": 1200,
+      "end": 1368,
+      "indices": [
+        1200,
+        1224,
+        1248,
+        1272,
+        1296,
+        1320,
+        1344,
+        1368
+      ],
+      "facts": [
+        {
+          "kind": "state",
+          "text": "A man in a plaid shirt is beside a bicycle.",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2,
+              7
+            ]
+          ],
+          "id": "f0"
+        },
+        {
+          "kind": "state",
+          "text": "There is a close view of the front wheel and fork.",
+          "evidence_groups": [
+            [
+              3,
+              4,
+              5,
+              6
+            ]
+          ],
+          "id": "f1"
+        },
+        {
+          "kind": "event",
+          "text": "The man approaches the bicycle and bends toward its front wheel.",
+          "evidence_groups": [
+            [
+              0
+            ],
+            [
+              1,
+              2
+            ]
+          ],
+          "id": "f2"
+        },
+        {
+          "kind": "event",
+          "text": "He detaches the front wheel from the fork.",
+          "evidence_groups": [
+            [
+              3,
+              4
+            ],
+            [
+              5,
+              6,
+              7
+            ]
+          ],
+          "id": "f3"
+        },
+        {
+          "kind": "event",
+          "text": "He carries the removed wheel away from the bicycle.",
+          "evidence_groups": [
+            [
+              5,
+              6
+            ],
+            [
+              7
+            ]
+          ],
+          "id": "f4"
+        }
+      ],
+      "source_review_note": "Two edits change scale during one visible front-wheel removal sequence. Do not infer theft or motive."
+    },
+    {
+      "id": "d06_tvsum_038_7a8cc3f5",
+      "video_id": "tvsum_038_7a8cc3f5",
+      "start": 264,
+      "end": 446,
+      "indices": [
+        264,
+        290,
+        316,
+        342,
+        368,
+        394,
+        420,
+        446
+      ],
+      "facts": [
+        {
+          "kind": "state",
+          "text": "A woman is beside an open metal animal enclosure.",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          "id": "f0"
+        },
+        {
+          "kind": "state",
+          "text": "The enclosure has a slatted floor panel.",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          "id": "f1"
+        },
+        {
+          "kind": "event",
+          "text": "She lowers the raised floor panel into a flat position.",
+          "evidence_groups": [
+            [
+              0
+            ],
+            [
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          ],
+          "id": "f2"
+        },
+        {
+          "kind": "event",
+          "text": "She then lifts the front edge of the floor panel again.",
+          "evidence_groups": [
+            [
+              1,
+              2,
+              3,
+              4,
+              5
+            ],
+            [
+              6,
+              7
+            ]
+          ],
+          "id": "f3"
+        }
+      ],
+      "source_review_note": "Claims are limited to visually supported actions; no sound, motive or inferred identity."
+    },
+    {
+      "id": "d07_tvsum_038_7a8cc3f5",
+      "video_id": "tvsum_038_7a8cc3f5",
+      "start": 516,
+      "end": 648,
+      "indices": [
+        516,
+        535,
+        554,
+        573,
+        591,
+        610,
+        629,
+        648
+      ],
+      "facts": [
+        {
+          "kind": "state",
+          "text": "A woman is beside a metal animal enclosure.",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          "id": "f0"
+        },
+        {
+          "kind": "state",
+          "text": "Light bedding is inside the enclosure.",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          "id": "f1"
+        },
+        {
+          "kind": "event",
+          "text": "She swings the open barred door closed.",
+          "evidence_groups": [
+            [
+              0,
+              1
+            ],
+            [
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          "id": "f2"
+        },
+        {
+          "kind": "event",
+          "text": "She manipulates the latch at the right edge of the closed door.",
+          "evidence_groups": [
+            [
+              4,
+              5
+            ]
+          ],
+          "id": "f3"
+        }
+      ],
+      "source_review_note": "Claims are limited to visually supported actions; no sound, motive or inferred identity."
+    },
+    {
+      "id": "d08_tvsum_045_302cfeab",
+      "video_id": "tvsum_045_302cfeab",
+      "start": 1476,
+      "end": 1591,
+      "indices": [
+        1476,
+        1492,
+        1509,
+        1525,
+        1542,
+        1558,
+        1575,
+        1591
+      ],
+      "facts": [
+        {
+          "kind": "state",
+          "text": "People wear white protective suits and gloves.",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          "id": "f0"
+        },
+        {
+          "kind": "state",
+          "text": "Wooden hive boxes stand outdoors on pallets.",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          "id": "f1"
+        },
+        {
+          "kind": "event",
+          "text": "One person carries a wooden box toward an empty pallet.",
+          "evidence_groups": [
+            [
+              0,
+              1
+            ],
+            [
+              2,
+              3,
+              4,
+              5
+            ]
+          ],
+          "id": "f2"
+        },
+        {
+          "kind": "event",
+          "text": "That person lowers the box onto the pallet.",
+          "evidence_groups": [
+            [
+              4,
+              5
+            ],
+            [
+              6
+            ]
+          ],
+          "id": "f3"
+        },
+        {
+          "kind": "event",
+          "text": "Another person enters the foreground carrying a dark bucket.",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5
+            ],
+            [
+              6,
+              7
+            ]
+          ],
+          "id": "f4"
+        }
+      ],
+      "source_review_note": "At i7 foreground occlusion hides final contact; i6 is required to support box placement."
+    },
+    {
+      "id": "d09_tvsum_045_302cfeab",
+      "video_id": "tvsum_045_302cfeab",
+      "start": 2568,
+      "end": 2619,
+      "indices": [
+        2568,
+        2575,
+        2583,
+        2590,
+        2597,
+        2604,
+        2612,
+        2619
+      ],
+      "facts": [
+        {
+          "kind": "state",
+          "text": "Two people wear white protective suits and veiled hats.",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          "id": "f0"
+        },
+        {
+          "kind": "state",
+          "text": "They are beside an open wooden hive.",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          "id": "f1"
+        },
+        {
+          "kind": "event",
+          "text": "One person handles a metal smoker over the hive.",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+            ]
+          ],
+          "id": "f2"
+        },
+        {
+          "kind": "event",
+          "text": "A cloud of smoke spreads over the open hive.",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            [
+              7
+            ]
+          ],
+          "id": "f3"
+        }
+      ],
+      "source_review_note": "Do not infer harvesting honey, opening the hive, or bee reactions. They are not shown."
+    },
+    {
+      "id": "d10_tvsum_048_71bb3992",
+      "video_id": "tvsum_048_71bb3992",
+      "start": 5318,
+      "end": 5477,
+      "indices": [
+        5318,
+        5341,
+        5363,
+        5386,
+        5409,
+        5432,
+        5454,
+        5477
+      ],
+      "facts": [
+        {
+          "kind": "state",
+          "text": "A small white enclosed two-wheeled vehicle is on a street.",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          "id": "f0"
+        },
+        {
+          "kind": "state",
+          "text": "A driver is visible inside the vehicle.",
+          "evidence_groups": [
+            [
+              5,
+              6,
+              7
+            ]
+          ],
+          "id": "f1"
+        },
+        {
+          "kind": "event",
+          "text": "The vehicle approaches from down the street.",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2
+            ],
+            [
+              4,
+              5
+            ]
+          ],
+          "id": "f2"
+        },
+        {
+          "kind": "event",
+          "text": "It passes the camera toward the right.",
+          "evidence_groups": [
+            [
+              4,
+              5
+            ],
+            [
+              6,
+              7
+            ]
+          ],
+          "id": "f3"
+        }
+      ],
+      "source_review_note": "The vehicle is two-wheeled; avoid car/four-wheel assumptions. Camera follows it near the end."
+    },
+    {
+      "id": "d11_tvsum_048_71bb3992",
+      "video_id": "tvsum_048_71bb3992",
+      "start": 5119,
+      "end": 5287,
+      "indices": [
+        5119,
+        5143,
+        5167,
+        5191,
+        5215,
+        5239,
+        5263,
+        5287
+      ],
+      "facts": [
+        {
+          "kind": "state",
+          "text": "A man in dark clothing stands beside a small white enclosed vehicle.",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2,
+              3,
+              4
+            ]
+          ],
+          "id": "f0"
+        },
+        {
+          "kind": "state",
+          "text": "The vehicle is parked facing the camera.",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          "id": "f1"
+        },
+        {
+          "kind": "event",
+          "text": "The man opens the side door.",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2
+            ],
+            [
+              3,
+              4,
+              5
+            ]
+          ],
+          "id": "f2"
+        },
+        {
+          "kind": "event",
+          "text": "He gets inside the vehicle.",
+          "evidence_groups": [
+            [
+              3,
+              4
+            ],
+            [
+              6,
+              7
+            ]
+          ],
+          "id": "f3"
+        },
+        {
+          "kind": "event",
+          "text": "He closes the door after getting inside.",
+          "evidence_groups": [
+            [
+              4,
+              5
+            ],
+            [
+              7
+            ]
+          ],
+          "id": "f4"
+        }
+      ],
+      "source_review_note": "The vehicle does not drive away within this window."
+    },
+    {
+      "id": "d12_webvid_023_8d9d4818",
+      "video_id": "webvid_023_8d9d4818",
+      "start": 0,
+      "end": 240,
+      "indices": [
+        0,
+        34,
+        69,
+        103,
+        137,
+        171,
+        206,
+        240
+      ],
+      "facts": [
+        {
+          "kind": "state",
+          "text": "A yellow-green grass seed head is in the foreground.",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          "id": "f0"
+        },
+        {
+          "kind": "state",
+          "text": "There are water droplets on a green blade behind it.",
+          "evidence_groups": [
+            [
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          "id": "f1"
+        },
+        {
+          "kind": "event",
+          "text": "Focus shifts from the foreground seed head to the droplets on the blade behind it.",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2
+            ],
+            [
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          "id": "f2"
+        }
+      ],
+      "source_review_note": "Focus change does not imply seed growth, leaf translation, or droplets falling."
+    },
+    {
+      "id": "d13_webvid_027_8e3b5f7e",
+      "video_id": "webvid_027_8e3b5f7e",
+      "start": 0,
+      "end": 391,
+      "indices": [
+        0,
+        56,
+        112,
+        168,
+        223,
+        279,
+        335,
+        391
+      ],
+      "facts": [
+        {
+          "kind": "state",
+          "text": "Ruins or stone columns stand before a domed building.",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          "id": "f0"
+        },
+        {
+          "kind": "state",
+          "text": "A dark railing runs across the foreground.",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2,
+              3
+            ]
+          ],
+          "id": "f1"
+        },
+        {
+          "kind": "event",
+          "text": "The camera moves past the urban scene.",
+          "evidence_groups": [
+            [
+              0,
+              1
+            ],
+            [
+              6,
+              7
+            ]
+          ],
+          "id": "f2"
+        },
+        {
+          "kind": "event",
+          "text": "A nearby lamp post briefly enters and then leaves the foreground.",
+          "evidence_groups": [
+            [
+              0,
+              1,
+              2
+            ],
+            [
+              3
+            ],
+            [
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          "id": "f3"
+        }
+      ],
+      "source_review_note": "Only one eight-candidate frame shows the lamp. Dense source review establishes its brief passage; no geographic name is a target."
+    }
+  ]
+}
