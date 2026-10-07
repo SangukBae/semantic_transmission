@@ -11,6 +11,7 @@ import hashlib
 import json
 import os
 from pathlib import Path
+from .protocol_definitions import protocol_path
 import subprocess
 import shutil
 import time
@@ -163,7 +164,7 @@ def file_inventory(paths):
 
 def fingerprint_files(config, natural):
     paths = list((REPO / "src/semantic_transmission").glob("*.py"))
-    paths += [REPO / "scripts/run_metric_validation.sh", REPO / "docs/METRIC_VALIDATION_CAMPAIGN.md",
+    paths += [REPO / "scripts/run_metric_validation.sh", protocol_path("METRIC_VALIDATION_CAMPAIGN"),
               resolve(config["reconstruction_profile"]), REPO / ".local/settings.json",
               REPO / ".local/model_paths.json"]
     base = resolve(config["base_run"])

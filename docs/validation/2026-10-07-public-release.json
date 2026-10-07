@@ -1,0 +1,52 @@
+{
+  "schema": 1,
+  "as_of": "2026-10-07",
+  "scope": "Public documentation consolidation and logical release of accumulated FC-LGVSC research code; no new training or video reconstruction.",
+  "public_markdown": [
+    "README.md",
+    "THIRD_PARTY_NOTICES.md",
+    "docs/MODEL_ARCHITECTURE.md",
+    "docs/RUN_GUIDE.md",
+    "docs/DATA.md",
+    "docs/METRICS.md",
+    "docs/RESULTS.md"
+  ],
+  "validation": {
+    "full_local_suite": {
+      "passed": 786,
+      "skipped": 2
+    },
+    "qwen_environment_suite": {
+      "passed": 237
+    },
+    "portability_changes_local_regression": {
+      "passed": 100
+    },
+    "clean_source_tree_without_local_artifacts": {
+      "passed": 695,
+      "skipped": 36,
+      "skip_scope": "External Open-Sora integrations and other explicitly unavailable optional assets; no failures."
+    },
+    "local_documentation_links_and_anchors": 245,
+    "python_shell_json_syntax": "PASSED",
+    "git_diff_check": "PASSED"
+  },
+  "protocol_definitions": {
+    "count": 7,
+    "file": "configs/protocols/legacy_metric_definitions.json",
+    "original_sha256_preserved": true,
+    "purpose": "Exact predeclared inputs needed by historical metric runners, separated from reader documentation"
+  },
+  "adapter_handoff": {
+    "manifest": "configs/models/qwen35_caption_adapter.json",
+    "real_export_install_and_hash_check": "PASSED",
+    "public_weights_uploaded": false,
+    "base_weights_and_datasets_in_package": false
+  },
+  "publication_limits": [
+    "Existing private/internal documents removed from the current tree remain in older Git history; no history rewriting was performed.",
+    "No public LoRA download endpoint was created.",
+    "Training annotations, original videos and frozen prepared inventories are not all distributed with Git; full fresh-machine reproduction needs separately obtained artifacts.",
+    "Prior frozen experiments keep their original code/input contracts; do not rewrite their hashes after this documentation migration."
+  ]
+}

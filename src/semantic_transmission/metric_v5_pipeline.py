@@ -10,6 +10,7 @@ from collections import Counter
 import gzip
 import json
 from pathlib import Path
+from .protocol_definitions import protocol_path
 import pickle
 import shutil
 import time
@@ -112,7 +113,7 @@ def prepare(root):
     (root / 'frozen_source').mkdir()
     for name in CODES:
         shutil.copy2(Path(__file__).with_name(name), root / 'frozen_source' / name)
-    shutil.copy2('docs/FSO_UEP_PROTOCOL.md', root / 'PROTOCOL.frozen.md')
+    shutil.copy2(protocol_path("FSO_UEP_PROTOCOL"), root / 'PROTOCOL.frozen.md')
     manifest, sources, audit = [], [], []
     for split, base in (('development', DEVELOPMENT_SEED), ('heldout', HELDOUT_SEED)):
         for fi, family in enumerate(FAMILIES):

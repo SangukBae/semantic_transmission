@@ -143,7 +143,7 @@ def audit(root):
                   "SumMe_paper": "https://www.varcity.ethz.ch/paper/eccv2014_gygli_vidsum.pdf"},
               "sample_download_crc_verified": True, "new_reconstruction_validation": False,
               "annotation_selection_is_oracle_baseline": True,
-              "requirements_sha256": digest(REPO / "docs/ETRI_FOLLOWUP_EMAIL_SUMMARY.md"),
+              "requirements_sha256": digest(REPO / "configs/evaluation_requirements.json"),
               "benchmark_manifest_sha256": digest(manifest_path), "datasets": {}}
     # Inspect all 50 annotation shapes, without using held-out scores to tune a selector.
     annotation = source / "metadata/tvsum_archive_ydata-tvsum50-data.zip"

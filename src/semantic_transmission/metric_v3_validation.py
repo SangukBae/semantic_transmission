@@ -8,6 +8,7 @@ from collections import Counter
 import hashlib
 import json
 from pathlib import Path
+from .protocol_definitions import protocol_path
 import platform
 import shutil
 import time
@@ -112,8 +113,8 @@ def prepare(args):
         "fps": FPS, "resolution": [WIDTH, HEIGHT], "max_frames": COUNT,
         "code_sha256": {n: sha256(Path(__file__).with_name(n)) for n in FILES},
         "script_sha256": {n: sha256(Path('scripts') / n) for n in ("run_metric_v3.sh", "report_metric_v3.py", "diagnose_event_v31.py")},
-        "definition_sha256": sha256(Path("docs/ERE_STA_PROTOCOL.md")),
-        "execution_notes_sha256": sha256(Path("docs/ERE_STA_EXECUTION_NOTES.md")),
+        "definition_sha256": sha256(protocol_path("ERE_STA_PROTOCOL")),
+        "execution_notes_sha256": sha256(protocol_path("ERE_STA_EXECUTION_NOTES")),
         "previous_protocols": {p: sha256(Path(p) / "protocol.json") for p in OLD_RUNS},
         "old_source_overlap": [], "old_seed_overlap": [], "models": previous[1]["models"],
         "event_parameters": {**PARAMETERS, **diagnosis['selected']['parameters']},
@@ -131,8 +132,8 @@ def prepare(args):
         shutil.copy2(Path(__file__).with_name(name), root / "frozen_source" / name)
     for name in protocol["script_sha256"]:
         shutil.copy2(Path('scripts') / name, root / "frozen_source" / name)
-    shutil.copy2("docs/ERE_STA_PROTOCOL.md", root / "ERE_STA_PROTOCOL.frozen.md")
-    shutil.copy2("docs/ERE_STA_EXECUTION_NOTES.md", root / "ERE_STA_EXECUTION_NOTES.frozen.md")
+    shutil.copy2(protocol_path("ERE_STA_PROTOCOL"), root / "ERE_STA_PROTOCOL.frozen.md")
+    shutil.copy2(protocol_path("ERE_STA_EXECUTION_NOTES"), root / "ERE_STA_EXECUTION_NOTES.frozen.md")
     shutil.copy2(args.diagnostics, root / 'development_diagnostics.json')
     if args.reuse_inputs:
         _reuse_inputs(root, args.reuse_inputs, inventory)

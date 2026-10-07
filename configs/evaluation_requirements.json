@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "purpose": "Public evaluation scope for FC-LGVSC source suitability audits",
+  "channel": "AWGN",
+  "paired_conditions": ["source", "baseline", "proposed"],
+  "semantic_errors": ["Added", "Missing", "Distorted"],
+  "report_failures_and_new_distortions": true,
+  "minimum_contiguous_duration_seconds": 60,
+  "transition_levels": ["low", "medium", "high"],
+  "repeated_or_concatenated_short_clips_allowed": false,
+  "development_calibration_test_split_unit": "original_source",
+  "source_annotation_status": "Must be declared per evaluation; model output is not human ground truth"
+}

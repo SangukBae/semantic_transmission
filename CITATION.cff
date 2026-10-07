@@ -1,46 +1,32 @@
 cff-version: 1.2.0
-message: "If you use this software or build on this work, please cite the paper below."
-title: "LGVSC: A Large-Model-Driven Generative Video Semantic Communication Framework"
+message: "Cite this FC-LGVSC research software and acknowledge the original LGVSC work listed in references."
+title: "FC-LGVSC: Faithful Caption-guided Video Semantic Communication research implementation"
+type: software
 authors:
-  - family-names: Ma
-    given-names: Yu
-  - family-names: Yin
-    given-names: Hang
-  - family-names: Qiao
-    given-names: Li
-  - family-names: Sun
-    given-names: Shuo
-  - family-names: Gao
-    given-names: Zhen
-  - family-names: Xu
-    given-names: Yin
-  - family-names: Zhang
-    given-names: Wenjun
+  - name: "SangukBae"
+repository-code: "https://github.com/SangukBae/semantic_transmission"
 license: MIT
-repository-code: "https://github.com/TT2TER/LGVSC"
-identifiers:
-  - type: other
-    value: "arXiv:2606.12899"
-    description: "arXiv preprint"
-preferred-citation:
-  type: article
-  title: "LGVSC: A Large-Model-Driven Generative Video Semantic Communication Framework"
-  authors:
-    - family-names: Ma
-      given-names: Yu
-    - family-names: Yin
-      given-names: Hang
-    - family-names: Qiao
-      given-names: Li
-    - family-names: Sun
-      given-names: Shuo
-    - family-names: Gao
-      given-names: Zhen
-    - family-names: Xu
-      given-names: Yin
-    - family-names: Zhang
-      given-names: Wenjun
-  journal: "IEEE Transactions on Vehicular Technology"
-  year: 2026
-  notes: "Accepted, in press; preprint at https://arxiv.org/abs/2606.12899"
-  url: "https://arxiv.org/abs/2606.12899"
+abstract: "Research code derived from LGVSC, with caption adaptation, source-grounded evaluations and receiver fixes. No separate FC-LGVSC paper citation has been registered yet."
+references:
+  -
+    type: article
+    title: "LGVSC: A Large-Model-Driven Generative Video Semantic Communication Framework"
+    authors:
+      - family-names: Ma
+        given-names: Yu
+      - family-names: Yin
+        given-names: Hang
+      - family-names: Qiao
+        given-names: Li
+      - family-names: Sun
+        given-names: Shuo
+      - family-names: Gao
+        given-names: Zhen
+      - family-names: Xu
+        given-names: Yin
+      - family-names: Zhang
+        given-names: Wenjun
+    journal: "IEEE Transactions on Vehicular Technology"
+    year: 2026
+    notes: "Accepted, in press; preprint at https://arxiv.org/abs/2606.12899"
+    url: "https://arxiv.org/abs/2606.12899"

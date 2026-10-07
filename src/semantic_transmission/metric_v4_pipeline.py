@@ -4,6 +4,7 @@ from collections import Counter, OrderedDict
 import gzip
 import json
 from pathlib import Path
+from .protocol_definitions import protocol_path
 import pickle
 import runpy
 import shutil
@@ -85,7 +86,7 @@ def prepare(root):
     save(root/'protocol.json',p)
     (root/'frozen_source').mkdir()
     for name in CODES:shutil.copy2(Path('src/semantic_transmission')/name,root/'frozen_source'/name)
-    shutil.copy2('docs/EVENT_DURATION_STA_PROTOCOL.md',root/'PROTOCOL.frozen.md')
+    shutil.copy2(protocol_path("EVENT_DURATION_STA_PROTOCOL"),root/'PROTOCOL.frozen.md')
     new=[]; sources=[]; truth_checks=[]
     for fi,family in enumerate(FAMILIES):
         for k in range(8):

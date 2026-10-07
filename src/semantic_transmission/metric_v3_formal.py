@@ -4,6 +4,7 @@ from collections import Counter
 import hashlib
 import json
 from pathlib import Path
+from .protocol_definitions import protocol_path
 import pickle
 import shutil
 import time
@@ -97,7 +98,7 @@ def prepare(args):
         dst = root / 'frozen_source' / n; dst.parent.mkdir(exist_ok=True); shutil.copy2(Path(__file__).with_name(n), dst)
     for n in SCRIPTS:
         shutil.copy2(Path('scripts') / n, root / 'frozen_source' / n)
-    shutil.copy2('docs/ERE_STA_FORMAL_EXECUTION.md', root / 'EXECUTION.frozen.md')
+    shutil.copy2(protocol_path("ERE_STA_FORMAL_EXECUTION"), root / 'EXECUTION.frozen.md')
     truth = read(args.base / 'truth_audit.json')
     accepted = {x['case_id'] for x in truth['results'] if x['accepted']}
     manifest = [json.loads(line) for line in (args.base / 'cases.jsonl').read_text().splitlines()]

@@ -68,3 +68,8 @@ data/
 .ruff_cache/
 build/
 dist/
+
+# Private presentation material and local research/reference drafts
+docs/weekly_report/
+docs/SGDJSCC_paper/
+docs/figures/

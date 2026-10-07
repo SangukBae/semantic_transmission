@@ -3,6 +3,7 @@ import argparse
 from collections import OrderedDict
 import gzip
 from pathlib import Path
+from .protocol_definitions import protocol_path
 import pickle
 import time
 
@@ -61,7 +62,7 @@ def freeze(base, out):
         files[str(receipt)] = sha256(receipt)
     files.update(file_inventory([base / 'campaign.json', base / 'summary.json']))
     check_files(files)
-    source_paths = [Path(__file__), Path(metric.__file__), REPO / 'docs/METRIC_REVISION_PROTOCOL.md',
+    source_paths = [Path(__file__), Path(metric.__file__), protocol_path("METRIC_REVISION_PROTOCOL"),
                     REPO / 'scripts/run_metric_revision.sh', REPO / 'scripts/prepare_metric_revision_review.py']
     declaration = dict(schema='metric-revision-v6-development', base=str(base), parameters=metric.PARAMETERS,
                        code=file_inventory(source_paths), original_files=files,

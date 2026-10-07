@@ -98,6 +98,6 @@ def build(root):
 <style>body{background:#101720;color:#e4eaf1;font:16px sans-serif;max-width:1600px;margin:30px auto;padding:20px}section{border-top:1px solid #465569;padding:20px 0}video{width:100%}a{color:#8dd1ff}button,select{padding:8px;margin:3px}td,th{padding:7px 20px;border-bottom:1px solid #465569}</style>
 <h1>17프레임 참조 × 반올림 해제</h1><p>위: 원본 / 기존 방식 / 반올림 해제 · 아래: 마지막 17프레임 참조 / 두 변경 결합</p>
 <p>개발 영상 한 편의 짧은 3개 창, 동일 수신 데이터·생성 잡음. 60초 전체 완화 결과가 아닙니다. 지표 개선과 의미 오류 감소는 별도로 판단합니다.</p>
-<p><a href="RESULT.json">실행 결과</a> · <a href="../../docs/ETRI_COMBINED_REFERENCE_DIAGNOSIS.md">보고서</a></p>'''+"".join(cards)+'''
+<p><a href="RESULT.json">실행 결과</a> · <a href="../../docs/RESULTS.md">보고서</a></p>'''+"".join(cards)+'''
 <script>document.querySelectorAll('section').forEach(s=>{const v=s.querySelector('video');v.playbackRate=.25;s.querySelectorAll('button').forEach(b=>b.onclick=()=>{v.pause();v.currentTime=b.dataset.time!==undefined?Number(b.dataset.time):Math.max(0,v.currentTime+Number(b.dataset.step)/24)});s.querySelector('select').onchange=e=>v.playbackRate=Number(e.target.value)})</script>'''
     (root/"review.html").write_text(page)

@@ -33,3 +33,5 @@ jobs:
         run: git ls-files -z '*.py' | xargs -0 -r -n1 python -m py_compile
       - name: Validate both shell script extensions
         run: git ls-files -z '*.sh' '*.bash' | xargs -0 -r -n1 bash -n
+      - name: Check public documentation and reproduction links
+        run: python scripts/check_public_docs.py

@@ -324,7 +324,7 @@ def freeze():
                     'reports/preparation/*','reports/source_validation/*/*.json']:
         selected.extend(DATA.glob(pattern))
     selected.extend(REPO/'scripts'/name for name in ['etri_benchmark.py','etri_shot_candidates.py','etri_benchmark_package.py','etri_benchmark_review.html'])
-    selected.extend([REPO/'tests/test_etri_benchmark.py',REPO/'docs/ETRI_BENCHMARK_V1.md'])
+    selected.extend([REPO/'tests/test_etri_benchmark.py',REPO/'docs/DATA.md', REPO/'docs/METRICS.md'])
     save(DATA/'freeze_manifest.json',{'frozen_at_utc':dt.datetime.now(dt.timezone.utc).isoformat(),
         'scope':'Prepared inputs, source-group split, provisional annotation drafts and evaluation plans. No performance result claim.',
         'independent_labels_frozen':False,'model_configuration_frozen':False,

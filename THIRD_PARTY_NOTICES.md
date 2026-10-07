@@ -31,3 +31,57 @@ authoritative source. Verify before any redistribution or commercial use.
 
 > We do **not** redistribute any dataset media or model weights in this repository. The
 > bundled smoke-test sample under `assets/` is our own minimal example (see `docs/DATA.md`).
+
+<a id="lgvsc-upstream"></a>
+## LGVSC upstream attribution
+
+This repository derives from [TT2TER/LGVSC](https://github.com/TT2TER/LGVSC). Original copyright and the repository LICENSE are retained. FC-LGVSC additions, local experiments and limitations are identified separately in README, MODEL_ARCHITECTURE and RESULTS. Original LGVSC reported results are not FC-LGVSC results. The upstream citation is retained below.
+
+
+
+```bibtex
+@misc{ma2026lgvsclargemodeldrivengenerativevideo,
+      title={LGVSC: A Large-Model-Driven Generative Video Semantic Communication Framework},
+      author={Yu Ma and Hang Yin and Li Qiao and Shuo Sun and Zhen Gao and Yin Xu and Wenjun Zhang},
+      year={2026},
+      eprint={2606.12899},
+      archivePrefix={arXiv},
+      primaryClass={eess.SP},
+      url={https://arxiv.org/abs/2606.12899},
+}
+```
+
+
+<a id="ntscc-upstream"></a>
+## NTSCC upstream citation and acknowledgements
+
+Original source: https://github.com/wsxtyrdd/NTSCC_JSAC22 . The previously bundled README attribution is retained below; usage requirements are in RUN_GUIDE.
+
+
+If you find the code helpful in your research or work, please cite:
+```
+@ARTICLE{9791398,
+  author={Dai, Jincheng and Wang, Sixian and Tan, Kailin and Si, Zhongwei and Qin, Xiaoqi and Niu, Kai and Zhang, Ping},
+  journal={IEEE Journal on Selected Areas in Communications},
+  title={Nonlinear Transform Source-Channel Coding for Semantic Communications},
+  year={2022},
+  volume={40},
+  number={8},
+  pages={2300-2316},
+  doi={10.1109/JSAC.2022.3180802}
+  }
+```
+
+## Acknowledgements
+The NTSCC model is partially built upon the [Swin Transformer](https://github.com/microsoft/Swin-Transformer) and [CompressAI](https://github.com/InterDigitalInc/CompressAI/). We thank the authors for sharing their code.
+
+
+
+## Additional FC-LGVSC dependencies
+
+- Qwen3.5-9B: https://huggingface.co/Qwen/Qwen3.5-9B ; pinned revision and hashes are recorded in code/run manifests. The base model is obtained separately under its model terms.
+- PEFT and bitsandbytes: used for local LoRA/NF4 inference and training; versions are pinned in environment requirements.
+- TransNetV2: https://github.com/soCzech/TransNetV2 ; source/weight hashes are recorded in extraction manifests.
+- TVSum and ClipShots inputs are obtained separately. Raw dataset media, training annotations and base model weights are not included in this code release. The LoRA handoff tool packages only the fixed adapter; it does not grant additional rights to source data or base weights.
+
+The license names in the historical table above are provenance notes, not a fresh audit of every current model/weight distribution. Consult the actual upstream notices when obtaining artifacts.
