@@ -1,0 +1,3619 @@
+{
+  "provenance": {
+    "author": "Codex assistant source-frame review in this implementation session",
+    "model_identity": "not asserted as GPT6-Astra",
+    "review_method": "All 32 sampled frames per original inspected as source-only contact sheets before baseline generation; no generated captions consulted",
+    "human_reviewed": false,
+    "sampling_limit": "Eight frames per quarter: event times are observed before/after brackets, not exhaustive frame-level onset/offset; intervening events can be missed",
+    "scope": "24-source 96-window WebVid pilot, not representative large-scale training or independent human evaluation",
+    "split_design": "Source-only purposive pilot; exercise repetitions and cupboard state changes held out to ensure transient-event evaluation. No baseline outputs used to assign splits."
+  },
+  "videos": {
+    "5": [
+      {
+        "caption": "An overhead view shows parallel rows of brown soil. A green and white tractor enters from the bottom and travels upward, pulling a wide implement.",
+        "facts": [
+          [
+            "An overhead view shows parallel rows of brown soil.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "A green and white tractor enters from the bottom and travels upward, pulling a wide implement.",
+            [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": [
+          [
+            "Tractor enters the field of view",
+            [
+              0
+            ],
+            [
+              1,
+              2
+            ]
+          ],
+          [
+            "The trailing implement becomes fully visible",
+            [
+              2,
+              3
+            ],
+            [
+              5,
+              6,
+              7
+            ]
+          ]
+        ]
+      },
+      {
+        "caption": "A green and white tractor pulls a wide implement upward along parallel rows of soil. The tractor casts a shadow to its right.",
+        "facts": [
+          [
+            "A green and white tractor pulls a wide implement upward along parallel rows of soil.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "The tractor casts a shadow to its right.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": []
+      },
+      {
+        "caption": "The tractor and its trailing implement leave through the top of the overhead view. Only parallel rows of soil remain visible afterward.",
+        "facts": [
+          [
+            "The tractor and its trailing implement leave through the top of the overhead view.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4
+            ]
+          ],
+          [
+            "Only parallel rows of soil remain visible afterward.",
+            [
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": [
+          [
+            "Trailing implement exits at the top",
+            [
+              2,
+              3
+            ],
+            [
+              5,
+              6,
+              7
+            ]
+          ]
+        ]
+      },
+      {
+        "caption": "Parallel lines run vertically across a brown cultivated field. No tractor is visible in these frames.",
+        "facts": [
+          [
+            "Parallel lines run vertically across a brown cultivated field.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "No tractor is visible in these frames.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": []
+      }
+    ],
+    "6": [
+      {
+        "caption": "Two people are visible among long rows in a golden field. The aerial viewpoint gradually moves farther from the people.",
+        "facts": [
+          [
+            "Two people are visible among long rows in a golden field.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "The aerial viewpoint gradually moves farther from the people.",
+            [
+              0,
+              2,
+              5,
+              7
+            ]
+          ]
+        ],
+        "events": []
+      },
+      {
+        "caption": "Two people are visible among long rows in a golden field. The aerial viewpoint gradually moves farther from the people.",
+        "facts": [
+          [
+            "Two people are visible among long rows in a golden field.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "The aerial viewpoint gradually moves farther from the people.",
+            [
+              0,
+              2,
+              5,
+              7
+            ]
+          ]
+        ],
+        "events": []
+      },
+      {
+        "caption": "Two people are visible among long rows in a golden field. The aerial viewpoint gradually moves farther from the people.",
+        "facts": [
+          [
+            "Two people are visible among long rows in a golden field.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "The aerial viewpoint gradually moves farther from the people.",
+            [
+              0,
+              2,
+              5,
+              7
+            ]
+          ]
+        ],
+        "events": []
+      },
+      {
+        "caption": "Two people are visible among long rows in a golden field. The aerial viewpoint gradually moves farther from the people.",
+        "facts": [
+          [
+            "Two people are visible among long rows in a golden field.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "The aerial viewpoint gradually moves farther from the people.",
+            [
+              0,
+              2,
+              5,
+              7
+            ]
+          ]
+        ],
+        "events": []
+      }
+    ],
+    "7": [
+      {
+        "caption": "A person in a black shirt raises a camera toward their face beneath flowering branches. Another person is partly visible behind the branches on the right.",
+        "facts": [
+          [
+            "A person in a black shirt raises a camera toward their face beneath flowering branches.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "Another person is partly visible behind the branches on the right.",
+            [
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": [
+          [
+            "Camera moves from below the face to eye level",
+            [
+              0,
+              1
+            ],
+            [
+              3,
+              4
+            ]
+          ]
+        ]
+      },
+      {
+        "caption": "A photographer in the foreground holds a camera up toward a person behind flowering branches. The person behind the branches wears patterned clothing and turns their face toward the photographer.",
+        "facts": [
+          [
+            "A photographer in the foreground holds a camera up toward a person behind flowering branches.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "The person behind the branches wears patterned clothing and turns their face toward the photographer.",
+            [
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": []
+      },
+      {
+        "caption": "A photographer remains partly visible in the foreground beneath flowering branches. The person in patterned clothing turns from a side view to showing the back of their head, then turns their face back into view.",
+        "facts": [
+          [
+            "A photographer remains partly visible in the foreground beneath flowering branches.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "The person in patterned clothing turns from a side view to showing the back of their head, then turns their face back into view.",
+            [
+              0,
+              1,
+              3,
+              4,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": [
+          [
+            "Face turns away behind the head and hair",
+            [
+              1,
+              2
+            ],
+            [
+              3,
+              4
+            ]
+          ],
+          [
+            "Face becomes visible again",
+            [
+              3,
+              4
+            ],
+            [
+              6,
+              7
+            ]
+          ]
+        ]
+      },
+      {
+        "caption": "A person in patterned clothing stands behind flowering branches, with a photographer partly visible in the foreground. They lower their gaze and then turn their face to the side.",
+        "facts": [
+          [
+            "A person in patterned clothing stands behind flowering branches, with a photographer partly visible in the foreground.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "They lower their gaze and then turn their face to the side.",
+            [
+              1,
+              2,
+              3,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": [
+          [
+            "Face turns from lowered frontal view toward profile",
+            [
+              2,
+              3
+            ],
+            [
+              6,
+              7
+            ]
+          ]
+        ]
+      }
+    ],
+    "12": [
+      {
+        "caption": "A tabby cat sits on grass with one hind leg raised. The cat bends its head toward its body while grooming.",
+        "facts": [
+          [
+            "A tabby cat sits on grass with one hind leg raised.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "The cat bends its head toward its body while grooming.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": []
+      },
+      {
+        "caption": "A tabby cat sits on grass with one hind leg raised. The cat bends its head toward its body while grooming.",
+        "facts": [
+          [
+            "A tabby cat sits on grass with one hind leg raised.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "The cat bends its head toward its body while grooming.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": []
+      },
+      {
+        "caption": "A tabby cat sits on grass with one hind leg raised. The cat bends its head toward its body while grooming.",
+        "facts": [
+          [
+            "A tabby cat sits on grass with one hind leg raised.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "The cat bends its head toward its body while grooming.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": []
+      },
+      {
+        "caption": "A tabby cat sits on grass with one hind leg raised. The cat bends its head toward its body while grooming.",
+        "facts": [
+          [
+            "A tabby cat sits on grass with one hind leg raised.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "The cat bends its head toward its body while grooming.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": []
+      }
+    ],
+    "13": [
+      {
+        "caption": "A cook wearing a white jacket and tall white hat works at a counter. The view shifts down to show round griddles and a thin pancake with dark filling.",
+        "facts": [
+          [
+            "A cook wearing a white jacket and tall white hat works at a counter.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "The view shifts down to show round griddles and a thin pancake with dark filling.",
+            [
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": [
+          [
+            "Griddles and pancake become clearly visible as the view changes",
+            [
+              0,
+              1,
+              2,
+              3
+            ],
+            [
+              5,
+              6,
+              7
+            ]
+          ]
+        ]
+      },
+      {
+        "caption": "A cook uses a utensil over a thin pancake with dark filling on a round griddle. The view rises toward the cook's face and white hat.",
+        "facts": [
+          [
+            "A cook uses a utensil over a thin pancake with dark filling on a round griddle.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4
+            ]
+          ],
+          [
+            "The view rises toward the cook's face and white hat.",
+            [
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": [
+          [
+            "View changes from griddle to upper body and face",
+            [
+              2,
+              3
+            ],
+            [
+              6,
+              7
+            ]
+          ]
+        ]
+      },
+      {
+        "caption": "A cook in a white jacket and tall white hat looks down while working at the counter. A long wooden utensil becomes visible near the counter toward the end.",
+        "facts": [
+          [
+            "A cook in a white jacket and tall white hat looks down while working at the counter.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "A long wooden utensil becomes visible near the counter toward the end.",
+            [
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": []
+      },
+      {
+        "caption": "A cook uses long utensils to lift and fold a thin pancake on a round griddle. The cook wears a white jacket.",
+        "facts": [
+          [
+            "A cook uses long utensils to lift and fold a thin pancake on a round griddle.",
+            [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "The cook wears a white jacket.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": [
+          [
+            "Pancake edge is lifted off the griddle",
+            [
+              2,
+              3
+            ],
+            [
+              5,
+              6
+            ]
+          ],
+          [
+            "Lifted pancake is lowered back toward the griddle",
+            [
+              6
+            ],
+            [
+              7
+            ]
+          ]
+        ]
+      }
+    ],
+    "14": [
+      {
+        "caption": "A helicopter is visible against a blue sky. A long cable hangs below it.",
+        "facts": [
+          [
+            "A helicopter is visible against a blue sky.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "A long cable hangs below it.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": []
+      },
+      {
+        "caption": "The helicopter moves upward in the image and leaves the top of the frame. A long cable remains visible against the blue sky.",
+        "facts": [
+          [
+            "The helicopter moves upward in the image and leaves the top of the frame.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          ],
+          [
+            "A long cable remains visible against the blue sky.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": [
+          [
+            "Helicopter disappears beyond the top edge",
+            [
+              2,
+              3,
+              4
+            ],
+            [
+              5,
+              6,
+              7
+            ]
+          ]
+        ]
+      },
+      {
+        "caption": "A suspended green load becomes visible near the bottom of the frame beneath a long cable. The helicopter itself is outside the image.",
+        "facts": [
+          [
+            "A suspended green load becomes visible near the bottom of the frame beneath a long cable.",
+            [
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "The helicopter itself is outside the image.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": [
+          [
+            "Suspended load enters from the bottom edge",
+            [
+              0,
+              1
+            ],
+            [
+              2,
+              3
+            ]
+          ]
+        ]
+      },
+      {
+        "caption": "A green load hangs from a long cable against a blue sky. The load moves across the lower part of the view.",
+        "facts": [
+          [
+            "A green load hangs from a long cable against a blue sky.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "The load moves across the lower part of the view.",
+            [
+              0,
+              2,
+              4,
+              7
+            ]
+          ]
+        ],
+        "events": []
+      }
+    ],
+    "16": [
+      {
+        "caption": "A person in a blue checked shirt walks through rows of green plants carrying a dark bucket. Buildings and trees are visible along the distant horizon.",
+        "facts": [
+          [
+            "A person in a blue checked shirt walks through rows of green plants carrying a dark bucket.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "Buildings and trees are visible along the distant horizon.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": []
+      },
+      {
+        "caption": "A person in a blue checked shirt walks through rows of green plants carrying a dark bucket. Buildings and trees are visible along the distant horizon.",
+        "facts": [
+          [
+            "A person in a blue checked shirt walks through rows of green plants carrying a dark bucket.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "Buildings and trees are visible along the distant horizon.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": []
+      },
+      {
+        "caption": "A person in a blue checked shirt walks through rows of green plants carrying a dark bucket. Buildings and trees are visible along the distant horizon.",
+        "facts": [
+          [
+            "A person in a blue checked shirt walks through rows of green plants carrying a dark bucket.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "Buildings and trees are visible along the distant horizon.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": []
+      },
+      {
+        "caption": "A person in a blue checked shirt walks through rows of green plants carrying a dark bucket. Buildings and trees are visible along the distant horizon.",
+        "facts": [
+          [
+            "A person in a blue checked shirt walks through rows of green plants carrying a dark bucket.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "Buildings and trees are visible along the distant horizon.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": []
+      }
+    ],
+    "17": [
+      {
+        "caption": "Golden grain heads sway across a field. Dark clouds hang above a distant horizon with a small group of trees.",
+        "facts": [
+          [
+            "Golden grain heads sway across a field.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "Dark clouds hang above a distant horizon with a small group of trees.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": []
+      },
+      {
+        "caption": "Golden grain heads sway across a field. Dark clouds hang above a distant horizon with a small group of trees.",
+        "facts": [
+          [
+            "Golden grain heads sway across a field.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "Dark clouds hang above a distant horizon with a small group of trees.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": []
+      },
+      {
+        "caption": "Golden grain heads sway across a field. Dark clouds hang above a distant horizon with a small group of trees.",
+        "facts": [
+          [
+            "Golden grain heads sway across a field.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "Dark clouds hang above a distant horizon with a small group of trees.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": []
+      },
+      {
+        "caption": "Golden grain heads sway across a field. Dark clouds hang above a distant horizon with a small group of trees.",
+        "facts": [
+          [
+            "Golden grain heads sway across a field.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "Dark clouds hang above a distant horizon with a small group of trees.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": []
+      }
+    ],
+    "19": [
+      {
+        "caption": "A person reclines in a red seat using a leg press machine in a gym. Their knees bend and then straighten while their feet remain against the platform.",
+        "facts": [
+          [
+            "A person reclines in a red seat using a leg press machine in a gym.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "Their knees bend and then straighten while their feet remain against the platform.",
+            [
+              0,
+              1,
+              3,
+              4,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": [
+          [
+            "Knees bend toward the torso",
+            [
+              0,
+              1
+            ],
+            [
+              3,
+              4
+            ]
+          ],
+          [
+            "Legs extend again",
+            [
+              3,
+              4
+            ],
+            [
+              6,
+              7
+            ]
+          ]
+        ]
+      },
+      {
+        "caption": "A person in a red seat extends their legs against a leg press platform, then bends their knees again. Other exercise machines are visible in the gym.",
+        "facts": [
+          [
+            "A person in a red seat extends their legs against a leg press platform, then bends their knees again.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "Other exercise machines are visible in the gym.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": [
+          [
+            "Legs extend",
+            [
+              0
+            ],
+            [
+              1,
+              2,
+              3
+            ]
+          ],
+          [
+            "Knees bend again",
+            [
+              2,
+              3
+            ],
+            [
+              5,
+              6,
+              7
+            ]
+          ]
+        ]
+      },
+      {
+        "caption": "A person presses the gym machine platform away by straightening their legs, then bends their knees. They remain reclined against a red backrest.",
+        "facts": [
+          [
+            "A person presses the gym machine platform away by straightening their legs, then bends their knees.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "They remain reclined against a red backrest.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": [
+          [
+            "Legs straighten",
+            [
+              0,
+              1
+            ],
+            [
+              3,
+              4
+            ]
+          ],
+          [
+            "Knees bend again",
+            [
+              3,
+              4
+            ],
+            [
+              6,
+              7
+            ]
+          ]
+        ]
+      },
+      {
+        "caption": "A person reclines on a red seat with bent knees, then straightens their legs against a gym machine platform. Their hands stay beside the seat.",
+        "facts": [
+          [
+            "A person reclines on a red seat with bent knees, then straightens their legs against a gym machine platform.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "Their hands stay beside the seat.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": [
+          [
+            "Bent legs straighten",
+            [
+              0,
+              1,
+              2,
+              3
+            ],
+            [
+              5,
+              6,
+              7
+            ]
+          ]
+        ]
+      }
+    ],
+    "21": [
+      {
+        "caption": "A person in a hooded top walks away down an aisle between dark equipment racks. Cool overhead lights illuminate the aisle.",
+        "facts": [
+          [
+            "A person in a hooded top walks away down an aisle between dark equipment racks.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "Cool overhead lights illuminate the aisle.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": []
+      },
+      {
+        "caption": "A hooded person continues walking away between tall equipment racks. Small lights are visible on the racks.",
+        "facts": [
+          [
+            "A hooded person continues walking away between tall equipment racks.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "Small lights are visible on the racks.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": []
+      },
+      {
+        "caption": "A distant hooded person pauses and turns toward the left rack in the aisle. Equipment racks line both sides beneath bright overhead panels.",
+        "facts": [
+          [
+            "A distant hooded person pauses and turns toward the left rack in the aisle.",
+            [
+              0,
+              1,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "Equipment racks line both sides beneath bright overhead panels.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": [
+          [
+            "Person turns toward the rack",
+            [
+              0,
+              1
+            ],
+            [
+              3,
+              4,
+              5
+            ]
+          ]
+        ]
+      },
+      {
+        "caption": "The distant person crouches beside the left equipment rack. The aisle remains lined by illuminated equipment cabinets.",
+        "facts": [
+          [
+            "The distant person crouches beside the left equipment rack.",
+            [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "The aisle remains lined by illuminated equipment cabinets.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": [
+          [
+            "Person lowers into a crouch",
+            [
+              0
+            ],
+            [
+              1,
+              2,
+              3
+            ]
+          ]
+        ]
+      }
+    ],
+    "25": [
+      {
+        "caption": "A person in a pale turquoise dress holds a gold-colored bowl containing pastel-colored pieces. They tilt the bowl and pieces begin falling out.",
+        "facts": [
+          [
+            "A person in a pale turquoise dress holds a gold-colored bowl containing pastel-colored pieces.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "They tilt the bowl and pieces begin falling out.",
+            [
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": [
+          [
+            "Bowl tips and contents begin falling",
+            [
+              0,
+              1,
+              2
+            ],
+            [
+              5,
+              6,
+              7
+            ]
+          ]
+        ]
+      },
+      {
+        "caption": "Pastel-colored pieces spill from a tilted gold-colored bowl held by a person in a turquoise dress. The bowl becomes empty near the end.",
+        "facts": [
+          [
+            "Pastel-colored pieces spill from a tilted gold-colored bowl held by a person in a turquoise dress.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+            ]
+          ],
+          [
+            "The bowl becomes empty near the end.",
+            [
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": [
+          [
+            "Remaining contents leave the bowl",
+            [
+              3,
+              4,
+              5
+            ],
+            [
+              6,
+              7
+            ]
+          ]
+        ]
+      },
+      {
+        "caption": "A person in a turquoise dress holds an empty gold-colored bowl tilted down. Scattered pastel-colored pieces lie below the bowl.",
+        "facts": [
+          [
+            "A person in a turquoise dress holds an empty gold-colored bowl tilted down.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "Scattered pastel-colored pieces lie below the bowl.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": []
+      },
+      {
+        "caption": "A person rotates an empty gold-colored bowl upright in front of a turquoise dress. Pastel-colored pieces remain scattered below.",
+        "facts": [
+          [
+            "A person rotates an empty gold-colored bowl upright in front of a turquoise dress.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "Pastel-colored pieces remain scattered below.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": [
+          [
+            "Bowl returns from tilted to upright",
+            [
+              0,
+              1,
+              2
+            ],
+            [
+              5,
+              6,
+              7
+            ]
+          ]
+        ]
+      }
+    ],
+    "26": [
+      {
+        "caption": "A yellow passenger boat travels leftward across blue water. A hillside densely covered with buildings forms the background.",
+        "facts": [
+          [
+            "A yellow passenger boat travels leftward across blue water.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "A hillside densely covered with buildings forms the background.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": []
+      },
+      {
+        "caption": "A yellow passenger boat travels leftward across blue water. A hillside densely covered with buildings forms the background.",
+        "facts": [
+          [
+            "A yellow passenger boat travels leftward across blue water.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "A hillside densely covered with buildings forms the background.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": []
+      },
+      {
+        "caption": "A yellow passenger boat travels leftward across blue water. A hillside densely covered with buildings forms the background.",
+        "facts": [
+          [
+            "A yellow passenger boat travels leftward across blue water.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "A hillside densely covered with buildings forms the background.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": []
+      },
+      {
+        "caption": "A yellow passenger boat travels leftward across blue water. A hillside densely covered with buildings forms the background.",
+        "facts": [
+          [
+            "A yellow passenger boat travels leftward across blue water.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "A hillside densely covered with buildings forms the background.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": []
+      }
+    ],
+    "28": [
+      {
+        "caption": "An elevated view shows a small harbor with moored boats, a curving bridge, palm trees and buildings. Open water is visible beyond the harbor.",
+        "facts": [
+          [
+            "An elevated view shows a small harbor with moored boats, a curving bridge, palm trees and buildings.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "Open water is visible beyond the harbor.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": []
+      },
+      {
+        "caption": "An elevated view shows a small harbor with moored boats, a curving bridge, palm trees and buildings. Open water is visible beyond the harbor.",
+        "facts": [
+          [
+            "An elevated view shows a small harbor with moored boats, a curving bridge, palm trees and buildings.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "Open water is visible beyond the harbor.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": []
+      },
+      {
+        "caption": "An elevated view shows a small harbor with moored boats, a curving bridge, palm trees and buildings. Open water is visible beyond the harbor.",
+        "facts": [
+          [
+            "An elevated view shows a small harbor with moored boats, a curving bridge, palm trees and buildings.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "Open water is visible beyond the harbor.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": []
+      },
+      {
+        "caption": "An elevated view shows a small harbor with moored boats, a curving bridge, palm trees and buildings. Open water is visible beyond the harbor.",
+        "facts": [
+          [
+            "An elevated view shows a small harbor with moored boats, a curving bridge, palm trees and buildings.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "Open water is visible beyond the harbor.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": []
+      }
+    ],
+    "31": [
+      {
+        "caption": "Red kitchen cabinet doors are initially closed. A hand reaches for a handle and opens one door, revealing a white mug on a shelf.",
+        "facts": [
+          [
+            "Red kitchen cabinet doors are initially closed.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          ],
+          [
+            "A hand reaches for a handle and opens one door, revealing a white mug on a shelf.",
+            [
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": [
+          [
+            "Hand appears on the handle",
+            [
+              4,
+              5
+            ],
+            [
+              6
+            ]
+          ],
+          [
+            "Door opens and reveals a mug",
+            [
+              6
+            ],
+            [
+              7
+            ]
+          ]
+        ]
+      },
+      {
+        "caption": "A white mug stands on an exposed cabinet shelf. A hand grasps and removes the mug, leaving the shelf empty.",
+        "facts": [
+          [
+            "A white mug stands on an exposed cabinet shelf.",
+            [
+              0,
+              1,
+              2,
+              3
+            ]
+          ],
+          [
+            "A hand grasps and removes the mug, leaving the shelf empty.",
+            [
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": [
+          [
+            "Hand reaches and grasps the mug",
+            [
+              1,
+              2
+            ],
+            [
+              3,
+              4
+            ]
+          ],
+          [
+            "Mug leaves the shelf",
+            [
+              3,
+              4
+            ],
+            [
+              5,
+              6,
+              7
+            ]
+          ]
+        ]
+      },
+      {
+        "caption": "An open cabinet shelf is empty. A hand closes the red cabinet door and withdraws.",
+        "facts": [
+          [
+            "An open cabinet shelf is empty.",
+            [
+              0,
+              1,
+              2
+            ]
+          ],
+          [
+            "A hand closes the red cabinet door and withdraws.",
+            [
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": [
+          [
+            "Door closes over the empty shelf",
+            [
+              0,
+              1,
+              2
+            ],
+            [
+              3
+            ]
+          ],
+          [
+            "Hand leaves the closed handle",
+            [
+              3
+            ],
+            [
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ]
+      },
+      {
+        "caption": "Red cabinet doors with frosted panels and metal handles remain closed. No hand or mug is visible.",
+        "facts": [
+          [
+            "Red cabinet doors with frosted panels and metal handles remain closed.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "No hand or mug is visible.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": []
+      }
+    ],
+    "39": [
+      {
+        "caption": "Many dark fish swim close to the surface of murky water. Small pale pieces are visible near the fish.",
+        "facts": [
+          [
+            "Many dark fish swim close to the surface of murky water.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "Small pale pieces are visible near the fish.",
+            [
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": []
+      },
+      {
+        "caption": "Dark fish crowd together near the water surface. Ripples and splashing increase toward the lower part of the image.",
+        "facts": [
+          [
+            "Dark fish crowd together near the water surface.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "Ripples and splashing increase toward the lower part of the image.",
+            [
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": [
+          [
+            "Fish cluster with stronger splashing",
+            [
+              0,
+              1
+            ],
+            [
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ]
+      },
+      {
+        "caption": "Many fish press close together at the surface of the water. Fins, backs and splashing water overlap across the foreground.",
+        "facts": [
+          [
+            "Many fish press close together at the surface of the water.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "Fins, backs and splashing water overlap across the foreground.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": []
+      },
+      {
+        "caption": "A dense group of fish moves at the surface of murky water. Their movements create visible ripples and splashes.",
+        "facts": [
+          [
+            "A dense group of fish moves at the surface of murky water.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "Their movements create visible ripples and splashes.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": []
+      }
+    ],
+    "51": [
+      {
+        "caption": "Several small cacti sit in pots on a dark outdoor shelf. A hand lifts and tilts a transparent water container above the pots.",
+        "facts": [
+          [
+            "Several small cacti sit in pots on a dark outdoor shelf.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "A hand lifts and tilts a transparent water container above the pots.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": [
+          [
+            "Water container changes from upright to tilted",
+            [
+              0,
+              1
+            ],
+            [
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ]
+      },
+      {
+        "caption": "A hand moves a tilted transparent water container above a row of potted cacti. Larger round cacti in terracotta pots occupy the foreground.",
+        "facts": [
+          [
+            "A hand moves a tilted transparent water container above a row of potted cacti.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "Larger round cacti in terracotta pots occupy the foreground.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": []
+      },
+      {
+        "caption": "A tilted transparent water container is moved leftward above potted cacti. A small palm-like plant stands among the cactus pots.",
+        "facts": [
+          [
+            "A tilted transparent water container is moved leftward above potted cacti.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "A small palm-like plant stands among the cactus pots.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": []
+      },
+      {
+        "caption": "A transparent water container moves above round potted cacti and then is raised toward the top edge. The plant shelf is outdoors beside a light-colored path.",
+        "facts": [
+          [
+            "A transparent water container moves above round potted cacti and then is raised toward the top edge.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "The plant shelf is outdoors beside a light-colored path.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": [
+          [
+            "Container is lifted away from the pots",
+            [
+              0,
+              1,
+              2,
+              3
+            ],
+            [
+              6,
+              7
+            ]
+          ]
+        ]
+      }
+    ],
+    "1": [
+      {
+        "caption": "Two light brown puppies lie close together on a rumpled blue-gray tarp. Bare ground surrounds the tarp.",
+        "facts": [
+          [
+            "Two light brown puppies lie close together on a rumpled blue-gray tarp.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "Bare ground surrounds the tarp.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": []
+      },
+      {
+        "caption": "Two light brown puppies remain lying close together on a blue-gray tarp. Their heads are close to each other.",
+        "facts": [
+          [
+            "Two light brown puppies remain lying close together on a blue-gray tarp.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "Their heads are close to each other.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": []
+      },
+      {
+        "caption": "Two light brown puppies lie on a blue-gray tarp. The puppy on the left raises its head near the end while the other stays lying down.",
+        "facts": [
+          [
+            "Two light brown puppies lie on a blue-gray tarp.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "The puppy on the left raises its head near the end while the other stays lying down.",
+            [
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": [
+          [
+            "Left puppy lifts its head",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5
+            ],
+            [
+              6,
+              7
+            ]
+          ]
+        ]
+      },
+      {
+        "caption": "Two puppies lie on a rumpled tarp on bare ground. The left puppy moves its head while the right puppy remains lying beside it.",
+        "facts": [
+          [
+            "Two puppies lie on a rumpled tarp on bare ground.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "The left puppy moves its head while the right puppy remains lying beside it.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": [
+          [
+            "Left puppy turns its head away from the other puppy",
+            [
+              1
+            ],
+            [
+              2,
+              3
+            ]
+          ],
+          [
+            "Left puppy turns its head back toward the other puppy",
+            [
+              2,
+              3
+            ],
+            [
+              5,
+              6,
+              7
+            ]
+          ]
+        ]
+      }
+    ],
+    "24": [
+      {
+        "caption": "A table holds a short tumbler and a small metal container, with a seated person blurred in the background. A hand brings a tall stemmed glass with pale liquid into the frame from the right.",
+        "facts": [
+          [
+            "A table holds a short tumbler and a small metal container, with a seated person blurred in the background.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "A hand brings a tall stemmed glass with pale liquid into the frame from the right.",
+            [
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": [
+          [
+            "Tall stemmed glass enters from the right",
+            [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            [
+              5,
+              6,
+              7
+            ]
+          ]
+        ]
+      },
+      {
+        "caption": "A hand sets a tall stemmed glass of pale liquid on a dark table mat. The hand releases the glass and moves away, leaving it standing upright.",
+        "facts": [
+          [
+            "A hand sets a tall stemmed glass of pale liquid on a dark table mat.",
+            [
+              0,
+              1,
+              2,
+              3
+            ]
+          ],
+          [
+            "The hand releases the glass and moves away, leaving it standing upright.",
+            [
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": [
+          [
+            "Held glass is placed on the mat",
+            [
+              0
+            ],
+            [
+              1,
+              2,
+              3
+            ]
+          ],
+          [
+            "Hand releases the glass",
+            [
+              1,
+              2,
+              3
+            ],
+            [
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ]
+      },
+      {
+        "caption": "A tall stemmed glass with pale liquid stands on a dark table mat. A short tumbler and metal container sit nearby, with a seated person blurred behind them.",
+        "facts": [
+          [
+            "A tall stemmed glass with pale liquid stands on a dark table mat.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "A short tumbler and metal container sit nearby, with a seated person blurred behind them.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": []
+      },
+      {
+        "caption": "A tall stemmed glass remains upright on a dark table mat. The seated person behind the table turns their head while the foreground glasses stay in place.",
+        "facts": [
+          [
+            "A tall stemmed glass remains upright on a dark table mat.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "The seated person behind the table turns their head while the foreground glasses stay in place.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": []
+      }
+    ],
+    "32": [
+      {
+        "caption": "Cable-car cabins hang above dark hills against an orange and purple sky. A second cabin rises into view from the bottom on the left cable.",
+        "facts": [
+          [
+            "Cable-car cabins hang above dark hills against an orange and purple sky.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "A second cabin rises into view from the bottom on the left cable.",
+            [
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": [
+          [
+            "Second cabin enters from the bottom",
+            [
+              0,
+              1
+            ],
+            [
+              2,
+              3,
+              4
+            ]
+          ]
+        ]
+      },
+      {
+        "caption": "Two cable-car cabins move in opposite directions along overhead cables. They pass beside one another above dark hills and an orange-purple sky.",
+        "facts": [
+          [
+            "Two cable-car cabins move in opposite directions along overhead cables.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "They pass beside one another above dark hills and an orange-purple sky.",
+            [
+              3,
+              4,
+              5
+            ]
+          ]
+        ],
+        "events": [
+          [
+            "Cabins exchange their relative positions as they pass",
+            [
+              1,
+              2,
+              3
+            ],
+            [
+              5,
+              6,
+              7
+            ]
+          ]
+        ]
+      },
+      {
+        "caption": "Two cable-car cabins separate, with the left cabin moving upward and the right cabin descending toward the hills. The sky is orange near the horizon and purple higher up.",
+        "facts": [
+          [
+            "Two cable-car cabins separate, with the left cabin moving upward and the right cabin descending toward the hills.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "The sky is orange near the horizon and purple higher up.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": []
+      },
+      {
+        "caption": "One cable-car cabin moves upward toward the top edge while another remains low near the hills. Silhouetted hills stretch beneath the orange and purple sky.",
+        "facts": [
+          [
+            "One cable-car cabin moves upward toward the top edge while another remains low near the hills.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "Silhouetted hills stretch beneath the orange and purple sky.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": []
+      }
+    ],
+    "47": [
+      {
+        "caption": "A green tractor moves among round hay bales in a cut field. A round bale is carried at the front of the tractor.",
+        "facts": [
+          [
+            "A green tractor moves among round hay bales in a cut field.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "A round bale is carried at the front of the tractor.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": []
+      },
+      {
+        "caption": "A green tractor is visible among round hay bales. A red tractor towing a green machine enters from the right foreground.",
+        "facts": [
+          [
+            "A green tractor is visible among round hay bales.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "A red tractor towing a green machine enters from the right foreground.",
+            [
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": [
+          [
+            "Red tractor enters from the right",
+            [
+              0,
+              1,
+              2,
+              3
+            ],
+            [
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ]
+      },
+      {
+        "caption": "A red tractor towing a green machine moves leftward across the foreground. A green tractor and several round hay bales remain farther back.",
+        "facts": [
+          [
+            "A red tractor towing a green machine moves leftward across the foreground.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "A green tractor and several round hay bales remain farther back.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": []
+      },
+      {
+        "caption": "The red tractor, its green attachment and the background green tractor leave through the left edge. Round hay bales remain scattered across the field.",
+        "facts": [
+          [
+            "The red tractor, its green attachment and the background green tractor leave through the left edge.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4
+            ]
+          ],
+          [
+            "Round hay bales remain scattered across the field.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": [
+          [
+            "Red tractor and attachment disappear at the left edge",
+            [
+              0,
+              1,
+              2
+            ],
+            [
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "Background tractor disappears at the left edge",
+            [
+              0,
+              1,
+              2
+            ],
+            [
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ]
+      }
+    ],
+    "10": [
+      {
+        "caption": "Water pours over a dark rock ledge in a leafy wooded setting. Green plants frame the waterfall.",
+        "facts": [
+          [
+            "Water pours over a dark rock ledge in a leafy wooded setting.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "Green plants frame the waterfall.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": []
+      },
+      {
+        "caption": "Water pours over a dark rock ledge in a leafy wooded setting. Green plants frame the waterfall.",
+        "facts": [
+          [
+            "Water pours over a dark rock ledge in a leafy wooded setting.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "Green plants frame the waterfall.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": []
+      },
+      {
+        "caption": "Water pours over a dark rock ledge in a leafy wooded setting. Green plants frame the waterfall.",
+        "facts": [
+          [
+            "Water pours over a dark rock ledge in a leafy wooded setting.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "Green plants frame the waterfall.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": []
+      },
+      {
+        "caption": "Water pours over a dark rock ledge in a leafy wooded setting. Green plants frame the waterfall.",
+        "facts": [
+          [
+            "Water pours over a dark rock ledge in a leafy wooded setting.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "Green plants frame the waterfall.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": []
+      }
+    ],
+    "30": [
+      {
+        "caption": "Two people face each other on snow, one wearing a long blue coat with white trim and the other a dark coat. The person in blue makes a throwing gesture toward the other person, who raises their arms and then bends slightly.",
+        "facts": [
+          [
+            "Two people face each other on snow, one wearing a long blue coat with white trim and the other a dark coat.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "The person in blue makes a throwing gesture toward the other person, who raises their arms and then bends slightly.",
+            [
+              0,
+              1,
+              2,
+              3
+            ]
+          ]
+        ],
+        "events": [
+          [
+            "Dark-coated person raises their arms",
+            [
+              0
+            ],
+            [
+              1
+            ]
+          ],
+          [
+            "Blue-coated person extends a throwing arm",
+            [
+              1
+            ],
+            [
+              2
+            ]
+          ],
+          [
+            "Dark-coated person bends after the gesture",
+            [
+              2
+            ],
+            [
+              3
+            ]
+          ]
+        ]
+      },
+      {
+        "caption": "Two people stand facing each other in a snowy field. The person in a blue and white coat leans forward with both hands in front of them.",
+        "facts": [
+          [
+            "Two people stand facing each other in a snowy field.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "The person in a blue and white coat leans forward with both hands in front of them.",
+            [
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": [
+          [
+            "Blue-coated person bends forward",
+            [
+              0,
+              1
+            ],
+            [
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ]
+      },
+      {
+        "caption": "Two people remain facing each other in the snow. The person in blue straightens from a forward lean, while the person in dark clothing stays upright.",
+        "facts": [
+          [
+            "Two people remain facing each other in the snow.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "The person in blue straightens from a forward lean, while the person in dark clothing stays upright.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": [
+          [
+            "Blue-coated person straightens",
+            [
+              0,
+              1,
+              2
+            ],
+            [
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ]
+      },
+      {
+        "caption": "Two people in long winter coats stand apart facing each other on snow. The person in blue raises and extends an arm toward the person in dark clothing.",
+        "facts": [
+          [
+            "Two people in long winter coats stand apart facing each other on snow.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "The person in blue raises and extends an arm toward the person in dark clothing.",
+            [
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": [
+          [
+            "Blue-coated person raises and extends an arm",
+            [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            [
+              5,
+              6,
+              7
+            ]
+          ]
+        ]
+      }
+    ],
+    "36": [
+      {
+        "caption": "A small white boat is visible on calm blue water. A mountainous shoreline lies in the distance under a blue sky with small white clouds.",
+        "facts": [
+          [
+            "A small white boat is visible on calm blue water.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "A mountainous shoreline lies in the distance under a blue sky with small white clouds.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": []
+      },
+      {
+        "caption": "A small white boat is visible on calm blue water. A mountainous shoreline lies in the distance under a blue sky with small white clouds.",
+        "facts": [
+          [
+            "A small white boat is visible on calm blue water.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "A mountainous shoreline lies in the distance under a blue sky with small white clouds.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": []
+      },
+      {
+        "caption": "A small white boat is visible on calm blue water. A mountainous shoreline lies in the distance under a blue sky with small white clouds.",
+        "facts": [
+          [
+            "A small white boat is visible on calm blue water.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "A mountainous shoreline lies in the distance under a blue sky with small white clouds.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": []
+      },
+      {
+        "caption": "A small white boat is visible on calm blue water. A mountainous shoreline lies in the distance under a blue sky with small white clouds.",
+        "facts": [
+          [
+            "A small white boat is visible on calm blue water.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "A mountainous shoreline lies in the distance under a blue sky with small white clouds.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": []
+      }
+    ],
+    "48": [
+      {
+        "caption": "A car follows a bend on a paved mountain road. Rocky slopes and a low roadside barrier surround the curve.",
+        "facts": [
+          [
+            "A car follows a bend on a paved mountain road.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "Rocky slopes and a low roadside barrier surround the curve.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": []
+      },
+      {
+        "caption": "A car drives away along a curving road through rocky terrain. The view broadens to reveal more of the mountain slopes.",
+        "facts": [
+          [
+            "A car drives away along a curving road through rocky terrain.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "The view broadens to reveal more of the mountain slopes.",
+            [
+              0,
+              2,
+              5,
+              7
+            ]
+          ]
+        ],
+        "events": []
+      },
+      {
+        "caption": "A car continues away along a winding road in a rocky mountain landscape. The car appears smaller as the view expands.",
+        "facts": [
+          [
+            "A car continues away along a winding road in a rocky mountain landscape.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "The car appears smaller as the view expands.",
+            [
+              0,
+              2,
+              5,
+              7
+            ]
+          ]
+        ],
+        "events": []
+      },
+      {
+        "caption": "A small car travels away along a road beneath rugged mountains. Patches of dark vegetation cover parts of the slopes.",
+        "facts": [
+          [
+            "A small car travels away along a road beneath rugged mountains.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ],
+          [
+            "Patches of dark vegetation cover parts of the slopes.",
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          ]
+        ],
+        "events": []
+      }
+    ]
+  }
+}

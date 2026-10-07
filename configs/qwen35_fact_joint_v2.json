@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "max_epochs": 2,
+  "patience": 1,
+  "min_delta": 0.0001,
+  "lora_lr": 0.00002,
+  "head_lr": 0.00005,
+  "head_loss_weight": 1.0,
+  "checkpoint_every_updates": 12,
+  "selection_policy": "Validation event and temporal-fact evidence coverage must both be no worse than the initial staged model; minimize common fixed-evidence caption CE within that gate",
+  "sampling": "Every train window retained; repeat discrete-event windows to balance event/non-event strata; same order in both arms",
+  "scope": "Two matched small joint-training runs from the same staged checkpoint; no test references in training or checkpoint choice"
+}

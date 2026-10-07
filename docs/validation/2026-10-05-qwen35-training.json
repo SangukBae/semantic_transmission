@@ -1,0 +1,310 @@
+{
+  "status": "ABLATION_REANNOTATION_AND_MATCHED_JOINT_TRAINING_COMPLETE_PARTIAL_FACT_RECOVERY",
+  "date": "2026-10-05",
+  "requested_steps": {
+    "1_source_split": "COMPLETE_PILOT",
+    "2_labels": "AI_SOURCE_REVIEWED_PILOT_NOT_HUMAN_TRUTH",
+    "3_baseline": "FROZEN_AI_REVIEWED_PILOT",
+    "4_staged_training": "COMPLETE_FULL_CONFIG_AND_32_WINDOW_EVALUATION",
+    "5_joint_training": "TWO_REVIEWED_DATA_ARMS_COMPLETE_2_EPOCHS_46_UPDATES_EACH_AND_64_GENERATED_CAPTIONS"
+  },
+  "dataset_audit": {
+    "status": "PASS",
+    "freeze_sha256": "570f86ccd03bac173eeeba791647acc923680809bc3d675f4f5d36438445e25c",
+    "counts": {
+      "train": {
+        "sources": 16,
+        "windows": 64,
+        "events": 21,
+        "facts": 128
+      },
+      "validation": {
+        "sources": 4,
+        "windows": 16,
+        "events": 11,
+        "facts": 32
+      },
+      "test": {
+        "sources": 4,
+        "windows": 16,
+        "events": 19,
+        "facts": 32
+      }
+    },
+    "checked_files": 816
+  },
+  "baseline": {
+    "validation": {
+      "windows": 16,
+      "keys": 64,
+      "event_hits": 10,
+      "event_count": 11,
+      "facts_recalled": 18,
+      "fact_count": 32,
+      "error_windows": 9,
+      "error_claims": 10,
+      "selection_failures": 7,
+      "caption_failures": 0,
+      "processing_seconds": 141.96764720497595,
+      "mean_seconds_per_window": 8.872977950310997
+    },
+    "test": {
+      "windows": 16,
+      "keys": 64,
+      "event_hits": 7,
+      "event_count": 19,
+      "facts_recalled": 19,
+      "fact_count": 32,
+      "error_windows": 14,
+      "error_claims": 17,
+      "selection_failures": 3,
+      "caption_failures": 0,
+      "processing_seconds": 138.00309453500086,
+      "mean_seconds_per_window": 8.625193408437553
+    }
+  },
+  "functional_tests": {
+    "passed": 67,
+    "failed": 0,
+    "scope": "Earlier implementation validation; not rerun for this results-only audit"
+  },
+  "gpu_smoke": "outputs/qwen35_multitask_verified_v1/smoke/RESULT.json",
+  "gpu_smoke_sha256": "473b02ad5ed9836ebf8c8a7cb4ce40f9b19d200e3b20e81aafe4e9f61e3c6062",
+  "actual_weights_audit": {
+    "status": "PASS",
+    "joint_adapter_tensors_changed": 496,
+    "adapter_tensor_count": 496,
+    "joint_head_tensors_changed": 10,
+    "head_parameter_count": 582275,
+    "caption_checkpoint_manifest_sha256": "e0907fc19782f0b877579be720c619a00628fdcb034f2a38acbdbd2cb66e252d",
+    "joint_checkpoint_manifest_sha256": "5e6a8649e98e2805a5d18f6282237f964126e5e06b8a7d24448f24200bf6e00b",
+    "full_training": false,
+    "scope": "Historical initial GPU smoke; final full-pilot joint audit is in joint_training_review"
+  },
+  "source_files": {
+    "src/semantic_transmission/qwen35_training.py": "9226e90b8d18a35d040c14daae81adbbc7bef0ecbddb6a23d52d48cca1c99862",
+    "src/semantic_transmission/qwen35_training_data.py": "8d7d7045e01004004750ee4742971c8307dff9d3fdafde45d2215c7b76f20d2c",
+    "src/semantic_transmission/qwen35_training_eval.py": "7aede48da5dac9e34a3f1d707f8a4471aab824616199ed77bd46b69d4939d378",
+    "src/semantic_transmission/qwen35_multitask.py": "be67f698175263e3f7973dfb0a0a8a994fa259a28cefb84049202c928969a89f",
+    "configs/qwen35_multitask_v1.json": "7f90a00a3787c31e8589b2d2d9aadbc57d7c5f3cc4efee17497d61eb357ff928",
+    "configs/qwen35_training_annotations_v1.json": "4672f20601ef04fc2c30c278e4b8ae972ffa8479e315ec6cbc8349250c65c5f8",
+    "scripts/train_qwen35_multitask.sh": "836d7b150da5172a8aef07b4a860f0cd9798b70fcd14faa6fee237f13b883eda"
+  },
+  "commands": {
+    "stage4": "bash scripts/train_qwen35_multitask.sh staged",
+    "stage5": "bash scripts/train_qwen35_multitask.sh joint",
+    "resume": "Add --resume to the same command",
+    "inference": "bash scripts/train_qwen35_multitask.sh evaluate"
+  },
+  "limitations": [
+    "24 purposively selected WebVid originals; larger and longer training data not prepared",
+    "Sparse source observations; event boundaries are brackets, not exact onset/offset",
+    "New reference and caption review are assistant AI, not GPT6-Astra or independent human truth",
+    "Ten malformed baseline selections use the frozen uniform fallback",
+    "Paired caption review is provisional; original snowman absence judgments were wrong and ambiguous claims excluded in separate re-audit",
+    "No overall semantic improvement, transmission or reconstruction claim",
+    "Re-reviewed ordinary joint training recovers some facts, but added fact loss increases test error windows; no overall improvement established",
+    "Repeated diagnostic sources, not a newly untouched test; frozen event totals hide two gains and two label losses; terminal closed state is retained, while the hand frame is missed"
+  ],
+  "initial_preparation_status": "READY_FOR_STAGED_AND_JOINT_PILOT_TRAINING",
+  "baseline_note": "Historical frozen baseline scores retained. Source re-audit corrections are in staged_training_review; baseline artifacts and training labels unchanged.",
+  "staged_training_review": {
+    "result": "outputs/qwen35_multitask_staged_eval_20261005/RESULT.json",
+    "sha256": "b51e1fe355901bd7542611157831a632dffd8f6062b0837198978303a5b15835",
+    "splits": {
+      "validation": {
+        "baseline_original": {
+          "windows": 16,
+          "keys": 64,
+          "event_hits": 10,
+          "event_count": 11,
+          "facts_recalled": 18,
+          "fact_count": 32,
+          "error_windows": 9,
+          "error_claims": 10,
+          "processing_seconds": 141.96764720497595,
+          "words": 1006,
+          "mean_words": 62.875
+        },
+        "baseline_reaudited": {
+          "windows": 16,
+          "keys": 64,
+          "event_hits": 10,
+          "event_count": 11,
+          "facts_recalled": 18,
+          "fact_count": 32,
+          "error_windows": 9,
+          "error_claims": 10,
+          "processing_seconds": 141.96764720497595,
+          "words": 1006,
+          "mean_words": 62.875
+        },
+        "staged": {
+          "windows": 16,
+          "keys": 64,
+          "event_hits": 9,
+          "event_count": 11,
+          "facts_recalled": 14,
+          "fact_count": 32,
+          "error_windows": 2,
+          "error_claims": 2,
+          "processing_seconds": 49.16506043600384,
+          "words": 363,
+          "mean_words": 22.6875
+        }
+      },
+      "test": {
+        "baseline_original": {
+          "windows": 16,
+          "keys": 64,
+          "event_hits": 7,
+          "event_count": 19,
+          "facts_recalled": 19,
+          "fact_count": 32,
+          "error_windows": 14,
+          "error_claims": 17,
+          "processing_seconds": 138.00309453500086,
+          "words": 946,
+          "mean_words": 59.125
+        },
+        "baseline_reaudited": {
+          "windows": 16,
+          "keys": 64,
+          "event_hits": 7,
+          "event_count": 19,
+          "facts_recalled": 20,
+          "fact_count": 32,
+          "error_windows": 11,
+          "error_claims": 12,
+          "processing_seconds": 138.00309453500086,
+          "words": 946,
+          "mean_words": 59.125
+        },
+        "staged": {
+          "windows": 16,
+          "keys": 64,
+          "event_hits": 8,
+          "event_count": 19,
+          "facts_recalled": 15,
+          "fact_count": 32,
+          "error_windows": 1,
+          "error_claims": 1,
+          "processing_seconds": 37.692212197958725,
+          "words": 264,
+          "mean_words": 16.5
+        }
+      }
+    },
+    "verification": {
+      "source_png_hashes": 256,
+      "generation_files": 34,
+      "reviewed_condition_windows": 64,
+      "exact_error_quotes": true,
+      "valid_four_key_outputs": 32,
+      "empty_or_truncated_captions": 0,
+      "baseline_original_counts_reproduced": true,
+      "training_data_checkpoint_audit": "training_audit.json"
+    },
+    "reviewer": {
+      "reviewer": "Codex assistant source-grounded paired review; not independently blinded",
+      "human_reviewed": false,
+      "GPT6_Astra_reviewed": false,
+      "reference_policy": "Count a reference item only when its core content and temporal order are retained. Omission alone is not an error window. Errors require an exact output quote contradicted by or unsupported in source evidence. Compound reference items are not equivalent to the earlier Astra atomic-fact benchmark.",
+      "score_unit": "Frozen compound core-fact items, not atomic facts. Credit and omissions are recorded per window. Ambiguous claims excluded from definite error count."
+    }
+  },
+  "joint_training_review": {
+    "result": "outputs/qwen35_fact_joint_v3/RESULT.json",
+    "sha256": "1204edebfca8e8963dff552f3db39d14b8bb0bc49e58b7f2d65ecdd71e33368d",
+    "verification": "outputs/qwen35_fact_joint_v3/verification.json",
+    "metrics": {
+      "validation": {
+        "staged": {
+          "windows": 16,
+          "keys": 64,
+          "event_hits": 9,
+          "event_count": 11,
+          "facts_recalled": 14,
+          "fact_count": 32,
+          "error_windows": 2,
+          "words": 363,
+          "caption_seconds": 42.395010790001834,
+          "mean_words": 22.6875
+        },
+        "control": {
+          "windows": 16,
+          "keys": 64,
+          "event_hits": 9,
+          "event_count": 11,
+          "facts_recalled": 22,
+          "fact_count": 32,
+          "error_windows": 1,
+          "words": 472,
+          "caption_seconds": 54.14896048602532,
+          "mean_words": 29.5
+        },
+        "facts": {
+          "windows": 16,
+          "keys": 64,
+          "event_hits": 9,
+          "event_count": 11,
+          "facts_recalled": 20,
+          "fact_count": 32,
+          "error_windows": 1,
+          "words": 431,
+          "caption_seconds": 50.77116727997782,
+          "mean_words": 26.9375
+        }
+      },
+      "test": {
+        "staged": {
+          "windows": 16,
+          "keys": 64,
+          "event_hits": 8,
+          "event_count": 19,
+          "facts_recalled": 15,
+          "fact_count": 32,
+          "error_windows": 1,
+          "words": 264,
+          "caption_seconds": 32.218050489987945,
+          "mean_words": 16.5
+        },
+        "control": {
+          "windows": 16,
+          "keys": 64,
+          "event_hits": 8,
+          "event_count": 19,
+          "facts_recalled": 18,
+          "fact_count": 32,
+          "error_windows": 1,
+          "words": 458,
+          "caption_seconds": 51.77145801795996,
+          "mean_words": 28.625
+        },
+        "facts": {
+          "windows": 16,
+          "keys": 64,
+          "event_hits": 8,
+          "event_count": 19,
+          "facts_recalled": 18,
+          "fact_count": 32,
+          "error_windows": 4,
+          "words": 461,
+          "caption_seconds": 51.99942177609773,
+          "mean_words": 28.8125
+        }
+      }
+    },
+    "matched_factorial": "outputs/qwen35_factorial_20261005/RESULT.json",
+    "annotations": "configs/qwen35_fact_annotations_v3.json",
+    "annotations_sha256": "6ad83bc1a144b580e5332940b25b626654141f68641ec44d80e9885699016005",
+    "independent_ground_truth": false,
+    "production_default_replaced": false,
+    "event_rubric_sensitivity": "outputs/qwen35_fact_joint_v3/event_rubric_sensitivity.json"
+  },
+  "current_commands": {
+    "ordinary_joint": "bash scripts/train_qwen35_facts.sh control --resume",
+    "fact_joint": "bash scripts/train_qwen35_facts.sh facts --resume",
+    "generate_both": "bash scripts/train_qwen35_facts.sh evaluate"
+  }
+}
