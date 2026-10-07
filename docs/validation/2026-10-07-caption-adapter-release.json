@@ -1,0 +1,86 @@
+{
+  "schema": 1,
+  "as_of": "2026-10-07",
+  "training_in_this_release_task": false,
+  "source_results": {
+    "holdout": {
+      "local_artifact": "outputs/qwen35_caption_holdout_20261007/RESULT.json",
+      "status": "COMPLETE_SEPARATE_REVIEWER_HOLDOUT",
+      "totals": {
+        "initial": {
+          "windows": 24,
+          "facts": 83,
+          "fact_hits": 51,
+          "actions": 25,
+          "action_hits": 17,
+          "error_windows": 7,
+          "error_claims": 9,
+          "generation_failures": 0,
+          "full_or_partial_hits": 74,
+          "action_full_or_partial_hits": 22,
+          "generation_seconds": 99.20474726491375,
+          "caption_words": 960
+        },
+        "caption": {
+          "windows": 24,
+          "facts": 83,
+          "fact_hits": 54,
+          "actions": 25,
+          "action_hits": 17,
+          "error_windows": 7,
+          "error_claims": 9,
+          "generation_failures": 0,
+          "full_or_partial_hits": 76,
+          "action_full_or_partial_hits": 23,
+          "generation_seconds": 103.27429872803623,
+          "caption_words": 1024
+        }
+      }
+    },
+    "adapter_integration": {
+      "local_artifact": "outputs/fc_lgvsc_caption_adapter_integration_20261007/RESULT.json",
+      "status": "PASS_DEFAULT_CAPTION_ADAPTER_EXTRACTION_AND_IMPORT",
+      "frames": 180,
+      "keyframes": 9,
+      "captions": 8,
+      "keys_equal_previous_smoke": true,
+      "skem_pairs": 0,
+      "inference": {
+        "proposals": {
+          "calls": 4,
+          "seconds": 9.049037696968298,
+          "peak_allocated_gib": 8.28175163269043,
+          "adapter_enabled": false
+        },
+        "draft": {
+          "calls": 8,
+          "seconds": 36.927093182108365,
+          "peak_allocated_gib": 8.055166244506836,
+          "adapter_enabled": true
+        },
+        "visual_review": {
+          "calls": 8,
+          "seconds": 26.63464778807247,
+          "peak_allocated_gib": 8.038462162017822,
+          "adapter_enabled": false
+        }
+      },
+      "tests": {
+        "qwen_and_provenance": 84,
+        "selection_and_receiver": 112,
+        "total": 196
+      },
+      "training_executed": false,
+      "transmission_executed": false,
+      "reconstruction_executed": false,
+      "semantic_quality_comparison_executed": false,
+      "limitations": [
+        "Integration, not an independent semantic quality benchmark.",
+        "51-to-54/83 held-out result compared parent LoRA with repaired LoRA, not raw default Qwen.",
+        "Held-out plain caption/160 tokens differs from default JSON/384 tokens plus base visual review.",
+        "No new key accuracy, transmitted-byte, Added/Missing/Distorted or reconstructed-video claim."
+      ]
+    }
+  },
+  "scope": "Code and local validation summary, not a complete public dataset/model release."
+}
