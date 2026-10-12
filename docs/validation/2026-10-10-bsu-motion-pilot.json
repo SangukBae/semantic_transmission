@@ -1,0 +1,511 @@
+{
+  "status": "COMPLETE_PILOT_NOT_ADOPTED",
+  "date": "2026-10-10",
+  "root": "/home/sangukbae/semantic_transmission/outputs/bsu_motion_pilot_20261010_v2",
+  "signature": "ae94e72da2a05c9be418661432ebfcc0da3f5aaa8f07c93c71d31a07970e567a",
+  "adopted": false,
+  "selector_changed": false,
+  "generator_backbone_changed": false,
+  "independent_semantic_review": "PENDING",
+  "method": "quantized camera/regional motion plus endpoint-latent prior and learned 3D-CNN residual inside RFLOW",
+  "channel": {
+    "snr_db": 10,
+    "seed": 42,
+    "baseline_packet_bytes": 1722,
+    "motion_packet_bytes": 2249,
+    "packet_growth_bytes": 527,
+    "capacity_bytes": 2304,
+    "visual_complex_channel_uses": 84583,
+    "motion_digital_channel_uses": 6912,
+    "motion_total_channel_uses": 91495,
+    "ldpc_blocks": 3,
+    "bit_errors": 0,
+    "remaining_padding_bytes": 55,
+    "physical_link_headers_included": false,
+    "visual_stream_reused_exactly": true,
+    "short_diagnostics": "motion-only transport tested; not full end-to-end rate benchmarks"
+  },
+  "training": {
+    "status": "TRAINED",
+    "signature": "ae94e72da2a05c9be418661432ebfcc0da3f5aaa8f07c93c71d31a07970e567a",
+    "checkpoint_sha256": "427e0f353b07c851b5ad3ce00b674cf558e0a1570129d45b626adfe4c8a7b17a",
+    "parameters": 11252,
+    "history": [
+      {
+        "step": 50,
+        "train_loss": 0.6777777075767517,
+        "validation_l1": 0.2841525077819824
+      },
+      {
+        "step": 100,
+        "train_loss": 0.6547847986221313,
+        "validation_l1": 0.29451075196266174
+      },
+      {
+        "step": 150,
+        "train_loss": 0.6615875363349915,
+        "validation_l1": 0.2945244014263153
+      },
+      {
+        "step": 200,
+        "train_loss": 0.6553241610527039,
+        "validation_l1": 0.2949371933937073
+      },
+      {
+        "step": 250,
+        "train_loss": 0.7282685041427612,
+        "validation_l1": 0.2966579794883728
+      },
+      {
+        "step": 300,
+        "train_loss": 0.5928696990013123,
+        "validation_l1": 0.313932865858078
+      },
+      {
+        "step": 350,
+        "train_loss": 0.6435765027999878,
+        "validation_l1": 0.31832441687583923
+      },
+      {
+        "step": 400,
+        "train_loss": 0.6545828580856323,
+        "validation_l1": 0.30913397669792175
+      },
+      {
+        "step": 450,
+        "train_loss": 0.6216506361961365,
+        "validation_l1": 0.3095618784427643
+      },
+      {
+        "step": 500,
+        "train_loss": 0.603085458278656,
+        "validation_l1": 0.32129979133605957
+      }
+    ],
+    "untrained_validation_l1": 0.29424309730529785,
+    "selected_validation_l1": 0.2841525077819824,
+    "training_data": [
+      {
+        "name": "train_tv_00",
+        "split": "train",
+        "source_id": "tvsum_tv_low_08"
+      },
+      {
+        "name": "train_tv_01",
+        "split": "train",
+        "source_id": "tvsum_tv_low_08"
+      },
+      {
+        "name": "train_tv_02",
+        "split": "train",
+        "source_id": "tvsum_tv_low_08"
+      },
+      {
+        "name": "train_tv_03",
+        "split": "train",
+        "source_id": "tvsum_tv_low_08"
+      },
+      {
+        "name": "train_tv_04",
+        "split": "train",
+        "source_id": "tvsum_tv_low_08"
+      },
+      {
+        "name": "train_tv_05",
+        "split": "train",
+        "source_id": "tvsum_tv_low_08"
+      },
+      {
+        "name": "train_tv_06",
+        "split": "train",
+        "source_id": "tvsum_tv_low_08"
+      },
+      {
+        "name": "train_tv_07",
+        "split": "train",
+        "source_id": "tvsum_tv_low_08"
+      },
+      {
+        "name": "train_tv_08",
+        "split": "train",
+        "source_id": "tvsum_tv_low_08"
+      },
+      {
+        "name": "train_tv_09",
+        "split": "train",
+        "source_id": "tvsum_tv_low_08"
+      },
+      {
+        "name": "train_miami-surf",
+        "split": "train",
+        "source_id": "davis_miami-surf"
+      },
+      {
+        "name": "train_rallye",
+        "split": "validation",
+        "source_id": "davis_rallye"
+      }
+    ],
+    "test_sources_used_for_training_or_selection": false,
+    "end_to_end_diffusion_training": false
+  },
+  "comparison_boundary": "lossless pre-MP4 PNG; previous published table used delivered MP4",
+  "common381": [
+    {
+      "name": "baseline",
+      "keys": 2,
+      "quality": {
+        "psnr_db": 15.930045652620434,
+        "ssim": 0.46858410808936807,
+        "lpips_vgg": 0.35002480928353435,
+        "clip": 0.9102184065370735,
+        "dists": 0.1658087893733828,
+        "frames": 381,
+        "shape": [
+          381,
+          320,
+          576,
+          3
+        ]
+      },
+      "channel_uses": 91495,
+      "paired_actual_noise": true,
+      "generation_receipt_sha256": "127fa3a52493fdc6f82cf06d3bf6dbe14f8adf4ead6c20f8699c126a47c7f8f5",
+      "temporal": {
+        "flow_error_mean": 0.07121372199372242,
+        "mad_p95": 4.176295572916667
+      }
+    },
+    {
+      "name": "pllava_caption",
+      "keys": 2,
+      "quality": {
+        "psnr_db": 16.664333425650806,
+        "ssim": 0.49910382672458115,
+        "lpips_vgg": 0.33409925599110724,
+        "clip": 0.9163712629183071,
+        "dists": 0.15716498464424153,
+        "frames": 381,
+        "shape": [
+          381,
+          320,
+          576,
+          3
+        ]
+      },
+      "channel_uses": 91495,
+      "paired_actual_noise": true,
+      "generation_receipt_sha256": "9e03c06e26074aed6aef6dedad4aabcd2361cadd73e2ec74507fd0d51c5a0ccc",
+      "temporal": {
+        "flow_error_mean": 0.06012982279062271,
+        "mad_p95": 4.456495225694444
+      }
+    },
+    {
+      "name": "motion_zero",
+      "keys": 2,
+      "quality": {
+        "psnr_db": 16.567999986290566,
+        "ssim": 0.4626493456581365,
+        "lpips_vgg": 0.35792164484972716,
+        "clip": 0.9041796106053149,
+        "dists": 0.16656836671779163,
+        "frames": 381,
+        "shape": [
+          381,
+          320,
+          576,
+          3
+        ]
+      },
+      "channel_uses": 91495,
+      "paired_actual_noise": true,
+      "generation_receipt_sha256": "d4caf9e3681016da2cd91f1976cf33a7fcb166e80dfa0a4b055de9317695b092",
+      "temporal": {
+        "flow_error_mean": 0.08080872810984913,
+        "mad_p95": 4.345329861111112
+      }
+    },
+    {
+      "name": "motion_geometry",
+      "keys": 2,
+      "quality": {
+        "psnr_db": 17.369905238544746,
+        "ssim": 0.4903095374824994,
+        "lpips_vgg": 0.35965884912983953,
+        "clip": 0.9122593196358267,
+        "dists": 0.18687597503812295,
+        "frames": 381,
+        "shape": [
+          381,
+          320,
+          576,
+          3
+        ]
+      },
+      "channel_uses": 91495,
+      "paired_actual_noise": true,
+      "generation_receipt_sha256": "ed2b26346a1733aa61f5e81c41c3f6281234791435c47a859539b28c42b7a8ed",
+      "temporal": {
+        "flow_error_mean": 0.07651678041898106,
+        "mad_p95": 4.607255859375001
+      }
+    },
+    {
+      "name": "motion_learned",
+      "keys": 2,
+      "quality": {
+        "psnr_db": 17.60956485260958,
+        "ssim": 0.49673484670892454,
+        "lpips_vgg": 0.35419483361594634,
+        "clip": 0.9121760170603674,
+        "dists": 0.18384118014433254,
+        "frames": 381,
+        "shape": [
+          381,
+          320,
+          576,
+          3
+        ]
+      },
+      "channel_uses": 91495,
+      "paired_actual_noise": true,
+      "generation_receipt_sha256": "797d6199fdabd7930eaff11391ac7f23f7ce49b261acc7099903e656578c0ede",
+      "temporal": {
+        "flow_error_mean": 0.07667333521439057,
+        "mad_p95": 4.228179253472223
+      }
+    },
+    {
+      "name": "historical_lgvsc",
+      "keys": 2,
+      "quality": {
+        "psnr_db": 16.638284719202012,
+        "ssim": 0.5059160927772918,
+        "lpips_vgg": 0.3470481582122838,
+        "clip": 0.9125290918225065,
+        "dists": 0.15479078708984095,
+        "frames": 381,
+        "shape": [
+          381,
+          320,
+          576,
+          3
+        ]
+      },
+      "channel_uses": 92475,
+      "paired_actual_noise": false,
+      "scope": "descriptive context; original key positions, intervals and captions retained",
+      "temporal": {
+        "flow_error_mean": 0.06276161565788482,
+        "mad_p95": 4.50237521701389
+      }
+    },
+    {
+      "name": "historical_fixed22",
+      "keys": 22,
+      "quality": {
+        "psnr_db": 20.969408990603668,
+        "ssim": 0.7252885228083841,
+        "lpips_vgg": 0.2783181160844843,
+        "clip": 0.8952816139681758,
+        "dists": 0.16375952114270428,
+        "frames": 381,
+        "shape": [
+          381,
+          320,
+          576,
+          3
+        ]
+      },
+      "channel_uses": 980599,
+      "paired_actual_noise": false,
+      "scope": "descriptive context; original key positions, intervals and captions retained",
+      "temporal": {
+        "flow_error_mean": 0.09249415493227149,
+        "mad_p95": 7.659114583333333
+      }
+    }
+  ],
+  "target": {
+    "channel_at_or_below_lgvsc": true,
+    "psnr_at_or_above_fixed22": false,
+    "lpips_at_or_below_fixed22": false
+  },
+  "adoption_gates": [
+    {
+      "case": "zea",
+      "checks": {
+        "psnr": true,
+        "lpips": true,
+        "flow": false,
+        "motion_spikes": true
+      },
+      "passed": false
+    },
+    {
+      "case": "person_walk",
+      "checks": {
+        "psnr": true,
+        "lpips": true,
+        "flow": true,
+        "motion_spikes": true
+      },
+      "passed": true
+    },
+    {
+      "case": "single_subject",
+      "checks": {
+        "psnr": true,
+        "lpips": true,
+        "flow": true,
+        "motion_spikes": true
+      },
+      "passed": true
+    },
+    {
+      "case": "candle_flowers",
+      "checks": {
+        "psnr": false,
+        "lpips": true,
+        "flow": false,
+        "motion_spikes": false
+      },
+      "passed": false
+    }
+  ],
+  "trained_residual_contribution": [
+    {
+      "case": "zea",
+      "psnr_db": 0.2393377287764693,
+      "lpips_vgg": -0.005396286025643349,
+      "flow_error": 0.00017118040598715356
+    },
+    {
+      "case": "person_walk",
+      "psnr_db": -0.0673857440544694,
+      "lpips_vgg": -0.018765583026165877,
+      "flow_error": 0.04353367265624308
+    },
+    {
+      "case": "single_subject",
+      "psnr_db": -0.28534845837045353,
+      "lpips_vgg": -0.0003620057689900369,
+      "flow_error": 0.06126969338705146
+    },
+    {
+      "case": "candle_flowers",
+      "psnr_db": -2.756782964440635,
+      "lpips_vgg": -0.0009326880075493649,
+      "flow_error": 0.0009238456841558218
+    }
+  ],
+  "verification": {
+    "status": "PASS",
+    "completed_reconstructions": 17,
+    "generated_frames": 2508,
+    "actual_noise_matched_within_each_case": true,
+    "baseline_replay_all_384_frames_exact": true,
+    "received_packets_byte_exact": 18,
+    "channel_bit_errors": 0,
+    "hard_key_latents_preserved_all_arms": true,
+    "unit_tests_passed": 7,
+    "source_ids_disjoint_between_train_validation_test": true,
+    "public_docs_check": {
+      "markdown_files": 7,
+      "links_and_anchors": 315,
+      "status": "PASS"
+    }
+  },
+  "ai_review": {
+    "status": "COMPLETE_AI_SAMPLE_REVIEW_INDEPENDENT_REVIEW_PENDING",
+    "reviewer": "Codex visual inspection",
+    "independent": false,
+    "blinded": false,
+    "human_ground_truth": false,
+    "relative_frames": {
+      "zea": [
+        96,
+        192,
+        287,
+        288
+      ],
+      "person_walk": [
+        12,
+        24,
+        36
+      ],
+      "single_subject": [
+        12,
+        24,
+        36
+      ],
+      "candle_flowers": [
+        12,
+        24,
+        36
+      ]
+    },
+    "unique_source_timestamps": 13,
+    "findings": {
+      "zea": "Motion guidance improves broad harbor geometry but introduces grid-like texture, blur and altered fine buildings/boats; visible in geometry-only and learned arms.",
+      "person_walk": "Some motion/fidelity metrics improve while body/leg contours ghost or blur at frames 12 and 24. Frame 36 is much sharper; no claim of uniform perceptual improvement.",
+      "single_subject": "Scarf and body poses differ from source; geometry and learned arms show translucent/doubled edges at 12 and 24. Higher frame metrics do not establish semantic correctness.",
+      "candle_flowers": "Lamp structure remains but color/brightness shifts in the motion-guided outputs; learned correction further changes the initially accurate static scene."
+    },
+    "interpretation": "Artifact presence in geometry-only arm rules out blaming the CNN alone. Incompatible warped/mixed endpoint priors and missing visibility/phase modeling are hypotheses, not isolated causal proofs.",
+    "decision": "NOT_ADOPTED",
+    "next_design_requirement": "Condition generation on motion without imposing a blurred endpoint-mixture clean latent; validate detail, visibility, timing and low-motion preservation with broader source-disjoint training.",
+    "scope": "A limited development pilot; independent event/error annotations and multi-seed/SNR evaluation not completed",
+    "sheets": {
+      "early_review.png": "264d22a83361a17e1f66e4fc3311366d52a2b3bbc4fe798b67621d09687f889a",
+      "geometry_review.png": "340a7ce4a8c5b441e238e8746c5a644616f0f614a7276a7df444511abfe1ef31",
+      "review/person_walk/frame_0012.png": "07bc45d1310754a9f1eeb23fb865e6734d4d6f478d8db0042e0274e2eb789841",
+      "review/person_walk/frame_0024.png": "2d1468b2f411f57bed857a2d632d6b2c454053f433a43310399062ac886f8967",
+      "review/person_walk/frame_0036.png": "2c4a277a5841b7c1f0ff359796b1011d013cf4cccf5c9edcc6492e48a4c6623d",
+      "review/single_subject/frame_0012.png": "56f73f798cc964ae67a6b9a9bb362be4391d05c7977ff36e1b7778dc66c9340a",
+      "review/single_subject/frame_0024.png": "30f2e81ab92ff2a294fb1696a42c00c19f3bf8f40d24c1f2c0a8b8e6d676e6c8",
+      "review/single_subject/frame_0036.png": "6101efe3c859c5e4611a7aac8d14a5297b6f0182ee9f2f6c08e6db19adc49157",
+      "review/candle_flowers/frame_0012.png": "9f36a2cbe71c29e5e0c73035e6e0398d1bd673eaf30250e50e94a1fe0dc62aeb",
+      "review/candle_flowers/frame_0024.png": "1d92253290c21d8dd74bc21e2bcdd604e8d16b011907cba303e6e4f6dd8872b5",
+      "review/candle_flowers/frame_0036.png": "6e18d751391e43e604588912385d057fcf113c3b9977673071893cefd07b7fbd",
+      "review/zea/frame_0096.png": "4c3994b73d1432f036a9c0747d4747a6183de720895c5f8c4f961a15750ccacd",
+      "review/zea/frame_0192.png": "63149e1d8b8eb4fa154f6246fc5cc0cfd814618d5eab0781df14ae4e72089e80",
+      "review/zea/frame_0287.png": "09e5deccf2e91b29218d8d69b8496c4ea47bb7fd7f7bad21bc5753c5e3d629fa"
+    }
+  },
+  "provenance_notes": [
+    "NTSCC received key pixels and channel realization reused exactly; enriched metadata newly transmitted through actual Sionna LDPC/QAM/AWGN.",
+    "Historical LGVSC and fixed22 retain different key positions/segments/noise; they are descriptive comparators.",
+    "Receiver tensors use received inputs only; the experiment harness also reads source file hashes for provenance audits.",
+    "Training uses 11 windows from two originals; one separate original selects the checkpoint. Four already-known development scenes are excluded from training.",
+    "Initial attempt failed before generation because a reused helper assumed three keys. Its plan/code/log are preserved; v2 uses the general two-key guard."
+  ],
+  "artifacts": {
+    "protocol.json": "d615f1599fdc4f20154220c6566da8ac274fe4ad75ad2b5faf016d72af4a6a57",
+    "RESULT.json": "904db92d368cfa534bc89b32987d20a6fd79fb9c0aab4369eaee950b0f108e6c",
+    "comparison.json": "282aaec491c2b8b7ef6c69870139072697e2319f6b06cf140621caaa474fd208",
+    "training.json": "7f80e9505a34b02f811bec0bef600c6ad647552c55e869b79b8f810b85486271",
+    "adapter.pt": "427e0f353b07c851b5ad3ce00b674cf558e0a1570129d45b626adfe4c8a7b17a",
+    "channel.json": "74b3f8b762c28c4e44b9a83456017664f0b9e77e01e4b1b085429ae450e2275d",
+    "geometry_ablation_plan.json": "04b2e2fa0c4744e6e7c66883fa30d65431bec0d61385fbd4d980fbef16636594",
+    "geometry_ablation_result.json": "ebe0ef4ea2f5d559f4bfc589b10ee3bb9131ac1d097d98e041b1606f699cf25f",
+    "AI_REVIEW.json": "f2fa4327e1e29586c38c08069c423c9ad51cf640f26093ffe6285f23cc5e1a10",
+    "verification.json": "1eb32079175a62f20118709acfd0db9adcf730ee419cdcfd0953c18fa035bbef",
+    "analysis.html": "bb83e687e6f1d5329c259c79dfccbd0b3e71c41ca37a72d4ec353aebf2683524",
+    "report.html": "88b53097f4e001b521448e54df6fde2e23a7b4c3893371e1de78c6ebfbe4d6cf",
+    "geometry_review.png": "340a7ce4a8c5b441e238e8746c5a644616f0f614a7276a7df444511abfe1ef31",
+    "early_review.png": "264d22a83361a17e1f66e4fc3311366d52a2b3bbc4fe798b67621d09687f889a"
+  },
+  "code": {
+    "src/semantic_transmission/bsu_motion_evaluation.py": "f0069d3d4f4e981a1a78c530726c9a22feb523bd43b9570de37a6799e753ce3f",
+    "src/semantic_transmission/bsu_motion_context_evaluation.py": "28f2485ee37961f497bb9a1b2e7ea27ba98d240a99db91fc23a5137a97a3ab57",
+    "src/semantic_transmission/bsu_motion_ablation.py": "b3bfd222381294cda87e14f89118e5e56d2ecab8090f280e1b95968164c0823a",
+    "src/semantic_transmission/bsu_motion_experiment.py": "099ab6e1dff7837932bbb97f9e278bc5490049b103eb4b96c46db625278421b2",
+    "src/semantic_transmission/compact_motion.py": "4f141deb053958684ebaf54b4b124795ff2a2746fa38f03157a71fb35b3a4429",
+    "src/semantic_transmission/motion_condition_adapter.py": "0e49a773fd394f027678dc4ae5865cd46467f90a56e88034be070430afaf457a",
+    "scripts/experiment_bsu_motion.sh": "ef9ebb7e732bfcc3ea33b0dccb5694233f05e17a09b7984cadb812d57567bd72",
+    "scripts/experiment_bsu_motion_ablation.sh": "c1a2034b07fa35bcbe1dacb4e10502f28bd139ed339ebe2c02c7e48236196f02",
+    "tests/test_compact_motion.py": "70257448ddb7789c905c965bb845e3fcb213a348336c3eabcf9a73cdb2d572ad"
+  }
+}
