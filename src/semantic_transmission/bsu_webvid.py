@@ -330,7 +330,8 @@ def report(plan, verify=True):
         paper_cbr=plan["paper"]["skem_dsa_cbr_table_i"].get(snr)
         if paper_cbr is not None:
             lines.append(f"{snr}\tLGVSC paper reference\t55\tNA\tNA\tNA\tNA\tNA\t{paper_cbr:.8g}")
-    lines += ["",*plan["paper"]["comparison_limits"],plan["paper"]["quality_reference_note"],plan["paper"]["source"]]
+    lines += ["",*plan["paper"]["comparison_limits"],plan["paper"].get("local_metadata_link", ""),
+              plan["paper"]["quality_reference_note"],plan["paper"]["source"]]
     (root/"comparison.tsv").write_text("\n".join(lines)+"\n")
     print("\n".join(lines[:4]+[l for l in lines[4:] if "\t" in l]),flush=True)
     return summary

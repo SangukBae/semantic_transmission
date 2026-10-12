@@ -260,7 +260,11 @@ def evaluate(job, output):
         with (output / f"quality_{boundary}.csv").open("x", newline="") as stream:
             writer = csv.DictWriter(stream, fieldnames=list(rows[0])); writer.writeheader(); writer.writerows(rows)
         if boundary == "delivered_mp4" and len(frames) >= 3:
-            result["temporal"] = temporal_metrics(source, frames, tick)
+            started = time.monotonic()
+            def temporal_tick(n, total):
+                if n == 1 or n % 100 == 0 or n == total:
+                    progress("TEMPORAL delivered_mp4 frame pairs", n, total, started)
+            result["temporal"] = temporal_metrics(source, frames, temporal_tick)
     write_json(output / "quality.json", result)
 
 
