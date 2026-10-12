@@ -1,0 +1,287 @@
+{
+  "status": "COMPLETE_REPAIR_AUTOMATIC_EVALUATION_AND_AI_SAMPLE_REVIEW",
+  "date": "2026-10-07",
+  "policy": "received_affine_motion_bridge_v1",
+  "video": "outputs/qwen35_pairs_zea_20261007_temporal_repair/hybrid.mp4",
+  "video_sha256": "0c51456a8a31b1b888594df428819a68f5c0ecca9c1a27969606a102304ce1e7",
+  "comparison": "outputs/qwen35_pairs_zea_20261007_temporal_repair/source_before_after.mp4",
+  "comparison_sha256": "b80ad2e59b8b924af14b0405191815dbb41f2ab14ac408ec8e015df900ff80ec",
+  "comparison_probe": {
+    "width": 1728,
+    "height": 352,
+    "r_frame_rate": "24/1",
+    "duration": "20.583333",
+    "nb_read_frames": "494"
+  },
+  "source_sha256": "f00c3322a4b143ff23c0408815a532f946126a6361ebadfe05f58be3807d08f6",
+  "baseline_sha256": "9168d5d23b1b52ad3e6cb6f4a3718630117cb9f864743d3bb663f62c360b03ff",
+  "frames": 494,
+  "fps": 24,
+  "duration_seconds": 20.583333333333332,
+  "source_used_for_receiver_inference": false,
+  "receiver_inputs": [
+    "decoder metadata",
+    "received key PNGs",
+    "existing generated PNGs"
+  ],
+  "selected_keys": 28,
+  "captions": 27,
+  "captions_changed": false,
+  "generation_rerun": false,
+  "training_executed": false,
+  "additional_channel_uses": 0,
+  "total_complex_channel_uses": 1238065,
+  "accepted_pairs": 27,
+  "pairs": 27,
+  "mean_received_reference_weight": 0.9787609744892429,
+  "cpu_repair_and_two_mp4_seconds": 23.46338220299731,
+  "metrics": {
+    "baseline": {
+      "lossless_frames": {
+        "psnr_db": 20.92263442647846,
+        "ssim": 0.7235663559592229,
+        "lpips_vgg": 0.27554067764205004,
+        "clip": 0.8977322597735324,
+        "dists": 0.16338798717448585,
+        "frames": 494,
+        "shape": [
+          494,
+          320,
+          576,
+          3
+        ]
+      },
+      "delivered_mp4": {
+        "psnr_db": 20.87615309184824,
+        "ssim": 0.7211994707416867,
+        "lpips_vgg": 0.28681728174449944,
+        "clip": 0.9060468789536943,
+        "dists": 0.1685060376097799,
+        "frames": 494,
+        "shape": [
+          494,
+          320,
+          576,
+          3
+        ]
+      }
+    },
+    "geometry": {
+      "delivered_mp4": {
+        "psnr_db": 22.070243674134154,
+        "ssim": 0.7593743405093706,
+        "lpips_vgg": 0.28636858603249676,
+        "clip": 0.9068638110450404,
+        "dists": 0.17368920853263453,
+        "frames": 494,
+        "shape": [
+          494,
+          320,
+          576,
+          3
+        ]
+      },
+      "lossless_frames": {
+        "psnr_db": 22.11802727095708,
+        "ssim": 0.7621756097499384,
+        "lpips_vgg": 0.27835820162827185,
+        "clip": 0.8974708217358299,
+        "dists": 0.17085575116308113,
+        "frames": 494,
+        "shape": [
+          494,
+          320,
+          576,
+          3
+        ]
+      }
+    },
+    "hybrid": {
+      "delivered_mp4": {
+        "psnr_db": 29.153288007670344,
+        "ssim": 0.948964376547855,
+        "lpips_vgg": 0.13020004629183876,
+        "clip": 0.9863543182249493,
+        "dists": 0.07019634768065171,
+        "frames": 494,
+        "shape": [
+          494,
+          320,
+          576,
+          3
+        ]
+      },
+      "lossless_frames": {
+        "psnr_db": 29.321583102722197,
+        "ssim": 0.9523621631466217,
+        "lpips_vgg": 0.12500733405592954,
+        "clip": 0.9676414829516701,
+        "dists": 0.0688951426913381,
+        "frames": 494,
+        "shape": [
+          494,
+          320,
+          576,
+          3
+        ]
+      }
+    }
+  },
+  "temporal_summary": {
+    "source": {
+      "frames": 494,
+      "fps": 24,
+      "min_dt": 0.041665999999999315,
+      "max_dt": 0.04166700000000034,
+      "mad_mean": 1.4104802741858238,
+      "mad_p95": 2.538485243055555,
+      "mad_max": 3.0657335069444445,
+      "boundary_mad_mean": 1.3706296741452992,
+      "nonboundary_mad_mean": 1.412698937143112,
+      "flow_median": 0.05911583453416824,
+      "flow_p95": 0.13154045045375823,
+      "flow_below_005px": 153,
+      "flow_above_05px": 0,
+      "source_flow_error": 0.0,
+      "source_delta_error": 0.0,
+      "sharpness_laplacian_variance": 4262.4013671875,
+      "exact_duplicates": 0
+    },
+    "baseline": {
+      "frames": 494,
+      "fps": 24,
+      "min_dt": 0.041665999999999315,
+      "max_dt": 0.04166700000000034,
+      "mad_mean": 1.8757356902890467,
+      "mad_p95": 8.271840277777777,
+      "mad_max": 14.91015625,
+      "boundary_mad_mean": 7.2876711071047,
+      "nonboundary_mad_mean": 1.5744287934213657,
+      "flow_median": 0.01816009357571602,
+      "flow_p95": 0.31009951829910143,
+      "flow_below_005px": 363,
+      "flow_above_05px": 21,
+      "source_flow_error": 0.09902332736742182,
+      "source_delta_error": 2.7552469820543157,
+      "sharpness_laplacian_variance": 1740.4420166015625,
+      "exact_duplicates": 0
+    },
+    "geometry": {
+      "frames": 494,
+      "fps": 24,
+      "min_dt": 0.041665999999999315,
+      "max_dt": 0.04166700000000034,
+      "mad_mean": 1.9384808323473068,
+      "mad_p95": 6.523289930555554,
+      "mad_max": 11.321267361111111,
+      "boundary_mad_mean": 5.947071147168804,
+      "nonboundary_mad_mean": 1.7153044979032834,
+      "flow_median": 0.0623052753508091,
+      "flow_p95": 0.1443359076976776,
+      "flow_below_005px": 72,
+      "flow_above_05px": 0,
+      "source_flow_error": 0.05950587601013648,
+      "source_delta_error": 2.5109952970052967,
+      "sharpness_laplacian_variance": 1475.30419921875,
+      "exact_duplicates": 0
+    },
+    "hybrid": {
+      "frames": 494,
+      "fps": 24,
+      "min_dt": 0.041665999999999315,
+      "max_dt": 0.04166700000000034,
+      "mad_mean": 1.1504197656073925,
+      "mad_p95": 1.683550347222222,
+      "mad_max": 2.1666015625,
+      "boundary_mad_mean": 1.3815579927884618,
+      "nonboundary_mad_mean": 1.1375512561711874,
+      "flow_median": 0.056005075573921204,
+      "flow_p95": 0.12277446091175079,
+      "flow_below_005px": 39,
+      "flow_above_05px": 0,
+      "source_flow_error": 0.03421536993998543,
+      "source_delta_error": 1.3436035486392832,
+      "sharpness_laplacian_variance": 3043.87353515625,
+      "exact_duplicates": 0
+    }
+  },
+  "temporal_definition": {
+    "resolution": [
+      288,
+      160
+    ],
+    "boundary": "transitions at each interior key + 1",
+    "mad": "mean absolute grayscale adjacent-frame difference on 0..255",
+    "flow_error": "mean Farneback flow-vector endpoint difference from source, all pixels",
+    "median_flow": "same source-textured mask, top 110 rows"
+  },
+  "reductions_percent": {
+    "boundary_mad_mean": 81.04253097479123,
+    "source_flow_error": 65.44716194697158
+  },
+  "paired_controls": "Same decoded PNGs, keys, captions and received packets; generator/channel noise identical by exact reuse.",
+  "frozen_context_hashes": {
+    "captions.json": "799425cf61b4ba8a6ad27a2b9475a069c8f631f46106bff2a6b94e7a1f559667",
+    "keyframes.json": "4839e71c8bf0d3dda1d09a56fbad100846ea34fced9140c89154a42d4ce1efff",
+    "received/visual.c64": "21091c883255680261d2c0a72e004509a31a56249d0f9895496cdc404de61725",
+    "received/metadata.bin": "c0916fe97edc8157fce023a7620a94aa5a748c39b97f76400013f280e8bdae22",
+    "receiver/generation_noise.json": "a86e73c0fa69295c0400361d68acc562947c6892bc67888d0b1fea3801b2fcf9"
+  },
+  "visual_review": {
+    "status": "NONINDEPENDENT_NONBLINDED_AI_SAMPLE_REVIEW",
+    "reviewed_frames": [
+      16,
+      17,
+      54,
+      172,
+      173,
+      193,
+      300,
+      384,
+      385,
+      438,
+      470,
+      493
+    ],
+    "images": 36,
+    "observations": [
+      "Harbor layout and building/yacht detail are closer to the source in the inspected hybrid frames.",
+      "Large before-repair shape changes at 172-173 and 384-385 are reduced in the inspected pairs.",
+      "Fine water texture and small detail remain simplified relative to the source.",
+      "Thin edge seams remain where reference visibility and generated fallback meet."
+    ],
+    "exhaustive_added_missing_distorted_counts": null,
+    "independent_review": "PENDING",
+    "hallucination_mitigation_verified": false
+  },
+  "tests": {
+    "new_receiver": 9,
+    "existing_condition_noise_schedule": 89,
+    "bash_syntax": "PASSED",
+    "git_diff_check": "PASSED"
+  },
+  "limitations": [
+    "One aerial development video, not a held-out generalization or original-LGVSC comparison.",
+    "Hybrid received-key reconstruction accounts for most pixels; this is not a caption-model improvement.",
+    "VAE align=5 and caption issues remain unchanged; generator internal timing is not repaired.",
+    "Affine interpolation cannot recover untransmitted middle events and can distort independent motion, occlusions or parallax.",
+    "Quality metrics and nonblinded samples are not independent semantic accuracy."
+  ],
+  "independent_semantic_review": "PENDING",
+  "hallucination_mitigation_verified": false,
+  "evidence_hashes": {
+    "protocol.json": "98fb24e0fb604ce345643650cdb1bd49e982626c7a27ad1eebf2c48a87189675",
+    "RESULT.json": "18da566a109d39468d051fd6fbd3bfec99ad007bdf700183ce4787efbd39c2e0",
+    "trace.json": "8a0c4132de718654d0ea428792f80a1dca405f77d77148dc83bcb79456288217",
+    "quality_comparison.json": "d1e67bd4ea6df53431a73e59a87b31939bc21efaaae9425d3944ee9efc2eace5",
+    "temporal_comparison.json": "5f03d531b7f02437c996d88711d703e614b71aa5884602eece1e2d0580b95e25",
+    "evaluation_manifest.json": "4e2fc85d446fa3b66462080dfa6f44f706c261de5948b8173d520789e1793b06",
+    "visual_review.json": "cfb791d57fec4aa87c5cf74e3deda6ec1230d64c0da8441b819c4df1bbb7579d",
+    "identical_pixels_revalidation.json": "0daa835ee732d1b7e234e2e6c0abf34d815c8fa9b26ae86dcd56cc71bd36c0f9"
+  },
+  "code_hashes": {
+    "src/semantic_transmission/receiver_motion_bridge.py": "2e4ad7321b253a807b8765b205dcb7b6cc68d5c5cbbc0840c7c0c761d0b74915",
+    "scripts/repair_receiver_motion.sh": "437ce2114726810c33a19e094f14c6f83d98a42daa67884222628ad52204448b",
+    "tests/test_receiver_motion_bridge.py": "3567264dd9237375292e8f1ae4658f6eb9b2246a0f7098e8e30b3b447579095b"
+  }
+}

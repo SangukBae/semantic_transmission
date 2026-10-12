@@ -1,0 +1,953 @@
+{
+  "status": "PILOT_COMPLETE_INDEPENDENT_REVIEW_PENDING",
+  "date": "2026-10-07",
+  "adopted": false,
+  "policy": "receiver_temporal_alignment_paired_windows_v1",
+  "signature": "f9f3688ba80c847d9e93f6b8cb589a26bf516dfa7540243d29659d5461c43211",
+  "result": "outputs/receiver_temporal_alignment_20261007/paired_v1/results.json",
+  "result_sha256": "db32c7f95d7e8f6919cb102c73f77915eaf27c04345f1c6202a3c7c961864626",
+  "report": "outputs/receiver_temporal_alignment_20261007/paired_v1/report.html",
+  "code_archive": "outputs/receiver_temporal_alignment_20261007/paired_v1/generation_code",
+  "generation_code_sha256": "8201a2b47c5e022991d200788aa9b7e3db87dc22e95a4a4a8a8d4f127f518418",
+  "evaluation_code_sha256": "0c3a5da542220b204d1922a63d938d2c0165ca20370ed9fa62ed328d1fad9e71",
+  "training_executed": false,
+  "source_pixels_used_for_generation": false,
+  "output_pixel_interpolation": false,
+  "extra_channel_uses": 0,
+  "cases": 4,
+  "arms": 3,
+  "segments_per_arm": 2,
+  "frames_per_arm": 49,
+  "evaluated_frames": 588,
+  "seed": 2025,
+  "received_inputs_unchanged": true,
+  "paired_noise_matches": 8,
+  "generation_seconds_excluding_model_load": 625,
+  "automatic_evaluation_seconds": 53.88052618099755,
+  "tests_passed": 102,
+  "tests": [
+    "test_receiver_temporal_alignment.py",
+    "test_condition_collision.py",
+    "test_generation_noise.py",
+    "test_short_schedule.py"
+  ],
+  "probes": {
+    "outputs/receiver_temporal_alignment_20261007/paired_v1/zea/legacy_aligned/reconstruction.mp4": {
+      "width": 576,
+      "height": 320,
+      "r_frame_rate": "24/1",
+      "duration": "2.041667",
+      "nb_read_frames": "49",
+      "sha256": "b414647bec868e0a26980bbe817dfefa7c56cfd1a61ce6b331652cf16ab6a9db",
+      "pts_24fps_passed": true
+    },
+    "outputs/receiver_temporal_alignment_20261007/paired_v1/zea/exact_last/reconstruction.mp4": {
+      "width": 576,
+      "height": 320,
+      "r_frame_rate": "24/1",
+      "duration": "2.041667",
+      "nb_read_frames": "49",
+      "sha256": "c12251ebdc1cd7521494da3e44fd8abf324863441bcb35ffc01421ae9efa26cd",
+      "pts_24fps_passed": true
+    },
+    "outputs/receiver_temporal_alignment_20261007/paired_v1/zea/phase_last/reconstruction.mp4": {
+      "width": 576,
+      "height": 320,
+      "r_frame_rate": "24/1",
+      "duration": "2.041667",
+      "nb_read_frames": "49",
+      "sha256": "e03ce6f4dd27898bde8f46b2ac411be282a4cbca46374c8257754b8f77b2204b",
+      "pts_24fps_passed": true
+    },
+    "outputs/receiver_temporal_alignment_20261007/paired_v1/zea/comparison.mp4": {
+      "width": 2304,
+      "height": 344,
+      "r_frame_rate": "24/1",
+      "duration": "2.041667",
+      "nb_read_frames": "49",
+      "sha256": "f510040c461ceaab9be045d0680863f4f9505c40f8acda9e90e477e2dd90d25a",
+      "pts_24fps_passed": true
+    },
+    "outputs/receiver_temporal_alignment_20261007/paired_v1/person_walk/legacy_aligned/reconstruction.mp4": {
+      "width": 576,
+      "height": 320,
+      "r_frame_rate": "24/1",
+      "duration": "2.041667",
+      "nb_read_frames": "49",
+      "sha256": "0853405dcac159cf96494000484261f29753b26056510745da62ac986b48f52d",
+      "pts_24fps_passed": true
+    },
+    "outputs/receiver_temporal_alignment_20261007/paired_v1/person_walk/exact_last/reconstruction.mp4": {
+      "width": 576,
+      "height": 320,
+      "r_frame_rate": "24/1",
+      "duration": "2.041667",
+      "nb_read_frames": "49",
+      "sha256": "0b0c99c6820ee89ae1f9263baa8ea2a624e119fcc4fd3697c344023219b8746c",
+      "pts_24fps_passed": true
+    },
+    "outputs/receiver_temporal_alignment_20261007/paired_v1/person_walk/phase_last/reconstruction.mp4": {
+      "width": 576,
+      "height": 320,
+      "r_frame_rate": "24/1",
+      "duration": "2.041667",
+      "nb_read_frames": "49",
+      "sha256": "12f818ded1f09e94b82787dfe9000285597fc16585eed7ef21dfc4f86b74803d",
+      "pts_24fps_passed": true
+    },
+    "outputs/receiver_temporal_alignment_20261007/paired_v1/person_walk/comparison.mp4": {
+      "width": 2304,
+      "height": 344,
+      "r_frame_rate": "24/1",
+      "duration": "2.041667",
+      "nb_read_frames": "49",
+      "sha256": "b5b721634ec0527cb5b94049f4480d7c6dfca5832288332ce5d52830a6870b9f",
+      "pts_24fps_passed": true
+    },
+    "outputs/receiver_temporal_alignment_20261007/paired_v1/single_subject/legacy_aligned/reconstruction.mp4": {
+      "width": 576,
+      "height": 320,
+      "r_frame_rate": "24/1",
+      "duration": "2.041667",
+      "nb_read_frames": "49",
+      "sha256": "7809771b9430ab3d67736dd61439b1894dcfb2b44ca9c460f1e3ce62b87b96ef",
+      "pts_24fps_passed": true
+    },
+    "outputs/receiver_temporal_alignment_20261007/paired_v1/single_subject/exact_last/reconstruction.mp4": {
+      "width": 576,
+      "height": 320,
+      "r_frame_rate": "24/1",
+      "duration": "2.041667",
+      "nb_read_frames": "49",
+      "sha256": "350eb40292a907164b3059c1ae238a837620c52cd089fec9bb36c76c5c303484",
+      "pts_24fps_passed": true
+    },
+    "outputs/receiver_temporal_alignment_20261007/paired_v1/single_subject/phase_last/reconstruction.mp4": {
+      "width": 576,
+      "height": 320,
+      "r_frame_rate": "24/1",
+      "duration": "2.041667",
+      "nb_read_frames": "49",
+      "sha256": "ca8fa39b6d1285704b1875641a986c6cf690388fbb60379d77cfc793f8969299",
+      "pts_24fps_passed": true
+    },
+    "outputs/receiver_temporal_alignment_20261007/paired_v1/single_subject/comparison.mp4": {
+      "width": 2304,
+      "height": 344,
+      "r_frame_rate": "24/1",
+      "duration": "2.041667",
+      "nb_read_frames": "49",
+      "sha256": "5f979e9f4513064fd02f7d4ef56835be6ac4bb5cd95a4e6b2a302fcffce0e34e",
+      "pts_24fps_passed": true
+    },
+    "outputs/receiver_temporal_alignment_20261007/paired_v1/candle_flowers/legacy_aligned/reconstruction.mp4": {
+      "width": 576,
+      "height": 320,
+      "r_frame_rate": "24/1",
+      "duration": "2.041667",
+      "nb_read_frames": "49",
+      "sha256": "93d6c727147eb59d7d9370140665c629ed23a320e9e38644069fcb08d56b0f02",
+      "pts_24fps_passed": true
+    },
+    "outputs/receiver_temporal_alignment_20261007/paired_v1/candle_flowers/exact_last/reconstruction.mp4": {
+      "width": 576,
+      "height": 320,
+      "r_frame_rate": "24/1",
+      "duration": "2.041667",
+      "nb_read_frames": "49",
+      "sha256": "e2895853828a47d49317320aafdb38873db2b12703b86e2c8b3cf11cee705c2c",
+      "pts_24fps_passed": true
+    },
+    "outputs/receiver_temporal_alignment_20261007/paired_v1/candle_flowers/phase_last/reconstruction.mp4": {
+      "width": 576,
+      "height": 320,
+      "r_frame_rate": "24/1",
+      "duration": "2.041667",
+      "nb_read_frames": "49",
+      "sha256": "40d5cc08f35a3ce1fb9b994f7226240bc6715151c137830fd94c5cee1c2b4c24",
+      "pts_24fps_passed": true
+    },
+    "outputs/receiver_temporal_alignment_20261007/paired_v1/candle_flowers/comparison.mp4": {
+      "width": 2304,
+      "height": 344,
+      "r_frame_rate": "24/1",
+      "duration": "2.041667",
+      "nb_read_frames": "49",
+      "sha256": "dee9d1d7e757ee766009e81e93ac8420fcfafe181bb1c9aaf01b4e33ba6c8c44",
+      "pts_24fps_passed": true
+    }
+  },
+  "metrics": [
+    {
+      "case": "zea",
+      "arm": "legacy_aligned",
+      "source_range": [
+        144,
+        192
+      ],
+      "all_frames": {
+        "psnr_db": 21.742998024422207,
+        "ssim": 0.7585276529685324,
+        "lpips_vgg": 0.26759206032266425,
+        "clip": 0.8961156728316326,
+        "dists": 0.16258033197753283,
+        "frames": 49,
+        "shape": [
+          49,
+          320,
+          576,
+          3
+        ]
+      },
+      "nonkey_frames": {
+        "psnr_db": 21.702843726100557,
+        "ssim": 0.7573721997392372,
+        "lpips_vgg": 0.26875970318265585,
+        "clip": 0.8957307235054348,
+        "dists": 0.16365988487782684,
+        "frames": 46,
+        "shape": [
+          46,
+          320,
+          576,
+          3
+        ]
+      },
+      "received_key_fidelity": [
+        {
+          "frame": 0,
+          "psnr_received_db": 22.85244985655323
+        },
+        {
+          "frame": 24,
+          "psnr_received_db": 22.747848330055533
+        },
+        {
+          "frame": 48,
+          "psnr_received_db": 22.754864446865952
+        }
+      ],
+      "temporal": {
+        "flow_error_mean": 0.05542000130905459,
+        "source_flow_mean": 0.0571912156107525,
+        "generated_flow_mean": 0.06348474756426488,
+        "seam_frame": 25,
+        "source_seam_mad": 1.499609375,
+        "generated_seam_mad": 3.9364366319444444,
+        "source_mean_mad": 1.3131429036458333,
+        "generated_mean_mad": 1.93829345703125,
+        "generated_nonseam_mad": 1.8957797724586285
+      }
+    },
+    {
+      "case": "zea",
+      "arm": "exact_last",
+      "source_range": [
+        144,
+        192
+      ],
+      "all_frames": {
+        "psnr_db": 21.182411309978487,
+        "ssim": 0.7410917593102346,
+        "lpips_vgg": 0.30271600612572264,
+        "clip": 0.8844567123724489,
+        "dists": 0.18515895580758854,
+        "frames": 49,
+        "shape": [
+          49,
+          320,
+          576,
+          3
+        ]
+      },
+      "nonkey_frames": {
+        "psnr_db": 21.138595135716518,
+        "ssim": 0.7399482696426911,
+        "lpips_vgg": 0.30369736124639923,
+        "clip": 0.8834122367527174,
+        "dists": 0.18603793564050095,
+        "frames": 46,
+        "shape": [
+          46,
+          320,
+          576,
+          3
+        ]
+      },
+      "received_key_fidelity": [
+        {
+          "frame": 0,
+          "psnr_received_db": 22.86582802909722
+        },
+        {
+          "frame": 24,
+          "psnr_received_db": 21.943570581113576
+        },
+        {
+          "frame": 48,
+          "psnr_received_db": 21.854667036572764
+        }
+      ],
+      "temporal": {
+        "flow_error_mean": 0.0640495460635672,
+        "source_flow_mean": 0.0571912156107525,
+        "generated_flow_mean": 0.07216973804558317,
+        "seam_frame": 25,
+        "source_seam_mad": 1.499609375,
+        "generated_seam_mad": 5.852278645833334,
+        "source_mean_mad": 1.3131429036458333,
+        "generated_mean_mad": 3.334617332175926,
+        "generated_nonseam_mad": 3.2810500701832153
+      }
+    },
+    {
+      "case": "zea",
+      "arm": "phase_last",
+      "source_range": [
+        144,
+        192
+      ],
+      "all_frames": {
+        "psnr_db": 21.71922147735621,
+        "ssim": 0.7546101528707999,
+        "lpips_vgg": 0.2751313034369021,
+        "clip": 0.8899972098214286,
+        "dists": 0.1640751325354284,
+        "frames": 49,
+        "shape": [
+          49,
+          320,
+          576,
+          3
+        ]
+      },
+      "nonkey_frames": {
+        "psnr_db": 21.66789497706134,
+        "ssim": 0.7528549495186871,
+        "lpips_vgg": 0.277093392027461,
+        "clip": 0.8895051375679348,
+        "dists": 0.16549916500630585,
+        "frames": 46,
+        "shape": [
+          46,
+          320,
+          576,
+          3
+        ]
+      },
+      "received_key_fidelity": [
+        {
+          "frame": 0,
+          "psnr_received_db": 22.850953483042076
+        },
+        {
+          "frame": 24,
+          "psnr_received_db": 23.220139762649943
+        },
+        {
+          "frame": 48,
+          "psnr_received_db": 22.7775920606501
+        }
+      ],
+      "temporal": {
+        "flow_error_mean": 0.05895924929063767,
+        "source_flow_mean": 0.0571912156107525,
+        "generated_flow_mean": 0.06534660462057218,
+        "seam_frame": 25,
+        "source_seam_mad": 1.499609375,
+        "generated_seam_mad": 4.215060763888889,
+        "source_mean_mad": 1.3131429036458333,
+        "generated_mean_mad": 2.1486011646412035,
+        "generated_nonseam_mad": 2.104633939125295
+      }
+    },
+    {
+      "case": "person_walk",
+      "arm": "legacy_aligned",
+      "source_range": [
+        8,
+        56
+      ],
+      "all_frames": {
+        "psnr_db": 21.32600253732848,
+        "ssim": 0.8037652384936077,
+        "lpips_vgg": 0.3189882699932371,
+        "clip": 0.9419044961734694,
+        "dists": 0.15145690222175753,
+        "frames": 49,
+        "shape": [
+          49,
+          320,
+          576,
+          3
+        ]
+      },
+      "nonkey_frames": {
+        "psnr_db": 20.9919810608729,
+        "ssim": 0.8003454691994455,
+        "lpips_vgg": 0.32185346406439075,
+        "clip": 0.9408914317255435,
+        "dists": 0.15290351276812347,
+        "frames": 46,
+        "shape": [
+          46,
+          320,
+          576,
+          3
+        ]
+      },
+      "received_key_fidelity": [
+        {
+          "frame": 0,
+          "psnr_received_db": 38.240565737904795
+        },
+        {
+          "frame": 24,
+          "psnr_received_db": 21.225473998321522
+        },
+        {
+          "frame": 48,
+          "psnr_received_db": 21.877414137192027
+        }
+      ],
+      "temporal": {
+        "flow_error_mean": 0.6886875016692405,
+        "source_flow_mean": 0.45608533423122327,
+        "generated_flow_mean": 0.5507821347564459,
+        "seam_frame": 25,
+        "source_seam_mad": 0.12708333333333333,
+        "generated_seam_mad": 5.064040798611111,
+        "source_mean_mad": 2.040380859375,
+        "generated_mean_mad": 2.938910138165509,
+        "generated_nonseam_mad": 2.8936945921985817
+      }
+    },
+    {
+      "case": "person_walk",
+      "arm": "exact_last",
+      "source_range": [
+        8,
+        56
+      ],
+      "all_frames": {
+        "psnr_db": 22.503752046088042,
+        "ssim": 0.8118737070274367,
+        "lpips_vgg": 0.3281699887343815,
+        "clip": 0.9320840640943877,
+        "dists": 0.16696586292617174,
+        "frames": 49,
+        "shape": [
+          49,
+          320,
+          576,
+          3
+        ]
+      },
+      "nonkey_frames": {
+        "psnr_db": 21.729126313457865,
+        "ssim": 0.8042826837924477,
+        "lpips_vgg": 0.33363464992979297,
+        "clip": 0.9298838739809783,
+        "dists": 0.17011850683585458,
+        "frames": 46,
+        "shape": [
+          46,
+          320,
+          576,
+          3
+        ]
+      },
+      "received_key_fidelity": [
+        {
+          "frame": 0,
+          "psnr_received_db": 38.34608212632924
+        },
+        {
+          "frame": 24,
+          "psnr_received_db": 33.89388579397626
+        },
+        {
+          "frame": 48,
+          "psnr_received_db": 34.33879597539362
+        }
+      ],
+      "temporal": {
+        "flow_error_mean": 0.8661820013076067,
+        "source_flow_mean": 0.45608533423122327,
+        "generated_flow_mean": 0.6093276313040406,
+        "seam_frame": 25,
+        "source_seam_mad": 0.12708333333333333,
+        "generated_seam_mad": 6.234526909722222,
+        "source_mean_mad": 2.040380859375,
+        "generated_mean_mad": 4.649280237268519,
+        "generated_nonseam_mad": 4.615551584663121
+      }
+    },
+    {
+      "case": "person_walk",
+      "arm": "phase_last",
+      "source_range": [
+        8,
+        56
+      ],
+      "all_frames": {
+        "psnr_db": 21.96245562500617,
+        "ssim": 0.8004633835290244,
+        "lpips_vgg": 0.32159604436280775,
+        "clip": 0.9494329958545918,
+        "dists": 0.1496137903661144,
+        "frames": 49,
+        "shape": [
+          49,
+          320,
+          576,
+          3
+        ]
+      },
+      "nonkey_frames": {
+        "psnr_db": 20.98794776160089,
+        "ssim": 0.7913427333605422,
+        "lpips_vgg": 0.3287990967864576,
+        "clip": 0.9482421875,
+        "dists": 0.15288588015929513,
+        "frames": 46,
+        "shape": [
+          46,
+          320,
+          576,
+          3
+        ]
+      },
+      "received_key_fidelity": [
+        {
+          "frame": 0,
+          "psnr_received_db": 38.21017919327417
+        },
+        {
+          "frame": 24,
+          "psnr_received_db": 40.1988969277539
+        },
+        {
+          "frame": 48,
+          "psnr_received_db": 40.04957073269058
+        }
+      ],
+      "temporal": {
+        "flow_error_mean": 0.7526365420393025,
+        "source_flow_mean": 0.45608533423122327,
+        "generated_flow_mean": 0.4404041621213158,
+        "seam_frame": 25,
+        "source_seam_mad": 0.12708333333333333,
+        "generated_seam_mad": 1.2461371527777778,
+        "source_mean_mad": 2.040380859375,
+        "generated_mean_mad": 2.006401457609954,
+        "generated_nonseam_mad": 2.0225772938829794
+      }
+    },
+    {
+      "case": "single_subject",
+      "arm": "legacy_aligned",
+      "source_range": [
+        0,
+        48
+      ],
+      "all_frames": {
+        "psnr_db": 20.96362149801354,
+        "ssim": 0.6361508178577702,
+        "lpips_vgg": 0.2918162537472589,
+        "clip": 0.9449637276785714,
+        "dists": 0.153562492253829,
+        "frames": 49,
+        "shape": [
+          49,
+          320,
+          576,
+          3
+        ]
+      },
+      "nonkey_frames": {
+        "psnr_db": 20.629030456850796,
+        "ssim": 0.6250713929400096,
+        "lpips_vgg": 0.2970497796069021,
+        "clip": 0.9448560631793478,
+        "dists": 0.15567241933034814,
+        "frames": 46,
+        "shape": [
+          46,
+          320,
+          576,
+          3
+        ]
+      },
+      "received_key_fidelity": [
+        {
+          "frame": 0,
+          "psnr_received_db": 29.594240830870046
+        },
+        {
+          "frame": 24,
+          "psnr_received_db": 24.520183947368675
+        },
+        {
+          "frame": 48,
+          "psnr_received_db": 25.518426298889917
+        }
+      ],
+      "temporal": {
+        "flow_error_mean": 0.6604596295704445,
+        "source_flow_mean": 0.4926933033663469,
+        "generated_flow_mean": 0.2856915461597964,
+        "seam_frame": 25,
+        "source_seam_mad": 3.5717881944444443,
+        "generated_seam_mad": 4.112738715277778,
+        "source_mean_mad": 3.7172602900752314,
+        "generated_mean_mad": 2.1228678385416666,
+        "generated_nonseam_mad": 2.0805301603132387
+      }
+    },
+    {
+      "case": "single_subject",
+      "arm": "exact_last",
+      "source_range": [
+        0,
+        48
+      ],
+      "all_frames": {
+        "psnr_db": 20.601356948395242,
+        "ssim": 0.6329106901720348,
+        "lpips_vgg": 0.32544654911878157,
+        "clip": 0.9355369100765306,
+        "dists": 0.18072201402819887,
+        "frames": 49,
+        "shape": [
+          49,
+          320,
+          576,
+          3
+        ]
+      },
+      "nonkey_frames": {
+        "psnr_db": 20.140322072930747,
+        "ssim": 0.6196226156683824,
+        "lpips_vgg": 0.3327538730657619,
+        "clip": 0.9341032608695652,
+        "dists": 0.18349547489829685,
+        "frames": 46,
+        "shape": [
+          46,
+          320,
+          576,
+          3
+        ]
+      },
+      "received_key_fidelity": [
+        {
+          "frame": 0,
+          "psnr_received_db": 29.60359916255447
+        },
+        {
+          "frame": 24,
+          "psnr_received_db": 27.04403939696895
+        },
+        {
+          "frame": 48,
+          "psnr_received_db": 27.642621713038864
+        }
+      ],
+      "temporal": {
+        "flow_error_mean": 0.7632443718612194,
+        "source_flow_mean": 0.4926933033663469,
+        "generated_flow_mean": 0.38534279194815707,
+        "seam_frame": 25,
+        "source_seam_mad": 3.5717881944444443,
+        "generated_seam_mad": 4.625434027777778,
+        "source_mean_mad": 3.7172602900752314,
+        "generated_mean_mad": 4.634937427662037,
+        "generated_nonseam_mad": 4.635139627659574
+      }
+    },
+    {
+      "case": "single_subject",
+      "arm": "phase_last",
+      "source_range": [
+        0,
+        48
+      ],
+      "all_frames": {
+        "psnr_db": 21.472865845347044,
+        "ssim": 0.646167637959352,
+        "lpips_vgg": 0.2846713987540226,
+        "clip": 0.9431451291454082,
+        "dists": 0.15051503692354476,
+        "frames": 49,
+        "shape": [
+          49,
+          320,
+          576,
+          3
+        ]
+      },
+      "nonkey_frames": {
+        "psnr_db": 20.984352952047303,
+        "ssim": 0.6323918781141533,
+        "lpips_vgg": 0.29177745690812235,
+        "clip": 0.9422872792119565,
+        "dists": 0.15340035765067392,
+        "frames": 46,
+        "shape": [
+          46,
+          320,
+          576,
+          3
+        ]
+      },
+      "received_key_fidelity": [
+        {
+          "frame": 0,
+          "psnr_received_db": 29.58920790554203
+        },
+        {
+          "frame": 24,
+          "psnr_received_db": 29.665635279092378
+        },
+        {
+          "frame": 48,
+          "psnr_received_db": 29.899072232863197
+        }
+      ],
+      "temporal": {
+        "flow_error_mean": 0.6554899721716841,
+        "source_flow_mean": 0.4926933033663469,
+        "generated_flow_mean": 0.2444732563647752,
+        "seam_frame": 25,
+        "source_seam_mad": 3.5717881944444443,
+        "generated_seam_mad": 3.1101996527777778,
+        "source_mean_mad": 3.7172602900752314,
+        "generated_mean_mad": 2.0887971100983793,
+        "generated_nonseam_mad": 2.067065141105201
+      }
+    },
+    {
+      "case": "candle_flowers",
+      "arm": "legacy_aligned",
+      "source_range": [
+        0,
+        48
+      ],
+      "all_frames": {
+        "psnr_db": 36.94755672260092,
+        "ssim": 0.983498581718239,
+        "lpips_vgg": 0.15739656437416466,
+        "clip": 0.9837870695153061,
+        "dists": 0.08069072815836692,
+        "frames": 49,
+        "shape": [
+          49,
+          320,
+          576,
+          3
+        ]
+      },
+      "nonkey_frames": {
+        "psnr_db": 36.75063864279961,
+        "ssim": 0.9833935744670448,
+        "lpips_vgg": 0.1575523368690325,
+        "clip": 0.9838761039402174,
+        "dists": 0.0810917291952216,
+        "frames": 46,
+        "shape": [
+          46,
+          320,
+          576,
+          3
+        ]
+      },
+      "received_key_fidelity": [
+        {
+          "frame": 0,
+          "psnr_received_db": 41.3210378556035
+        },
+        {
+          "frame": 24,
+          "psnr_received_db": 42.414879438075126
+        },
+        {
+          "frame": 48,
+          "psnr_received_db": 42.60468292346016
+        }
+      ],
+      "temporal": {
+        "flow_error_mean": 0.04965885965308795,
+        "source_flow_mean": 0.02542435665964149,
+        "generated_flow_mean": 0.03801019575136403,
+        "seam_frame": 25,
+        "source_seam_mad": 0.07072482638888888,
+        "generated_seam_mad": 1.0204210069444444,
+        "source_mean_mad": 0.15948667173032408,
+        "generated_mean_mad": 0.9340169270833334,
+        "generated_nonseam_mad": 0.9321785424054374
+      }
+    },
+    {
+      "case": "candle_flowers",
+      "arm": "exact_last",
+      "source_range": [
+        0,
+        48
+      ],
+      "all_frames": {
+        "psnr_db": 32.33143248005072,
+        "ssim": 0.9782652450776482,
+        "lpips_vgg": 0.1723083865885832,
+        "clip": 0.9815399792729592,
+        "dists": 0.09545169436201757,
+        "frames": 49,
+        "shape": [
+          49,
+          320,
+          576,
+          3
+        ]
+      },
+      "nonkey_frames": {
+        "psnr_db": 32.165858243768014,
+        "ssim": 0.9778963265438516,
+        "lpips_vgg": 0.17371875015289887,
+        "clip": 0.9814665421195652,
+        "dists": 0.09624305237894473,
+        "frames": 46,
+        "shape": [
+          46,
+          320,
+          576,
+          3
+        ]
+      },
+      "received_key_fidelity": [
+        {
+          "frame": 0,
+          "psnr_received_db": 41.507434340092
+        },
+        {
+          "frame": 24,
+          "psnr_received_db": 31.89089837496505
+        },
+        {
+          "frame": 48,
+          "psnr_received_db": 31.707559291015706
+        }
+      ],
+      "temporal": {
+        "flow_error_mean": 0.07553494302555919,
+        "source_flow_mean": 0.02542435665964149,
+        "generated_flow_mean": 0.0647095483339702,
+        "seam_frame": 25,
+        "source_seam_mad": 0.07072482638888888,
+        "generated_seam_mad": 1.5739366319444446,
+        "source_mean_mad": 0.15948667173032408,
+        "generated_mean_mad": 2.307516818576389,
+        "generated_nonseam_mad": 2.3231249076536646
+      }
+    },
+    {
+      "case": "candle_flowers",
+      "arm": "phase_last",
+      "source_range": [
+        0,
+        48
+      ],
+      "all_frames": {
+        "psnr_db": 37.332851014476276,
+        "ssim": 0.9841161514553822,
+        "lpips_vgg": 0.15973583624071006,
+        "clip": 0.9833585778061225,
+        "dists": 0.08275432854282613,
+        "frames": 49,
+        "shape": [
+          49,
+          320,
+          576,
+          3
+        ]
+      },
+      "nonkey_frames": {
+        "psnr_db": 37.12194287419002,
+        "ssim": 0.9839745896475315,
+        "lpips_vgg": 0.16049254750427994,
+        "clip": 0.9834568189538043,
+        "dists": 0.08308942421622899,
+        "frames": 46,
+        "shape": [
+          46,
+          320,
+          576,
+          3
+        ]
+      },
+      "received_key_fidelity": [
+        {
+          "frame": 0,
+          "psnr_received_db": 41.43364606607232
+        },
+        {
+          "frame": 24,
+          "psnr_received_db": 44.86341687969877
+        },
+        {
+          "frame": 48,
+          "psnr_received_db": 45.934435788906214
+        }
+      ],
+      "temporal": {
+        "flow_error_mean": 0.04709907240855197,
+        "source_flow_mean": 0.02542435665964149,
+        "generated_flow_mean": 0.034850857919082046,
+        "seam_frame": 25,
+        "source_seam_mad": 0.07072482638888888,
+        "generated_seam_mad": 0.825390625,
+        "source_mean_mad": 0.15948667173032408,
+        "generated_mean_mad": 0.7288682725694443,
+        "generated_nonseam_mad": 0.7268146054964538
+      }
+    }
+  ],
+  "sample_review": {
+    "status": "NONINDEPENDENT_UNBLINDED_AI_SAMPLE_REVIEW",
+    "independent_semantic_review": "PENDING",
+    "samples": {
+      "person_walk": [
+        12,
+        24,
+        25,
+        36,
+        48
+      ],
+      "single_subject": [
+        12,
+        24,
+        25,
+        36,
+        48
+      ],
+      "zea": [
+        25
+      ],
+      "candle_flowers": [
+        25
+      ]
+    },
+    "panels": 48,
+    "notes": [
+      "Walking foot positions and scarf shape remain inconsistent with source in intermediate frames.",
+      "Zea building/boat fine detail remains smoothed.",
+      "The lampshade is a low-motion control, not evidence of dynamic-event fidelity."
+    ]
+  },
+  "limitations": [
+    "four 49-frame windows with restarted context and one seed",
+    "one internal seam per window; no full-video or long-range claim",
+    "Zea uses Qwen captions; three older cases retain their own frozen captions",
+    "independent Added/Missing/Distorted review pending; metrics alone do not establish semantic safety"
+  ],
+  "interpretation": "Not adopted: endpoint fidelity gains do not establish generic motion improvement; mixed scene and nonkey-frame results."
+}
