@@ -1,0 +1,852 @@
+{
+  "date": "2026-10-09",
+  "status": "TRAINED_EVALUATED_AND_AI_SAMPLE_REVIEWED",
+  "experiment_signature": "2232078c0202232890bc0376b3d90493a99143c473811e9c605981a7abf02eb0",
+  "adopted": false,
+  "default_receiver_changed": false,
+  "scope": "12 training windows from 3 originals; 4 known development scenes excluded from training; single seed/SNR; two segments with restarted context",
+  "method": {
+    "architecture": "14 -> 16 SiLU -> 8 SiLU -> 1; source-balanced counterfactual utility regression",
+    "parameters": 385,
+    "steps": 400,
+    "optimizer": "AdamW lr .003, weight_decay .01",
+    "loss": "source-balanced SmoothL1",
+    "final_training_loss": 5.379487447498832e-06,
+    "training_executed": true,
+    "generator_weights_frozen": true,
+    "end_to_end_diffusion_training": false,
+    "modified_mask": "older four history latents: edit 0 or .35; newest history latent and end key remain hard fixed",
+    "receiver_features": [
+      "anchor_l1",
+      "anchor_rmse",
+      "anchor_edge_error",
+      "generated_contrast",
+      "received_contrast",
+      "history_mad_mean",
+      "history_mad_p95",
+      "history_flow_mean",
+      "history_flow_p95",
+      "last_transition_mad",
+      "anchor_brightness_error",
+      "received_next_l1",
+      "previous_gap_seconds",
+      "next_gap_seconds"
+    ],
+    "teacher_definition": "relative affected-motion gain minus positive LPIPS/.01 and PSNR/.3 regressions, clipped [-2,2]",
+    "inference_source_pixels": false,
+    "source_pixels_for_offline_labels_only": true,
+    "output_pixel_interpolation": false,
+    "additional_per_video_transmission": false,
+    "gate_checkpoint_is_shared_receiver_model": true
+  },
+  "teacher_action_support": {
+    "cases": 12,
+    "positive_utility_cases": 2,
+    "above_decision_threshold_cases": 0,
+    "maximum_utility": 0.004552134201128671,
+    "decision_threshold": 0.05,
+    "source_group_holdout_mse": {
+      "davis_miami-surf": 0.8308982254715724,
+      "davis_rallye": 0.13605665568247732,
+      "tvsum_tv_low_08": 1.2180859998027775
+    }
+  },
+  "split": {
+    "training_originals": 3,
+    "training_windows": 12,
+    "evaluation_originals": 4,
+    "evaluation_windows": 4,
+    "identity_and_normalized_hash_disjoint": true,
+    "untouched_final_benchmark": false,
+    "excluded_same_original_candidate": "webvid_011_65f0e6cf was excluded because it is another normalization of the stock-footage-candle-flowers.mp4 evaluation original.",
+    "cases": [
+      {
+        "name": "zea",
+        "split": "test",
+        "source_id": "zea",
+        "source_video": "/home/sangukbae/semantic_transmission/outputs/lgvsc_qwen_zea_16s_20261008/qwen/reconstruction/event_pairs/run/data/normalized.mp4",
+        "source_sha256": "2d643a5d43126d19b7b41e538cc30e8d0075c1e1e80f63669e7e3a0c60d9a9bd",
+        "keys": [
+          144,
+          168,
+          192
+        ]
+      },
+      {
+        "name": "person_walk",
+        "split": "test",
+        "source_id": "person_walk",
+        "source_video": "/home/sangukbae/semantic_transmission/outputs/etri_latest_short3_20261001/person_walk/reconstruction_fp32_fc_lgvsc_default_v1/run/data/normalized.mp4",
+        "source_sha256": "73b1751e3f3e21d8c471cf7b67fcfe4d9315afc12132f2fd2ed745e8462d2783",
+        "keys": [
+          8,
+          32,
+          56
+        ]
+      },
+      {
+        "name": "single_subject",
+        "split": "test",
+        "source_id": "single_subject",
+        "source_video": "/home/sangukbae/semantic_transmission/outputs/etri_latest_short3_20261001/single_subject/reconstruction_fp32_fc_lgvsc_default_v1/run/data/normalized.mp4",
+        "source_sha256": "ff9ee19b230f75a86928e4422f45ee4c0bc12ddfa7836097800a8f00ccc874a0",
+        "keys": [
+          0,
+          24,
+          48
+        ]
+      },
+      {
+        "name": "candle_flowers",
+        "split": "test",
+        "source_id": "candle_flowers",
+        "source_video": "/home/sangukbae/semantic_transmission/outputs/etri_latest_short3_20261001/candle_flowers/reconstruction_fp32_fc_lgvsc_default_v1/run/data/normalized.mp4",
+        "source_sha256": "5b1629df5d11726299f511533a19bbf09a0abe2fbda89a3fd5947aa09d491091",
+        "keys": [
+          0,
+          24,
+          48
+        ]
+      },
+      {
+        "name": "train_tv_00",
+        "split": "train",
+        "source_id": "tvsum_tv_low_08",
+        "source_video": "/home/sangukbae/semantic_transmission/outputs/qwen35_pairs_caption_comparison_20261007/reconstruction/event_pairs/run/data/normalized.mp4",
+        "source_sha256": "e44af1c31d5faea3d7c24659899951671a9650979d7af54276b32091e08dd564",
+        "keys": [
+          0,
+          20,
+          40
+        ]
+      },
+      {
+        "name": "train_tv_01",
+        "split": "train",
+        "source_id": "tvsum_tv_low_08",
+        "source_video": "/home/sangukbae/semantic_transmission/outputs/qwen35_pairs_caption_comparison_20261007/reconstruction/event_pairs/run/data/normalized.mp4",
+        "source_sha256": "e44af1c31d5faea3d7c24659899951671a9650979d7af54276b32091e08dd564",
+        "keys": [
+          204,
+          228,
+          252
+        ]
+      },
+      {
+        "name": "train_tv_02",
+        "split": "train",
+        "source_id": "tvsum_tv_low_08",
+        "source_video": "/home/sangukbae/semantic_transmission/outputs/qwen35_pairs_caption_comparison_20261007/reconstruction/event_pairs/run/data/normalized.mp4",
+        "source_sha256": "e44af1c31d5faea3d7c24659899951671a9650979d7af54276b32091e08dd564",
+        "keys": [
+          393,
+          412,
+          428
+        ]
+      },
+      {
+        "name": "train_tv_03",
+        "split": "train",
+        "source_id": "tvsum_tv_low_08",
+        "source_video": "/home/sangukbae/semantic_transmission/outputs/qwen35_pairs_caption_comparison_20261007/reconstruction/event_pairs/run/data/normalized.mp4",
+        "source_sha256": "e44af1c31d5faea3d7c24659899951671a9650979d7af54276b32091e08dd564",
+        "keys": [
+          556,
+          576,
+          600
+        ]
+      },
+      {
+        "name": "train_tv_04",
+        "split": "train",
+        "source_id": "tvsum_tv_low_08",
+        "source_video": "/home/sangukbae/semantic_transmission/outputs/qwen35_pairs_caption_comparison_20261007/reconstruction/event_pairs/run/data/normalized.mp4",
+        "source_sha256": "e44af1c31d5faea3d7c24659899951671a9650979d7af54276b32091e08dd564",
+        "keys": [
+          648,
+          672,
+          696
+        ]
+      },
+      {
+        "name": "train_tv_05",
+        "split": "train",
+        "source_id": "tvsum_tv_low_08",
+        "source_video": "/home/sangukbae/semantic_transmission/outputs/qwen35_pairs_caption_comparison_20261007/reconstruction/event_pairs/run/data/normalized.mp4",
+        "source_sha256": "e44af1c31d5faea3d7c24659899951671a9650979d7af54276b32091e08dd564",
+        "keys": [
+          792,
+          816,
+          840
+        ]
+      },
+      {
+        "name": "train_tv_06",
+        "split": "train",
+        "source_id": "tvsum_tv_low_08",
+        "source_video": "/home/sangukbae/semantic_transmission/outputs/qwen35_pairs_caption_comparison_20261007/reconstruction/event_pairs/run/data/normalized.mp4",
+        "source_sha256": "e44af1c31d5faea3d7c24659899951671a9650979d7af54276b32091e08dd564",
+        "keys": [
+          888,
+          912,
+          933
+        ]
+      },
+      {
+        "name": "train_tv_07",
+        "split": "train",
+        "source_id": "tvsum_tv_low_08",
+        "source_video": "/home/sangukbae/semantic_transmission/outputs/qwen35_pairs_caption_comparison_20261007/reconstruction/event_pairs/run/data/normalized.mp4",
+        "source_sha256": "e44af1c31d5faea3d7c24659899951671a9650979d7af54276b32091e08dd564",
+        "keys": [
+          1082,
+          1104,
+          1128
+        ]
+      },
+      {
+        "name": "train_tv_08",
+        "split": "train",
+        "source_id": "tvsum_tv_low_08",
+        "source_video": "/home/sangukbae/semantic_transmission/outputs/qwen35_pairs_caption_comparison_20261007/reconstruction/event_pairs/run/data/normalized.mp4",
+        "source_sha256": "e44af1c31d5faea3d7c24659899951671a9650979d7af54276b32091e08dd564",
+        "keys": [
+          1176,
+          1200,
+          1224
+        ]
+      },
+      {
+        "name": "train_tv_09",
+        "split": "train",
+        "source_id": "tvsum_tv_low_08",
+        "source_video": "/home/sangukbae/semantic_transmission/outputs/qwen35_pairs_caption_comparison_20261007/reconstruction/event_pairs/run/data/normalized.mp4",
+        "source_sha256": "e44af1c31d5faea3d7c24659899951671a9650979d7af54276b32091e08dd564",
+        "keys": [
+          1360,
+          1380,
+          1404
+        ]
+      },
+      {
+        "name": "train_miami-surf",
+        "split": "train",
+        "source_id": "davis_miami-surf",
+        "source_video": "/home/sangukbae/semantic_transmission/outputs/metric_validation_20260916_v1/03_natural/lgvsc/davis__miami-surf/steps_30/attempt_001/davis__miami-surf/data/normalized.mp4",
+        "source_sha256": "ae75ee4f253b14d86affeaa650fcac4efec185a52e192a439b99fc27a5d5bdcd",
+        "keys": [
+          0,
+          42,
+          95
+        ]
+      },
+      {
+        "name": "train_rallye",
+        "split": "train",
+        "source_id": "davis_rallye",
+        "source_video": "/home/sangukbae/semantic_transmission/outputs/metric_validation_20260916_v1/03_natural/lgvsc/davis__rallye/steps_30/attempt_001/davis__rallye/data/normalized.mp4",
+        "source_sha256": "5cff3cffd0f8c371102ce1b1d9241306b3ef430dacaed25e170c1d3e5a2fb9a2",
+        "keys": [
+          0,
+          75,
+          95
+        ]
+      }
+    ]
+  },
+  "matched_conditions": {
+    "received_keys_captions": true,
+    "initial_and_sampling_random_tensors": true,
+    "shared_first_segment_pngs": {
+      "zea": true,
+      "person_walk": true,
+      "single_subject": true,
+      "candle_flowers": true
+    },
+    "seed": 2025,
+    "snr_db": 10,
+    "steps": 30,
+    "fps": 24,
+    "image_size": [
+      320,
+      576
+    ]
+  },
+  "metric_domain": "lossless pre-MP4 PNG; delivered videos separately validated, not scored as PNG",
+  "affected_domain": "second segment non-key frames for fidelity; seam and second-segment transitions for motion",
+  "evaluation_per_case": {
+    "frames": 49,
+    "affected_nonkey_frames": 23,
+    "affected_transitions": 24
+  },
+  "metrics": {
+    "zea": {
+      "baseline": {
+        "psnr_db": 21.714462540737884,
+        "ssim": 0.7526475161768198,
+        "lpips_vgg": 0.2773046940565109,
+        "clip": 0.8963039232336957,
+        "dists": 0.1702409179314323,
+        "frames": 23,
+        "shape": [
+          23,
+          320,
+          576,
+          3
+        ],
+        "flow_error": 0.0695446605483691,
+        "mad_mean": 1.9434678819444446,
+        "mad_p95": 4.710017361111109,
+        "mad_max": 6.24453125,
+        "mad_error": 1.0157823350694446,
+        "generated_motion": 0.06714894013324131
+      },
+      "constant_edit": {
+        "psnr_db": 21.70633321258656,
+        "ssim": 0.7517829984084878,
+        "lpips_vgg": 0.2779652048712191,
+        "clip": 0.8948709239130435,
+        "dists": 0.17171015428460162,
+        "frames": 23,
+        "shape": [
+          23,
+          320,
+          576,
+          3
+        ],
+        "flow_error": 0.0681819983292371,
+        "mad_mean": 1.9191804108796298,
+        "mad_p95": 4.230399305555554,
+        "mad_max": 6.308528645833333,
+        "mad_error": 1.001151982060185,
+        "generated_motion": 0.06637301237788051
+      },
+      "learned_gate": {
+        "psnr_db": 21.714462540737884,
+        "ssim": 0.7526475161768198,
+        "lpips_vgg": 0.2773046940565109,
+        "clip": 0.8963039232336957,
+        "dists": 0.1702409179314323,
+        "frames": 23,
+        "shape": [
+          23,
+          320,
+          576,
+          3
+        ],
+        "flow_error": 0.0695446605483691,
+        "mad_mean": 1.9434678819444446,
+        "mad_p95": 4.710017361111109,
+        "mad_max": 6.24453125,
+        "mad_error": 1.0157823350694446,
+        "generated_motion": 0.06714894013324131
+      },
+      "constant_edit_change": {
+        "flow_percent": -1.959405953508453,
+        "mad_p95_percent": -10.182936044261437,
+        "mad_max_percent": 1.0248550815296742,
+        "psnr_db": -0.008129328151323278,
+        "lpips_vgg": 0.0006605108147081928
+      },
+      "decision": {
+        "checks": {
+          "motion": false,
+          "psnr": true,
+          "lpips": true,
+          "worst_transition": true
+        },
+        "passed": false,
+        "chosen_ratio": 0.0,
+        "predicted_utility": -0.14132295548915863
+      },
+      "baseline_learned_mp4_bytes_equal": true
+    },
+    "person_walk": {
+      "baseline": {
+        "psnr_db": 20.938670734420697,
+        "ssim": 0.7897438249469073,
+        "lpips_vgg": 0.33099466950997064,
+        "clip": 0.9380519701086957,
+        "dists": 0.15937677673671558,
+        "frames": 23,
+        "shape": [
+          23,
+          320,
+          576,
+          3
+        ],
+        "flow_error": 0.6619681778829545,
+        "mad_mean": 2.665462239583334,
+        "mad_p95": 4.446706814236111,
+        "mad_max": 5.064040798611111,
+        "mad_error": 2.2197708695023146,
+        "generated_motion": 0.5074037437637647
+      },
+      "constant_edit": {
+        "psnr_db": 20.93399464287607,
+        "ssim": 0.7893135995512693,
+        "lpips_vgg": 0.3322901894216952,
+        "clip": 0.9376167629076086,
+        "dists": 0.15945456598116003,
+        "frames": 23,
+        "shape": [
+          23,
+          320,
+          576,
+          3
+        ],
+        "flow_error": 0.6647768856491894,
+        "mad_mean": 2.670906575520833,
+        "mad_p95": 4.509352213541667,
+        "mad_max": 4.941254340277778,
+        "mad_error": 2.247583912037037,
+        "generated_motion": 0.5105838226154447
+      },
+      "learned_gate": {
+        "psnr_db": 20.938670734420697,
+        "ssim": 0.7897438249469073,
+        "lpips_vgg": 0.33099466950997064,
+        "clip": 0.9380519701086957,
+        "dists": 0.15937678710274075,
+        "frames": 23,
+        "shape": [
+          23,
+          320,
+          576,
+          3
+        ],
+        "flow_error": 0.6619681778829545,
+        "mad_mean": 2.665462239583334,
+        "mad_p95": 4.446706814236111,
+        "mad_max": 5.064040798611111,
+        "mad_error": 2.2197708695023146,
+        "generated_motion": 0.5074037437637647
+      },
+      "constant_edit_change": {
+        "flow_percent": 0.42429649340809394,
+        "mad_p95_percent": 1.4088043561810037,
+        "mad_max_percent": -2.4246735604304126,
+        "psnr_db": -0.004676091544627781,
+        "lpips_vgg": 0.001295519911724552
+      },
+      "decision": {
+        "checks": {
+          "motion": false,
+          "psnr": true,
+          "lpips": true,
+          "worst_transition": true
+        },
+        "passed": false,
+        "chosen_ratio": 0.0,
+        "predicted_utility": -0.01719076931476593
+      },
+      "baseline_learned_mp4_bytes_equal": true
+    },
+    "single_subject": {
+      "baseline": {
+        "psnr_db": 20.734857661156457,
+        "ssim": 0.6242609799463216,
+        "lpips_vgg": 0.30400956519272015,
+        "clip": 0.9363536005434783,
+        "dists": 0.16139533727065378,
+        "frames": 23,
+        "shape": [
+          23,
+          320,
+          576,
+          3
+        ],
+        "flow_error": 0.7283129058778286,
+        "mad_mean": 2.0197383174189816,
+        "mad_p95": 4.938608940972222,
+        "mad_max": 9.476128472222221,
+        "mad_error": 2.7122829861111106,
+        "generated_motion": 0.27638417668640614
+      },
+      "constant_edit": {
+        "psnr_db": 20.755778578904252,
+        "ssim": 0.6243269352094818,
+        "lpips_vgg": 0.3057963148407314,
+        "clip": 0.9345809273097826,
+        "dists": 0.16227264248806497,
+        "frames": 23,
+        "shape": [
+          23,
+          320,
+          576,
+          3
+        ],
+        "flow_error": 0.7358079279462496,
+        "mad_mean": 2.0027171947337963,
+        "mad_p95": 4.926934678819444,
+        "mad_max": 9.489518229166666,
+        "mad_error": 2.7228859230324076,
+        "generated_motion": 0.2847026736708358
+      },
+      "learned_gate": {
+        "psnr_db": 20.734857661156457,
+        "ssim": 0.6242609799463216,
+        "lpips_vgg": 0.30400956519272015,
+        "clip": 0.9363536005434783,
+        "dists": 0.16139533727065378,
+        "frames": 23,
+        "shape": [
+          23,
+          320,
+          576,
+          3
+        ],
+        "flow_error": 0.7283129058778286,
+        "mad_mean": 2.0197383174189816,
+        "mad_p95": 4.938608940972222,
+        "mad_max": 9.476128472222221,
+        "mad_error": 2.7122829861111106,
+        "generated_motion": 0.27638417668640614
+      },
+      "constant_edit_change": {
+        "flow_percent": 1.0290936777218374,
+        "mad_p95_percent": -0.23638766082336726,
+        "mad_max_percent": 0.14129986717354992,
+        "psnr_db": 0.020920917747794476,
+        "lpips_vgg": 0.0017867496480112321
+      },
+      "decision": {
+        "checks": {
+          "motion": false,
+          "psnr": true,
+          "lpips": true,
+          "worst_transition": true
+        },
+        "passed": false,
+        "chosen_ratio": 0.0,
+        "predicted_utility": -0.07930181920528412
+      },
+      "baseline_learned_mp4_bytes_equal": true
+    },
+    "candle_flowers": {
+      "baseline": {
+        "psnr_db": 35.93401025720699,
+        "ssim": 0.9824560212476412,
+        "lpips_vgg": 0.15895094430964926,
+        "clip": 0.9845023777173914,
+        "dists": 0.08160468547240547,
+        "frames": 23,
+        "shape": [
+          23,
+          320,
+          576,
+          3
+        ],
+        "flow_error": 0.060883868873740234,
+        "mad_mean": 1.2661738642939815,
+        "mad_p95": 4.66848741319444,
+        "mad_max": 6.257096354166666,
+        "mad_error": 1.069339554398148,
+        "generated_motion": 0.04487659751127163
+      },
+      "constant_edit": {
+        "psnr_db": 36.09762628524881,
+        "ssim": 0.9825568017932607,
+        "lpips_vgg": 0.15922109912271085,
+        "clip": 0.9838548743206522,
+        "dists": 0.08102694801662279,
+        "frames": 23,
+        "shape": [
+          23,
+          320,
+          576,
+          3
+        ],
+        "flow_error": 0.05927461641840637,
+        "mad_mean": 1.249558738425926,
+        "mad_p95": 4.638006727430552,
+        "mad_max": 6.339605034722222,
+        "mad_error": 1.0560067635995372,
+        "generated_motion": 0.04327595792710781
+      },
+      "learned_gate": {
+        "psnr_db": 35.93401025720699,
+        "ssim": 0.9824560212476412,
+        "lpips_vgg": 0.15895094430964926,
+        "clip": 0.9845023777173914,
+        "dists": 0.08160468547240547,
+        "frames": 23,
+        "shape": [
+          23,
+          320,
+          576,
+          3
+        ],
+        "flow_error": 0.060883868873740234,
+        "mad_mean": 1.2661738642939815,
+        "mad_p95": 4.66848741319444,
+        "mad_max": 6.257096354166666,
+        "mad_error": 1.069339554398148,
+        "generated_motion": 0.04487659751127163
+      },
+      "constant_edit_change": {
+        "flow_percent": -2.64315078049836,
+        "mad_p95_percent": -0.652902815540235,
+        "mad_max_percent": 1.3186416811467483,
+        "psnr_db": 0.1636160280418153,
+        "lpips_vgg": 0.00027015481306158495
+      },
+      "decision": {
+        "checks": {
+          "motion": false,
+          "psnr": true,
+          "lpips": true,
+          "worst_transition": true
+        },
+        "passed": false,
+        "chosen_ratio": 0.0,
+        "predicted_utility": -0.2213543802499771
+      },
+      "baseline_learned_mp4_bytes_equal": true
+    }
+  },
+  "ai_sample_review": {
+    "times": 28,
+    "panels": 112,
+    "independent": false,
+    "blinded": false,
+    "cases": {
+      "zea": {
+        "sample_indices": {
+          "local": [
+            0,
+            16,
+            17,
+            24,
+            25,
+            35,
+            48
+          ],
+          "source": [
+            144,
+            160,
+            161,
+            168,
+            169,
+            179,
+            192
+          ],
+          "selection": "seam, regular and maximum generated MAD"
+        },
+        "sample_sheet_sha256": "a6e731caaaa888803461cb9542ce8691511e0b1b13454d368e1e86c8d4fa2f17",
+        "observations": "항구 건물과 작은 배의 형태 뭉침이 남는다. 원본 160→161번에서 생성 건물·부두의 형태 변화가 보이며, 이는 게이트가 개입하기 전 공유 첫 구간이다. 학습 게이트는 기준선과 동일하다.",
+        "baseline_learned_png_bytes_equal": true,
+        "baseline_learned_mp4_bytes_equal": true,
+        "mp4_sha256": "956533a01df842265a886c960e61586eee2250395031399841e552809d219d05",
+        "largest_metric_roundoff_abs": 0.0
+      },
+      "person_walk": {
+        "sample_indices": {
+          "local": [
+            0,
+            20,
+            21,
+            24,
+            25,
+            35,
+            48
+          ],
+          "source": [
+            8,
+            28,
+            29,
+            32,
+            33,
+            43,
+            56
+          ],
+          "selection": "seam, regular and maximum generated MAD"
+        },
+        "sample_sheet_sha256": "c01cc9b2b14d7e97f397d71c2fa0aaa7d9d2fff7f767e9c9b311b53ecacbb70d",
+        "observations": "원본 28→29번의 생성 발·몸 형태 변화와 33번의 원본 대비 자세·발 위치 불일치가 남는다. 큰 첫 변화는 게이트 개입 전 공유 구간이다. 수정 허용 조건도 동작 재현 개선을 입증하지 못한다.",
+        "baseline_learned_png_bytes_equal": true,
+        "baseline_learned_mp4_bytes_equal": true,
+        "mp4_sha256": "e657a305b2351c4e2ac63c431f8229f8283073d8e88f7885e78db8c4271eaf76",
+        "largest_metric_roundoff_abs": 1.036602517712204e-08
+      },
+      "single_subject": {
+        "sample_indices": {
+          "local": [
+            0,
+            13,
+            14,
+            24,
+            25,
+            35,
+            48
+          ],
+          "source": [
+            0,
+            13,
+            14,
+            24,
+            25,
+            35,
+            48
+          ],
+          "selection": "seam, regular and maximum generated MAD"
+        },
+        "sample_sheet_sha256": "48a7df013848814eab8c1fbbe5ef5bc6c3f64bb6e4c532025a5460b0049074b4",
+        "observations": "원본 13→14번의 스카프·머리 형태 변화와 35번의 원본 대비 스카프·자세 차이가 남는다. 앞선 변화는 공유 첫 구간으로 이번 게이트의 수정 대상 밖이다.",
+        "baseline_learned_png_bytes_equal": true,
+        "baseline_learned_mp4_bytes_equal": true,
+        "mp4_sha256": "10a03b628748b8c313b2cf80dfb1d043befd0c95cd09aea82d3c16c8baf2fbb1",
+        "largest_metric_roundoff_abs": 0.0
+      },
+      "candle_flowers": {
+        "sample_indices": {
+          "local": [
+            0,
+            24,
+            25,
+            28,
+            29,
+            35,
+            48
+          ],
+          "source": [
+            0,
+            24,
+            25,
+            28,
+            29,
+            35,
+            48
+          ],
+          "selection": "seam, regular and maximum generated MAD"
+        },
+        "sample_sheet_sha256": "4cc7500395c26645022bc33e97ec8c953641103d82105e969cf4a25e810b5e08",
+        "observations": "저동작 전등갓의 전체 모습은 네 조건에서 비슷하다. 표본에서 의미 개선을 판정할 근거가 없고 학습 게이트는 기준선과 동일하다.",
+        "baseline_learned_png_bytes_equal": true,
+        "baseline_learned_mp4_bytes_equal": true,
+        "mp4_sha256": "4f76df5dc426fd7a4ae51346127f83802f2726fc69f04067671d0e766d2b5634",
+        "largest_metric_roundoff_abs": 0.0
+      }
+    },
+    "independent_semantic_review": "PENDING",
+    "hallucination_mitigation_verified": false
+  },
+  "validation": {
+    "tests": {
+      "command": "PYTHONPATH=src /home/sangukbae/anaconda3/envs/lgvsc/bin/python -m pytest -q tests/test_receiver_reference_gate.py tests/test_receiver_temporal_alignment.py tests/test_generation_noise.py tests/test_condition_collision.py tests/test_qwen35_pairs_video.py",
+      "passed": 56
+    },
+    "resume": {
+      "command": "bash scripts/experiment_receiver_gate.sh",
+      "returncode": 0,
+      "seconds": 5.13938460299687,
+      "reused_stages": 6,
+      "started_stages": 0,
+      "artifact_hashes_equal": true,
+      "artifact_sha256": {
+        "plan.json": "3d1a11ec900854a84a80730dc4b5fa1c49d306532fb17588a3d281e705d762b2",
+        "gate.pt": "2987c3504c38d3736a9a3c1320cb4d1bd98134ec5ffe863b0a80e202ca25d5f8",
+        "results.json": "5562a3087655b762c3871a1d3dc6d7c6c46d9104197f0ac24e812c8765654124",
+        "report.html": "f74f285267ddf8295d51dd8487d6e452ef99fb8d859693493e970ebb922e1aee",
+        "test/candle_flowers/baseline/reconstruction.mp4": "4f76df5dc426fd7a4ae51346127f83802f2726fc69f04067671d0e766d2b5634",
+        "test/candle_flowers/constant_edit/reconstruction.mp4": "ea7e6016cd28ba5259bf063970454bd299167d5cbc748f4db5b1e3495e263dda",
+        "test/candle_flowers/learned_gate/reconstruction.mp4": "4f76df5dc426fd7a4ae51346127f83802f2726fc69f04067671d0e766d2b5634",
+        "test/person_walk/baseline/reconstruction.mp4": "e657a305b2351c4e2ac63c431f8229f8283073d8e88f7885e78db8c4271eaf76",
+        "test/person_walk/constant_edit/reconstruction.mp4": "31632ce6aba2fc57e6b967ef537a7b78dd5db070a9f3841499674d332ad5e18b",
+        "test/person_walk/learned_gate/reconstruction.mp4": "e657a305b2351c4e2ac63c431f8229f8283073d8e88f7885e78db8c4271eaf76",
+        "test/single_subject/baseline/reconstruction.mp4": "10a03b628748b8c313b2cf80dfb1d043befd0c95cd09aea82d3c16c8baf2fbb1",
+        "test/single_subject/constant_edit/reconstruction.mp4": "8f5e9349754c02534a2b73473f590fcfd7f5f2f6aa2af6950ffef7ecdb9b2175",
+        "test/single_subject/learned_gate/reconstruction.mp4": "10a03b628748b8c313b2cf80dfb1d043befd0c95cd09aea82d3c16c8baf2fbb1",
+        "test/zea/baseline/reconstruction.mp4": "956533a01df842265a886c960e61586eee2250395031399841e552809d219d05",
+        "test/zea/constant_edit/reconstruction.mp4": "828bfc632eb792eff0f4f3ab7c51b9f3be76d29f607ac695ec901300ed507a82",
+        "test/zea/learned_gate/reconstruction.mp4": "956533a01df842265a886c960e61586eee2250395031399841e552809d219d05"
+      },
+      "freeze_helper_fix": "Compare JSON-normalized config values; tuple image_size roundtrips as list. Original frozen plan and generation artifacts preserved.",
+      "freeze_helper_sha256": "5f1536410179ad206d43ee536d96e10b3ceef75b9cbd7a0defad618adee7c927"
+    },
+    "resume_initial_failure": {
+      "reason": "JSON roundtrip changed config image_size tuple to list, causing a false frozen-plan mismatch. Signature and JSON-normalized contents were identical.",
+      "artifacts_unchanged": true,
+      "fix": "Compare JSON-normalized values in shared freeze helper. Test rejects real dimension/hash changes.",
+      "original_plan_and_outputs_preserved": true,
+      "helper_not_part_of_original_protocol_code_inventory": true
+    }
+  },
+  "stage_seconds": {
+    "evaluate_test": 55.89786390500376,
+    "evaluate_train": 111.78904203299317,
+    "generate_test": 500.34930862700276,
+    "generate_train": 1430.4077711480058,
+    "prepare": 268.60342357700574,
+    "train": 2.7694195070071146
+  },
+  "local_output": "outputs/receiver_gate_20261009",
+  "artifact_sha256": {
+    "plan.json": "3d1a11ec900854a84a80730dc4b5fa1c49d306532fb17588a3d281e705d762b2",
+    "prepared.json": "4d0f64780bfff98ca0ba7e17654da955799157704641341dc1935c3afa9eed93",
+    "training.json": "c346fb075f9095e6bcb2ac92f00047bd1ca0a7754e9059d8436b84144ef05a31",
+    "gate.pt": "2987c3504c38d3736a9a3c1320cb4d1bd98134ec5ffe863b0a80e202ca25d5f8",
+    "train_metrics.json": "5ac86e38c23d14b82c96c58fd5563db8b27cf7a39aee925af9312478966e462e",
+    "test_metrics.json": "5ca2181c538cc5c6e81f1602df53bd17d2f11d08808daff64262b3c421c7c6a1",
+    "results.json": "5562a3087655b762c3871a1d3dc6d7c6c46d9104197f0ac24e812c8765654124",
+    "report.html": "f74f285267ddf8295d51dd8487d6e452ef99fb8d859693493e970ebb922e1aee",
+    "AI_REVIEW.json": "3bf533b618c905fbeb9c3cb75479e6ce571130b55c07d5b927319a2b9d412cfa",
+    "review.html": "071530a8f12b50e5528d7bc4cb15f566972664197e51d2592a4ac31522c7f96b",
+    "resume_verification.json": "e3e699ba3c6458786b5de502507aa34175547bfd0334d9df237851756c794dbd"
+  },
+  "generation_code_sha256": {
+    "src/semantic_transmission/receiver_alignment_experiment.py": "a5e81438c346747d8b9e760e20ed9f67e9f4048feca808e862ec7556b2fa9f14",
+    "src/semantic_transmission/receiver_temporal_alignment.py": "2206a2000523cc957ea8229a6735fa77e36c414af698733f251363531929bd29",
+    "src/semantic_transmission/condition_collision.py": "449a95aad1bc927521f670303319c8b56e99de9a9a6e99655f6ad5763328d74f",
+    "src/semantic_transmission/generation_noise.py": "710f8987cff2df2a616ca174ac3a597b366f5d67650d9ae73ca40fc222ab0b17",
+    "src/semantic_transmission/precision_text_cache.py": "5a401b46e0063f016247474edc8ed2859a0f158c480e4dba1c220e0b6a35e940",
+    "src/semantic_transmission/temporal.py": "36b06469eed91ffcda0bf442c3d63f0a4cde1ddc37889f23447056596eaf2e6a",
+    ".local/vendor/Open-Sora/opensora/models/vae/__init__.py": "bb93a5cbdb90c264592f5b0fba78294fe2097575a55ad1be040b76769518dcff",
+    ".local/vendor/Open-Sora/opensora/models/vae/discriminator.py": "57b8bc3f69a091fbe9ecad94c0512235c9cdbcac249b8fdfa2691e98aa4ae3ba",
+    ".local/vendor/Open-Sora/opensora/models/vae/losses.py": "8a3623be603f648f6c4d849d929819a7a01bddd24bb3b8c6f32b3ef93419a0d4",
+    ".local/vendor/Open-Sora/opensora/models/vae/lpips.py": "f03cd4416f429de616a2c1a38449a41dbb34d6378fd2eb8f2f481aeae749ab64",
+    ".local/vendor/Open-Sora/opensora/models/vae/utils.py": "7218635ffdf9481c9cf86a57028864877958b675673ed463018dd5ce3de419ac",
+    ".local/vendor/Open-Sora/opensora/models/vae/vae.py": "adcc04558bc9861c990d22558c57e0f8a262f5f418fe888468f6911a2d3eb18a",
+    ".local/vendor/Open-Sora/opensora/models/vae/vae_temporal.py": "bd79cf7afaf1b47060c6d2b05a5d35d679fe2461dac21968ae34b51206aaa104",
+    ".local/vendor/Open-Sora/opensora/models/vae/video_sdxl/blocks.py": "577a25038c89e5a973fcc2124579557bcc84e3289c2c2f79ac672a86bac05b8b",
+    ".local/vendor/Open-Sora/opensora/models/stdit/__init__.py": "c0fb285493273c403d8adce809f8072dfbe64cd1d29ad10f5e6026b3b510ec7e",
+    ".local/vendor/Open-Sora/opensora/models/stdit/stdit.py": "049816972bb3cc81658f9a65b8c6d0facf6455cdea1fa70d1d69b8ec9d50dcb4",
+    ".local/vendor/Open-Sora/opensora/models/stdit/stdit2.py": "d33d2c246ba740bc41132b1a05b70fc9a4f69ceceac7d8b5293c1b2a3559fb4b",
+    ".local/vendor/Open-Sora/opensora/models/stdit/stdit3.py": "a54aded7f93b05092ec0a59302b250c09974fb5324ffdf6640be62b42a5aa81b",
+    ".local/vendor/Open-Sora/opensora/models/layers/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    ".local/vendor/Open-Sora/opensora/models/layers/blocks.py": "38f53c8c6b4ebf95d40cdd319fd97e570d498a9d45576f496f6001a290764296",
+    ".local/vendor/Open-Sora/opensora/schedulers/__init__.py": "a24cac940978c86d291a32476877935adbfb189d5a8019b508a9c4467765a37a",
+    ".local/vendor/Open-Sora/opensora/schedulers/dpms/__init__.py": "380900ff5c36bd9dd6fd07e4d2b113584bb073fe7ce4f5ebc2e4924a53a99beb",
+    ".local/vendor/Open-Sora/opensora/schedulers/dpms/dpm_solver.py": "b85e79c67bf5a0f2723b65fa0d2edb15c4f62c8d42bf7d6c19dea801166fa2a1",
+    ".local/vendor/Open-Sora/opensora/schedulers/iddpm/__init__.py": "fa1cdf43981a4c4fd036a2713a525fa18c19e51963194fb0d104ebaaa4942e40",
+    ".local/vendor/Open-Sora/opensora/schedulers/iddpm/diffusion_utils.py": "44bef677edc8aaf3eb246246f94166946b53f63f2730ce1606618a0db584287d",
+    ".local/vendor/Open-Sora/opensora/schedulers/iddpm/gaussian_diffusion.py": "dd6b93e871a979fb874b11e6d5e6368e6c87d7e2ce17c5109d0c33d1d189331f",
+    ".local/vendor/Open-Sora/opensora/schedulers/iddpm/respace.py": "428212fe7a4a71d1e9d77802c012239e0437533e1e6640194a7166a90decfc31",
+    ".local/vendor/Open-Sora/opensora/schedulers/iddpm/speed.py": "4b87a767b5e563f047096e99e74fdf14e6c51c78ab5df0bf90cc32278dbf551c",
+    ".local/vendor/Open-Sora/opensora/schedulers/iddpm/timestep_sampler.py": "450f066218200a8e46957b4dc647eac4f8ccffd955d02de4bc0bb10bd074b992",
+    ".local/vendor/Open-Sora/opensora/schedulers/rf/__init__.py": "3dda6a3ad3ed38314f9131dd20516da95819da3986864ad1bebba4e5f72c7eb9",
+    ".local/vendor/Open-Sora/opensora/schedulers/rf/rectified_flow.py": "e12f9308769e17b7297600ad709323c8130f8d61fff50f5a1561c5aee40a91df",
+    ".local/vendor/Open-Sora/opensora/utils/inference_utils.py": "3676ccec58f4328f9710709fbd5d8d89b154bdf428008aaec3dc1752a227e828",
+    "src/semantic_transmission/receiver_reference_gate.py": "1ccb2b3be9af81e9364694879017ea76b9916e848e401a63939fc448c4e74d44",
+    "src/semantic_transmission/receiver_gate_experiment.py": "c8ebc0d4ec58977dd2a218bf2044c4a92fbd3e16ff9a3c131221c11fbbc1feb1",
+    "src/semantic_transmission/receiver_gate_evaluation.py": "3266f4dc035580b7412afdb076fcd8e979e2ecb7dbc2b8abe69af1a6cd2a77cb",
+    "src/semantic_transmission/receiver_alignment_evaluation.py": "0c3a5da542220b204d1922a63d938d2c0165ca20370ed9fa62ed328d1fad9e71",
+    "src/semantic_transmission/receiver_joint_experiment.py": "928c37fc3a13814e83724c47e1b5ab007699268b979bbf45e9e8525d5b02d324",
+    "src/semantic_transmission/sender_repair_experiment.py": "71a5de5d3d38d37a793023105d81cedfc140cc444eb36029c89f32c2eabfe09f",
+    "src/semantic_transmission/official_quality.py": "e4b52561f7bf7f852f2e38de7dfad4e0d36ae3f67548059b32062487eda14e11",
+    "src/semantic_transmission/research_quality.py": "3a509179ff0f83fe33a793e71a21167e2444b84c164b3272f85094a8a15a1c6e",
+    "src/semantic_transmission/webvid_ablation.py": "8e0300ba3cf3b81e3242e18e66c246da21278ca70c41062de3dcc10f3ed9360b",
+    "src/semantic_transmission/validation_progress.py": "117ab17a0eb8b3b793099483c7d190aa8467482b18a183a6100ee6e7db32139f",
+    "scripts/experiment_receiver_gate.sh": "c0262484f07fbd0a0eeefbcfc63c1bfc1b22cdaa876c4d48a66e1fb5f9220bdf"
+  },
+  "resume_helper_sha256": "5f1536410179ad206d43ee536d96e10b3ceef75b9cbd7a0defad618adee7c927",
+  "limitations": [
+    "Small counterfactual utility MLP; not end-to-end temporal adapter training.",
+    "One seed, AWGN 10 dB, two segments restarted at first key; no long-range or arbitrary-SNR claim.",
+    "Evaluation originals excluded from training, but these are previously examined development scenes, not an untouched final benchmark.",
+    "No independent Added/Missing/Distorted ground truth.",
+    "The fixed .35 action is only one intervention; this negative result does not rule out other learned receiver mechanisms.",
+    "Teacher action support is absent at the predeclared threshold and leave-one-source-out utility predictions generalize poorly. Training fit alone is not efficacy.",
+    "DISTS differs by about 1e-8 on one identical PNG output because of evaluation numerical roundoff; the video bytes and primary adoption metrics match."
+  ]
+}
