@@ -1,0 +1,1007 @@
+{
+  "date": "2026-10-08",
+  "status": "PILOT_COMPLETE_INDEPENDENT_REVIEW_PENDING",
+  "adopted": false,
+  "policy": "common_vae_grid_overlap_velocity_consensus_v1",
+  "signature": "8acc98b171d80241f119e4b515e03b579f045d99451774dd34c37d484782d827",
+  "result": "outputs/receiver_joint_windows_20261008/pilot_8acc98b171d8/results.json",
+  "result_sha256": "b4ea3d127762841d7f4e92ca26786c3e045650a4f945584d6cd022e9a403c7e4",
+  "report": "outputs/receiver_joint_windows_20261008/pilot_8acc98b171d8/report.html",
+  "source_pixels_used_for_generation": false,
+  "training_executed": false,
+  "output_pixel_interpolation": false,
+  "shared_grid_paired_arms": [
+    "shared_sequential",
+    "shared_joint"
+  ],
+  "legacy_is_noise_matched": false,
+  "new_generated_arms": 8,
+  "reused_legacy_arms": 4,
+  "frames_per_arm": 49,
+  "evaluated_frames": 588,
+  "tests_passed": 108,
+  "tests": [
+    "test_receiver_joint_windows.py",
+    "test_receiver_temporal_alignment.py",
+    "test_condition_collision.py",
+    "test_generation_noise.py",
+    "test_short_schedule.py"
+  ],
+  "generation": {
+    "status": "GENERATED",
+    "seconds_excluding_load": 395.8977127660037,
+    "new_arms": 8,
+    "reused_legacy_arms": 4,
+    "runtime": {
+      "packages": {
+        "torch": "2.2.2+cu121",
+        "diffusers": "0.27.2",
+        "transformers": "4.39.3"
+      },
+      "cuda": "12.1",
+      "gpu": "NVIDIA GeForce RTX 4080"
+    }
+  },
+  "evaluation_seconds": 62.536769134996575,
+  "pair_audits": {
+    "zea": {
+      "shared_inputs_sha256": "9edeb16d7adbf1067293af098e2d14c6d279327d3120f5d10cf119199b2162eb",
+      "same_noise_and_keys": true,
+      "same_model_calls": 60,
+      "rng_unchanged": true,
+      "received_anchor_preserved": true
+    },
+    "person_walk": {
+      "shared_inputs_sha256": "ad05ebb673c839ac37994519fbf087c15f43c6fbfa10602d7c695d6aa87fe7a3",
+      "same_noise_and_keys": true,
+      "same_model_calls": 60,
+      "rng_unchanged": true,
+      "received_anchor_preserved": true
+    },
+    "single_subject": {
+      "shared_inputs_sha256": "645c524c2783221f9e2b40857ca10238a5f38289638f293a1c59489be8b37eca",
+      "same_noise_and_keys": true,
+      "same_model_calls": 60,
+      "rng_unchanged": true,
+      "received_anchor_preserved": true
+    },
+    "candle_flowers": {
+      "shared_inputs_sha256": "14c9181a7c9afdeae89ee6e71c21610e868c8da9052627b106a327edb9f68fdc",
+      "same_noise_and_keys": true,
+      "same_model_calls": 60,
+      "rng_unchanged": true,
+      "received_anchor_preserved": true
+    }
+  },
+  "probes": {
+    "zea/legacy_aligned/reconstruction.mp4": {
+      "width": 576,
+      "height": 320,
+      "r_frame_rate": "24/1",
+      "duration": "2.041667",
+      "nb_frames": "49",
+      "sha256": "b414647bec868e0a26980bbe817dfefa7c56cfd1a61ce6b331652cf16ab6a9db",
+      "pts_24fps_passed": true
+    },
+    "zea/shared_sequential/reconstruction.mp4": {
+      "width": 576,
+      "height": 320,
+      "r_frame_rate": "24/1",
+      "duration": "2.041667",
+      "nb_frames": "49",
+      "sha256": "db42fa6693662705c86743463ae23355749c9dcb6a2e592ba2bb993e444d5061",
+      "pts_24fps_passed": true
+    },
+    "zea/shared_joint/reconstruction.mp4": {
+      "width": 576,
+      "height": 320,
+      "r_frame_rate": "24/1",
+      "duration": "2.041667",
+      "nb_frames": "49",
+      "sha256": "018f25caf0574344b0de9a7326471b009b62087867350b1e92d4ffa69c971d39",
+      "pts_24fps_passed": true
+    },
+    "zea/comparison.mp4": {
+      "width": 2304,
+      "height": 344,
+      "r_frame_rate": "24/1",
+      "duration": "2.041667",
+      "nb_frames": "49",
+      "sha256": "80d5a3e4ee221893bf1744abca1cbb2550cd31ef34422eac6fba65457a0064f8",
+      "pts_24fps_passed": true
+    },
+    "person_walk/legacy_aligned/reconstruction.mp4": {
+      "width": 576,
+      "height": 320,
+      "r_frame_rate": "24/1",
+      "duration": "2.041667",
+      "nb_frames": "49",
+      "sha256": "0853405dcac159cf96494000484261f29753b26056510745da62ac986b48f52d",
+      "pts_24fps_passed": true
+    },
+    "person_walk/shared_sequential/reconstruction.mp4": {
+      "width": 576,
+      "height": 320,
+      "r_frame_rate": "24/1",
+      "duration": "2.041667",
+      "nb_frames": "49",
+      "sha256": "afdf0a4787077d98c3e4c3e91f2e2f16dc384e35c2a60dce2c79bcebbee900f4",
+      "pts_24fps_passed": true
+    },
+    "person_walk/shared_joint/reconstruction.mp4": {
+      "width": 576,
+      "height": 320,
+      "r_frame_rate": "24/1",
+      "duration": "2.041667",
+      "nb_frames": "49",
+      "sha256": "858826455e6d1a412bfab02cf96fa1bb166f48e7c84103ca6d341a0739461e93",
+      "pts_24fps_passed": true
+    },
+    "person_walk/comparison.mp4": {
+      "width": 2304,
+      "height": 344,
+      "r_frame_rate": "24/1",
+      "duration": "2.041667",
+      "nb_frames": "49",
+      "sha256": "300f919ea1d3ce34cc6c42057b97ffd4a699f316fb1b6eaae90fa64ef73a6859",
+      "pts_24fps_passed": true
+    },
+    "single_subject/legacy_aligned/reconstruction.mp4": {
+      "width": 576,
+      "height": 320,
+      "r_frame_rate": "24/1",
+      "duration": "2.041667",
+      "nb_frames": "49",
+      "sha256": "7809771b9430ab3d67736dd61439b1894dcfb2b44ca9c460f1e3ce62b87b96ef",
+      "pts_24fps_passed": true
+    },
+    "single_subject/shared_sequential/reconstruction.mp4": {
+      "width": 576,
+      "height": 320,
+      "r_frame_rate": "24/1",
+      "duration": "2.041667",
+      "nb_frames": "49",
+      "sha256": "e1373b412cf9baad4aaf00539b5d0a6be91ab8b6e02422c36c9f56ce6bad8c5d",
+      "pts_24fps_passed": true
+    },
+    "single_subject/shared_joint/reconstruction.mp4": {
+      "width": 576,
+      "height": 320,
+      "r_frame_rate": "24/1",
+      "duration": "2.041667",
+      "nb_frames": "49",
+      "sha256": "52233664024cf3c5023d382fb3857bcc3e03df771600953363af2768a9a53c51",
+      "pts_24fps_passed": true
+    },
+    "single_subject/comparison.mp4": {
+      "width": 2304,
+      "height": 344,
+      "r_frame_rate": "24/1",
+      "duration": "2.041667",
+      "nb_frames": "49",
+      "sha256": "e07eb3fffd43896316e1f1bd68fca813007ef8353d7eb881895f3449f5b58632",
+      "pts_24fps_passed": true
+    },
+    "candle_flowers/legacy_aligned/reconstruction.mp4": {
+      "width": 576,
+      "height": 320,
+      "r_frame_rate": "24/1",
+      "duration": "2.041667",
+      "nb_frames": "49",
+      "sha256": "93d6c727147eb59d7d9370140665c629ed23a320e9e38644069fcb08d56b0f02",
+      "pts_24fps_passed": true
+    },
+    "candle_flowers/shared_sequential/reconstruction.mp4": {
+      "width": 576,
+      "height": 320,
+      "r_frame_rate": "24/1",
+      "duration": "2.041667",
+      "nb_frames": "49",
+      "sha256": "abe8f4026df1e5916b02eb7cbf093d9b01fb140c581ce10ee6234292ed9a89d8",
+      "pts_24fps_passed": true
+    },
+    "candle_flowers/shared_joint/reconstruction.mp4": {
+      "width": 576,
+      "height": 320,
+      "r_frame_rate": "24/1",
+      "duration": "2.041667",
+      "nb_frames": "49",
+      "sha256": "4f1aba7e7d922b8b0844e09ad2afd58f60afb3d3517277c5987a778fb3650d3f",
+      "pts_24fps_passed": true
+    },
+    "candle_flowers/comparison.mp4": {
+      "width": 2304,
+      "height": 344,
+      "r_frame_rate": "24/1",
+      "duration": "2.041667",
+      "nb_frames": "49",
+      "sha256": "fb4bc5a57d9db747dff0f63fa244254e6818d98f82a8aec1747bdcdff363aa18",
+      "pts_24fps_passed": true
+    }
+  },
+  "changes": [
+    {
+      "case": "zea",
+      "joint_vs_paired_flow_error_pct": 6.333846671228716,
+      "joint_vs_legacy_flow_error_pct": 91.91843986718042,
+      "joint_vs_legacy_mad_error_pct": 24.150396016048536
+    },
+    {
+      "case": "person_walk",
+      "joint_vs_paired_flow_error_pct": -7.0414398515845855,
+      "joint_vs_legacy_flow_error_pct": 6.002591656517775,
+      "joint_vs_legacy_mad_error_pct": 8.991767469379752
+    },
+    {
+      "case": "single_subject",
+      "joint_vs_paired_flow_error_pct": -12.543756557821217,
+      "joint_vs_legacy_flow_error_pct": 5.2657971032825435,
+      "joint_vs_legacy_mad_error_pct": 17.9504988455524
+    },
+    {
+      "case": "candle_flowers",
+      "joint_vs_paired_flow_error_pct": -2.9039627829491765,
+      "joint_vs_legacy_flow_error_pct": 11.33602348506515,
+      "joint_vs_legacy_mad_error_pct": -40.59718112709726
+    }
+  ],
+  "metrics": [
+    {
+      "case": "zea",
+      "arm": "legacy_aligned",
+      "all_frames": {
+        "psnr_db": 21.742998024422207,
+        "ssim": 0.7585276529685324,
+        "lpips_vgg": 0.26759206032266425,
+        "clip": 0.8961156728316326,
+        "dists": 0.16258033197753283,
+        "frames": 49,
+        "shape": [
+          49,
+          320,
+          576,
+          3
+        ]
+      },
+      "nonkey_frames": {
+        "psnr_db": 21.702843726100557,
+        "ssim": 0.7573721997392372,
+        "lpips_vgg": 0.26875970318265585,
+        "clip": 0.8957307235054348,
+        "dists": 0.16365988487782684,
+        "frames": 46,
+        "shape": [
+          46,
+          320,
+          576,
+          3
+        ]
+      },
+      "temporal": {
+        "flow_error_mean": 0.05542000130905459,
+        "source_flow_mean": 0.0571912156107525,
+        "generated_flow_mean": 0.06348474756426488,
+        "seam_frame": 25,
+        "source_seam_mad": 1.499609375,
+        "generated_seam_mad": 3.9364366319444444,
+        "source_mean_mad": 1.3131429036458333,
+        "generated_mean_mad": 1.93829345703125,
+        "generated_nonseam_mad": 1.8957797724586285,
+        "mad_error_mean": 0.9786806459780092,
+        "boundary_transitions": {
+          "17": {
+            "source_mad": 1.1707465277777778,
+            "generated_mad": 7.854166666666667,
+            "absolute_error": 6.68342013888889
+          },
+          "25": {
+            "source_mad": 1.499609375,
+            "generated_mad": 3.9364366319444444,
+            "absolute_error": 2.4368272569444445
+          },
+          "34": {
+            "source_mad": 0.9688368055555555,
+            "generated_mad": 1.8063802083333333,
+            "absolute_error": 0.8375434027777778
+          }
+        }
+      }
+    },
+    {
+      "case": "zea",
+      "arm": "shared_sequential",
+      "all_frames": {
+        "psnr_db": 21.23331725766342,
+        "ssim": 0.7306898655476255,
+        "lpips_vgg": 0.2593407551853024,
+        "clip": 0.9038584183673469,
+        "dists": 0.1444532919903191,
+        "frames": 49,
+        "shape": [
+          49,
+          320,
+          576,
+          3
+        ]
+      },
+      "nonkey_frames": {
+        "psnr_db": 21.143138299733984,
+        "ssim": 0.727241858234036,
+        "lpips_vgg": 0.26091508988452994,
+        "clip": 0.9038882048233695,
+        "dists": 0.14533951360246408,
+        "frames": 46,
+        "shape": [
+          46,
+          320,
+          576,
+          3
+        ]
+      },
+      "temporal": {
+        "flow_error_mean": 0.10002572578378022,
+        "source_flow_mean": 0.0571912156107525,
+        "generated_flow_mean": 0.09003675589337945,
+        "seam_frame": 25,
+        "source_seam_mad": 1.499609375,
+        "generated_seam_mad": 0.7084418402777778,
+        "source_mean_mad": 1.3131429036458333,
+        "generated_mean_mad": 2.106274866174769,
+        "generated_nonseam_mad": 2.1360159943853425,
+        "mad_error_mean": 1.1303986725983797,
+        "boundary_transitions": {
+          "17": {
+            "source_mad": 1.1707465277777778,
+            "generated_mad": 5.333723958333334,
+            "absolute_error": 4.162977430555555
+          },
+          "25": {
+            "source_mad": 1.499609375,
+            "generated_mad": 0.7084418402777778,
+            "absolute_error": 0.7911675347222221
+          },
+          "34": {
+            "source_mad": 0.9688368055555555,
+            "generated_mad": 4.292686631944444,
+            "absolute_error": 3.3238498263888885
+          }
+        }
+      }
+    },
+    {
+      "case": "zea",
+      "arm": "shared_joint",
+      "all_frames": {
+        "psnr_db": 21.49171082656804,
+        "ssim": 0.7423138075028664,
+        "lpips_vgg": 0.2542511364635156,
+        "clip": 0.8968680245535714,
+        "dists": 0.1415014023683509,
+        "frames": 49,
+        "shape": [
+          49,
+          320,
+          576,
+          3
+        ]
+      },
+      "nonkey_frames": {
+        "psnr_db": 21.417246758715553,
+        "ssim": 0.7396027042763499,
+        "lpips_vgg": 0.2555210681065269,
+        "clip": 0.8966754415760869,
+        "dists": 0.14227306065352066,
+        "frames": 46,
+        "shape": [
+          46,
+          320,
+          576,
+          3
+        ]
+      },
+      "temporal": {
+        "flow_error_mean": 0.10636120188670854,
+        "source_flow_mean": 0.0571912156107525,
+        "generated_flow_mean": 0.08774017197235177,
+        "seam_frame": 25,
+        "source_seam_mad": 1.499609375,
+        "generated_seam_mad": 0.6137803819444444,
+        "source_mean_mad": 1.3131429036458333,
+        "generated_mean_mad": 2.0178389937789354,
+        "generated_nonseam_mad": 2.047712581264775,
+        "mad_error_mean": 1.2150358977141205,
+        "boundary_transitions": {
+          "17": {
+            "source_mad": 1.1707465277777778,
+            "generated_mad": 5.4075303819444445,
+            "absolute_error": 4.236783854166667
+          },
+          "25": {
+            "source_mad": 1.499609375,
+            "generated_mad": 0.6137803819444444,
+            "absolute_error": 0.8858289930555555
+          },
+          "34": {
+            "source_mad": 0.9688368055555555,
+            "generated_mad": 9.168424479166667,
+            "absolute_error": 8.199587673611111
+          }
+        }
+      }
+    },
+    {
+      "case": "person_walk",
+      "arm": "legacy_aligned",
+      "all_frames": {
+        "psnr_db": 21.32600253732848,
+        "ssim": 0.8037652384936077,
+        "lpips_vgg": 0.3189882699932371,
+        "clip": 0.9419044961734694,
+        "dists": 0.15145690222175753,
+        "frames": 49,
+        "shape": [
+          49,
+          320,
+          576,
+          3
+        ]
+      },
+      "nonkey_frames": {
+        "psnr_db": 20.9919810608729,
+        "ssim": 0.8003454691994455,
+        "lpips_vgg": 0.32185346406439075,
+        "clip": 0.9408914317255435,
+        "dists": 0.15290351276812347,
+        "frames": 46,
+        "shape": [
+          46,
+          320,
+          576,
+          3
+        ]
+      },
+      "temporal": {
+        "flow_error_mean": 0.6886875016692405,
+        "source_flow_mean": 0.45608533423122327,
+        "generated_flow_mean": 0.5507821347564459,
+        "seam_frame": 25,
+        "source_seam_mad": 0.12708333333333333,
+        "generated_seam_mad": 5.064040798611111,
+        "source_mean_mad": 2.040380859375,
+        "generated_mean_mad": 2.938910138165509,
+        "generated_nonseam_mad": 2.8936945921985817,
+        "mad_error_mean": 2.3772257486979167,
+        "boundary_transitions": {
+          "17": {
+            "source_mad": 0.2524956597222222,
+            "generated_mad": 3.509396701388889,
+            "absolute_error": 3.2569010416666666
+          },
+          "25": {
+            "source_mad": 0.12708333333333333,
+            "generated_mad": 5.064040798611111,
+            "absolute_error": 4.936957465277778
+          },
+          "34": {
+            "source_mad": 0.06082899305555556,
+            "generated_mad": 1.8881293402777777,
+            "absolute_error": 1.8273003472222222
+          }
+        }
+      }
+    },
+    {
+      "case": "person_walk",
+      "arm": "shared_sequential",
+      "all_frames": {
+        "psnr_db": 21.99134926150406,
+        "ssim": 0.7988326275475772,
+        "lpips_vgg": 0.3199906516440061,
+        "clip": 0.9438675860969388,
+        "dists": 0.1440055613615075,
+        "frames": 49,
+        "shape": [
+          49,
+          320,
+          576,
+          3
+        ]
+      },
+      "nonkey_frames": {
+        "psnr_db": 20.982931283559047,
+        "ssim": 0.7895442788997891,
+        "lpips_vgg": 0.32728802866261936,
+        "clip": 0.942276664402174,
+        "dists": 0.14708068837290225,
+        "frames": 46,
+        "shape": [
+          46,
+          320,
+          576,
+          3
+        ]
+      },
+      "temporal": {
+        "flow_error_mean": 0.7853247716169184,
+        "source_flow_mean": 0.45608533423122327,
+        "generated_flow_mean": 0.403951104497537,
+        "seam_frame": 25,
+        "source_seam_mad": 0.12708333333333333,
+        "generated_seam_mad": 0.24620225694444445,
+        "source_mean_mad": 2.040380859375,
+        "generated_mean_mad": 1.7678873697916666,
+        "generated_nonseam_mad": 1.8002636487884167,
+        "mad_error_mean": 2.83534252025463,
+        "boundary_transitions": {
+          "17": {
+            "source_mad": 0.2524956597222222,
+            "generated_mad": 1.9373046875,
+            "absolute_error": 1.6848090277777779
+          },
+          "25": {
+            "source_mad": 0.12708333333333333,
+            "generated_mad": 0.24620225694444445,
+            "absolute_error": 0.11911892361111112
+          },
+          "34": {
+            "source_mad": 0.06082899305555556,
+            "generated_mad": 17.587434895833333,
+            "absolute_error": 17.526605902777778
+          }
+        }
+      }
+    },
+    {
+      "case": "person_walk",
+      "arm": "shared_joint",
+      "all_frames": {
+        "psnr_db": 22.1931918723734,
+        "ssim": 0.801068700480406,
+        "lpips_vgg": 0.31940797488300166,
+        "clip": 0.9459452726403061,
+        "dists": 0.1458648443222046,
+        "frames": 49,
+        "shape": [
+          49,
+          320,
+          576,
+          3
+        ]
+      },
+      "nonkey_frames": {
+        "psnr_db": 21.199932630837733,
+        "ssim": 0.7919230388415016,
+        "lpips_vgg": 0.32666385432948236,
+        "clip": 0.9445270040760869,
+        "dists": 0.149079785398815,
+        "frames": 46,
+        "shape": [
+          46,
+          320,
+          576,
+          3
+        ]
+      },
+      "temporal": {
+        "flow_error_mean": 0.7300266001839191,
+        "source_flow_mean": 0.45608533423122327,
+        "generated_flow_mean": 0.36288490903098136,
+        "seam_frame": 25,
+        "source_seam_mad": 0.12708333333333333,
+        "generated_seam_mad": 0.22035590277777778,
+        "source_mean_mad": 2.040380859375,
+        "generated_mean_mad": 1.6859230324074073,
+        "generated_nonseam_mad": 1.7171053117612296,
+        "mad_error_mean": 2.5909803602430554,
+        "boundary_transitions": {
+          "17": {
+            "source_mad": 0.2524956597222222,
+            "generated_mad": 2.098980034722222,
+            "absolute_error": 1.8464843749999997
+          },
+          "25": {
+            "source_mad": 0.12708333333333333,
+            "generated_mad": 0.22035590277777778,
+            "absolute_error": 0.09327256944444445
+          },
+          "34": {
+            "source_mad": 0.06082899305555556,
+            "generated_mad": 11.482921006944444,
+            "absolute_error": 11.42209201388889
+          }
+        }
+      }
+    },
+    {
+      "case": "single_subject",
+      "arm": "legacy_aligned",
+      "all_frames": {
+        "psnr_db": 20.96362149801354,
+        "ssim": 0.6361508178577702,
+        "lpips_vgg": 0.2918162537472589,
+        "clip": 0.9449637276785714,
+        "dists": 0.153562492253829,
+        "frames": 49,
+        "shape": [
+          49,
+          320,
+          576,
+          3
+        ]
+      },
+      "nonkey_frames": {
+        "psnr_db": 20.629030456850796,
+        "ssim": 0.6250713929400096,
+        "lpips_vgg": 0.2970497796069021,
+        "clip": 0.9448560631793478,
+        "dists": 0.15567241933034814,
+        "frames": 46,
+        "shape": [
+          46,
+          320,
+          576,
+          3
+        ]
+      },
+      "temporal": {
+        "flow_error_mean": 0.6604596295704445,
+        "source_flow_mean": 0.4926933033663469,
+        "generated_flow_mean": 0.2856915461597964,
+        "seam_frame": 25,
+        "source_seam_mad": 3.5717881944444443,
+        "generated_seam_mad": 4.112738715277778,
+        "source_mean_mad": 3.7172602900752314,
+        "generated_mean_mad": 2.1228678385416666,
+        "generated_nonseam_mad": 2.0805301603132387,
+        "mad_error_mean": 2.7157339590567133,
+        "boundary_transitions": {
+          "17": {
+            "source_mad": 2.992317708333333,
+            "generated_mad": 5.802083333333333,
+            "absolute_error": 2.809765625
+          },
+          "25": {
+            "source_mad": 3.5717881944444443,
+            "generated_mad": 4.112738715277778,
+            "absolute_error": 0.5409505208333334
+          },
+          "34": {
+            "source_mad": 3.426150173611111,
+            "generated_mad": 1.0560546875,
+            "absolute_error": 2.370095486111111
+          }
+        }
+      }
+    },
+    {
+      "case": "single_subject",
+      "arm": "shared_sequential",
+      "all_frames": {
+        "psnr_db": 21.29730801459194,
+        "ssim": 0.6457715771515059,
+        "lpips_vgg": 0.28258487460564596,
+        "clip": 0.950439453125,
+        "dists": 0.14671441365261467,
+        "frames": 49,
+        "shape": [
+          49,
+          320,
+          576,
+          3
+        ]
+      },
+      "nonkey_frames": {
+        "psnr_db": 20.791337898616863,
+        "ssim": 0.6320051849164767,
+        "lpips_vgg": 0.28970814496278763,
+        "clip": 0.94970703125,
+        "dists": 0.1496920883655548,
+        "frames": 46,
+        "shape": [
+          46,
+          320,
+          576,
+          3
+        ]
+      },
+      "temporal": {
+        "flow_error_mean": 0.7949553585300843,
+        "source_flow_mean": 0.4926933033663469,
+        "generated_flow_mean": 0.38109865648827207,
+        "seam_frame": 25,
+        "source_seam_mad": 3.5717881944444443,
+        "generated_seam_mad": 0.37105034722222224,
+        "source_mean_mad": 3.7172602900752314,
+        "generated_mean_mad": 2.2173154477719907,
+        "generated_nonseam_mad": 2.2565976839539004,
+        "mad_error_mean": 3.425884331597222,
+        "boundary_transitions": {
+          "17": {
+            "source_mad": 2.992317708333333,
+            "generated_mad": 6.579904513888889,
+            "absolute_error": 3.5875868055555555
+          },
+          "25": {
+            "source_mad": 3.5717881944444443,
+            "generated_mad": 0.37105034722222224,
+            "absolute_error": 3.200737847222222
+          },
+          "34": {
+            "source_mad": 3.426150173611111,
+            "generated_mad": 17.693858506944444,
+            "absolute_error": 14.267708333333333
+          }
+        }
+      }
+    },
+    {
+      "case": "single_subject",
+      "arm": "shared_joint",
+      "all_frames": {
+        "psnr_db": 21.625341830534516,
+        "ssim": 0.6590120034861127,
+        "lpips_vgg": 0.27618970220186273,
+        "clip": 0.9475147480867347,
+        "dists": 0.1475297820811369,
+        "frames": 49,
+        "shape": [
+          49,
+          320,
+          576,
+          3
+        ]
+      },
+      "nonkey_frames": {
+        "psnr_db": 21.144048061501536,
+        "ssim": 0.6461288991996395,
+        "lpips_vgg": 0.28289554106152576,
+        "clip": 0.946549125339674,
+        "dists": 0.15048864483833313,
+        "frames": 46,
+        "shape": [
+          46,
+          320,
+          576,
+          3
+        ]
+      },
+      "temporal": {
+        "flow_error_mean": 0.6952380936127156,
+        "source_flow_mean": 0.4926933033663469,
+        "generated_flow_mean": 0.2854122347198427,
+        "seam_frame": 25,
+        "source_seam_mad": 3.5717881944444443,
+        "generated_seam_mad": 0.37057291666666664,
+        "source_mean_mad": 3.7172602900752314,
+        "generated_mean_mad": 2.1135954680266202,
+        "generated_nonseam_mad": 2.150681054225769,
+        "mad_error_mean": 3.2032217520254633,
+        "boundary_transitions": {
+          "17": {
+            "source_mad": 2.992317708333333,
+            "generated_mad": 7.138411458333334,
+            "absolute_error": 4.14609375
+          },
+          "25": {
+            "source_mad": 3.5717881944444443,
+            "generated_mad": 0.37057291666666664,
+            "absolute_error": 3.2012152777777776
+          },
+          "34": {
+            "source_mad": 3.426150173611111,
+            "generated_mad": 5.051215277777778,
+            "absolute_error": 1.6250651041666666
+          }
+        }
+      }
+    },
+    {
+      "case": "candle_flowers",
+      "arm": "legacy_aligned",
+      "all_frames": {
+        "psnr_db": 36.94755672260092,
+        "ssim": 0.983498581718239,
+        "lpips_vgg": 0.15739656437416466,
+        "clip": 0.9837870695153061,
+        "dists": 0.08069072815836692,
+        "frames": 49,
+        "shape": [
+          49,
+          320,
+          576,
+          3
+        ]
+      },
+      "nonkey_frames": {
+        "psnr_db": 36.75063864279961,
+        "ssim": 0.9833935744670448,
+        "lpips_vgg": 0.1575523368690325,
+        "clip": 0.9838761039402174,
+        "dists": 0.0810917291952216,
+        "frames": 46,
+        "shape": [
+          46,
+          320,
+          576,
+          3
+        ]
+      },
+      "temporal": {
+        "flow_error_mean": 0.04965885965308795,
+        "source_flow_mean": 0.02542435665964149,
+        "generated_flow_mean": 0.03801019575136403,
+        "seam_frame": 25,
+        "source_seam_mad": 0.07072482638888888,
+        "generated_seam_mad": 1.0204210069444444,
+        "source_mean_mad": 0.15948667173032408,
+        "generated_mean_mad": 0.9340169270833334,
+        "generated_nonseam_mad": 0.9321785424054374,
+        "mad_error_mean": 0.7803498444733797,
+        "boundary_transitions": {
+          "17": {
+            "source_mad": 0.24756944444444445,
+            "generated_mad": 4.521636284722222,
+            "absolute_error": 4.2740668402777775
+          },
+          "25": {
+            "source_mad": 0.07072482638888888,
+            "generated_mad": 1.0204210069444444,
+            "absolute_error": 0.9496961805555555
+          },
+          "34": {
+            "source_mad": 0.23049045138888888,
+            "generated_mad": 0.7544487847222222,
+            "absolute_error": 0.5239583333333333
+          }
+        }
+      }
+    },
+    {
+      "case": "candle_flowers",
+      "arm": "shared_sequential",
+      "all_frames": {
+        "psnr_db": 39.02959565296975,
+        "ssim": 0.9842249547413083,
+        "lpips_vgg": 0.1572701112956417,
+        "clip": 0.9818339445153061,
+        "dists": 0.08123844010489327,
+        "frames": 49,
+        "shape": [
+          49,
+          320,
+          576,
+          3
+        ]
+      },
+      "nonkey_frames": {
+        "psnr_db": 38.87601006698451,
+        "ssim": 0.9840715462126215,
+        "lpips_vgg": 0.15792743570130804,
+        "clip": 0.9818858271059783,
+        "dists": 0.08128976821899414,
+        "frames": 46,
+        "shape": [
+          46,
+          320,
+          576,
+          3
+        ]
+      },
+      "temporal": {
+        "flow_error_mean": 0.05694176737839977,
+        "source_flow_mean": 0.02542435665964149,
+        "generated_flow_mean": 0.04450146896609416,
+        "seam_frame": 25,
+        "source_seam_mad": 0.07072482638888888,
+        "generated_seam_mad": 0.18843315972222222,
+        "source_mean_mad": 0.15948667173032408,
+        "generated_mean_mad": 0.6185763888888888,
+        "generated_nonseam_mad": 0.6277283724881797,
+        "mad_error_mean": 0.49510226779513883,
+        "boundary_transitions": {
+          "17": {
+            "source_mad": 0.24756944444444445,
+            "generated_mad": 1.2695529513888888,
+            "absolute_error": 1.0219835069444443
+          },
+          "25": {
+            "source_mad": 0.07072482638888888,
+            "generated_mad": 0.18843315972222222,
+            "absolute_error": 0.11770833333333333
+          },
+          "34": {
+            "source_mad": 0.23049045138888888,
+            "generated_mad": 1.1523003472222222,
+            "absolute_error": 0.9218098958333333
+          }
+        }
+      }
+    },
+    {
+      "case": "candle_flowers",
+      "arm": "shared_joint",
+      "all_frames": {
+        "psnr_db": 39.181832004423896,
+        "ssim": 0.9844293943044387,
+        "lpips_vgg": 0.15772403259666598,
+        "clip": 0.9812161192602041,
+        "dists": 0.08202855319392924,
+        "frames": 49,
+        "shape": [
+          49,
+          320,
+          576,
+          3
+        ]
+      },
+      "nonkey_frames": {
+        "psnr_db": 39.03732600033182,
+        "ssim": 0.9842906281624373,
+        "lpips_vgg": 0.15843676743300064,
+        "clip": 0.9811746348505435,
+        "dists": 0.08209173316540926,
+        "frames": 46,
+        "shape": [
+          46,
+          320,
+          576,
+          3
+        ]
+      },
+      "temporal": {
+        "flow_error_mean": 0.055288199645777546,
+        "source_flow_mean": 0.02542435665964149,
+        "generated_flow_mean": 0.04220192099455744,
+        "seam_frame": 25,
+        "source_seam_mad": 0.07072482638888888,
+        "generated_seam_mad": 0.18680555555555556,
+        "source_mean_mad": 0.15948667173032408,
+        "generated_mean_mad": 0.5873223198784722,
+        "generated_nonseam_mad": 0.5958439531619387,
+        "mad_error_mean": 0.4635498046875,
+        "boundary_transitions": {
+          "17": {
+            "source_mad": 0.24756944444444445,
+            "generated_mad": 0.9976779513888889,
+            "absolute_error": 0.7501085069444444
+          },
+          "25": {
+            "source_mad": 0.07072482638888888,
+            "generated_mad": 0.18680555555555556,
+            "absolute_error": 0.11608072916666667
+          },
+          "34": {
+            "source_mad": 0.23049045138888888,
+            "generated_mad": 1.1991753472222222,
+            "absolute_error": 0.9686848958333333
+          }
+        }
+      }
+    }
+  ],
+  "sample_review": {
+    "status": "NONINDEPENDENT_UNBLINDED_AI_SAMPLE_REVIEW",
+    "independent_semantic_review": "PENDING",
+    "frames_per_case": [
+      12,
+      17,
+      34,
+      36
+    ],
+    "cases": 4,
+    "panels": 64,
+    "findings": [
+      "Walking foot positions remain inconsistent with source.",
+      "Shared-grid scarf pose differs from source at frames 34 and 36.",
+      "Zea fine detail remains smoothed; joint sampling does not repair the movement error.",
+      "Low-motion lampshade fidelity does not establish dynamic-event recovery."
+    ],
+    "decision": "NOT_ADOPTED",
+    "reason": "Joint denoising helps some matched-grid controls, but this candidate fails to improve temporal fidelity over the legacy receiver; large changes remain at transition 34."
+  },
+  "limits": [
+    "four short restarted windows; one seed; 24-frame key gaps",
+    "common-grid changes include anchor representations, schedule and decode layout; only the two new arms isolate joint sampling",
+    "independent semantic review and full-length evaluation pending"
+  ]
+}
