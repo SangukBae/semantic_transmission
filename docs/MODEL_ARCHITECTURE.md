@@ -1,7 +1,82 @@
 # 모델 구조
 
+<a id="bsu-lgvsc-blocks"></a>
+## BSU와 LGVSC 내부 블록다이어그램
+
+2026-10-09부터 현재 개발 모델의 이름은 **BSU**다. 아래 LGVSC는 공개 선택·캡션·수신부 정책을 사용하는 로컬 비교 경로이며, 통신부에는 동일한 로컬 전송 어댑터를 사용한다. 과거 FC-LGVSC·고정 개수 Qwen 결과의 조건명은 유지한다. 초록색은 BSU에서 교체하거나 보정한 부분이다.
+
+```mermaid
+flowchart LR
+    subgraph L["LGVSC · 공개 정책 기반 비교 경로"]
+        direction TB
+        L0["입력 영상"] --> L1["InternVL2-8B · SKEM<br/>PSSS 의미 변화 판정"]
+        L1 --> L2["키프레임 · 가변 길이 원본 구간"]
+        L2 --> LC["PLLaVA-7B<br/>구간 캡션"]
+        L2 --> LF["UniMatch<br/>구간 움직임 점수"]
+        L2 -->|키 이미지·구간 정보| LT["전송 부호화 → AWGN → 복호화<br/>NTSCC / LDPC·QAM"]
+        LC --> LT
+        LF --> LT
+        LT --> LR["수신 조건 인코딩<br/>키·참조 → VAE / 캡션·움직임 → T5<br/>전체 참조에서 끝 5 latent 사용"]
+        LT -->|키 위치·구간 길이| LD
+        LR --> LD["DSA<br/>구간 길이·조건·마스크 구성"]
+        LD --> LG["Open-Sora STDiT · RFLOW<br/>→ VAE 복호화"]
+        LG --> LO["공개 연결 규칙<br/>→ 복원 영상"]
+        LG -. "이전 생성 구간 전체" .-> LR
+    end
+    subgraph B["BSU · 현재 개발 모델"]
+        direction TB
+        B0["입력 영상"] --> B1["Qwen3.5-9B · 의미 변화 순차 판정<br/>직전 채택 키와 후보 비교"]
+        B1 --> B2["키프레임 · 가변 길이 원본 구간<br/>고정 키 개수·최대 간격 없음"]
+        B2 --> BC["Qwen + 캡션 LoRA<br/>→ Qwen 본체 시각 재검토"]
+        B2 --> BF["UniMatch<br/>구간 움직임 점수"]
+        B2 -->|키 이미지·구간 정보| BT["전송 부호화 → AWGN → 복호화<br/>NTSCC / LDPC·QAM"]
+        BC --> BT
+        BF --> BT
+        BT --> BR["수신 조건 인코딩<br/>키·참조 → VAE / 캡션·움직임 → T5 FP32 캐시"]
+        BT -->|키 위치·구간 길이| BD
+        BR --> BD["DSA + 수신부 보정<br/>조건 충돌 방지·짧은 구간 시간표"]
+        BD --> BG["Open-Sora STDiT · RFLOW<br/>→ VAE 복호화"]
+        BG --> BO["구간 경계 중복 제거<br/>→ 복원 영상"]
+        BG -. "이전 생성의 마지막 17프레임" .-> BR
+    end
+    classDef changed fill:#d8f3dc,stroke:#228b45,color:#111
+    class B1,B2,BC,BR,BD,BO changed
+```
+
+- **전송 경로:** 수신 키 이미지는 NTSCC로, 캡션·움직임 점수·키 위치 등 메타데이터는 로컬 LDPC/QAM 경로로 전송한다. 이는 현재 비교 실행의 구현이며 원본 공개 LGVSC 스크립트 전체가 메타데이터까지 동일하게 연결된다는 뜻은 아니다.
+- **DSA:** 별도 학습 신경망이 아니라 구간 길이에 맞춰 생성 latent 크기·참조·마스크를 구성하는 로직이다. 두 모델 모두 Open-Sora 생성기 본체를 사용한다.
+- **Qwen 역할:** BSU의 선택·재검토는 본체, 캡션 초안만 학습된 LoRA를 사용한다. 그림의 역할들은 별도 Qwen 모델 세 개가 아니라 동일 본체의 순차 호출이다.
+- **현재 범위:** 가변 개수 선택 검증과 항구 16초의 새 캡션·송수신·복원을 완료했다. 2키 결과는 고정 22키보다 전송량·큰 화면 변화가 줄었지만 화질이 악화했다. 비채택 참조 게이트·공동 생성·출력 보간은 이 그림에 포함하지 않는다. [선택 검증](RESULTS.md#qwen-semantic-selection) · [복원 비교](RESULTS.md#bsu-zea-three-way)
+
+<a id="bsu-trajectory-receiver"></a>
+## BSU 선택형 수신 보정 — 궤적 합성과 시간 보정
+
+2026-10-12 추가한 [`bsu_refine.py`](../src/semantic_transmission/bsu_refine.py)는 **VAE 복호화 뒤의 RGB 출력**에 적용한다. 기존 전체 복원 명령에 자동 연결하지 않았으며 양끝 2키 창을 받는 별도 명령이다. 기본 `cadence`는 생성 RGB의 4프레임 간격 양방향 DIS 광류로 중간 프레임을 보정하고, 일관성·색 차이·장면 전환 검사로 보정량을 제한한다. 프레임 수·24fps·끝 프레임 픽셀을 보존하며 **추가 전송은 없다**. 원본 영상·새 학습·RFLOW 내부 수정을 요구하지 않는다.
+
+```mermaid
+flowchart LR
+    B[BSU VAE 복호화 RGB] --> C[양방향 광류·일관성 검사·시간 보정]
+    C --> O[같은 길이·FPS의 출력]
+    P[수신 패킷의 희소 궤적] -. 연구 옵션 .-> W[수신 키 정렬·윤곽 일치 합성]
+    K[수신 양끝 키] --> W
+    B --> W
+    W -. guarded_combined .-> C
+```
+
+[`sparse_trajectory.py`](../src/semantic_transmission/sparse_trajectory.py)는 송신부에서 LK 양방향 검사를 통과한 최대 16점·9시간 매듭을 1/4픽셀 위치·가시성으로 부호화한다. 실제 패킷·FEC 비용에 맞춰 점·시점을 줄이고 예산이 부족하면 우회한다. 시점은 선형 경로 예측 오차를 이용해 고른다. 이는 적응형 **궤적 시간 매듭**이며 이미지 앵커 배치 전체 구현은 아니다. 수신부는 카메라 유사 변환·국소 잔여 이동으로 두 키를 정렬한다. [`guarded_trajectory_receiver.py`](../src/semantic_transmission/guarded_trajectory_receiver.py)는 생성 영상과 참조의 국소 불일치 영역을 합성에서 제외한다. 의미 오류 검출기나 자동 재생성은 아니다.
+
+7원본에서 시간 보정은 일부 화질 지표 손실을 수용해 명령 기본 모드로 채택했다. 궤적 합성은 이중 윤곽·저동작 정지 악화로 연구 옵션이다. [T-GVC](https://arxiv.org/abs/2507.07633)의 희소 궤적 전송과 [OCAI](https://openaccess.thecvf.com/content/CVPR2024/html/Jeong_OCAI_Improving_Optical_Flow_Estimation_by_Occlusion_and_Consistency_Aware_CVPR_2024_paper.html)의 일관성·가림 처리 발상을 참고했으며 해당 논문 전체 모델·학습·성능을 재현하지 않았다. [실측·한계](RESULTS.md#bsu-trajectory-cadence) · [실행](RUN_GUIDE.md#bsu-trajectory-cadence)
+
 <a id="fc-lgvsc"></a>
-## 현재 개발 기본 — FC-LGVSC + Qwen3.5-9B
+## 현재 BSU 영상 경로 — 의미 변화에 따른 가변 개수 선택
+
+2026-10-09 사용자 요구에 따라 `run_qwen35_pairs_video.sh`와 LGVSC 대조 명령의 Qwen 기본 선택을 수정했다. [`qwen35_semantic_selection.py`](../src/semantic_transmission/qwen35_semantic_selection.py)는 **직전 채택 원본 프레임과 새 후보를 Qwen 본체로 비교**한다. `changed`일 때 후보를 채택하고 참조를 갱신하며, `same`이면 기존 참조를 유지한다. `uncertain`은 중간 원본을 추가로 보고 재판정하며, 계속 불확실하면 미완료로 중단한다. 고정 키 수·시간 간격 보강·픽셀 변화 점수로 키를 채우지 않는다. 처음·끝 프레임만 경계 조건으로 보존한다.
+
+기본 4프레임 후보 간격은 Qwen의 관찰 빈도다. 키 간격의 상한이나 하한이 아니다. 같은 내용이 유지되면 긴 구간이 가능하고, 의미 변화가 자주 확인되면 키가 늘어난다. 누적 변화는 직전 후보가 아닌 직전 채택 키와 비교한다. 직접 JSON 판정을 쓰므로 InternVL PSSS의 확률값·0.35 임계값을 재현한 것은 아니다. 표본 사이의 짧은 사건이나 Qwen 오판을 모두 해결했다고 주장하지 않는다.
+
+선택 뒤에는 기존 채택 캡션 LoRA 초안·본체 재검토·NTSCC/AWGN·T5·Open-Sora 수신부를 연결한다. `fixed_budget`은 명시한 대조 옵션으로만 남긴다. 새 키 개수로 기존 캡션·복원 영상을 재명명하지 않는다. 저동작 2키·보행 4키 선택과 16초 항구 2키의 실제 복원을 완료했다. 항구의 단일 긴 구간에서는 조건 충돌·짧은 입력 시간표 보정이 모두 발동하지 않았다. [선택 검증과 남은 오판](RESULTS.md#qwen-semantic-selection) · [복원 비교](RESULTS.md#bsu-zea-three-way) · [실행·출처·재개](RUN_GUIDE.md#qwen35-fc)
+
+## 이전 개발 경로 — InternVL 혼합 선택과 Qwen 캡션
 
 2026-10-03부터 **대화형 assistant가 맡던 후보·캡션 작성을 로컬 Qwen3.5-9B NF4로 전환**합니다. 최종 키프레임 중복 판단은 기존 InternVL SKEM을 유지합니다.
 
@@ -21,7 +96,7 @@ flowchart LR
     T --> R[T5 · DSA / Open-Sora 복원]
 ```
 
-현재 FC-LGVSC의 실제 기본 흐름입니다. 초록색 블록이 이번에 추가된 학습 어댑터입니다.
+아래는 보존된 이전 혼합 경로입니다. 초록색 블록은 캡션 학습 어댑터입니다. 위 두 Qwen 영상 실행 명령의 새 선택기와 구분합니다.
 
 ```mermaid
 flowchart TD
@@ -55,7 +130,62 @@ flowchart TD
 
 아래 실험 경로는 개별 검증 상태를 가진 비교 구현이며, 새 기본 경로에 모두 적용됐다는 뜻이 아닙니다.
 
+<a id="bsu-next-design"></a>
+### 후속 후보 — 압축 시각 정보와 복원용 조건 학습
+
+**2026-10-12, 구조 앵커·저주파·시간축 원인 대조에 이어 7원본 궤적·시간 보정 검증 완료. 구조 조건 학습은 미실행.** 의미 변화에 따른 Qwen 가변 키 선택을 유지하면서 복원 근거를 보강하는 후보들이다. 낮은 강도의 연속 저주파 보정은 해당 개발 분기의 기준안으로 선택했다. 최신 RGB 시간 보정은 [별도 수신 보정 명령](#bsu-trajectory-receiver)의 기본 모드로 채택했다. 전체 복원 명령에는 자동 연결하지 않았으며 최종 품질 목표는 미달이다. 아래 논문의 전체 구조·학습을 재현했다는 뜻은 아니다. [최초 결과](RESULTS.md#bsu-structure-anchors) · [저주파 결과](RESULTS.md#bsu-frequency-anchors) · [시간축 대조](RESULTS.md#bsu-temporal-support) · [7원본 결과](RESULTS.md#bsu-trajectory-cadence)
+
+| 검토 순서·근거 논문 | 논문에서 사용하는 구조 | BSU에 차용할 부분과 제약 |
+|---|---|---|
+| 1. [DiSCo](https://arxiv.org/html/2512.00408v2), [CVPR Findings 2026](https://openaccess.thecvf.com/content/CVPR2026F/html/Wang_Low-Bitrate_Video_Compression_through_Semantic-Conditioned_Diffusion_CVPRF_2026_paper.html) | 시공간 해상도를 줄여 압축한 영상·텍스트를 LTX-Video 조건으로 넣고 LoRA를 flow matching으로 학습 | 중간 구도·색·배치를 보조 영상으로 전달. 키 예산 재배분과 기존 RFLOW 주입을 시험했으며 압축 조건을 읽는 별도 학습은 미실행 |
+| 2. [DiffVC-ONE](https://arxiv.org/html/2608.20515v1), 2026-08 프리프린트 | 영상 latent 압축기와 Wan-2.1 VACE 기반 한 단계 생성 복원기를 연결하고 전송량·MSE·LPIPS·DISTS를 함께 학습 | 원본 특징을 복원의 기준으로 삼는 설계. 송신 압축기와 수신부를 함께 바꾸는 큰 작업이며 BSU 수신부의 단순 패치가 아님 |
+| 3. [CPSGD](https://arxiv.org/html/2602.05201v1), [ICASSP 2026 채택 기록](https://arxiv.org/abs/2602.05201) | 배경은 카메라 자세, 전경은 분할 마스크로 압축하고 SVD 계열의 두 조건 어댑터를 학습 | 카메라 이동과 물체 윤곽을 분리. 작은 물체·가림·깊이 추정 한계와 마스크 전송 비용을 검증해야 함 |
+
+현재 시험한 흐름은 **Qwen 가변 키·캡션 + 끝 키 축소 + 압축 저해상도 영상 → 실제 채널 → 수신 영상의 시간 위상을 맞춘 VAE latent → 기존 RFLOW 시간 마스크 주입**이다. 보조 영상도 실제 전송 정보로 계산하며 생성 출력 RGB를 혼합하지 않는다. 코드는 [실험 실행기](../src/semantic_transmission/bsu_anchor_experiment.py)와 [구조 앵커](../src/semantic_transmission/structure_anchors.py)에 있다. 조건 활용에 문제가 남으면 작은 어댑터·LoRA를 검토하되 학습을 시작부터 필수로 두지 않는다. 기존 움직임 CNN과 이번 무학습 주입은 별도 실험이다.
+
+후속 [저주파 주입](../src/semantic_transmission/frequency_anchors.py)은 같은 수신 latent를 사용하되 초기 잡음을 덮어쓰지 않는다. RFLOW의 깨끗한 상태 추정 `z + τv`와 수신 구조의 차이를 공간 FFT로 저주파 투영하고, `강도 × Δτ/τ`를 곱해 Euler 갱신 뒤 더한다. 기존 46개 시간 위치만 보정하고 키 0/110은 고정한다. 전 주파수 보정과 저주파 보정을 같은 강도에서 비교한 [실행기](../src/semantic_transmission/bsu_frequency_experiment.py)도 별도 경로다. 고주파를 직접 바꾸지 않아도 이후 신경망 반응·VAE 복호화에서 원본 질감 보존이 보장되지는 않으며, 실제로 구도 이탈과 강한 보정의 밝기 번쩍임이 남았다.
+
+먼저 같은 전송 예산으로 보조 정보를 압축했을 때 중간 배치가 얼마나 남는지 확인하고, 학습 메모리 검사를 거쳐 조건 어댑터의 실제 생성 학습으로 진행하는 순서를 제안했다. DiSCo 주 설정은 13B 본체·rank 256 LoRA 약 6억 2,500만 파라미터·8,000개 학습 영상으로, 현재 RTX 4080 16GB에서 그대로 재현 가능하다고 확인한 바 없다. 작은 구성의 가능성도 실제 검사 전이다. 논문 수치·가중치를 현재 BSU의 결과·채택 모델로 표기하지 않는다. [현재 상태](RESULTS.md#bsu-progress) · [전송·평가 기준](METRICS.md#bsu-reconstruction-evaluation)
+
+[시간축 대조 실행기](../src/semantic_transmission/bsu_temporal_support_experiment.py)는 위 공간 필터·RFLOW 코드를 변경하지 않고 보정 위치만 46개 또는 고정 키를 제외한 111개로 전달한다. [지원 범위 구성](../src/semantic_transmission/temporal_anchor_support.py)은 강도 0.7과 0.29009009의 2×2 대조를 생성한다. 새 정보를 보내거나 구조 latent를 다시 인코딩하지 않는다. 연속 조건도 고정 키 0/110에서는 보정을 하지 않으며, 보정 잔차 자체가 매끄럽다는 수학적 보장은 없다. 알려진 번쩍임 감소는 확인했으나 구도·세부 복원까지 해결하지는 못했다.
+
+### BSU 압축 움직임 조건 — 실험 경로
+
+`compact_motion.py`는 송신부 원본의 인접 프레임에서 카메라의 2차원 이동·회전·확대율과 2×2 영역 잔여 움직임을 추정한다. 구간당 15개 시점의 12개 수치·추적 신뢰도를 양자화해 CRC로 보호된 메타데이터 패킷에 넣는다. 원본 영상이나 중간 이미지를 수신부에 넘기지 않는다. 이는 물체 ID·가림·깊이까지 표현하는 궤적 코덱은 아니다.
+
+`motion_condition_adapter.py`는 수신 시작·끝 키의 VAE latent를 수신 움직임으로 정렬하고, 작은 3D CNN으로 latent 보정값을 예측한다. 그 결과를 RFLOW 잡음 제거 안의 조건으로 사용한다. STDiT·VAE 본체는 고정하며 별도 원본의 VAE latent를 정답으로 학습한다. Tora 재현이나 생성기 종단간 학습으로 표시하지 않는다. 출력 RGB 프레임은 VAE가 복호화한다.
+
+실험은 같은 키·캡션·실제 난수에서 기존 생성, 움직임 값 0인 학습 어댑터, 실제 수신 움직임을 사용하는 어댑터를 비교했다. 항구에서는 PLLaVA 캡션만 바꾼 조건을, 추가 대조에서는 CNN을 끈 움직임 정렬 조건도 복원했다. **2026-10-10, 실제 학습·17조건 평가를 완료했으나 비채택**이다. 전송량 유지와 일부 지표 개선은 확인했지만 질감·인물 윤곽 손상과 저동작 회귀가 남았다. [결과·한계](RESULTS.md#bsu-motion-pilot) · [실행 방법](RUN_GUIDE.md#bsu-motion-pilot)
+
 [과제 현황](../README.md) · [개선 실험](RESULTS.md#decoder)
+
+### 동일 16초 LGVSC/Qwen 비교 경로 — 선택 정책별 실행 분리
+
+[`lgvsc_qwen_baseline.py`](../src/semantic_transmission/lgvsc_qwen_baseline.py)는 공통 입력 준비 → 공개 LGVSC 정책 → Qwen 조합을 순차 실행한다. 10월 8일 완료본은 고정 개수 사건 쌍 선택이며, 10월 9일 이후 새 기본은 위의 의미 변화 순차 선택이다. 출력 폴더와 정책 ID를 분리한다. LGVSC는 InternVL SKEM·PLLaVA와 `align=5`·직전 생성 구간 전체의 VAE 인코딩 후 마지막 5 latent 참조·공개 연결 규칙을 사용한다. Qwen은 채택된 캡션 LoRA와 tail17·조건 충돌 방지·짧은 구간 시간표 수정이 있는 수신부를 사용한다. 수신 키 보간 후처리는 두 경로에 넣지 않는다.
+
+입력·NTSCC/Open-Sora 가중치·SNR·생성 단계 수를 맞추지만 키 위치·구간 길이·출력 시각 대응은 다를 수 있다. 로컬 모델 배치·통신 어댑터를 사용하는 공개 정책 비교이며 논문 GIF와의 비트 단위 재현은 아니다. 명령 구현을 성능 개선 결과로 취급하지 않는다. [입력 범위](DATA.md#zea-inputs) · [명령·재개·난수 범위](RUN_GUIDE.md#lgvsc-qwen-16s-baseline) · [검증 상태](RESULTS.md#lgvsc-qwen-baseline-status)
+
+### 생성 수신부 내부의 시간 조건 실험 — 2026-10-07
+
+현재 개선 대상은 **수신 키 → VAE 조건 latent → STDiT 생성 → VAE 복호화 → 구간 연결**이다. 아래 키프레임 픽셀 보간 경로는 비채택이다. 첫 내부 실험은 [`receiver_temporal_alignment.py`](../src/semantic_transmission/receiver_temporal_alignment.py)의 끝 조건 표현과 배치를 바꾼다. 단일 이미지 VAE 조건을 마지막 latent에 그대로 옮기는 대조군과, 마지막 VAE 블록 길이에 맞춰 수신 키의 spatial latent를 시간 방향으로 반복 인코딩하고 마지막 slot만 조건으로 쓰는 후보를 구분한다. 반복한 키 이미지를 출력 프레임으로 사용하지 않는다.
+
+[`receiver_alignment_experiment.py`](../src/semantic_transmission/receiver_alignment_experiment.py)는 기존 배치 / 위치만 수정 / VAE 시간 문맥도 수정의 3개 조건을 항구·보행·인물 회전·저동작 영상의 짧은 창에서 비교한다. 수신 데이터·캡션·가중치와 VAE/초기 latent/RFLOW 난수 해시를 고정한다. 원본은 생성 이후의 별도 평가 모듈에서만 읽는다. 첫 12조건 생성·평가는 완료했으나, 경계 튐 감소와 중간 동작 오차 증가가 함께 나타나 **범용 개선으로 채택하지 않았다**. 기존 기본 수신부를 교체하지 않는다. [결과](RESULTS.md#receiver-temporal-alignment) · [실행](RUN_GUIDE.md#receiver-temporal-alignment)
+
+### 인접 구간 공동 생성 실험 — 2026-10-08
+
+[`receiver_joint_windows.py`](../src/semantic_transmission/receiver_joint_windows.py)는 같은 VAE 시간축을 공유하는 두 창의 RFLOW 속도 예측을 겹치는 latent 위치에서 매 단계 평균한다. 수신 키 조건은 고정하고 공유 영역은 양쪽 문맥으로 함께 갱신한다. 같은 시간축·조건·초기 잡음·시간표·모델 호출 수를 쓰되 공유 영역을 먼저 생성한 뒤 고정하는 순차 대조군을 함께 구현했다. 원본 프레임·추가 학습·출력 픽셀 보간은 사용하지 않는다.
+
+새 두 조건은 잡음까지 일치하지만, 과거 기본 수신부는 다른 latent 시간축을 사용하므로 별도 참조다. 첫 네 장면 시험에서 공동 생성은 같은 시간축의 순차 방식보다 일부 움직임 지표가 개선됐으나, 기존 수신부보다 나은 연속성을 입증하지 못해 **비채택**이다. 기본 경로는 유지한다. [결과](RESULTS.md#receiver-joint-windows) · [실행](RUN_GUIDE.md#receiver-joint-windows)
+
+### 수신 키프레임을 활용하는 움직임 보정 — 2026-10-07
+
+**비채택·개발 중단:** 사용자는 이 보간 경로 대신 범용 생성 수신부 내부 개선을 요청했다. 아래는 보존된 과거 실험 구조이며 현재 개선 방향이 아니다.
+
+[`receiver_motion_bridge.py`](../src/semantic_transmission/receiver_motion_bridge.py)는 완료한 Open-Sora 출력 뒤에 적용하는 선택적 수신단입니다. 수신 키프레임 두 장의 affine 카메라 이동을 구하고, 전송된 프레임 번호의 실제 간격에 따라 중간 위치를 정합니다. 생성 프레임의 위치를 보정한 `geometry` 대조군과, 같은 위치로 옮긴 수신 참조가 서로 일치하는 영역을 결합한 `hybrid` 출력을 분리합니다.
+
+입력은 수신 메타데이터·수신 키 PNG·기존 생성 PNG입니다. 원본/정답·추가 패킷·새 캡션·모델 학습은 사용하지 않습니다. 짧고 정합이 안정적인 구간에만 적용하며, 불확실한 영역/구간은 생성 출력을 유지합니다. 영상 양끝과 키 시각을 보존하고, 거부된 이웃 구간과 만날 때 보정 비중을 낮춥니다. `align=5`와 VAE 시간 대응은 그대로이므로 **생성기 내부 정렬의 근본 수정이 아니라, 수신 참조 기반 복원 경로의 추가**입니다.
+
+Zea 영상에서는 최종 픽셀의 평균 수신 참조 가중치가 약 97.9%여서 개선의 대부분이 키프레임 기반 복원에서 나옵니다. 캡션 모델 개선 효과로 해석하지 않습니다. 정합 검사는 의미 보존을 보장하지 않으며, 한 항공 영상의 결과를 인물·독립 물체 운동·컷이 많은 영상으로 확대하지 않습니다. [실행](RUN_GUIDE.md#receiver-motion-bridge) · [대조 결과](RESULTS.md#zea-motion-repair)
 
 ## 전체 흐름
 
@@ -130,6 +260,15 @@ flowchart LR
 - **검증과 추론 구분:** 고정 근거 CE에서는 검증 정답으로 정한 동일한 4장·동일한 목표 문장을 사용한다. 이는 학습 진단용 teacher-forced 손실이다. 자유 캡션 추론에서는 학습된 헤드가 실제 원본으로 4장을 선택하며 사건·사실 정답을 제공하지 않는다. CE 개선과 자유 생성의 사실 정확도 개선은 별개로 검토한다.
 
 [학습 구현](../src/semantic_transmission/qwen35_fact_training.py) · [수정 주석](../configs/qwen35_fact_annotations_v3.json) · [설정](../configs/qwen35_fact_joint_v2.json) · 원본 재검수（로컬 산출물 `outputs/qwen35_fact_joint_v3/data_review.html`）
+
+<a id="qwen35-pairs-caption-comparison"></a>
+## 동결 선택과 보강 캡션의 결합 비교 — 복원 완료, 독립 검수 대기
+
+`bash scripts/run_qwen35_pairs_caption_comparison.sh`는 과거 assistant 후보 + InternVL 79키와 Qwen 사건 전후 쌍 보존 79키에 **동일한 채택 캡션 LoRA·본체 재검토**를 연결하는 별도 비교입니다. 같은 원본 60초에서 선택 결과를 재사용하고, 캡션·전송·수신단·화질 평가를 새로 실행합니다. 기존 기본 경로는 교체하지 않습니다. 공통 키는 프레임 ID별 AWGN을 적용해 같은 송수신 심볼을 검증하며, 실제 전송량을 기록합니다.
+
+선택별로 구간과 캡션 입력 표본이 달라지며 후보 관찰 정책도 원래 다르므로 InternVL/Qwen 모델 하나만 바꾼 대조는 아닙니다. 마지막 자동 의미 진단은 원본·복원 표본을 본 **동일 Qwen 계열의 비독립 검토**입니다. 2026-10-07 두 조건의 캡션·송수신·60초 복원·평가가 완료됐으나, 화질 지표와 실제 사례에서 개선·악화가 함께 나타났습니다. 자동 캡션 채점의 차량 유무·방향 오판도 확인되어 독립 검수 `PENDING`을 유지하며 기본 선택은 교체하지 않습니다. [결과·판정 범위](RESULTS.md#qwen35-pairs-caption-launcher) · [한 명령 실행·재개·범위](RUN_GUIDE.md#qwen35-pairs-caption-comparison)
+
+위 혼합 선택의 후보 작성자는 당시 세션 기록상 **GPT-6-Astra**입니다. 사용자가 요청한 원본 LGVSC 대비 주 비교는 별도로 **InternVL2-8B 순차 SKEM + PLLaVA-7B + 기존 수신단 → Qwen 사건 쌍 + 보강 캡션 + 수정 수신단**으로 정정했습니다. 같은 60초에서 전송량 31.70% 감소·최종 MP4 화질 5개 평균 지표 개선을 확인했으며, 구조 변경 각각의 인과효과와 독립 의미 오류 감소는 미검증입니다. [원본 LGVSC 대조 결과](RESULTS.md#qwen35-pairs-vs-lgvsc)
 
 <a id="qwen35-feedback"></a>
 ## Qwen 단일 모델 상호 피드백 추출 실험 — 2026-10-04
@@ -231,7 +370,8 @@ flowchart TD
 | 경로 | 실제 처리 | 연결 상태 |
 |---|---|---|
 | 기존 LGVSC | InternVL 순차 SKEM + PLLaVA 캡션 | 비교 기준선 |
-| 새 FC-LGVSC | Qwen 본체 후보 → InternVL SKEM → Qwen + 보강 LoRA 초안 → 본체 재검토 | 10월 7일 LoRA 기본 채택. 과거 어댑터 없는 경로는 복원 완료; 새 어댑터의 복원 품질 개선 미검증 |
+| 현재 BSU | Qwen 본체의 의미 변화 순차 선택 → Qwen + 보강 LoRA 초안 → 본체 재검토 | 10월 9일부터 가변 개수 기본 선택. 항구 2키 복원·비교 완료, 일반적 품질 개선 미입증 |
+| 이전 FC-LGVSC 혼합 경로 | Qwen 본체 후보 → InternVL SKEM → Qwen + 보강 LoRA 초안 → 본체 재검토 | 10월 7일 캡션 LoRA 채택 기록. 현재 BSU의 최종 선택기는 Qwen이며 이 혼합 경로는 비교용 보존 |
 | 기존 FC-LGVSC v2 | assistant가 원본을 보고 후보·v2 캡션 작성, 선택 후보는 SKEM 검사 | 준비된 4편 복원 완료; 비교용 보존 |
 | 로컬 자동 전처리 | Qwen3-VL-8B INT8 후보·캡션 + TransNetV2·픽셀 컷 후보 + 기존 SKEM | 별도 배치 중단, 복원 연결 미검증 |
 | Qwen3.5 캡션 실험 | Qwen3.5-9B NF4로 고정 구간의 캡션 생성 | 문맥 유무 비교까지 완료, 기본 복원 미적용 |
@@ -245,8 +385,8 @@ flowchart TD
 
 ## 모델별 역할
 
-- **SKEM / InternVL:** 기본 방식에서는 AI가 고른 후보의 중복 여부 판단; 기존 비교 방식에서는 전체 프레임 검사.
-- **Qwen3.5-9B:** 새 방식의 변화 후보·구간 캡션 생성; NF4 로컬 추론.
+- **SKEM / InternVL:** 공개 LGVSC 비교 경로의 최종 선택기. 이전 혼합 경로에서는 AI 후보를 검사하며, 현재 BSU 기본 선택에는 사용하지 않음.
+- **Qwen3.5-9B:** 현재 BSU의 의미 변화 순차 선택·시각 재검토는 본체, 캡션 초안은 채택 LoRA를 사용; NF4 로컬 추론.
 - **AI 캡션 v2:** 기존 비교 방식의 구간 설명; assistant가 작성·저장한 문장을 불러옴.
 - **PLLaVA:** 기존 비교 방식의 설명 모델; 기본 v2 실행에서는 생략.
 - **T5:** 수신한 문장을 영상 생성기가 사용하는 숫자 정보로 변환.

@@ -1,4 +1,4 @@
-"""Check the seven-file public documentation contract and local links/anchors."""
+"""Check the role-based public docs, BSU research roadmap, and local links."""
 from pathlib import Path
 import re
 import subprocess
@@ -6,7 +6,8 @@ from urllib.parse import unquote
 
 ROOT = Path(__file__).resolve().parents[1]
 EXPECTED = {"README.md", "THIRD_PARTY_NOTICES.md", "docs/MODEL_ARCHITECTURE.md",
-    "docs/RUN_GUIDE.md", "docs/DATA.md", "docs/METRICS.md", "docs/RESULTS.md"}
+    "docs/RUN_GUIDE.md", "docs/DATA.md", "docs/METRICS.md", "docs/RESULTS.md",
+    "docs/research/BSU_RATE_QUALITY_IDEAS_2026-10-11.md"}
 
 
 def release_files():

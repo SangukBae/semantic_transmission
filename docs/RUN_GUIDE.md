@@ -2,6 +2,10 @@
 
 [프로젝트](../README.md) · [데이터](DATA.md) · [구조](MODEL_ARCHITECTURE.md) · [결과](RESULTS.md)
 
+**2026-10-11 실행 상태:** 현재 기본은 [Qwen 의미 변화에 따른 가변 키 영상 경로](#qwen35-fc)다. 항구 비교, [압축 움직임 17조건](#bsu-motion-pilot), [키 예산 재배분·구조 앵커 6조건](#bsu-structure-anchors)의 실험을 완료했다. 두 복원 후보 모두 비채택이며 구조 앵커 조건 학습은 미실행이다.
+
+**과거 실험의 산출물 가용성:** 2026-10-08 성능 문제로 보류된 후보의 일부 가중치·캐시·영상은 사용자 요청으로 삭제했다. 현재 기본 모델과 실행 중 LGVSC/Qwen 비교의 의존 파일은 보존했다. 아래 과거 명령은 삭제된 산출물이 있으면 바로 재개할 수 없으며, 해당 실행의 `ARTIFACT_CLEANUP.json`과 [정리 기록](validation/2026-10-08-rejected-artifact-cleanup.json)을 확인하고 원래 추출·학습·생성 단계부터 복구해야 한다.
+
 <a id="public-start"></a>
 ## 새 장비와 ETRI 인계에서 시작하기
 
@@ -9,7 +13,23 @@
 2. `.local/settings.json`은 새 장비의 실제 Python·모델 경로로 생성합니다. 연구자의 절대 경로가 기록된 과거 설정을 새 장비에 그대로 복사하지 않습니다.
 3. 원본·정규화 프레임·source hash·prepared inventory는 [데이터 인계](DATA.md#handoff)에 따라 준비합니다. 전체 FC 실행에는 WebVid template protocol을 포함한 준비 inventory가 필요합니다. 단일 임의 MP4를 `init`에 직접 전달하는 인터페이스는 아닙니다.
 4. 보강 LoRA를 아래 절차로 설치합니다. 없어도 비교용 `init --base-caption`은 선택할 수 있지만 같은 모델의 재현으로 표시하지 않습니다.
-5. [기본 FC 경로](RUN_GUIDE.md#qwen35-fc)의 `init → extract → check → reconstruct`를 새 출력 폴더에서 실행합니다. GPU 공유 잠금을 유지합니다.
+5. [현재 Qwen 영상 경로](RUN_GUIDE.md#qwen35-fc)에 24fps 준비본과 새 출력 폴더를 지정하고 `--check`로 검사합니다. `--select-only`로 의미 선택을 확인한 뒤 같은 입력 옵션으로 캡션·송수신·복원을 진행할 수 있습니다. GPU 공유 잠금을 유지합니다.
+
+기존 환경을 재사용할 때는 별도 Conda 환경으로 복제한 뒤 이 checkout을 `pip install -e . --no-deps --no-build-isolation`로 등록합니다. 하위 복원 프로세스가 다른 저장소의 예전 Python 패키지를 읽지 않는지 확인하고, `.local/settings.json`에 복제한 환경을 지정합니다. Qwen은 고정 lock으로 별도 환경을 생성합니다.
+
+인계받은 기준 `protocol.json`은 그대로 보존하고, 새 장비의 경로와 파일 상태를 담은 실행 템플릿을 따로 만듭니다. 다음 명령은 기준 코드·Qwen 가중치·캡션 LoRA를 확인하며 추론은 시작하지 않습니다. `--snr-db`를 지정하면 해당 채널 조건의 새 템플릿을 만들 수 있습니다. 과거 프로토콜 전체를 수정해 해시 검사를 우회하지 않습니다.
+
+```bash
+PYTHONPATH=src python3 scripts/prepare_bsu_runtime.py \
+  --reference outputs/qwen35_pairs_caption_comparison_20261007/protocol.json \
+  --output .local/deployment/bsu_template.json
+bash scripts/run_qwen35_pairs_video.sh \
+  --template .local/deployment/bsu_template.json \
+  --prepared /absolute/path/source_prepared.json \
+  --root outputs/bsu_new_machine --check
+```
+
+같은 명령에서 `--check`를 빼면 실행합니다. 새 계획은 `--template`의 경로와 해시를 고정하며, 별도 worker도 그 템플릿을 사용합니다. 이 경로의 기본 모델은 Qwen 의미 선택·캡션 보강과 기존 BSU 복원입니다. 궤적·키 합성 및 시간 보정의 다중 구간 일괄 적용은 아래 연구 옵션의 구현 범위와 별도로 확인해야 합니다.
 
 Qwen 환경에 학습/어댑터 의존성을 추가할 때 기존 Torch·Transformers 설치를 교체하지 않습니다.
 
@@ -66,10 +86,128 @@ GPU 추론 없이 검사할 수 있는 테스트와 모델/자료가 필요한 �
 
 ## 실험별 실행과 재현 명령
 
+<a id="bsu-trajectory-cadence"></a>
+### BSU 선택형 보정과 7원본 궤적·시간 대조
+
+완료된 BSU 양끝 2키 창에 시간 보정을 적용한다. 기본 모드는 `cadence`이며 원본·추가 궤적 패킷이 필요 없다. 전체 복원 명령에서 자동 호출하지 않으며 여러 키/구간의 자동 분할·연결은 미구현이다. `--received`의 `metadata.bin`과 `--generation`의 `frames/` 길이가 같아야 하고 출력은 입력과 별도 폴더여야 한다.
+
+```bash
+PYTHONPATH=src /home/sangukbae/anaconda3/envs/lgvsc/bin/python \
+  -m semantic_transmission.bsu_refine \
+  --received outputs/bsu_zea_16s_20261009/reconstruction/event_pairs/run/received \
+  --generation outputs/bsu_trajectory_cadence_20261012_v2/generation/zea/baseline \
+  --output outputs/bsu_trajectory_guard_20261012_v1/cadence_option_replay
+```
+
+실행한 위 명령은 항구 384장·실험 `cadence` 출력과 모두 일치했다. PNG/MP4 저장 포함 19.6초였고 반복 호출은 해시 확인 후 `COMPLETE_REUSED`로 종료한다. `--mode guarded_combined`는 실제 궤적 필드가 담긴 수신 패킷과 `key0.png`·`key1.png`를 추가로 사용한다. 원래 패킷에 없는 궤적을 무료 수신 정보처럼 가정하지 않는다. 이 모드는 연구 옵션이며 수신 키 합성의 범용 우위를 입증하지 않았다.
+
+동결된 7원본 실험·후속 대조의 실행은 다음과 같다. 로컬 기존 입력·가중치가 필요하며 독립 장비의 새 원본 실행 명령은 아니다.
+
+```bash
+bash scripts/experiment_bsu_trajectory.sh \
+  --root outputs/bsu_trajectory_cadence_20261012_v2
+bash scripts/experiment_bsu_trajectory_guard.sh \
+  --root outputs/bsu_trajectory_guard_20261012_v1
+```
+
+첫 명령은 준비·실제 채널·기준선·보정·평가·검증을, 후속은 기존 패킷/기준선/시간 보정을 재사용하고 윤곽 검사만 바꾼다. `--stage refine`은 완료 보정을 검증·재사용한다. 입력·코드가 바뀌면 동결 실행을 거부하며 `frozen_code/`에 원 소스를 보존한다. 원 `RESULT.json`은 초기 검토 대기 기록, 현재 선택은 `ADOPTION.json`, 실제 본 표본은 `AI_REVIEW.json`이다. 첫 폴더의 `review_cadence/<case>/comparison.mp4`는 **원본/기존/선택한 시간 보정**, `review/<case>/comparison.mp4`는 **원본/기존/궤적 결합**이다. 서로 다른 후보의 영상을 혼용하지 않는다. [결과·한계](RESULTS.md#bsu-trajectory-cadence) · [검증 요약](validation/2026-10-12-bsu-trajectory-cadence.json)
+
+<a id="bsu-temporal-support"></a>
+### BSU 후속 — 희소/연속 시간 보정 원인 대조
+
+```bash
+bash scripts/experiment_bsu_temporal_support.sh
+# 완료된 4조건의 해시를 검사하고 추론 없이 재개
+bash scripts/experiment_bsu_temporal_support.sh --stage generate
+```
+
+기본 출력은 `outputs/bsu_temporal_support_20261012_v1`이며 아래 저주파 주입 v1의 완료 산출물을 요구한다. 같은 수신 패킷·구조 latent·키·캡션·실제 난수와 기존 공간 보정 코드를 재사용한다. 준비 → 희소/연속 × 강도 2수준 생성 → PNG·시간·밝기 평가와 비교 영상 → 조건·산출물 검증 순서다. `--stage prepare|generate|evaluate|verify`를 지원한다. 코드·입력 변경 시 새 `--root`를 사용한다.
+
+`RESULT.json`, `report.html`, `verification.json`, `AI_REVIEW.json`, `review/temporal_diagnostic.png`·`.svg`, `frozen_code/`에 수치·검수·시간 곡선·소스를 보존했다. 이후 손익 재평가에서 `continuous_low`를 저주파 시간 보정 후속 개발 기준안으로 선택했다. 기본 BSU 실행 경로는 아직 교체하지 않았으며, 동결 결과의 `adopted: false`는 당시 판정으로 보존한다. [현재 재평가와 결과](RESULTS.md#bsu-temporal-support) · [당시 검증 요약](validation/2026-10-12-bsu-temporal-support.json)
+
+<a id="bsu-frequency-anchors"></a>
+### BSU 후속 — 저주파 구조 주입
+
+```bash
+bash scripts/experiment_bsu_frequency_anchors.sh
+# 완료된 5조건의 해시를 검사하고 추론 없이 재개
+bash scripts/experiment_bsu_frequency_anchors.sh --stage generate
+```
+
+기본 출력은 `outputs/bsu_frequency_anchor_20261011_v1`이다. 아래 구조 앵커 v2의 완료 입력·수신 패킷·144×80 구조 latent·기준 출력을 먼저 요구한다. 같은 수신 바이트를 재사용하므로 새 부호화·채널·학습 단계는 없다. 준비 → 5조건 생성 → PNG·시간 지표 평가와 비교 영상 → 난수·조건·산출물 검증을 수행한다. `--stage prepare|generate|evaluate|verify`를 지원한다. 새 주입 코드와 입력을 해시로 동결하며 변경 시 새 `--root`가 필요하다. 부모 실험 코드·산출물은 보존한다.
+
+`RESULT.json`, `report.html`, `verification.json`, `AI_REVIEW.json`, `temporal_diagnostic.json`과 `frozen_code/`에 수치·검수·실패 지점·소스를 기록했다. 정량 실행의 완료와 후속 AI 표본 검토는 독립 의미 검수 완료를 뜻하지 않는다. 2026-10-12 완료본은 구도·시간 품질 손실로 **비채택**이다. [결과](RESULTS.md#bsu-frequency-anchors) · [검증 요약](validation/2026-10-12-bsu-frequency-anchors.json)
+
+<a id="bsu-structure-anchors"></a>
+### BSU 아이디어 ①·② — 키 예산 재배분·저해상도 구조 앵커
+
+```bash
+bash scripts/experiment_bsu_anchors.sh
+# 완료된 복원 산출물만 검사하고 추론 없이 재개 여부 확인
+bash scripts/experiment_bsu_anchors.sh --stage generate
+```
+
+기본 출력은 `outputs/bsu_structure_anchor_20261011_v2`다. 실제 키/보조 영상 부호화와 예산 선택 → LDPC/16-QAM/AWGN → 수신 복호 → 무학습 6조건 복원 → PNG 평가·비교 영상 순서다. 기존 `outputs/bsu_zea_16s_20261009/reconstruction/event_pairs/run`의 항구 입력·송수신 키·T5 캐시·난수 기록과 설치된 NTSCC/Open-Sora가 필요하다. 학습이나 새 데이터셋 전체 평가 명령이 아니다.
+
+`--stage prepare|channel|receive|generate|evaluate`로 단계를 지정한다. 준비·완료 채널·완료 생성은 입력/코드/산출물 해시를 검증해 재사용한다. `receive`는 키를 다시 복호하고 `evaluate`의 보조 영상 단순 확대 대조는 다시 계산한다. 코드·입력이 바뀌면 새 `--root`를 사용한다. 단계 진행률과 실패는 터미널·`status.json`에 남으며 중단된 생성은 완료한 조건을 재사용한다.
+
+결과는 `RESULT.json`·`report.html`, 전송은 `rate_curve.json`·`channel.json`, 시각 검수는 `AI_REVIEW.json`, 소스 스냅샷은 `frozen_code/`에 있다. 첫 v1의 48→47장 복호 실패 기록은 보존했다. 이번 실행은 LGVSC 예산을 충족했으나 LPIPS가 악화해 **비채택**이다. [결과·판정](RESULTS.md#bsu-structure-anchors) · [검증 요약](validation/2026-10-11-bsu-structure-anchors.json)
+
+<a id="bsu-motion-pilot"></a>
+### BSU 캡션 분리·압축 움직임 어댑터 실험
+
+```bash
+bash scripts/experiment_bsu_motion.sh
+# 위 실험 완료 후: 움직임 정렬 자체와 CNN 학습의 기여도를 분리
+bash scripts/experiment_bsu_motion_ablation.sh
+```
+
+로컬 기본 출력은 `outputs/bsu_motion_pilot_20261010_v2`이다. 준비 → LDPC/16-QAM/AWGN 검증 → FP32 T5 → 같은 키·실제 난수의 캡션 비교 → 어댑터 학습 → 움직임 대조 복원 → 평가를 순차 실행한다. 현재 항구 2키 실행과 기존 원본 분할·수신 키·텍스트 캐시가 필요하므로 새로운 데이터셋용 통합 실행 명령은 아니다. `--stage prepare|channel|text|caption|train|generate|evaluate`로 단계를 지정할 수 있다. 학습·생성의 완료 영수증은 검증 후 재사용하며, 실패는 `status.json`에 기록한다. 입력·코드가 다르면 새 `--root`를 사용한다.
+
+기본 Qwen 의미 선택기와 기존 결과는 유지한다. 15개 움직임 표본은 구간 내부의 작은 수치 배열이며 전송 키 이미지 개수가 아니다. 항구 전체 패킷은 2,249바이트로 기존 3 LDPC 블록의 2,304바이트 용량 안에 들어간다. 어댑터는 다른 원본의 VAE latent로 학습하고, 수신 시에는 수신 키와 수신 움직임만 사용한다. 생성 뒤 RGB 보간·워핑은 하지 않는다. `RESULT.json`, `training.json`, `channel.json`, `report.html`에서 실제 완료 여부·성능·전송량을 확인한다.
+
+2026-10-10 실행은 추가 CNN 대조와 역사적 LGVSC·22키의 공통 PNG 평가까지 완료했으며 **비채택**이다. 종합 보고서는 `analysis.html`, 기준선 재실행 일치·채널·산출물 검증은 `verification.json`에 있다. [결과와 제한](RESULTS.md#bsu-motion-pilot)을 확인한다. 추가 대조는 첫 명령이 끝난 뒤 실행해 GPU 작업이 겹치지 않게 한다.
+
+`RESULT.json`의 정량 완료 상태와 후속 `AI_REVIEW.json`의 비독립 표본 검토는 별도 기록이다. 완료 명령을 다시 실행했다고 독립 의미 검수가 완료되는 것은 아니다. 재현에 필요한 [원본·분할](DATA.md#bsu-motion-data)과 [PNG/MP4·시간 지표 경계](METRICS.md#bsu-reconstruction-evaluation)를 함께 확인한다. 최초 v1의 실패 계획·로그를 v2 결과로 덮어쓰지 않는다.
+
 [과제 현황](../README.md) · [실험 결과](RESULTS.md)
 
 - 실행 위치: 저장소 루트.
 - 별도 자료: 데이터·가중치·기존 결과는 Git에 미포함.
+
+<a id="receiver-history-gate"></a>
+## 학습형 수신부 참조 게이트 후보
+
+**실제 학습·평가를 완료했으나 개선이 없어 기본 경로에는 비채택.** 생성기를 고정하고 이전 생성 참조의 일부 수정 여부를 선택하는 385개 파라미터 신경망을 학습한다. 원본 3개·12개 창으로 교사 대조를 만들고 학습에서 제외한 개발 장면 4개에서 검증한다. [결과·한계](RESULTS.md#receiver-history-gate)
+
+```bash
+# 기존 수신 키·캡션·원본 분할·체크포인트 검사; 추론·학습 없음
+bash scripts/experiment_receiver_gate.sh --check
+# 텍스트 준비 → 학습용 두 조건 복원 → 교사 평가 → 게이트 학습 → 평가 복원 → 평가
+bash scripts/experiment_receiver_gate.sh
+```
+
+기본 출력은 `outputs/receiver_gate_20261009/`다. 새로운 실험은 `--output outputs/receiver_gate_<새이름>`을 지정한다. 명령은 해당 로컬 TVSum/DAVIS·개발 장면의 기존 수신 산출물과 모델을 필요로 하며, 임의 입력 영상용 기본 복원 명령은 아니다. 평가 입력의 원본 픽셀은 생성이나 게이트 추론에 넣지 않는다. 생성기·수신 키·캡션·난수는 대조 조건 간 고정하며 추가 전송·출력 픽셀 보간은 없다.
+
+전체 6단계와 단계 내부 진행률을 터미널에 표시한다. 같은 명령은 입력·코드·산출물 해시를 확인해 완료 단계를 재사용하고, 중간 생성 실패는 완료된 조건별 영수증을 검증한 뒤 재개한다. 실제 코드·입력이 달라지면 새 출력 폴더를 사용한다. `gate.pt`·`training.json`은 실제 학습 결과, `test_metrics.json`·`results.json`·`report.html`은 원래 정량 기록이며 후속 `AI_REVIEW.json`·`review.html`은 별도 시각 검수다. 새로 실행한 정량 완료 상태만으로 의미 검수까지 완료됐다고 표시하지 않는다.
+
+<a id="sender-repair-pilot"></a>
+## 송신부 키 예산·움직임 추출 수정 후보
+
+**실험 후보이며 기본 경로에는 비채택.** 16초 Zea 시험에서 전송량은 감소했지만 움직임 오차와 최대 튐은 증가했다. [결과·한계](RESULTS.md#sender-repair-pilot)
+
+```bash
+# 완료된 동일 입력 Qwen 실행·모델·캡션 출처 검사만 수행
+bash scripts/experiment_sender_repair.sh --check
+# 사건 재검토 → 최소 필요 키 선택 → 두 조건 복원 → 정량 비교
+bash scripts/experiment_sender_repair.sh
+```
+
+기본 부모는 `outputs/lgvsc_qwen_zea_16s_20261008/qwen`, 출력은 `outputs/sender_repair_20261008`이다. 다른 완료 Qwen 실행에는 `--parent PATH --output NEW_PATH`를 지정한다. `--cap`은 키 개수 상한, `--max-gap`은 최대 프레임 간격이며 기본은 부모 키 개수와 24다. 객체 변화·장면 전환·불확실 사건 쌍의 점수를 먼저 보존하고 키 수를 최소화한다. 최대 간격을 장면별로 학습하는 선택기는 아니다.
+
+`selector`는 선택·구간 캡션 변경, `selector_flow`는 동일 키·캡션에서 움직임 추출만 추가 변경한 조건이다. 같은 구간·프레임의 캡션만 해시 검증해 재사용하며 나머지는 고정 Qwen/LoRA로 재추론한다. 두 조건의 수신 키·난수 텐서 일치를 검사하고, 공통 비키 화질·전체 전환 움직임·실제 전송량을 비교한다. 전체 단계 수와 개별 단계 진행률을 별도로 출력하며 초기화 중에는 경과 시간을 표시한다.
+
+같은 명령의 재실행은 완료 단계의 산출물·입력·코드를 검증해 재사용한다. 실패한 단계는 로그·부분 산출물을 보존하고 재개하며 코드/입력 변경 시 새 출력 경로를 사용한다. 자동 완료 상태는 `COMPLETE_QUANTITATIVE_PILOT_VISUAL_REVIEW_PENDING`이다. 이번 실행의 후속 AI 표본 검수는 원래 정량 영수증을 덮어쓰지 않고 `AI_REVIEW.json`·`review.html`에 보존했다. 독립 의미 검수나 범용 채택을 뜻하지 않는다.
 
 <a id="qwen35-caption-holdout"></a>
 ## 독립 정답 검수와 미사용 원본의 캡션 비교
@@ -374,8 +512,132 @@ PYTHONPATH=src /home/sangukbae/anaconda3/envs/lgvsc-internvl/bin/python \
 - `_v2`는 기본 보정본 102편을 연결하고 WebVid 031만 별도 수정한 경로다. 위 명령만으로 `_v2`의 재선택·변경 캡션 검수·전체 완료가 보장되지 않는다. 인계 파일의 남은 작업을 확인한다.
 - 문맥 추출 `RESULT.json`의 `full_78_accuracy_evaluated=false`는 추출 종료 시점 기록이다. 후속 AI 검토는 별도 `_accuracy/RESULT.json`과 [통합 결과](RESULTS.md#qwen-context)에서 확인한다. 기존 기록을 덮어쓰지 않는다.
 
+<a id="qwen35-pairs-caption-comparison"></a>
+## 사건 쌍 선택 + 보강 캡션 — 두 조건을 한 명령으로 비교
+
+```bash
+bash scripts/run_qwen35_pairs_caption_comparison.sh
+```
+
+기존 `tv_low_08` 60초·1,440프레임의 **assistant 후보 + InternVL 79키**와 **Qwen 사건 전후 쌍 보존 79키**를 동결 결과에서 재사용합니다. 두 조건 모두 동일한 보강 캡션 LoRA rank 32로 78개 초안을 새로 작성하고, 어댑터를 끈 본체로 재검토합니다. 원본 구간당 4장 표본 규칙·지시문·토큰 한도를 맞추며, 선택에 따라 구간과 실제 표본은 달라집니다. 후보 생성이나 선택기 학습을 다시 수행하지 않습니다. 현재 Qwen 후보 + InternVL 전체 경로를 새로 실행한 대조군은 아닙니다.
+
+명령은 캡션 생성 → UniMatch 움직임 → AWGN 10 dB 송수신 → T5 FP32·마지막 17프레임 참조·조건 충돌/짧은 구간 수정 Open-Sora → 화질·전송량 → 자동 의미 진단 → 대조 보고서까지 실행합니다. 공통 키의 송신/수신 심볼 일치를 검사하도록 AWGN은 원본 프레임 ID별 seed를 사용합니다. 복원은 같은 seed·단계 수를 쓰지만 구간 길이가 달라 동일한 확산 잡음 텐서 비교라고 주장하지 않습니다. 별도 학습·다운로드·기본 경로 교체는 없습니다.
+
+- 기본 출력: `outputs/qwen35_pairs_caption_comparison_20261007/`. `report.html`, `comparison.mp4`(원본 / InternVL / 사건 쌍), `RESULT.json`, `status.json`, 단계별 로그를 저장합니다.
+- 중단 후 **같은 명령**을 다시 입력합니다. 완료 단계와 개별 캡션/검토 응답은 해시·입력·모델 역할을 검사해 재사용하고, 실패한 단계 출력은 별도로 보존합니다. 코드·가중치·입력이 바뀌면 기존 결과를 덮어쓰지 않고 중단합니다. 새 조건은 `--root outputs/새_실험명`으로 구분합니다.
+- `--check`는 입력·가중치·수신단 준비 상태만 확인하며 모델 추론·출력 생성이 없습니다. `--stop-after captions` 또는 `--stop-after reconstruct`로 범위를 줄일 수 있고, 나중에 옵션 없이 재개하면 나머지 단계를 실행합니다.
+- **의미 평가는 비독립 자동 진단입니다.** 기존 Astra 사건 정의로 선택 사건 포착을 재계산하며, 로컬 Qwen 본체가 초당 원본 4장·복원 4장과 구간 캡션을 보고 사실 재현 및 Added/Missing/Distorted 근거를 기록합니다. 기존 Astra 캡션 점수와 직접 비교하지 않습니다. 검토 원문·근거 이미지·모든 응답을 보존하고 독립 검수는 `PENDING`, 할루시네이션 완화 검증은 `false`로 유지합니다.
+- 실측(2026-10-07, RTX 4080, 기존 선택 재사용): 첫 기록 단계부터 자동 진단 종료까지 두 조건 합계 **2시간 38분 44초**. 캡션 단계 26분 46초, 자동 의미 진단 12분 30초입니다. 이전 전체 4~6시간은 실행 전 계획값이며, 실측은 한 번의 실행으로 다른 부하·입력의 소요 시간을 보장하지 않습니다.
+
+사용자 실행은 `COMPLETE_INDEPENDENT_REVIEW_PENDING`으로 정상 종료했습니다. 이는 캡션·송수신·복원·자동 진단 완료이며 독립 의미 검수는 남았다는 뜻입니다. 완료 기록 27개와 영상·지표·출처 해시를 재검증했습니다. 후속 분석은 같은 출력 폴더의 `analysis/review.html`과 [결과 문서](RESULTS.md#qwen35-pairs-caption-launcher)에 있습니다. 자동 진단의 캡션 오류 0개에는 실제 놓친 오류가 확인되어 정확도 근거로 사용하지 않습니다.
+
+**원본 LGVSC 대비 성능을 볼 때는 `analysis_lgvsc/review.html`을 사용합니다.** 원본 InternVL SKEM 110키·PLLaVA 결과와 이번 Qwen 사건 쌍 79키·개선 캡션 결과를 직접 비교한 보고서이며, `analysis_lgvsc/comparison.mp4`의 순서는 원본 / LGVSC / Qwen 조합입니다. 기존 `report.html`·`analysis/review.html`은 GPT-6-Astra 후보 + InternVL 혼합 선택과의 보조 비교입니다. 원본 LGVSC 결과·이번 결과를 재사용해 작성했으므로 이 대조를 보기 위해 모델 추론을 다시 실행할 필요는 없습니다. [원본 LGVSC 대비 개선 폭](RESULTS.md#qwen35-pairs-vs-lgvsc)
+
 <a id="default-method"></a>
 <a id="qwen35-fc"></a>
+## 새 영상에 Qwen 의미 변화 순차 선택 + 개선 캡션 적용
+
+```bash
+bash scripts/run_qwen35_pairs_video.sh
+```
+
+기본 입력은 Zea 항구 항공 영상의 **전체 길이** 준비본(`webvid_004_10d5cd04`, 494프레임·24fps·576×320)입니다. 2026-10-09부터 Qwen이 직전 채택 키와 후보를 순차 비교해 의미 변화가 확인될 때 키를 추가합니다. **목표 키 개수와 최대 1초 간격은 없습니다.** 처음·끝을 보존하며, 불확실한 판정은 중간 원본을 추가로 확인하고 해결되지 않으면 중단합니다. 이후 채택된 캡션 LoRA 초안·본체 재검토 → AWGN 10dB 송수신 → FC-LGVSC 복원·화질 평가를 실행합니다. 캡션의 4장 표본 규칙과 기존 수신단 보정은 유지합니다.
+
+- 출력: `outputs/qwen35_semantic_zea_20261009/RESULT.json`, `source_vs_output.mp4`(왼쪽 원본 / 오른쪽 복원), `reconstruction/event_pairs/run/receiver/reconstruction/sample_0000.mp4`. `event_pairs` 디렉터리명은 기존 수신부 연결용으로 유지하며 실제 선택 정책은 `qwen35_sequential_semantic_v1`로 기록합니다.
+- `--check`: 입력·모델·코드 출처만 검증하며 추론하지 않습니다. `--prepared <source_prepared.json> --root <새 출력 폴더>`로 다른 전체 길이 24fps 준비본을 지정할 수 있습니다.
+- `--candidate-stride 4`는 후보 관찰 빈도이며 키 간격을 강제하지 않습니다. 기존 고정 개수 방식은 `--selection-policy fixed_budget --key-budget N`을 명시한 대조에서만 사용합니다. 의미 선택 기본값에 `--key-budget`을 주면 오류로 중단합니다.
+- 순차 의미 판정·캡션·T5 인코딩·생성 구간의 처리 수와 진행률을 터미널에 표시합니다. 수신·복원 전체 표시는 **완료한 단계 수 기준**이며 남은 실행 시간의 비율은 아닙니다.
+- 같은 명령으로 재개하면 유효한 Qwen 호출과 검증된 완료 단계를 재사용합니다. 독립 의미 검수·원본 LGVSC 대조 실험은 이 명령에 포함하지 않습니다.
+
+기존 16초 준비본으로 **선택만** 확인하는 명령입니다. `--select-only`를 제거하고 같은 입력·출력 옵션으로 실행하면 판정 호출을 검증·재사용한 뒤 캡션·송수신·복원을 진행합니다. `selection_status.json`의 선택 완료는 복원 완료가 아닙니다. 코드·입력이 바뀌면 기존 동결 계획을 고치지 말고 새 출력 폴더를 사용합니다.
+
+```bash
+bash scripts/run_qwen35_pairs_video.sh \
+  --prepared outputs/lgvsc_qwen_zea_16s_20261008/common/source_prepared.json \
+  --duration-limit 16 --root outputs/qwen35_semantic_selection_20261009/zea \
+  --select-only
+```
+
+<a id="bsu-zea-three-way"></a>
+### 현재 BSU 항구 16초 복원과 기존 두 결과 비교
+
+```bash
+bash scripts/run_qwen35_pairs_video.sh \
+  --prepared outputs/lgvsc_qwen_zea_16s_20261008/common/source_prepared.json \
+  --duration-limit 16 --selection-policy semantic \
+  --root outputs/bsu_zea_16s_20261009
+
+# 복원·기본 평가 완료 후 기존 LGVSC 및 고정 22키와 비교
+PYTHONPATH=src /home/sangukbae/anaconda3/envs/lgvsc/bin/python scripts/analyze_bsu_zea.py
+```
+
+2026-10-09 완료본은 2키·384프레임이다. 비교 명령은 기존 영상과 해시가 일치하는 프레임별 화질 기록을 재사용하고, 공통 381프레임의 움직임을 계산한다. 출력은 `comparison_lgvsc_fixed/report.html`·`comparison.mp4`·`RESULT.json`이다. 자동 수치 분석과 후속 AI 시각 검수를 구분하며, 이메일 자동 발송 기능은 이 명령에 포함하지 않는다. [결과와 비교 한계](RESULTS.md#bsu-zea-three-way)
+
+<a id="lgvsc-qwen-16s-baseline"></a>
+## 같은 16초 입력으로 LGVSC → 현재 Qwen 순차 실행
+
+```bash
+bash scripts/run_lgvsc_qwen_baseline.sh
+```
+
+Zea 원본의 첫 **16초·384프레임·576×320·24fps**를 한 번 준비하고, **InternVL SKEM → PLLaVA → UniMatch → NTSCC/AWGN → 공개 수신부 정책의 Open-Sora**를 완료한 뒤 **Qwen 의미 변화 순차 선택 → 개선 캡션 → 현재 수신부**를 실행한다. 10월 8일 고정 22키 결과와 새 선택기의 결과를 구분한다. 기존 선택·캡션·복원 결과를 가져오지 않는다. 두 경로는 같은 준비 MP4/PNG와 NTSCC·Open-Sora 가중치, SNR 10dB, 생성 seed 2025, 채널 seed 42, 30 생성 단계를 사용한다. 첫 실행 후 같은 명령은 검증된 완료 단계와 저장된 선택·캡션 호출에서 재개한다.
+
+- **새 출력:** `outputs/lgvsc_qwen_semantic_zea_16s_20261009/report.html`, `RESULT.json`. 과거 완료본 `outputs/lgvsc_qwen_zea_16s_20261008/`은 보존한다. 원본 LGVSC 구성 출력은 `lgvsc/run/receiver/reconstruction/sample_0000.mp4`, 현재 모델 출력은 `qwen/reconstruction/event_pairs/run/receiver/reconstruction/sample_0000.mp4`다. 보고서의 두 영상은 원래 생성 결과이며 픽셀 보간·혼합을 하지 않는다.
+- **진행률:** 전체 3작업의 완료 수·백분율과 단계별 처리 수·백분율·경과 시간을 터미널에 표시한다. 생성은 RFLOW 반복과 완료 구간을 읽는다. 모델 로딩처럼 총량이 없는 작업에는 임의의 진행률·ETA를 만들지 않는다. 상세 로그·실패 기록·완료 파일 해시를 보존하며 실패하면 다음 경로로 넘어가지 않는다.
+- **공식 경로의 범위:** 공개 `get_frame.py`처럼 `int(0.2×24)=4`프레임 간격의 96후보를 실제 InternVL에 넣는다. 2키를 강제하거나 최대 1초 간격을 적용하지 않는다. 마지막 후보는 380번이므로 입력 384장 중 마지막 3장은 이 경로의 복원 범위 밖이다. 공개 연결 규칙의 중복 끝 프레임도 유지한다. 실제 출력 길이와 `output_source_indices`를 `lgvsc/run/output_audit.json`에 기록한다. 384장 전체를 복원하는 현재 모델과 동기 비교할 때에는 이 대응표가 필요하다.
+- **원본 수신부 정책:** `align=5`, 이전 생성 구간 전체를 VAE로 인코딩한 뒤 마지막 5 latent 참조, 공개 연결 규칙을 사용한다. 현재 경로의 tail17·조건 충돌·짧은 구간 시간표·scoped RNG 보정을 설치하지 않는다. 첫 생성 구간이 17프레임보다 짧으면 현재 보정을 몰래 적용하지 않고 중단한다.
+- **재현 한계:** 공통 FFmpeg 정규화, 로컬 BF16 모델 배치/FP32 CPU T5, 공통 프레임별 AWGN·메타데이터 전송 어댑터를 사용한 **공개 알고리즘 설정 기준선**이다. 논문/GIF와 비트 단위 동일 실행은 아니다. 동일 키의 채널 잡음은 일치하지만 구간 길이와 RNG 정책이 달라 확산 잡음 텐서까지 같은 대조는 아니다. 세 작업 완료 상태는 `COMPLETE_RECONSTRUCTIONS_REVIEW_PENDING`이며 버벅임·의미 보존의 개선 판정은 별도다.
+- `--check`는 읽기 전용 준비 검사다. `--prepare-only`는 공통 입력만 만들며 이후 같은 명령에서 옵션을 빼면 이어서 실행한다. `--input <16초 이상 원본.mp4> --output <새 폴더>`를 지정할 수 있다. 설정·코드·입력이 바뀌면 기존 실행에 섞지 않고 새 출력 폴더를 요구한다.
+
+<a id="receiver-joint-windows"></a>
+## 인접 구간 공동 생성 대조 실험
+
+```bash
+bash scripts/experiment_receiver_joint_windows.sh
+```
+
+네 장면에서 같은 공통 시간축의 순차 생성과 공동 생성을 새로 실행하고, 해시 검증한 기존 수신부 결과를 함께 평가한다. 새 두 조건은 같은 수신 키·VAE/T5 조건·초기 잡음·시간표·모델과 조건당 60회 호출을 사용한다. 추가 학습과 출력 픽셀 보간은 없다. 원본 영상은 생성 이후 오프라인 평가에서만 읽는다. 최초 시험은 **비채택**이며 기본 수신부를 바꾸지 않는다.
+
+- 출력: `outputs/receiver_joint_windows_20261008/pilot_<프로토콜 해시 앞 12자리>/report.html`. 최초 완료 실행은 `pilot_8acc98b171d8/`이다. 장면별 `comparison.mp4`는 원본 / 기존 수신부 / 공통 시간축 순차 / 공통 시간축 공동 생성 순서다. 패널 입력 경로는 `panel_sources.json`에 남긴다.
+- `--check`는 입력·가중치·과거 참조 산출물을 검증한다. `--stage generate` 또는 `--stage evaluate`로 나눌 수 있다. 기존 네 장면의 완료 수신 데이터와 10월 7일 `receiver_temporal_alignment_20261007/paired_v1`의 기준선 산출물이 필요하다.
+- 생성 중 전체/현재 조건의 모델 호출 수·백분율·경과 시간, 조건 완료 시 실측 기반 남은 시간, 평가 시 처리 수·백분율을 터미널에 표시한다. 대기 중 별도 GPU/중간 품질 검사는 필요하지 않다.
+- 완료 조건은 산출물 해시를 확인해 재사용한다. 입력·코드가 바뀌면 기본 출력 폴더도 바뀌며, 직접 지정한 `--output`에 다른 프로토콜을 덮어쓰지 않는다. 출력별 실행 잠금과 실패 상태를 기록한다.
+- 원본 대비 모든 전환의 움직임 오차·프레임 변화 오차와 비키 프레임 화질을 함께 평가한다. 기존 수신부와 새 시간축은 난수 텐서까지 같은 인과 대조가 아니며, 공동 생성 자체의 효과는 새 순차 대조군과 비교한다. [결과와 한계](RESULTS.md#receiver-joint-windows)
+
+<a id="receiver-temporal-alignment"></a>
+## 범용 수신부 개선을 위한 내부 시간 조건 대조 실험
+
+```bash
+bash scripts/experiment_receiver_temporal_alignment.sh
+```
+
+기존 수신 데이터가 있는 네 장면에서 각각 49프레임·두 구간을 **기존 배치 / 끝 위치만 수정 / VAE 시간 문맥까지 수정**으로 새로 생성하고 원본과 평가한다. 출력 픽셀 보간 없이 실제 Open-Sora 조건을 바꾸는 실험이며, 채택된 기본 경로는 아니다. GPU 생성 단계에서는 원본 프레임을 읽지 않는다. 원본은 이후 오프라인 화질·움직임 평가와 비교 영상 작성에만 사용한다.
+
+- 출력: `outputs/receiver_temporal_alignment_20261007/paired_<프로토콜 해시 앞 12자리>/report.html`, 장면별 `comparison.mp4`와 조건별 `reconstruction.mp4`·저장 전 PNG·난수 및 조건 추적 기록. 비교 영상은 왼쪽부터 원본 / 기존 / 위치만 수정 / 시간 문맥도 수정이다. 최초 파일럿은 `paired_v1/`에 보존한다.
+- `--check`: 수신 키·텍스트 cache·가중치 해시를 확인한다. `--stage generate` 또는 `--stage evaluate`로 단계를 나눌 수 있다. 기존 로컬 Zea 및 `etri_latest_short3_20261001`의 완료 수신 실행이 필요하다.
+- 진행률은 전체 생성 step 수, 장면·조건·구간의 현재 step, 완료 조건 수, 경과 시간과 완료 조건의 실측 기반 남은 시간을 표시한다. 평가에는 별도 처리 수·진행률이 나온다. 모델 준비 시간의 백분율·ETA는 추정하지 않는다.
+- 재실행 시 해시를 검증한 완료 조건은 재사용하고 미완료 조건부터 재생성한다. 기본 출력 폴더는 입력·코드·가중치 변경 시 자동으로 달라진다. 직접 지정한 `--output`의 프로토콜이 다르면 덮어쓰지 않고 중단한다. 실패와 완료 상태는 `status.json`에 남긴다.
+- 짧은 창은 첫 선택 키에서 문맥을 다시 시작한다. Zea는 Qwen 캡션, 나머지는 해당 과거 실행의 고정 캡션을 사용한다. 독립 Added/Missing/Distorted 검수와 전체 길이·다중 seed 검증은 포함하지 않는다. 끝 키 일치도나 낮아진 움직임 수치만으로 개선 판정을 내리지 않는다.
+
+<a id="receiver-motion-bridge"></a>
+## 완료한 복원 영상의 움직임 보정 — 수신 키프레임 활용
+
+**과거 실험 재현용·비채택.** 사용자 요청으로 이 보간 방식의 개발을 중단했다. 범용 수신부 개선 명령으로 사용하지 않는다. 기존 산출물과 재현 명령만 보존한다.
+
+```bash
+bash scripts/repair_receiver_motion.sh
+```
+
+기본 입력은 위 Zea 사건 쌍 실행의 완료 수신단입니다. **이미 수신한 28개 키프레임과 기존 Open-Sora PNG만 사용**해 위치 보정 대조군(`geometry.mp4`)과 수신 참조를 함께 활용한 결과(`hybrid.mp4`)를 만듭니다. Qwen·송수신·확산 생성을 다시 실행하지 않으며 원본 영상은 보정 프로그램에서 읽지 않습니다. 이 명령의 보정은 CPU에서 실행됩니다.
+
+- 출력: `outputs/qwen35_pairs_zea_20261007_temporal_repair/`. 기존 영상은 보존합니다. `hybrid.mp4`가 새 결과이며, 수신 참조와 생성 결과를 결합하는 별도 수신단 경로입니다. Open-Sora의 `align=5`나 캡션 자체를 수정한 결과는 아닙니다.
+- **진행 표시:** 정합 구간 수 → 처리 프레임 수 → MP4 저장 프레임 수의 단계별 백분율·경과 시간을 터미널과 `status.json`에 표시합니다. 전체 소요 시간 비율은 아닙니다.
+- 같은 명령을 다시 입력하면 입력·코드·완료 산출물 해시를 확인해 재사용합니다. 미완료 보정은 처음부터 다시 처리합니다. 기존 결과의 코드·입력·옵션이 달라지면 덮어쓰지 않고 중단하므로 새 `--output`을 지정합니다.
+- 다른 완료 실행: `bash scripts/repair_receiver_motion.sh --run outputs/실험/실행폴더 --output outputs/새_보정`. `receiver/decoder_inputs.json`, `receiver/frames/sample/key_frames_received/`, `receiver/reconstruction/sample_0000_frames/`와 양끝 키를 포함한 연속 시간축이 필요합니다. `--mode geometry` 또는 `--mode hybrid`로 한 조건만 실행할 수 있습니다.
+- 키 간격 1초 초과, 낮은 영상 정합 점수, 양방향 불일치, 과도한 변형은 보정을 거부합니다. 두 참조가 다르게 보이는 영역은 생성 결과의 비중을 높입니다. 이 검사는 의미 오류 검출기가 아니며 움직이는 물체·가림·급격한 카메라 이동에 대한 일반화 검증은 남아 있습니다.
+
+Zea에서의 자동 화질·시간 평가와 원본 / 이전 / 보정 비교 영상은 별도 오프라인 검증 산출물입니다. 명령 자체는 원본을 사용하는 평가를 실행하지 않습니다. [결과와 범위](RESULTS.md#zea-motion-repair)
+
 ## 새 기본 경로 — Qwen3.5 후보·캡션부터 FC-LGVSC 복원까지
 
 공식 Qwen3.5-9B 고정 revision의 **NF4 로컬 추론**입니다. Qwen이 변화 후보와 캡션을 모두 작성하고, 최종 선택은 기존 InternVL SKEM을 사용합니다. 기존 전체 길이 WebVid·TVSum 준비 inventory와 `.local/qwen35_env`가 필요합니다.
@@ -977,10 +1239,12 @@ GPU 공유 잠금 후 30쌍을 실제 추론하며 `RESULT.json`에 쌍별 시�
 이 구현은 대화형 assistant가 관찰해서 작성하던 **후보 프레임과 캡션 생성**을 로컬 공개 가중치 VLM으로 대체한다. 기존 FC-LGVSC의 순차 SKEM 판정과 최대 24프레임 간격은 유지한다. 원본 복원, 채널 전송, ETRI Added/Missing/Distorted 평가까지 완료한 결과는 아니다. 대화형 assistant와 동등한 품질도 아직 입증하지 않았다.
 
 <a id="status"></a>
-## 현재 상태 — 2026-10-07
+## 이전 자동 추출 경로의 상태 기록 — 2026-10-07
 
-- **10월 7일 캡션 변경:** 새 Qwen3.5 실행은 보강 LoRA rank 32를 초안에 기본 적용하고, 후보·시각 재검토에는 같은 본체에서 어댑터를 끕니다. InternVL SKEM은 유지합니다. 새 어댑터의 복원 품질 개선은 아직 미검증입니다. [구조](MODEL_ARCHITECTURE.md#fc-lgvsc) · [채택·검증 범위](RESULTS.md#qwen35-caption-adoption)
-- **10월 3일 연결 기록 — 어댑터 없음:** Qwen3.5-9B NF4가 후보와 캡션을 모두 작성하고 기존 순차 SKEM을 유지하는 경로를 추가했습니다. 출처 검증 importer를 통해 FC-LGVSC 전송·복원에 연결합니다. 7.5초 표본에서 키프레임 9개·캡션 8개 추출, AWGN 송수신·180프레임 복원·화질 평가 완료. [새 실행 명령](RUN_GUIDE.md#qwen35-fc) · [검증 기록](validation/2026-10-03-fc-qwen35-integration.json)
+아래는 당시 InternVL 혼합 경로와 Qwen3-VL 배치의 기록이다. 10월 9일 이후 현재 BSU의 기본 선택·최근 완료 상태는 [현재 영상 경로](#qwen35-fc)와 [진행 현황](RESULTS.md#bsu-progress)을 따른다.
+
+- **10월 7일 캡션 변경:** 당시 Qwen3.5 혼합 경로는 보강 LoRA rank 32를 초안에 기본 적용하고, 후보·시각 재검토에는 같은 본체에서 어댑터를 껐습니다. 당시 최종 선택은 InternVL SKEM이며, 현재 BSU의 Qwen 의미 선택과 구분합니다. 새 어댑터의 복원 품질 개선은 별도 검증 대상입니다. [채택·검증 범위](RESULTS.md#qwen35-caption-adoption)
+- **10월 3일 연결 기록 — 어댑터 없음:** Qwen3.5-9B NF4가 후보와 캡션을 모두 작성하고 기존 순차 SKEM을 유지하는 경로를 추가했습니다. 출처 검증 importer를 통해 FC-LGVSC 전송·복원에 연결합니다. 7.5초 표본에서 키프레임 9개·캡션 8개 추출, AWGN 송수신·180프레임 복원·화질 평가 완료. [현재 실행 명령과 구분](RUN_GUIDE.md#qwen35-fc) · [검증 기록](validation/2026-10-03-fc-qwen35-integration.json)
 - 새 경로의 기존 assistant v2 대비 품질 동등성·독립 할루시네이션 완화·103편 전체 처리는 미검증입니다. 아래 Qwen3-VL 기록은 과거 배치입니다.
 - 기존 103편 배치는 Qwen3-VL-8B INT8을 사용했으며 **7편 완료·1편 실패 후 중단** 상태다. 이후 전체 실행 완료 근거는 없다. 배치 상태（로컬 산출물 `outputs/fc_lgvsc_auto_20261002/status.json`） · 중단 기록（로컬 산출물 `outputs/fc_lgvsc_auto_20261002/paused_for_faithful_correction.json`）
 - assistant 작성 전체 원본과 순차 SKEM 보정본은 별도 경로이며 현재 미완료다. [데이터별 상태](DATA.md#full-extraction)

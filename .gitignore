@@ -70,6 +70,7 @@ build/
 dist/
 
 # Private presentation material and local research/reference drafts
+docs/Bitwire_LGVSC/
 docs/weekly_report/
 docs/SGDJSCC_paper/
 docs/figures/

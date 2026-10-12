@@ -1,0 +1,59 @@
+{
+  "date": "2026-10-08",
+  "status": "COMPLETE",
+  "authorization": "User authorized deleting experiments put on hold for poor performance and their artifacts.",
+  "scope": "Selected rejected model weights, optimizer states, generated media, and retired metric caches/cases; historical summaries and shared inputs retained.",
+  "removed_file_or_symlink_count": 104391,
+  "affected_run_count": 22,
+  "freed_file_blocks_bytes": 124101238784,
+  "freed_gib": 115.578,
+  "category_gib": {
+    "retired_metric_cache_and_generated_cases": 92.174,
+    "rejected_receiver_selector_media": 1.311,
+    "rejected_model_weights_and_optimizer": 22.093
+  },
+  "affected_runs": [
+    "ere_sta_20260914_v1",
+    "ere_sta_20260914_v2",
+    "ere_sta_formal_20260914_v1",
+    "etri_combined_reference_20260928",
+    "etri_visual_keys_20260929",
+    "event_duration_sta_20260914_v1",
+    "fso_uep_20260915_v1",
+    "metric_validation_20260916_v1",
+    "mte_otf_20260914_v1",
+    "qwen35_astra_transfer_v1",
+    "qwen35_caption_repair_v1",
+    "qwen35_evidence_repair_v3",
+    "qwen35_fact_joint_v2",
+    "qwen35_fact_joint_v3",
+    "qwen35_grounded_v1",
+    "qwen35_multitask_v1",
+    "qwen35_multitask_verified_v1",
+    "qwen35_pairs_zea_20261007_temporal_repair",
+    "qwen35_pairs_zea_20261007_temporal_repair_initial_review",
+    "receiver_joint_windows_20261008",
+    "receiver_temporal_alignment_20261007",
+    "skem_speed_20260929"
+  ],
+  "protected": [
+    "current adapter and its training parent",
+    "shared feature/source/annotation data",
+    "running baseline/Qwen comparison",
+    "source code and original datasets",
+    "historical judgment summaries, score records, protocols and code"
+  ],
+  "protected_checks": {
+    "signature": "95c199dd25deed9caa4a8950394bf73fc0ca9215a9a725ee4b1889a9782ac2f0",
+    "code_files": 687,
+    "model_files": 55,
+    "adopted_adapter_verified": true,
+    "parent_adapter_sha256": "f6ea90df1419da78e7ccbf10774aba6260ba567da5958432107b683e2289afce"
+  },
+  "historical_score_claims_unchanged": true,
+  "historical_completion_receipts_are_not_current_availability": true,
+  "replay_note": "Retired experiment caches/models/media cannot be replayed directly; full extraction/training/generation is needed. Historical reports may reference removed media.",
+  "local_deletion_manifest": "outputs/workspace_cleanup_20261008/rejected_experiments/deletion_plan.json",
+  "local_receipt": "outputs/workspace_cleanup_20261008/rejected_experiments/RESULT.json",
+  "per_run_notice": "ARTIFACT_CLEANUP.json"
+}
