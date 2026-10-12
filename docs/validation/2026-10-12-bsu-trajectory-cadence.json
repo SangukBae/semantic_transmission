@@ -1,0 +1,680 @@
+{
+  "status": "COMPLETE_DEVELOPMENT_REVIEW",
+  "date": "2026-10-12",
+  "experiments": [
+    {
+      "root": "outputs/bsu_trajectory_cadence_20261012_v2",
+      "signature": "d363835f93ccd8208559461129cfc835b7f04e12c41284c4968c3afa1dded155",
+      "raw_result_sha256": "65e4903a077f7bc615cde9b740c8dac425a17f3d760812e14a1a864b2cc58248",
+      "verification": {
+        "status": "PASSED",
+        "signature": "d363835f93ccd8208559461129cfc835b7f04e12c41284c4968c3afa1dded155",
+        "png_frames": 3056,
+        "cases": 7,
+        "arms_per_case": 4,
+        "rate_caps_passed": true,
+        "channel_exact": true,
+        "source_and_code_hashes_verified": true,
+        "baseline_generation_reused_identically_across_arms": true
+      },
+      "seconds": 695.7538786759833
+    },
+    {
+      "root": "outputs/bsu_trajectory_guard_20261012_v1",
+      "signature": "41f5deab1ab9776654ad9279ac0e310eca08f85858039140ca1ccdca6bdddd0b",
+      "raw_result_sha256": "970b0820eec85f5ffa58f61a6b05f8cf88efa8d4adb47d754ed5ff35c6ff0924",
+      "verification": {
+        "status": "PASSED",
+        "signature": "41f5deab1ab9776654ad9279ac0e310eca08f85858039140ca1ccdca6bdddd0b",
+        "png_frames": 3056,
+        "cases": 7,
+        "arms_per_case": 4,
+        "rate_caps_passed": true,
+        "channel_exact": true,
+        "source_and_code_hashes_verified": true,
+        "baseline_generation_reused_identically_across_arms": true
+      },
+      "seconds": 288.0006682880339
+    }
+  ],
+  "counts": {
+    "unique_sources": 7,
+    "source_window_frames": 764,
+    "initial_conditions": 28,
+    "initial_png_frames": 3056,
+    "followup_new_conditions": 14,
+    "followup_new_png_frames": 1528,
+    "followup_reused_conditions": 14,
+    "initial_reused_baseline_frames": 531,
+    "initial_new_baseline_frames": 233
+  },
+  "controls": {
+    "resolution": [
+      576,
+      320
+    ],
+    "fps": 24,
+    "generation_seed": 2025,
+    "snr_db": 10,
+    "metadata_seed": 42,
+    "generator_changed": false,
+    "training": false,
+    "received_visuals_reused": true,
+    "baseline_generation_same_across_arms": true,
+    "receiver_reads_original": false
+  },
+  "rates": [
+    {
+      "case": "zea",
+      "baseline_packet_bytes": 1722,
+      "candidate_packet_bytes": 2452,
+      "visual_uses": 84583,
+      "baseline_uses": 91495,
+      "candidate_uses": 93799,
+      "cap": 97098,
+      "cap_reference": "measured LGVSC 92475",
+      "max_increase_ratio": 1.05,
+      "visual_channel_reused": true,
+      "snr_db": 10,
+      "metadata_seed": 42
+    },
+    {
+      "case": "person_walk",
+      "baseline_packet_bytes": 1845,
+      "candidate_packet_bytes": 2299,
+      "visual_uses": 37427,
+      "baseline_uses": 44339,
+      "candidate_uses": 44339,
+      "cap": 46555,
+      "cap_reference": "matched two-key BSU",
+      "max_increase_ratio": 1.05,
+      "visual_channel_reused": true,
+      "snr_db": 10,
+      "metadata_seed": 42
+    },
+    {
+      "case": "single_subject",
+      "baseline_packet_bytes": 1843,
+      "candidate_packet_bytes": 2573,
+      "visual_uses": 57976,
+      "baseline_uses": 64888,
+      "candidate_uses": 67192,
+      "cap": 68132,
+      "cap_reference": "matched two-key BSU",
+      "max_increase_ratio": 1.05,
+      "visual_channel_reused": true,
+      "snr_db": 10,
+      "metadata_seed": 42
+    },
+    {
+      "case": "candle_flowers",
+      "baseline_packet_bytes": 1825,
+      "candidate_packet_bytes": 2163,
+      "visual_uses": 19228,
+      "baseline_uses": 26140,
+      "candidate_uses": 26140,
+      "cap": 27447,
+      "cap_reference": "matched two-key BSU",
+      "max_increase_ratio": 1.05,
+      "visual_channel_reused": true,
+      "snr_db": 10,
+      "metadata_seed": 42
+    },
+    {
+      "case": "train_tv_00",
+      "baseline_packet_bytes": 1658,
+      "candidate_packet_bytes": 2240,
+      "visual_uses": 24259,
+      "baseline_uses": 31171,
+      "candidate_uses": 31171,
+      "cap": 32729,
+      "cap_reference": "matched two-key BSU",
+      "max_increase_ratio": 1.05,
+      "visual_channel_reused": true,
+      "snr_db": 10,
+      "metadata_seed": 42
+    },
+    {
+      "case": "train_miami-surf",
+      "baseline_packet_bytes": 2121,
+      "candidate_packet_bytes": 2303,
+      "visual_uses": 31435,
+      "baseline_uses": 38347,
+      "candidate_uses": 38347,
+      "cap": 40264,
+      "cap_reference": "matched two-key BSU",
+      "max_increase_ratio": 1.05,
+      "visual_channel_reused": true,
+      "snr_db": 10,
+      "metadata_seed": 42
+    },
+    {
+      "case": "train_rallye",
+      "baseline_packet_bytes": 2069,
+      "candidate_packet_bytes": 2359,
+      "visual_uses": 74729,
+      "baseline_uses": 81641,
+      "candidate_uses": 83945,
+      "cap": 85723,
+      "cap_reference": "matched two-key BSU",
+      "max_increase_ratio": 1.05,
+      "visual_channel_reused": true,
+      "snr_db": 10,
+      "metadata_seed": 42
+    }
+  ],
+  "sources": [
+    {
+      "name": "zea",
+      "source_sha256": "2d643a5d43126d19b7b41e538cc30e8d0075c1e1e80f63669e7e3a0c60d9a9bd",
+      "keys": [
+        0,
+        383
+      ],
+      "frames": 384,
+      "evaluation_group": "known_development",
+      "previous_use": "test"
+    },
+    {
+      "name": "person_walk",
+      "source_sha256": "73b1751e3f3e21d8c471cf7b67fcfe4d9315afc12132f2fd2ed745e8462d2783",
+      "keys": [
+        8,
+        56
+      ],
+      "frames": 49,
+      "evaluation_group": "known_development",
+      "previous_use": "test"
+    },
+    {
+      "name": "single_subject",
+      "source_sha256": "ff9ee19b230f75a86928e4422f45ee4c0bc12ddfa7836097800a8f00ccc874a0",
+      "keys": [
+        0,
+        48
+      ],
+      "frames": 49,
+      "evaluation_group": "known_development",
+      "previous_use": "test"
+    },
+    {
+      "name": "candle_flowers",
+      "source_sha256": "5b1629df5d11726299f511533a19bbf09a0abe2fbda89a3fd5947aa09d491091",
+      "keys": [
+        0,
+        48
+      ],
+      "frames": 49,
+      "evaluation_group": "known_development",
+      "previous_use": "test"
+    },
+    {
+      "name": "train_tv_00",
+      "source_sha256": "e44af1c31d5faea3d7c24659899951671a9650979d7af54276b32091e08dd564",
+      "keys": [
+        0,
+        40
+      ],
+      "frames": 41,
+      "evaluation_group": "transfer_frozen_parameters",
+      "previous_use": "train"
+    },
+    {
+      "name": "train_miami-surf",
+      "source_sha256": "ae75ee4f253b14d86affeaa650fcac4efec185a52e192a439b99fc27a5d5bdcd",
+      "keys": [
+        0,
+        95
+      ],
+      "frames": 96,
+      "evaluation_group": "transfer_frozen_parameters",
+      "previous_use": "train"
+    },
+    {
+      "name": "train_rallye",
+      "source_sha256": "5cff3cffd0f8c371102ce1b1d9241306b3ef430dacaed25e170c1d3e5a2fb9a2",
+      "keys": [
+        0,
+        95
+      ],
+      "frames": 96,
+      "evaluation_group": "transfer_frozen_parameters",
+      "previous_use": "validation"
+    }
+  ],
+  "adoption": {
+    "status": "COMPLETE_DEVELOPMENT_REVIEW",
+    "date": "2026-10-12",
+    "raw_results": {
+      "outputs/bsu_trajectory_cadence_20261012_v2/RESULT.json": "65e4903a077f7bc615cde9b740c8dac425a17f3d760812e14a1a864b2cc58248",
+      "outputs/bsu_trajectory_guard_20261012_v1/RESULT.json": "970b0820eec85f5ffa58f61a6b05f8cf88efa8d4adb47d754ed5ff35c6ff0924"
+    },
+    "decision": "cadence selected as default mode of optional bsu_refine command",
+    "selected_mode": "cadence",
+    "global_bsu_decoder_changed": false,
+    "extra_payload_for_selected_mode": 0,
+    "wrapper": "src/semantic_transmission/bsu_refine.py",
+    "wrapper_sha256": "9065bf603ab276ae80943710b4c4bdcc153a1f731448ffdfb9f932875d596624",
+    "supported_scope": "single two-endpoint BSU window; no automatic multisegment integration",
+    "adoption_is_posthoc": true,
+    "all_metrics_must_improve": false,
+    "rationale": "Accept LPIPS +1.03% and DISTS +4.35% for modest, consistent source-paired motion improvements without extra transmission. Original geometric and freeze errors remain.",
+    "trajectory_decision": "Research option only; unguarded reference overlays visibly added double contours, guard reduced them but removed most gains and worsened low-motion freeze.",
+    "measurements": {
+      "equal_video_macro": {
+        "baseline": {
+          "psnr_db": 21.6185920582561,
+          "ssim": 0.7052882813254019,
+          "lpips_vgg": 0.30733734203004015,
+          "clip": 0.9422539526068587,
+          "dists": 0.15192621284501773,
+          "flow_error_mean": 0.870971583095072,
+          "cadence_error_mean": 0.7596494369385286,
+          "false_freeze_rate": 0.41963531138970245,
+          "stall_jump_rate": 0.0023759483584881694
+        },
+        "cadence": {
+          "psnr_db": 21.68537044384701,
+          "ssim": 0.7077372858626204,
+          "lpips_vgg": 0.31050682529065504,
+          "clip": 0.9416930498341396,
+          "dists": 0.15854018657018393,
+          "flow_error_mean": 0.8519234938056321,
+          "cadence_error_mean": 0.6944381787371336,
+          "false_freeze_rate": 0.41879902060200386,
+          "stall_jump_rate": 0.0009863010760847869
+        },
+        "trajectory": {
+          "psnr_db": 22.603046442456773,
+          "ssim": 0.7233734492223531,
+          "lpips_vgg": 0.3027347125942126,
+          "clip": 0.9459626617066347,
+          "dists": 0.15516749910753577,
+          "flow_error_mean": 0.834587104837212,
+          "cadence_error_mean": 0.7335024822576429,
+          "false_freeze_rate": 0.3990780168646673,
+          "stall_jump_rate": 0.0015595640891551835
+        },
+        "combined": {
+          "psnr_db": 22.659348283370754,
+          "ssim": 0.7253597469075426,
+          "lpips_vgg": 0.3056409898953809,
+          "clip": 0.9451603995142818,
+          "dists": 0.16052309284644523,
+          "flow_error_mean": 0.8205305628890008,
+          "cadence_error_mean": 0.6921439933260376,
+          "false_freeze_rate": 0.40826182140469724,
+          "stall_jump_rate": 0.000857832422436277
+        },
+        "guarded_combined": {
+          "psnr_db": 22.042569687911126,
+          "ssim": 0.7108590118833983,
+          "lpips_vgg": 0.31160610927410504,
+          "clip": 0.9417269137378732,
+          "dists": 0.16256721693565332,
+          "flow_error_mean": 0.8508784142529998,
+          "cadence_error_mean": 0.6945521155934042,
+          "false_freeze_rate": 0.4401365774537705,
+          "stall_jump_rate": 0.000857832422436277
+        }
+      },
+      "absolute_delta": {
+        "cadence": {
+          "psnr_db": 0.06677838559090787,
+          "ssim": 0.0024490045372185243,
+          "lpips_vgg": 0.0031694832606148915,
+          "clip": -0.0005609027727191407,
+          "dists": 0.0066139737251662,
+          "flow_error_mean": -0.019048089289439907,
+          "cadence_error_mean": -0.06521125820139495,
+          "false_freeze_rate": -0.0008362907876985903,
+          "stall_jump_rate": -0.0013896472824033825
+        },
+        "trajectory": {
+          "psnr_db": 0.9844543842006708,
+          "ssim": 0.01808516789695125,
+          "lpips_vgg": -0.0046026294358275655,
+          "clip": 0.003708709099775942,
+          "dists": 0.003241286262518045,
+          "flow_error_mean": -0.036384478257860065,
+          "cadence_error_mean": -0.02614695468088568,
+          "false_freeze_rate": -0.02055729452503513,
+          "stall_jump_rate": -0.0008163842693329859
+        },
+        "combined": {
+          "psnr_db": 1.0407562251146523,
+          "ssim": 0.02007146558214068,
+          "lpips_vgg": -0.0016963521346592403,
+          "clip": 0.0029064469074230326,
+          "dists": 0.008596880001427498,
+          "flow_error_mean": -0.05044102020607122,
+          "cadence_error_mean": -0.067505443612491,
+          "false_freeze_rate": -0.011373489985005203,
+          "stall_jump_rate": -0.0015181159360518923
+        },
+        "guarded_combined": {
+          "psnr_db": 0.42397762965502395,
+          "ssim": 0.005570730557996395,
+          "lpips_vgg": 0.004268767244064886,
+          "clip": -0.0005270388689855299,
+          "dists": 0.010641004090635592,
+          "flow_error_mean": -0.02009316884207224,
+          "cadence_error_mean": -0.06509732134512436,
+          "false_freeze_rate": 0.020501266064068047,
+          "stall_jump_rate": -0.0015181159360518923
+        }
+      },
+      "relative_percent": {
+        "cadence": {
+          "ssim": 0.34723454253575703,
+          "lpips_vgg": 1.0312717744220823,
+          "clip": -0.059527770742417996,
+          "dists": 4.353411831514031,
+          "flow_error_mean": -2.1869931992213654,
+          "cadence_error_mean": -8.584388407395327,
+          "false_freeze_rate": -0.199289898871724,
+          "stall_jump_rate": -58.48810970317653
+        },
+        "trajectory": {
+          "ssim": 2.5642235063036978,
+          "lpips_vgg": -1.4975822350209889,
+          "clip": 0.39359973916961444,
+          "dists": 2.133460843800883,
+          "flow_error_mean": -4.177458709796788,
+          "cadence_error_mean": -3.4419764445901224,
+          "false_freeze_rate": -4.898847634379411,
+          "stall_jump_rate": -34.36035410519007
+        },
+        "combined": {
+          "ssim": 2.845852697909801,
+          "lpips_vgg": -0.5519511958600343,
+          "clip": 0.3084568549043487,
+          "dists": 5.6585890218940005,
+          "flow_error_mean": -5.791350852897493,
+          "cadence_error_mean": -8.886394214224058,
+          "false_freeze_rate": -2.710327199905971,
+          "stall_jump_rate": -63.89515709078285
+        },
+        "guarded_combined": {
+          "ssim": 0.7898515692799757,
+          "lpips_vgg": 1.3889517023439435,
+          "clip": -0.05593384538503665,
+          "dists": 7.004060649817312,
+          "flow_error_mean": -2.306983285340891,
+          "cadence_error_mean": -8.569389797414162,
+          "false_freeze_rate": 4.885495931258554,
+          "stall_jump_rate": -63.89515709078285
+        }
+      },
+      "per_case_cadence": [
+        {
+          "case": "zea",
+          "frames": 384,
+          "psnr_delta": 0.05504663123886999,
+          "lpips_delta": 0.00338634111297631,
+          "flow_change_percent": -9.50804483575184,
+          "cadence_change_percent": -17.091483750923896,
+          "active_cells": 657,
+          "false_freeze_before": 101,
+          "false_freeze_after": 131,
+          "stall_jump_before": 0,
+          "stall_jump_after": 0
+        },
+        {
+          "case": "person_walk",
+          "frames": 49,
+          "psnr_delta": 0.11945992634074898,
+          "lpips_delta": 0.0024779682256737545,
+          "flow_change_percent": -4.809610218304483,
+          "cadence_change_percent": -8.134096548497805,
+          "active_cells": 666,
+          "false_freeze_before": 369,
+          "false_freeze_after": 359,
+          "stall_jump_before": 0,
+          "stall_jump_after": 0
+        },
+        {
+          "case": "single_subject",
+          "frames": 49,
+          "psnr_delta": 0.05991332280255435,
+          "lpips_delta": 0.0008274368485625683,
+          "flow_change_percent": -1.5349992858289196,
+          "cadence_change_percent": -6.4975271549085,
+          "active_cells": 1230,
+          "false_freeze_before": 339,
+          "false_freeze_after": 331,
+          "stall_jump_before": 6,
+          "stall_jump_after": 5
+        },
+        {
+          "case": "candle_flowers",
+          "frames": 49,
+          "psnr_delta": 0.07170516479806821,
+          "lpips_delta": 0.004173728276272187,
+          "flow_change_percent": -12.406307994687893,
+          "cadence_change_percent": -17.512412363152652,
+          "active_cells": 40,
+          "false_freeze_before": 23,
+          "false_freeze_after": 25,
+          "stall_jump_before": 0,
+          "stall_jump_after": 0
+        },
+        {
+          "case": "train_tv_00",
+          "frames": 41,
+          "psnr_delta": 0.06967578448220735,
+          "lpips_delta": 0.00227366787631339,
+          "flow_change_percent": -1.578043491011738,
+          "cadence_change_percent": -10.825040423224374,
+          "active_cells": 1340,
+          "false_freeze_before": 736,
+          "false_freeze_after": 715,
+          "stall_jump_before": 14,
+          "stall_jump_after": 3
+        },
+        {
+          "case": "train_miami-surf",
+          "frames": 96,
+          "psnr_delta": 0.05095934197922958,
+          "lpips_delta": 0.005832420506825031,
+          "flow_change_percent": -0.6928400834208648,
+          "cadence_change_percent": -4.07634734329293,
+          "active_cells": 992,
+          "false_freeze_before": 421,
+          "false_freeze_after": 384,
+          "stall_jump_before": 0,
+          "stall_jump_after": 0
+        },
+        {
+          "case": "train_rallye",
+          "frames": 96,
+          "psnr_delta": 0.04068852749468377,
+          "lpips_delta": 0.0032148199776808606,
+          "flow_change_percent": -20.2425823794683,
+          "cadence_change_percent": -14.406506321478618,
+          "active_cells": 37,
+          "false_freeze_before": 15,
+          "false_freeze_after": 14,
+          "stall_jump_before": 0,
+          "stall_jump_after": 0
+        }
+      ]
+    },
+    "stutter_fully_resolved": false,
+    "independent_semantic_validation": false,
+    "broad_generalization_verified": false,
+    "budget": {
+      "user_instruction": "allow slightly more than LGVSC if quality improves",
+      "implementation_assumption_percent": 5,
+      "zea_lgvsc": 92475,
+      "zea_paid_trajectory": 93799,
+      "zea_selected_cadence": 91495,
+      "other_six": "cap is 1.05 times matched two-key BSU, not measured per-scene LGVSC"
+    },
+    "limits": [
+      "one seed and SNR",
+      "six short endpoint windows; no full selector or 60-second test",
+      "three transfer sources previously used in another adapter experiment",
+      "guard follows inspection of all seven sources; not held-out",
+      "source-paired optical-flow measures are diagnostic proxies, not subjective stutter labels",
+      "AI review is nonblind still/strip inspection, not full video playback or human review"
+    ]
+  },
+  "visual_review": {
+    "status": "COMPLETE_AI_SAMPLE_REVIEW",
+    "date": "2026-10-12",
+    "scope": "Nonblind source/baseline/candidate still and sequential-strip inspection; not full video playback.",
+    "human_review": false,
+    "independent_added_missing_distorted": false,
+    "actually_viewed": [
+      {
+        "path": "outputs/bsu_trajectory_cadence_20261012_v2/review/zea/frame_0192.png",
+        "sha256": "45b2392dbcbcb460d3048c05c956a97c3c06c9d855b5cd08f52187b9476e6806"
+      },
+      {
+        "path": "outputs/bsu_trajectory_cadence_20261012_v2/review/person_walk/motion_strip.png",
+        "sha256": "fab3d49750fe5aa77c267e091f0602372e94172fb7230159f2d25425caca960e"
+      },
+      {
+        "path": "outputs/bsu_trajectory_cadence_20261012_v2/review/single_subject/motion_strip.png",
+        "sha256": "2182ef575f9d6396152082f78da5010d12b33a83b0677d70784dbd000f9b0108"
+      },
+      {
+        "path": "outputs/bsu_trajectory_cadence_20261012_v2/review/candle_flowers/motion_strip.png",
+        "sha256": "a87442534fd8b136f7c39575464a5b75c0cca70dc07bcd73514c0adc44fb039c"
+      },
+      {
+        "path": "outputs/bsu_trajectory_cadence_20261012_v2/review/train_tv_00/motion_strip.png",
+        "sha256": "f480f510c9d97bb4d872c938b7649931362652c0896b2541c8e2edb6777c2025"
+      },
+      {
+        "path": "outputs/bsu_trajectory_cadence_20261012_v2/review/train_miami-surf/motion_strip.png",
+        "sha256": "00941ab4b6db321473a12b29a0d661f1b362ef26cc40b67aa83f952b4f3e044c"
+      },
+      {
+        "path": "outputs/bsu_trajectory_cadence_20261012_v2/review/train_rallye/motion_strip.png",
+        "sha256": "cbf6327479df89081db253e341c10e27b2cf3f0462511f111605babd7dfa4b1d"
+      },
+      {
+        "path": "outputs/bsu_trajectory_cadence_20261012_v2/review_cadence/zea/motion_strip.png",
+        "sha256": "58dc51fff7a0974b001682b974f2b271b0cfe753d7fa06d5e386a1b4aa09a914"
+      },
+      {
+        "path": "outputs/bsu_trajectory_cadence_20261012_v2/review_cadence/person_walk/motion_strip.png",
+        "sha256": "d400e0998ac4f129a0386d325b159cdd2287ca83041e7c430cee7e0e9afa71dd"
+      },
+      {
+        "path": "outputs/bsu_trajectory_cadence_20261012_v2/review_cadence/single_subject/motion_strip.png",
+        "sha256": "20ec3475a6cbabe89ae33032e8dc6dda5c1e76ac308c7730f0eb8a098608c2d3"
+      },
+      {
+        "path": "outputs/bsu_trajectory_cadence_20261012_v2/review_cadence/candle_flowers/motion_strip.png",
+        "sha256": "bdb742d44b4c40aebe3803c271387641d1342516768a751a15c020b5a3dd66ea"
+      },
+      {
+        "path": "outputs/bsu_trajectory_cadence_20261012_v2/review_cadence/train_tv_00/motion_strip.png",
+        "sha256": "844eb6b7ded67414642fb77655897b027f9530f07ec3b627a4148e43cdbb31b2"
+      },
+      {
+        "path": "outputs/bsu_trajectory_cadence_20261012_v2/review_cadence/train_miami-surf/motion_strip.png",
+        "sha256": "f1aa4cc6814f1d7c720064d0a4d59675ddcaad9dfa109f212494d9f65bf0c59d"
+      },
+      {
+        "path": "outputs/bsu_trajectory_cadence_20261012_v2/review_cadence/train_rallye/motion_strip.png",
+        "sha256": "73a72de977bd13fdf968b8bae1a638874a62fc5040717077268a4f8e65573b58"
+      },
+      {
+        "path": "outputs/bsu_trajectory_guard_20261012_v1/review/person_walk/motion_strip.png",
+        "sha256": "89c0431b54999f971d764030759128259a6b4d4deac06d043c15ce25429444e9"
+      },
+      {
+        "path": "outputs/bsu_trajectory_guard_20261012_v1/review/single_subject/motion_strip.png",
+        "sha256": "3ffa3c4297d6bc4bd16c861639bc5063de911fa7a601c4e3937233331aeb755f"
+      },
+      {
+        "path": "outputs/bsu_trajectory_guard_20261012_v1/review/train_tv_00/worst_flow_strip.png",
+        "sha256": "18cb8b8bfd37d9cc6ab3e11b38991710be2cde426a6e884d19e8a7955d61fab1"
+      }
+    ],
+    "sampling": "Fixed middle frame/9-frame strips, plus posthoc maximum flow-regression strip for guarded TVSum. Generated other samples and plots are not all claimed as viewed.",
+    "observations": [
+      {
+        "arm": "unguarded combined",
+        "cases": [
+          "person_walk",
+          "single_subject"
+        ],
+        "finding": "Added double contours around walking person and turning/scarf silhouette."
+      },
+      {
+        "arm": "guarded combined",
+        "cases": [
+          "person_walk",
+          "single_subject"
+        ],
+        "finding": "Viewed double contours reduced; original wrong body/scarf geometry persists."
+      },
+      {
+        "arm": "guarded combined",
+        "cases": [
+          "train_tv_00"
+        ],
+        "finding": "Worst-flow selected window retains original scene/person detail errors; not semantic correction evidence."
+      },
+      {
+        "arm": "cadence",
+        "cases": [
+          "zea",
+          "person_walk",
+          "single_subject",
+          "candle_flowers",
+          "train_tv_00",
+          "train_miami-surf",
+          "train_rallye"
+        ],
+        "finding": "Modest intermediate-motion changes; original pose/harbor geometry/surf timing/small car position errors remain. Stills cannot establish full subjective smoothness."
+      }
+    ],
+    "decision_reference": "ADOPTION.json"
+  },
+  "validation": {
+    "pytest": "23 passed in 2.52s",
+    "command": "PYTHONPATH=src /home/sangukbae/anaconda3/envs/lgvsc/bin/python -m pytest -q tests/test_sparse_trajectory.py tests/test_guarded_trajectory_receiver.py tests/test_wire.py tests/test_generation_noise.py",
+    "delivery": {
+      "cadence_replay_pngs": 384,
+      "guard_replay_pngs": 49,
+      "mp4_timeline_verified": 49,
+      "fps": 24,
+      "status": "PASSED"
+    },
+    "cadence_cli_replay": "384 PNG byte hashes identical to experimental cadence",
+    "guarded_cli_replay": "49 PNG byte hashes identical using pre-mode wrapper snapshot retained with replay",
+    "cadence_cli_resume": "COMPLETE_REUSED; artifacts verified without refinement",
+    "guard_refine_resume": "21 completed nonbaseline arms reused; no refinement repeated",
+    "ast_python_files": 10,
+    "bash_syntax_files": 2,
+    "documentation": {
+      "historical_seven_file_contract": "public Markdown differs: extra=['docs/research/BSU_RATE_QUALITY_IDEAS_2026-10-11.md'], missing=[]",
+      "eight_existing_documents_link_check": "PASS: 8 public Markdown files, 428 local links/anchors"
+    },
+    "git_diff_check": "PASSED"
+  },
+  "code_sha256": {
+    "src/semantic_transmission/sparse_trajectory.py": "a455ac030cb8f48c3dd8d616efae192a7d91472920e065647caf58db469ad582",
+    "src/semantic_transmission/trajectory_receiver.py": "98a5b5abf1ecd551ad054a11813f96ec0a44d821f0cc9fe2a977ff38bd5d15a9",
+    "src/semantic_transmission/stutter_metrics.py": "7dd30a23e8d171736727626a609ca58f89978d512e0ff9a33e71d6371f98fada",
+    "src/semantic_transmission/bsu_trajectory_experiment.py": "2a8a9cfa4ad39c5c1d24dfe10045adc79650d3745c4252a14dc172ad9728684a",
+    "src/semantic_transmission/guarded_trajectory_receiver.py": "3643fe4618ac919a562b5ff37e67e69a4382e4c074f9c5a9e987fc3205012184",
+    "src/semantic_transmission/bsu_guarded_trajectory_experiment.py": "e268cc2b0da773c32fff938570ab139e8d54175d1a0980bb45a1a60550b7bb92",
+    "src/semantic_transmission/bsu_refine.py": "9065bf603ab276ae80943710b4c4bdcc153a1f731448ffdfb9f932875d596624",
+    "scripts/review_bsu_trajectory.py": "27bb677bc34f45af451df7ad29a309691551e95959764f020872cf2f5fc3b33b",
+    "tests/test_sparse_trajectory.py": "8d81a9fbf5bbbca6bfc1beb67b2e3090fe946213cab5da319df0894e67224866",
+    "tests/test_guarded_trajectory_receiver.py": "b91e8d67546a512c8b8acadda576dee431bcb7020eb89933c46bfe20edc719d5"
+  },
+  "failed_attempt": {
+    "root": "outputs/bsu_trajectory_cadence_20261012_v1",
+    "stage": "channel before new generation",
+    "reason": "channel environment lacks cv2",
+    "resolution": "lazy sender-only cv2 imports; preserved failure, new frozen v2 run"
+  }
+}
