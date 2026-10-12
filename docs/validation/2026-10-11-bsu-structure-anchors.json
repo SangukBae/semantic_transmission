@@ -1,0 +1,736 @@
+{
+  "date": "2026-10-11",
+  "status": "COMPLETE_PILOT_NOT_ADOPTED",
+  "root": "/home/sangukbae/semantic_transmission/outputs/bsu_structure_anchor_20261011_v2",
+  "signature": "12719bb752c61f444fa7208c8cf14d3f00a66a7913960c7d45f337d0430b7f91",
+  "training_executed": false,
+  "default_decoder_changed": false,
+  "source_sha256": "2d643a5d43126d19b7b41e538cc30e8d0075c1e1e80f63669e7e3a0c60d9a9bd",
+  "scope": "one known harbor 16s development video; one seed/SNR; not heldout generalization",
+  "frames": 384,
+  "common_quality_frames": 381,
+  "quality_domain": "RGB PNG before MP4 encoding",
+  "temporal_metric_frames": 384,
+  "independent_semantic_review": "PENDING",
+  "generator": {
+    "name": "Open-Sora v1.2 STDiT3-XL/2",
+    "seed": 2025,
+    "steps": 30
+  },
+  "channel": {
+    "snr_db": 10,
+    "seed": 42,
+    "budget": 92475,
+    "all_four_packets_exact": true,
+    "bit_errors": 0,
+    "unchanged_first_key_awgn_reused": true,
+    "reduced_end_key_awgn": "source-frame-seeded NumPy AWGN",
+    "excludes": "preinstalled models/code and physical link headers, same as historical comparison"
+  },
+  "baseline_parity": {
+    "exact_pixels": true,
+    "max_absolute_error": 0
+  },
+  "verification": {
+    "status": "PASSED",
+    "signature": "12719bb752c61f444fa7208c8cf14d3f00a66a7913960c7d45f337d0430b7f91",
+    "arms": [
+      {
+        "arm": "baseline",
+        "frames": 384,
+        "artifacts_verified": true,
+        "noise_matched": true,
+        "structure_slots": 0,
+        "protected": null
+      },
+      {
+        "arm": "endhalf",
+        "frames": 384,
+        "artifacts_verified": true,
+        "noise_matched": true,
+        "structure_slots": 0,
+        "protected": null
+      },
+      {
+        "arm": "endhalf_72x40_r035",
+        "frames": 384,
+        "artifacts_verified": true,
+        "noise_matched": true,
+        "structure_slots": 46,
+        "protected": [
+          0,
+          110
+        ]
+      },
+      {
+        "arm": "endhalf_72x40_r06",
+        "frames": 384,
+        "artifacts_verified": true,
+        "noise_matched": true,
+        "structure_slots": 46,
+        "protected": [
+          0,
+          110
+        ]
+      },
+      {
+        "arm": "endhalf_144x80_r035",
+        "frames": 384,
+        "artifacts_verified": true,
+        "noise_matched": true,
+        "structure_slots": 46,
+        "protected": [
+          0,
+          110
+        ]
+      },
+      {
+        "arm": "endhalf_144x80_r06",
+        "frames": 384,
+        "artifacts_verified": true,
+        "noise_matched": true,
+        "structure_slots": 46,
+        "protected": [
+          0,
+          110
+        ]
+      }
+    ],
+    "four_channel_packets_byte_exact": true,
+    "all_within_budget": true,
+    "total_generated_frames": 2304,
+    "tests_passed": 19,
+    "test_files": [
+      "test_structure_anchors.py",
+      "test_generation_noise.py",
+      "test_wire.py"
+    ],
+    "generation_resume_without_inference": "PASSED",
+    "frozen_code_sha256_verified": true
+  },
+  "ideas": {
+    "idea2": "29.1502 percent lower total uses for reduced-end-key-only arm, at a quality cost",
+    "idea1": "received structure improves PSNR but worsens LPIPS; fixed22 quality target not met",
+    "next_hypothesis": "constrain coarse structure while preserving detail; not implemented or verified"
+  },
+  "results": [
+    {
+      "arm": {
+        "name": "baseline",
+        "transport": "baseline",
+        "ratio": null
+      },
+      "channel": {
+        "visual_uses": 84583,
+        "packet_bytes": 1722,
+        "total_uses": 91495
+      },
+      "common381": {
+        "psnr_db": 15.930045652620434,
+        "ssim": 0.46858410808936807,
+        "lpips_vgg": 0.35002480928353435,
+        "clip": 0.9102184065370735,
+        "dists": 0.1658087893733828,
+        "frames": 381,
+        "shape": [
+          381,
+          320,
+          576,
+          3
+        ]
+      },
+      "all384": {
+        "psnr_db": 15.98146758968079,
+        "ssim": 0.47101942978631434,
+        "lpips_vgg": 0.34926175240737695,
+        "clip": 0.9102096557617188,
+        "dists": 0.16573920380324125,
+        "frames": 384,
+        "shape": [
+          384,
+          320,
+          576,
+          3
+        ]
+      },
+      "nonkeys382": {
+        "psnr_db": 15.949322767798813,
+        "ssim": 0.46944360670402635,
+        "lpips_vgg": 0.34973172172513933,
+        "clip": 0.9102501994028142,
+        "dists": 0.16577407577274983,
+        "frames": 382,
+        "shape": [
+          382,
+          320,
+          576,
+          3
+        ]
+      },
+      "flow_error_all384": 0.07116155402233955,
+      "mad_p95_all384": 4.170499131944443,
+      "delta_vs_baseline": {
+        "psnr_db": 0.0,
+        "lpips_vgg": 0.0,
+        "ssim": 0.0
+      },
+      "delta_vs_same_reduced_keys": {
+        "psnr_db": 0.307524889584311,
+        "lpips_vgg": -0.022179498994757185,
+        "ssim": 0.027448394641193807
+      },
+      "generation_seconds": 369.0938464020146,
+      "max_cuda_allocated_bytes": 8690018304
+    },
+    {
+      "arm": {
+        "name": "endhalf",
+        "transport": "endhalf",
+        "ratio": null
+      },
+      "channel": {
+        "visual_uses": 57912,
+        "packet_bytes": 1651,
+        "total_uses": 64824
+      },
+      "common381": {
+        "psnr_db": 15.622520763036123,
+        "ssim": 0.44113571344817426,
+        "lpips_vgg": 0.37220430827829154,
+        "clip": 0.9123733800853019,
+        "dists": 0.1792650069464536,
+        "frames": 381,
+        "shape": [
+          381,
+          320,
+          576,
+          3
+        ]
+      },
+      "all384": {
+        "psnr_db": 15.674174633565814,
+        "ssim": 0.4435261974804665,
+        "lpips_vgg": 0.37175755117398995,
+        "clip": 0.9123179117838541,
+        "dists": 0.17945951983953515,
+        "frames": 384,
+        "shape": [
+          384,
+          320,
+          576,
+          3
+        ]
+      },
+      "nonkeys382": {
+        "psnr_db": 15.641210953716575,
+        "ssim": 0.4418962617658687,
+        "lpips_vgg": 0.3721854914545389,
+        "clip": 0.9123688543030105,
+        "dists": 0.17943960006948542,
+        "frames": 382,
+        "shape": [
+          382,
+          320,
+          576,
+          3
+        ]
+      },
+      "flow_error_all384": 0.07962714361790421,
+      "mad_p95_all384": 3.978365885416667,
+      "delta_vs_baseline": {
+        "psnr_db": -0.307524889584311,
+        "lpips_vgg": 0.022179498994757185,
+        "ssim": -0.027448394641193807
+      },
+      "delta_vs_same_reduced_keys": {
+        "psnr_db": 0.0,
+        "lpips_vgg": 0.0,
+        "ssim": 0.0
+      },
+      "generation_seconds": 355.3911019269726,
+      "max_cuda_allocated_bytes": 8690018304
+    },
+    {
+      "arm": {
+        "name": "endhalf_72x40_r035",
+        "transport": "endhalf_72x40",
+        "ratio": 0.35
+      },
+      "channel": {
+        "width": 72,
+        "height": 40,
+        "fps": 3,
+        "crf": 32,
+        "bitstream_bytes": 8961,
+        "packet_bytes": 11002,
+        "visual_uses": 57912,
+        "digital_uses": 34560,
+        "total_uses": 92472,
+        "within_budget": true
+      },
+      "common381": {
+        "psnr_db": 18.652758287098262,
+        "ssim": 0.4842730033388625,
+        "lpips_vgg": 0.5290877907451369,
+        "clip": 0.840080841945538,
+        "dists": 0.3420355712647826,
+        "frames": 381,
+        "shape": [
+          381,
+          320,
+          576,
+          3
+        ]
+      },
+      "all384": {
+        "psnr_db": 18.679018333903684,
+        "ssim": 0.4864077019723522,
+        "lpips_vgg": 0.5274002666895589,
+        "clip": 0.84051513671875,
+        "dists": 0.3409187241146962,
+        "frames": 384,
+        "shape": [
+          384,
+          320,
+          576,
+          3
+        ]
+      },
+      "nonkeys382": {
+        "psnr_db": 18.662574044387892,
+        "ssim": 0.48497215916017894,
+        "lpips_vgg": 0.5286479161671943,
+        "clip": 0.8402227431691754,
+        "dists": 0.34174817285612613,
+        "frames": 382,
+        "shape": [
+          382,
+          320,
+          576,
+          3
+        ]
+      },
+      "flow_error_all384": 0.06523568877663376,
+      "mad_p95_all384": 1.582417534722222,
+      "delta_vs_baseline": {
+        "psnr_db": 2.722712634477828,
+        "lpips_vgg": 0.17906298146160254,
+        "ssim": 0.015688895249494406
+      },
+      "delta_vs_same_reduced_keys": {
+        "psnr_db": 3.030237524062139,
+        "lpips_vgg": 0.15688348246684536,
+        "ssim": 0.04313728989068821
+      },
+      "generation_seconds": 359.3714245289448,
+      "max_cuda_allocated_bytes": 8690018304
+    },
+    {
+      "arm": {
+        "name": "endhalf_72x40_r06",
+        "transport": "endhalf_72x40",
+        "ratio": 0.6
+      },
+      "channel": {
+        "width": 72,
+        "height": 40,
+        "fps": 3,
+        "crf": 32,
+        "bitstream_bytes": 8961,
+        "packet_bytes": 11002,
+        "visual_uses": 57912,
+        "digital_uses": 34560,
+        "total_uses": 92472,
+        "within_budget": true
+      },
+      "common381": {
+        "psnr_db": 18.508162164423698,
+        "ssim": 0.4776389079362728,
+        "lpips_vgg": 0.5394681428517569,
+        "clip": 0.8623219888041339,
+        "dists": 0.3547861263195048,
+        "frames": 381,
+        "shape": [
+          381,
+          320,
+          576,
+          3
+        ]
+      },
+      "all384": {
+        "psnr_db": 18.536251723423273,
+        "ssim": 0.47984468929323637,
+        "lpips_vgg": 0.5376904235066226,
+        "clip": 0.8625399271647135,
+        "dists": 0.353570868105938,
+        "frames": 384,
+        "shape": [
+          384,
+          320,
+          576,
+          3
+        ]
+      },
+      "nonkeys382": {
+        "psnr_db": 18.518788302368247,
+        "ssim": 0.47836846795286986,
+        "lpips_vgg": 0.5389932958087372,
+        "clip": 0.8623801026668848,
+        "dists": 0.3544608356128812,
+        "frames": 382,
+        "shape": [
+          382,
+          320,
+          576,
+          3
+        ]
+      },
+      "flow_error_all384": 0.06614296269595779,
+      "mad_p95_all384": 1.450353732638889,
+      "delta_vs_baseline": {
+        "psnr_db": 2.5781165118032643,
+        "lpips_vgg": 0.18944333356822257,
+        "ssim": 0.009054799846904715
+      },
+      "delta_vs_same_reduced_keys": {
+        "psnr_db": 2.8856414013875753,
+        "lpips_vgg": 0.1672638345734654,
+        "ssim": 0.03650319448809852
+      },
+      "generation_seconds": 361.7454501729808,
+      "max_cuda_allocated_bytes": 8690018304
+    },
+    {
+      "arm": {
+        "name": "endhalf_144x80_r035",
+        "transport": "endhalf_144x80",
+        "ratio": 0.35
+      },
+      "channel": {
+        "width": 144,
+        "height": 80,
+        "fps": 3,
+        "crf": 38,
+        "bitstream_bytes": 8858,
+        "packet_bytes": 10900,
+        "visual_uses": 57912,
+        "digital_uses": 34560,
+        "total_uses": 92472,
+        "within_budget": true
+      },
+      "common381": {
+        "psnr_db": 20.12781681817267,
+        "ssim": 0.5982190610744946,
+        "lpips_vgg": 0.4407477133230274,
+        "clip": 0.9083934393454725,
+        "dists": 0.2718707740776182,
+        "frames": 381,
+        "shape": [
+          381,
+          320,
+          576,
+          3
+        ]
+      },
+      "all384": {
+        "psnr_db": 20.14233083981753,
+        "ssim": 0.5993916813191215,
+        "lpips_vgg": 0.43977778738675016,
+        "clip": 0.9082864125569662,
+        "dists": 0.2712835179020961,
+        "frames": 384,
+        "shape": [
+          384,
+          320,
+          576,
+          3
+        ]
+      },
+      "nonkeys382": {
+        "psnr_db": 20.13347118074998,
+        "ssim": 0.598573423603905,
+        "lpips_vgg": 0.4405555721196829,
+        "clip": 0.9083565117801047,
+        "dists": 0.27175740250118113,
+        "frames": 382,
+        "shape": [
+          382,
+          320,
+          576,
+          3
+        ]
+      },
+      "flow_error_all384": 0.054641755117837816,
+      "mad_p95_all384": 2.052808159722222,
+      "delta_vs_baseline": {
+        "psnr_db": 4.1977711655522345,
+        "lpips_vgg": 0.09072290403949307,
+        "ssim": 0.12963495298512656
+      },
+      "delta_vs_same_reduced_keys": {
+        "psnr_db": 4.5052960551365455,
+        "lpips_vgg": 0.06854340504473588,
+        "ssim": 0.15708334762632037
+      },
+      "generation_seconds": 362.2411649299902,
+      "max_cuda_allocated_bytes": 8690018304
+    },
+    {
+      "arm": {
+        "name": "endhalf_144x80_r06",
+        "transport": "endhalf_144x80",
+        "ratio": 0.6
+      },
+      "channel": {
+        "width": 144,
+        "height": 80,
+        "fps": 3,
+        "crf": 38,
+        "bitstream_bytes": 8858,
+        "packet_bytes": 10900,
+        "visual_uses": 57912,
+        "digital_uses": 34560,
+        "total_uses": 92472,
+        "within_budget": true
+      },
+      "common381": {
+        "psnr_db": 20.007763165416417,
+        "ssim": 0.5950138335032066,
+        "lpips_vgg": 0.4314842864753693,
+        "clip": 0.91087906003937,
+        "dists": 0.2760772339002354,
+        "frames": 381,
+        "shape": [
+          381,
+          320,
+          576,
+          3
+        ]
+      },
+      "all384": {
+        "psnr_db": 20.02389714777989,
+        "ssim": 0.5962106761947255,
+        "lpips_vgg": 0.4305909685790539,
+        "clip": 0.9107564290364584,
+        "dists": 0.27552342352767784,
+        "frames": 384,
+        "shape": [
+          384,
+          320,
+          576,
+          3
+        ]
+      },
+      "nonkeys382": {
+        "psnr_db": 20.014216378588394,
+        "ssim": 0.5953776728167459,
+        "lpips_vgg": 0.4313188884894885,
+        "clip": 0.9108394602830497,
+        "dists": 0.27599906936990026,
+        "frames": 382,
+        "shape": [
+          382,
+          320,
+          576,
+          3
+        ]
+      },
+      "flow_error_all384": 0.0549698471633946,
+      "mad_p95_all384": 1.9734418402777776,
+      "delta_vs_baseline": {
+        "psnr_db": 4.077717512795983,
+        "lpips_vgg": 0.08145947719183494,
+        "ssim": 0.1264297254138385
+      },
+      "delta_vs_same_reduced_keys": {
+        "psnr_db": 4.385242402380294,
+        "lpips_vgg": 0.059279978197077754,
+        "ssim": 0.15387812005503232
+      },
+      "generation_seconds": 360.6253561269841,
+      "max_cuda_allocated_bytes": 8690018304
+    }
+  ],
+  "direct_structure": [
+    {
+      "name": "endhalf_72x40",
+      "all384": {
+        "psnr_db": 18.59656588517618,
+        "ssim": 0.4782031253565669,
+        "lpips_vgg": 0.5329254698008299,
+        "clip": 0.8271783192952474,
+        "dists": 0.35524846458186704,
+        "frames": 384,
+        "shape": [
+          384,
+          320,
+          576,
+          3
+        ]
+      },
+      "common381": {
+        "psnr_db": 18.59642497180511,
+        "ssim": 0.47815951074366536,
+        "lpips_vgg": 0.5329026149639621,
+        "clip": 0.8269529968421916,
+        "dists": 0.35520343204808674,
+        "frames": 381,
+        "shape": [
+          381,
+          320,
+          576,
+          3
+        ]
+      },
+      "note": "received structure upsample only, no generator; same packet, not independently rate-optimized codec"
+    },
+    {
+      "name": "endhalf_144x80",
+      "all384": {
+        "psnr_db": 20.143609892677546,
+        "ssim": 0.5992079134132274,
+        "lpips_vgg": 0.4497092185386767,
+        "clip": 0.9080301920572916,
+        "dists": 0.27609927222753566,
+        "frames": 384,
+        "shape": [
+          384,
+          320,
+          576,
+          3
+        ]
+      },
+      "common381": {
+        "psnr_db": 20.145512611197468,
+        "ssim": 0.599320015107718,
+        "lpips_vgg": 0.4496654139103226,
+        "clip": 0.9080179369668635,
+        "dists": 0.2760153700673361,
+        "frames": 381,
+        "shape": [
+          381,
+          320,
+          576,
+          3
+        ]
+      },
+      "note": "received structure upsample only, no generator; same packet, not independently rate-optimized codec"
+    }
+  ],
+  "received_key_diagnostics": [
+    {
+      "transport": "baseline",
+      "keys": [
+        {
+          "index": 0,
+          "psnr_to_source": 29.485582392936,
+          "matches_original_received": true
+        },
+        {
+          "index": 383,
+          "psnr_to_source": 30.830358044221562,
+          "matches_original_received": true
+        }
+      ]
+    },
+    {
+      "transport": "endhalf",
+      "keys": [
+        {
+          "index": 0,
+          "psnr_to_source": 29.485582392936,
+          "matches_original_received": true
+        },
+        {
+          "index": 383,
+          "psnr_to_source": 24.228398690073814,
+          "matches_original_received": false
+        }
+      ]
+    },
+    {
+      "transport": "endhalf_72x40",
+      "keys": [
+        {
+          "index": 0,
+          "psnr_to_source": 29.485582392936,
+          "matches_original_received": true
+        },
+        {
+          "index": 383,
+          "psnr_to_source": 24.228398690073814,
+          "matches_original_received": false
+        }
+      ]
+    },
+    {
+      "transport": "endhalf_144x80",
+      "keys": [
+        {
+          "index": 0,
+          "psnr_to_source": 29.485582392936,
+          "matches_original_received": true
+        },
+        {
+          "index": 383,
+          "psnr_to_source": 24.228398690073814,
+          "matches_original_received": false
+        }
+      ]
+    }
+  ],
+  "fixed22_historical_png_reference": {
+    "psnr_db": 20.969,
+    "lpips_vgg": 0.27832,
+    "channel_uses": 980599,
+    "scope": "different keys/segments/noise; descriptive target only"
+  },
+  "visual_review": {
+    "status": "AI_SAMPLE_REVIEW_NOT_INDEPENDENT",
+    "blinded": false,
+    "independent_semantic_error_rate_verified": false,
+    "samples": [
+      {
+        "arm": "endhalf_144x80_r035",
+        "frames": [
+          96,
+          192
+        ]
+      },
+      {
+        "arm": "endhalf_144x80_r06",
+        "frames": [
+          380
+        ]
+      }
+    ],
+    "panel_order": [
+      "source",
+      "baseline",
+      "half end key",
+      "structure candidate"
+    ],
+    "observations": [
+      "At the sampled middle frames, coarse harbor layout is closer to source than baseline, but building and small-boat detail is blurred.",
+      "The late frame in the r0.6 condition retains errors in building/boat detail; sampled images do not establish semantic error reduction."
+    ],
+    "interpretation": "PSNR benefit coexists with LPIPS degradation; apparent sharpness and source fidelity are distinct",
+    "scope": "3 nonblind AI sample inspections; no exhaustive object/event labels"
+  },
+  "failed_v1": {
+    "stage": "receive",
+    "cause": "FFmpeg default synchronization dropped one of 48 raw H264 frames",
+    "fix": "explicit -vsync 0, real codec roundtrip regression test",
+    "generation_executed": false
+  },
+  "total_seconds": 2514.638032204006,
+  "artifacts": {
+    "protocol.json": "e4ccf078925060620faab18cd64e4560d191723b30db41e5664b951320bd26cb",
+    "RESULT.json": "4a3525e9904af46d87c13e502b59cd830dcd3883f4a71627f278ecd7f584a7dd",
+    "channel.json": "c16f76c2eb5a7f6cda3c8c37772f5cce67f5d55eaa494030e307687ba1f355e8",
+    "verification.json": "54ec60a126f97bf8d3b9677e13836f3e02fc8ee1918adf8f77d7c35be49c97e7",
+    "AI_REVIEW.json": "1a65584bb88838b6aff10730dcf864cc31c8aebcc8aebca82d8246a8ca13d0f3",
+    "report.html": "c47944b170780f1884bd5a656577697213499fbd7f68690fa086739499ccbab5",
+    "execution.log": "141776bd3dfabc568ba7a4570afed33a8c63b98c8fbf01fc18c5b310a24864bc"
+  }
+}
