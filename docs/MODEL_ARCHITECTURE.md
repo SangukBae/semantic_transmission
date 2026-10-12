@@ -1,5 +1,12 @@
 # 모델 구조
 
+<a id="bsu-webvid-default"></a>
+## WebVid 배치의 개발 기본 구성
+
+[`bsu_webvid.py`](../src/semantic_transmission/bsu_webvid.py)는 기존 Qwen 의미 선택·캡션 LoRA·수정 Open-Sora 실행 뒤에 **궤적·수신 키 합성 → 시간 보정**을 연결한다. 초기 `bsu_refine`의 2키 한정 인터페이스와 별도로, [`bsu_sequence_refinement.py`](../src/semantic_transmission/bsu_sequence_refinement.py)는 모든 인접 키 구간을 처리하고 공유 끝 프레임을 정확히 한 번만 기록한다. 각 키 위치의 기존 생성 픽셀과 영상 전체 길이·FPS를 보존한다. 기본 `combined`는 최초 실험의 합성 규칙이며 후속 `guarded_combined`를 대신 적용하지 않는다.
+
+송신부는 원본의 구간별 희소 궤적을 영상 단위 패킷으로 묶는다. 별도 LDPC/QAM/AWGN 전송의 실제 비용을 기본 BSU 비용에 더하며, 기본 추가 예산은 해당 BSU 영상 대비 5%다. 디지털 메타데이터는 6/8dB에서 QPSK, 10dB에서 16-QAM을 사용하고 전체 심벌을 계상한다. 표현을 줄여도 예산에 들어가지 않거나 유효 궤적이 없으면 시간 보정만 수행한다. 수신 보정에는 원본 픽셀을 전달하지 않는다. 이 전송 포장·구간 연결 확장은 기존 7개 짧은 평가 창의 성능 수치를 전체 WebVid 성능으로 승격하지 않는다. 이중 윤곽·정지 회귀는 알려진 한계로 유지한다. [실행 및 평가](RUN_GUIDE.md#bsu-webvid-benchmark)
+
 <a id="bsu-lgvsc-blocks"></a>
 ## BSU와 LGVSC 내부 블록다이어그램
 

@@ -2,7 +2,57 @@
 
 [프로젝트](../README.md) · [데이터](DATA.md) · [구조](MODEL_ARCHITECTURE.md) · [결과](RESULTS.md)
 
-**2026-10-11 실행 상태:** 현재 기본은 [Qwen 의미 변화에 따른 가변 키 영상 경로](#qwen35-fc)다. 항구 비교, [압축 움직임 17조건](#bsu-motion-pilot), [키 예산 재배분·구조 앵커 6조건](#bsu-structure-anchors)의 실험을 완료했다. 두 복원 후보 모두 비채택이며 구조 앵커 조건 학습은 미실행이다.
+**2026-10-12 실행 상태:** Qwen 의미 변화 선택·보강 캡션·수정 Open-Sora를 유지하고, 아래 WebVid 배치에는 궤적·키 합성 + 시간 보정을 개발 기본값으로 연결했다. 구조 앵커 조건 학습은 미실행이며 WebVid 전체 성능은 배치 결과로 확인한다.
+
+<a id="bsu-webvid-benchmark"></a>
+## 현재 BSU로 WebVid 전체 영상 복원·평가
+
+[`run_bsu_webvid.sh`](../scripts/run_bsu_webvid.sh)는 준비된 WebVid 원본 전체 길이를 **576×320·24fps**로 처리한다. 기본은 AWGN **6·8·10dB**, Qwen 의미 변화 선택 + 고정 캡션 LoRA + 기존 수정 Open-Sora + **궤적·수신 키 합성 후 시간 보정(`combined`)**이다. 윤곽 검사로 합성 이득을 줄였던 `guarded_combined`와 다른 방식이다. 기존 단일 영상 명령·동결 실험의 코드는 바꾸지 않는다.
+
+원격의 `/home/sangukbae/ETRI/Semantic/semantic_transmission`에서 다음을 실행한다. 설정된 전용 Python 환경을 자동으로 사용한다.
+
+```bash
+cd /home/sangukbae/ETRI/Semantic/semantic_transmission
+
+# 전체 준비본·코드·어댑터 확인. 추론 및 결과 폴더 생성 없음.
+bash scripts/run_bsu_webvid.sh check
+
+# 준비된 53편 × SNR 3개 = 159조건. 중단 후 같은 명령으로 재개.
+bash scripts/run_bsu_webvid.sh run
+
+# 다른 터미널에서 진행 상태 확인 / 완료된 조건의 성능표 재집계
+bash scripts/run_bsu_webvid.sh status
+bash scripts/run_bsu_webvid.sh report
+```
+
+기본 입력은 `outputs/remote_webvid_full_20261012/inventory.json`, 템플릿은 `.local/deployment/bsu_template.json`, 출력은 `outputs/bsu_webvid_paper/`다. 다른 장비에서는 `--inventory`, `--template`, `--root`로 지정한다. 준비본·선택·기본 복원·보정·지표의 해시를 확인하며, 옵션이나 코드가 달라지면 새 출력 폴더를 요구한다. **개별 조건 실패 시 종료**하고 완료 조건은 보존한다. 실패한 영상을 건너뛰고 나머지를 처리하려면 `--keep-going`을 쓰되 최종 결과는 `PARTIAL` 및 실패 목록으로 남는다. 긴 의미 구간의 생성 메모리 용량은 영상별로 다르며, 실패를 숨기기 위해 입력을 자르거나 키를 강제로 추가하지 않는다.
+
+**디지털 링크 설정:** 실제 시험에서 기존 LDPC(6144,9216)·16-QAM이 6/8dB에서 메타데이터 복호에 실패했다. 이 배치의 기본·추가 메타데이터는 **6/8dB QPSK, 10dB 16-QAM**을 사용한다. SNR 자체와 시각 NTSCC 채널은 유지하고, QPSK에서 늘어난 디지털 심벌도 모두 계상한다. 이 설정은 명시적인 로컬 링크 정책이며 논문의 의미 메타데이터 링크와 같다고 검증된 것은 아니다. 오류 패킷을 원문으로 바꾸거나 비용을 숨겨 재전송하지 않는다.
+
+```bash
+# 먼저 1편·10dB 실행
+bash scripts/run_bsu_webvid.sh run --ids webvid_008_852d56f2 --snr 10 \
+  --root outputs/bsu_webvid_single
+
+# 시간 보정만 비교하는 별도 실행
+bash scripts/run_bsu_webvid.sh run --mode cadence --snr 10 \
+  --root outputs/bsu_webvid_cadence
+```
+
+`--mode none`은 보정 없는 비교이며 원래 MP4 바이트를 보존한다. `--reuse-base /absolute/path/completed_run`은 단일 영상·단일 SNR에서만 허용하며, 완료된 동일 BSU 실행의 원본·정규화 프레임·모델·캡션·코드·SNR·출력 해시를 검증해 새 추론 없이 보정과 평가를 시험한다. 이를 새 전체 모델 추론 결과로 표기하지 않는다. 서로 다른 SNR의 일반 실행은 각자 선택·캡션·채널·복원 기록을 만들며, 반복 추론 시간 절감용 SNR 간 캐시 공유는 구현하지 않았다.
+
+| 산출물 | 내용 |
+|---|---|
+| `SUMMARY.json` | SNR별 기본/보정 출력의 영상 동일 가중 평균·프레임 가중 평균, 전송량·CBR, 완료/미완료 건수 |
+| `per_video.csv`, `comparison.tsv` | 영상별 5개 지표와 전송량, SNR별 비교표 및 논문 CBR 참고값 |
+| `snr_10/<video_id>/refined/reconstruction.mp4` | 전체 길이의 최종 복원 영상 |
+| `snr_10/<video_id>/refined/quality_*.csv` | PNG와 전달 MP4 각각의 모든 프레임 점수 |
+| `snr_10/<video_id>/sender`, `received` | 송신 궤적 패킷·실제 LDPC/QAM/AWGN 수신 기록·비용 |
+| `status.json`, 개별 `logs/`, `stages/` | 현재 영상/SNR, 단계별 진행률, 실패 로그와 재개 기록 |
+
+궤적 예산 기본값 `--extra-rate-ratio 0.05`는 **해당 영상의 실제 기본 BSU 전송량 대비 최대 +5%**다. 영상 전체의 별도 궤적 패킷에 헤더·CRC·LDPC 패딩·패리티까지 포함한다. 예산에 유효 궤적이 들어가지 않으면 추가 전송 없이 시간 보정으로 우회하고 그 사실을 기록한다. 각 영상의 LGVSC 전송량 대비 +5%를 보장한다는 뜻은 아니다.
+
+논문은 WebVid **55편**을 사용하지만 현재 보유 입력은 **53편**이다. 결과는 누락 파일명과 `53/55`를 표시한다. `--require-complete-manifest`를 쓰면 누락 상태에서 시작하지 않는다. 논문과 같은 다섯 화질 지표·전체 프레임 평균을 계산하지만, 준비 해상도·NTSCC 가중치·부가정보 비용까지 논문과 동일하다고 확인된 재현은 아니다. 논문의 정확한 화질 수치는 곡선으로 제시되어 표에 임의의 값을 채우지 않으며, 공개된 CBR 표 값만 출처와 함께 제공한다. [평가·집계 기준](METRICS.md#bsu-webvid-metrics) · [논문 기준 설정](../configs/bsu_webvid_paper.json)
 
 **과거 실험의 산출물 가용성:** 2026-10-08 성능 문제로 보류된 후보의 일부 가중치·캐시·영상은 사용자 요청으로 삭제했다. 현재 기본 모델과 실행 중 LGVSC/Qwen 비교의 의존 파일은 보존했다. 아래 과거 명령은 삭제된 산출물이 있으면 바로 재개할 수 없으며, 해당 실행의 `ARTIFACT_CLEANUP.json`과 [정리 기록](validation/2026-10-08-rejected-artifact-cleanup.json)을 확인하고 원래 추출·학습·생성 단계부터 복구해야 한다.
 
