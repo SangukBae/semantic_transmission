@@ -1,0 +1,472 @@
+{
+  "status": "COMPLETE_QUANTITATIVE_AND_AI_SAMPLE_REVIEW",
+  "labels": {
+    "lgvsc": "LGVSC 공개 정책 기준선",
+    "fixed": "BSU 기존 고정 22키",
+    "bsu": "BSU 현재 의미 변화 선택"
+  },
+  "keys": {
+    "lgvsc": [
+      0,
+      380
+    ],
+    "fixed": [
+      0,
+      4,
+      8,
+      12,
+      16,
+      30,
+      50,
+      72,
+      96,
+      120,
+      144,
+      168,
+      192,
+      216,
+      240,
+      247,
+      271,
+      288,
+      312,
+      336,
+      360,
+      383
+    ],
+    "bsu": [
+      0,
+      383
+    ]
+  },
+  "intervals": {
+    "lgvsc": {
+      "count": 1,
+      "min_seconds": 15.833333333333334,
+      "median_seconds": 15.833333333333334,
+      "max_seconds": 15.833333333333334,
+      "seconds": [
+        15.833333333333334
+      ]
+    },
+    "fixed": {
+      "count": 21,
+      "min_seconds": 0.16666666666666666,
+      "median_seconds": 1.0,
+      "max_seconds": 1.0,
+      "seconds": [
+        0.16666666666666666,
+        0.16666666666666666,
+        0.16666666666666666,
+        0.16666666666666666,
+        0.5833333333333334,
+        0.8333333333333334,
+        0.9166666666666666,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        0.2916666666666667,
+        1.0,
+        0.7083333333333334,
+        1.0,
+        1.0,
+        1.0,
+        0.9583333333333334
+      ]
+    },
+    "bsu": {
+      "count": 1,
+      "min_seconds": 15.958333333333334,
+      "median_seconds": 15.958333333333334,
+      "max_seconds": 15.958333333333334,
+      "seconds": [
+        15.958333333333334
+      ]
+    }
+  },
+  "quality": {
+    "lgvsc": {
+      "common_all": {
+        "psnr_db": 16.619027415279362,
+        "ssim": 0.504657533645849,
+        "lpips_vgg": 0.36035907792607,
+        "clip": 0.9209503414124016,
+        "dists": 0.16771187416211827,
+        "frames": 381
+      },
+      "common_nonkey": {
+        "psnr_db": 16.564175790403436,
+        "ssim": 0.501826060264644,
+        "lpips_vgg": 0.36124234428644847,
+        "clip": 0.9210317287604457,
+        "dists": 0.16763969434004972,
+        "frames": 359
+      }
+    },
+    "fixed": {
+      "common_all": {
+        "psnr_db": 20.926749816463417,
+        "ssim": 0.7231124081081878,
+        "lpips_vgg": 0.29037895407576575,
+        "clip": 0.9073912452837927,
+        "dists": 0.16832481625824774,
+        "frames": 381
+      },
+      "common_nonkey": {
+        "psnr_db": 20.85405178923935,
+        "ssim": 0.7205557780177994,
+        "lpips_vgg": 0.2914818200726363,
+        "clip": 0.9068640918784819,
+        "dists": 0.16914168954891748,
+        "frames": 359
+      }
+    },
+    "bsu": {
+      "common_all": {
+        "psnr_db": 15.90523881114079,
+        "ssim": 0.4662903803593861,
+        "lpips_vgg": 0.36191833074011515,
+        "clip": 0.9203896510006562,
+        "dists": 0.17537230440950768,
+        "frames": 381
+      },
+      "common_nonkey": {
+        "psnr_db": 15.844333773402159,
+        "ssim": 0.4629715483679032,
+        "lpips_vgg": 0.3628555853386775,
+        "clip": 0.9205699697510445,
+        "dists": 0.1753658454730318,
+        "frames": 359
+      }
+    }
+  },
+  "temporal": {
+    "source": {
+      "mad_mean": 1.4839643297697367,
+      "mad_p95": 2.573663194444445,
+      "mad_max": 3.0643663194444444,
+      "mad_error_to_source": 0.0,
+      "flow_error_to_source": 0.0,
+      "flow_magnitude_mean": 0.06281469865015855,
+      "exact_rgb_duplicates": 0,
+      "largest_mad_transitions": [
+        {
+          "to_frame": 70,
+          "seconds": 2.9166666666666665,
+          "mad": 3.0643663194444444,
+          "flow_error_to_source": 0.0,
+          "flow_magnitude": 0.10823085904121399,
+          "exact_rgb_duplicate": 0
+        },
+        {
+          "to_frame": 290,
+          "seconds": 12.083333333333334,
+          "mad": 3.0577039930555556,
+          "flow_error_to_source": 0.0,
+          "flow_magnitude": 0.10557595640420914,
+          "exact_rgb_duplicate": 0
+        },
+        {
+          "to_frame": 230,
+          "seconds": 9.583333333333334,
+          "mad": 3.011480034722222,
+          "flow_error_to_source": 0.0,
+          "flow_magnitude": 0.1057993546128273,
+          "exact_rgb_duplicate": 0
+        },
+        {
+          "to_frame": 160,
+          "seconds": 6.666666666666667,
+          "mad": 2.9845486111111112,
+          "flow_error_to_source": 0.0,
+          "flow_magnitude": 0.10707632452249527,
+          "exact_rgb_duplicate": 0
+        },
+        {
+          "to_frame": 300,
+          "seconds": 12.5,
+          "mad": 2.9363498263888888,
+          "flow_error_to_source": 0.0,
+          "flow_magnitude": 0.10549550503492355,
+          "exact_rgb_duplicate": 0
+        }
+      ]
+    },
+    "lgvsc": {
+      "mad_mean": 1.7330232319078946,
+      "mad_p95": 3.7735112847222227,
+      "mad_max": 4.984375,
+      "mad_error_to_source": 0.7349074264437134,
+      "flow_error_to_source": 0.063947569627903,
+      "flow_magnitude_mean": 0.07046511168469136,
+      "exact_rgb_duplicates": 0,
+      "largest_mad_transitions": [
+        {
+          "to_frame": 374,
+          "seconds": 15.583333333333334,
+          "mad": 4.984375,
+          "flow_error_to_source": 0.09295253455638885,
+          "flow_magnitude": 0.1165628656744957,
+          "exact_rgb_duplicate": 0
+        },
+        {
+          "to_frame": 323,
+          "seconds": 13.458333333333334,
+          "mad": 4.842795138888889,
+          "flow_error_to_source": 0.1236305683851242,
+          "flow_magnitude": 0.19430160522460938,
+          "exact_rgb_duplicate": 0
+        },
+        {
+          "to_frame": 272,
+          "seconds": 11.333333333333334,
+          "mad": 4.70625,
+          "flow_error_to_source": 0.16452762484550476,
+          "flow_magnitude": 0.19559131562709808,
+          "exact_rgb_duplicate": 0
+        },
+        {
+          "to_frame": 153,
+          "seconds": 6.375,
+          "mad": 4.446115451388889,
+          "flow_error_to_source": 0.10525582730770111,
+          "flow_magnitude": 0.13180121779441833,
+          "exact_rgb_duplicate": 0
+        },
+        {
+          "to_frame": 170,
+          "seconds": 7.083333333333333,
+          "mad": 4.4358506944444445,
+          "flow_error_to_source": 0.12787625193595886,
+          "flow_magnitude": 0.15441551804542542,
+          "exact_rgb_duplicate": 0
+        }
+      ]
+    },
+    "fixed": {
+      "mad_mean": 1.9265073327850875,
+      "mad_p95": 7.264124348958337,
+      "mad_max": 12.893033854166667,
+      "mad_error_to_source": 1.4815027069627194,
+      "flow_error_to_source": 0.09254387843079473,
+      "flow_magnitude_mean": 0.07389143974226164,
+      "exact_rgb_duplicates": 0,
+      "largest_mad_transitions": [
+        {
+          "to_frame": 195,
+          "seconds": 8.125,
+          "mad": 12.893033854166667,
+          "flow_error_to_source": 0.8697420954704285,
+          "flow_magnitude": 0.9319829940795898,
+          "exact_rgb_duplicate": 0
+        },
+        {
+          "to_frame": 54,
+          "seconds": 2.25,
+          "mad": 12.335785590277778,
+          "flow_error_to_source": 0.8821892738342285,
+          "flow_magnitude": 0.9195119142532349,
+          "exact_rgb_duplicate": 0
+        },
+        {
+          "to_frame": 152,
+          "seconds": 6.333333333333333,
+          "mad": 12.210980902777777,
+          "flow_error_to_source": 0.8848947882652283,
+          "flow_magnitude": 0.9366921186447144,
+          "exact_rgb_duplicate": 0
+        },
+        {
+          "to_frame": 223,
+          "seconds": 9.291666666666666,
+          "mad": 12.074848090277778,
+          "flow_error_to_source": 0.8145103454589844,
+          "flow_magnitude": 0.875282883644104,
+          "exact_rgb_duplicate": 0
+        },
+        {
+          "to_frame": 17,
+          "seconds": 0.7083333333333334,
+          "mad": 11.951779513888889,
+          "flow_error_to_source": 0.5746377110481262,
+          "flow_magnitude": 0.6288408637046814,
+          "exact_rgb_duplicate": 0
+        }
+      ]
+    },
+    "bsu": {
+      "mad_mean": 1.7817845394736842,
+      "mad_p95": 3.465092230902779,
+      "mad_max": 5.342795138888889,
+      "mad_error_to_source": 0.8144425598501461,
+      "flow_error_to_source": 0.07186285000000345,
+      "flow_magnitude_mean": 0.07013070258728572,
+      "exact_rgb_duplicates": 0,
+      "largest_mad_transitions": [
+        {
+          "to_frame": 153,
+          "seconds": 6.375,
+          "mad": 5.342795138888889,
+          "flow_error_to_source": 0.157478466629982,
+          "flow_magnitude": 0.1883130818605423,
+          "exact_rgb_duplicate": 0
+        },
+        {
+          "to_frame": 289,
+          "seconds": 12.041666666666666,
+          "mad": 5.109787326388889,
+          "flow_error_to_source": 0.14905177056789398,
+          "flow_magnitude": 0.18384240567684174,
+          "exact_rgb_duplicate": 0
+        },
+        {
+          "to_frame": 374,
+          "seconds": 15.583333333333334,
+          "mad": 4.976671006944445,
+          "flow_error_to_source": 0.08960302919149399,
+          "flow_magnitude": 0.08718828111886978,
+          "exact_rgb_duplicate": 0
+        },
+        {
+          "to_frame": 170,
+          "seconds": 7.083333333333333,
+          "mad": 4.952322048611111,
+          "flow_error_to_source": 0.14024050533771515,
+          "flow_magnitude": 0.16118234395980835,
+          "exact_rgb_duplicate": 0
+        },
+        {
+          "to_frame": 272,
+          "seconds": 11.333333333333334,
+          "mad": 4.869227430555555,
+          "flow_error_to_source": 0.1305977702140808,
+          "flow_magnitude": 0.15799322724342346,
+          "exact_rgb_duplicate": 0
+        }
+      ]
+    }
+  },
+  "transmission": {
+    "lgvsc": {
+      "visual_complex_channel_uses": 85563,
+      "digital_complex_channel_uses": 6912,
+      "total_complex_channel_uses": 92475
+    },
+    "fixed": {
+      "visual_complex_channel_uses": 922999,
+      "digital_complex_channel_uses": 57600,
+      "total_complex_channel_uses": 980599
+    },
+    "bsu": {
+      "visual_complex_channel_uses": 84583,
+      "digital_complex_channel_uses": 6912,
+      "total_complex_channel_uses": 91495
+    }
+  },
+  "timing": {
+    "lgvsc": {
+      "reconstruction_seconds": 793.8484162979876,
+      "scope": "Measured reconstruction worker only; excludes selection, captions, T5, channel and evaluation; one observation."
+    },
+    "fixed": {
+      "reconstruction_seconds": 650.3023582040041,
+      "scope": "Measured reconstruction worker only; excludes selection, captions, T5, channel and evaluation; one observation."
+    },
+    "bsu": {
+      "reconstruction_seconds": 349.0361516830162,
+      "scope": "Measured reconstruction worker only; excludes selection, captions, T5, channel and evaluation; one observation."
+    }
+  },
+  "changes_current_vs_baseline": {
+    "lgvsc": {
+      "psnr_db": -0.7137886041385713,
+      "ssim": -0.038367153286462896,
+      "lpips_vgg": 0.00155925281404512,
+      "clip": -0.0005606904117454459,
+      "dists": 0.00766043024738941,
+      "flow_error_to_source_percent": 12.37776575115792,
+      "mad_p95_percent": -8.173264382914047,
+      "mad_max_percent": 7.190874259839775,
+      "channel_uses_percent": -1.0597458772641288
+    },
+    "fixed": {
+      "psnr_db": -5.021511005322626,
+      "ssim": -0.2568220277488017,
+      "lpips_vgg": 0.0715393766643494,
+      "clip": 0.012998405716863504,
+      "dists": 0.00704748815125994,
+      "flow_error_to_source_percent": -22.347267892232082,
+      "mad_p95_percent": -52.29855569034048,
+      "mad_max_percent": -58.56060567806354,
+      "channel_uses_percent": -90.6694785534148
+    }
+  },
+  "output_frames": {
+    "lgvsc": 381,
+    "fixed": 384,
+    "bsu": 384
+  },
+  "shared_settings": {
+    "fps": 24,
+    "width": 576,
+    "height": 320,
+    "snr_db": 10,
+    "channel_seed": 42,
+    "seed": 2025,
+    "steps": 30,
+    "models": {
+      "internvl": "/home/sangukbae/.cache/huggingface/hub/models--OpenGVLab--InternVL2-8B/snapshots/6fb9ad6924f69424e57fab2ab061d707688f0296",
+      "stdit": "/home/sangukbae/.cache/huggingface/hub/models--hpcai-tech--OpenSora-STDiT-v3/snapshots/9a8583918505ee93bd9fae8dd5ce32e1f9334c71",
+      "vae": "/home/sangukbae/.cache/huggingface/hub/models--hpcai-tech--OpenSora-VAE-v1.2/snapshots/33d153e9b5a9f771a8a84f98bd3f46458a8ed0bf",
+      "t5": "/home/sangukbae/.cache/huggingface/hub/models--DeepFloyd--t5-v1_1-xxl/snapshots/c9c625d2ec93667ec579ede125fd3811d1f81d37",
+      "pllava": "/home/sangukbae/.cache/huggingface/hub/models--ermu2001--pllava-7b/snapshots/825854ada92c52460b3e91902725528c0696fbcb",
+      "vae2d": "/home/sangukbae/.cache/huggingface/hub/models--PixArt-alpha--pixart_sigma_sdxlvae_T5_diffusers/snapshots/2c17b4e85261cd549b4068d086b7c2ba9d468e9f"
+    }
+  },
+  "caption_adapter": "qwen35_evidence_repair_v3_caption_e002_u000060",
+  "video_sha256": {
+    "source": "2d643a5d43126d19b7b41e538cc30e8d0075c1e1e80f63669e7e3a0c60d9a9bd",
+    "lgvsc": "16a8140068f65271c090431c8c1473d2fb1d87d511c1cf985b56f9234e917164",
+    "fixed": "5bae4415fb46e9ffacac03d4bf0eeb246b5202327941fed290252bf0a44530fc",
+    "bsu": "1a9fc134927edf91ea831f9f92baf2763e747ad8a5ec1f907f3a57eb7fd5f24c"
+  },
+  "limitations": [
+    "항구 개발 영상 1편·한 시드·SNR 10dB 결과이며 다른 영상으로 일반화하지 않습니다.",
+    "LGVSC는 공개 선택·캡션·수신부 정책을 로컬 실행기에 연결한 기준선이며 논문 수치의 완전 재현은 아닙니다.",
+    "화질·움직임은 세 출력에 공통인 원본 0~380프레임으로 비교합니다. BSU 두 출력의 마지막 3장은 공통 지표에서 제외합니다.",
+    "전송량은 각 실행의 전체 실제 사용량입니다. LGVSC 출력 381장과 BSU 출력 384장의 길이 차이를 함께 기록합니다.",
+    "BSU 간 선택 정책·키 위치·캡션·구간 길이가 함께 달라지므로 키 개수만의 독립 효과는 아닙니다.",
+    "생성 seed는 같지만 구간 모양·난수 정책이 달라 생성 잡음 텐서까지 동일하지 않습니다.",
+    "MAD가 낮아지는 것은 정지 영상에서도 가능하므로 원본 대비 움직임 오차·화질·시각 검수를 함께 봐야 합니다.",
+    "시각 표본 검수는 AI 진단이며 독립적인 사람 정답·전체 의미 오류율을 대신하지 않습니다."
+  ],
+  "ai_sample_review_frames": 31,
+  "independent_semantic_review": "PENDING",
+  "conclusion": "현재 BSU는 고정 22키보다 큰 화면 변화와 전송량을 줄였지만 원본 구도·세부 형태 재현이 약해졌다. LGVSC 대비 전반적 품질 우위는 확인되지 않았다.",
+  "analysis_root": "outputs/bsu_zea_16s_20261009/comparison_lgvsc_fixed",
+  "source_indices": {
+    "common": [
+      0,
+      380
+    ],
+    "common_count": 381,
+    "common_nonkey_count": 359
+  },
+  "artifact_sha256": {
+    "outputs/bsu_zea_16s_20261009/comparison_lgvsc_fixed/RESULT.json": "372c77ea88178570f794abb7d3c9e4e67f1492f5e09b09dacc0badfab72a9a04",
+    "outputs/bsu_zea_16s_20261009/comparison_lgvsc_fixed/AI_REVIEW.json": "8cff64774ffbb86d7d701b16f3c94e09772cbd558f217096ec95a7b4990d97ff",
+    "outputs/bsu_zea_16s_20261009/comparison_lgvsc_fixed/inputs.json": "ed57a33f266a3101f145a61a7c85805dc6ef0b51d265aac41d99ea5bdba80474",
+    "outputs/bsu_zea_16s_20261009/comparison_lgvsc_fixed/comparison.mp4": "fe7c4d23a2be7360788cdd4fe16dec28b87075588e8e4d47615c326afc0982d5",
+    "scripts/analyze_bsu_zea.py": "b75bda05674c9ff3b6bed583f15527417ecdfb77f0720acbad92eddc8de1ea36"
+  },
+  "recovery": "Original selection stopped at 70/96. GPU allocation/arithmetic smoke passed. Resumed same frozen selection configuration with successful calls reused.",
+  "receiver_repairs_triggered": {
+    "condition_collision": false,
+    "short_schedule": false
+  },
+  "email_status": "DRAFT_READY_NOT_SENT"
+}

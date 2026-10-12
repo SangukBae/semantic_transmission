@@ -1,0 +1,122 @@
+{
+  "status": "COMPLETE_RECONSTRUCTION_INDEPENDENT_REVIEW_PENDING",
+  "source_filename": "stock-footage-aerial-drone-panoramic-video-of-famous-port-and-marina-of-zea-with-luxury-yachts-docked-as-seen.mp4",
+  "source_sha256": "10d5cd04e7ddb96cbaa8b0ffb4e0557604fac8f7927fa7075ffed0f94b272cd8",
+  "normalized_sha256": "f00c3322a4b143ff23c0408815a532f946126a6361ebadfe05f58be3807d08f6",
+  "frames": 494,
+  "fps": 24,
+  "width": 576,
+  "height": 320,
+  "duration_seconds": 20.583333333333332,
+  "selector": "qwen35_source_event_pairs",
+  "keyframes": 28,
+  "captions": 27,
+  "observation_windows": 11,
+  "model_id": "Qwen/Qwen3.5-9B",
+  "model_revision": "c202236235762e1c871ad0ccb60c8ee5ba337b9a",
+  "caption_adapter": "qwen35_evidence_repair_v3_caption_e002_u000060",
+  "caption_draft_adapter_calls": 27,
+  "review_base_model_calls": 27,
+  "source_pair_coverage": {
+    "covered": 7,
+    "total": 7,
+    "scope": "Qwen source observations; not independently labeled events"
+  },
+  "receiver": {
+    "snr_db": 10,
+    "steps": 30,
+    "seed": 2025,
+    "channel_seed": 42,
+    "t5_precision": "fp32"
+  },
+  "video": "outputs/qwen35_pairs_zea_20261007/reconstruction/event_pairs/run/receiver/reconstruction/sample_0000.mp4",
+  "video_sha256": "9168d5d23b1b52ad3e6cb6f4a3718630117cb9f864743d3bb663f62c360b03ff",
+  "comparison": "outputs/qwen35_pairs_zea_20261007/source_vs_output.mp4",
+  "comparison_sha256": "54cc8e77ca22a4c3f92239e1b9a5c76caf193f6d151a292adfe6a6eebbdeabc4",
+  "output_audit": "PASSED",
+  "quality_audit": "PASSED",
+  "probes": {
+    "video": {
+      "width": 576,
+      "height": 320,
+      "avg_frame_rate": "24/1",
+      "duration": "20.583333",
+      "nb_frames": "494"
+    },
+    "comparison": {
+      "width": 1152,
+      "height": 320,
+      "avg_frame_rate": "24/1",
+      "duration": "20.583333",
+      "nb_frames": "494"
+    }
+  },
+  "metrics": {
+    "psnr_db": 20.87615309184824,
+    "ssim": 0.7211994707416867,
+    "lpips_vgg": 0.28681728174449944,
+    "clip": 0.9060468789536943,
+    "dists": 0.1685060376097799,
+    "frames": 494,
+    "shape": [
+      494,
+      320,
+      576,
+      3
+    ]
+  },
+  "signature": "f9b9bbac2c420586b5c8f518f5b05481f799ddf409d4c22e2a80d19d79ac5249",
+  "training_executed": false,
+  "independent_semantic_review": "PENDING",
+  "original_lgvsc_comparison_executed": false,
+  "runtime_context": "A concurrent Ollama qwen3:14b occupied 10468448009 VRAM bytes during part of decoding; runtime is not an isolated speed benchmark.",
+  "validation": {
+    "command": "pytest -q tests/test_qwen35_pairs_video.py tests/test_qwen35_pairs_comparison.py",
+    "passed": 34
+  },
+  "visual_spot_check": {
+    "frame": 300,
+    "scope": "Nonblind spot check only",
+    "finding": "Harbor layout retained; buildings and boats have blurred details."
+  },
+  "temporal_diagnostic": {
+    "status": "OBSERVED_TEMPORAL_DISCONTINUITY",
+    "adjacent_pairs": 493,
+    "timing": {
+      "frames": 494,
+      "min_dt": 0.041665999999999315,
+      "max_dt": 0.04166700000000034,
+      "non_increasing": 0
+    },
+    "exact_adjacent_duplicates": 0,
+    "source_boundary_mad": 1.3706296741452992,
+    "output_boundary_mad": 7.2876711071047,
+    "boundary_change_output_vs_source": 5.317024171134457,
+    "output_boundary_vs_inside": 4.6287714868755545,
+    "pre_mp4_vs_mp4_temporal_difference_correlation": 0.9935518757554722,
+    "end_conditions_placed_before_requested_final_latent": 23,
+    "segments": 27,
+    "captions_with_steady_fixed_same_arrangement": 23,
+    "source_flow_median_px": 0.05911583453416824,
+    "output_flow_median_px": 0.018132692202925682,
+    "analysis_resolution": [
+      288,
+      160
+    ],
+    "optical_flow": "OpenCV Farneback, textured city pixels only; blur can bias this proxy",
+    "observation": "Low motion interspersed with large geometry/detail changes, including segment seams; visible in pre-MP4 PNGs.",
+    "candidate_causes": [
+      "Independent segment generation and imperfect continuity of reencoded tail17 references",
+      "Existing align=5 places 23/27 ending conditions earlier than requested final latent",
+      "Most captions emphasize steady layout; camera trajectory only weakly constrained by text and a motion scalar"
+    ],
+    "causal_ablation_executed": false,
+    "original_lgvsc_comparison_executed": false,
+    "prior_output_audit_scope": "Frame count, timestamps, input/output index accounting and receiver contract checks; not perceptual temporal smoothness",
+    "artifacts": {
+      "outputs/qwen35_pairs_zea_20261007/analysis_stutter/analyze.py": "ecbe4a824ce6e78fd63efd361c82637b90c3d50a6ea5aab512ad8154dfef1b1a",
+      "outputs/qwen35_pairs_zea_20261007/analysis_stutter/measurements.json": "d5ff509d730ac68f63b0517d14a3a61bdfb9c853f50a6abd4be3ecddb5db9e22",
+      "outputs/qwen35_pairs_zea_20261007/analysis_stutter/temporal_diagnostics.png": "39b81b471a961738cf352cd80cc8551cc3763108238104b8252032c27d50c32d"
+    }
+  }
+}
