@@ -1,0 +1,844 @@
+{
+  "date": "2026-10-12",
+  "status": "COMPLETE_DIAGNOSTIC_PILOT_NOT_ADOPTED",
+  "root": "/home/sangukbae/semantic_transmission/outputs/bsu_temporal_support_20261012_v1",
+  "signature": "9c056ed5dbca9062227559abaa8c3eb67a27f1f063293fa93833dc36b4c7edbf",
+  "parent": "/home/sangukbae/semantic_transmission/outputs/bsu_frequency_anchor_20261011_v1",
+  "parent_signature": "cbd8c99a948cb320c9400448345500b4c5aa29623f2840b759deff02c5b4d5f2",
+  "scope": "known harbor frame35 failure, one development video/seed/SNR; no heldout generalization",
+  "frames": 384,
+  "common_quality_frames": 381,
+  "quality_domain": "RGB PNG before MP4 encoding",
+  "temporal_metric_frames": 384,
+  "source_sha256": "2d643a5d43126d19b7b41e538cc30e8d0075c1e1e80f63669e7e3a0c60d9a9bd",
+  "training_executed": false,
+  "default_decoder_changed": false,
+  "source_pixels_read_by_receiver": false,
+  "generator": {
+    "name": "Open-Sora v1.2 STDiT3-XL/2",
+    "seed": 2025,
+    "steps": 30
+  },
+  "channel": {
+    "reused_verified_received_bytes": true,
+    "new_channel_realization": false,
+    "extra_transmitted_bits": 0,
+    "total_uses": 92472,
+    "budget": 92475,
+    "snr_db": 10,
+    "channel_seed": 42,
+    "excludes": "preinstalled weights/code and physical link headers"
+  },
+  "intervention": "46 sparse vs all 111 non-key latent positions; same prior, FFT band 0.25, sampler and noise",
+  "strength_control": "2x2: 0.7 and 0.7*46/111; sparse-high and continuous-low have equal coefficient sum",
+  "normalization_caveat": "Equal coefficient sums do not equal realized residual/update energy.",
+  "continuity_caveat": "All non-key positions are active; hard-key holes 0/110 and residual differences remain.",
+  "primary_flash_gate": "At unchanged strength 0.7: frame35 luma impulse and window32:38 max MAD both <=50% of sparse replay.",
+  "primary_flash_gate_passed": true,
+  "structure_detail_gate": {
+    "psnr_min": 19.87781681817267,
+    "lpips_max": 0.35002480928353435,
+    "rule": "PSNR within 0.25dB of old hard-anchor arm AND LPIPS below original BSU"
+  },
+  "fixed22_target": {
+    "psnr_db": 20.969,
+    "lpips_vgg": 0.27832
+  },
+  "brightness_definition": "e[t]=mean luma(generated)-mean luma(source), each at 288x160 grayscale; impulse=abs(e[t]-(e[t-1]+e[t+1])/2)",
+  "sparse_parity": {
+    "exact_pixels": true,
+    "frames": 384,
+    "max_absolute_error": 0
+  },
+  "verification": {
+    "status": "PASSED",
+    "signature": "9c056ed5dbca9062227559abaa8c3eb67a27f1f063293fa93833dc36b4c7edbf",
+    "arms": [
+      {
+        "arm": "sparse_high_replay",
+        "frames": 384,
+        "positions": 46,
+        "noise_matched": true,
+        "artifacts_verified": true,
+        "hard_keys_preserved": true
+      },
+      {
+        "arm": "continuous_high",
+        "frames": 384,
+        "positions": 111,
+        "noise_matched": true,
+        "artifacts_verified": true,
+        "hard_keys_preserved": true
+      },
+      {
+        "arm": "sparse_low",
+        "frames": 384,
+        "positions": 46,
+        "noise_matched": true,
+        "artifacts_verified": true,
+        "hard_keys_preserved": true
+      },
+      {
+        "arm": "continuous_low",
+        "frames": 384,
+        "positions": 111,
+        "noise_matched": true,
+        "artifacts_verified": true,
+        "hard_keys_preserved": true
+      }
+    ],
+    "total_generated_frames": 1536,
+    "actual_noise_and_received_conditions_identical": true,
+    "spatial_sampler_unchanged": true,
+    "frozen_code_verified": true,
+    "channel_uses": 92472,
+    "all_within_budget": true
+  },
+  "post_validation": {
+    "status": "PASSED",
+    "tests_passed": 36,
+    "test_files": [
+      "test_temporal_anchor_support.py",
+      "test_frequency_anchors.py",
+      "test_structure_anchors.py",
+      "test_generation_noise.py",
+      "test_wire.py"
+    ],
+    "generation_resume_without_inference": "PASSED",
+    "media": [
+      {
+        "path": "review/continuous_high.mp4",
+        "sha256": "32e8188064edb49543424e77983d1d394eb36e8829ebdb5ad55152e35f483559",
+        "width": 1728,
+        "height": 344,
+        "r_frame_rate": "24/1",
+        "nb_read_frames": "384"
+      },
+      {
+        "path": "review/continuous_low.mp4",
+        "sha256": "0538297e1364f441da08c5d108afc72edd968c7d3680b4e38f92d9d9c801ccd9",
+        "width": 1728,
+        "height": 344,
+        "r_frame_rate": "24/1",
+        "nb_read_frames": "384"
+      },
+      {
+        "path": "review/sparse_low.mp4",
+        "sha256": "942d79030dd21f540d7c596803b069dcebfc9c8e6666282d7a2256d70420d96a",
+        "width": 1728,
+        "height": 344,
+        "r_frame_rate": "24/1",
+        "nb_read_frames": "384"
+      }
+    ],
+    "documentation": {
+      "local_markdown_files": 8,
+      "local_links": 403,
+      "local_links_status": "PASSED",
+      "diff_check": "PASSED",
+      "public_contract": "Existing seven-Markdown contract rejects user research note; checker unchanged."
+    }
+  },
+  "results": [
+    {
+      "arm": {
+        "name": "sparse_high_replay",
+        "support": "sparse",
+        "strength": 0.7,
+        "fraction": 0.25,
+        "positions": 46,
+        "coefficient_sum": 32.199999999999996
+      },
+      "channel": {
+        "width": 144,
+        "height": 80,
+        "fps": 3,
+        "crf": 38,
+        "bitstream_bytes": 8858,
+        "packet_bytes": 10900,
+        "visual_uses": 57912,
+        "digital_uses": 34560,
+        "total_uses": 92472,
+        "within_budget": true
+      },
+      "common381": {
+        "psnr_db": 16.702129491033748,
+        "ssim": 0.4506228878224422,
+        "lpips_vgg": 0.405723303243557,
+        "clip": 0.9018939160925197,
+        "dists": 0.22678786500545312,
+        "frames": 381,
+        "shape": [
+          381,
+          320,
+          576,
+          3
+        ]
+      },
+      "all384": {
+        "psnr_db": 16.74546713697004,
+        "ssim": 0.4529107610758887,
+        "lpips_vgg": 0.40505861716034514,
+        "clip": 0.9018287658691406,
+        "dists": 0.2266326928511262,
+        "frames": 384,
+        "shape": [
+          384,
+          320,
+          576,
+          3
+        ]
+      },
+      "nonkeys382": {
+        "psnr_db": 16.718202733254127,
+        "ssim": 0.4513401849995234,
+        "lpips_vgg": 0.4056283101361459,
+        "clip": 0.9018823114365183,
+        "dists": 0.2268261561531047,
+        "frames": 382,
+        "shape": [
+          382,
+          320,
+          576,
+          3
+        ]
+      },
+      "flash": {
+        "target_frame": 35,
+        "window_frames": [
+          32,
+          38
+        ],
+        "target_luma_impulse": 45.35699869791666,
+        "target_incoming_mad": 44.112955729166664,
+        "target_outgoing_mad": 47.27061631944444,
+        "window_max_mad": 47.27061631944444,
+        "max_mad": 47.27061631944444,
+        "max_mad_transition": 36,
+        "source_mad_at_max": 0.8535807291666667,
+        "transitions_above_mad10": 16,
+        "max_source_adjusted_luma_step": 46.96555989583332,
+        "max_luma_impulse": 45.35699869791666,
+        "max_luma_impulse_frame": 35
+      },
+      "flow_error_all384": 0.10073201200260973,
+      "mad_p95_all384": 6.66599175347222,
+      "passes_structure_detail_gate": false,
+      "reaches_fixed22_targets": false,
+      "generation_seconds": 364.7902025419753,
+      "max_cuda_allocated_bytes": 8701561344
+    },
+    {
+      "arm": {
+        "name": "continuous_high",
+        "support": "continuous",
+        "strength": 0.7,
+        "fraction": 0.25,
+        "positions": 111,
+        "coefficient_sum": 77.69999999999999
+      },
+      "channel": {
+        "width": 144,
+        "height": 80,
+        "fps": 3,
+        "crf": 38,
+        "bitstream_bytes": 8858,
+        "packet_bytes": 10900,
+        "visual_uses": 57912,
+        "digital_uses": 34560,
+        "total_uses": 92472,
+        "within_budget": true
+      },
+      "common381": {
+        "psnr_db": 17.01160924945663,
+        "ssim": 0.4422339637836596,
+        "lpips_vgg": 0.4519871326256299,
+        "clip": 0.880860015789042,
+        "dists": 0.2723537672535954,
+        "frames": 381,
+        "shape": [
+          381,
+          320,
+          576,
+          3
+        ]
+      },
+      "all384": {
+        "psnr_db": 17.048377192406193,
+        "ssim": 0.444302073926569,
+        "lpips_vgg": 0.45115379182000953,
+        "clip": 0.8809312184651693,
+        "dists": 0.2719537966574232,
+        "frames": 384,
+        "shape": [
+          384,
+          320,
+          576,
+          3
+        ]
+      },
+      "nonkeys382": {
+        "psnr_db": 17.024128495693237,
+        "ssim": 0.4427804500376056,
+        "lpips_vgg": 0.4519017433152773,
+        "clip": 0.8808753527895943,
+        "dists": 0.272337449938839,
+        "frames": 382,
+        "shape": [
+          382,
+          320,
+          576,
+          3
+        ]
+      },
+      "flash": {
+        "target_frame": 35,
+        "window_frames": [
+          32,
+          38
+        ],
+        "target_luma_impulse": 0.19153645833333854,
+        "target_incoming_mad": 0.9595703125,
+        "target_outgoing_mad": 0.6850911458333333,
+        "window_max_mad": 2.0948784722222222,
+        "max_mad": 21.066102430555556,
+        "max_mad_transition": 2,
+        "source_mad_at_max": 1.0724826388888888,
+        "transitions_above_mad10": 6,
+        "max_source_adjusted_luma_step": 20.964800347222223,
+        "max_luma_impulse": 20.436360677083336,
+        "max_luma_impulse_frame": 1
+      },
+      "flow_error_all384": 0.09342615282060894,
+      "mad_p95_all384": 3.9018598090277767,
+      "passes_structure_detail_gate": false,
+      "reaches_fixed22_targets": false,
+      "generation_seconds": 351.17071639501955,
+      "max_cuda_allocated_bytes": 8701561344
+    },
+    {
+      "arm": {
+        "name": "sparse_low",
+        "support": "sparse",
+        "strength": 0.29009009009009007,
+        "fraction": 0.25,
+        "positions": 46,
+        "coefficient_sum": 13.344144144144144
+      },
+      "channel": {
+        "width": 144,
+        "height": 80,
+        "fps": 3,
+        "crf": 38,
+        "bitstream_bytes": 8858,
+        "packet_bytes": 10900,
+        "visual_uses": 57912,
+        "digital_uses": 34560,
+        "total_uses": 92472,
+        "within_budget": true
+      },
+      "common381": {
+        "psnr_db": 16.298891640447803,
+        "ssim": 0.4487838971551192,
+        "lpips_vgg": 0.38468760525773515,
+        "clip": 0.9077379121555118,
+        "dists": 0.20056068897247314,
+        "frames": 381,
+        "shape": [
+          381,
+          320,
+          576,
+          3
+        ]
+      },
+      "all384": {
+        "psnr_db": 16.345323407745774,
+        "ssim": 0.45111424898249647,
+        "lpips_vgg": 0.38416187015051645,
+        "clip": 0.9076944986979166,
+        "dists": 0.20055828227971992,
+        "frames": 384,
+        "shape": [
+          384,
+          320,
+          576,
+          3
+        ]
+      },
+      "nonkeys382": {
+        "psnr_db": 16.31590992613262,
+        "ssim": 0.449523138493395,
+        "lpips_vgg": 0.3846443239306904,
+        "clip": 0.9077429646596858,
+        "dists": 0.2006530265533487,
+        "frames": 382,
+        "shape": [
+          382,
+          320,
+          576,
+          3
+        ]
+      },
+      "flash": {
+        "target_frame": 35,
+        "window_frames": [
+          32,
+          38
+        ],
+        "target_luma_impulse": 2.8589843749999915,
+        "target_incoming_mad": 6.749045138888889,
+        "target_outgoing_mad": 2.398697916666667,
+        "window_max_mad": 6.749045138888889,
+        "max_mad": 6.749045138888889,
+        "max_mad_transition": 35,
+        "source_mad_at_max": 1.7616102430555556,
+        "transitions_above_mad10": 0,
+        "max_source_adjusted_luma_step": 6.0259765624999915,
+        "max_luma_impulse": 3.610112847222233,
+        "max_luma_impulse_frame": 70
+      },
+      "flow_error_all384": 0.090811752775008,
+      "mad_p95_all384": 5.159930555555555,
+      "passes_structure_detail_gate": false,
+      "reaches_fixed22_targets": false,
+      "generation_seconds": 348.7609867400024,
+      "max_cuda_allocated_bytes": 8701561344
+    },
+    {
+      "arm": {
+        "name": "continuous_low",
+        "support": "continuous",
+        "strength": 0.29009009009009007,
+        "fraction": 0.25,
+        "positions": 111,
+        "coefficient_sum": 32.199999999999996
+      },
+      "channel": {
+        "width": 144,
+        "height": 80,
+        "fps": 3,
+        "crf": 38,
+        "bitstream_bytes": 8858,
+        "packet_bytes": 10900,
+        "visual_uses": 57912,
+        "digital_uses": 34560,
+        "total_uses": 92472,
+        "within_budget": true
+      },
+      "common381": {
+        "psnr_db": 16.978242900025048,
+        "ssim": 0.4525235410825607,
+        "lpips_vgg": 0.40618674789513814,
+        "clip": 0.9028134483677821,
+        "dists": 0.23017234564453284,
+        "frames": 381,
+        "shape": [
+          381,
+          320,
+          576,
+          3
+        ]
+      },
+      "all384": {
+        "psnr_db": 17.017137991120443,
+        "ssim": 0.4545595717427946,
+        "lpips_vgg": 0.4056246071122587,
+        "clip": 0.9027188618977865,
+        "dists": 0.23007932460556427,
+        "frames": 384,
+        "shape": [
+          384,
+          320,
+          576,
+          3
+        ]
+      },
+      "nonkeys382": {
+        "psnr_db": 16.991937807016274,
+        "ssim": 0.4530753969968556,
+        "lpips_vgg": 0.40617936755974254,
+        "clip": 0.9027674809800392,
+        "dists": 0.23028015887550035,
+        "frames": 382,
+        "shape": [
+          382,
+          320,
+          576,
+          3
+        ]
+      },
+      "flash": {
+        "target_frame": 35,
+        "window_frames": [
+          32,
+          38
+        ],
+        "target_luma_impulse": 0.11305338541666998,
+        "target_incoming_mad": 1.1945963541666667,
+        "target_outgoing_mad": 0.8991319444444444,
+        "window_max_mad": 2.653081597222222,
+        "max_mad": 5.288671875,
+        "max_mad_transition": 374,
+        "source_mad_at_max": 1.117795138888889,
+        "transitions_above_mad10": 0,
+        "max_source_adjusted_luma_step": 4.736480034722234,
+        "max_luma_impulse": 2.5063910590277843,
+        "max_luma_impulse_frame": 2
+      },
+      "flow_error_all384": 0.0786969581954473,
+      "mad_p95_all384": 2.3293901909722217,
+      "passes_structure_detail_gate": false,
+      "reaches_fixed22_targets": false,
+      "generation_seconds": 349.7704139940324,
+      "max_cuda_allocated_bytes": 8701561344
+    }
+  ],
+  "contrasts": {
+    "same_strength_high": {
+      "before": "sparse_high_replay",
+      "after": "continuous_high",
+      "quality_delta": {
+        "psnr_db": 0.30947975842288145,
+        "lpips_vgg": 0.04626382938207291,
+        "ssim": -0.008388924038782608
+      },
+      "flow_delta": -0.007305859182000787,
+      "diagnostic": {
+        "target_luma_impulse": {
+          "before": 45.35699869791666,
+          "after": 0.19153645833333854
+        },
+        "window_max_mad": {
+          "before": 47.27061631944444,
+          "after": 2.0948784722222222
+        },
+        "max_mad": {
+          "before": 47.27061631944444,
+          "after": 21.066102430555556
+        },
+        "transitions_above_mad10": {
+          "before": 16,
+          "after": 6
+        },
+        "max_source_adjusted_luma_step": {
+          "before": 46.96555989583332,
+          "after": 20.964800347222223
+        },
+        "max_luma_impulse": {
+          "before": 45.35699869791666,
+          "after": 20.436360677083336
+        }
+      }
+    },
+    "same_strength_low": {
+      "before": "sparse_low",
+      "after": "continuous_low",
+      "quality_delta": {
+        "psnr_db": 0.6793512595772455,
+        "lpips_vgg": 0.02149914263740299,
+        "ssim": 0.003739643927441527
+      },
+      "flow_delta": -0.012114794579560703,
+      "diagnostic": {
+        "target_luma_impulse": {
+          "before": 2.8589843749999915,
+          "after": 0.11305338541666998
+        },
+        "window_max_mad": {
+          "before": 6.749045138888889,
+          "after": 2.653081597222222
+        },
+        "max_mad": {
+          "before": 6.749045138888889,
+          "after": 5.288671875
+        },
+        "transitions_above_mad10": {
+          "before": 0,
+          "after": 0
+        },
+        "max_source_adjusted_luma_step": {
+          "before": 6.0259765624999915,
+          "after": 4.736480034722234
+        },
+        "max_luma_impulse": {
+          "before": 3.610112847222233,
+          "after": 2.5063910590277843
+        }
+      }
+    },
+    "same_coefficient_sum": {
+      "before": "sparse_high_replay",
+      "after": "continuous_low",
+      "quality_delta": {
+        "psnr_db": 0.2761134089913,
+        "lpips_vgg": 0.00046344465158115744,
+        "ssim": 0.0019006532601185122
+      },
+      "flow_delta": -0.022035053807162433,
+      "diagnostic": {
+        "target_luma_impulse": {
+          "before": 45.35699869791666,
+          "after": 0.11305338541666998
+        },
+        "window_max_mad": {
+          "before": 47.27061631944444,
+          "after": 2.653081597222222
+        },
+        "max_mad": {
+          "before": 47.27061631944444,
+          "after": 5.288671875
+        },
+        "transitions_above_mad10": {
+          "before": 16,
+          "after": 0
+        },
+        "max_source_adjusted_luma_step": {
+          "before": 46.96555989583332,
+          "after": 4.736480034722234
+        },
+        "max_luma_impulse": {
+          "before": 45.35699869791666,
+          "after": 2.5063910590277843
+        }
+      }
+    },
+    "weakening_sparse_only": {
+      "before": "sparse_high_replay",
+      "after": "sparse_low",
+      "quality_delta": {
+        "psnr_db": -0.4032378505859455,
+        "lpips_vgg": -0.021035697985821833,
+        "ssim": -0.001838990667323015
+      },
+      "flow_delta": -0.00992025922760173,
+      "diagnostic": {
+        "target_luma_impulse": {
+          "before": 45.35699869791666,
+          "after": 2.8589843749999915
+        },
+        "window_max_mad": {
+          "before": 47.27061631944444,
+          "after": 6.749045138888889
+        },
+        "max_mad": {
+          "before": 47.27061631944444,
+          "after": 6.749045138888889
+        },
+        "transitions_above_mad10": {
+          "before": 16,
+          "after": 0
+        },
+        "max_source_adjusted_luma_step": {
+          "before": 46.96555989583332,
+          "after": 6.0259765624999915
+        },
+        "max_luma_impulse": {
+          "before": 45.35699869791666,
+          "after": 3.610112847222233
+        }
+      }
+    }
+  },
+  "references": {
+    "baseline": {
+      "common381": {
+        "psnr_db": 15.930045652620434,
+        "ssim": 0.46858410808936807,
+        "lpips_vgg": 0.35002480928353435,
+        "clip": 0.9102184065370735,
+        "dists": 0.1658087893733828,
+        "frames": 381,
+        "shape": [
+          381,
+          320,
+          576,
+          3
+        ]
+      },
+      "channel": {
+        "visual_uses": 84583,
+        "packet_bytes": 1722,
+        "total_uses": 91495
+      },
+      "flow_error_all384": 0.07116155402233955
+    },
+    "endhalf": {
+      "common381": {
+        "psnr_db": 15.622520763036123,
+        "ssim": 0.44113571344817426,
+        "lpips_vgg": 0.37220430827829154,
+        "clip": 0.9123733800853019,
+        "dists": 0.1792650069464536,
+        "frames": 381,
+        "shape": [
+          381,
+          320,
+          576,
+          3
+        ]
+      },
+      "channel": {
+        "visual_uses": 57912,
+        "packet_bytes": 1651,
+        "total_uses": 64824
+      },
+      "flow_error_all384": 0.07962714361790421
+    },
+    "endhalf_144x80_r035": {
+      "common381": {
+        "psnr_db": 20.12781681817267,
+        "ssim": 0.5982190610744946,
+        "lpips_vgg": 0.4407477133230274,
+        "clip": 0.9083934393454725,
+        "dists": 0.2718707740776182,
+        "frames": 381,
+        "shape": [
+          381,
+          320,
+          576,
+          3
+        ]
+      },
+      "channel": {
+        "width": 144,
+        "height": 80,
+        "fps": 3,
+        "crf": 38,
+        "bitstream_bytes": 8858,
+        "packet_bytes": 10900,
+        "visual_uses": 57912,
+        "digital_uses": 34560,
+        "total_uses": 92472,
+        "within_budget": true
+      },
+      "flow_error_all384": 0.054641755117837816
+    },
+    "endhalf_144x80_r06": {
+      "common381": {
+        "psnr_db": 20.007763165416417,
+        "ssim": 0.5950138335032066,
+        "lpips_vgg": 0.4314842864753693,
+        "clip": 0.91087906003937,
+        "dists": 0.2760772339002354,
+        "frames": 381,
+        "shape": [
+          381,
+          320,
+          576,
+          3
+        ]
+      },
+      "channel": {
+        "width": 144,
+        "height": 80,
+        "fps": 3,
+        "crf": 38,
+        "bitstream_bytes": 8858,
+        "packet_bytes": 10900,
+        "visual_uses": 57912,
+        "digital_uses": 34560,
+        "total_uses": 92472,
+        "within_budget": true
+      },
+      "flow_error_all384": 0.0549698471633946
+    },
+    "same_packet_disabled": {
+      "common381": {
+        "psnr_db": 15.622520763036123,
+        "ssim": 0.44113571344817426,
+        "lpips_vgg": 0.37220430827829154,
+        "clip": 0.9123733800853019,
+        "dists": 0.1792650069464536,
+        "frames": 381,
+        "shape": [
+          381,
+          320,
+          576,
+          3
+        ]
+      },
+      "channel": {
+        "width": 144,
+        "height": 80,
+        "fps": 3,
+        "crf": 38,
+        "bitstream_bytes": 8858,
+        "packet_bytes": 10900,
+        "visual_uses": 57912,
+        "digital_uses": 34560,
+        "total_uses": 92472,
+        "within_budget": true
+      },
+      "flow_error_all384": 0.07962714361790421
+    }
+  },
+  "visual_review": {
+    "status": "AI_SAMPLE_REVIEW_NOT_INDEPENDENT",
+    "blinded": false,
+    "independent_semantic_error_rate_verified": false,
+    "samples": [
+      {
+        "arm": "continuous_high",
+        "frames": [
+          35
+        ],
+        "selection": "predeclared known failure"
+      },
+      {
+        "arm": "continuous_high",
+        "frames": [
+          1
+        ],
+        "selection": "posthoc largest luma impulse"
+      },
+      {
+        "arm": "continuous_low",
+        "frames": [
+          35,
+          192
+        ],
+        "selection": "predeclared failure and middle frame"
+      }
+    ],
+    "contact_sheets": 4,
+    "distinct_source_frames": 3,
+    "panel_order": [
+      "source",
+      "sparse_high_replay",
+      "candidate"
+    ],
+    "observations": [
+      "At frame 35, both continuous candidates remove the severe brightness flash visible in the sparse-high reference.",
+      "Continuous-high has a new bright/color flash at frame 1 compared with source and sparse-high.",
+      "Continuous-low at frame 192 retains blurred/displaced building, boat, and breakwater geometry; stabilized exposure is not faithful detail recovery."
+    ],
+    "temporal_plot_viewed": "review/temporal_diagnostic.png",
+    "scope": "Nonblind AI sample inspection and all-frame metric curves, not exhaustive object/event labels.",
+    "protocol_signature": "9c056ed5dbca9062227559abaa8c3eb67a27f1f063293fa93833dc36b4c7edbf"
+  },
+  "limitations": [
+    "known failing development video and seed; causal diagnostic, not heldout generalization",
+    "support changes density as well as discontinuity; no proof that boundary discontinuity alone caused the flash",
+    "coefficient-sum and lower-strength controls distinguish simple weakening from support effects",
+    "mean-luma flash diagnostic misses some local/color/texture flicker",
+    "legacy key temporal positions and FFT periodic boundaries remain fixed",
+    "independent Added/Missing/Distorted review pending"
+  ],
+  "total_seconds": 1594.098097487993,
+  "conclusion": "Temporal support intervention reduces the known flash at both tested strengths; weakening alone also helps. Support policy and strength contribute in this case. No candidate meets overall structure/detail or fixed22 quality targets.",
+  "unresolved": "Density versus boundary discontinuity, FFT boundary effects, VAE temporal response, and heldout generalization remain unseparated.",
+  "artifacts": {
+    "protocol.json": "79766dff4cbc9e11a00f0a2804cec4ee3ece4a964a8434911234d120e152bf38",
+    "RESULT.json": "eca34a58c5d236063e869a033277c98e02ad126a02778beae81dc54b2194d36a",
+    "verification.json": "e7b163ea3a066dc70df6ca41e82f55bcd3a9af8e8535856041151934eea18dcd",
+    "post_validation.json": "fe2fce67f7fe8a632c30cc48abf17a16671d596159840e60728eeff0feb53701",
+    "sparse_parity.json": "eb0e65309fa51a98b2023856f10d8eeed244b31856a4844ccd8c8922c74ec68c",
+    "channel_reuse.json": "a99180ef964893b65a7fbe3b087ecf2b0d6120229084d357cc5333753c2f2572",
+    "AI_REVIEW.json": "51dc00b2a9fcc43655377bf1c97721fbb8d9bf03b7963014851ab200174ab543",
+    "report.html": "5eeb89ec4b3b65c9bbb65eefc527188c26c509f7e74c5e0aedf1f1201f7fab16",
+    "execution.log": "f2144cd9a1b6d3a7ff3e4ab9d7dce4fb696c01a1e65e7d89fb73663ad490c69b",
+    "review/sample_plan.json": "88dd3cfc8ca56005a2afb798502e8355311e2837d223f1cd55a7af34a293574b",
+    "review/temporal_diagnostic.png": "2b9102a216c4ca0bd5d80fa4b432b398a62e6b426aa2957b8f3400015480da3a",
+    "review/temporal_diagnostic.svg": "b12ef31ef665c949d2e69b7c6c6ad84c48af7eb8cb47244f327236373b0403cc"
+  }
+}
