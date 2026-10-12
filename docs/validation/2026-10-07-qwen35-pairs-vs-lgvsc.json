@@ -1,0 +1,785 @@
+{
+  "status": "COMPLETE_EXISTING_OUTPUT_COMPARISON_INDEPENDENT_REVIEW_PENDING",
+  "created_at": "2026-10-07T10:40:36.923934+00:00",
+  "primary_question": "원본 LGVSC 구현 대비 Qwen 사건 쌍 선택 + 개선 캡션 + 수정 수신단의 개선 폭",
+  "conclusion_ko": "동일한 60초 개발 영상에서 키프레임 110→79, 채널 사용량 31.70% 감소와 최종 MP4 화질 5개 평균 지표 개선을 확인했다. 개별 실패가 남아 독립 의미 오류 감소는 미검증이다.",
+  "baseline": "원본 LGVSC 경로: InternVL2-8B 순차 SKEM + PLLaVA-7B + 기존 수신단. 프로젝트의 60초·프레임 정합 구현이며 논문 원 설정 그대로의 재현은 아니다.",
+  "candidate": "Qwen3.5-9B NF4 원본 관찰 + 사건 전후 쌍 최적화 79키 + 보강 caption LoRA/본체 재검토 + FC-LGVSC 수정 수신단",
+  "selection_reused": true,
+  "new_training_or_model_inference_for_this_analysis": false,
+  "shared_conditions": {
+    "source_sha256": "e44af1c31d5faea3d7c24659899951671a9650979d7af54276b32091e08dd564",
+    "frames": 1440,
+    "fps": 24,
+    "width": 576,
+    "height": 320,
+    "snr_db": 10,
+    "generation_steps": 30,
+    "evaluation_profile": "lgvsc_official_metrics_v1",
+    "evaluation": "frame_mean_PSNR_SSIM_gray_LPIPS_VGG_CLIP_ViTB32_cosine01_DISTS",
+    "t5": "CPU FP32"
+  },
+  "verification": {
+    "status": "PASS",
+    "stage_receipts": {
+      "lgvsc": 15,
+      "qwen_pairs": 12
+    },
+    "video_reference_and_timeline_hashes_match": true,
+    "quality_csv_reaggregation": true,
+    "source_pixels_not_read_by_receivers": true
+  },
+  "quality_delta": {
+    "psnr_db": {
+      "original": 14.854699533851297,
+      "qwen_pairs": 15.282072625200474,
+      "absolute": 0.42737309134917645,
+      "relative_percent": 2.8770227925194014
+    },
+    "ssim": {
+      "original": 0.6482286094639159,
+      "qwen_pairs": 0.6598294978793681,
+      "absolute": 0.011600888415452149,
+      "relative_percent": 1.7896291903941153
+    },
+    "lpips_vgg": {
+      "original": 0.38808770284781025,
+      "qwen_pairs": 0.3712767853298121,
+      "absolute": -0.016810917517998125,
+      "relative_percent": -4.331731563416885
+    },
+    "clip": {
+      "original": 0.9363761054144966,
+      "qwen_pairs": 0.9415664672851562,
+      "absolute": 0.005190361870659688,
+      "relative_percent": 0.5543031096849838
+    },
+    "dists": {
+      "original": 0.18066232378284136,
+      "qwen_pairs": 0.1733982271204392,
+      "absolute": -0.0072640966624021586,
+      "relative_percent": -4.020814362563884
+    }
+  },
+  "channel": {
+    "lgvsc": 1849166,
+    "qwen_pairs": 1262956,
+    "reduction_percent": 31.701318324044458
+  },
+  "keyframes": {
+    "lgvsc": 110,
+    "qwen_pairs": 79
+  },
+  "captions": {
+    "lgvsc": 109,
+    "qwen_pairs": 78
+  },
+  "event_coverage": {
+    "lgvsc": {
+      "covered": 14,
+      "total": 18,
+      "events": [
+        {
+          "event_id": "e00",
+          "description": "Camera turns away from two walkers and the dog to the snowy field.",
+          "before_keys": [],
+          "after_keys": [
+            115,
+            117,
+            118,
+            119,
+            123,
+            126,
+            131,
+            136,
+            151,
+            154,
+            165
+          ],
+          "covered": false
+        },
+        {
+          "event_id": "e01",
+          "description": "Camera returns from the field and reveals two walkers from the right.",
+          "before_keys": [
+            189,
+            192
+          ],
+          "after_keys": [
+            204
+          ],
+          "covered": true
+        },
+        {
+          "event_id": "e02",
+          "description": "A third walker enters the right side as the view turns.",
+          "before_keys": [],
+          "after_keys": [
+            282
+          ],
+          "covered": false
+        },
+        {
+          "event_id": "e03",
+          "description": "A dark dog becomes visible again at the lower left beside the walkers.",
+          "before_keys": [
+            309
+          ],
+          "after_keys": [
+            329,
+            354,
+            363
+          ],
+          "covered": true
+        },
+        {
+          "event_id": "e04",
+          "description": "The dog becomes obscured by the walkers and lower framing.",
+          "before_keys": [
+            449,
+            455,
+            459
+          ],
+          "after_keys": [
+            484,
+            497
+          ],
+          "covered": true
+        },
+        {
+          "event_id": "e05",
+          "description": "The view changes from open snowy ground to a narrower route with a distant vehicle visible.",
+          "before_keys": [
+            544
+          ],
+          "after_keys": [
+            578,
+            599,
+            607,
+            612,
+            626
+          ],
+          "covered": true
+        },
+        {
+          "event_id": "e06",
+          "description": "Foreground walkers move toward the right edge, opening the view of the snowy track.",
+          "before_keys": [],
+          "after_keys": [
+            707
+          ],
+          "covered": false
+        },
+        {
+          "event_id": "e07",
+          "description": "The dark dog becomes clearly visible sideways on the path.",
+          "before_keys": [
+            707
+          ],
+          "after_keys": [
+            753
+          ],
+          "covered": true
+        },
+        {
+          "event_id": "e08",
+          "description": "The dog is occluded as hooded walkers fill the foreground.",
+          "before_keys": [
+            794,
+            796
+          ],
+          "after_keys": [
+            832,
+            843
+          ],
+          "covered": true
+        },
+        {
+          "event_id": "e09",
+          "description": "The nearby hooded walker shifts right, revealing the vehicle front more clearly.",
+          "before_keys": [
+            931,
+            937
+          ],
+          "after_keys": [
+            954
+          ],
+          "covered": true
+        },
+        {
+          "event_id": "e10",
+          "description": "A dark dog enters from the lower edge and becomes prominent beside the walker.",
+          "before_keys": [],
+          "after_keys": [
+            1002,
+            1012,
+            1017,
+            1022
+          ],
+          "covered": false
+        },
+        {
+          "event_id": "e11",
+          "description": "The dog disappears below the lower edge as the camera lifts toward the vehicle.",
+          "before_keys": [
+            1035
+          ],
+          "after_keys": [
+            1050
+          ],
+          "covered": true
+        },
+        {
+          "event_id": "e12",
+          "description": "Hooded people reenter at the right while the vehicle stays ahead.",
+          "before_keys": [
+            1050
+          ],
+          "after_keys": [
+            1102,
+            1112
+          ],
+          "covered": true
+        },
+        {
+          "event_id": "e13",
+          "description": "The view becomes a close inspection of the vehicle front with walkers outside the main frame.",
+          "before_keys": [
+            1112
+          ],
+          "after_keys": [
+            1169,
+            1206,
+            1216
+          ],
+          "covered": true
+        },
+        {
+          "event_id": "e14",
+          "description": "Two hooded people briefly appear beside the vehicle front.",
+          "before_keys": [
+            1256,
+            1259,
+            1260,
+            1266,
+            1279
+          ],
+          "after_keys": [
+            1293,
+            1303
+          ],
+          "covered": true
+        },
+        {
+          "event_id": "e15",
+          "description": "A dark dog appears close beside the vehicle front corner.",
+          "before_keys": [
+            1331
+          ],
+          "after_keys": [
+            1346,
+            1354
+          ],
+          "covered": true
+        },
+        {
+          "event_id": "e16",
+          "description": "Camera swings from the vehicle front to a close downward view along its side and wheel.",
+          "before_keys": [
+            1346,
+            1354
+          ],
+          "after_keys": [
+            1378,
+            1384,
+            1389,
+            1394,
+            1400,
+            1404
+          ],
+          "covered": true
+        },
+        {
+          "event_id": "e17",
+          "description": "Camera moves from the wheel to the side door and its dark handle.",
+          "before_keys": [
+            1394,
+            1400,
+            1404
+          ],
+          "after_keys": [
+            1427,
+            1439
+          ],
+          "covered": true
+        }
+      ]
+    },
+    "qwen_pairs": {
+      "covered": 14,
+      "total": 18,
+      "events": [
+        {
+          "event_id": "e00",
+          "description": "Camera turns away from two walkers and the dog to the snowy field.",
+          "before_keys": [
+            108
+          ],
+          "after_keys": [
+            135,
+            157
+          ],
+          "covered": true
+        },
+        {
+          "event_id": "e01",
+          "description": "Camera returns from the field and reveals two walkers from the right.",
+          "before_keys": [],
+          "after_keys": [
+            204
+          ],
+          "covered": false
+        },
+        {
+          "event_id": "e02",
+          "description": "A third walker enters the right side as the view turns.",
+          "before_keys": [
+            276
+          ],
+          "after_keys": [
+            280,
+            303
+          ],
+          "covered": true
+        },
+        {
+          "event_id": "e03",
+          "description": "A dark dog becomes visible again at the lower left beside the walkers.",
+          "before_keys": [
+            303
+          ],
+          "after_keys": [
+            320,
+            336,
+            360
+          ],
+          "covered": true
+        },
+        {
+          "event_id": "e04",
+          "description": "The dog becomes obscured by the walkers and lower framing.",
+          "before_keys": [
+            452,
+            459
+          ],
+          "after_keys": [
+            480
+          ],
+          "covered": true
+        },
+        {
+          "event_id": "e05",
+          "description": "The view changes from open snowy ground to a narrower route with a distant vehicle visible.",
+          "before_keys": [
+            544,
+            556
+          ],
+          "after_keys": [
+            576,
+            600,
+            624
+          ],
+          "covered": true
+        },
+        {
+          "event_id": "e06",
+          "description": "Foreground walkers move toward the right edge, opening the view of the snowy track.",
+          "before_keys": [
+            648
+          ],
+          "after_keys": [],
+          "covered": false
+        },
+        {
+          "event_id": "e07",
+          "description": "The dark dog becomes clearly visible sideways on the path.",
+          "before_keys": [],
+          "after_keys": [
+            744,
+            768
+          ],
+          "covered": false
+        },
+        {
+          "event_id": "e08",
+          "description": "The dog is occluded as hooded walkers fill the foreground.",
+          "before_keys": [
+            792
+          ],
+          "after_keys": [
+            840
+          ],
+          "covered": true
+        },
+        {
+          "event_id": "e09",
+          "description": "The nearby hooded walker shifts right, revealing the vehicle front more clearly.",
+          "before_keys": [
+            933
+          ],
+          "after_keys": [
+            948,
+            960
+          ],
+          "covered": true
+        },
+        {
+          "event_id": "e10",
+          "description": "A dark dog enters from the lower edge and becomes prominent beside the walker.",
+          "before_keys": [],
+          "after_keys": [
+            1016
+          ],
+          "covered": false
+        },
+        {
+          "event_id": "e11",
+          "description": "The dog disappears below the lower edge as the camera lifts toward the vehicle.",
+          "before_keys": [
+            1036,
+            1040
+          ],
+          "after_keys": [
+            1058
+          ],
+          "covered": true
+        },
+        {
+          "event_id": "e12",
+          "description": "Hooded people reenter at the right while the vehicle stays ahead.",
+          "before_keys": [
+            1058
+          ],
+          "after_keys": [
+            1104
+          ],
+          "covered": true
+        },
+        {
+          "event_id": "e13",
+          "description": "The view becomes a close inspection of the vehicle front with walkers outside the main frame.",
+          "before_keys": [
+            1104
+          ],
+          "after_keys": [
+            1128,
+            1152,
+            1176,
+            1200
+          ],
+          "covered": true
+        },
+        {
+          "event_id": "e14",
+          "description": "Two hooded people briefly appear beside the vehicle front.",
+          "before_keys": [
+            1272
+          ],
+          "after_keys": [
+            1296
+          ],
+          "covered": true
+        },
+        {
+          "event_id": "e15",
+          "description": "A dark dog appears close beside the vehicle front corner.",
+          "before_keys": [
+            1320
+          ],
+          "after_keys": [
+            1344
+          ],
+          "covered": true
+        },
+        {
+          "event_id": "e16",
+          "description": "Camera swings from the vehicle front to a close downward view along its side and wheel.",
+          "before_keys": [
+            1344
+          ],
+          "after_keys": [
+            1380,
+            1404
+          ],
+          "covered": true
+        },
+        {
+          "event_id": "e17",
+          "description": "Camera moves from the wheel to the side door and its dark handle.",
+          "before_keys": [
+            1404
+          ],
+          "after_keys": [
+            1432,
+            1439
+          ],
+          "covered": true
+        }
+      ]
+    }
+  },
+  "event_change": {
+    "gained": [
+      "e00",
+      "e02"
+    ],
+    "lost": [
+      "e01",
+      "e07"
+    ],
+    "scope": "같은 AI 사건 허용 구간 기준의 입력 키 전후 포착이며 복원 사건 정확도 아님. 포착 개수가 같아도 사건 집합은 다를 수 있음."
+  },
+  "common_generated_frames": 1259,
+  "common_generated_means": {
+    "lgvsc": {
+      "psnr_db": 13.874864799073825,
+      "ssim": 0.629607542037051,
+      "lpips_vgg": 0.40294411250577267,
+      "clip": 0.9344655976965845,
+      "dists": 0.18613762648168114
+    },
+    "qwen_pairs": {
+      "psnr_db": 14.645241400599788,
+      "ssim": 0.6474965294090795,
+      "lpips_vgg": 0.3804399783858427,
+      "clip": 0.9407273490245235,
+      "dists": 0.1763244991363089
+    }
+  },
+  "receiver_time": {
+    "original_seconds": 3265.7456197530264,
+    "qwen_prepare_text_seconds": 855.0627656750003,
+    "qwen_reconstruct_seconds": 2308.290005007,
+    "qwen_total_seconds": 3163.3527706820005,
+    "reduction_percent": 3.135358995865989,
+    "scope": "T5 준비 포함 수신단 시간. 과거 별도 실행 및 다른 구간 수/부하. 선택·캡션·송신·평가 제외; 공정한 동일 작업량 가속률 검증 아님."
+  },
+  "visual_review": {
+    "reviewer": "Codex non-independent non-blinded sample review",
+    "source_indices": [
+      12,
+      23,
+      132,
+      156,
+      180,
+      228,
+      240,
+      400,
+      420,
+      636,
+      1008,
+      1056,
+      1136,
+      1308,
+      1356,
+      1421
+    ],
+    "images_reviewed": 48,
+    "cases": [
+      {
+        "frame": 12,
+        "seconds": 0.5,
+        "assessment": "residual",
+        "observation_ko": "양쪽 모두 사람 사이 아래쪽의 원본 개를 명확히 재현하지 못한다. Qwen은 인물 크기·위치도 달라진다.",
+        "keyframe": {
+          "lgvsc": false,
+          "qwen_pairs": false
+        }
+      },
+      {
+        "frame": 23,
+        "seconds": 0.9583333333333334,
+        "assessment": "improved",
+        "observation_ko": "Qwen 쪽이 원본 두 인물의 낮은 화면 위치와 눈밭 배치를 더 잘 유지한다.",
+        "keyframe": {
+          "lgvsc": false,
+          "qwen_pairs": false
+        }
+      },
+      {
+        "frame": 132,
+        "seconds": 5.5,
+        "assessment": "mixed",
+        "observation_ko": "둘 다 밭고랑의 모양을 바꾸며 Qwen의 대비·윤곽이 더 강해진다. 선명함을 의미 정확도 향상으로 보지 않는다.",
+        "keyframe": {
+          "lgvsc": false,
+          "qwen_pairs": false
+        }
+      },
+      {
+        "frame": 156,
+        "seconds": 6.5,
+        "assessment": "mixed",
+        "observation_ko": "큰 장면은 둘 다 유지하지만 밭고랑 위치·배치가 달라진다.",
+        "keyframe": {
+          "lgvsc": false,
+          "qwen_pairs": false
+        }
+      },
+      {
+        "frame": 180,
+        "seconds": 7.5,
+        "assessment": "improved_sample",
+        "observation_ko": "이 표본에서는 Qwen이 원본 시점에 더 가깝다. 7초 전체 평균 LPIPS는 Qwen이 더 나쁘므로 단일 시점과 구간 평균을 구분한다.",
+        "keyframe": {
+          "lgvsc": false,
+          "qwen_pairs": true
+        }
+      },
+      {
+        "frame": 228,
+        "seconds": 9.5,
+        "assessment": "improved_sample",
+        "observation_ko": "Qwen은 두 보행자의 크기·색을 더 가깝게 유지한다. 9초 구간 평균 전체의 개선을 뜻하지 않는다.",
+        "keyframe": {
+          "lgvsc": true,
+          "qwen_pairs": true
+        }
+      },
+      {
+        "frame": 240,
+        "seconds": 10.0,
+        "assessment": "both_failed",
+        "observation_ko": "LGVSC는 장면과 인물 형상을 크게 무너뜨린다. Qwen도 원본에 없는 철망 울타리를 만들고 두 인물 중 하나를 누락한다.",
+        "keyframe": {
+          "lgvsc": false,
+          "qwen_pairs": false
+        }
+      },
+      {
+        "frame": 400,
+        "seconds": 16.666666666666668,
+        "assessment": "both_failed",
+        "observation_ko": "LGVSC는 원본 인물과 개를 누락하고 한 인물 중심 구도로 바꾼다. Qwen은 사람·개의 형태와 상대 크기를 크게 왜곡한다.",
+        "keyframe": {
+          "lgvsc": false,
+          "qwen_pairs": false
+        }
+      },
+      {
+        "frame": 420,
+        "seconds": 17.5,
+        "assessment": "partial_improvement",
+        "observation_ko": "Qwen은 배경의 수평선·카메라 높이에 더 가깝지만 왼쪽 보행자의 화면 위치는 여전히 틀린다.",
+        "keyframe": {
+          "lgvsc": false,
+          "qwen_pairs": false
+        }
+      },
+      {
+        "frame": 636,
+        "seconds": 26.5,
+        "assessment": "improved",
+        "observation_ko": "LGVSC의 가까운 큰 인물과 다른 배경에 비해 Qwen은 멀리 있는 차량·길·나무·전경 인물 배치를 더 잘 유지한다.",
+        "keyframe": {
+          "lgvsc": false,
+          "qwen_pairs": false
+        }
+      },
+      {
+        "frame": 1008,
+        "seconds": 42.0,
+        "assessment": "mixed",
+        "observation_ko": "양쪽 모두 개와 차량의 형태·위치를 바꾼다. Qwen은 개의 위치가 더 가깝지만 차량과 인물 외형 왜곡이 남는다.",
+        "keyframe": {
+          "lgvsc": false,
+          "qwen_pairs": false
+        }
+      },
+      {
+        "frame": 1056,
+        "seconds": 44.0,
+        "assessment": "improved",
+        "observation_ko": "LGVSC의 원본에 없는 오른쪽 인물과 멀어진 차량 구도에 비해 Qwen은 인물 없는 원본 구도와 차량 정면에 더 가깝다.",
+        "keyframe": {
+          "lgvsc": false,
+          "qwen_pairs": false
+        }
+      },
+      {
+        "frame": 1136,
+        "seconds": 47.333333333333336,
+        "assessment": "partial_improvement",
+        "observation_ko": "LGVSC는 자동차와 도로를 다른 장면처럼 바꾼다. Qwen은 눈길·주변 나무·차량 위치는 더 가깝지만 차체를 둥근 후면처럼 바꾸는 방향 오류가 남는다.",
+        "keyframe": {
+          "lgvsc": false,
+          "qwen_pairs": false
+        }
+      },
+      {
+        "frame": 1308,
+        "seconds": 54.5,
+        "assessment": "no_clear_semantic_winner",
+        "observation_ko": "두 방식 모두 가까운 보닛·앞유리 구도를 유지하며 Qwen은 프레이밍과 와이퍼 주변을 바꾼다.",
+        "keyframe": {
+          "lgvsc": false,
+          "qwen_pairs": false
+        }
+      },
+      {
+        "frame": 1356,
+        "seconds": 56.5,
+        "assessment": "mixed",
+        "observation_ko": "LGVSC는 원본에 없는 앞유리 중심으로 구도를 바꾸고 오른쪽 개를 누락한다. Qwen은 가까운 보닛·개의 위치를 더 보존하지만 원본에서 일부만 보이는 개의 머리·주둥이를 과도하게 구체화한다.",
+        "keyframe": {
+          "lgvsc": false,
+          "qwen_pairs": true
+        }
+      },
+      {
+        "frame": 1421,
+        "seconds": 59.208333333333336,
+        "assessment": "mixed",
+        "observation_ko": "Qwen은 LGVSC의 새 흐린 세로 경계를 줄이지만 원본의 검은 문손잡이를 누락한다. 문짝 평균 화질 개선이 의미 누락 해소를 보장하지 않는다.",
+        "keyframe": {
+          "lgvsc": false,
+          "qwen_pairs": false
+        }
+      }
+    ],
+    "selection": "과거 실패 시점과 이번 LPIPS 차이가 큰 구간을 포함한 16시점; 균일/무작위 전수 오류율 아님"
+  },
+  "comparison_video": "comparison.mp4",
+  "limitations": [
+    "One known development video and one generation seed per condition; not unseen-video or statistical generalization.",
+    "Selection, captions and receiver reference/collision/schedule behavior change together; total system comparison, not a selector-only or caption-only ablation.",
+    "AWGN SNR is equal, but baseline torch-CUDA RNG and candidate source-frame-seeded NumPy RNG differ; received-symbol noise is not paired.",
+    "Generation uses the same numeric seed but different segment shapes/noise handling, so diffusion tensors are not identical.",
+    "Original model-family pipeline is preserved in a project 60-second frame-exact endpoint-exact baseline; paper_reproduction=false.",
+    "No matched independent exhaustive caption/reconstruction semantic scoring. Previous local Qwen automatic counts have known errors and are excluded from the baseline comparison.",
+    "The earlier GPT-6-Astra/InternVL mixed-selection comparison is an auxiliary comparison and is not the original LGVSC baseline."
+  ],
+  "independent_semantic_review": "PENDING",
+  "hallucination_mitigation_verified": false,
+  "input_hashes": {
+    "outputs/etri_60s_tv_low_08_42057b2ee8ed/baseline/quality.json": "a41388567427293679c438ec2ae1ad1020cafd0de101010c3a36784945d26d70",
+    "outputs/etri_60s_tv_low_08_42057b2ee8ed/baseline/quality_delivered_mp4.csv": "f2922a5779a43a88b4890c0b3da2bc05ca556b0ecf58be00a6b5810466ac2476",
+    "outputs/etri_60s_tv_low_08_42057b2ee8ed/baseline/run_config.json": "a8ea919b46c0aeb2d7c928ef519f6843f01f800c389a27f96c826513e6b3a77f",
+    "outputs/etri_60s_tv_low_08_42057b2ee8ed/baseline/channel_accounting.json": "80bba9ff4abbc6dc68dcd3c2421dfc0bb7802943382ceb00bcb174c2f273e95d",
+    "outputs/etri_60s_tv_low_08_42057b2ee8ed/baseline/keyframes.json": "18c82b26c214618992028e30b94392d42b47b1ca74c7e9a8991146900faee24a",
+    "outputs/etri_60s_tv_low_08_42057b2ee8ed/baseline/captions.json": "ff9c3110a0ba5db4b3435a8300a3ecf54a8b29c72776e4d9d384d51bd5045fe4",
+    "outputs/etri_60s_tv_low_08_42057b2ee8ed/checkpoints/caption.json": "f6b7032becce4165b2d1a5a2d960e2ea6c844060d9a780621952012df453bf27",
+    "outputs/etri_60s_tv_low_08_42057b2ee8ed/baseline/receiver/reconstruction/sample_0000.mp4": "1b92e046ff24ee62dd5163ed60d4f813ae4240d6a8373fa548c11f1284d1ccb5",
+    "outputs/qwen35_pairs_caption_comparison_20261007/reconstruction/event_pairs/run/receiver/reconstruction/sample_0000.mp4": "39ad1d79264d4e5047bef3d2a268591e81f4faacfc73a6e394e41d4c9acb66a6",
+    "outputs/qwen35_pairs_caption_comparison_20261007/reconstruction/event_pairs/run/quality.json": "c32f965368e5ace794f3befa806371a1110c11c411e0d325ed62b0d7c02cd4b2",
+    "outputs/qwen35_pairs_caption_comparison_20261007/reconstruction/event_pairs/run/quality_delivered_mp4.csv": "1c666643725e21ac99aea4ab557c05b5257939471a34f6c1f632cf3d6bf3849b",
+    "outputs/qwen35_pairs_caption_comparison_20261007/reconstruction/event_pairs/run/run_config.json": "e15abbc7951f5affa5a746409ce73dea2fd3ea4eafb0f37ce2cdf55e4d6ee95d",
+    "outputs/qwen35_pairs_caption_comparison_20261007/reconstruction/event_pairs/run/channel_accounting.json": "48b23c838ae595cdbd2ad3ebd2b0b23a3f6c2feae5a9565f897b6ea6474777e5",
+    "outputs/qwen35_pairs_caption_comparison_20261007/captions/event_pairs.json": "6998f2dab38336978460013a58fa574539c136132ef3573c2280d44c7f6c6f53",
+    "outputs/qwen35_pairs_caption_comparison_20261007/protocol.json": "37da6f1274843e79ab533ea971f4c3da59d7db48b9b50c5b3c652fd1755f5605"
+  },
+  "lpips_second_bins": {
+    "improved": 35,
+    "worse": 25
+  }
+}

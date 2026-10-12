@@ -1,0 +1,52 @@
+{
+  "date": "2026-10-07",
+  "status": "PASS_IMPLEMENTATION_PREFLIGHT_NO_INFERENCE",
+  "command": "bash scripts/run_qwen35_pairs_caption_comparison.sh",
+  "validation": {
+    "tests_passed": 133,
+    "tests_failed": 0,
+    "python_syntax": "PASS",
+    "shell_syntax": "PASS",
+    "read_only_preflight": "READY_FOR_USER_EXECUTION",
+    "test_files": [
+      "tests/test_qwen35_pairs_comparison.py",
+      "tests/test_fc_lgvsc_qwen35.py",
+      "tests/test_qwen35_caption_adapter.py",
+      "tests/test_hybrid_reconstruction.py",
+      "tests/test_qwen35_event_pairs.py",
+      "tests/test_generation_noise.py",
+      "tests/test_short_schedule.py"
+    ],
+    "test_python": "/home/sangukbae/anaconda3/envs/lgvsc/bin/python"
+  },
+  "implemented": [
+    "two frozen 79-key selections",
+    "same caption LoRA and base-model review",
+    "per-call resume and raw-response provenance",
+    "FC-LGVSC send/channel/receive/decoder",
+    "source-frame-seeded paired AWGN",
+    "image quality and actual transmission accounting",
+    "non-independent local Qwen semantic diagnostics with source/reconstruction evidence",
+    "HTML/MP4/JSON report"
+  ],
+  "files": {
+    "scripts/run_qwen35_pairs_caption_comparison.sh": "94936f3f79d89c44fcc341b7b94517f391b47bf240b5f8ecaf56c2328f71a67b",
+    "src/semantic_transmission/qwen35_pairs_comparison.py": "6d7b4b46061a8d86a00e69724ec7c2c863cb68aad131dc26b92cefa747dc7c59",
+    "src/semantic_transmission/qwen35_pairs_review.py": "23bd7aea2ff17383d697297c74ec3cf2bfe544d21175426f48231621b7dd4922",
+    "tests/test_qwen35_pairs_comparison.py": "d1555ba41970a5af4570cd43288cf7f843c88d546fe34ab2ae4f683bdfbf40ef"
+  },
+  "default_output": "outputs/qwen35_pairs_caption_comparison_20261007",
+  "experiment_output_created": false,
+  "new_model_inference_executed": false,
+  "training_executed": false,
+  "transmission_executed": false,
+  "reconstruction_executed": false,
+  "semantic_evaluation_executed": false,
+  "independent_semantic_review": "PENDING",
+  "hallucination_mitigation_verified": false,
+  "limitations": [
+    "Known single development video and reused historical selections, not a current candidate-policy or model-only ablation.",
+    "GPU end-to-end execution is reserved for the user command.",
+    "Local Qwen semantic diagnosis is non-independent and not directly comparable to historical Astra scores."
+  ]
+}

@@ -1,0 +1,354 @@
+{
+  "status": "ANALYSIS_COMPLETE_INDEPENDENT_REVIEW_PENDING",
+  "protocol": "2034c5786f047bf37b7c3f6eafb87b3d57d67dfa1b56ddb276fb12f0d08cbd90",
+  "created_at": "2026-10-07T10:17:16.081461+00:00",
+  "conclusion": "사건 포착 순증과 일부 복원 개선은 있으나, 새 왜곡·누락 및 혼합 화질 지표 때문에 결합 방식의 전체 우위는 미확인. 자동 캡션 채점에서 반례가 확인되어 정확도·완화율 근거로 채택하지 않음.",
+  "integrity": {
+    "status": "PASS",
+    "checked_at": "2026-10-07T10:14:31.287726+00:00",
+    "protocol": "2034c5786f047bf37b7c3f6eafb87b3d57d67dfa1b56ddb276fb12f0d08cbd90",
+    "stage_artifact_receipts": 27,
+    "caption_bundles": 2,
+    "caption_calls": 312,
+    "final_mp4s": 2,
+    "decoded_mp4_frames": 2880,
+    "common_sent_received_keys": 21,
+    "semantic_inputs_and_summary_match": true,
+    "comparison_video_hash_match": true,
+    "scope": "Read-only validation; no model inference or retraining; does not validate semantic judgment accuracy"
+  },
+  "timing": {
+    "first_recorded_stage": "2026-10-07T07:29:56.097042+00:00",
+    "last_recorded_stage_end": "2026-10-07T10:08:39.675618+00:00",
+    "stage_span_seconds": 9523.578576,
+    "scope": "기존 선택 재사용. 명령 시작 전후 준비/보고서 작성 일부는 제외.",
+    "root_stages_seconds": {
+      "semantic-review": 750.2530439040002,
+      "captions": 1605.937495229,
+      "model-bytes": 20.99491457000022
+    }
+  },
+  "events": {
+    "coverage": {
+      "internvl": 12,
+      "event_pairs": 14
+    },
+    "total": 18,
+    "gained": [
+      {
+        "event_id": "e02",
+        "description": "A third walker enters the right side as the view turns.",
+        "before_keys": [
+          276
+        ],
+        "after_keys": [
+          280,
+          303
+        ],
+        "covered": true
+      },
+      {
+        "event_id": "e11",
+        "description": "The dog disappears below the lower edge as the camera lifts toward the vehicle.",
+        "before_keys": [
+          1036,
+          1040
+        ],
+        "after_keys": [
+          1058
+        ],
+        "covered": true
+      },
+      {
+        "event_id": "e12",
+        "description": "Hooded people reenter at the right while the vehicle stays ahead.",
+        "before_keys": [
+          1058
+        ],
+        "after_keys": [
+          1104
+        ],
+        "covered": true
+      },
+      {
+        "event_id": "e15",
+        "description": "A dark dog appears close beside the vehicle front corner.",
+        "before_keys": [
+          1320
+        ],
+        "after_keys": [
+          1344
+        ],
+        "covered": true
+      },
+      {
+        "event_id": "e17",
+        "description": "Camera moves from the wheel to the side door and its dark handle.",
+        "before_keys": [
+          1404
+        ],
+        "after_keys": [
+          1432,
+          1439
+        ],
+        "covered": true
+      }
+    ],
+    "lost": [
+      {
+        "event_id": "e06",
+        "description": "Foreground walkers move toward the right edge, opening the view of the snowy track.",
+        "before_keys": [
+          648
+        ],
+        "after_keys": [
+          708
+        ],
+        "covered": true
+      },
+      {
+        "event_id": "e07",
+        "description": "The dark dog becomes clearly visible sideways on the path.",
+        "before_keys": [
+          708
+        ],
+        "after_keys": [
+          752,
+          776,
+          780
+        ],
+        "covered": true
+      },
+      {
+        "event_id": "e10",
+        "description": "A dark dog enters from the lower edge and becomes prominent beside the walker.",
+        "before_keys": [
+          988
+        ],
+        "after_keys": [
+          1016
+        ],
+        "covered": true
+      }
+    ],
+    "source": "재사용된 키 집합의 기존 AI 사건 전후 시간 허용 구간 대응; 복원 영상 사건 정확도 아님"
+  },
+  "quality": {
+    "all_frames": {
+      "internvl": {
+        "psnr_db": 15.32284257476793,
+        "ssim": 0.6592196601733384,
+        "lpips_vgg": 0.3743461738806218,
+        "clip": 0.9415544297960069,
+        "dists": 0.1704030652427011
+      },
+      "event_pairs": {
+        "psnr_db": 15.282072625200474,
+        "ssim": 0.659829497879368,
+        "lpips_vgg": 0.3712767853298121,
+        "clip": 0.9415664672851562,
+        "dists": 0.1733982271204392
+      }
+    },
+    "common_generated_frames": {
+      "internvl": {
+        "psnr_db": 14.688559476274405,
+        "ssim": 0.6473428066909797,
+        "lpips_vgg": 0.38348991798375626,
+        "clip": 0.9406820723210859,
+        "dists": 0.17367304309184792
+      },
+      "event_pairs": {
+        "psnr_db": 14.690542563553736,
+        "ssim": 0.6490491580252663,
+        "lpips_vgg": 0.3798116057287796,
+        "clip": 0.9407090533264582,
+        "dists": 0.17618068071483925
+      }
+    }
+  },
+  "common_generated_frames": 1303,
+  "channel": {
+    "complex_uses": {
+      "internvl": 1268734,
+      "event_pairs": 1262956
+    },
+    "delta": -5778,
+    "relative_percent": -0.45541461015469187
+  },
+  "automatic_diagnostic": {
+    "internvl": {
+      "bins": 60,
+      "facts_reproduced": 122,
+      "facts_missing": 1,
+      "facts_unobservable": 0,
+      "caption_error_bins": 0,
+      "reconstruction_error_bins": 7,
+      "reconstruction_issue_counts": {
+        "Added": 7,
+        "Missing": 3,
+        "Distorted": 0
+      }
+    },
+    "event_pairs": {
+      "bins": 60,
+      "facts_reproduced": 120,
+      "facts_missing": 3,
+      "facts_unobservable": 0,
+      "caption_error_bins": 0,
+      "reconstruction_error_bins": 9,
+      "reconstruction_issue_counts": {
+        "Added": 3,
+        "Missing": 10,
+        "Distorted": 1
+      }
+    }
+  },
+  "automatic_diagnostic_accuracy_validated": false,
+  "limitations": [
+    "One known development video; frozen historical assistant/InternVL vs Qwen event-pair selections. Same caption model/prompt/budget and decoder. Not a new current-proposal baseline or model-only ablation.",
+    "AWGN seeded per source frame; decoder noise scopes use same seed/segment ordinal. Different boundaries/shapes are not identical diffusion tensors.",
+    "One known development video and one seed; no significance or unseen-video claims.",
+    "Both conditions use the improved caption adapter; no paired old/new caption ablation.",
+    "Auto semantic counts have false positives and false negatives; not verified error rates."
+  ],
+  "independent_semantic_review": "PENDING",
+  "hallucination_mitigation_verified": false,
+  "training_executed": false,
+  "input_hashes": {
+    "RESULT.json": "171371139c67b92b7cc21fa87d8244944bbe8a8619e2c49f802c2533487c5a8d",
+    "protocol.json": "37da6f1274843e79ab533ea971f4c3da59d7db48b9b50c5b3c652fd1755f5605",
+    "semantic/RESULT.json": "7112c33a26ca7321e399b9983c69417f92bca436e128ffb0f2a15c7692b84739",
+    "comparison.mp4": "282f60afaf73f1822769ab91794679db82b7055998f714df45d8503a50cb0771",
+    "captions/internvl.json": "6934270f35044047a149e5e2f13351ee0ba23caff3258f201cdf5e2d38c4d36b",
+    "captions/event_pairs.json": "6998f2dab38336978460013a58fa574539c136132ef3573c2280d44c7f6c6f53"
+  },
+  "visual_review": {
+    "reviewer": "Codex, non-independent, non-blinded targeted sample review",
+    "reviewed_source_frame_ids": [
+      23,
+      56,
+      240,
+      400,
+      784,
+      1056,
+      1136,
+      1340,
+      576,
+      584,
+      592,
+      599
+    ],
+    "candidate_frames": "Decoded final MP4, hash verified",
+    "cases": [
+      {
+        "frame": 23,
+        "seconds": 0.9583333333333334,
+        "assessment": "event_pairs_better",
+        "observation": "InternVL은 원본에 없는 벽돌 건물과 인물을 생성했다. 사건 쌍은 눈밭·뒤돌아선 두 인물 구도를 더 잘 유지한다.",
+        "is_key": {
+          "internvl": false,
+          "event_pairs": false
+        }
+      },
+      {
+        "frame": 56,
+        "seconds": 2.3333333333333335,
+        "assessment": "event_pairs_worse",
+        "observation": "사건 쌍은 후드 인물을 크게 확대하고 주변 구도를 바꿨다. 자동 진단의 인물 완전 누락보다는 크기·위치 왜곡으로 보인다.",
+        "is_key": {
+          "internvl": true,
+          "event_pairs": false
+        }
+      },
+      {
+        "frame": 240,
+        "seconds": 10.0,
+        "assessment": "event_pairs_worse",
+        "observation": "사건 쌍은 철망 울타리를 생성하고 앞서 걷는 인물 하나를 누락했다. InternVL은 두 인물과 눈밭 구도를 더 잘 유지한다.",
+        "is_key": {
+          "internvl": true,
+          "event_pairs": false
+        }
+      },
+      {
+        "frame": 400,
+        "seconds": 16.666666666666668,
+        "assessment": "event_pairs_worse",
+        "observation": "사건 쌍은 인물 크기·신체와 개의 형태·배치를 크게 바꿨다. InternVL에도 시점 차이가 있으나 원본 구도에 더 가깝다.",
+        "is_key": {
+          "internvl": false,
+          "event_pairs": false
+        }
+      },
+      {
+        "frame": 784,
+        "seconds": 32.666666666666664,
+        "assessment": "event_pairs_better",
+        "observation": "InternVL은 가까운 곳에 큰 SUV를 생성했다. 사건 쌍은 멀리 있는 작은 차량, 전경 인물과 개의 배치를 더 잘 유지한다.",
+        "is_key": {
+          "internvl": false,
+          "event_pairs": false
+        }
+      },
+      {
+        "frame": 1056,
+        "seconds": 44.0,
+        "assessment": "event_pairs_better",
+        "observation": "InternVL은 옅은 차량 정면을 어두운 차량과 다른 배경으로 바꿨다. 사건 쌍은 원본 정면·색·배경에 더 가깝다.",
+        "is_key": {
+          "internvl": false,
+          "event_pairs": false
+        }
+      },
+      {
+        "frame": 1136,
+        "seconds": 47.333333333333336,
+        "assessment": "event_pairs_worse",
+        "observation": "원본에는 차량 앞유리·와이퍼·앞부분이 보인다. 사건 쌍은 후면처럼 둥근 차체로 바꾸며, 실제 캡션에도 from behind / rear라고 기록돼 있다. 캡션만의 인과효과는 분리하지 못했다.",
+        "is_key": {
+          "internvl": false,
+          "event_pairs": false
+        }
+      },
+      {
+        "frame": 1340,
+        "seconds": 55.833333333333336,
+        "assessment": "no_clear_semantic_winner",
+        "observation": "두 복원 모두 차량 보닛과 앞유리의 근접 구도를 대체로 유지한다.",
+        "is_key": {
+          "internvl": true,
+          "event_pairs": false
+        }
+      }
+    ],
+    "additional_case": "24초 원본/양 복원 4시점도 확인. 세 번째 인물은 부분 가려짐이 있으므로 전 구간 누락률로 일반화하지 않음.",
+    "sample_scope": "12시점 원본과 두 복원 총36장. 실패 후보·화질 차이를 보고 선택한 표본이며 전수 의미 검수 아님."
+  },
+  "diagnostic_counterexamples": [
+    {
+      "second": 24,
+      "arm": "event_pairs",
+      "note": "캡션은 pale building만 언급하고 차량을 언급하지 않지만 b24_f1 차량 사실을 reproduced로 판정했다."
+    },
+    {
+      "second": 44,
+      "arm": "internvl",
+      "note": "캡션은 dark-colored car이고 눈이 차 지붕·앞유리에 쌓였다는 설명도 없지만 두 기준 사실을 모두 reproduced로 판정했다."
+    },
+    {
+      "second": 44,
+      "arm": "event_pairs",
+      "note": "캡션은 dark-colored car / dark car이고 차량 위 눈 설명도 없지만 두 기준 사실을 모두 reproduced로 판정했다."
+    },
+    {
+      "second": 47,
+      "arm": "event_pairs",
+      "note": "원본 차량 정면을 from behind / rear로 설명한다. 자동 진단은 정면 사실을 missing으로 셌지만 명확한 방향 오류를 caption_issues에 기록하지 않았다."
+    }
+  ],
+  "lpips_second_bins": {
+    "improved": 36,
+    "worse": 24
+  }
+}
