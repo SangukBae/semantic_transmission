@@ -1,0 +1,362 @@
+{
+  "date": "2026-10-09",
+  "status": "COMPLETE_QUANTITATIVE_AND_AI_SAMPLE_REVIEW",
+  "scope": "One 16-second development video, one seed and SNR. No held-out generalization claim.",
+  "experiment_signature": "1c2a673a5407dcc7e4cd847d0764455fddc776d5eb4c20b88c236f55ad17908b",
+  "code_sha256": {
+    ".local/vendor/Open-Sora/opensora/models/text_encoder/t5.py": "3e8cb7cf3015fede4af132e0319919e342cb1d72027340bc52be22ef8d716239",
+    ".local/vendor/Open-Sora/opensora/models/vae/utils.py": "7218635ffdf9481c9cf86a57028864877958b675673ed463018dd5ce3de419ac",
+    ".local/vendor/Open-Sora/opensora/models/vae/vae.py": "adcc04558bc9861c990d22558c57e0f8a262f5f418fe888468f6911a2d3eb18a",
+    ".local/vendor/Open-Sora/opensora/models/vae/vae_temporal.py": "bd79cf7afaf1b47060c6d2b05a5d35d679fe2461dac21968ae34b51206aaa104",
+    ".local/vendor/Open-Sora/opensora/schedulers/rf/__init__.py": "3dda6a3ad3ed38314f9131dd20516da95819da3986864ad1bebba4e5f72c7eb9",
+    ".local/vendor/Open-Sora/opensora/utils/inference_utils.py": "3676ccec58f4328f9710709fbd5d8d89b154bdf428008aaec3dc1752a227e828",
+    "04_semantic_decoder/scripts/mydemo_new_align_sh.py": "c2a01717d00c4c6f280f6fcdc8e775913a8d10ff2574384a7be2f9e5b7e312bc",
+    "configs/official_opensora.py": "56e0864de6b8155ccd5dc87c1bb875ae2b19aacd3bf846a7c6daa413485eaf17",
+    "scripts/etri_condition_fix_decoder.py": "e154c5c9454774b6b9fce831c8e6383fb3a2abc3f9c8912b06f3cc80e6c785d6",
+    "scripts/etri_precision_decoder.py": "f4a6910b7f53d49a447ccc3a5a7632343b519a3fb59698094af0aa14dda892dc",
+    "scripts/etri_schedule_fix_decoder.py": "10185f01690f0b702f9b722ac0416621ece144e9658e26766b21dbfdb9f09840",
+    "scripts/etri_t5_cached_decoder.py": "e59ff4e246ea5a17a6fca938bbeb4d74cbe598eadda669911733ec53822d2aa3",
+    "scripts/etri_tail17_decoder.py": "64cf0a889b041cdce581ac400e87baadd91e62198b1942f9582b7072cde5cf29",
+    "scripts/qwen35_advanced_caption.py": "5217c38dd95846d8a0107da4691e347b1fd2967d29b389e7536428ee6fbbbbc5",
+    "scripts/qwen35_caption.py": "99554d5b7f88d4e64fa0a5213478b789f9a1e90ed9dda60121eb8ffb9e1dbf7e",
+    "scripts/reconstruct.sh": "3a3d5973a5a09d22916fe8390e64854270d41a79a7d870e1eac9160bd7010b8b",
+    "scripts/reconstruct_tail17.sh": "ca7efd79b57d9dfdb6dd2888cc29c1b17eb002582abc8ed4ec8ceac8a73cff9c",
+    "scripts/run_qwen35_pairs_caption_comparison.sh": "94936f3f79d89c44fcc341b7b94517f391b47bf240b5f8ecaf56c2328f71a67b",
+    "src/semantic_transmission/artifacts.py": "14d38ae089cd9551a28eb68f1efa6d0bca48a5b2236f0a1a044632920a13bca7",
+    "src/semantic_transmission/assisted_captions.py": "58fbc6f509129dff97c98a028b3bea4ffc540b68271e8c0db042194e8c665e0a",
+    "src/semantic_transmission/auto_extraction.py": "5105c47a40b60e134069b27a2ceedbc2636b8a366921b2c17aa0ad268ba93573",
+    "src/semantic_transmission/caption_revision.py": "f02ccdca1ef0d23314851a8b441c457a51e3de830530f23b14e4fb59446c27be",
+    "src/semantic_transmission/codec_transport.py": "738def2f4047e6e554e8454e6c0099246fb84d8a32369cf4c76434bb94cdfd1d",
+    "src/semantic_transmission/condition_collision.py": "449a95aad1bc927521f670303319c8b56e99de9a9a6e99655f6ad5763328d74f",
+    "src/semantic_transmission/decoder_runner.py": "16f86a4a3cadfc4f3ba486ce76eee505bd8adbd75ab410e0bfe4c43fd358cfde",
+    "src/semantic_transmission/etri_60s.py": "d38ecd89510e2ecf5d28657ec62e4dbbdd8620740f6e285f2a997da00c994be5",
+    "src/semantic_transmission/etri_60s_check.py": "711415b8ee0d44203a00ecbed42c58b5fdc549ed18c745d1ee4bb5fef8d51bf9",
+    "src/semantic_transmission/fc_lgvsc_qwen35.py": "17664e287534d822d6b9d23551b7c4e6f491015c9e8e67d84e2ae35c43afdbaf",
+    "src/semantic_transmission/generation_noise.py": "710f8987cff2df2a616ca174ac3a597b366f5d67650d9ae73ca40fc222ab0b17",
+    "src/semantic_transmission/hybrid_reconstruction.py": "30fcc9f79d4d17a72c1d376717851ae00abbe76ea35209edb1dd5fad4624f150",
+    "src/semantic_transmission/metadata_channel.py": "6c7ded68b4ff5d63e64148fe9d7112be786c4ed8078138f3ae975dcd4dd8edd8",
+    "src/semantic_transmission/official_quality.py": "e4b52561f7bf7f852f2e38de7dfad4e0d36ae3f67548059b32062487eda14e11",
+    "src/semantic_transmission/precision_text_cache.py": "5a401b46e0063f016247474edc8ed2859a0f158c480e4dba1c220e0b6a35e940",
+    "src/semantic_transmission/qwen35_backend.py": "942cbb6dcf9ef5cf1ffb633a1ff57b43aae31a2871bad3fec17174cfcf8dbf2f",
+    "src/semantic_transmission/qwen35_caption_adapter.py": "8c8a95bcb35f6ee176f1c8efb02d8d165328591dd7430092bec7ddcb5fe39a15",
+    "src/semantic_transmission/qwen35_feedback_eval.py": "774a1fb6a85ab3ef6cb4d47bdd75e634bb959dcd234e2c91925762a50741e8ee",
+    "src/semantic_transmission/qwen35_pairs_comparison.py": "6d7b4b46061a8d86a00e69724ec7c2c863cb68aad131dc26b92cefa747dc7c59",
+    "src/semantic_transmission/qwen35_pairs_review.py": "23bd7aea2ff17383d697297c74ec3cf2bfe544d21175426f48231621b7dd4922",
+    "src/semantic_transmission/research_quality.py": "3a509179ff0f83fe33a793e71a21167e2444b84c164b3272f85094a8a15a1c6e",
+    "src/semantic_transmission/semantic_clips.py": "b9cf6f255365732af3066eebc78f7110452b1de8affc88477fed5ad38e7b921d",
+    "src/semantic_transmission/short_schedule.py": "eb87cb57f3b5897d9c3b73a555d5ba9beaf4c404bb622f34a67bed2b51d87dcf",
+    "src/semantic_transmission/tail_reference.py": "48fafa0aa524f8b07cbdc2194de92149a5031780411bda1859d2dbfba867de8c",
+    "src/semantic_transmission/temporal.py": "36b06469eed91ffcda0bf442c3d63f0a4cde1ddc37889f23447056596eaf2e6a",
+    "src/semantic_transmission/text_embedding_cache.py": "e84d944af4344b45391abc37b6ea05eae4043f3e604182456ce23381999eea83",
+    "src/semantic_transmission/transmission_accounting.py": "72ac234f118222d0c588dfeff505de0efdbdd199e5fb75a25511f501ad5b970b",
+    "src/semantic_transmission/webvid_ablation.py": "8e0300ba3cf3b81e3242e18e66c246da21278ca70c41062de3dcc10f3ed9360b",
+    "src/semantic_transmission/wire.py": "6066ec2706cc253be561ee71e147da6f9a52fedb95c633c40cfd94a5920e0259",
+    "src/semantic_transmission/workers.py": "92eb86bad6d7cf33582663c7f128a9a4091d25cb26d086274990fe7a4901a678",
+    "src/semantic_transmission/qwen35_state_delta.py": "7a0f40ca30463d4eae1771d3fe18f503d9385dc98a9f3b8d501d9e25c88ba7c7",
+    "src/semantic_transmission/qwen35_event_pairs.py": "b049f0d161268e06d3bc37d60b06ac0f099c6a2920a318a0aa8c3d4d5f110ec3",
+    "src/semantic_transmission/qwen35_feedback.py": "db3f16596e03062d0b4319e254cb65908e04704a189abf1d689f6b22c013e18e",
+    "src/semantic_transmission/qwen35_pairs_video.py": "283ee07fb909f0c5a7a23312191cdf3c88072f4fee97eaae083ff1d5a6e4a8b8",
+    "scripts/run_qwen35_pairs_video.sh": "057bb90c7dfade6b381d613a54d5858f314cd47755e1ab034b34473a64583eb4",
+    "src/semantic_transmission/sender_repairs.py": "ee6bab0f2784c0677d678449dfc0842b99cec22a7285421addceb81c907d7779",
+    "src/semantic_transmission/sender_repair_experiment.py": "71a5de5d3d38d37a793023105d81cedfc140cc444eb36029c89f32c2eabfe09f",
+    "src/semantic_transmission/sender_repair_evaluation.py": "7f610e01604890691bb0f0d84622f9eebeceaf342352f1a0265a9b707d2f688e",
+    "scripts/experiment_sender_repair.sh": "657a582a76e593eb15e439e1569f47ba1263e8c4262b24d00118b85769859fcd"
+  },
+  "input_and_video_sha256": {
+    "source": "2d643a5d43126d19b7b41e538cc30e8d0075c1e1e80f63669e7e3a0c60d9a9bd",
+    "previous": "5bae4415fb46e9ffacac03d4bf0eeb246b5202327941fed290252bf0a44530fc",
+    "selector": "36bd5f736cf10b19d835bc9a5b21fecb21def3626f4886ee45b6ce98c4e6b90d",
+    "selector_flow": "8c86f2aaea4be4505b5282e6fbd03b1b2b279128ba3101f122c50261caf62945"
+  },
+  "key_count": {
+    "previous": 22,
+    "candidate": 17
+  },
+  "candidate_keys": [
+    0,
+    24,
+    48,
+    72,
+    96,
+    120,
+    144,
+    168,
+    192,
+    216,
+    240,
+    264,
+    288,
+    312,
+    336,
+    360,
+    383
+  ],
+  "quality": {
+    "previous": {
+      "all": {
+        "psnr": 20.940963099681063,
+        "ssim": 0.7235856918308862,
+        "lpips": 0.29023697956775624,
+        "clip": 0.9074897766113281,
+        "dists": 0.16832019931947192
+      },
+      "nonkey": {
+        "psnr": 20.86700184277414,
+        "ssim": 0.7209594621547102,
+        "lpips": 0.29144468745813396,
+        "clip": 0.9069572597493036,
+        "dists": 0.16928296036042875
+      }
+    },
+    "selector": {
+      "all": {
+        "psnr": 20.81090333169357,
+        "ssim": 0.7160547049178105,
+        "lpips": 0.2890400776717191,
+        "clip": 0.9112809499104818,
+        "dists": 0.16711506992578506
+      },
+      "nonkey": {
+        "psnr": 20.740498178601595,
+        "ssim": 0.7134234736289501,
+        "lpips": 0.28995402256924463,
+        "clip": 0.9109947608373955,
+        "dists": 0.16759105927432813
+      }
+    },
+    "selector_flow": {
+      "all": {
+        "psnr": 20.821115593884304,
+        "ssim": 0.7159131940403108,
+        "lpips": 0.28895290816823643,
+        "clip": 0.9109605153401693,
+        "dists": 0.16703018204619488
+      },
+      "nonkey": {
+        "psnr": 20.752523043712852,
+        "ssim": 0.7133262607292267,
+        "lpips": 0.28987348229108084,
+        "clip": 0.9107961840616295,
+        "dists": 0.16762070918149602
+      }
+    }
+  },
+  "temporal": {
+    "source": {
+      "mad_p95": 2.572814670138889,
+      "mad_max": 3.0643663194444444,
+      "mad_mean": 1.4835762415687557,
+      "mad_error": 0.0,
+      "flow_error": 0.0,
+      "flow_magnitude": 0.06279120430612922
+    },
+    "previous": {
+      "mad_p95": 7.206460503472212,
+      "mad_max": 12.893033854166667,
+      "mad_mean": 1.9170714570641136,
+      "mad_error": 1.4754796403575572,
+      "flow_error": 0.09232867019392024,
+      "flow_magnitude": 0.07347230460767101
+    },
+    "selector": {
+      "mad_p95": 6.299320746527776,
+      "mad_max": 15.5810546875,
+      "mad_mean": 1.8043900833152016,
+      "mad_error": 1.3768946502393384,
+      "flow_error": 0.09791328104859699,
+      "flow_magnitude": 0.07535205849272493
+    },
+    "selector_flow": {
+      "mad_p95": 6.290898437499997,
+      "mad_max": 15.587348090277779,
+      "mad_mean": 1.813727799989121,
+      "mad_error": 1.3791342562373077,
+      "flow_error": 0.09939552210368624,
+      "flow_magnitude": 0.07682073255332172
+    }
+  },
+  "transmission": {
+    "previous": {
+      "visual_complex_channel_uses": 922999,
+      "digital_complex_channel_uses": 57600,
+      "total_complex_channel_uses": 980599
+    },
+    "selector": {
+      "visual_complex_channel_uses": 704619,
+      "digital_complex_channel_uses": 43776,
+      "total_complex_channel_uses": 748395
+    },
+    "selector_flow": {
+      "visual_complex_channel_uses": 704619,
+      "digital_complex_channel_uses": 43776,
+      "total_complex_channel_uses": 748395
+    }
+  },
+  "paired_flow_checks": {
+    "received_key_pixels_equal": true,
+    "captions_equal": true,
+    "random_draws_equal": true,
+    "generator_weights_and_settings_equal": true
+  },
+  "parent_shared_received_keys_equal": true,
+  "decisions": {
+    "selector": {
+      "checks": {
+        "flow": false,
+        "jump": true,
+        "psnr": true,
+        "lpips": true,
+        "transmission": true
+      },
+      "numerical_pilot_gate_passed": false,
+      "adopted_as_general_default": false
+    },
+    "selector_flow": {
+      "checks": {
+        "flow": false,
+        "jump": true,
+        "psnr": true,
+        "lpips": true,
+        "transmission": true
+      },
+      "numerical_pilot_gate_passed": false,
+      "adopted_as_general_default": false
+    }
+  },
+  "independent_semantic_review": "PENDING",
+  "hallucination_mitigation_verified": false,
+  "training_executed": false,
+  "default_policy_changed": false,
+  "tests": {
+    "command": "PYTHONPATH=src /home/sangukbae/anaconda3/envs/lgvsc/bin/python -m pytest -q tests/test_sender_repairs.py tests/test_qwen35_pairs_video.py tests/test_qwen35_pairs_comparison.py tests/test_generation_noise.py",
+    "passed": 87
+  },
+  "resume": {
+    "status": "PASSED",
+    "returncode": 0,
+    "reused_stages": 26,
+    "new_stage_started": false,
+    "seconds": 1.1966949869965902,
+    "artifacts_sha256": {
+      "outputs/sender_repair_20261008/results.json": "f9b3d93fac3951b32770eceabb4e55fbb97489e735229a991ce0e3671f95a325",
+      "outputs/sender_repair_20261008/report.html": "57e4833145a2f6d29d90079586608aa48a573d3cdd6882840512c8b00d2083cc",
+      "outputs/sender_repair_20261008/comparison.mp4": "1ccc21961bb3a56be60eb714da791cf01ebf13d75eadf634c9f278aaf096e82c",
+      "outputs/sender_repair_20261008/selector_flow/run/receiver/reconstruction/sample_0000.mp4": "8c86f2aaea4be4505b5282e6fbd03b1b2b279128ba3101f122c50261caf62945",
+      "outputs/sender_repair_20261008/selector/run/receiver/reconstruction/sample_0000.mp4": "36bd5f736cf10b19d835bc9a5b21fecb21def3626f4886ee45b6ce98c4e6b90d"
+    }
+  },
+  "visual_review": {
+    "status": "COMPLETE_QUANTITATIVE_AND_AI_SAMPLE_REVIEW",
+    "reviewer": "Codex assistant in the same implementation context",
+    "independent": false,
+    "blinded": false,
+    "source_result_sha256": "f9b3d93fac3951b32770eceabb4e55fbb97489e735229a991ce0e3671f95a325",
+    "sampled_indices": [
+      0,
+      48,
+      53,
+      54,
+      96,
+      126,
+      127,
+      144,
+      151,
+      152,
+      192,
+      193,
+      194,
+      195,
+      240,
+      267,
+      268,
+      288,
+      336,
+      339,
+      340,
+      383
+    ],
+    "unique_source_times": 22,
+    "panels_inspected": 88,
+    "sheets_sha256": {
+      "00.jpg": "171e2c2604811b67d0e40759aad4159a0a5dde3e90e181aa5319fd6f4b9cf5a5",
+      "01.jpg": "12fd33871e182f8273b01a2982c897a65249091ace9cb9f784792bbecad87293",
+      "02.jpg": "5617eebfff3f1d2ad18ce3e19055d460fc3ee073ec560a3943abb39e691a4c8d",
+      "03.jpg": "0c322dd0c89eb793dd6b02547da0c7b56065604bcd1f0ddbe2c62f8adb5058d3",
+      "04.jpg": "a3cd01f679dd0bca83459ec13518cb3df43687e5ebe8cf21054ce2183b9c7b5b",
+      "05.jpg": "db7b145219dff677b31c087ebfc716a8c19e4dabc0ecd8eab948354454f08270",
+      "06.jpg": "54fd7a7156a49ad2a89fd063539d7970b81bc3a84f4234334305fa99c63ef840",
+      "07.jpg": "a23a0d726bc4ece3bb355763672909fe051cdb81b462c4b9951a1939692c650b"
+    },
+    "observations": [
+      {
+        "category": "retained_scene",
+        "frames": [
+          0,
+          48,
+          96,
+          144,
+          192,
+          240,
+          288,
+          336,
+          383
+        ],
+        "finding": "All three outputs retain the harbor, curved shoreline, city, piers and prominent white yacht in the sampled views."
+      },
+      {
+        "category": "shared_distortion",
+        "frames": [
+          48,
+          96,
+          144,
+          240,
+          336
+        ],
+        "finding": "Building and small-boat details remain rounded, merged or deformed in all outputs; no general detail-recovery improvement is established."
+      },
+      {
+        "category": "temporal_distortion",
+        "frames": [
+          339,
+          340
+        ],
+        "seconds": [
+          14.125,
+          14.166666666666666
+        ],
+        "finding": "Both new arms abruptly change shoreline/pier and building geometry while the source changes only slightly. This lies inside segment 336..360, not at the concatenation seam."
+      },
+      {
+        "category": "temporal_distortion",
+        "frames": [
+          126,
+          127,
+          192,
+          193,
+          267,
+          268
+        ],
+        "finding": "New arms retain abrupt geometry changes at some transitions; the two repaired arms are visually similar in the inspected samples."
+      }
+    ],
+    "semantic_error_rate": "Not estimated; independent Added/Missing/Distorted ground truth remains pending.",
+    "event_review_limitation": "Eight proposals were labeled camera_only by the same base Qwen; two explanations still claim unchanged camera/scene. Both classifications would remove pair rewards here, but event-label correctness is not validated.",
+    "causal_limitations": [
+      "Selector versus previous changes segment captions and diffusion tensor shapes as well as keys; it is an end-to-end sender comparison.",
+      "Flow ablation preserves received keys, captions and exact random tensors. Its intervals are 23/24 frames; it does not isolate duplicate removal in the original 4-frame intervals.",
+      "Single development clip, one seed and AWGN 10 dB; no held-out generalization or independent semantic claim."
+    ],
+    "adopted": false,
+    "decision": "Transmission saving confirmed, temporal-quality adoption rejected: motion error and worst transition increase.",
+    "next_candidate": "Receiver time-condition/reference-confidence learning remains a proposal, not implemented or trained in this pilot."
+  },
+  "local_artifacts": {
+    "outputs/sender_repair_20261008/plan.json": "d5f818e694f5d34b484f0d8838c7bd03be6a4848b6eb7f069aae7e824273ed2f",
+    "outputs/sender_repair_20261008/selection.json": "a043a978606f70512f61a30ea24e44c095a5acf6b59442158d95a5b2b9c6e612",
+    "outputs/sender_repair_20261008/captions.json": "50e7e5b57979b947377828faf408d381146c8fad9d363669a530be2561227650",
+    "outputs/sender_repair_20261008/results.json": "f9b3d93fac3951b32770eceabb4e55fbb97489e735229a991ce0e3671f95a325",
+    "outputs/sender_repair_20261008/AI_REVIEW.json": "84d8f4e3dbe69857db30d565b5e4e4190bd217b056e05e11d3989809e5b403e2",
+    "outputs/sender_repair_20261008/review.html": "dda12149b21befdb1fd7eabd534e40e18dd77d64a569418a7d9eab0b943f43fc",
+    "outputs/sender_repair_20261008/comparison.mp4": "1ccc21961bb3a56be60eb714da791cf01ebf13d75eadf634c9f278aaf096e82c"
+  }
+}
