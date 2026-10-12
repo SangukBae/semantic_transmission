@@ -1,0 +1,22 @@
+{
+  "source": "https://arxiv.org/html/2606.12899v2",
+  "paper": "LGVSC: A Large-Model-Driven Generative Video Semantic Communication Framework",
+  "dataset": "WebVid",
+  "videos": 55,
+  "channel": "AWGN",
+  "local_metadata_link": "LDPC(6144,9216), QPSK at 6/8dB and 16-QAM at 10dB; actual symbols fully charged. This is an explicit local link policy, not a verified reproduction of the paper's semantic metadata link.",
+  "snr_db": [6, 8, 10],
+  "metric_keys": ["psnr_db", "ssim", "lpips_vgg", "clip", "dists"],
+  "within_video_aggregation": "mean over all frames",
+  "across_video_aggregation": "not explicit; this runner reports both equal-video and pooled-frame means",
+  "skem_dsa_cbr_table_i": {"6": 0.00064, "8": 0.00064, "10": 0.00065},
+  "quality_reference": null,
+  "quality_reference_note": "Reconstruction quality appears in figure curves, not an exact numeric table. Do not invent or infer exact paper PSNR/SSIM/LPIPS/CLIP/DISTS values.",
+  "comparison_limits": [
+    "Report unavailable manifest videos; a subset is not the full 55-video evaluation.",
+    "576x320 at 24fps is the current BSU preparation, not a paper-verified normalization identity.",
+    "The local NTSCC checkpoint and complete digital side-information ledger are not certified equivalent to paper rate accounting.",
+    "The rounded published CBR is a reference, not a matched same-video LGVSC measurement.",
+    "This command evaluates reconstruction; downstream captioning, classification and depth tasks are separate."
+  ]
+}
