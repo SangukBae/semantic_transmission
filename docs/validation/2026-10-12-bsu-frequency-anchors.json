@@ -1,0 +1,844 @@
+{
+  "date": "2026-10-12",
+  "status": "COMPLETE_PILOT_NOT_ADOPTED",
+  "root": "/home/sangukbae/semantic_transmission/outputs/bsu_frequency_anchor_20261011_v1",
+  "signature": "cbd8c99a948cb320c9400448345500b4c5aa29623f2840b759deff02c5b4d5f2",
+  "parent": "/home/sangukbae/semantic_transmission/outputs/bsu_structure_anchor_20261011_v2",
+  "parent_signature": "12719bb752c61f444fa7208c8cf14d3f00a66a7913960c7d45f337d0430b7f91",
+  "training_executed": false,
+  "default_decoder_changed": false,
+  "frames": 384,
+  "common_quality_frames": 381,
+  "quality_domain": "RGB PNG before MP4 encoding",
+  "temporal_metric_frames": 384,
+  "source_sha256": "2d643a5d43126d19b7b41e538cc30e8d0075c1e1e80f63669e7e3a0c60d9a9bd",
+  "scope": "one known harbor 16s development video, one seed/SNR; no heldout generalization",
+  "generator": {
+    "name": "Open-Sora v1.2 STDiT3-XL/2",
+    "seed": 2025,
+    "steps": 30
+  },
+  "channel": {
+    "reused_verified_received_bytes": true,
+    "new_channel_realization": false,
+    "extra_transmitted_bits": 0,
+    "total_uses": 92472,
+    "budget": 92475,
+    "snr_db": 10,
+    "channel_seed": 42,
+    "excludes": "preinstalled weights/code and physical link headers, same as historical comparison",
+    "disabled_control": "same full packet charged, structure discarded"
+  },
+  "implementation": {
+    "method": "post-CFG Euler correction lambda*dt/tau*P(prior-(z+tau*v)); no latent replacement",
+    "spatial_filter": "float32 rectangular FFT projection; periodic H/W boundary, no time filter",
+    "temporal_policy": "same 46 received anchor positions; preserve legacy hard keys 0/110",
+    "received_structure": "144x80 3fps 48 frames, CRF38, cached received VAE latent",
+    "source_pixels_read_by_receiver": false
+  },
+  "primary_gate": {
+    "psnr_min": 19.87781681817267,
+    "lpips_max": 0.35002480928353435,
+    "rule": "PSNR within 0.25dB of old hard-anchor arm AND LPIPS below original BSU"
+  },
+  "fixed22_historical_target": {
+    "psnr_db": 20.969,
+    "lpips_vgg": 0.27832
+  },
+  "disabled_parity": {
+    "exact_pixels": true,
+    "max_absolute_error": 0
+  },
+  "verification": {
+    "status": "PASSED",
+    "signature": "cbd8c99a948cb320c9400448345500b4c5aa29623f2840b759deff02c5b4d5f2",
+    "arms": [
+      {
+        "arm": "disabled_replay",
+        "frames": 384,
+        "artifacts_verified": true,
+        "noise_matched": true,
+        "max_correction_highpass_rms": 0,
+        "hard_keys_preserved": true
+      },
+      {
+        "arm": "full_s035",
+        "frames": 384,
+        "artifacts_verified": true,
+        "noise_matched": true,
+        "max_correction_highpass_rms": 0.0,
+        "hard_keys_preserved": true
+      },
+      {
+        "arm": "low025_s035",
+        "frames": 384,
+        "artifacts_verified": true,
+        "noise_matched": true,
+        "max_correction_highpass_rms": 7.247686006905951e-09,
+        "hard_keys_preserved": true
+      },
+      {
+        "arm": "low025_s070",
+        "frames": 384,
+        "artifacts_verified": true,
+        "noise_matched": true,
+        "max_correction_highpass_rms": 8.593738165529885e-09,
+        "hard_keys_preserved": true
+      },
+      {
+        "arm": "low050_s070",
+        "frames": 384,
+        "artifacts_verified": true,
+        "noise_matched": true,
+        "max_correction_highpass_rms": 1.7209149660857292e-08,
+        "hard_keys_preserved": true
+      }
+    ],
+    "total_generated_frames": 1920,
+    "all_actual_noise_equal": true,
+    "same_initial_condition": true,
+    "reused_channel_exact": true,
+    "all_within_budget": true,
+    "frozen_source_verified": true,
+    "independent_semantic_review": "PENDING"
+  },
+  "post_validation": {
+    "status": "PASSED",
+    "tests_passed": 30,
+    "test_files": [
+      "test_frequency_anchors.py",
+      "test_structure_anchors.py",
+      "test_generation_noise.py",
+      "test_wire.py"
+    ],
+    "generation_resume_without_inference": "PASSED",
+    "media": [
+      {
+        "path": "review/low025_s035.mp4",
+        "sha256": "56e2ea17c73125a9a667ccaaaf56659fb6a38a7db6732b771944d3e8a64f7d81",
+        "width": 2304,
+        "height": 344,
+        "r_frame_rate": "24/1",
+        "nb_read_frames": "384"
+      },
+      {
+        "path": "review/low025_s070.mp4",
+        "sha256": "012374f11f63c415b0453bb8301f406f332377f89077ffc7ac8fcf2923a4c685",
+        "width": 2304,
+        "height": 344,
+        "r_frame_rate": "24/1",
+        "nb_read_frames": "384"
+      },
+      {
+        "path": "review/low050_s070.mp4",
+        "sha256": "82b93156ab4d10aad879b84702f8a41f76b0df919d9956c65b05f5a0fd6d8ac0",
+        "width": 2304,
+        "height": 344,
+        "r_frame_rate": "24/1",
+        "nb_read_frames": "384"
+      }
+    ],
+    "default_receiver_changed": false,
+    "documentation": {
+      "local_markdown_files": 8,
+      "local_links": 387,
+      "local_links_status": "PASSED",
+      "diff_check": "PASSED",
+      "public_contract": "Existing seven-Markdown contract rejects user research note; its local SGD-JSCC paper link is not a release-tracked target. Checker unchanged."
+    }
+  },
+  "results": [
+    {
+      "arm": {
+        "name": "disabled_replay",
+        "strength": 0,
+        "fraction": 1
+      },
+      "channel": {
+        "width": 144,
+        "height": 80,
+        "fps": 3,
+        "crf": 38,
+        "bitstream_bytes": 8858,
+        "packet_bytes": 10900,
+        "visual_uses": 57912,
+        "digital_uses": 34560,
+        "total_uses": 92472,
+        "within_budget": true
+      },
+      "common381": {
+        "psnr_db": 15.622520763036123,
+        "ssim": 0.44113571344817426,
+        "lpips_vgg": 0.37220430827829154,
+        "clip": 0.9123733800853019,
+        "dists": 0.1792650069464536,
+        "frames": 381,
+        "shape": [
+          381,
+          320,
+          576,
+          3
+        ]
+      },
+      "all384": {
+        "psnr_db": 15.674174633565814,
+        "ssim": 0.4435261974804665,
+        "lpips_vgg": 0.37175755117398995,
+        "clip": 0.9123179117838541,
+        "dists": 0.17945951983953515,
+        "frames": 384,
+        "shape": [
+          384,
+          320,
+          576,
+          3
+        ]
+      },
+      "nonkeys382": {
+        "psnr_db": 15.641210953716575,
+        "ssim": 0.4418962617658687,
+        "lpips_vgg": 0.3721854914545389,
+        "clip": 0.9123688543030105,
+        "dists": 0.17943960006948542,
+        "frames": 382,
+        "shape": [
+          382,
+          320,
+          576,
+          3
+        ]
+      },
+      "flow_error_all384": 0.07962714361790421,
+      "mad_p95_all384": 3.978365885416667,
+      "delta_vs_original_bsu": {
+        "psnr_db": -0.307524889584311,
+        "lpips_vgg": 0.022179498994757185,
+        "ssim": -0.027448394641193807
+      },
+      "delta_vs_same_reduced_keys": {
+        "psnr_db": 0.0,
+        "lpips_vgg": 0.0,
+        "ssim": 0.0
+      },
+      "delta_vs_old_full_latent": {
+        "psnr_db": -4.5052960551365455,
+        "lpips_vgg": -0.06854340504473588,
+        "ssim": -0.15708334762632037
+      },
+      "delta_vs_full_s035": {
+        "psnr_db": -2.1954631535096265,
+        "lpips_vgg": -0.01697538781353808,
+        "ssim": -0.07190379451378104
+      },
+      "passes_primary_gate": false,
+      "reaches_fixed22_targets": false,
+      "generation_seconds": 367.32170964503894,
+      "max_cuda_allocated_bytes": 8696354304
+    },
+    {
+      "arm": {
+        "name": "full_s035",
+        "strength": 0.35,
+        "fraction": 1
+      },
+      "channel": {
+        "width": 144,
+        "height": 80,
+        "fps": 3,
+        "crf": 38,
+        "bitstream_bytes": 8858,
+        "packet_bytes": 10900,
+        "visual_uses": 57912,
+        "digital_uses": 34560,
+        "total_uses": 92472,
+        "within_budget": true
+      },
+      "common381": {
+        "psnr_db": 17.81798391654575,
+        "ssim": 0.5130395079619553,
+        "lpips_vgg": 0.3891796960918296,
+        "clip": 0.8969329273293963,
+        "dists": 0.2200895693358474,
+        "frames": 381,
+        "shape": [
+          381,
+          320,
+          576,
+          3
+        ]
+      },
+      "all384": {
+        "psnr_db": 17.851752397628683,
+        "ssim": 0.5148372380185845,
+        "lpips_vgg": 0.3886056231179585,
+        "clip": 0.8968620300292969,
+        "dists": 0.21994710806757212,
+        "frames": 384,
+        "shape": [
+          384,
+          320,
+          576,
+          3
+        ]
+      },
+      "nonkeys382": {
+        "psnr_db": 17.83056703845423,
+        "ssim": 0.5135920702083541,
+        "lpips_vgg": 0.38909824083300787,
+        "clip": 0.8968908499672775,
+        "dists": 0.2201162053964525,
+        "frames": 382,
+        "shape": [
+          382,
+          320,
+          576,
+          3
+        ]
+      },
+      "flow_error_all384": 0.2665729192097722,
+      "mad_p95_all384": 12.521814236111108,
+      "delta_vs_original_bsu": {
+        "psnr_db": 1.8879382639253155,
+        "lpips_vgg": 0.039154886808295264,
+        "ssim": 0.04445539987258723
+      },
+      "delta_vs_same_reduced_keys": {
+        "psnr_db": 2.1954631535096265,
+        "lpips_vgg": 0.01697538781353808,
+        "ssim": 0.07190379451378104
+      },
+      "delta_vs_old_full_latent": {
+        "psnr_db": -2.309832901626919,
+        "lpips_vgg": -0.051568017231197805,
+        "ssim": -0.08517955311253933
+      },
+      "delta_vs_full_s035": {
+        "psnr_db": 0.0,
+        "lpips_vgg": 0.0,
+        "ssim": 0.0
+      },
+      "passes_primary_gate": false,
+      "reaches_fixed22_targets": false,
+      "generation_seconds": 354.52937302796636,
+      "max_cuda_allocated_bytes": 8701561344
+    },
+    {
+      "arm": {
+        "name": "low025_s035",
+        "strength": 0.35,
+        "fraction": 0.25
+      },
+      "channel": {
+        "width": 144,
+        "height": 80,
+        "fps": 3,
+        "crf": 38,
+        "bitstream_bytes": 8858,
+        "packet_bytes": 10900,
+        "visual_uses": 57912,
+        "digital_uses": 34560,
+        "total_uses": 92472,
+        "within_budget": true
+      },
+      "common381": {
+        "psnr_db": 16.383976058437813,
+        "ssim": 0.4498422380582691,
+        "lpips_vgg": 0.3875503140328124,
+        "clip": 0.9069465376886483,
+        "dists": 0.20427592767505195,
+        "frames": 381,
+        "shape": [
+          381,
+          320,
+          576,
+          3
+        ]
+      },
+      "all384": {
+        "psnr_db": 16.42984973535815,
+        "ssim": 0.4521713967719046,
+        "lpips_vgg": 0.3870070644964774,
+        "clip": 0.9068832397460938,
+        "dists": 0.2042652388724188,
+        "frames": 384,
+        "shape": [
+          384,
+          320,
+          576,
+          3
+        ]
+      },
+      "nonkeys382": {
+        "psnr_db": 16.400866860200637,
+        "ssim": 0.45058358655579234,
+        "lpips_vgg": 0.3874977837214295,
+        "clip": 0.9069293756135471,
+        "dists": 0.20436622600280802,
+        "frames": 382,
+        "shape": [
+          382,
+          320,
+          576,
+          3
+        ]
+      },
+      "flow_error_all384": 0.09158018776081872,
+      "mad_p95_all384": 5.450067274305555,
+      "delta_vs_original_bsu": {
+        "psnr_db": 0.4539304058173794,
+        "lpips_vgg": 0.03752550474927807,
+        "ssim": -0.01874187003109895
+      },
+      "delta_vs_same_reduced_keys": {
+        "psnr_db": 0.7614552954016904,
+        "lpips_vgg": 0.015346005754520886,
+        "ssim": 0.008706524610094857
+      },
+      "delta_vs_old_full_latent": {
+        "psnr_db": -3.743840759734855,
+        "lpips_vgg": -0.053197399290215,
+        "ssim": -0.1483768230162255
+      },
+      "delta_vs_full_s035": {
+        "psnr_db": -1.434007858107936,
+        "lpips_vgg": -0.0016293820590171926,
+        "ssim": -0.06319726990368618
+      },
+      "passes_primary_gate": false,
+      "reaches_fixed22_targets": false,
+      "generation_seconds": 356.47230595501605,
+      "max_cuda_allocated_bytes": 8701561344
+    },
+    {
+      "arm": {
+        "name": "low025_s070",
+        "strength": 0.7,
+        "fraction": 0.25
+      },
+      "channel": {
+        "width": 144,
+        "height": 80,
+        "fps": 3,
+        "crf": 38,
+        "bitstream_bytes": 8858,
+        "packet_bytes": 10900,
+        "visual_uses": 57912,
+        "digital_uses": 34560,
+        "total_uses": 92472,
+        "within_budget": true
+      },
+      "common381": {
+        "psnr_db": 16.702129491033748,
+        "ssim": 0.4506228878224422,
+        "lpips_vgg": 0.405723303243557,
+        "clip": 0.9018939160925197,
+        "dists": 0.22678786500545312,
+        "frames": 381,
+        "shape": [
+          381,
+          320,
+          576,
+          3
+        ]
+      },
+      "all384": {
+        "psnr_db": 16.74546713697004,
+        "ssim": 0.4529107610758887,
+        "lpips_vgg": 0.40505861716034514,
+        "clip": 0.9018287658691406,
+        "dists": 0.2266326928511262,
+        "frames": 384,
+        "shape": [
+          384,
+          320,
+          576,
+          3
+        ]
+      },
+      "nonkeys382": {
+        "psnr_db": 16.718202733254127,
+        "ssim": 0.4513401849995234,
+        "lpips_vgg": 0.4056283101361459,
+        "clip": 0.9018823114365183,
+        "dists": 0.2268261561531047,
+        "frames": 382,
+        "shape": [
+          382,
+          320,
+          576,
+          3
+        ]
+      },
+      "flow_error_all384": 0.10073201200260973,
+      "mad_p95_all384": 6.66599175347222,
+      "delta_vs_original_bsu": {
+        "psnr_db": 0.7720838384133142,
+        "lpips_vgg": 0.05569849396002263,
+        "ssim": -0.01796122026692587
+      },
+      "delta_vs_same_reduced_keys": {
+        "psnr_db": 1.0796087279976252,
+        "lpips_vgg": 0.03351899496526545,
+        "ssim": 0.009487174374267937
+      },
+      "delta_vs_old_full_latent": {
+        "psnr_db": -3.4256873271389203,
+        "lpips_vgg": -0.035024410079470436,
+        "ssim": -0.14759617325205243
+      },
+      "delta_vs_full_s035": {
+        "psnr_db": -1.1158544255120013,
+        "lpips_vgg": 0.01654360715172737,
+        "ssim": -0.0624166201395131
+      },
+      "passes_primary_gate": false,
+      "reaches_fixed22_targets": false,
+      "generation_seconds": 354.9385877220193,
+      "max_cuda_allocated_bytes": 8701561344
+    },
+    {
+      "arm": {
+        "name": "low050_s070",
+        "strength": 0.7,
+        "fraction": 0.5
+      },
+      "channel": {
+        "width": 144,
+        "height": 80,
+        "fps": 3,
+        "crf": 38,
+        "bitstream_bytes": 8858,
+        "packet_bytes": 10900,
+        "visual_uses": 57912,
+        "digital_uses": 34560,
+        "total_uses": 92472,
+        "within_budget": true
+      },
+      "common381": {
+        "psnr_db": 17.336574878123177,
+        "ssim": 0.4682278742364023,
+        "lpips_vgg": 0.4152213483657737,
+        "clip": 0.9017100096374672,
+        "dists": 0.2400281662390301,
+        "frames": 381,
+        "shape": [
+          381,
+          320,
+          576,
+          3
+        ]
+      },
+      "all384": {
+        "psnr_db": 17.374833053436863,
+        "ssim": 0.47038002096906206,
+        "lpips_vgg": 0.41446038607197505,
+        "clip": 0.9016520182291666,
+        "dists": 0.2397714420221746,
+        "frames": 384,
+        "shape": [
+          384,
+          320,
+          576,
+          3
+        ]
+      },
+      "nonkeys382": {
+        "psnr_db": 17.350876473246224,
+        "ssim": 0.46890020998806325,
+        "lpips_vgg": 0.4150922207932198,
+        "clip": 0.9016969690772252,
+        "dists": 0.2400372004945865,
+        "frames": 382,
+        "shape": [
+          382,
+          320,
+          576,
+          3
+        ]
+      },
+      "flow_error_all384": 0.13532104765310612,
+      "mad_p95_all384": 8.438910590277775,
+      "delta_vs_original_bsu": {
+        "psnr_db": 1.4065292255027426,
+        "lpips_vgg": 0.06519653908223932,
+        "ssim": -0.0003562338529657927
+      },
+      "delta_vs_same_reduced_keys": {
+        "psnr_db": 1.7140541150870536,
+        "lpips_vgg": 0.04301704008748214,
+        "ssim": 0.027092160788228015
+      },
+      "delta_vs_old_full_latent": {
+        "psnr_db": -2.791241940049492,
+        "lpips_vgg": -0.025526364957253744,
+        "ssim": -0.12999118683809235
+      },
+      "delta_vs_full_s035": {
+        "psnr_db": -0.4814090384225729,
+        "lpips_vgg": 0.02604165227394406,
+        "ssim": -0.044811633725553024
+      },
+      "passes_primary_gate": false,
+      "reaches_fixed22_targets": false,
+      "generation_seconds": 355.9076852569706,
+      "max_cuda_allocated_bytes": 8701561344
+    }
+  ],
+  "references": {
+    "baseline": {
+      "common381": {
+        "psnr_db": 15.930045652620434,
+        "ssim": 0.46858410808936807,
+        "lpips_vgg": 0.35002480928353435,
+        "clip": 0.9102184065370735,
+        "dists": 0.1658087893733828,
+        "frames": 381,
+        "shape": [
+          381,
+          320,
+          576,
+          3
+        ]
+      },
+      "channel": {
+        "visual_uses": 84583,
+        "packet_bytes": 1722,
+        "total_uses": 91495
+      },
+      "flow_error_all384": 0.07116155402233955
+    },
+    "endhalf": {
+      "common381": {
+        "psnr_db": 15.622520763036123,
+        "ssim": 0.44113571344817426,
+        "lpips_vgg": 0.37220430827829154,
+        "clip": 0.9123733800853019,
+        "dists": 0.1792650069464536,
+        "frames": 381,
+        "shape": [
+          381,
+          320,
+          576,
+          3
+        ]
+      },
+      "channel": {
+        "visual_uses": 57912,
+        "packet_bytes": 1651,
+        "total_uses": 64824
+      },
+      "flow_error_all384": 0.07962714361790421
+    },
+    "endhalf_144x80_r035": {
+      "common381": {
+        "psnr_db": 20.12781681817267,
+        "ssim": 0.5982190610744946,
+        "lpips_vgg": 0.4407477133230274,
+        "clip": 0.9083934393454725,
+        "dists": 0.2718707740776182,
+        "frames": 381,
+        "shape": [
+          381,
+          320,
+          576,
+          3
+        ]
+      },
+      "channel": {
+        "width": 144,
+        "height": 80,
+        "fps": 3,
+        "crf": 38,
+        "bitstream_bytes": 8858,
+        "packet_bytes": 10900,
+        "visual_uses": 57912,
+        "digital_uses": 34560,
+        "total_uses": 92472,
+        "within_budget": true
+      },
+      "flow_error_all384": 0.054641755117837816
+    },
+    "endhalf_144x80_r06": {
+      "common381": {
+        "psnr_db": 20.007763165416417,
+        "ssim": 0.5950138335032066,
+        "lpips_vgg": 0.4314842864753693,
+        "clip": 0.91087906003937,
+        "dists": 0.2760772339002354,
+        "frames": 381,
+        "shape": [
+          381,
+          320,
+          576,
+          3
+        ]
+      },
+      "channel": {
+        "width": 144,
+        "height": 80,
+        "fps": 3,
+        "crf": 38,
+        "bitstream_bytes": 8858,
+        "packet_bytes": 10900,
+        "visual_uses": 57912,
+        "digital_uses": 34560,
+        "total_uses": 92472,
+        "within_budget": true
+      },
+      "flow_error_all384": 0.0549698471633946
+    }
+  },
+  "direct_structure": {
+    "name": "endhalf_144x80",
+    "all384": {
+      "psnr_db": 20.143609892677546,
+      "ssim": 0.5992079134132274,
+      "lpips_vgg": 0.4497092185386767,
+      "clip": 0.9080301920572916,
+      "dists": 0.27609927222753566,
+      "frames": 384,
+      "shape": [
+        384,
+        320,
+        576,
+        3
+      ]
+    },
+    "common381": {
+      "psnr_db": 20.145512611197468,
+      "ssim": 0.599320015107718,
+      "lpips_vgg": 0.4496654139103226,
+      "clip": 0.9080179369668635,
+      "dists": 0.2760153700673361,
+      "frames": 381,
+      "shape": [
+        381,
+        320,
+        576,
+        3
+      ]
+    },
+    "note": "received structure upsample only, no generator; same packet, not independently rate-optimized codec"
+  },
+  "visual_review": {
+    "status": "AI_SAMPLE_REVIEW_NOT_INDEPENDENT",
+    "blinded": false,
+    "independent_semantic_error_rate_verified": false,
+    "regular_samples": [
+      {
+        "arm": "low025_s035",
+        "frames": [
+          192,
+          288
+        ]
+      },
+      {
+        "arm": "low050_s070",
+        "frames": [
+          96
+        ]
+      },
+      {
+        "arm": "low025_s070",
+        "frames": [
+          380
+        ]
+      }
+    ],
+    "regular_panel_order": [
+      "source",
+      "old full latent r0.35",
+      "full-band pull 0.35",
+      "low-frequency candidate"
+    ],
+    "posthoc_failure_sample": {
+      "selection": "largest generated-MAD transition in low025_s070",
+      "frames": [
+        34,
+        35,
+        36
+      ],
+      "arms": [
+        "source",
+        "low025_s070",
+        "full_s035"
+      ],
+      "image": "review/worst_mad_0035.png",
+      "finding": "Frame 35 has a large transient brightness/color flash absent from source; frame 36 returns near previous brightness."
+    },
+    "observations": [
+      "Some low-frequency guided contours appear crisper than the old blurry full-latent injection, but harbor geometry and building/boat arrangement remain displaced from source.",
+      "Sharper rendered texture is not evidence of recovered source detail.",
+      "Higher guidance strength exhibits a severe isolated flash; whole-video means and regular samples can hide this failure."
+    ],
+    "scope": "five contact sheets, seven distinct source times; nonblind AI review, not exhaustive semantic event/object labels",
+    "references": {
+      "source_sha256": "2d643a5d43126d19b7b41e538cc30e8d0075c1e1e80f63669e7e3a0c60d9a9bd",
+      "protocol_signature": "cbd8c99a948cb320c9400448345500b4c5aa29623f2840b759deff02c5b4d5f2"
+    }
+  },
+  "temporal_diagnostic": {
+    "posthoc": true,
+    "selection": "maximum generated-MAD transition per arm",
+    "results": [
+      {
+        "arm": "disabled_replay",
+        "max_mad_frame": 170,
+        "max_mad": 5.890082465277778,
+        "source_mad_at_same_transition": 2.220572916666667,
+        "transitions_above_mad10": 0
+      },
+      {
+        "arm": "full_s035",
+        "max_mad_frame": 54,
+        "max_mad": 17.51853298611111,
+        "source_mad_at_same_transition": 1.0002170138888888,
+        "transitions_above_mad10": 70
+      },
+      {
+        "arm": "low025_s035",
+        "max_mad_frame": 22,
+        "max_mad": 9.894205729166666,
+        "source_mad_at_same_transition": 0.9916449652777778,
+        "transitions_above_mad10": 0
+      },
+      {
+        "arm": "low025_s070",
+        "max_mad_frame": 36,
+        "max_mad": 47.27061631944444,
+        "source_mad_at_same_transition": 0.8535807291666667,
+        "transitions_above_mad10": 16
+      },
+      {
+        "arm": "low050_s070",
+        "max_mad_frame": 5,
+        "max_mad": 21.905946180555556,
+        "source_mad_at_same_transition": 1.6484592013888888,
+        "transitions_above_mad10": 11
+      }
+    ],
+    "review_image": "outputs/bsu_frequency_anchor_20261011_v1/review/worst_mad_0035.png"
+  },
+  "conclusion": "No candidate meets predeclared structure/detail gate or fixed22 targets; same-strength spectral restriction loses 1.434dB PSNR for only 0.00163 LPIPS gain. Not adopted.",
+  "next_hypothesis": "temporally continuous structure constraints with received-key feature correspondence; unimplemented and unverified",
+  "limitations": [
+    "known harbor development video, one seed/SNR; no heldout generalization",
+    "low latent frequency correction does not guarantee accurate RGB high-frequency detail",
+    "same packet charged even for disabled guidance, which discards structure",
+    "legacy key temporal placement retained for paired comparison",
+    "independent Added/Missing/Distorted review pending"
+  ],
+  "total_seconds": 2005.0988620870048,
+  "artifacts": {
+    "protocol.json": "ffd0503aac3ad02ef20d3ed5334d21206c8d0be9e02d2fa5e9aaa0cc12bc9ed8",
+    "RESULT.json": "de263f7d6e0158d0bd6ed8d83e95f1b703fbe7946dd9e16ea2731681b3259eb1",
+    "verification.json": "0e59585ebc260c2c1687ff3c23784385a9dcba76a088e1e0a2a01385a0e90c7e",
+    "post_validation.json": "b7e956363167acf25d282bf879d09840540c0f9462964e72d3c7e5af7333c76d",
+    "disabled_parity.json": "653725cc3fb010fe92fa0d48004087f8f7c86b80b936c4c6502a4dc061ac43dd",
+    "channel_reuse.json": "6b976f5ce959dddd29083bbb7de2dd2699dd5f6373cbd230782175f02b09cec9",
+    "AI_REVIEW.json": "6b0bc83cfa6d099a4627965451cc893ac4a25ddaf85c682589d8aca093ab42aa",
+    "temporal_diagnostic.json": "46bb0cc6444c3ec28313e75c1b2714e937da334d5cf3d92bf30bec0e77df67f2",
+    "report.html": "1421d05dec748d04bd5c04fcae187f692a8632d26996704124b0baa72a4507fc",
+    "execution.log": "002e4e69bb2854593792897da2b0eb1c9828fae356bd46406b512e103650f224"
+  }
+}
