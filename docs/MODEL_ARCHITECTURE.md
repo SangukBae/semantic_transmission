@@ -3,9 +3,11 @@
 <a id="bsu-webvid-default"></a>
 ## WebVid 배치의 개발 기본 구성
 
-[`bsu_webvid.py`](../src/semantic_transmission/bsu_webvid.py)는 기존 Qwen 의미 선택·캡션 LoRA·수정 Open-Sora 실행 뒤에 **궤적·수신 키 합성 → 시간 보정**을 연결한다. 초기 `bsu_refine`의 2키 한정 인터페이스와 별도로, [`bsu_sequence_refinement.py`](../src/semantic_transmission/bsu_sequence_refinement.py)는 모든 인접 키 구간을 처리하고 공유 끝 프레임을 정확히 한 번만 기록한다. 각 키 위치의 기존 생성 픽셀과 영상 전체 길이·FPS를 보존한다. 기본 `combined`는 최초 실험의 합성 규칙이며 후속 `guarded_combined`를 대신 적용하지 않는다.
+2026-10-13부터 [`bsu_default.py`](../src/semantic_transmission/bsu_default.py)가 정식 배치 명령의 실행기이며, [`bsu_receiver.py`](../src/semantic_transmission/bsu_receiver.py)의 **궤적·수신 키 합성 → 시간 보정 → 새 구간 연결**을 기본 `combined_context`로 사용한다. 새 연결은 검증한 [`receiver_key_context.py`](../src/semantic_transmission/receiver_key_context.py)의 연산을 그대로 호출한다. 수신 키와 주변 생성 프레임을 양방향 광류로 연결하며 8~24프레임 범위 규칙을 사용하고 짧은 구간·장면 전환에서는 줄인다. 후속 잔차·경로·게이트는 추가하지 않는다.
 
-송신부는 원본의 구간별 희소 궤적을 영상 단위 패킷으로 묶는다. 별도 LDPC/QAM/AWGN 전송의 실제 비용을 기본 BSU 비용에 더하며, 기본 추가 예산은 해당 BSU 영상 대비 5%다. 디지털 메타데이터는 6/8dB에서 QPSK, 10dB에서 16-QAM을 사용하고 전체 심벌을 계상한다. 표현을 줄여도 예산에 들어가지 않거나 유효 궤적이 없으면 시간 보정만 수행한다. 수신 보정에는 원본 픽셀을 전달하지 않는다. 이 전송 포장·구간 연결 확장은 기존 7개 짧은 평가 창의 성능 수치를 전체 WebVid 성능으로 승격하지 않는다. 이중 윤곽·정지 회귀는 알려진 한계로 유지한다. [실행 및 평가](RUN_GUIDE.md#bsu-webvid-benchmark)
+모든 인접 키 구간을 처리하며 공유 키 프레임은 한 번만 기록한다. 새 기본값은 **수신된 키의 RGB**와 전체 길이·FPS를 보존한다. 손실 MP4의 픽셀 일치를 뜻하지 않는다. `combined`는 이전 궤적·시간 보정만 수행하는 비교 옵션이며, `cadence`·`none`도 유지한다. [`bsu_webvid.py`](../src/semantic_transmission/bsu_webvid.py)와 [`bsu_sequence_refinement.py`](../src/semantic_transmission/bsu_sequence_refinement.py)는 과거 동결 코드로 보존한다. 새 실행기의 모드·연결 코드·파라미터는 새 프로토콜에 포함하고, 기존 프로토콜은 저장된 방식으로 재개한다.
+
+송신부는 기존 `combined`와 동일한 원본 궤적 추출·패킷·예산을 사용한다. 별도 LDPC/QAM/AWGN 전송의 실제 비용을 기본 BSU 비용에 더하며, 기본 추가 예산은 해당 BSU 영상 대비 5%다. 새 구간 연결 자체의 추가 비용은 0이다. 디지털 메타데이터는 6/8dB에서 QPSK, 10dB에서 16-QAM을 사용하고 전체 심벌을 계상한다. 유효 궤적이 없으면 궤적 합성을 생략하고 시간 보정·새 구간 연결은 수행한다. 수신 보정에는 원본 픽셀을 전달하지 않는다. 이중 윤곽·일부 정지 회귀와 독립 의미 검증 미완료는 남는다. [실행 및 평가](RUN_GUIDE.md#bsu-webvid-benchmark)
 
 <a id="bsu-lgvsc-blocks"></a>
 ## BSU와 LGVSC 내부 블록다이어그램
@@ -43,31 +45,46 @@ flowchart LR
         BT -->|키 위치·구간 길이| BD
         BR --> BD["DSA + 수신부 보정<br/>조건 충돌 방지·짧은 구간 시간표"]
         BD --> BG["Open-Sora STDiT · RFLOW<br/>→ VAE 복호화"]
-        BG --> BO["구간 경계 중복 제거<br/>→ 복원 영상"]
+        BG --> BO["구간 경계 중복 제거"]
+        BO --> BP["궤적·수신 키 합성 → 시간 보정<br/>→ 수신 키 전후 새 구간 연결"]
+        BT -->|수신 키·유료 궤적| BP
         BG -. "이전 생성의 마지막 17프레임" .-> BR
     end
     classDef changed fill:#d8f3dc,stroke:#228b45,color:#111
-    class B1,B2,BC,BR,BD,BO changed
+    class B1,B2,BC,BR,BD,BO,BP changed
 ```
 
 - **전송 경로:** 수신 키 이미지는 NTSCC로, 캡션·움직임 점수·키 위치 등 메타데이터는 로컬 LDPC/QAM 경로로 전송한다. 이는 현재 비교 실행의 구현이며 원본 공개 LGVSC 스크립트 전체가 메타데이터까지 동일하게 연결된다는 뜻은 아니다.
 - **DSA:** 별도 학습 신경망이 아니라 구간 길이에 맞춰 생성 latent 크기·참조·마스크를 구성하는 로직이다. 두 모델 모두 Open-Sora 생성기 본체를 사용한다.
 - **Qwen 역할:** BSU의 선택·재검토는 본체, 캡션 초안만 학습된 LoRA를 사용한다. 그림의 역할들은 별도 Qwen 모델 세 개가 아니라 동일 본체의 순차 호출이다.
-- **현재 범위:** 가변 개수 선택 검증과 항구 16초의 새 캡션·송수신·복원을 완료했다. 2키 결과는 고정 22키보다 전송량·큰 화면 변화가 줄었지만 화질이 악화했다. 비채택 참조 게이트·공동 생성·출력 보간은 이 그림에 포함하지 않는다. [선택 검증](RESULTS.md#qwen-semantic-selection) · [복원 비교](RESULTS.md#bsu-zea-three-way)
+- **현재 범위:** 가변 선택·캡션·송수신·복원에 더해 새 구간 연결을 기본 배치에 통합했다. 추가 12편의 화질 개선과 일부 움직임 회귀를 함께 확인했으며 독립 의미 검증은 남는다. 비채택 참조 게이트·공동 생성·후속 움직임 복원 후보는 포함하지 않는다. [선택 검증](RESULTS.md#qwen-semantic-selection) · [구간 연결 검증](RESULTS.md#bsu-context-extension)
+
+<a id="bsu-adaptive-receiver"></a>
+## BSU 수신 보정 후보 — 적응형 시간 간격과 가림 합성
+
+[`adaptive_receiver.py`](../src/semantic_transmission/adaptive_receiver.py)는 현재 궤적·키 합성+시간 보정의 두 연산을 각각 바꿔 시험하는 모듈이다. VAE 복호화 뒤의 생성 RGB·수신 키·이미 전송된 희소 궤적만 사용하며 원본·평가 점수를 읽지 않는다. 하나의 공통 설정을 모든 영상에 적용한다.
+
+- **적응형 시간 보정:** 양방향 DIS 광류의 속도·속도 변화·신뢰도와 수신 궤적의 비선형성을 검사해 보간 간격을 8/4/2/1프레임 중 고른다. 불확실한 구간은 1프레임 간격으로 두어 기존 프레임을 유지하고, 검출된 컷을 가로질러 보간하지 않는다.
+- **가림을 고려한 키 합성:** 궤적 가시성·정렬 가능 영역·생성 영상과의 일치도로 양끝 키의 가중치를 정한다. 두 키가 다를 때 더 신뢰할 수 있는 키를 우선하고, 모두 불확실하면 보정을 줄인다. 광류로 이전 가중치를 옮겨 현재 가중치와 평활화하되 새로 가려진 키의 기여는 즉시 차단한다.
+
+두 연산 모두 프레임 수·FPS·끝 프레임을 보존하며 현재 유료 궤적 결합 대비 **추가 전송 0·추가 학습 없음**이다. 가시성은 희소 추적·광류 기반 추정이지 물체별 가림 정답이 아니다. 생성기에 누락된 동작이나 양끝 키에 없는 외형을 복원한다고 보장하지 않는다. 현재 WebVid 기본 경로와 분리한 실험으로 [11원본 2×2 결과](RESULTS.md#bsu-adaptive-visibility)와 [실행 명령](RUN_GUIDE.md#bsu-adaptive-visibility)을 제공한다.
 
 <a id="bsu-trajectory-receiver"></a>
 ## BSU 선택형 수신 보정 — 궤적 합성과 시간 보정
 
-2026-10-12 추가한 [`bsu_refine.py`](../src/semantic_transmission/bsu_refine.py)는 **VAE 복호화 뒤의 RGB 출력**에 적용한다. 기존 전체 복원 명령에 자동 연결하지 않았으며 양끝 2키 창을 받는 별도 명령이다. 기본 `cadence`는 생성 RGB의 4프레임 간격 양방향 DIS 광류로 중간 프레임을 보정하고, 일관성·색 차이·장면 전환 검사로 보정량을 제한한다. 프레임 수·24fps·끝 프레임 픽셀을 보존하며 **추가 전송은 없다**. 원본 영상·새 학습·RFLOW 내부 수정을 요구하지 않는다.
+[`bsu_refine.py`](../src/semantic_transmission/bsu_refine.py)는 **VAE 복호화 뒤의 RGB 출력**에 적용하는 양끝 2키 전용 명령이다. 2026-10-13부터 기본 `combined_context`는 유료 궤적의 비검사 합성·시간 보정·새 구간 연결을 수행한다. `cadence`는 이전 4프레임 간격 시간 보정만, `combined`는 새 연결 없는 이전 결합, `guarded_combined`는 과거 윤곽 검사 합성을 선택한다. 새 기본값은 생성 끝점 대신 수신 끝점 RGB를 보존하며 추가 전송·학습·RFLOW 내부 수정을 요구하지 않는다.
 
 ```mermaid
 flowchart LR
-    B[BSU VAE 복호화 RGB] --> C[양방향 광류·일관성 검사·시간 보정]
-    C --> O[같은 길이·FPS의 출력]
-    P[수신 패킷의 희소 궤적] -. 연구 옵션 .-> W[수신 키 정렬·윤곽 일치 합성]
+    B[BSU VAE 복호화 RGB] --> W[유료 궤적·수신 키 합성]
+    W --> C[양방향 광류·시간 보정]
+    C --> KX[기본값: 수신 키 전후 새 구간 연결]
+    KX --> O[같은 길이·FPS의 출력]
+    C -. cadence·combined 비교 옵션 .-> O
+    P[수신 패킷의 희소 궤적] --> W
     K[수신 양끝 키] --> W
-    B --> W
-    W -. guarded_combined .-> C
+    K --> KX
+    B -. cadence 옵션 .-> C
 ```
 
 [`sparse_trajectory.py`](../src/semantic_transmission/sparse_trajectory.py)는 송신부에서 LK 양방향 검사를 통과한 최대 16점·9시간 매듭을 1/4픽셀 위치·가시성으로 부호화한다. 실제 패킷·FEC 비용에 맞춰 점·시점을 줄이고 예산이 부족하면 우회한다. 시점은 선형 경로 예측 오차를 이용해 고른다. 이는 적응형 **궤적 시간 매듭**이며 이미지 앵커 배치 전체 구현은 아니다. 수신부는 카메라 유사 변환·국소 잔여 이동으로 두 키를 정렬한다. [`guarded_trajectory_receiver.py`](../src/semantic_transmission/guarded_trajectory_receiver.py)는 생성 영상과 참조의 국소 불일치 영역을 합성에서 제외한다. 의미 오류 검출기나 자동 재생성은 아니다.

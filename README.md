@@ -17,20 +17,24 @@ flowchart LR
     S --> T[키프레임·캡션·움직임 전송]
     R --> T
     T --> D[T5 · DSA / Open-Sora 복원]
+    D --> RX[궤적·시간 보정 → 수신 키 전후 새 구간 연결]
+    T -->|수신 키·유료 궤적| RX
 ```
 
 - Qwen3.5-9B NF4 본체에 캡션 전용 LoRA를 적용합니다. 후보·재검토에는 어댑터를 끕니다.
 - 최종 키프레임 선택은 Qwen 본체의 의미 변화 판정입니다. 처음·끝을 유지하고 중간 키는 판정 결과로 추가합니다. 후보 간격은 관찰 빈도이며 키 간격을 강제하지 않습니다. 이전 InternVL 혼합 경로는 별도 코드·기록으로 보존합니다.
 - 수신단은 마지막 17프레임 참조, T5 FP32 조건 캐시, 키프레임 조건 충돌·짧은 구간 시간표 수정을 포함합니다.
-- 복원 후 선택형 [`bsu_refine`](docs/RUN_GUIDE.md#bsu-trajectory-cadence) 명령은 추가 전송 없이 움직임을 보정합니다. 기본 모드는 `cadence`이며, 기존 전체 복원 명령에 자동 연결한 상태는 아닙니다.
-- 새 [`run_bsu_webvid.sh`](docs/RUN_GUIDE.md#bsu-webvid-benchmark) 배치 명령은 **궤적·수신 키 합성 + 시간 보정**을 개발 기본값으로 연결합니다. 모든 인접 키 구간을 처리하고 궤적의 실제 채널 비용을 계상합니다. 기존 단일 영상 명령과 과거 동결 실험은 유지합니다.
+- [`run_bsu_webvid.sh`](docs/RUN_GUIDE.md#bsu-webvid-benchmark)의 새 실행은 **궤적·수신 키 합성 → 시간 보정 → 새 구간 연결(`combined_context`)**이 기본입니다. 모든 인접 키 구간에서 수신 키 RGB를 정확히 보존하고 주변 프레임을 연결합니다. 기존 `combined` 대비 추가 전송은 없습니다.
+- 저자 Kinetics-400 14편은 [`bash scripts/run_bsu_kinetics.sh`](docs/RUN_GUIDE.md#bsu-kinetics-benchmark) 한 명령으로 최신 BSU 복원·10dB·TimeSformer 행동 평가를 수행합니다. 2026-10-14 04:40 KST에 14편·3,333프레임 복원과 원본/BSU 28건 행동 평가가 완료됐습니다. 고정 화면에서 진행률·GPU 사용률·VRAM을 갱신합니다.
+- 동일 BSU 입력과 통신 조건의 LGVSC 대조는 [`bash scripts/run_lgvsc_kinetics.sh`](docs/RUN_GUIDE.md#lgvsc-kinetics-matched)로 실행합니다. `rate`는 전송량만 측정하며, 기본 실행은 복원·화질·행동 평가까지 수행합니다. InternVL·PLLaVA와 공통 보정 Open-Sora를 사용하고 BSU 추가 수신 보정은 제외합니다. 논문 원본 실행의 정확한 재현과 구분합니다.
+- 양끝 2키의 완료 복원에 적용하는 [`bsu_refine`](docs/RUN_GUIDE.md#bsu-trajectory-cadence)도 같은 기본 보정을 사용합니다. `--mode combined`로 이전 결합, `--mode cadence`로 시간 보정만 선택할 수 있습니다. 기존 배치의 저장된 방식과 과거 동결 실험은 유지합니다.
 - GPT6-Astra는 일부 학습 정답·평가 작성에 사용했습니다. 온라인 추론 모델이나 사람 정답으로 표시하지 않습니다.
 
 <a id="status"></a>
 <a id="scope"></a>
 ## 검증 범위와 한계
 
-현황 정리: **2026-10-12**. 희소 궤적·수신 키 합성·움직임 보정을 7원본·28조건에서 시험하고, 이중 윤곽 억제 후속 14조건을 추가 검증했습니다. 초기 선택형 명령은 `cadence`가 기본이며, 이후 종합 성능을 우선하는 사용자 기준에 따라 새 WebVid 배치에는 **결합 보정 `combined`**를 기본으로 연결했습니다. WebVid 전체 성능은 배치 완료 후 판단하며, 구조 조건 학습·버벅임 완전 해결·범용성 입증은 미완료입니다.
+현황 정리: **2026-10-13**. 추가 WebVid 12편 모두에서 PSNR·비키 PSNR·LPIPS 개선을 확인해, 사용자 요청으로 **원래 새 구간 연결을 이 컴퓨터의 BSU 기본 수신부에 통합**했습니다. 3개 SNR이 완료된 11편의 평균 PSNR은 +0.694dB, 광류 오차는 −6.00%입니다. 다만 6/12편의 정지 오판 증가가 남으며, 연속 60초·독립 의미 평가와 ETRI 목표 달성은 미완료입니다. 후속 프레임별 경로·잔차·게이트 후보는 기본값에 포함하지 않습니다. [검증 결과](docs/RESULTS.md#bsu-context-extension) · [기본 통합](docs/RESULTS.md#bsu-context-default)
 
 | 확인한 범위 | 현재 근거 |
 |---|---|
