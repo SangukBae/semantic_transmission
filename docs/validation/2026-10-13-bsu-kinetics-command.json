@@ -1,0 +1,107 @@
+{
+  "status": "PASSED_IMPLEMENTATION_PREPARATION_SMOKE_ONLY",
+  "date": "2026-10-13",
+  "command": "bash scripts/run_bsu_kinetics.sh",
+  "mode": "combined_context",
+  "snr_db": [
+    10
+  ],
+  "clips": 14,
+  "author_manifest_sha256": "8c10e3bc1ff80a083472d4b5ea9dbeaecd7a52a973f0b111a47fce0cf83e5f0e",
+  "author_commit": "50c9ff98fb1aaa8136aef2e41e02bbb0d1a2d1c3",
+  "normalized_frames": 3333,
+  "normalized_seconds": 138.875,
+  "full_source": true,
+  "normalization": {
+    "width": 576,
+    "height": 320,
+    "fps": 24,
+    "start_seconds": 0,
+    "end": "EOF",
+    "duration_limit": null
+  },
+  "stages": [
+    "author_bytes_check",
+    "isolated_TimeSformer_setup",
+    "full_source_preparation",
+    "Qwen_selection",
+    "caption_LoRA",
+    "AWGN_10dB_transmission",
+    "OpenSora_reconstruction",
+    "combined_context",
+    "quality_and_rate",
+    "TimeSformer_original_and_BSU"
+  ],
+  "benchmark_signature": "9280fbd4d11558b196f5d6373dbe3bd2e9b819b0ba6c5d680ec8c19cd33a1661",
+  "tests": {
+    "passed": 78,
+    "failed": 0,
+    "files": [
+      "tests/test_bsu_kinetics.py",
+      "tests/test_terminal_gpu_progress.py",
+      "tests/test_bsu_default.py",
+      "tests/test_bsu_receiver.py",
+      "tests/test_bsu_webvid.py",
+      "tests/test_terminal_progress.py"
+    ]
+  },
+  "actual_classifier_smoke": {
+    "status": "PASSED_SINGLE_ORIGINAL_CLASSIFIER_SMOKE",
+    "clip": "kinetics_001_a393e9d3",
+    "label": 208,
+    "top5": [
+      208,
+      174,
+      209,
+      361,
+      152
+    ],
+    "input_shape": [
+      3,
+      3,
+      8,
+      224,
+      224
+    ],
+    "logits_count": 400,
+    "finite": true,
+    "seconds": 6.684260724010528,
+    "checkpoint_sha256": "45c4eeccc4956447a4fca765b665b443c701d8d2e8ae600510565a649651d973",
+    "source_sha256": "a8fe0001ae1e86c80fc7671b77e6c8bde04d8463192130d95d042b71264f5382",
+    "bsu_reconstruction_started": false,
+    "code_sha256": "903ee651360c457a6756aebfd7d72ce3060f642e62c21a68548c706d631078ab",
+    "sampled_fps": 30,
+    "spatial_crops": 3,
+    "original_test_loader": true,
+    "full_experiment_completed": false
+  },
+  "actual_terminal_smoke": {
+    "status": "PASSED",
+    "fixed_rows": 8,
+    "exit_code": 0,
+    "actual_nvidia_measurements": true,
+    "refresh_during_silent_worker": true
+  },
+  "memory_preference_note": "/home/sangukbae/.codex/memories/extensions/ad_hoc/notes/20261013T145123Z-fixed-progress-live-gpu.md",
+  "code": {
+    "scripts/run_bsu_kinetics.sh": "123c267b76d493cf51f722ba929560d1892d5d2ffd45d4268d7800224ec8845c",
+    "src/semantic_transmission/bsu_kinetics.py": "72c167dd0ee68e2c324ac21f49c3c87bd973eb8d9336c0ff720a54e5362048e5",
+    "src/semantic_transmission/kinetics_assets.py": "2bdac049952596a2d47f692b516fb093f8a63b5419bea84f0a3adf19ab21ce28",
+    "src/semantic_transmission/kinetics_timesformer.py": "903ee651360c457a6756aebfd7d72ce3060f642e62c21a68548c706d631078ab",
+    "src/semantic_transmission/terminal_gpu_progress.py": "b26458b1170c9260e4a86a9101cd97a744562ce3aac9dc6aacdb551f70bd21a2"
+  },
+  "full_bsu_reconstruction_started": false,
+  "full_benchmark_completed": false,
+  "independent_semantic_review": "PENDING",
+  "exact_paper_reproduction": false,
+  "scope": "Matched author originals, 10dB and published action evaluation configuration; current BSU system and fresh full-source normalization, no fresh LGVSC/codec comparator.",
+  "frozen_legacy_modules_modified": false,
+  "remote_modified": false,
+  "prepare_resume": {
+    "status": "PASSED",
+    "verified_files": 3379,
+    "modified_files": [],
+    "same_command_reused_14_sources": true,
+    "model_inference_started": false
+  }
+}
