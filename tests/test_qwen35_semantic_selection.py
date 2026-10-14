@@ -106,3 +106,38 @@ def test_selection_replays_actual_reference_pairs_on_resume():
     count = len(inferred)
     assert semantic.select(25, CachedSession(judge)) == first
     assert len(inferred) == count
+
+
+@pytest.mark.parametrize("kind", [*sorted(semantic.KINDS), "entry", "exit", "entry/exit"])
+def test_change_kind_aliases_preserve_raw_evidence_and_selection(kind):
+    value = dict(decision(0, 16, changed=True), kind=kind)
+    original = dict(value)
+    assert semantic.validate_decision(value, 0, 16) is value
+    assert value == original
+    session = Session(lambda _, ids: dict(decision(ids[0], ids[-1], changed=True), kind=kind))
+    keys, trace = semantic.select(5, session)
+    assert keys == [0, 4] and trace[0]["result"]["kind"] == kind
+
+
+@pytest.mark.parametrize("kind", ["entry", "exit", "entry/exit"])
+@pytest.mark.parametrize("decision_name", ["same", "uncertain"])
+def test_alias_never_overrides_a_conflicting_decision(kind, decision_name):
+    with pytest.raises(ValueError, match="kind must be one of"):
+        semantic.validate_decision(dict(decision(0, 16), kind=kind, decision=decision_name), 0, 16)
+
+
+@pytest.mark.parametrize("kind", ["motion", "unknown", "none", None, [], {}, "entry_exit|pose"])
+def test_unsupported_change_kind_has_actionable_error(kind):
+    with pytest.raises(ValueError, match="kind must be one of.*entry_exit"):
+        semantic.validate_decision(dict(decision(0, 16, changed=True), kind=kind), 0, 16)
+
+
+@pytest.mark.parametrize("ids", [[False, 16], [0., 16.], [0, "16"], [0, 15], [0, 8, 16]])
+def test_alias_does_not_relax_source_evidence(ids):
+    with pytest.raises(ValueError, match="endpoints"):
+        semantic.validate_decision(dict(decision(0, 16, changed=True), kind="entry", evidence_frames=ids), 0, 16)
+
+
+def test_alias_cannot_justify_identical_states():
+    with pytest.raises(ValueError, match="identical"):
+        semantic.validate_decision(dict(decision(0, 16), decision="changed", kind="entry"), 0, 16)

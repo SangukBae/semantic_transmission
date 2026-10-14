@@ -29,6 +29,9 @@ must use at most 45 words. Cite the actual reference and candidate source IDs.
 Intermediate images, if supplied for review, help resolve those two endpoints;
 they do not replace the accepted reference or the candidate being judged.'''
 KINDS = {"entry_exit", "occlusion", "pose", "position", "appearance", "scene_change", "viewpoint"}
+# Exact subtypes of entry_exit, not guesses about the visual evidence. Keep the
+# original spelling in the sealed model response and selection trace.
+KIND_ALIASES = {"entry": "entry_exit", "exit": "entry_exit", "entry/exit": "entry_exit"}
 
 
 def candidates(frames, stride=4):
@@ -38,17 +41,20 @@ def candidates(frames, stride=4):
 
 
 def validate_decision(value, reference, candidate):
-    if not isinstance(value, dict) or value.get("decision") not in {"changed", "same", "uncertain"}:
+    if not isinstance(value, dict) or value.get("decision") not in ("changed", "same", "uncertain"):
         raise ValueError("decision must be changed, same, or uncertain")
     decision, kind = value["decision"], value.get("kind")
-    if ((decision == "changed" and kind not in KINDS)
-            or (decision == "same" and kind != "none")
-            or (decision == "uncertain" and kind != "unknown")):
-        raise ValueError("decision and kind contradict each other")
+    allowed = sorted(KINDS) if decision == "changed" else ["none" if decision == "same" else "unknown"]
+    canonical = KIND_ALIASES.get(kind, kind) if isinstance(kind, str) else kind
+    if canonical not in allowed:
+        raise ValueError(f"decision={decision!r} and kind={kind!r} contradict the schema; "
+                         f"kind must be one of {allowed}. Keep the decision grounded in the images.")
     states = [value.get(k) for k in ("reference_state", "candidate_state")]
     if any(not isinstance(s, str) or not s.strip() for s in states) or len(" ".join(states).split()) > 45:
         raise ValueError("provide two short visible state descriptions, at most 45 words total")
-    if value.get("evidence_frames") != [reference, candidate]:
+    evidence = value.get("evidence_frames")
+    if (not isinstance(evidence, list) or any(type(i) is not int for i in evidence)
+            or evidence != [reference, candidate]):
         raise ValueError(f"evidence_frames must be the actual endpoints {[reference, candidate]}")
     if decision == "changed" and states[0].strip().casefold() == states[1].strip().casefold():
         raise ValueError("identical stated states cannot justify changed")

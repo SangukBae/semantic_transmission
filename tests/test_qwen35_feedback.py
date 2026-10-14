@@ -177,3 +177,82 @@ def test_full_feedback_round_recomputes_boundaries_and_verifies_raw_provenance(t
     fb.write_json(tmp_path / "feedback.json", fb.ae.seal(value))
     with pytest.raises(ValueError, match="selection trace"):
         fb.verify(tmp_path)
+
+
+def retry_session(tmp_path, responses):
+    from PIL import Image
+    source = tmp_path / "source"
+    source.mkdir()
+    for i in (0, 16):
+        Image.new("RGB", (8, 8), "white").save(source / f"{i}.png")
+    prompts = []
+    class Model:
+        runtime = dict(model_id=fb.MODEL_ID, revision=fb.REVISION, quantization="nf4")
+        def __init__(self, config):
+            pass
+        def generate(self, images, labels, prompt, tokens):
+            prompts.append(prompt)
+            return dict(raw_text=responses[len(prompts)-1], truncated=False,
+                        model_runtime=self.runtime, seconds=.1)
+    plan = dict(max_images=16, fps=24, signature="s", source_frames=str(source),
+                source_frame_hashes={str(i):fb.sha256(source / f"{i}.png") for i in (0, 16)})
+    return fb.Session(tmp_path, plan, factory=Model), prompts
+
+
+ENTRY_RESPONSE = ('{"decision":"changed","kind":"entry",'
+    '"reference_state":"field with no visible vehicle",'
+    '"candidate_state":"green tractor enters bottom of frame","evidence_frames":[0,16]}')
+
+
+def test_remote_entry_failure_succeeds_without_rewriting_raw_or_loading_on_resume(tmp_path):
+    from semantic_transmission.qwen35_semantic_selection import validate_decision
+    session, prompts = retry_session(tmp_path, [ENTRY_RESPONSE])
+    validator = lambda obj: validate_decision(obj, 0, 16)
+    result = session.call("semantic_select", [0, 16], "source-only judgment", validator, 256)
+    assert result == json.loads(ENTRY_RESPONSE) and len(prompts) == 1
+    record = fb.ae.unseal(next((session.root / "calls/semantic_select").glob("*.json")))
+    assert record["raw_text"] == ENTRY_RESPONSE and record["result"] == result
+    resumed = fb.Session(tmp_path, session.plan, factory=lambda _: pytest.fail("cache loaded GPU"))
+    assert resumed.call("semantic_select", [0, 16], "source-only judgment", validator, 256) == result
+    assert resumed.calls[-1]["reused"] and resumed.model is None
+
+
+def test_repair_includes_failed_output_exact_error_and_all_previous_attempts(tmp_path):
+    from semantic_transmission.qwen35_semantic_selection import validate_decision
+    bad = ENTRY_RESPONSE.replace('"entry"', '"motion"')
+    session, prompts = retry_session(tmp_path, [bad, bad, ENTRY_RESPONSE])
+    validator = lambda obj: validate_decision(obj, 0, 16)
+    assert session.call("semantic_select", [0, 16], "source-only judgment", validator)["kind"] == "entry"
+    assert prompts[0].startswith("source-only judgment") and "FORMAT REPAIR" not in prompts[0]
+    assert len(set(prompts)) == 3
+    assert all("entry_exit" in p and "validation_error" in p and '\\"motion\\"' in p for p in prompts[1:])
+    records = list((tmp_path / "failed_attempts/semantic_select").glob("*.json"))
+    assert len(records) == 2 and all(fb.ae.unseal(p)["raw_text"] == bad for p in records)
+
+
+def test_invalid_source_evidence_exhausts_bounded_retries_and_never_creates_success(tmp_path):
+    from semantic_transmission.qwen35_semantic_selection import validate_decision
+    bad = ENTRY_RESPONSE.replace('[0,16]', '[0,99]')
+    session, prompts = retry_session(tmp_path, [bad]*3)
+    with pytest.raises(RuntimeError, match="three invalid responses:.*actual endpoints"):
+        session.call("semantic_select", [0, 16], "source-only judgment",
+                     lambda obj: validate_decision(obj, 0, 16))
+    assert len(prompts) == 3 and session.calls == []
+    assert len(list((tmp_path / "failed_attempts/semantic_select").glob("*.json"))) == 3
+    assert not list((tmp_path / "calls").glob("*/*.json"))
+
+
+def test_repair_does_not_hide_truncation_or_model_failure(tmp_path):
+    session, prompts = retry_session(tmp_path, [ENTRY_RESPONSE])
+    record = dict(raw_text=ENTRY_RESPONSE, result=json.loads(ENTRY_RESPONSE), truncated=True,
+                  model_runtime=dict(model_id=fb.MODEL_ID, revision=fb.REVISION, quantization="nf4"))
+    with pytest.raises(ValueError, match="token limit"):
+        session.validate_record(record, lambda obj: obj)
+    class BrokenModel:
+        runtime = {}
+        def __init__(self, config):
+            raise RuntimeError("CUDA out of memory")
+    session.factory = BrokenModel
+    with pytest.raises(RuntimeError, match="CUDA out of memory"):
+        session.call("semantic_select", [0, 16], "source-only judgment", lambda obj: obj)
+    assert not prompts

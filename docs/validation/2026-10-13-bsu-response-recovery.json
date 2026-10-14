@@ -1,0 +1,181 @@
+{
+  "date": "2026-10-13",
+  "status": "PASSED",
+  "issue": "Qwen emits entry subtype, selector rejects it, greedy retry repeats six times without actionable feedback",
+  "fix": {
+    "accepted_exact_subtypes": [
+      "entry",
+      "exit",
+      "entry/exit"
+    ],
+    "raw_response_preserved": true,
+    "initial_prompt_unchanged": true,
+    "decision_and_evidence_not_rewritten": true,
+    "repair_context": "previous raw responses and exact validation errors",
+    "retry_bound_unchanged": true
+  },
+  "verification": {
+    "local_tests_passed": 275,
+    "remote_tests_passed": 275,
+    "valid_response_replay_unchanged": 1932,
+    "actual_failed_response_replay_recovered": 6,
+    "prior_completed_jobs_preserved": 12,
+    "full_cohort_verified": false,
+    "new_failed_attempts": [],
+    "all_source_preflight_passed": 53,
+    "real_schema_repair": {
+      "decision": "changed",
+      "kind": "entry_exit",
+      "reference_state": "field with no visible vehicle",
+      "candidate_state": "green tractor enters bottom of frame",
+      "evidence_frames": [
+        0,
+        16
+      ]
+    },
+    "unseen_probes": [
+      {
+        "id": "webvid_008_852d56f2",
+        "frames": 150,
+        "ids": [
+          0,
+          75
+        ],
+        "valid_response": true
+      },
+      {
+        "id": "webvid_008_852d56f2",
+        "frames": 150,
+        "ids": [
+          75,
+          149
+        ],
+        "valid_response": true
+      },
+      {
+        "id": "webvid_050_ae41bb55",
+        "frames": 354,
+        "ids": [
+          0,
+          177
+        ],
+        "valid_response": true
+      },
+      {
+        "id": "webvid_050_ae41bb55",
+        "frames": 354,
+        "ids": [
+          177,
+          353
+        ],
+        "valid_response": true
+      },
+      {
+        "id": "webvid_037_143ffe14",
+        "frames": 1201,
+        "ids": [
+          0,
+          600
+        ],
+        "valid_response": true
+      },
+      {
+        "id": "webvid_037_143ffe14",
+        "frames": 1201,
+        "ids": [
+          600,
+          1200
+        ],
+        "valid_response": true
+      }
+    ],
+    "probe_scope": "Two endpoint pairs per unseen video; not full-video reconstruction or semantic quality validation"
+  },
+  "files": {
+    "src/semantic_transmission/qwen35_semantic_selection.py": {
+      "before": "08794600363fe57de4e4acc68bfa7b39831ab7596daff932e08414bdc28bcae0",
+      "after": "968729bf59ab0c24f55e4947af14c6b77a44f27c782873959befdec2f85e2ade"
+    },
+    "src/semantic_transmission/qwen35_feedback.py": {
+      "before": "db3f16596e03062d0b4319e254cb65908e04704a189abf1d689f6b22c013e18e",
+      "after": "7fc3b0183d7ba16f0ee3a837e01b00020850eaacef886984298211f069820a84"
+    },
+    "tests/test_qwen35_semantic_selection.py": {
+      "before": "3d52887b45929c0b3cdcf3147c8586e116098dde0fa4e38dec9f110545294996",
+      "after": "75d52e9da13f7d5ae766d0124c8e1314e680bee626f4a7494a3ac3a06bcdf411"
+    },
+    "tests/test_qwen35_feedback.py": {
+      "before": "77eff520b5177e769f09116e6b20b05991364328eb97345225ede6a86845505b",
+      "after": "2ecfd44b6961b606ac314128c5b525863a85cd76b1a0458a63b2ff5cf3ae9426"
+    }
+  },
+  "checked_at": "2026-10-13T11:40:47.402698+09:00",
+  "integration": {
+    "status": "PASSED",
+    "condition": {
+      "id": "webvid_005_ba30bf76",
+      "snr_db": 6.0
+    },
+    "frames": 294,
+    "completed": 13,
+    "total": 159,
+    "preserved_completed_jobs": 12,
+    "default_command_resume_verified": true,
+    "full_cohort_verified": false,
+    "seconds": 711.6841707780259,
+    "video": "/home/sangukbae/ETRI/Semantic/semantic_transmission/outputs/bsu_webvid_paper/snr_6/webvid_005_ba30bf76/refined/reconstruction.mp4"
+  },
+  "selection": {
+    "candidate_decisions": 74,
+    "keyframes": 6,
+    "keys": [
+      0,
+      16,
+      44,
+      68,
+      172,
+      293
+    ],
+    "recovered_original_pair": [
+      {
+        "raw_text": "{\"decision\":\"changed\",\"kind\":\"entry\",\"reference_state\":\"field with no visible vehicle\",\"candidate_state\":\"green tractor enters bottom of frame\",\"evidence_frames\":[0,16]}",
+        "kind": "entry",
+        "attempt": 0,
+        "sha256": "4982d57bcdc4164d96fb5653d57eec2fadb22b5fe5f6bc18304d294c078e009a"
+      }
+    ]
+  },
+  "movies": {
+    "base": {
+      "path": "/home/sangukbae/ETRI/Semantic/semantic_transmission/outputs/bsu_webvid_paper/snr_6/webvid_005_ba30bf76/base/reconstruction/event_pairs/run/receiver/reconstruction/sample_0000.mp4",
+      "sha256": "f14db1fbafe32ec95088b92d9fc9b39baa008bfdb68927bba7ef4c856387a8b4",
+      "width": 576,
+      "height": 320,
+      "avg_frame_rate": "24/1",
+      "duration": "12.250000",
+      "nb_read_frames": "294"
+    },
+    "refined": {
+      "path": "/home/sangukbae/ETRI/Semantic/semantic_transmission/outputs/bsu_webvid_paper/snr_6/webvid_005_ba30bf76/refined/reconstruction.mp4",
+      "sha256": "9833de9f89ee6be1451f6c8018d0578588ebc9381550893b6abe78a51b20a66f",
+      "width": 576,
+      "height": 320,
+      "avg_frame_rate": "24/1",
+      "duration": "12.250000",
+      "nb_read_frames": "294"
+    }
+  },
+  "provenance": {
+    "existing_protocol_and_template_unchanged": true,
+    "completed_results_not_rewritten": true,
+    "new_selection_plans_pin_updated_code": true,
+    "deployment_receipt": ".local/deployment/response_fix_20261013/applied.json",
+    "previous_incomplete_base": ".local/deployment/response_fix_20261013/failed_base_before",
+    "normal_first_attempts_unchanged": true
+  },
+  "limits": [
+    "Only the failed 294-frame video at SNR 6 was reconstructed end to end in this validation.",
+    "Additional three-video checks cover six endpoint pairs and structured output, not full reconstruction or semantic accuracy.",
+    "Remaining 146 benchmark conditions have not completed; unresolved evidence, model/runtime failures and corrupt artifacts still fail visibly."
+  ]
+}
