@@ -1,0 +1,657 @@
+{
+  "date": "2026-10-13",
+  "analysis_status": "QUANTITATIVE_ANALYSIS_AND_NONINDEPENDENT_AI_SAMPLE_REVIEW",
+  "root": "outputs/bsu_webvid_receiver_comparison_20261013",
+  "result_sha256": "bd7cbfe6c677d35a701fa816f0ee83e04fa05fc6e52436563515ea59701c046d",
+  "integrity": {
+    "status": "PASSED",
+    "inputs": 18274,
+    "evaluation": 36,
+    "generation": 24,
+    "artifact_hashes": 15564,
+    "result_sha256": "bd7cbfe6c677d35a701fa816f0ee83e04fa05fc6e52436563515ea59701c046d",
+    "protocol_signature": "2f31d57fa8bffc9af57942970f6cd9f4f2fbc5cd174d0315932a4a28b53eab20"
+  },
+  "aggregation": "equal weight per source video and SNR; four independent source identities, not twelve",
+  "global_means": {
+    "current_combined": {
+      "lossless_frames": {
+        "quality": {
+          "psnr_db": 20.047273061693208,
+          "ssim": 0.6432990664025231,
+          "lpips_vgg": 0.34441050518590893,
+          "clip": 0.9310918878310233,
+          "dists": 0.17149142968587544
+        },
+        "temporal": {
+          "flow_error_mean": 0.1539391700682009,
+          "cadence_error_mean": 0.08525277932827499,
+          "false_freeze_rate": 0.2902868748797398,
+          "max_luma_impulse": 2.4487232349537047,
+          "mad_p95": 2.378083857783564,
+          "mad_max": 10.202445023148147
+        }
+      },
+      "delivered_mp4": {
+        "quality": {
+          "psnr_db": 20.01073808617767,
+          "ssim": 0.640746938265702,
+          "lpips_vgg": 0.3472953819622131,
+          "clip": 0.9377251469369888,
+          "dists": 0.16949497574122957
+        },
+        "temporal": {
+          "flow_error_mean": 0.15534035569695537,
+          "cadence_error_mean": 0.08628143237459635,
+          "false_freeze_rate": 0.2910092044226119,
+          "max_luma_impulse": 2.3738543475115716,
+          "mad_p95": 2.311012550636572,
+          "mad_max": 10.110583043981482
+        }
+      }
+    },
+    "cadence_only": {
+      "lossless_frames": {
+        "quality": {
+          "psnr_db": 19.648775185403743,
+          "ssim": 0.6299173518275719,
+          "lpips_vgg": 0.3470926077613564,
+          "clip": 0.9294290060905142,
+          "dists": 0.17126159166188662
+        },
+        "temporal": {
+          "flow_error_mean": 0.15527010738969385,
+          "cadence_error_mean": 0.08599541380018959,
+          "false_freeze_rate": 0.31196829207537974,
+          "max_luma_impulse": 2.6155282479745368,
+          "mad_p95": 2.5496162471064796,
+          "mad_max": 10.97942165798611
+        }
+      },
+      "delivered_mp4": {
+        "quality": {
+          "psnr_db": 19.617665470543553,
+          "ssim": 0.6277434539789654,
+          "lpips_vgg": 0.3490552465319853,
+          "clip": 0.9354540086688412,
+          "dists": 0.16906525675268813
+        },
+        "temporal": {
+          "flow_error_mean": 0.15664277397026014,
+          "cadence_error_mean": 0.0869992036580798,
+          "false_freeze_rate": 0.30814496518593343,
+          "max_luma_impulse": 2.607656973379626,
+          "mad_p95": 2.489194155092591,
+          "mad_max": 10.86131908275463
+        }
+      }
+    },
+    "key_guarded": {
+      "lossless_frames": {
+        "quality": {
+          "psnr_db": 19.778014082969534,
+          "ssim": 0.6364029614996477,
+          "lpips_vgg": 0.3453929746702185,
+          "clip": 0.9302525481041655,
+          "dists": 0.1716107377716828
+        },
+        "temporal": {
+          "flow_error_mean": 0.16194665694314872,
+          "cadence_error_mean": 0.09220185551734546,
+          "false_freeze_rate": 0.3093903889967387,
+          "max_luma_impulse": 2.830919053819449,
+          "mad_p95": 2.714671404803239,
+          "mad_max": 10.416431568287036
+        }
+      },
+      "delivered_mp4": {
+        "quality": {
+          "psnr_db": 19.735455755087226,
+          "ssim": 0.6339809646635051,
+          "lpips_vgg": 0.347332009291173,
+          "clip": 0.9361635046404702,
+          "dists": 0.16940963104376977
+        },
+        "temporal": {
+          "flow_error_mean": 0.16323792236810625,
+          "cadence_error_mean": 0.0930554757485086,
+          "false_freeze_rate": 0.3068211568266474,
+          "max_luma_impulse": 2.795062934027778,
+          "mad_p95": 2.6300113932291653,
+          "mad_max": 10.447312644675925
+        }
+      }
+    }
+  },
+  "paired_deltas": {
+    "cadence_only": {
+      "psnr_db": {
+        "mean_delta": -0.3930726156341162,
+        "relative_change_percent": -1.9643084325091986,
+        "improved_conditions": 2,
+        "conditions": 12
+      },
+      "ssim": {
+        "mean_delta": -0.013003484286736635,
+        "relative_change_percent": -2.0294258950238397,
+        "improved_conditions": 3,
+        "conditions": 12
+      },
+      "lpips_vgg": {
+        "mean_delta": 0.0017598645697721321,
+        "relative_change_percent": 0.506734227166783,
+        "improved_conditions": 7,
+        "conditions": 12
+      },
+      "clip": {
+        "mean_delta": -0.0022711382681475933,
+        "relative_change_percent": -0.2421965834622397,
+        "improved_conditions": 4,
+        "conditions": 12
+      },
+      "dists": {
+        "mean_delta": -0.000429718988541448,
+        "relative_change_percent": -0.2535290421808667,
+        "improved_conditions": 7,
+        "conditions": 12
+      },
+      "flow_error_mean": {
+        "mean_delta": 0.0013024182733047743,
+        "relative_change_percent": 0.8384287955704117,
+        "improved_conditions": 3,
+        "conditions": 12
+      },
+      "cadence_error_mean": {
+        "mean_delta": 0.000717771283483451,
+        "relative_change_percent": 0.831895419129336,
+        "improved_conditions": 3,
+        "conditions": 12
+      },
+      "false_freeze_rate": {
+        "mean_delta": 0.01713576076332155,
+        "relative_change_percent": 5.8883913302056445,
+        "improved_conditions": 2,
+        "conditions": 12
+      },
+      "max_luma_impulse": {
+        "mean_delta": 0.2338026258680547,
+        "relative_change_percent": 9.849072084525389,
+        "improved_conditions": 4,
+        "conditions": 12
+      },
+      "mad_p95": {
+        "mean_delta": 0.1781816044560189,
+        "relative_change_percent": 7.710109770149831,
+        "improved_conditions": 2,
+        "conditions": 12
+      },
+      "mad_max": {
+        "mean_delta": 0.7507360387731483,
+        "relative_change_percent": 7.42524971613816,
+        "improved_conditions": 2,
+        "conditions": 12
+      }
+    },
+    "key_guarded": {
+      "psnr_db": {
+        "mean_delta": -0.2752823310904435,
+        "relative_change_percent": -1.375673050663706,
+        "improved_conditions": 5,
+        "conditions": 12
+      },
+      "ssim": {
+        "mean_delta": -0.006765973602196958,
+        "relative_change_percent": -1.0559509844105142,
+        "improved_conditions": 5,
+        "conditions": 12
+      },
+      "lpips_vgg": {
+        "mean_delta": 3.66273289599354e-05,
+        "relative_change_percent": 0.010546448603188097,
+        "improved_conditions": 9,
+        "conditions": 12
+      },
+      "clip": {
+        "mean_delta": -0.0015616422965186265,
+        "relative_change_percent": -0.16653518374970533,
+        "improved_conditions": 4,
+        "conditions": 12
+      },
+      "dists": {
+        "mean_delta": -8.534469745980859e-05,
+        "relative_change_percent": -0.050352346484949795,
+        "improved_conditions": 8,
+        "conditions": 12
+      },
+      "flow_error_mean": {
+        "mean_delta": 0.007897566671150899,
+        "relative_change_percent": 5.084040548070967,
+        "improved_conditions": 0,
+        "conditions": 12
+      },
+      "cadence_error_mean": {
+        "mean_delta": 0.006774043373912258,
+        "relative_change_percent": 7.851102128789789,
+        "improved_conditions": 0,
+        "conditions": 12
+      },
+      "false_freeze_rate": {
+        "mean_delta": 0.01581195240403548,
+        "relative_change_percent": 5.433488756964855,
+        "improved_conditions": 5,
+        "conditions": 12
+      },
+      "max_luma_impulse": {
+        "mean_delta": 0.4212085865162063,
+        "relative_change_percent": 17.74365756507954,
+        "improved_conditions": 4,
+        "conditions": 12
+      },
+      "mad_p95": {
+        "mean_delta": 0.3189988425925929,
+        "relative_change_percent": 13.80342320100012,
+        "improved_conditions": 0,
+        "conditions": 12
+      },
+      "mad_max": {
+        "mean_delta": 0.3367296006944447,
+        "relative_change_percent": 3.33046669247119,
+        "improved_conditions": 3,
+        "conditions": 12
+      }
+    }
+  },
+  "per_video": {
+    "webvid_001_2255949c": {
+      "frames": 721,
+      "duration": 30.041666666666668,
+      "keys": [
+        0,
+        720
+      ],
+      "max_key_gap_seconds": 30.0,
+      "arms": {
+        "current_combined": {
+          "quality": {
+            "psnr_db": 20.549666430108182,
+            "ssim": 0.6282114980407403,
+            "lpips_vgg": 0.3415262054856927,
+            "clip": 0.9446918207134188,
+            "dists": 0.1558517803762227
+          },
+          "temporal": {
+            "flow_error_mean": 0.044468096792008034,
+            "cadence_error_mean": 0.02961257282268009,
+            "false_freeze_rate": 0.7541218637992831,
+            "max_luma_impulse": 1.2938512731481495,
+            "mad_p95": 1.5864232494212953,
+            "mad_max": 7.815407986111111
+          }
+        },
+        "cadence_only": {
+          "quality": {
+            "psnr_db": 19.677482513524012,
+            "ssim": 0.595619904591436,
+            "lpips_vgg": 0.3523148938951479,
+            "clip": 0.9408813984483356,
+            "dists": 0.16218462135854608
+          },
+          "temporal": {
+            "flow_error_mean": 0.0462116042475423,
+            "cadence_error_mean": 0.030487897154872077,
+            "false_freeze_rate": 0.8064516129032258,
+            "max_luma_impulse": 2.0959129050925944,
+            "mad_p95": 1.8065100549768514,
+            "mad_max": 10.341362847222223
+          }
+        },
+        "key_guarded": {
+          "quality": {
+            "psnr_db": 19.772455681558753,
+            "ssim": 0.6088259099582517,
+            "lpips_vgg": 0.3502424413401167,
+            "clip": 0.9409446063771383,
+            "dists": 0.16395769274130056
+          },
+          "temporal": {
+            "flow_error_mean": 0.04624584063513558,
+            "cadence_error_mean": 0.030596124466349302,
+            "false_freeze_rate": 0.8100358422939068,
+            "max_luma_impulse": 1.951186342592602,
+            "mad_p95": 1.7839999276620366,
+            "mad_max": 9.799262152777777
+          }
+        }
+      }
+    },
+    "webvid_002_1669a7b1": {
+      "frames": 636,
+      "duration": 26.5,
+      "keys": [
+        0,
+        100,
+        220,
+        268,
+        280,
+        340,
+        360,
+        396,
+        456,
+        572,
+        635
+      ],
+      "max_key_gap_seconds": 5.0,
+      "arms": {
+        "current_combined": {
+          "quality": {
+            "psnr_db": 17.22566436930048,
+            "ssim": 0.6241213658332029,
+            "lpips_vgg": 0.37311428098839783,
+            "clip": 0.9417252450619104,
+            "dists": 0.16779237288973867
+          },
+          "temporal": {
+            "flow_error_mean": 0.3773649173849837,
+            "cadence_error_mean": 0.15222778901669318,
+            "false_freeze_rate": 0.21094244149272612,
+            "max_luma_impulse": 1.778786892361109,
+            "mad_p95": 3.9709635416666655,
+            "mad_max": 17.18140914351852
+          }
+        },
+        "cadence_only": {
+          "quality": {
+            "psnr_db": 17.168824326498537,
+            "ssim": 0.6244259321653248,
+            "lpips_vgg": 0.37234926800901536,
+            "clip": 0.941628893966195,
+            "dists": 0.16762242061661975
+          },
+          "temporal": {
+            "flow_error_mean": 0.37779242261814006,
+            "cadence_error_mean": 0.15316359119315473,
+            "false_freeze_rate": 0.2170145477545857,
+            "max_luma_impulse": 1.7832501446759228,
+            "mad_p95": 3.996974103009258,
+            "mad_max": 17.287022569444446
+          }
+        },
+        "key_guarded": {
+          "quality": {
+            "psnr_db": 17.372145206426232,
+            "ssim": 0.6306724028208087,
+            "lpips_vgg": 0.3683705564658597,
+            "clip": 0.9426920828829272,
+            "dists": 0.16587437270697308
+          },
+          "temporal": {
+            "flow_error_mean": 0.39906111165607383,
+            "cadence_error_mean": 0.17282313878572578,
+            "false_freeze_rate": 0.21103731815306767,
+            "max_luma_impulse": 3.6678710937500036,
+            "mad_p95": 4.294804687499997,
+            "mad_max": 15.432935474537038
+          }
+        }
+      }
+    },
+    "webvid_003_1ca01463": {
+      "frames": 721,
+      "duration": 30.041666666666668,
+      "keys": [
+        0,
+        260,
+        596,
+        720
+      ],
+      "max_key_gap_seconds": 14.0,
+      "arms": {
+        "current_combined": {
+          "quality": {
+            "psnr_db": 24.16126301618197,
+            "ssim": 0.7286565446772374,
+            "lpips_vgg": 0.33954485154818786,
+            "clip": 0.9477241082264216,
+            "dists": 0.18891099760833296
+          },
+          "temporal": {
+            "flow_error_mean": 0.1512000302930742,
+            "cadence_error_mean": 0.13173852710974718,
+            "false_freeze_rate": 0.16425029017621612,
+            "max_luma_impulse": 4.843894675925925,
+            "mad_p95": 1.7830320457175886,
+            "mad_max": 9.263642939814815
+          }
+        },
+        "cadence_only": {
+          "quality": {
+            "psnr_db": 23.934793800009157,
+            "ssim": 0.7225646469820926,
+            "lpips_vgg": 0.3372875858568451,
+            "clip": 0.9472915853993297,
+            "dists": 0.18205078894817547
+          },
+          "temporal": {
+            "flow_error_mean": 0.15300524951545177,
+            "cadence_error_mean": 0.132394862501145,
+            "false_freeze_rate": 0.16992719214941437,
+            "max_luma_impulse": 4.965957754629623,
+            "mad_p95": 1.8610224971064795,
+            "mad_max": 9.448929398148147
+          }
+        },
+        "key_guarded": {
+          "quality": {
+            "psnr_db": 24.057697988872473,
+            "ssim": 0.7256355635208793,
+            "lpips_vgg": 0.3370387536739234,
+            "clip": 0.9473615656062182,
+            "dists": 0.1835751784823308
+          },
+          "temporal": {
+            "flow_error_mean": 0.15814554443824347,
+            "cadence_error_mean": 0.13695640587815683,
+            "false_freeze_rate": 0.16950511765326579,
+            "max_luma_impulse": 4.9643482349537,
+            "mad_p95": 2.159692925347221,
+            "mad_max": 9.455302372685185
+          }
+        }
+      }
+    },
+    "webvid_004_10d5cd04": {
+      "frames": 494,
+      "duration": 20.583333333333332,
+      "keys": [
+        0,
+        493
+      ],
+      "max_key_gap_seconds": 20.541666666666668,
+      "arms": {
+        "current_combined": {
+          "quality": {
+            "psnr_db": 18.10635852912005,
+            "ssim": 0.5819983445116275,
+            "lpips_vgg": 0.3349961898265741,
+            "clip": 0.9167594137462044,
+            "dists": 0.165424752090624
+          },
+          "temporal": {
+            "flow_error_mean": 0.04832837831775549,
+            "cadence_error_mean": 0.031546840549264925,
+            "false_freeze_rate": 0.034722222222222224,
+            "max_luma_impulse": 1.5788845486111025,
+            "mad_p95": 1.9036313657407402,
+            "mad_max": 6.181872106481482
+          }
+        },
+        "cadence_only": {
+          "quality": {
+            "psnr_db": 17.689561242142513,
+            "ssim": 0.5683633321770081,
+            "lpips_vgg": 0.3342692383669327,
+            "clip": 0.9120141568615047,
+            "dists": 0.16440319608741122
+          },
+          "temporal": {
+            "flow_error_mean": 0.04956181949990637,
+            "cadence_error_mean": 0.03195046378314737,
+            "false_freeze_rate": 0.039186507936507936,
+            "max_luma_impulse": 1.5855070891203649,
+            "mad_p95": 2.2922699652777765,
+            "mad_max": 6.367961516203704
+          }
+        },
+        "key_guarded": {
+          "quality": {
+            "psnr_db": 17.73952414349145,
+            "ssim": 0.5707899823540804,
+            "lpips_vgg": 0.33367628568479246,
+            "clip": 0.9136557636955972,
+            "dists": 0.16423128024447464
+          },
+          "temporal": {
+            "flow_error_mean": 0.04949919274297213,
+            "cadence_error_mean": 0.0318462338638025,
+            "false_freeze_rate": 0.03670634920634921,
+            "max_luma_impulse": 0.5968460648148053,
+            "mad_p95": 2.281548032407406,
+            "mad_max": 7.101750578703704
+          }
+        }
+      }
+    }
+  },
+  "key_observations": {
+    "current_combined": {
+      "lossless_frames": {
+        "count": 57,
+        "exact": 0,
+        "mean_output_vs_source_psnr": 25.53930573273758,
+        "mean_received_vs_source_psnr": 35.01197245900811,
+        "mean_boundary_maximum_error": 4.587095288133528
+      },
+      "delivered_mp4": {
+        "count": 57,
+        "exact": 0,
+        "mean_output_vs_source_psnr": 25.50914433422811,
+        "mean_received_vs_source_psnr": 35.01197245900811,
+        "mean_boundary_maximum_error": 4.5148776346247566
+      }
+    },
+    "cadence_only": {
+      "lossless_frames": {
+        "count": 57,
+        "exact": 0,
+        "mean_output_vs_source_psnr": 25.53930573273758,
+        "mean_received_vs_source_psnr": 35.01197245900811,
+        "mean_boundary_maximum_error": 4.620058174951267
+      },
+      "delivered_mp4": {
+        "count": 57,
+        "exact": 0,
+        "mean_output_vs_source_psnr": 25.485772241925588,
+        "mean_received_vs_source_psnr": 35.01197245900811,
+        "mean_boundary_maximum_error": 4.5641245583577
+      }
+    },
+    "key_guarded": {
+      "lossless_frames": {
+        "count": 57,
+        "exact": 57,
+        "mean_output_vs_source_psnr": 35.01197245900811,
+        "mean_received_vs_source_psnr": 35.01197245900811,
+        "mean_boundary_maximum_error": 7.162168768274854
+      },
+      "delivered_mp4": {
+        "count": 57,
+        "exact": 0,
+        "mean_output_vs_source_psnr": 33.605704150152306,
+        "mean_received_vs_source_psnr": 35.01197245900811,
+        "mean_boundary_maximum_error": 7.136168600755361
+      }
+    }
+  },
+  "psnr_partitions": {
+    "current_combined": {
+      "keys": 25.580923458462895,
+      "nonkeys": 19.963314652274498,
+      "outside_key_radius4": 19.737036005142397
+    },
+    "cadence_only": {
+      "keys": 25.53491090771275,
+      "nonkeys": 19.56881866496771,
+      "outside_key_radius4": 19.34215389441173
+    },
+    "key_guarded": {
+      "keys": 32.03178083012548,
+      "nonkeys": 19.62638451210819,
+      "outside_key_radius4": 19.378254147851166
+    }
+  },
+  "ai_sample_review": {
+    "reviewer": "Codex; same assistant as implementation; nonindependent and unblinded",
+    "scope": "28 unique source-aligned times x source and three arms; SNR 10 dB; PNG samples",
+    "observations": [
+      {
+        "id": "webvid_001_2255949c",
+        "frames": [
+          180,
+          360,
+          540
+        ],
+        "observation": "중간 시점에서 강아지 머리·앞발 자세와 천의 주름·질감이 원본과 다르며, 세 보정 방식 모두 이 차이가 남는다. 양끝 수신 키는 후보에서 선명하게 회복된다."
+      },
+      {
+        "id": "webvid_002_1669a7b1",
+        "frames": [
+          264,
+          267,
+          268,
+          269,
+          272
+        ],
+        "observation": "268번 후보는 수신 키의 발 위치를 회복하지만 인접 생성 프레임의 위치·보행 자세와 맞지 않는다. 기존 출력의 경계 오류에 키 시점의 새 불연속이 관측된다."
+      },
+      {
+        "id": "webvid_003_1ca01463",
+        "frames": [
+          592,
+          595,
+          596,
+          597,
+          600
+        ],
+        "observation": "596번 키에서는 도시·해안 윤곽이 수신 영상으로 돌아오지만 양옆 프레임은 기존 생성 형태를 유지한다. 키 전후 광류 오차가 크게 증가한다."
+      },
+      {
+        "id": "webvid_004_10d5cd04",
+        "frames": [
+          120,
+          240,
+          370
+        ],
+        "observation": "키 사이 구간의 항구·도시 구도와 세부 건물·선박 형태 차이가 세 방식에 공통으로 남는다. 후보는 시작·끝 수신 키를 보존한다."
+      }
+    ],
+    "independent_semantic_review": "PENDING"
+  },
+  "recommendation": "Retain current combined as development baseline; do not replace default with current key_guarded candidate",
+  "full_36_conditions_complete": true,
+  "etri_goal_achievement_demonstrated": false,
+  "limitations": [
+    "four previously inspected development sources, one generation/channel seed",
+    "candidate combines correspondence gating and received-key anchoring",
+    "motion and false-freeze metrics are proxies, not semantic ground truth",
+    "received RGB equality applies to PNG; delivered MP4 is lossy",
+    "cadence trajectory saving is accounting only, no new channel experiment",
+    "failure to recover non-key content does not prove extra transmission is necessary"
+  ],
+  "analysis_artifacts": {
+    "analysis/summary.json": "14476630c2aaee3bbb5dcc114d855fcc862125082385f3610ebd549f58211065",
+    "analysis/ai_sample_review.json": "0163e1a59006e4874020225034e20a3180edd92bb863297c9c8f2b282dba19d7",
+    "analysis/index.html": "a6e3c3604278b8e3e958149157ffecbb3a03c8e16b840e4a8b6e6b7d9bcbeda9",
+    "analysis/key_boundary_tradeoff.png": "2fdb77cec6a1b86ee703c33c58d131968db7e6925fba6c49c2ebe07fd630da49",
+    "analysis/analyze.py": "194927c6289cbf3a4cefb713a412f52fbecd5b79e75bc5cbae1aefeb73e96f87"
+  }
+}

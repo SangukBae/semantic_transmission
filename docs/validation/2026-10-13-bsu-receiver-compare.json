@@ -1,0 +1,65 @@
+{
+  "date": "2026-10-13",
+  "status": "IMPLEMENTATION_AND_SINGLE_CONDITION_VALIDATED",
+  "command": "bash scripts/compare_bsu_webvid.sh",
+  "default_scope": {
+    "videos": 4,
+    "snrs": [
+      6,
+      8,
+      10
+    ],
+    "arms": [
+      "current_combined",
+      "cadence_only",
+      "key_guarded"
+    ],
+    "total": 36,
+    "full_comparison_executed": false
+  },
+  "transfer": {
+    "files": 18274,
+    "bytes": 4383689082,
+    "signature": "1534aebf7e07b92d40de71e49aba8c498eb07c2fc92aa37f0ef257ec580d44e7",
+    "receipt": {
+      "signature": "1534aebf7e07b92d40de71e49aba8c498eb07c2fc92aa37f0ef257ec580d44e7",
+      "status": "PASSED",
+      "reused": false,
+      "files": 18274,
+      "transferred_files": 18274,
+      "transferred_bytes": 4383689082
+    },
+    "remote_writes": false,
+    "models_copied": false
+  },
+  "integration": {
+    "command": "bash scripts/compare_bsu_webvid.sh --offline --ids webvid_004_10d5cd04 --snr 10 --root outputs/bsu_receiver_compare_smoke_20261013",
+    "frames": 494,
+    "completed": 3,
+    "total": 3,
+    "status": "COMPLETE_QUANTITATIVE_REVIEW_PENDING",
+    "protocol_signature": "bce8a78532b6d09d66f8396e5f52db4c91ac88b2edbcc1e915cf525ef6c4b883",
+    "result": "outputs/bsu_receiver_compare_smoke_20261013/RESULT.json",
+    "result_sha256": "ab4c599ab46f4976979f3cb0a69adb62b26644460b767072f893a3a27e7fd0ef",
+    "candidate_received_keys_exact": true,
+    "source_used_only_for_evaluation": true,
+    "shared_metric_refinement_code_matches_remote_frozen_protocol": true,
+    "resume_unchanged_comparison_files": 1006,
+    "independent_semantic_review": "PENDING"
+  },
+  "tests": {
+    "targeted": "69 passed",
+    "final_display_regression": "37 passed",
+    "public_docs": "8 public Markdown files; 457 local links/anchors",
+    "shell_syntax": "PASSED",
+    "git_diff_check": "PASSED"
+  },
+  "code_sha256": {
+    "scripts/compare_bsu_webvid.sh": "f44a660a6475ccd4f0a0549bc77ae7f2f24673d8ce70c0e36bef39773e3fe6cf",
+    "src/semantic_transmission/bsu_compare_transfer.py": "3eed3efdc36f34f95d99982d87e14b7af6ee860cb47dd04717e36a213e39dcd0",
+    "src/semantic_transmission/bsu_receiver_compare.py": "c52a58d0d44a312e2276be83d42a25535cd0613ba5ee43520a741a8455a9f252",
+    "src/semantic_transmission/receiver_key_guard.py": "f194fbe7594aec624248bdc8c2206beaae5017e08e22edc7928ff5223b3ea3d5",
+    "src/semantic_transmission/terminal_progress.py": "e01c4af7ef58c5b7da11fe8ebdeaf00cfb879f6f7f8548962c83adae2c051f27",
+    "tests/test_bsu_receiver_compare.py": "a974eb3344d278513e0f25e1b49ef3d6e26d24f37d4213b8ea4f26af8bfa9664"
+  }
+}
