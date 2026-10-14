@@ -1,0 +1,103 @@
+{
+  "status": "PASSED_PREPARATION_RESUME_INPUT_AND_ACCOUNTING_SMOKE",
+  "exit_codes": [
+    0,
+    0
+  ],
+  "fixed_8_rows": true,
+  "real_gpu_usage": true,
+  "real_gpu_memory": true,
+  "initialized_videos": 14,
+  "verified_resume_files": 3403,
+  "source_video_pixel_audits": 14,
+  "source_frames": 3333,
+  "bsu_packet_replay_base_channel_uses": 4217279,
+  "bsu_files_unchanged": true,
+  "lgvsc_model_inference_started": false,
+  "root": "/home/sangukbae/semantic_transmission/outputs/lgvsc_kinetics_prepare_validation_20261014_v2",
+  "code": {
+    "src/semantic_transmission/lgvsc_kinetics.py": "8ca0dd55b347c87eeea721f736cef62f3a1a3bb085d84b3ef48e8df21f4a9fd4",
+    "src/semantic_transmission/lgvsc_kinetics_action.py": "eb69bc456df1181695a662ffb7ab5fda633b55b4e1adf4492011c57718b6f5ff",
+    "scripts/run_lgvsc_kinetics.sh": "4c64f2c2b9c0534c21beff50a86eb1afa89585346724cd38a19bd27a0b73b8be"
+  },
+  "date": "2026-10-14",
+  "command": "bash scripts/run_lgvsc_kinetics.sh",
+  "tests": {
+    "passed": 72,
+    "failed": 0,
+    "files": [
+      "tests/test_lgvsc_kinetics.py",
+      "tests/test_lgvsc_qwen_baseline.py",
+      "tests/test_terminal_progress.py",
+      "tests/test_terminal_gpu_progress.py",
+      "tests/test_bsu_kinetics.py"
+    ]
+  },
+  "memory_preference_note": "/home/sangukbae/.codex/memories/extensions/ad_hoc/notes/20261013T145123Z-fixed-progress-live-gpu.md",
+  "input_geometry": {
+    "width": 576,
+    "height": 320,
+    "fps": 24,
+    "frames": 3333
+  },
+  "snr_db": 10,
+  "exact_paper_reproduction": false,
+  "full_lgvsc_benchmark_completed": false,
+  "scope": "Implementation and real preparation/input/display/accounting validation only. BSU packet replay checks the accounting function and is not an LGVSC transmission measurement.",
+  "shared_receiver_repairs": [
+    "tail17",
+    "FP32 T5 cache",
+    "endpoint collision and short schedule repair",
+    "memory chunking",
+    "endpoint-exact concatenation"
+  ],
+  "excluded_from_lgvsc": [
+    "BSU trajectory packets",
+    "cadence refinement",
+    "key-context stitching"
+  ],
+  "persistent_session_validation": {
+    "date": "2026-10-14",
+    "status": "PASSED_LOCAL_CHECKS_REMOTE_AUTH_PENDING",
+    "commands": {
+      "start": "bash scripts/run_lgvsc_kinetics.sh start",
+      "watch": "bash scripts/run_lgvsc_kinetics.sh watch",
+      "status": "bash scripts/run_lgvsc_kinetics.sh status"
+    },
+    "underlying_experiment": "bash scripts/run_lgvsc_kinetics.sh run",
+    "tmux_socket": "semantic-transmission",
+    "default_session": "lgvsc_kinetics",
+    "checks": {
+      "worker_failure_exit_code_retained": 7,
+      "quoted_argument_with_spaces_preserved": true,
+      "duplicate_start_rejected": true,
+      "watch_readonly_verified": true,
+      "watch_ctrl_c_preserves_worker": true,
+      "watch_detach_preserves_worker": true
+    },
+    "local_preflight": {
+      "status": "READY",
+      "videos": 14,
+      "frames": 3333,
+      "snr_db": 10,
+      "model_inference_started": false
+    },
+    "regression": {
+      "passed": 1238,
+      "skipped": 1,
+      "failed": 0,
+      "seconds": 83.08,
+      "environment": "lgvsc; PYTHONPATH and LD_LIBRARY_PATH unset; third-party pytest plugin autoload disabled"
+    },
+    "public_docs": {
+      "files": 8,
+      "local_links_and_anchors": 495
+    },
+    "code": {
+      "scripts/run_lgvsc_kinetics.sh": "7b2c47fcbbb99fb73c75078cf2d52f16b9e03fc9fa828e2c3a3f3e6f019b5311",
+      "scripts/lgvsc_kinetics_session.sh": "be22a8206f10f08ae6010438b46c78802ef3eb6c49c5dca550012929f53fef6a"
+    },
+    "remote_experiment_started": false,
+    "scope": "Local monitoring implementation, full regression and completed-BSU input preflight only. Remote stop, deployment and experiment launch await SSH access."
+  }
+}
