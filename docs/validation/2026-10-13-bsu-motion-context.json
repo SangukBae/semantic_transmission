@@ -1,0 +1,743 @@
+{
+  "date": "2026-10-13",
+  "status": "COMPLETE_QUANTITATIVE_AND_LIMITED_NONINDEPENDENT_AI_SAMPLE_REVIEW",
+  "source_identities": 8,
+  "video_snr_conditions": 16,
+  "additional_transmission": 0,
+  "new_training": false,
+  "generator_reused": true,
+  "receiver_reads_source": false,
+  "development_scope": "All eight previously inspected sources used in development. Original source is used for evaluation/development judgments only; not receiver inference.",
+  "experiments": {
+    "residual": {
+      "root": "outputs/bsu_motion_context_20261013_v1",
+      "signature": "278e2d5e697ebdb609a7251684e6eda37e268b40bc451145e1522ddbc7ae8a5c",
+      "policy": "motion_preserving_key_context_v1",
+      "parameters": {
+        "cycle_scale": 1.5,
+        "appearance_scale": 48.0,
+        "confidence_blur": 1.0
+      },
+      "completed": 48,
+      "total": 48,
+      "reused_baselines": 32,
+      "new_output_conditions": 16,
+      "received_png_keys": {
+        "preserved": 65,
+        "total": 65
+      },
+      "delivered_groups": [
+        {
+          "group": "webvid_development",
+          "boundary": "delivered_mp4",
+          "cases": [
+            "webvid_001_2255949c/snr_6",
+            "webvid_001_2255949c/snr_8",
+            "webvid_001_2255949c/snr_10",
+            "webvid_002_1669a7b1/snr_6",
+            "webvid_002_1669a7b1/snr_8",
+            "webvid_002_1669a7b1/snr_10",
+            "webvid_003_1ca01463/snr_6",
+            "webvid_003_1ca01463/snr_8",
+            "webvid_003_1ca01463/snr_10",
+            "webvid_004_10d5cd04/snr_6",
+            "webvid_004_10d5cd04/snr_8",
+            "webvid_004_10d5cd04/snr_10"
+          ],
+          "means": {
+            "current": {
+              "psnr_db": 20.01073808617767,
+              "ssim": 0.640746938265702,
+              "lpips_vgg": 0.3472953819622131,
+              "clip": 0.9377251469369888,
+              "dists": 0.16949497574122957,
+              "flow_error_mean": 0.15534035569695537,
+              "cadence_error_mean": 0.08628143237459635,
+              "false_freeze_rate": 0.2910092044226119,
+              "nonkey_psnr": 19.963314652274498,
+              "boundary_error": 3.4543967507102273
+            },
+            "context_only": {
+              "psnr_db": 20.261844000380613,
+              "ssim": 0.6486222050519082,
+              "lpips_vgg": 0.3413264003409261,
+              "clip": 0.9397915436094006,
+              "dists": 0.1669034352619108,
+              "flow_error_mean": 0.1517457486341711,
+              "cadence_error_mean": 0.07851608482418702,
+              "false_freeze_rate": 0.3046383758907478,
+              "nonkey_psnr": 20.15579056018404,
+              "boundary_error": 2.1893141621291035
+            },
+            "motion_context": {
+              "psnr_db": 20.237113578916386,
+              "ssim": 0.6479503746937842,
+              "lpips_vgg": 0.3419100689591905,
+              "clip": 0.9397101356930209,
+              "dists": 0.16709294219647397,
+              "flow_error_mean": 0.15495034153122286,
+              "cadence_error_mean": 0.08275870529582519,
+              "false_freeze_rate": 0.2943482717288633,
+              "nonkey_psnr": 20.130776483570024,
+              "boundary_error": 3.094495820838594
+            }
+          }
+        },
+        {
+          "group": "davis_transfer",
+          "boundary": "delivered_mp4",
+          "cases": [
+            "transfer_bus/snr_10",
+            "transfer_lady-running/snr_10",
+            "transfer_longboard/snr_10",
+            "transfer_skate-park/snr_10"
+          ],
+          "means": {
+            "current": {
+              "psnr_db": 14.957536033599242,
+              "ssim": 0.44398654802347537,
+              "lpips_vgg": 0.5019285288872197,
+              "clip": 0.9434197743733723,
+              "dists": 0.17856687183181444,
+              "flow_error_mean": 1.441717720472891,
+              "cadence_error_mean": 2.208400648652001,
+              "false_freeze_rate": 0.5780378370060688,
+              "nonkey_psnr": 14.753768669650697,
+              "boundary_error": 14.740280490451388
+            },
+            "context_only": {
+              "psnr_db": 15.470570324039675,
+              "ssim": 0.45724560953827514,
+              "lpips_vgg": 0.49326207814738154,
+              "clip": 0.9443804423014323,
+              "dists": 0.17463430979599556,
+              "flow_error_mean": 1.4199222272458045,
+              "cadence_error_mean": 2.1864220308130013,
+              "false_freeze_rate": 0.5811473432529376,
+              "nonkey_psnr": 15.072632958623654,
+              "boundary_error": 14.145328776041666
+            },
+            "motion_context": {
+              "psnr_db": 15.434426599910918,
+              "ssim": 0.45710803630608177,
+              "lpips_vgg": 0.4939219457252572,
+              "clip": 0.9445330301920573,
+              "dists": 0.17545021806533137,
+              "flow_error_mean": 1.4282700379330076,
+              "cadence_error_mean": 2.2072637955103307,
+              "false_freeze_rate": 0.5882805448030776,
+              "nonkey_psnr": 15.03510996828931,
+              "boundary_error": 14.112961154513888
+            }
+          }
+        }
+      ],
+      "group_engineering_screen": [
+        {
+          "group": "webvid_development",
+          "checks": {
+            "psnr_db": true,
+            "nonkey_psnr": true,
+            "lpips": true,
+            "boundary": false,
+            "flow": true,
+            "cadence": true
+          },
+          "passed": false
+        },
+        {
+          "group": "davis_transfer",
+          "checks": {
+            "psnr_db": true,
+            "nonkey_psnr": true,
+            "lpips": true,
+            "boundary": true,
+            "flow": true,
+            "cadence": true
+          },
+          "passed": true
+        }
+      ],
+      "source_freeze_checks": [
+        {
+          "id": "webvid_001_2255949c",
+          "freeze": {
+            "current": 0.7541218637992831,
+            "context_only": 0.7562724014336918,
+            "motion_context": 0.7562724014336918
+          },
+          "freeze_guardrail": true,
+          "pedestrian_excess_reduced": null
+        },
+        {
+          "id": "webvid_002_1669a7b1",
+          "freeze": {
+            "current": 0.21094244149272612,
+            "context_only": 0.2584756483238457,
+            "motion_context": 0.22251739405439594
+          },
+          "freeze_guardrail": false,
+          "pedestrian_excess_reduced": true
+        },
+        {
+          "id": "webvid_003_1ca01463",
+          "freeze": {
+            "current": 0.16425029017621612,
+            "context_only": 0.16809116809116809,
+            "motion_context": 0.16338503745911154
+          },
+          "freeze_guardrail": true,
+          "pedestrian_excess_reduced": null
+        },
+        {
+          "id": "webvid_004_10d5cd04",
+          "freeze": {
+            "current": 0.034722222222222224,
+            "context_only": 0.03571428571428571,
+            "motion_context": 0.03521825396825397
+          },
+          "freeze_guardrail": true,
+          "pedestrian_excess_reduced": null
+        },
+        {
+          "id": "davis_bus",
+          "freeze": {
+            "current": 0.5088709677419355,
+            "context_only": 0.5209677419354839,
+            "motion_context": 0.5282258064516129
+          },
+          "freeze_guardrail": false,
+          "pedestrian_excess_reduced": null
+        },
+        {
+          "id": "davis_lady-running",
+          "freeze": {
+            "current": 0.6741935483870968,
+            "context_only": 0.6774193548387096,
+            "motion_context": 0.6766129032258065
+          },
+          "freeze_guardrail": true,
+          "pedestrian_excess_reduced": null
+        },
+        {
+          "id": "davis_longboard",
+          "freeze": {
+            "current": 0.7650130548302873,
+            "context_only": 0.7589208006962577,
+            "motion_context": 0.7745865970409052
+          },
+          "freeze_guardrail": false,
+          "pedestrian_excess_reduced": null
+        },
+        {
+          "id": "davis_skate-park",
+          "freeze": {
+            "current": 0.3640737770649559,
+            "context_only": 0.36728147554129914,
+            "motion_context": 0.3736968724939856
+          },
+          "freeze_guardrail": false,
+          "pedestrian_excess_reduced": null
+        }
+      ],
+      "integrity": {
+        "status": "PASSED",
+        "signature": "278e2d5e697ebdb609a7251684e6eda37e268b40bc451145e1522ddbc7ae8a5c",
+        "inputs": 35175,
+        "code_files": 17,
+        "generation": 48,
+        "evaluation": 48,
+        "artifacts": 8308,
+        "source_absent_from_receiver_jobs": true,
+        "new_transmission": 0
+      },
+      "resume": {
+        "status": "PASSED",
+        "command": "bash scripts/experiment_bsu_motion_context.sh",
+        "exit_code": 0,
+        "elapsed_seconds": 13.57423725699482,
+        "completed_artifacts": 8404,
+        "all_mtimes_and_sizes_unchanged": true
+      },
+      "ai_sample_review": {
+        "reviewer": "같은 구현자 AI의 비맹검 정지화면 검토; 독립 의미 평가 아님",
+        "verdict": "무제한 움직임 복원은 보행의 정지 오판을 크게 줄였지만 DAVIS 일부와 키 경계 회귀로 기본 적용을 보류한다.",
+        "viewed": [
+          {
+            "case": "webvid_002_1669a7b1/snr_10",
+            "frames": [
+              264,
+              267,
+              268,
+              269,
+              270,
+              271,
+              272
+            ],
+            "observation": "키는 일치하지만 269~272번의 발 위치·보행 자세 차이가 남는다. 정지화면만으로 동작 정확도를 확정하지 않았다."
+          },
+          {
+            "case": "transfer_longboard/snr_10",
+            "frames": [
+              0,
+              2,
+              4,
+              6,
+              8,
+              48,
+              89,
+              91,
+              93,
+              95
+            ],
+            "observation": "키 근처 질감·윤곽은 달라지지만 48번의 보더 자세와 자전거 위치 차이가 남는다. 정지 오판 회귀는 정량 평가로 확인했다."
+          }
+        ],
+        "sample_times": 17,
+        "columns": 4,
+        "viewed_thumbnails": 68,
+        "full_video_human_review": false,
+        "independent_semantic_review": "PENDING",
+        "production_defaults_changed": false
+      },
+      "report_validation": {
+        "local_links_and_assets": 29,
+        "preview_frame_count_and_24fps_verified": 8
+      },
+      "evidence_hashes": {
+        "protocol.json": "a8c9d913b47bcfbb0337e736c670a2ed88e761dc7eb4ad55ed461afde65b4dd2",
+        "RESULT.json": "9851ac7fbc265b716db2c82b0cda76c391da98582f2aee14225162d719cf56f6",
+        "analysis/analyze.py": "58ccec08d23eb0040069898a722d537db49dd0cf6c35979f0cd5b40a80e641d3",
+        "analysis/integrity.json": "8deaae482df43ad2b78fedba0986da0fa6852bbfb2a3f07e9a3b8f98d1e943a4",
+        "analysis/review.json": "525d2f2f756d5c97e77c1e91b4c0466439e436dec76508e7c5d70269d88fe531",
+        "analysis/resume_verification.json": "a24892e4b2ea64756fba6f6545c31db89f529093fd0112ba41a1b2ead3f6a9ad",
+        "analysis/samples.json": "26f6f7f0491e7c451b73126f925aded835e99cf33cb1e938e20e4d6cff7a3202",
+        "analysis/index.html": "5d47d035f2eafd73e402a5d9f1a5aa55a53d0597de5ec6e6a5eedb2e0c6ca846"
+      }
+    },
+    "retention": {
+      "root": "outputs/bsu_motion_retention_20261013_v1",
+      "signature": "6b394be047b9a5fc842cda715ea56873edd5c33b412483b670c607a2ef97d61b",
+      "policy": "receiver_motion_retention_v1",
+      "parameters": {
+        "active_speed": 0.15,
+        "loss_retention_ratio": 0.9,
+        "gain_retention_ratio": 0.25,
+        "max_lost_fraction": 0.05,
+        "min_active_cells": 8
+      },
+      "completed": 48,
+      "total": 48,
+      "reused_baselines": 32,
+      "new_output_conditions": 16,
+      "received_png_keys": {
+        "preserved": 65,
+        "total": 65
+      },
+      "delivered_groups": [
+        {
+          "group": "webvid_development",
+          "boundary": "delivered_mp4",
+          "cases": [
+            "webvid_001_2255949c/snr_6",
+            "webvid_001_2255949c/snr_8",
+            "webvid_001_2255949c/snr_10",
+            "webvid_002_1669a7b1/snr_6",
+            "webvid_002_1669a7b1/snr_8",
+            "webvid_002_1669a7b1/snr_10",
+            "webvid_003_1ca01463/snr_6",
+            "webvid_003_1ca01463/snr_8",
+            "webvid_003_1ca01463/snr_10",
+            "webvid_004_10d5cd04/snr_6",
+            "webvid_004_10d5cd04/snr_8",
+            "webvid_004_10d5cd04/snr_10"
+          ],
+          "means": {
+            "current": {
+              "psnr_db": 20.01073808617767,
+              "ssim": 0.640746938265702,
+              "lpips_vgg": 0.3472953819622131,
+              "clip": 0.9377251469369888,
+              "dists": 0.16949497574122957,
+              "flow_error_mean": 0.15534035569695537,
+              "cadence_error_mean": 0.08628143237459635,
+              "false_freeze_rate": 0.2910092044226119,
+              "nonkey_psnr": 19.963314652274498,
+              "boundary_error": 3.4543967507102273
+            },
+            "context_only": {
+              "psnr_db": 20.261844000380613,
+              "ssim": 0.6486222050519082,
+              "lpips_vgg": 0.3413264003409261,
+              "clip": 0.9397915436094006,
+              "dists": 0.1669034352619108,
+              "flow_error_mean": 0.1517457486341711,
+              "cadence_error_mean": 0.07851608482418702,
+              "false_freeze_rate": 0.3046383758907478,
+              "nonkey_psnr": 20.15579056018404,
+              "boundary_error": 2.1893141621291035
+            },
+            "motion_context": {
+              "psnr_db": 20.259460664756435,
+              "ssim": 0.6485397375269286,
+              "lpips_vgg": 0.3413954757445635,
+              "clip": 0.9398258998765979,
+              "dists": 0.1669390419458358,
+              "flow_error_mean": 0.15210124838038547,
+              "cadence_error_mean": 0.07867326024455625,
+              "false_freeze_rate": 0.3017999824688629,
+              "nonkey_psnr": 20.153359839043944,
+              "boundary_error": 2.20643310546875
+            }
+          }
+        },
+        {
+          "group": "davis_transfer",
+          "boundary": "delivered_mp4",
+          "cases": [
+            "transfer_bus/snr_10",
+            "transfer_lady-running/snr_10",
+            "transfer_longboard/snr_10",
+            "transfer_skate-park/snr_10"
+          ],
+          "means": {
+            "current": {
+              "psnr_db": 14.957536033599242,
+              "ssim": 0.44398654802347537,
+              "lpips_vgg": 0.5019285288872197,
+              "clip": 0.9434197743733723,
+              "dists": 0.17856687183181444,
+              "flow_error_mean": 1.441717720472891,
+              "cadence_error_mean": 2.208400648652001,
+              "false_freeze_rate": 0.5780378370060688,
+              "nonkey_psnr": 14.753768669650697,
+              "boundary_error": 14.740280490451388
+            },
+            "context_only": {
+              "psnr_db": 15.470570324039675,
+              "ssim": 0.45724560953827514,
+              "lpips_vgg": 0.49326207814738154,
+              "clip": 0.9443804423014323,
+              "dists": 0.17463430979599556,
+              "flow_error_mean": 1.4199222272458045,
+              "cadence_error_mean": 2.1864220308130013,
+              "false_freeze_rate": 0.5811473432529376,
+              "nonkey_psnr": 15.072632958623654,
+              "boundary_error": 14.145328776041666
+            },
+            "motion_context": {
+              "psnr_db": 15.470570324039675,
+              "ssim": 0.45724560953827514,
+              "lpips_vgg": 0.49326207814738154,
+              "clip": 0.9443804423014323,
+              "dists": 0.17463430979599556,
+              "flow_error_mean": 1.4199222272458045,
+              "cadence_error_mean": 2.1864220308130013,
+              "false_freeze_rate": 0.5811473432529376,
+              "nonkey_psnr": 15.072632958623654,
+              "boundary_error": 14.145328776041666
+            }
+          }
+        }
+      ],
+      "group_engineering_screen": [
+        {
+          "group": "webvid_development",
+          "checks": {
+            "psnr_db": true,
+            "nonkey_psnr": true,
+            "lpips": true,
+            "boundary": true,
+            "flow": true,
+            "cadence": true
+          },
+          "passed": true
+        },
+        {
+          "group": "davis_transfer",
+          "checks": {
+            "psnr_db": true,
+            "nonkey_psnr": true,
+            "lpips": true,
+            "boundary": true,
+            "flow": true,
+            "cadence": true
+          },
+          "passed": true
+        }
+      ],
+      "source_freeze_checks": [
+        {
+          "id": "webvid_001_2255949c",
+          "freeze": {
+            "current": 0.7541218637992831,
+            "context_only": 0.7562724014336918,
+            "motion_context": 0.7562724014336918
+          },
+          "freeze_guardrail": true,
+          "pedestrian_excess_reduced": null
+        },
+        {
+          "id": "webvid_002_1669a7b1",
+          "freeze": {
+            "current": 0.21094244149272612,
+            "context_only": 0.2584756483238457,
+            "motion_context": 0.24712207463630614
+          },
+          "freeze_guardrail": false,
+          "pedestrian_excess_reduced": false
+        },
+        {
+          "id": "webvid_003_1ca01463",
+          "freeze": {
+            "current": 0.16425029017621612,
+            "context_only": 0.16809116809116809,
+            "motion_context": 0.16809116809116809
+          },
+          "freeze_guardrail": true,
+          "pedestrian_excess_reduced": null
+        },
+        {
+          "id": "webvid_004_10d5cd04",
+          "freeze": {
+            "current": 0.034722222222222224,
+            "context_only": 0.03571428571428571,
+            "motion_context": 0.03571428571428571
+          },
+          "freeze_guardrail": true,
+          "pedestrian_excess_reduced": null
+        },
+        {
+          "id": "davis_bus",
+          "freeze": {
+            "current": 0.5088709677419355,
+            "context_only": 0.5209677419354839,
+            "motion_context": 0.5209677419354839
+          },
+          "freeze_guardrail": false,
+          "pedestrian_excess_reduced": null
+        },
+        {
+          "id": "davis_lady-running",
+          "freeze": {
+            "current": 0.6741935483870968,
+            "context_only": 0.6774193548387096,
+            "motion_context": 0.6774193548387096
+          },
+          "freeze_guardrail": true,
+          "pedestrian_excess_reduced": null
+        },
+        {
+          "id": "davis_longboard",
+          "freeze": {
+            "current": 0.7650130548302873,
+            "context_only": 0.7589208006962577,
+            "motion_context": 0.7589208006962577
+          },
+          "freeze_guardrail": true,
+          "pedestrian_excess_reduced": null
+        },
+        {
+          "id": "davis_skate-park",
+          "freeze": {
+            "current": 0.3640737770649559,
+            "context_only": 0.36728147554129914,
+            "motion_context": 0.36728147554129914
+          },
+          "freeze_guardrail": true,
+          "pedestrian_excess_reduced": null
+        }
+      ],
+      "integrity": {
+        "status": "PASSED",
+        "signature": "6b394be047b9a5fc842cda715ea56873edd5c33b412483b670c607a2ef97d61b",
+        "inputs": 43360,
+        "code_files": 19,
+        "generation": 48,
+        "evaluation": 48,
+        "artifacts": 8308,
+        "source_absent_from_receiver_jobs": true,
+        "new_transmission": 0
+      },
+      "resume": {
+        "status": "PASSED",
+        "command": "bash scripts/experiment_bsu_motion_retention.sh",
+        "exit_code": 0,
+        "elapsed_seconds": 14.416402875009226,
+        "completed_artifacts": 8404,
+        "all_mtimes_and_sizes_unchanged": true
+      },
+      "ai_sample_review": {
+        "reviewer": "같은 구현자 AI의 비맹검 정지화면·시간 곡선 검토; 독립 의미 평가 아님",
+        "verdict": "제한형은 보행 정지 오판 25.85→24.71%와 WebVid PSNR 이득 99.05% 보존을 확인했다. 다른 7편은 이전 출력과 같으며 보행 추가 정지 절반 감소 목표는 미달이다. 연구 옵션으로 유지한다.",
+        "viewed": [
+          {
+            "case": "webvid_002_1669a7b1/snr_10",
+            "frames": [
+              89,
+              92,
+              95,
+              98,
+              100,
+              268,
+              269,
+              272,
+              626,
+              629,
+              632,
+              635
+            ],
+            "observation": "100번 키 앞과 마지막 키 앞에서만 제한적으로 영상이 달라진다. 269~272번은 이전 연결과 동일하며 원본 발 자세 차이가 남는다. 적용 창의 광류 오차 상승과 정지 오판 감소가 함께 나타난다."
+          }
+        ],
+        "sample_times": 12,
+        "columns": 4,
+        "viewed_thumbnails": 48,
+        "viewed_plot": "motion_windows.png",
+        "unviewed_panels_scope": "Other seven final output panels were generated for user inspection; no new visual review claim. Their whole output PNG and decoded MP4 match the previous context by routing verification.",
+        "full_video_human_review": false,
+        "independent_semantic_review": "PENDING",
+        "etri_goal_achievement_demonstrated": false,
+        "production_defaults_changed": false
+      },
+      "report_validation": {
+        "local_links_and_assets": 29,
+        "preview_frame_count_and_24fps_verified": 8
+      },
+      "evidence_hashes": {
+        "protocol.json": "b0f327325eed896f769ea17a010150da24d453cc46630e2138fdcffd8072fab7",
+        "RESULT.json": "6e2906ba885d7a47605d4b4fe3086f00625177c8d9724c7699fd01a8c693c095",
+        "analysis/analyze.py": "ba73b3ada3ecc85187812c4256d343b6f59dce2530c72fa3debe1ea8f0e5a010",
+        "analysis/build_validation.py": "950b9a579cfe0ba41a6f3f870efc10935bdba5de6283879632d6cf0fecd8757d",
+        "analysis/verify_outputs.py": "896ed445148706fcc85c893ae7737b20513031edccfffb4f9227b6d9910b301f",
+        "analysis/verify_resume.py": "ee83ac20235318e5fe153ea2cf0936a1e492079d3287c30a199e1f78d7655141",
+        "analysis/integrity.json": "37c5ff10056aa7233c6243c38da1725fff6f5774c8fe7f3b36b6406070bdc633",
+        "analysis/review.json": "107231bee3ed7b2add1df70271f0fe1f64c125241da464a61d727608c191664a",
+        "analysis/resume_verification.json": "35d6be10677153a0c72a8e1b548651107a9a13329d463c1907511f6965aa1e01",
+        "analysis/samples.json": "93c85493fde071f52bc6f898ce398d98f8dbfae793c46005962c766b13a30bd6",
+        "analysis/index.html": "88716cc585a536122348df66539009123bbe4387d39294761496f7fcbb6f35f4"
+      }
+    }
+  },
+  "final_summary": {
+    "webvid_psnr_gain_retained_percent": 99.05086440048912,
+    "webvid_nonkey_psnr_gain_retained_percent": 98.73712966651405,
+    "pedestrian_freeze_reduction_percentage_points": 1.135357368753953,
+    "pedestrian_excess_freeze_recovered_percent": 23.885562208915495,
+    "overall_engineering_criteria_passed": false,
+    "failed_requirements": [
+      "pedestrian excess false freeze reduction >= 50 percent",
+      "pedestrian false freeze <= current + 0.005",
+      "bus false freeze <= current + 0.005"
+    ],
+    "selected_windows": 5,
+    "total_windows": 98,
+    "changed_png": 48,
+    "frames": 8100,
+    "unchanged_cases": 13,
+    "unchanged_source_identities": 7,
+    "selected": [
+      {
+        "case": "webvid_002_1669a7b1/snr_6",
+        "start": 220,
+        "end": 268,
+        "endpoint": 1,
+        "radius": 17,
+        "selected": true,
+        "active_cells": 34,
+        "lost_motion_cells": 1,
+        "gained_motion_cells": 70,
+        "lost_fraction": 0.029411764705882353
+      },
+      {
+        "case": "webvid_002_1669a7b1/snr_6",
+        "start": 572,
+        "end": 635,
+        "endpoint": 1,
+        "radius": 8,
+        "selected": true,
+        "active_cells": 78,
+        "lost_motion_cells": 3,
+        "gained_motion_cells": 10,
+        "lost_fraction": 0.038461538461538464
+      },
+      {
+        "case": "webvid_002_1669a7b1/snr_8",
+        "start": 572,
+        "end": 635,
+        "endpoint": 1,
+        "radius": 8,
+        "selected": true,
+        "active_cells": 84,
+        "lost_motion_cells": 2,
+        "gained_motion_cells": 11,
+        "lost_fraction": 0.023809523809523808
+      },
+      {
+        "case": "webvid_002_1669a7b1/snr_10",
+        "start": 0,
+        "end": 100,
+        "endpoint": 1,
+        "radius": 11,
+        "selected": true,
+        "active_cells": 8,
+        "lost_motion_cells": 0,
+        "gained_motion_cells": 38,
+        "lost_fraction": 0.0
+      },
+      {
+        "case": "webvid_002_1669a7b1/snr_10",
+        "start": 572,
+        "end": 635,
+        "endpoint": 1,
+        "radius": 9,
+        "selected": true,
+        "active_cells": 27,
+        "lost_motion_cells": 0,
+        "gained_motion_cells": 32,
+        "lost_fraction": 0.0
+      }
+    ],
+    "routing_verification_sha256": "df0c6b1008182ef9f1082559ee527b0bd7ac4ac5d19463ed3fcb340b449b099d"
+  },
+  "criteria": {
+    "min_quality_gain_retention": 0.75,
+    "max_lpips_relative_increase_vs_context": 0.01,
+    "max_flow_relative_increase_vs_current": 0.02,
+    "max_cadence_relative_increase_vs_current": 0.02,
+    "max_boundary_relative_increase_vs_context": 0.2,
+    "min_pedestrian_excess_freeze_reduction": 0.5,
+    "max_source_freeze_increase_vs_current": 0.005,
+    "received_keys_exact": true
+  },
+  "criteria_scope": "development engineering screening only; not ETRI official targets, preregistered independent evaluation, or statistical noninferiority",
+  "tests": {
+    "passed": 66,
+    "command": "pytest -q tests/test_receiver_motion_context.py tests/test_receiver_motion_gates.py tests/test_bsu_motion_context_experiment.py tests/test_bsu_motion_retention_experiment.py tests/test_receiver_key_context.py tests/test_bsu_key_context_experiment.py tests/test_bsu_receiver_compare.py tests/test_terminal_progress.py"
+  },
+  "developmental_trials": [
+    {
+      "root": "outputs/bsu_motion_context_20261013_pilot1",
+      "decision": "aligned full residual selected using two known WebVid failure videos"
+    },
+    {
+      "root": "outputs/bsu_motion_gate_20261013_pilot1",
+      "decision": "received sparse trajectory gate rejected: 0 of 98 windows selected"
+    },
+    {
+      "root": "outputs/bsu_motion_retention_20261013_pilot1",
+      "decision": "permissive output-motion loss gate missed longboard regression; loss retention raised from 0.25 to 0.90 before final run"
+    }
+  ],
+  "recommendation": "Keep conservative residual gate as an optional development candidate. Partial benefit only; do not replace production defaults.",
+  "repository_checks": {
+    "public_docs": "PASS: 8 public Markdown files, 467 local links/anchors",
+    "diff_check": "PASSED",
+    "shell_syntax": "PASSED",
+    "python_compile": "PASSED"
+  },
+  "production_defaults_changed": false,
+  "independent_semantic_review": "PENDING",
+  "continuous_60s_verified": false,
+  "etri_goal_achievement_demonstrated": false
+}

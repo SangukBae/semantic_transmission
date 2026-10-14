@@ -1,0 +1,3556 @@
+{
+  "date": "2026-10-13",
+  "status": "COMPLETE_QUANTITATIVE_REVIEW_PENDING",
+  "root": "/home/sangukbae/semantic_transmission/outputs/bsu_context_extension_20261013_v1",
+  "command": "bash scripts/experiment_bsu_context_extension.sh --offline",
+  "signature": "d757108f359ee23263b7eb8fe65d035761b5c8ded04da22536e2a72629c4bc54",
+  "completed": 70,
+  "total": 70,
+  "source_identities": 12,
+  "source_duration_seconds": [
+    6.25,
+    41.791666666666664
+  ],
+  "elapsed_seconds": 2639.9129459749965,
+  "algorithm": "original context_only with all previous code/parameters unchanged",
+  "cohort": {
+    "policy": "completed-result snapshot before extension evaluation; excludes original four sources",
+    "videos": [
+      {
+        "id": "webvid_005_ba30bf76",
+        "snrs": [
+          6,
+          8,
+          10
+        ]
+      },
+      {
+        "id": "webvid_006_567064bb",
+        "snrs": [
+          6,
+          8,
+          10
+        ]
+      },
+      {
+        "id": "webvid_007_48259b0b",
+        "snrs": [
+          6,
+          8,
+          10
+        ]
+      },
+      {
+        "id": "webvid_008_852d56f2",
+        "snrs": [
+          6,
+          8,
+          10
+        ]
+      },
+      {
+        "id": "webvid_009_96620087",
+        "snrs": [
+          6,
+          8,
+          10
+        ]
+      },
+      {
+        "id": "webvid_010_98ae3279",
+        "snrs": [
+          6,
+          8,
+          10
+        ]
+      },
+      {
+        "id": "webvid_011_65f0e6cf",
+        "snrs": [
+          6,
+          8,
+          10
+        ]
+      },
+      {
+        "id": "webvid_012_9bdbf20f",
+        "snrs": [
+          6,
+          8,
+          10
+        ]
+      },
+      {
+        "id": "webvid_013_79401da3",
+        "snrs": [
+          6,
+          8,
+          10
+        ]
+      },
+      {
+        "id": "webvid_014_11e49905",
+        "snrs": [
+          6,
+          8,
+          10
+        ]
+      },
+      {
+        "id": "webvid_015_833efbb9",
+        "snrs": [
+          6,
+          8,
+          10
+        ]
+      },
+      {
+        "id": "webvid_016_9cda7e71",
+        "snrs": [
+          6,
+          8
+        ]
+      }
+    ]
+  },
+  "development_scope": "New to this receiver comparison by source hash, not proof of globally unseen data; completion-selected cohort",
+  "aggregation": "SNR mean within source, then equal source mean; partial SNR sources separate",
+  "receiver_reads_source": false,
+  "additional_transmission": 0,
+  "new_training": false,
+  "generator_reused": true,
+  "transfer": {
+    "reused": false,
+    "files": 19403,
+    "transferred_files": 19403,
+    "transferred_bytes": 4042765709
+  },
+  "delivered_groups": [
+    {
+      "cohort": "complete_snr_sources",
+      "boundary": "delivered_mp4",
+      "source_count": 11,
+      "means": {
+        "current": {
+          "psnr_db": 21.080377705994287,
+          "ssim": 0.6413763007642799,
+          "lpips_vgg": 0.329626411738553,
+          "clip": 0.9478042008093372,
+          "dists": 0.1647238423304608,
+          "flow_error_mean": 0.43218820169713235,
+          "cadence_error_mean": 0.26955537459568873,
+          "false_freeze_rate": 0.3400800401710192,
+          "nonkey_psnr": 20.93548698000323,
+          "boundary_error": 7.823368904721499
+        },
+        "context_only": {
+          "psnr_db": 21.77462045151945,
+          "ssim": 0.6588158629839577,
+          "lpips_vgg": 0.31443128993399905,
+          "clip": 0.9524315840370088,
+          "dists": 0.15645094273071666,
+          "flow_error_mean": 0.4062566256461382,
+          "cadence_error_mean": 0.2064688427630508,
+          "false_freeze_rate": 0.32439728513548477,
+          "nonkey_psnr": 21.455858924364023,
+          "boundary_error": 5.7426252536785505
+        }
+      },
+      "delta": {
+        "psnr_db": 0.6942427455251625,
+        "ssim": 0.017439562219677796,
+        "lpips_vgg": -0.015195121804553957,
+        "clip": 0.004627383227671533,
+        "dists": -0.008272899599744143,
+        "flow_error_mean": -0.025931576050994165,
+        "cadence_error_mean": -0.06308653183263793,
+        "false_freeze_rate": -0.015682755035534457,
+        "nonkey_psnr": 0.520371944360793,
+        "boundary_error": -2.0807436510429484
+      },
+      "relative_percent": {
+        "psnr_db": 3.2933126493637443,
+        "ssim": 2.719084287788065,
+        "lpips_vgg": -4.6098010545969625,
+        "clip": 0.4882214305148791,
+        "dists": -5.022284256305454,
+        "flow_error_mean": -6.000065700351165,
+        "cadence_error_mean": -23.403922821892397,
+        "false_freeze_rate": -4.611489409271985,
+        "nonkey_psnr": 2.4855975161114374,
+        "boundary_error": -26.59651713198893
+      }
+    },
+    {
+      "cohort": "partial_snr_sources",
+      "boundary": "delivered_mp4",
+      "source_count": 1,
+      "means": {
+        "current": {
+          "psnr_db": 19.047516298578977,
+          "ssim": 0.5666286678939665,
+          "lpips_vgg": 0.337396763306525,
+          "clip": 0.9306949191623264,
+          "dists": 0.1955246084266239,
+          "flow_error_mean": 0.12235608709908627,
+          "cadence_error_mean": 0.05754209360739934,
+          "false_freeze_rate": 0.54,
+          "nonkey_psnr": 19.023269515786236,
+          "boundary_error": 4.102029079861111
+        },
+        "context_only": {
+          "psnr_db": 19.378377819091625,
+          "ssim": 0.5856548207304177,
+          "lpips_vgg": 0.32910492471936675,
+          "clip": 0.9340372721354167,
+          "dists": 0.18877550893359712,
+          "flow_error_mean": 0.12171538703631309,
+          "cadence_error_mean": 0.05744851177380103,
+          "false_freeze_rate": 0.5621428571428572,
+          "nonkey_psnr": 19.292523301473473,
+          "boundary_error": 4.129158528645833
+        }
+      },
+      "delta": {
+        "psnr_db": 0.3308615205126486,
+        "ssim": 0.01902615283645126,
+        "lpips_vgg": -0.008291838587158262,
+        "clip": 0.003342352973090268,
+        "dists": -0.006749099493026767,
+        "flow_error_mean": -0.0006407000627731835,
+        "cadence_error_mean": -9.358183359831074e-05,
+        "false_freeze_rate": 0.02214285714285713,
+        "nonkey_psnr": 0.269253785687237,
+        "boundary_error": 0.027129448784721788
+      },
+      "relative_percent": {
+        "psnr_db": 1.7370323528077547,
+        "ssim": 3.3577815445108516,
+        "lpips_vgg": -2.457592807321962,
+        "clip": 0.3591244460750431,
+        "dists": -3.4517903129106964,
+        "flow_error_mean": -0.5236356261166919,
+        "cadence_error_mean": -0.16263195815711118,
+        "false_freeze_rate": 4.100529100529093,
+        "nonkey_psnr": 1.4153917414869266,
+        "boundary_error": 0.6613665641210131
+      }
+    }
+  ],
+  "sources": [
+    {
+      "id": "webvid_005_ba30bf76",
+      "snrs": [
+        6,
+        8,
+        10
+      ],
+      "boundaries": {
+        "lossless_frames": {
+          "means": {
+            "current": {
+              "psnr_db": 19.935411591219445,
+              "ssim": 0.4361542699759946,
+              "lpips_vgg": 0.37209445697650345,
+              "clip": 0.8967434630102041,
+              "dists": 0.2333272402924475,
+              "flow_error_mean": 0.18910045512402016,
+              "cadence_error_mean": 0.11471776215074643,
+              "false_freeze_rate": 0.2351718100240753,
+              "nonkey_psnr": 19.82132689652884,
+              "boundary_error": 6.079219714506173
+            },
+            "context_only": {
+              "psnr_db": 20.41768743685553,
+              "ssim": 0.4645916020297993,
+              "lpips_vgg": 0.3455615283207558,
+              "clip": 0.9018914531958616,
+              "dists": 0.21961026248477755,
+              "flow_error_mean": 0.20267671194092812,
+              "cadence_error_mean": 0.09961854169447161,
+              "false_freeze_rate": 0.23823593784197855,
+              "nonkey_psnr": 20.177102903089704,
+              "boundary_error": 4.6082139756944445
+            }
+          },
+          "delta": {
+            "psnr_db": 0.48227584563608517,
+            "ssim": 0.02843733205380472,
+            "lpips_vgg": -0.026532928655747634,
+            "clip": 0.0051479901856574806,
+            "dists": -0.01371697780766995,
+            "flow_error_mean": 0.013576256816907967,
+            "cadence_error_mean": -0.01509922045627482,
+            "false_freeze_rate": 0.003064127817903245,
+            "nonkey_psnr": 0.3557760065608626,
+            "boundary_error": -1.4710057388117281
+          }
+        },
+        "delivered_mp4": {
+          "means": {
+            "current": {
+              "psnr_db": 19.938632688236176,
+              "ssim": 0.4338246649040963,
+              "lpips_vgg": 0.38272707275792855,
+              "clip": 0.8938101770656179,
+              "dists": 0.23762886371471983,
+              "flow_error_mean": 0.19147833410875112,
+              "cadence_error_mean": 0.11570117730311369,
+              "false_freeze_rate": 0.22991901947909826,
+              "nonkey_psnr": 19.822311459437962,
+              "boundary_error": 6.08718894675926
+            },
+            "context_only": {
+              "psnr_db": 20.358664456279286,
+              "ssim": 0.4606579009768249,
+              "lpips_vgg": 0.3555693146255281,
+              "clip": 0.9013381231398809,
+              "dists": 0.22324486715453012,
+              "flow_error_mean": 0.2058700822819283,
+              "cadence_error_mean": 0.10126107637175108,
+              "false_freeze_rate": 0.22357189757058438,
+              "nonkey_psnr": 20.145310754493785,
+              "boundary_error": 4.618031442901235
+            }
+          },
+          "delta": {
+            "psnr_db": 0.4200317680431098,
+            "ssim": 0.026833236072728583,
+            "lpips_vgg": -0.027157758132400456,
+            "clip": 0.007527946074262992,
+            "dists": -0.01438399656018971,
+            "flow_error_mean": 0.014391748173177177,
+            "cadence_error_mean": -0.01444010093136261,
+            "false_freeze_rate": -0.006347121908513886,
+            "nonkey_psnr": 0.3229992950558227,
+            "boundary_error": -1.4691575038580247
+          }
+        }
+      },
+      "complete_snr_set": true
+    },
+    {
+      "id": "webvid_006_567064bb",
+      "snrs": [
+        6,
+        8,
+        10
+      ],
+      "boundaries": {
+        "lossless_frames": {
+          "means": {
+            "current": {
+              "psnr_db": 22.87379959951531,
+              "ssim": 0.6027747423309788,
+              "lpips_vgg": 0.2938552281874068,
+              "clip": 0.9496316348805147,
+              "dists": 0.18034022257608526,
+              "flow_error_mean": 0.3841642012883877,
+              "cadence_error_mean": 0.09484121136262816,
+              "false_freeze_rate": 0.27932735063465114,
+              "nonkey_psnr": 22.78544673734623,
+              "boundary_error": 5.640458622685185
+            },
+            "context_only": {
+              "psnr_db": 23.05410744113165,
+              "ssim": 0.6093470027868949,
+              "lpips_vgg": 0.2862933802059273,
+              "clip": 0.9514459348192402,
+              "dists": 0.17340737629949657,
+              "flow_error_mean": 0.37629298112173193,
+              "cadence_error_mean": 0.07811653652311404,
+              "false_freeze_rate": 0.2649365348856011,
+              "nonkey_psnr": 22.883197075778575,
+              "boundary_error": 4.502847704475308
+            }
+          },
+          "delta": {
+            "psnr_db": 0.18030784161634017,
+            "ssim": 0.006572260455916079,
+            "lpips_vgg": -0.007561847981479464,
+            "clip": 0.0018142999387255054,
+            "dists": -0.006932846276588689,
+            "flow_error_mean": -0.007871220166655757,
+            "cadence_error_mean": -0.01672467483951412,
+            "false_freeze_rate": -0.014390815749050045,
+            "nonkey_psnr": 0.09775033843234482,
+            "boundary_error": -1.1376109182098766
+          }
+        },
+        "delivered_mp4": {
+          "means": {
+            "current": {
+              "psnr_db": 22.844588078483458,
+              "ssim": 0.6036693817927635,
+              "lpips_vgg": 0.32156746018848387,
+              "clip": 0.9446443046619689,
+              "dists": 0.19152492625651016,
+              "flow_error_mean": 0.38479889738442274,
+              "cadence_error_mean": 0.09574420638720539,
+              "false_freeze_rate": 0.2794890451936292,
+              "nonkey_psnr": 22.757417694099146,
+              "boundary_error": 5.65982349537037
+            },
+            "context_only": {
+              "psnr_db": 22.9990900840377,
+              "ssim": 0.6096967187418847,
+              "lpips_vgg": 0.31317157462677536,
+              "clip": 0.9498346864787581,
+              "dists": 0.183168100765328,
+              "flow_error_mean": 0.37693983485252397,
+              "cadence_error_mean": 0.07957394820985325,
+              "false_freeze_rate": 0.262996200177864,
+              "nonkey_psnr": 22.84777211962818,
+              "boundary_error": 4.579029224537037
+            }
+          },
+          "delta": {
+            "psnr_db": 0.15450200555424232,
+            "ssim": 0.006027336949121165,
+            "lpips_vgg": -0.008395885561708505,
+            "clip": 0.0051903818167892135,
+            "dists": -0.008356825491182163,
+            "flow_error_mean": -0.007859062531898775,
+            "cadence_error_mean": -0.01617025817735214,
+            "false_freeze_rate": -0.0164928450157652,
+            "nonkey_psnr": 0.09035442552903206,
+            "boundary_error": -1.0807942708333327
+          }
+        }
+      },
+      "complete_snr_set": true
+    },
+    {
+      "id": "webvid_007_48259b0b",
+      "snrs": [
+        6,
+        8,
+        10
+      ],
+      "boundaries": {
+        "lossless_frames": {
+          "means": {
+            "current": {
+              "psnr_db": 14.883025505345795,
+              "ssim": 0.5356149812206419,
+              "lpips_vgg": 0.41746247547959525,
+              "clip": 0.9349376860119047,
+              "dists": 0.14331231490960197,
+              "flow_error_mean": 1.5027593615373733,
+              "cadence_error_mean": 0.7374793191750845,
+              "false_freeze_rate": 0.39572413123665307,
+              "nonkey_psnr": 14.550901219352376,
+              "boundary_error": 27.35098166870915
+            },
+            "context_only": {
+              "psnr_db": 16.10597202855375,
+              "ssim": 0.5717946469244279,
+              "lpips_vgg": 0.3922988781084617,
+              "clip": 0.9394697885664682,
+              "dists": 0.1343445134541345,
+              "flow_error_mean": 1.439673278489659,
+              "cadence_error_mean": 0.6071549026262865,
+              "false_freeze_rate": 0.4063288681809357,
+              "nonkey_psnr": 15.348956684249533,
+              "boundary_error": 20.14955193014706
+            }
+          },
+          "delta": {
+            "psnr_db": 1.2229465232079555,
+            "ssim": 0.03617966570378606,
+            "lpips_vgg": -0.02516359737113355,
+            "clip": 0.0045321025545634885,
+            "dists": -0.008967801455467467,
+            "flow_error_mean": -0.06308608304771424,
+            "cadence_error_mean": -0.130324416548798,
+            "false_freeze_rate": 0.010604736944282656,
+            "nonkey_psnr": 0.798055464897157,
+            "boundary_error": -7.201429738562091
+          }
+        },
+        "delivered_mp4": {
+          "means": {
+            "current": {
+              "psnr_db": 14.866459552918702,
+              "ssim": 0.5328074619643809,
+              "lpips_vgg": 0.4175948237852445,
+              "clip": 0.9434078156001984,
+              "dists": 0.13797905435637822,
+              "flow_error_mean": 1.5034271819708172,
+              "cadence_error_mean": 0.7385759372353269,
+              "false_freeze_rate": 0.3971801591923898,
+              "nonkey_psnr": 14.538404278829825,
+              "boundary_error": 27.341911339188453
+            },
+            "context_only": {
+              "psnr_db": 16.038019384638446,
+              "ssim": 0.5686511427451867,
+              "lpips_vgg": 0.3914409175396912,
+              "clip": 0.9481468563988096,
+              "dists": 0.1290200392878245,
+              "flow_error_mean": 1.440235795321309,
+              "cadence_error_mean": 0.6081068946651674,
+              "false_freeze_rate": 0.40695981362842165,
+              "nonkey_psnr": 15.328679201901787,
+              "boundary_error": 20.159345213779954
+            }
+          },
+          "delta": {
+            "psnr_db": 1.171559831719744,
+            "ssim": 0.0358436807808058,
+            "lpips_vgg": -0.026153906245553304,
+            "clip": 0.004739040798611205,
+            "dists": -0.008959015068553733,
+            "flow_error_mean": -0.06319138664950819,
+            "cadence_error_mean": -0.13046904257015945,
+            "false_freeze_rate": 0.009779654436031848,
+            "nonkey_psnr": 0.7902749230719621,
+            "boundary_error": -7.182566125408499
+          }
+        }
+      },
+      "complete_snr_set": true
+    },
+    {
+      "id": "webvid_008_852d56f2",
+      "snrs": [
+        6,
+        8,
+        10
+      ],
+      "boundaries": {
+        "lossless_frames": {
+          "means": {
+            "current": {
+              "psnr_db": 24.319906199156822,
+              "ssim": 0.7487203032738146,
+              "lpips_vgg": 0.25838785005940335,
+              "clip": 0.9843250868055555,
+              "dists": 0.0976249533229404,
+              "flow_error_mean": 0.0826332152339836,
+              "cadence_error_mean": 0.020710142727874154,
+              "false_freeze_rate": 0.4147135416666667,
+              "nonkey_psnr": 24.234153081303212,
+              "boundary_error": 0.8109085648148148
+            },
+            "context_only": {
+              "psnr_db": 24.564433249850907,
+              "ssim": 0.7525428948294621,
+              "lpips_vgg": 0.25732428666618135,
+              "clip": 0.9847417534722223,
+              "dists": 0.09711359977722168,
+              "flow_error_mean": 0.08228911418609437,
+              "cadence_error_mean": 0.0203140064474061,
+              "false_freeze_rate": 0.4173177083333333,
+              "nonkey_psnr": 24.41449469288299,
+              "boundary_error": 0.747829861111111
+            }
+          },
+          "delta": {
+            "psnr_db": 0.2445270506940851,
+            "ssim": 0.00382259155564757,
+            "lpips_vgg": -0.0010635633932220001,
+            "clip": 0.0004166666666667318,
+            "dists": -0.0005113535457187124,
+            "flow_error_mean": -0.0003441010478892337,
+            "cadence_error_mean": -0.00039613628046805335,
+            "false_freeze_rate": 0.0026041666666666297,
+            "nonkey_psnr": 0.18034161157977735,
+            "boundary_error": -0.06307870370370372
+          }
+        },
+        "delivered_mp4": {
+          "means": {
+            "current": {
+              "psnr_db": 24.327139763285725,
+              "ssim": 0.7449736358292819,
+              "lpips_vgg": 0.2607884533537759,
+              "clip": 0.9867654079861111,
+              "dists": 0.09655012965202331,
+              "flow_error_mean": 0.0841483255677442,
+              "cadence_error_mean": 0.02284256218899008,
+              "false_freeze_rate": 0.408203125,
+              "nonkey_psnr": 24.241387002704705,
+              "boundary_error": 0.8094871238425926
+            },
+            "context_only": {
+              "psnr_db": 24.54822298570975,
+              "ssim": 0.7487913833412829,
+              "lpips_vgg": 0.25834163629346424,
+              "clip": 0.9875954861111111,
+              "dists": 0.09527563214302062,
+              "flow_error_mean": 0.08379691549195539,
+              "cadence_error_mean": 0.02227993908774544,
+              "false_freeze_rate": 0.3977864583333333,
+              "nonkey_psnr": 24.404937487054223,
+              "boundary_error": 0.7982349537037037
+            }
+          },
+          "delta": {
+            "psnr_db": 0.22108322242402423,
+            "ssim": 0.003817747512001035,
+            "lpips_vgg": -0.0024468170603116346,
+            "clip": 0.0008300781250000222,
+            "dists": -0.0012744975090026867,
+            "flow_error_mean": -0.00035141007578880223,
+            "cadence_error_mean": -0.0005626231012446394,
+            "false_freeze_rate": -0.010416666666666685,
+            "nonkey_psnr": 0.1635504843495177,
+            "boundary_error": -0.011252170138888906
+          }
+        }
+      },
+      "complete_snr_set": true
+    },
+    {
+      "id": "webvid_009_96620087",
+      "snrs": [
+        6,
+        8,
+        10
+      ],
+      "boundaries": {
+        "lossless_frames": {
+          "means": {
+            "current": {
+              "psnr_db": 20.32123910257616,
+              "ssim": 0.6582162790422076,
+              "lpips_vgg": 0.3088876221382301,
+              "clip": 0.9300125215682515,
+              "dists": 0.17439106612605307,
+              "flow_error_mean": 0.5692306916835981,
+              "cadence_error_mean": 0.5651550443264284,
+              "false_freeze_rate": 0.29380784373881474,
+              "nonkey_psnr": 20.16279948689914,
+              "boundary_error": 14.399566806891025
+            },
+            "context_only": {
+              "psnr_db": 23.543064851420773,
+              "ssim": 0.7359280480225602,
+              "lpips_vgg": 0.2497255519520042,
+              "clip": 0.9470878866308794,
+              "dists": 0.14074660657861238,
+              "flow_error_mean": 0.4199795115490754,
+              "cadence_error_mean": 0.2219554606016434,
+              "false_freeze_rate": 0.15631231784015953,
+              "nonkey_psnr": 22.596875943225182,
+              "boundary_error": 7.2848749666132475
+            }
+          },
+          "delta": {
+            "psnr_db": 3.221825748844612,
+            "ssim": 0.07771176898035259,
+            "lpips_vgg": -0.059162070186225935,
+            "clip": 0.017075365062627856,
+            "dists": -0.03364445954744069,
+            "flow_error_mean": -0.14925118013452265,
+            "cadence_error_mean": -0.343199583724785,
+            "false_freeze_rate": -0.1374955258986552,
+            "nonkey_psnr": 2.434076456326043,
+            "boundary_error": -7.114691840277778
+          }
+        },
+        "delivered_mp4": {
+          "means": {
+            "current": {
+              "psnr_db": 20.280098728092646,
+              "ssim": 0.6584142892716799,
+              "lpips_vgg": 0.3218348865342043,
+              "clip": 0.942978186110046,
+              "dists": 0.17352032917408855,
+              "flow_error_mean": 0.5716465456057818,
+              "cadence_error_mean": 0.5683404010712886,
+              "false_freeze_rate": 0.29477936288796847,
+              "nonkey_psnr": 20.120649392912306,
+              "boundary_error": 14.346241764601139
+            },
+            "context_only": {
+              "psnr_db": 23.37595422177181,
+              "ssim": 0.7343643062314331,
+              "lpips_vgg": 0.2624880145313428,
+              "clip": 0.9592340075408998,
+              "dists": 0.14077409778879707,
+              "flow_error_mean": 0.4204615975992802,
+              "cadence_error_mean": 0.22294911738569415,
+              "false_freeze_rate": 0.15314209745871044,
+              "nonkey_psnr": 22.52254069837223,
+              "boundary_error": 7.309744201834046
+            }
+          },
+          "delta": {
+            "psnr_db": 3.0958554936791636,
+            "ssim": 0.07595001695975323,
+            "lpips_vgg": -0.059346872002861484,
+            "clip": 0.0162558214308538,
+            "dists": -0.03274623138529148,
+            "flow_error_mean": -0.15118494800650156,
+            "cadence_error_mean": -0.34539128368559446,
+            "false_freeze_rate": -0.14163726542925803,
+            "nonkey_psnr": 2.401891305459923,
+            "boundary_error": -7.036497562767093
+          }
+        }
+      },
+      "complete_snr_set": true
+    },
+    {
+      "id": "webvid_010_98ae3279",
+      "snrs": [
+        6,
+        8,
+        10
+      ],
+      "boundaries": {
+        "lossless_frames": {
+          "means": {
+            "current": {
+              "psnr_db": 18.849425867588387,
+              "ssim": 0.5812717075447933,
+              "lpips_vgg": 0.33351201353458243,
+              "clip": 0.938739084691564,
+              "dists": 0.14630250209492415,
+              "flow_error_mean": 0.12542666972133193,
+              "cadence_error_mean": 0.0683395873371166,
+              "false_freeze_rate": 0.31721739130434784,
+              "nonkey_psnr": 18.84129788434271,
+              "boundary_error": 3.5930664062499997
+            },
+            "context_only": {
+              "psnr_db": 18.955259449208942,
+              "ssim": 0.5857637749369723,
+              "lpips_vgg": 0.33087712874117164,
+              "clip": 0.9396252433050992,
+              "dists": 0.1451898397524662,
+              "flow_error_mean": 0.12431508274582842,
+              "cadence_error_mean": 0.0681256022445115,
+              "false_freeze_rate": 0.3402898550724638,
+              "nonkey_psnr": 18.919328388040544,
+              "boundary_error": 3.2195710358796297
+            }
+          },
+          "delta": {
+            "psnr_db": 0.1058335816205549,
+            "ssim": 0.004492067392179,
+            "lpips_vgg": -0.0026348847934107855,
+            "clip": 0.0008861586135352484,
+            "dists": -0.0011126623424579651,
+            "flow_error_mean": -0.001111586975503509,
+            "cadence_error_mean": -0.000213985092605104,
+            "false_freeze_rate": 0.023072463768115947,
+            "nonkey_psnr": 0.07803050369783548,
+            "boundary_error": -0.37349537037037006
+          }
+        },
+        "delivered_mp4": {
+          "means": {
+            "current": {
+              "psnr_db": 18.83607267251282,
+              "ssim": 0.576588663203454,
+              "lpips_vgg": 0.3451745740197278,
+              "clip": 0.9421515389715949,
+              "dists": 0.14992620678163407,
+              "flow_error_mean": 0.12462709634341249,
+              "cadence_error_mean": 0.06910715300551394,
+              "false_freeze_rate": 0.3189565217391304,
+              "nonkey_psnr": 18.82750120187988,
+              "boundary_error": 3.628931568287037
+            },
+            "context_only": {
+              "psnr_db": 18.938134032671122,
+              "ssim": 0.5810335276380356,
+              "lpips_vgg": 0.3422577621939246,
+              "clip": 0.9429118674067419,
+              "dists": 0.14885188503513427,
+              "flow_error_mean": 0.12356782550137843,
+              "cadence_error_mean": 0.06886477269795548,
+              "false_freeze_rate": 0.3408695652173913,
+              "nonkey_psnr": 18.903572578935865,
+              "boundary_error": 3.385998987268519
+            }
+          },
+          "delta": {
+            "psnr_db": 0.10206136015830225,
+            "ssim": 0.004444864434581586,
+            "lpips_vgg": -0.0029168118258031672,
+            "clip": 0.0007603284351470618,
+            "dists": -0.0010743217464997956,
+            "flow_error_mean": -0.0010592708420340546,
+            "cadence_error_mean": -0.00024238030755846518,
+            "false_freeze_rate": 0.021913043478260896,
+            "nonkey_psnr": 0.07607137705598532,
+            "boundary_error": -0.24293258101851833
+          }
+        }
+      },
+      "complete_snr_set": true
+    },
+    {
+      "id": "webvid_011_65f0e6cf",
+      "snrs": [
+        6,
+        8,
+        10
+      ],
+      "boundaries": {
+        "lossless_frames": {
+          "means": {
+            "current": {
+              "psnr_db": 26.153014184505903,
+              "ssim": 0.8254194372163163,
+              "lpips_vgg": 0.27882502699891726,
+              "clip": 0.9496907552083333,
+              "dists": 0.19460915393299527,
+              "flow_error_mean": 0.08310751087124177,
+              "cadence_error_mean": 0.059421563459985824,
+              "false_freeze_rate": 0.4885361552028219,
+              "nonkey_psnr": 25.986904117341883,
+              "boundary_error": 1.4899112654320987
+            },
+            "context_only": {
+              "psnr_db": 26.64023569017941,
+              "ssim": 0.8272586639969021,
+              "lpips_vgg": 0.27886190068114686,
+              "clip": 0.9501139322916666,
+              "dists": 0.19441332772926048,
+              "flow_error_mean": 0.08186327867744078,
+              "cadence_error_mean": 0.058488522190600634,
+              "false_freeze_rate": 0.5,
+              "nonkey_psnr": 26.4125866766214,
+              "boundary_error": 0.8650848765432099
+            }
+          },
+          "delta": {
+            "psnr_db": 0.4872215056735065,
+            "ssim": 0.0018392267805857898,
+            "lpips_vgg": 3.687368222959897e-05,
+            "clip": 0.0004231770833332815,
+            "dists": -0.0001958262037347891,
+            "flow_error_mean": -0.001244232193800987,
+            "cadence_error_mean": -0.0009330412693851903,
+            "false_freeze_rate": 0.011463844797178102,
+            "nonkey_psnr": 0.4256825592795188,
+            "boundary_error": -0.6248263888888889
+          }
+        },
+        "delivered_mp4": {
+          "means": {
+            "current": {
+              "psnr_db": 25.64965553676172,
+              "ssim": 0.8222145592510962,
+              "lpips_vgg": 0.2757047716114256,
+              "clip": 0.9528899016203703,
+              "dists": 0.18570192522472806,
+              "flow_error_mean": 0.08835771115188049,
+              "cadence_error_mean": 0.061065834432435726,
+              "false_freeze_rate": 0.42328042328042326,
+              "nonkey_psnr": 25.48953731350769,
+              "boundary_error": 1.4898606288580247
+            },
+            "context_only": {
+              "psnr_db": 26.014133144385784,
+              "ssim": 0.8235324226844529,
+              "lpips_vgg": 0.2753542251746964,
+              "clip": 0.9538158275462962,
+              "dists": 0.1847145977947447,
+              "flow_error_mean": 0.08763159055685975,
+              "cadence_error_mean": 0.059574030807995226,
+              "false_freeze_rate": 0.4021164021164021,
+              "nonkey_psnr": 25.809824188530882,
+              "boundary_error": 0.9069974922839507
+            }
+          },
+          "delta": {
+            "psnr_db": 0.3644776076240639,
+            "ssim": 0.001317863433356714,
+            "lpips_vgg": -0.0003505464367292155,
+            "clip": 0.0009259259259258856,
+            "dists": -0.0009873274299833645,
+            "flow_error_mean": -0.0007261205950207378,
+            "cadence_error_mean": -0.0014918036244404992,
+            "false_freeze_rate": -0.021164021164021163,
+            "nonkey_psnr": 0.32028687502319286,
+            "boundary_error": -0.5828631365740741
+          }
+        }
+      },
+      "complete_snr_set": true
+    },
+    {
+      "id": "webvid_012_9bdbf20f",
+      "snrs": [
+        6,
+        8,
+        10
+      ],
+      "boundaries": {
+        "lossless_frames": {
+          "means": {
+            "current": {
+              "psnr_db": 20.59412117113574,
+              "ssim": 0.48692682529713627,
+              "lpips_vgg": 0.3427164745393884,
+              "clip": 0.9564869068287036,
+              "dists": 0.15865594823524434,
+              "flow_error_mean": 0.16207818383244194,
+              "cadence_error_mean": 0.07746943209173517,
+              "false_freeze_rate": 0.5844732421406288,
+              "nonkey_psnr": 20.571613308442174,
+              "boundary_error": 4.692824074074074
+            },
+            "context_only": {
+              "psnr_db": 20.673718454170547,
+              "ssim": 0.4924387870610735,
+              "lpips_vgg": 0.3389647716725314,
+              "clip": 0.9573831225198413,
+              "dists": 0.15648996880445531,
+              "flow_error_mean": 0.1611297665333925,
+              "cadence_error_mean": 0.07723916164292886,
+              "false_freeze_rate": 0.5899928005759539,
+              "nonkey_psnr": 20.6149151875279,
+              "boundary_error": 4.268438946759259
+            }
+          },
+          "delta": {
+            "psnr_db": 0.07959728303480773,
+            "ssim": 0.0055119617639372565,
+            "lpips_vgg": -0.0037517028668569985,
+            "clip": 0.0008962156911376251,
+            "dists": -0.002165979430789028,
+            "flow_error_mean": -0.0009484172990494311,
+            "cadence_error_mean": -0.00023027044880630232,
+            "false_freeze_rate": 0.005519558435325145,
+            "nonkey_psnr": 0.04330187908572469,
+            "boundary_error": -0.4243851273148147
+          }
+        },
+        "delivered_mp4": {
+          "means": {
+            "current": {
+              "psnr_db": 20.54083404031,
+              "ssim": 0.48728015503042243,
+              "lpips_vgg": 0.35527076812648267,
+              "clip": 0.9503425719246031,
+              "dists": 0.16496809878677288,
+              "flow_error_mean": 0.16148662038005082,
+              "cadence_error_mean": 0.07809242395797192,
+              "false_freeze_rate": 0.5914326853851691,
+              "nonkey_psnr": 20.516811216665356,
+              "boundary_error": 4.720240162037037
+            },
+            "context_only": {
+              "psnr_db": 20.62044956091313,
+              "ssim": 0.49284813999895016,
+              "lpips_vgg": 0.34919896937867323,
+              "clip": 0.9549228567294974,
+              "dists": 0.16175499000246563,
+              "flow_error_mean": 0.16060803114039124,
+              "cadence_error_mean": 0.07791545794417842,
+              "false_freeze_rate": 0.5962323014158867,
+              "nonkey_psnr": 20.566106751992145,
+              "boundary_error": 4.395363136574074
+            }
+          },
+          "delta": {
+            "psnr_db": 0.07961552060313082,
+            "ssim": 0.005567984968527728,
+            "lpips_vgg": -0.006071798747809443,
+            "clip": 0.004580284804894252,
+            "dists": -0.0032131087843072503,
+            "flow_error_mean": -0.0008785892396595829,
+            "cadence_error_mean": -0.00017696601379349475,
+            "false_freeze_rate": 0.004799616030717546,
+            "nonkey_psnr": 0.0492955353267881,
+            "boundary_error": -0.32487702546296227
+          }
+        }
+      },
+      "complete_snr_set": true
+    },
+    {
+      "id": "webvid_013_79401da3",
+      "snrs": [
+        6,
+        8,
+        10
+      ],
+      "boundaries": {
+        "lossless_frames": {
+          "means": {
+            "current": {
+              "psnr_db": 15.682791813567167,
+              "ssim": 0.632112990028365,
+              "lpips_vgg": 0.3804257158579998,
+              "clip": 0.9522469375726986,
+              "dists": 0.14217753159163915,
+              "flow_error_mean": 1.1948226004571258,
+              "cadence_error_mean": 0.9468892493343853,
+              "false_freeze_rate": 0.28567616114960226,
+              "nonkey_psnr": 15.314816560064356,
+              "boundary_error": 18.19584589729532
+            },
+            "context_only": {
+              "psnr_db": 16.59501974235756,
+              "ssim": 0.647595631611275,
+              "lpips_vgg": 0.36641325609713304,
+              "clip": 0.953340905019317,
+              "dists": 0.13765967597435305,
+              "flow_error_mean": 1.128402412274799,
+              "cadence_error_mean": 0.7747591556364046,
+              "false_freeze_rate": 0.26115473441108544,
+              "nonkey_psnr": 15.84931987456059,
+              "boundary_error": 14.439514421905457
+            }
+          },
+          "delta": {
+            "psnr_db": 0.9122279287903936,
+            "ssim": 0.015482641582910017,
+            "lpips_vgg": -0.014012459760866736,
+            "clip": 0.0010939674466183824,
+            "dists": -0.004517855617286098,
+            "flow_error_mean": -0.06642018818232676,
+            "cadence_error_mean": -0.1721300936979807,
+            "false_freeze_rate": -0.024521426738516816,
+            "nonkey_psnr": 0.5345033144962343,
+            "boundary_error": -3.756331475389864
+          }
+        },
+        "delivered_mp4": {
+          "means": {
+            "current": {
+              "psnr_db": 15.669326852791498,
+              "ssim": 0.6313764901128607,
+              "lpips_vgg": 0.3841268551725016,
+              "clip": 0.9521052727234962,
+              "dists": 0.13889588252695426,
+              "flow_error_mean": 1.2018183318926585,
+              "cadence_error_mean": 0.9543167439971989,
+              "false_freeze_rate": 0.27852193995381064,
+              "nonkey_psnr": 15.308103133188741,
+              "boundary_error": 18.175063961988304
+            },
+            "context_only": {
+              "psnr_db": 16.541693639344988,
+              "ssim": 0.6463298396162441,
+              "lpips_vgg": 0.36960751594261854,
+              "clip": 0.9557000385562063,
+              "dists": 0.13446712598883062,
+              "flow_error_mean": 1.1336223835191248,
+              "cadence_error_mean": 0.7794388366135565,
+              "false_freeze_rate": 0.25354888375673595,
+              "nonkey_psnr": 15.841641324474573,
+              "boundary_error": 14.432433106420566
+            }
+          },
+          "delta": {
+            "psnr_db": 0.8723667865534903,
+            "ssim": 0.01495334950338345,
+            "lpips_vgg": -0.014519339229883077,
+            "clip": 0.003594765832710123,
+            "dists": -0.004428756538123635,
+            "flow_error_mean": -0.06819594837353371,
+            "cadence_error_mean": -0.1748779073836424,
+            "false_freeze_rate": -0.024973056197074683,
+            "nonkey_psnr": 0.5335381912858317,
+            "boundary_error": -3.7426308555677377
+          }
+        }
+      },
+      "complete_snr_set": true
+    },
+    {
+      "id": "webvid_014_11e49905",
+      "snrs": [
+        6,
+        8,
+        10
+      ],
+      "boundaries": {
+        "lossless_frames": {
+          "means": {
+            "current": {
+              "psnr_db": 27.345544738483124,
+              "ssim": 0.940480739014328,
+              "lpips_vgg": 0.1995175078337565,
+              "clip": 0.957122418597028,
+              "dists": 0.16587461902822925,
+              "flow_error_mean": 0.23648144065660714,
+              "cadence_error_mean": 0.14520759780612802,
+              "false_freeze_rate": 0.3011904761904762,
+              "nonkey_psnr": 27.183846183443503,
+              "boundary_error": 1.4798683449074075
+            },
+            "context_only": {
+              "psnr_db": 28.056563837797583,
+              "ssim": 0.9419916876158889,
+              "lpips_vgg": 0.19443821888981444,
+              "clip": 0.9585329709353146,
+              "dists": 0.16085329717133706,
+              "flow_error_mean": 0.23279080374068975,
+              "cadence_error_mean": 0.1397098025364532,
+              "false_freeze_rate": 0.30654761904761907,
+              "nonkey_psnr": 27.756491364033085,
+              "boundary_error": 0.753885661502849
+            }
+          },
+          "delta": {
+            "psnr_db": 0.7110190993144592,
+            "ssim": 0.0015109486015608686,
+            "lpips_vgg": -0.005079288943942051,
+            "clip": 0.0014105523382866858,
+            "dists": -0.005021321856892191,
+            "flow_error_mean": -0.0036906369159173946,
+            "cadence_error_mean": -0.00549779526967481,
+            "false_freeze_rate": 0.005357142857142894,
+            "nonkey_psnr": 0.572645180589582,
+            "boundary_error": -0.7259826834045585
+          }
+        },
+        "delivered_mp4": {
+          "means": {
+            "current": {
+              "psnr_db": 27.364744260130628,
+              "ssim": 0.9400265701439735,
+              "lpips_vgg": 0.21428395589609525,
+              "clip": 0.9627020277899184,
+              "dists": 0.1698413268669502,
+              "flow_error_mean": 0.23554839812224362,
+              "cadence_error_mean": 0.14430359987659155,
+              "false_freeze_rate": 0.2925,
+              "nonkey_psnr": 27.19896638306567,
+              "boundary_error": 1.4933031739672364
+            },
+            "context_only": {
+              "psnr_db": 27.9974849936191,
+              "ssim": 0.9414729075637053,
+              "lpips_vgg": 0.20735547333816826,
+              "clip": 0.9649014559659091,
+              "dists": 0.16304946937761106,
+              "flow_error_mean": 0.23168678241447102,
+              "cadence_error_mean": 0.13830401922981922,
+              "false_freeze_rate": 0.2945238095238095,
+              "nonkey_psnr": 27.728940212035486,
+              "boundary_error": 0.8312839431980057
+            }
+          },
+          "delta": {
+            "psnr_db": 0.6327407334884718,
+            "ssim": 0.001446337419731769,
+            "lpips_vgg": -0.006928482557926996,
+            "clip": 0.0021994281759907253,
+            "dists": -0.006791857489339137,
+            "flow_error_mean": -0.003861615707772603,
+            "cadence_error_mean": -0.0059995806467723345,
+            "false_freeze_rate": 0.002023809523809539,
+            "nonkey_psnr": 0.5299738289698155,
+            "boundary_error": -0.6620192307692307
+          }
+        }
+      },
+      "complete_snr_set": true
+    },
+    {
+      "id": "webvid_015_833efbb9",
+      "snrs": [
+        6,
+        8,
+        10
+      ],
+      "boundaries": {
+        "lossless_frames": {
+          "means": {
+            "current": {
+              "psnr_db": 21.653096118061853,
+              "ssim": 0.6253929564734682,
+              "lpips_vgg": 0.33887106337481077,
+              "clip": 0.9534294976128472,
+              "dists": 0.16223452008432812,
+              "flow_error_mean": 0.20546808410721676,
+              "cadence_error_mean": 0.11668924774703275,
+              "false_freeze_rate": 0.290889798393209,
+              "nonkey_psnr": 21.558806381323866,
+              "boundary_error": 2.4074797453703702
+            },
+            "context_only": {
+              "psnr_db": 22.228497664152275,
+              "ssim": 0.6413982864904078,
+              "lpips_vgg": 0.3303045563503272,
+              "clip": 0.9569820827907985,
+              "dists": 0.15673976184593305,
+              "flow_error_mean": 0.20263698295984975,
+              "cadence_error_mean": 0.11233313194624767,
+              "false_freeze_rate": 0.2949825678338639,
+              "nonkey_psnr": 22.041538110245234,
+              "boundary_error": 1.6562825520833333
+            }
+          },
+          "delta": {
+            "psnr_db": 0.575401546090422,
+            "ssim": 0.0160053300169396,
+            "lpips_vgg": -0.008566507024483583,
+            "clip": 0.0035525851779513173,
+            "dists": -0.00549475823839507,
+            "flow_error_mean": -0.00283110114736701,
+            "cadence_error_mean": -0.004356115800785085,
+            "false_freeze_rate": 0.0040927694406548976,
+            "nonkey_psnr": 0.48273172892136884,
+            "boundary_error": -0.7511971932870369
+          }
+        },
+        "delivered_mp4": {
+          "means": {
+            "current": {
+              "psnr_db": 21.566602592413794,
+              "ssim": 0.6239634369030698,
+              "lpips_vgg": 0.3468169076782134,
+              "clip": 0.9540490044487847,
+              "dists": 0.1654255222943094,
+              "flow_error_mean": 0.20673277614069285,
+              "cadence_error_mean": 0.11701908109693968,
+              "false_freeze_rate": 0.22661815976959224,
+              "nonkey_psnr": 21.46926770374423,
+              "boundary_error": 2.3050057870370373
+            },
+            "context_only": {
+              "psnr_db": 22.08897846334284,
+              "ssim": 0.6395962032855339,
+              "lpips_vgg": 0.3339587856291069,
+              "clip": 0.9583462185329862,
+              "dists": 0.15663956469959683,
+              "flow_error_mean": 0.20440204342829799,
+              "cadence_error_mean": 0.11288917737984273,
+              "false_freeze_rate": 0.23662270729119295,
+              "nonkey_psnr": 21.915122850585096,
+              "boundary_error": 1.7524160879629629
+            }
+          },
+          "delta": {
+            "psnr_db": 0.5223758709290465,
+            "ssim": 0.015632766382464136,
+            "lpips_vgg": -0.012858122049106468,
+            "clip": 0.004297214084201473,
+            "dists": -0.008785957594712568,
+            "flow_error_mean": -0.0023307327123948673,
+            "cadence_error_mean": -0.004129903717096942,
+            "false_freeze_rate": 0.01000454752160071,
+            "nonkey_psnr": 0.44585514684086647,
+            "boundary_error": -0.5525896990740744
+          }
+        }
+      },
+      "complete_snr_set": true
+    },
+    {
+      "id": "webvid_016_9cda7e71",
+      "snrs": [
+        6,
+        8
+      ],
+      "boundaries": {
+        "lossless_frames": {
+          "means": {
+            "current": {
+              "psnr_db": 19.079677691271026,
+              "ssim": 0.5669927623152121,
+              "lpips_vgg": 0.31719157573663526,
+              "clip": 0.9307444254557291,
+              "dists": 0.1905936980413066,
+              "flow_error_mean": 0.12228419530804693,
+              "cadence_error_mean": 0.05728019466695204,
+              "false_freeze_rate": 0.5314285714285715,
+              "nonkey_psnr": 19.05865246875229,
+              "boundary_error": 4.041593424479167
+            },
+            "context_only": {
+              "psnr_db": 19.41753663644397,
+              "ssim": 0.5860009463713877,
+              "lpips_vgg": 0.3084745308384299,
+              "clip": 0.933375718858507,
+              "dists": 0.18443786592947112,
+              "flow_error_mean": 0.12148947787567102,
+              "cadence_error_mean": 0.056980452239649974,
+              "false_freeze_rate": 0.5549999999999999,
+              "nonkey_psnr": 19.331251409430273,
+              "boundary_error": 3.986824544270833
+            }
+          },
+          "delta": {
+            "psnr_db": 0.33785894517294324,
+            "ssim": 0.019008184056175548,
+            "lpips_vgg": -0.00871704489820535,
+            "clip": 0.002631293402777901,
+            "dists": -0.006155832111835485,
+            "flow_error_mean": -0.0007947174323759132,
+            "cadence_error_mean": -0.0002997424273020674,
+            "false_freeze_rate": 0.023571428571428465,
+            "nonkey_psnr": 0.27259894067798385,
+            "boundary_error": -0.054768880208333925
+          }
+        },
+        "delivered_mp4": {
+          "means": {
+            "current": {
+              "psnr_db": 19.047516298578977,
+              "ssim": 0.5666286678939665,
+              "lpips_vgg": 0.337396763306525,
+              "clip": 0.9306949191623264,
+              "dists": 0.1955246084266239,
+              "flow_error_mean": 0.12235608709908627,
+              "cadence_error_mean": 0.05754209360739934,
+              "false_freeze_rate": 0.54,
+              "nonkey_psnr": 19.023269515786236,
+              "boundary_error": 4.102029079861111
+            },
+            "context_only": {
+              "psnr_db": 19.378377819091625,
+              "ssim": 0.5856548207304177,
+              "lpips_vgg": 0.32910492471936675,
+              "clip": 0.9340372721354167,
+              "dists": 0.18877550893359712,
+              "flow_error_mean": 0.12171538703631309,
+              "cadence_error_mean": 0.05744851177380103,
+              "false_freeze_rate": 0.5621428571428572,
+              "nonkey_psnr": 19.292523301473473,
+              "boundary_error": 4.129158528645833
+            }
+          },
+          "delta": {
+            "psnr_db": 0.3308615205126486,
+            "ssim": 0.01902615283645126,
+            "lpips_vgg": -0.008291838587158262,
+            "clip": 0.003342352973090268,
+            "dists": -0.006749099493026767,
+            "flow_error_mean": -0.0006407000627731835,
+            "cadence_error_mean": -9.358183359831074e-05,
+            "false_freeze_rate": 0.02214285714285713,
+            "nonkey_psnr": 0.269253785687237,
+            "boundary_error": 0.027129448784721788
+          }
+        }
+      },
+      "complete_snr_set": false
+    }
+  ],
+  "derived": {
+    "psnr_improved_sources": [
+      "webvid_005_ba30bf76",
+      "webvid_006_567064bb",
+      "webvid_007_48259b0b",
+      "webvid_008_852d56f2",
+      "webvid_009_96620087",
+      "webvid_010_98ae3279",
+      "webvid_011_65f0e6cf",
+      "webvid_012_9bdbf20f",
+      "webvid_013_79401da3",
+      "webvid_014_11e49905",
+      "webvid_015_833efbb9",
+      "webvid_016_9cda7e71"
+    ],
+    "nonkey_psnr_improved_sources": [
+      "webvid_005_ba30bf76",
+      "webvid_006_567064bb",
+      "webvid_007_48259b0b",
+      "webvid_008_852d56f2",
+      "webvid_009_96620087",
+      "webvid_010_98ae3279",
+      "webvid_011_65f0e6cf",
+      "webvid_012_9bdbf20f",
+      "webvid_013_79401da3",
+      "webvid_014_11e49905",
+      "webvid_015_833efbb9",
+      "webvid_016_9cda7e71"
+    ],
+    "lpips_improved_sources": [
+      "webvid_005_ba30bf76",
+      "webvid_006_567064bb",
+      "webvid_007_48259b0b",
+      "webvid_008_852d56f2",
+      "webvid_009_96620087",
+      "webvid_010_98ae3279",
+      "webvid_011_65f0e6cf",
+      "webvid_012_9bdbf20f",
+      "webvid_013_79401da3",
+      "webvid_014_11e49905",
+      "webvid_015_833efbb9",
+      "webvid_016_9cda7e71"
+    ],
+    "flow_regressed_sources": [
+      "webvid_005_ba30bf76"
+    ],
+    "freeze_regressed_sources": [
+      "webvid_007_48259b0b",
+      "webvid_010_98ae3279",
+      "webvid_012_9bdbf20f",
+      "webvid_014_11e49905",
+      "webvid_015_833efbb9",
+      "webvid_016_9cda7e71"
+    ],
+    "primary_psnr_delta_median": 0.4200317680431098,
+    "primary_psnr_delta_excluding_largest_gain": 0.45408147070976257
+  },
+  "case_checks": {
+    "lossless_frames": {
+      "psnr_improved": 35,
+      "total": 35
+    },
+    "delivered_mp4": {
+      "psnr_improved": 35,
+      "total": 35
+    }
+  },
+  "integrity": {
+    "status": "PASSED",
+    "input_files": 19441,
+    "code_files": 16,
+    "generation": 70,
+    "evaluation": 70,
+    "output_artifacts": 14037,
+    "frames": 13722,
+    "keys": 356,
+    "windows": 642,
+    "outside_support_exact": 9224,
+    "changed_frames": 4002,
+    "source_absent_from_receiver_jobs": true,
+    "additional_transmission": 0,
+    "rows": [
+      {
+        "case": "webvid_005_ba30bf76/snr_6",
+        "frames": 294,
+        "keys": 6,
+        "windows": 10,
+        "outside_support_exact": 209,
+        "changed_frames": 76
+      },
+      {
+        "case": "webvid_005_ba30bf76/snr_8",
+        "frames": 294,
+        "keys": 6,
+        "windows": 10,
+        "outside_support_exact": 209,
+        "changed_frames": 76
+      },
+      {
+        "case": "webvid_005_ba30bf76/snr_10",
+        "frames": 294,
+        "keys": 6,
+        "windows": 10,
+        "outside_support_exact": 209,
+        "changed_frames": 76
+      },
+      {
+        "case": "webvid_006_567064bb/snr_6",
+        "frames": 204,
+        "keys": 3,
+        "windows": 4,
+        "outside_support_exact": 169,
+        "changed_frames": 31
+      },
+      {
+        "case": "webvid_006_567064bb/snr_8",
+        "frames": 204,
+        "keys": 3,
+        "windows": 4,
+        "outside_support_exact": 169,
+        "changed_frames": 31
+      },
+      {
+        "case": "webvid_006_567064bb/snr_10",
+        "frames": 204,
+        "keys": 3,
+        "windows": 4,
+        "outside_support_exact": 169,
+        "changed_frames": 31
+      },
+      {
+        "case": "webvid_007_48259b0b/snr_6",
+        "frames": 420,
+        "keys": 17,
+        "windows": 32,
+        "outside_support_exact": 213,
+        "changed_frames": 182
+      },
+      {
+        "case": "webvid_007_48259b0b/snr_8",
+        "frames": 420,
+        "keys": 17,
+        "windows": 32,
+        "outside_support_exact": 214,
+        "changed_frames": 181
+      },
+      {
+        "case": "webvid_007_48259b0b/snr_10",
+        "frames": 420,
+        "keys": 17,
+        "windows": 32,
+        "outside_support_exact": 205,
+        "changed_frames": 190
+      },
+      {
+        "case": "webvid_008_852d56f2/snr_6",
+        "frames": 150,
+        "keys": 2,
+        "windows": 2,
+        "outside_support_exact": 132,
+        "changed_frames": 16
+      },
+      {
+        "case": "webvid_008_852d56f2/snr_8",
+        "frames": 150,
+        "keys": 2,
+        "windows": 2,
+        "outside_support_exact": 132,
+        "changed_frames": 16
+      },
+      {
+        "case": "webvid_008_852d56f2/snr_10",
+        "frames": 150,
+        "keys": 2,
+        "windows": 2,
+        "outside_support_exact": 132,
+        "changed_frames": 16
+      },
+      {
+        "case": "webvid_009_96620087/snr_6",
+        "frames": 326,
+        "keys": 26,
+        "windows": 50,
+        "outside_support_exact": 16,
+        "changed_frames": 282
+      },
+      {
+        "case": "webvid_009_96620087/snr_8",
+        "frames": 326,
+        "keys": 26,
+        "windows": 50,
+        "outside_support_exact": 25,
+        "changed_frames": 272
+      },
+      {
+        "case": "webvid_009_96620087/snr_10",
+        "frames": 326,
+        "keys": 26,
+        "windows": 50,
+        "outside_support_exact": 16,
+        "changed_frames": 282
+      },
+      {
+        "case": "webvid_010_98ae3279/snr_6",
+        "frames": 487,
+        "keys": 2,
+        "windows": 2,
+        "outside_support_exact": 469,
+        "changed_frames": 16
+      },
+      {
+        "case": "webvid_010_98ae3279/snr_8",
+        "frames": 487,
+        "keys": 2,
+        "windows": 2,
+        "outside_support_exact": 469,
+        "changed_frames": 16
+      },
+      {
+        "case": "webvid_010_98ae3279/snr_10",
+        "frames": 487,
+        "keys": 2,
+        "windows": 2,
+        "outside_support_exact": 469,
+        "changed_frames": 16
+      },
+      {
+        "case": "webvid_011_65f0e6cf/snr_6",
+        "frames": 180,
+        "keys": 3,
+        "windows": 4,
+        "outside_support_exact": 145,
+        "changed_frames": 31
+      },
+      {
+        "case": "webvid_011_65f0e6cf/snr_8",
+        "frames": 180,
+        "keys": 3,
+        "windows": 4,
+        "outside_support_exact": 145,
+        "changed_frames": 31
+      },
+      {
+        "case": "webvid_011_65f0e6cf/snr_10",
+        "frames": 180,
+        "keys": 3,
+        "windows": 4,
+        "outside_support_exact": 145,
+        "changed_frames": 31
+      },
+      {
+        "case": "webvid_012_9bdbf20f/snr_6",
+        "frames": 315,
+        "keys": 2,
+        "windows": 2,
+        "outside_support_exact": 297,
+        "changed_frames": 16
+      },
+      {
+        "case": "webvid_012_9bdbf20f/snr_8",
+        "frames": 315,
+        "keys": 2,
+        "windows": 2,
+        "outside_support_exact": 297,
+        "changed_frames": 16
+      },
+      {
+        "case": "webvid_012_9bdbf20f/snr_10",
+        "frames": 315,
+        "keys": 2,
+        "windows": 2,
+        "outside_support_exact": 297,
+        "changed_frames": 16
+      },
+      {
+        "case": "webvid_013_79401da3/snr_6",
+        "frames": 1003,
+        "keys": 38,
+        "windows": 74,
+        "outside_support_exact": 513,
+        "changed_frames": 433
+      },
+      {
+        "case": "webvid_013_79401da3/snr_8",
+        "frames": 1003,
+        "keys": 38,
+        "windows": 74,
+        "outside_support_exact": 525,
+        "changed_frames": 421
+      },
+      {
+        "case": "webvid_013_79401da3/snr_10",
+        "frames": 1003,
+        "keys": 38,
+        "windows": 74,
+        "outside_support_exact": 510,
+        "changed_frames": 436
+      },
+      {
+        "case": "webvid_014_11e49905/snr_6",
+        "frames": 715,
+        "keys": 13,
+        "windows": 24,
+        "outside_support_exact": 514,
+        "changed_frames": 179
+      },
+      {
+        "case": "webvid_014_11e49905/snr_8",
+        "frames": 715,
+        "keys": 13,
+        "windows": 24,
+        "outside_support_exact": 516,
+        "changed_frames": 177
+      },
+      {
+        "case": "webvid_014_11e49905/snr_10",
+        "frames": 715,
+        "keys": 13,
+        "windows": 24,
+        "outside_support_exact": 514,
+        "changed_frames": 179
+      },
+      {
+        "case": "webvid_015_833efbb9/snr_6",
+        "frames": 240,
+        "keys": 4,
+        "windows": 6,
+        "outside_support_exact": 188,
+        "changed_frames": 46
+      },
+      {
+        "case": "webvid_015_833efbb9/snr_8",
+        "frames": 240,
+        "keys": 4,
+        "windows": 6,
+        "outside_support_exact": 188,
+        "changed_frames": 46
+      },
+      {
+        "case": "webvid_015_833efbb9/snr_10",
+        "frames": 240,
+        "keys": 4,
+        "windows": 6,
+        "outside_support_exact": 188,
+        "changed_frames": 46
+      },
+      {
+        "case": "webvid_016_9cda7e71/snr_6",
+        "frames": 360,
+        "keys": 4,
+        "windows": 6,
+        "outside_support_exact": 308,
+        "changed_frames": 46
+      },
+      {
+        "case": "webvid_016_9cda7e71/snr_8",
+        "frames": 360,
+        "keys": 4,
+        "windows": 6,
+        "outside_support_exact": 308,
+        "changed_frames": 46
+      }
+    ]
+  },
+  "resume": {
+    "status": "PASSED",
+    "exit_code": 0,
+    "elapsed_seconds": 12.131960423997953,
+    "completed_artifacts": 14177,
+    "all_mtimes_and_sizes_unchanged": true,
+    "offline": true
+  },
+  "imported_metric_verification": {
+    "status": "PASSED",
+    "samples": 70,
+    "selection": "fixed midpoint of every case and boundary",
+    "tolerance": {
+      "psnr_db": 1e-08,
+      "ssim": 1e-09,
+      "lpips_vgg": 0.0001,
+      "clip": 0.001,
+      "dists": 0.0001
+    },
+    "max_absolute_error": {
+      "psnr_db": 0.0,
+      "ssim": 0.0,
+      "lpips_vgg": 0.0,
+      "clip": 0.0,
+      "dists": 1.1920928955078125e-07
+    },
+    "rows": [
+      {
+        "case": "webvid_005_ba30bf76/snr_6",
+        "boundary": "lossless_frames",
+        "frame": 147,
+        "recomputed": {
+          "frame": 0,
+          "psnr_db": 15.55925125158036,
+          "ssim": -0.03134447485246346,
+          "lpips_vgg": 0.4857461452484131,
+          "clip": 0.8330078125,
+          "dists": 0.3118738532066345
+        },
+        "imported": {
+          "frame": 147,
+          "psnr_db": 15.55925125158036,
+          "ssim": -0.03134447485246346,
+          "lpips_vgg": 0.4857461452484131,
+          "clip": 0.8330078125,
+          "dists": 0.3118738532066345
+        }
+      },
+      {
+        "case": "webvid_005_ba30bf76/snr_6",
+        "boundary": "delivered_mp4",
+        "frame": 147,
+        "recomputed": {
+          "frame": 1,
+          "psnr_db": 15.54908919964873,
+          "ssim": -0.03252236859186143,
+          "lpips_vgg": 0.48976200819015503,
+          "clip": 0.832275390625,
+          "dists": 0.31684035062789917
+        },
+        "imported": {
+          "frame": 147,
+          "psnr_db": 15.54908919964873,
+          "ssim": -0.03252236859186143,
+          "lpips_vgg": 0.48976200819015503,
+          "clip": 0.832275390625,
+          "dists": 0.31684035062789917
+        }
+      },
+      {
+        "case": "webvid_005_ba30bf76/snr_8",
+        "boundary": "lossless_frames",
+        "frame": 147,
+        "recomputed": {
+          "frame": 2,
+          "psnr_db": 15.436110194871475,
+          "ssim": -0.05273870370860941,
+          "lpips_vgg": 0.47489896416664124,
+          "clip": 0.853271484375,
+          "dists": 0.32270973920822144
+        },
+        "imported": {
+          "frame": 147,
+          "psnr_db": 15.436110194871475,
+          "ssim": -0.05273870370860941,
+          "lpips_vgg": 0.47489896416664124,
+          "clip": 0.853271484375,
+          "dists": 0.32270973920822144
+        }
+      },
+      {
+        "case": "webvid_005_ba30bf76/snr_8",
+        "boundary": "delivered_mp4",
+        "frame": 147,
+        "recomputed": {
+          "frame": 3,
+          "psnr_db": 15.399930828859784,
+          "ssim": -0.052946551126254085,
+          "lpips_vgg": 0.47582581639289856,
+          "clip": 0.86962890625,
+          "dists": 0.31631410121917725
+        },
+        "imported": {
+          "frame": 147,
+          "psnr_db": 15.399930828859784,
+          "ssim": -0.052946551126254085,
+          "lpips_vgg": 0.47582581639289856,
+          "clip": 0.86962890625,
+          "dists": 0.31631410121917725
+        }
+      },
+      {
+        "case": "webvid_005_ba30bf76/snr_10",
+        "boundary": "lossless_frames",
+        "frame": 147,
+        "recomputed": {
+          "frame": 4,
+          "psnr_db": 15.475838958979297,
+          "ssim": -0.03383580813857977,
+          "lpips_vgg": 0.4687874913215637,
+          "clip": 0.8720703125,
+          "dists": 0.3025813102722168
+        },
+        "imported": {
+          "frame": 147,
+          "psnr_db": 15.475838958979297,
+          "ssim": -0.03383580813857977,
+          "lpips_vgg": 0.4687874913215637,
+          "clip": 0.8720703125,
+          "dists": 0.3025813102722168
+        }
+      },
+      {
+        "case": "webvid_005_ba30bf76/snr_10",
+        "boundary": "delivered_mp4",
+        "frame": 147,
+        "recomputed": {
+          "frame": 5,
+          "psnr_db": 15.480792903290325,
+          "ssim": -0.03416678790779665,
+          "lpips_vgg": 0.47510582208633423,
+          "clip": 0.865234375,
+          "dists": 0.30769145488739014
+        },
+        "imported": {
+          "frame": 147,
+          "psnr_db": 15.480792903290325,
+          "ssim": -0.03416678790779665,
+          "lpips_vgg": 0.47510582208633423,
+          "clip": 0.865234375,
+          "dists": 0.30769145488739014
+        }
+      },
+      {
+        "case": "webvid_006_567064bb/snr_6",
+        "boundary": "lossless_frames",
+        "frame": 102,
+        "recomputed": {
+          "frame": 6,
+          "psnr_db": 22.182295848769037,
+          "ssim": 0.571921394538281,
+          "lpips_vgg": 0.31764909625053406,
+          "clip": 0.957275390625,
+          "dists": 0.1915658712387085
+        },
+        "imported": {
+          "frame": 102,
+          "psnr_db": 22.182295848769037,
+          "ssim": 0.571921394538281,
+          "lpips_vgg": 0.31764909625053406,
+          "clip": 0.957275390625,
+          "dists": 0.1915658712387085
+        }
+      },
+      {
+        "case": "webvid_006_567064bb/snr_6",
+        "boundary": "delivered_mp4",
+        "frame": 102,
+        "recomputed": {
+          "frame": 7,
+          "psnr_db": 22.118143384880923,
+          "ssim": 0.5714128283648983,
+          "lpips_vgg": 0.3460421562194824,
+          "clip": 0.9482421875,
+          "dists": 0.19399839639663696
+        },
+        "imported": {
+          "frame": 102,
+          "psnr_db": 22.118143384880923,
+          "ssim": 0.5714128283648983,
+          "lpips_vgg": 0.3460421562194824,
+          "clip": 0.9482421875,
+          "dists": 0.19399839639663696
+        }
+      },
+      {
+        "case": "webvid_006_567064bb/snr_8",
+        "boundary": "lossless_frames",
+        "frame": 102,
+        "recomputed": {
+          "frame": 8,
+          "psnr_db": 21.694572932702698,
+          "ssim": 0.563317795121428,
+          "lpips_vgg": 0.32341325283050537,
+          "clip": 0.96533203125,
+          "dists": 0.18404239416122437
+        },
+        "imported": {
+          "frame": 102,
+          "psnr_db": 21.694572932702698,
+          "ssim": 0.563317795121428,
+          "lpips_vgg": 0.32341325283050537,
+          "clip": 0.96533203125,
+          "dists": 0.18404239416122437
+        }
+      },
+      {
+        "case": "webvid_006_567064bb/snr_8",
+        "boundary": "delivered_mp4",
+        "frame": 102,
+        "recomputed": {
+          "frame": 9,
+          "psnr_db": 21.63921016282179,
+          "ssim": 0.5619939209193975,
+          "lpips_vgg": 0.3539046049118042,
+          "clip": 0.95751953125,
+          "dists": 0.1903308629989624
+        },
+        "imported": {
+          "frame": 102,
+          "psnr_db": 21.63921016282179,
+          "ssim": 0.5619939209193975,
+          "lpips_vgg": 0.3539046049118042,
+          "clip": 0.95751953125,
+          "dists": 0.1903308629989624
+        }
+      },
+      {
+        "case": "webvid_006_567064bb/snr_10",
+        "boundary": "lossless_frames",
+        "frame": 102,
+        "recomputed": {
+          "frame": 10,
+          "psnr_db": 21.833150440975807,
+          "ssim": 0.5670450154714458,
+          "lpips_vgg": 0.3192064166069031,
+          "clip": 0.946044921875,
+          "dists": 0.19852298498153687
+        },
+        "imported": {
+          "frame": 102,
+          "psnr_db": 21.833150440975807,
+          "ssim": 0.5670450154714458,
+          "lpips_vgg": 0.3192064166069031,
+          "clip": 0.946044921875,
+          "dists": 0.19852298498153687
+        }
+      },
+      {
+        "case": "webvid_006_567064bb/snr_10",
+        "boundary": "delivered_mp4",
+        "frame": 102,
+        "recomputed": {
+          "frame": 11,
+          "psnr_db": 21.76575273131892,
+          "ssim": 0.5663340076444463,
+          "lpips_vgg": 0.3374384045600891,
+          "clip": 0.9443359375,
+          "dists": 0.2005615234375
+        },
+        "imported": {
+          "frame": 102,
+          "psnr_db": 21.76575273131892,
+          "ssim": 0.5663340076444463,
+          "lpips_vgg": 0.3374384045600891,
+          "clip": 0.9443359375,
+          "dists": 0.2005615234375
+        }
+      },
+      {
+        "case": "webvid_007_48259b0b/snr_6",
+        "boundary": "lossless_frames",
+        "frame": 210,
+        "recomputed": {
+          "frame": 12,
+          "psnr_db": 10.861481074053852,
+          "ssim": 0.4425849991036116,
+          "lpips_vgg": 0.4744935929775238,
+          "clip": 0.876708984375,
+          "dists": 0.16465359926223755
+        },
+        "imported": {
+          "frame": 210,
+          "psnr_db": 10.861481074053852,
+          "ssim": 0.4425849991036116,
+          "lpips_vgg": 0.4744935929775238,
+          "clip": 0.876708984375,
+          "dists": 0.16465359926223755
+        }
+      },
+      {
+        "case": "webvid_007_48259b0b/snr_6",
+        "boundary": "delivered_mp4",
+        "frame": 210,
+        "recomputed": {
+          "frame": 13,
+          "psnr_db": 10.801911997841987,
+          "ssim": 0.4363031233034286,
+          "lpips_vgg": 0.47449588775634766,
+          "clip": 0.8798828125,
+          "dists": 0.1580197811126709
+        },
+        "imported": {
+          "frame": 210,
+          "psnr_db": 10.801911997841987,
+          "ssim": 0.4363031233034286,
+          "lpips_vgg": 0.47449588775634766,
+          "clip": 0.8798828125,
+          "dists": 0.1580197811126709
+        }
+      },
+      {
+        "case": "webvid_007_48259b0b/snr_8",
+        "boundary": "lossless_frames",
+        "frame": 210,
+        "recomputed": {
+          "frame": 14,
+          "psnr_db": 10.785048000354458,
+          "ssim": 0.4115473298694178,
+          "lpips_vgg": 0.4872833788394928,
+          "clip": 0.874755859375,
+          "dists": 0.1625293493270874
+        },
+        "imported": {
+          "frame": 210,
+          "psnr_db": 10.785048000354458,
+          "ssim": 0.4115473298694178,
+          "lpips_vgg": 0.4872833788394928,
+          "clip": 0.874755859375,
+          "dists": 0.1625293493270874
+        }
+      },
+      {
+        "case": "webvid_007_48259b0b/snr_8",
+        "boundary": "delivered_mp4",
+        "frame": 210,
+        "recomputed": {
+          "frame": 15,
+          "psnr_db": 10.72798508209804,
+          "ssim": 0.40696193912909606,
+          "lpips_vgg": 0.4901076853275299,
+          "clip": 0.876708984375,
+          "dists": 0.1559535264968872
+        },
+        "imported": {
+          "frame": 210,
+          "psnr_db": 10.72798508209804,
+          "ssim": 0.40696193912909606,
+          "lpips_vgg": 0.4901076853275299,
+          "clip": 0.876708984375,
+          "dists": 0.1559535264968872
+        }
+      },
+      {
+        "case": "webvid_007_48259b0b/snr_10",
+        "boundary": "lossless_frames",
+        "frame": 210,
+        "recomputed": {
+          "frame": 16,
+          "psnr_db": 10.980177269461613,
+          "ssim": 0.4552919169362673,
+          "lpips_vgg": 0.4684678316116333,
+          "clip": 0.876220703125,
+          "dists": 0.16500771045684814
+        },
+        "imported": {
+          "frame": 210,
+          "psnr_db": 10.980177269461613,
+          "ssim": 0.4552919169362673,
+          "lpips_vgg": 0.4684678316116333,
+          "clip": 0.876220703125,
+          "dists": 0.16500771045684814
+        }
+      },
+      {
+        "case": "webvid_007_48259b0b/snr_10",
+        "boundary": "delivered_mp4",
+        "frame": 210,
+        "recomputed": {
+          "frame": 17,
+          "psnr_db": 10.924348963377142,
+          "ssim": 0.45106525139964543,
+          "lpips_vgg": 0.47047483921051025,
+          "clip": 0.870849609375,
+          "dists": 0.16113388538360596
+        },
+        "imported": {
+          "frame": 210,
+          "psnr_db": 10.924348963377142,
+          "ssim": 0.45106525139964543,
+          "lpips_vgg": 0.47047483921051025,
+          "clip": 0.870849609375,
+          "dists": 0.16113388538360596
+        }
+      },
+      {
+        "case": "webvid_008_852d56f2/snr_6",
+        "boundary": "lossless_frames",
+        "frame": 75,
+        "recomputed": {
+          "frame": 18,
+          "psnr_db": 23.866188207822894,
+          "ssim": 0.7119708105439019,
+          "lpips_vgg": 0.29861950874328613,
+          "clip": 0.982666015625,
+          "dists": 0.10141873359680176
+        },
+        "imported": {
+          "frame": 75,
+          "psnr_db": 23.866188207822894,
+          "ssim": 0.7119708105439019,
+          "lpips_vgg": 0.29861950874328613,
+          "clip": 0.982666015625,
+          "dists": 0.10141873359680176
+        }
+      },
+      {
+        "case": "webvid_008_852d56f2/snr_6",
+        "boundary": "delivered_mp4",
+        "frame": 75,
+        "recomputed": {
+          "frame": 19,
+          "psnr_db": 23.87711615813682,
+          "ssim": 0.7088906695790373,
+          "lpips_vgg": 0.302720308303833,
+          "clip": 0.984619140625,
+          "dists": 0.10201352834701538
+        },
+        "imported": {
+          "frame": 75,
+          "psnr_db": 23.87711615813682,
+          "ssim": 0.7088906695790373,
+          "lpips_vgg": 0.302720308303833,
+          "clip": 0.984619140625,
+          "dists": 0.10201352834701538
+        }
+      },
+      {
+        "case": "webvid_008_852d56f2/snr_8",
+        "boundary": "lossless_frames",
+        "frame": 75,
+        "recomputed": {
+          "frame": 20,
+          "psnr_db": 23.640745548843533,
+          "ssim": 0.7090429486324008,
+          "lpips_vgg": 0.2987052798271179,
+          "clip": 0.98193359375,
+          "dists": 0.09831660985946655
+        },
+        "imported": {
+          "frame": 75,
+          "psnr_db": 23.640745548843533,
+          "ssim": 0.7090429486324008,
+          "lpips_vgg": 0.2987052798271179,
+          "clip": 0.98193359375,
+          "dists": 0.09831660985946655
+        }
+      },
+      {
+        "case": "webvid_008_852d56f2/snr_8",
+        "boundary": "delivered_mp4",
+        "frame": 75,
+        "recomputed": {
+          "frame": 21,
+          "psnr_db": 23.66220942860189,
+          "ssim": 0.7063501821865816,
+          "lpips_vgg": 0.3032020926475525,
+          "clip": 0.9853515625,
+          "dists": 0.09774899482727051
+        },
+        "imported": {
+          "frame": 75,
+          "psnr_db": 23.66220942860189,
+          "ssim": 0.7063501821865816,
+          "lpips_vgg": 0.3032020926475525,
+          "clip": 0.9853515625,
+          "dists": 0.09774899482727051
+        }
+      },
+      {
+        "case": "webvid_008_852d56f2/snr_10",
+        "boundary": "lossless_frames",
+        "frame": 75,
+        "recomputed": {
+          "frame": 22,
+          "psnr_db": 24.22682364783757,
+          "ssim": 0.7135849218303473,
+          "lpips_vgg": 0.3014618456363678,
+          "clip": 0.98486328125,
+          "dists": 0.11079609394073486
+        },
+        "imported": {
+          "frame": 75,
+          "psnr_db": 24.22682364783757,
+          "ssim": 0.7135849218303473,
+          "lpips_vgg": 0.3014618456363678,
+          "clip": 0.98486328125,
+          "dists": 0.11079609394073486
+        }
+      },
+      {
+        "case": "webvid_008_852d56f2/snr_10",
+        "boundary": "delivered_mp4",
+        "frame": 75,
+        "recomputed": {
+          "frame": 23,
+          "psnr_db": 24.234239640353938,
+          "ssim": 0.7124121511503831,
+          "lpips_vgg": 0.3070172667503357,
+          "clip": 0.9873046875,
+          "dists": 0.10857534408569336
+        },
+        "imported": {
+          "frame": 75,
+          "psnr_db": 24.234239640353938,
+          "ssim": 0.7124121511503831,
+          "lpips_vgg": 0.3070172667503357,
+          "clip": 0.9873046875,
+          "dists": 0.10857534408569336
+        }
+      },
+      {
+        "case": "webvid_009_96620087/snr_6",
+        "boundary": "lossless_frames",
+        "frame": 163,
+        "recomputed": {
+          "frame": 24,
+          "psnr_db": 23.54776865545114,
+          "ssim": 0.734959579888334,
+          "lpips_vgg": 0.27837875485420227,
+          "clip": 0.933349609375,
+          "dists": 0.17056655883789062
+        },
+        "imported": {
+          "frame": 163,
+          "psnr_db": 23.54776865545114,
+          "ssim": 0.734959579888334,
+          "lpips_vgg": 0.27837875485420227,
+          "clip": 0.933349609375,
+          "dists": 0.17056655883789062
+        }
+      },
+      {
+        "case": "webvid_009_96620087/snr_6",
+        "boundary": "delivered_mp4",
+        "frame": 163,
+        "recomputed": {
+          "frame": 25,
+          "psnr_db": 23.429107464265417,
+          "ssim": 0.7338879902165611,
+          "lpips_vgg": 0.29331034421920776,
+          "clip": 0.948974609375,
+          "dists": 0.1635591983795166
+        },
+        "imported": {
+          "frame": 163,
+          "psnr_db": 23.429107464265417,
+          "ssim": 0.7338879902165611,
+          "lpips_vgg": 0.29331034421920776,
+          "clip": 0.948974609375,
+          "dists": 0.1635591983795166
+        }
+      },
+      {
+        "case": "webvid_009_96620087/snr_8",
+        "boundary": "lossless_frames",
+        "frame": 163,
+        "recomputed": {
+          "frame": 26,
+          "psnr_db": 22.789993515117676,
+          "ssim": 0.7197364748622024,
+          "lpips_vgg": 0.2758494019508362,
+          "clip": 0.951416015625,
+          "dists": 0.16358435153961182
+        },
+        "imported": {
+          "frame": 163,
+          "psnr_db": 22.789993515117676,
+          "ssim": 0.7197364748622024,
+          "lpips_vgg": 0.2758494019508362,
+          "clip": 0.951416015625,
+          "dists": 0.16358435153961182
+        }
+      },
+      {
+        "case": "webvid_009_96620087/snr_8",
+        "boundary": "delivered_mp4",
+        "frame": 163,
+        "recomputed": {
+          "frame": 27,
+          "psnr_db": 22.730450804486054,
+          "ssim": 0.7196214003402904,
+          "lpips_vgg": 0.2852453887462616,
+          "clip": 0.962890625,
+          "dists": 0.15977013111114502
+        },
+        "imported": {
+          "frame": 163,
+          "psnr_db": 22.730450804486054,
+          "ssim": 0.7196214003402904,
+          "lpips_vgg": 0.2852453887462616,
+          "clip": 0.962890625,
+          "dists": 0.15977025032043457
+        }
+      },
+      {
+        "case": "webvid_009_96620087/snr_10",
+        "boundary": "lossless_frames",
+        "frame": 163,
+        "recomputed": {
+          "frame": 28,
+          "psnr_db": 23.438855383345413,
+          "ssim": 0.7419388835124185,
+          "lpips_vgg": 0.27540937066078186,
+          "clip": 0.946533203125,
+          "dists": 0.17398220300674438
+        },
+        "imported": {
+          "frame": 163,
+          "psnr_db": 23.438855383345413,
+          "ssim": 0.7419388835124185,
+          "lpips_vgg": 0.27540937066078186,
+          "clip": 0.946533203125,
+          "dists": 0.17398220300674438
+        }
+      },
+      {
+        "case": "webvid_009_96620087/snr_10",
+        "boundary": "delivered_mp4",
+        "frame": 163,
+        "recomputed": {
+          "frame": 29,
+          "psnr_db": 23.363033574673324,
+          "ssim": 0.7402050529843777,
+          "lpips_vgg": 0.28878456354141235,
+          "clip": 0.962158203125,
+          "dists": 0.16830861568450928
+        },
+        "imported": {
+          "frame": 163,
+          "psnr_db": 23.363033574673324,
+          "ssim": 0.7402050529843777,
+          "lpips_vgg": 0.28878456354141235,
+          "clip": 0.962158203125,
+          "dists": 0.16830861568450928
+        }
+      },
+      {
+        "case": "webvid_010_98ae3279/snr_6",
+        "boundary": "lossless_frames",
+        "frame": 243,
+        "recomputed": {
+          "frame": 30,
+          "psnr_db": 19.307340823772016,
+          "ssim": 0.5896802440003289,
+          "lpips_vgg": 0.34067803621292114,
+          "clip": 0.942626953125,
+          "dists": 0.14241915941238403
+        },
+        "imported": {
+          "frame": 243,
+          "psnr_db": 19.307340823772016,
+          "ssim": 0.5896802440003289,
+          "lpips_vgg": 0.34067803621292114,
+          "clip": 0.942626953125,
+          "dists": 0.14241915941238403
+        }
+      },
+      {
+        "case": "webvid_010_98ae3279/snr_6",
+        "boundary": "delivered_mp4",
+        "frame": 243,
+        "recomputed": {
+          "frame": 31,
+          "psnr_db": 19.272551931166394,
+          "ssim": 0.5853255758934477,
+          "lpips_vgg": 0.3546643853187561,
+          "clip": 0.950927734375,
+          "dists": 0.1463143229484558
+        },
+        "imported": {
+          "frame": 243,
+          "psnr_db": 19.272551931166394,
+          "ssim": 0.5853255758934477,
+          "lpips_vgg": 0.3546643853187561,
+          "clip": 0.950927734375,
+          "dists": 0.1463143229484558
+        }
+      },
+      {
+        "case": "webvid_010_98ae3279/snr_8",
+        "boundary": "lossless_frames",
+        "frame": 243,
+        "recomputed": {
+          "frame": 32,
+          "psnr_db": 19.610321323108057,
+          "ssim": 0.6066684803395587,
+          "lpips_vgg": 0.32945290207862854,
+          "clip": 0.9443359375,
+          "dists": 0.14721530675888062
+        },
+        "imported": {
+          "frame": 243,
+          "psnr_db": 19.610321323108057,
+          "ssim": 0.6066684803395587,
+          "lpips_vgg": 0.32945290207862854,
+          "clip": 0.9443359375,
+          "dists": 0.14721530675888062
+        }
+      },
+      {
+        "case": "webvid_010_98ae3279/snr_8",
+        "boundary": "delivered_mp4",
+        "frame": 243,
+        "recomputed": {
+          "frame": 33,
+          "psnr_db": 19.575956031149452,
+          "ssim": 0.602547817343125,
+          "lpips_vgg": 0.3402746319770813,
+          "clip": 0.946533203125,
+          "dists": 0.15074408054351807
+        },
+        "imported": {
+          "frame": 243,
+          "psnr_db": 19.575956031149452,
+          "ssim": 0.602547817343125,
+          "lpips_vgg": 0.3402746319770813,
+          "clip": 0.946533203125,
+          "dists": 0.15074408054351807
+        }
+      },
+      {
+        "case": "webvid_010_98ae3279/snr_10",
+        "boundary": "lossless_frames",
+        "frame": 243,
+        "recomputed": {
+          "frame": 34,
+          "psnr_db": 19.559111731388807,
+          "ssim": 0.6063156346883538,
+          "lpips_vgg": 0.32424747943878174,
+          "clip": 0.95068359375,
+          "dists": 0.14714080095291138
+        },
+        "imported": {
+          "frame": 243,
+          "psnr_db": 19.559111731388807,
+          "ssim": 0.6063156346883538,
+          "lpips_vgg": 0.32424747943878174,
+          "clip": 0.95068359375,
+          "dists": 0.14714080095291138
+        }
+      },
+      {
+        "case": "webvid_010_98ae3279/snr_10",
+        "boundary": "delivered_mp4",
+        "frame": 243,
+        "recomputed": {
+          "frame": 35,
+          "psnr_db": 19.52174447559309,
+          "ssim": 0.6018481763090002,
+          "lpips_vgg": 0.335499107837677,
+          "clip": 0.93212890625,
+          "dists": 0.14978569746017456
+        },
+        "imported": {
+          "frame": 243,
+          "psnr_db": 19.52174447559309,
+          "ssim": 0.6018481763090002,
+          "lpips_vgg": 0.335499107837677,
+          "clip": 0.93212890625,
+          "dists": 0.14978569746017456
+        }
+      },
+      {
+        "case": "webvid_011_65f0e6cf/snr_6",
+        "boundary": "lossless_frames",
+        "frame": 90,
+        "recomputed": {
+          "frame": 36,
+          "psnr_db": 27.64702602302745,
+          "ssim": 0.8622544909402033,
+          "lpips_vgg": 0.3185550570487976,
+          "clip": 0.954833984375,
+          "dists": 0.19560939073562622
+        },
+        "imported": {
+          "frame": 90,
+          "psnr_db": 27.64702602302745,
+          "ssim": 0.8622544909402033,
+          "lpips_vgg": 0.3185550570487976,
+          "clip": 0.954833984375,
+          "dists": 0.19560939073562622
+        }
+      },
+      {
+        "case": "webvid_011_65f0e6cf/snr_6",
+        "boundary": "delivered_mp4",
+        "frame": 90,
+        "recomputed": {
+          "frame": 37,
+          "psnr_db": 27.319525188963993,
+          "ssim": 0.8621662927477839,
+          "lpips_vgg": 0.30899426341056824,
+          "clip": 0.9521484375,
+          "dists": 0.18603217601776123
+        },
+        "imported": {
+          "frame": 90,
+          "psnr_db": 27.319525188963993,
+          "ssim": 0.8621662927477839,
+          "lpips_vgg": 0.30899426341056824,
+          "clip": 0.9521484375,
+          "dists": 0.18603217601776123
+        }
+      },
+      {
+        "case": "webvid_011_65f0e6cf/snr_8",
+        "boundary": "lossless_frames",
+        "frame": 90,
+        "recomputed": {
+          "frame": 38,
+          "psnr_db": 27.528001508180058,
+          "ssim": 0.8589284124063695,
+          "lpips_vgg": 0.31998366117477417,
+          "clip": 0.953369140625,
+          "dists": 0.19829034805297852
+        },
+        "imported": {
+          "frame": 90,
+          "psnr_db": 27.528001508180058,
+          "ssim": 0.8589284124063695,
+          "lpips_vgg": 0.31998366117477417,
+          "clip": 0.953369140625,
+          "dists": 0.19829034805297852
+        }
+      },
+      {
+        "case": "webvid_011_65f0e6cf/snr_8",
+        "boundary": "delivered_mp4",
+        "frame": 90,
+        "recomputed": {
+          "frame": 39,
+          "psnr_db": 27.188650457464895,
+          "ssim": 0.858332238919222,
+          "lpips_vgg": 0.3133074641227722,
+          "clip": 0.95166015625,
+          "dists": 0.1913975477218628
+        },
+        "imported": {
+          "frame": 90,
+          "psnr_db": 27.188650457464895,
+          "ssim": 0.858332238919222,
+          "lpips_vgg": 0.3133074641227722,
+          "clip": 0.95166015625,
+          "dists": 0.1913975477218628
+        }
+      },
+      {
+        "case": "webvid_011_65f0e6cf/snr_10",
+        "boundary": "lossless_frames",
+        "frame": 90,
+        "recomputed": {
+          "frame": 40,
+          "psnr_db": 28.62829712600034,
+          "ssim": 0.8870822647023651,
+          "lpips_vgg": 0.31050238013267517,
+          "clip": 0.955322265625,
+          "dists": 0.1889280080795288
+        },
+        "imported": {
+          "frame": 90,
+          "psnr_db": 28.62829712600034,
+          "ssim": 0.8870822647023651,
+          "lpips_vgg": 0.31050238013267517,
+          "clip": 0.955322265625,
+          "dists": 0.1889280080795288
+        }
+      },
+      {
+        "case": "webvid_011_65f0e6cf/snr_10",
+        "boundary": "delivered_mp4",
+        "frame": 90,
+        "recomputed": {
+          "frame": 41,
+          "psnr_db": 28.291451130792716,
+          "ssim": 0.8872312327402763,
+          "lpips_vgg": 0.301388680934906,
+          "clip": 0.9541015625,
+          "dists": 0.17737126350402832
+        },
+        "imported": {
+          "frame": 90,
+          "psnr_db": 28.291451130792716,
+          "ssim": 0.8872312327402763,
+          "lpips_vgg": 0.301388680934906,
+          "clip": 0.9541015625,
+          "dists": 0.17737126350402832
+        }
+      },
+      {
+        "case": "webvid_012_9bdbf20f/snr_6",
+        "boundary": "lossless_frames",
+        "frame": 157,
+        "recomputed": {
+          "frame": 42,
+          "psnr_db": 20.58807167283009,
+          "ssim": 0.45525791830130563,
+          "lpips_vgg": 0.3529278635978699,
+          "clip": 0.9560546875,
+          "dists": 0.15811729431152344
+        },
+        "imported": {
+          "frame": 157,
+          "psnr_db": 20.58807167283009,
+          "ssim": 0.45525791830130563,
+          "lpips_vgg": 0.3529278635978699,
+          "clip": 0.9560546875,
+          "dists": 0.15811729431152344
+        }
+      },
+      {
+        "case": "webvid_012_9bdbf20f/snr_6",
+        "boundary": "delivered_mp4",
+        "frame": 157,
+        "recomputed": {
+          "frame": 43,
+          "psnr_db": 20.544292021914377,
+          "ssim": 0.45609305974260866,
+          "lpips_vgg": 0.36534222960472107,
+          "clip": 0.950439453125,
+          "dists": 0.16569066047668457
+        },
+        "imported": {
+          "frame": 157,
+          "psnr_db": 20.544292021914377,
+          "ssim": 0.45609305974260866,
+          "lpips_vgg": 0.36534222960472107,
+          "clip": 0.950439453125,
+          "dists": 0.16569066047668457
+        }
+      },
+      {
+        "case": "webvid_012_9bdbf20f/snr_8",
+        "boundary": "lossless_frames",
+        "frame": 157,
+        "recomputed": {
+          "frame": 44,
+          "psnr_db": 20.684422787653737,
+          "ssim": 0.4615117522604679,
+          "lpips_vgg": 0.35647428035736084,
+          "clip": 0.955078125,
+          "dists": 0.15960538387298584
+        },
+        "imported": {
+          "frame": 157,
+          "psnr_db": 20.684422787653737,
+          "ssim": 0.4615117522604679,
+          "lpips_vgg": 0.35647428035736084,
+          "clip": 0.955078125,
+          "dists": 0.15960538387298584
+        }
+      },
+      {
+        "case": "webvid_012_9bdbf20f/snr_8",
+        "boundary": "delivered_mp4",
+        "frame": 157,
+        "recomputed": {
+          "frame": 45,
+          "psnr_db": 20.641384385019457,
+          "ssim": 0.4624829989768872,
+          "lpips_vgg": 0.3678085207939148,
+          "clip": 0.95068359375,
+          "dists": 0.16784816980361938
+        },
+        "imported": {
+          "frame": 157,
+          "psnr_db": 20.641384385019457,
+          "ssim": 0.4624829989768872,
+          "lpips_vgg": 0.3678085207939148,
+          "clip": 0.95068359375,
+          "dists": 0.16784816980361938
+        }
+      },
+      {
+        "case": "webvid_012_9bdbf20f/snr_10",
+        "boundary": "lossless_frames",
+        "frame": 157,
+        "recomputed": {
+          "frame": 46,
+          "psnr_db": 20.54296330891656,
+          "ssim": 0.4613106876371572,
+          "lpips_vgg": 0.35582268238067627,
+          "clip": 0.961181640625,
+          "dists": 0.1599729061126709
+        },
+        "imported": {
+          "frame": 157,
+          "psnr_db": 20.54296330891656,
+          "ssim": 0.4613106876371572,
+          "lpips_vgg": 0.35582268238067627,
+          "clip": 0.961181640625,
+          "dists": 0.1599729061126709
+        }
+      },
+      {
+        "case": "webvid_012_9bdbf20f/snr_10",
+        "boundary": "delivered_mp4",
+        "frame": 157,
+        "recomputed": {
+          "frame": 47,
+          "psnr_db": 20.494764166008743,
+          "ssim": 0.45938522880645066,
+          "lpips_vgg": 0.3667685389518738,
+          "clip": 0.956298828125,
+          "dists": 0.16551291942596436
+        },
+        "imported": {
+          "frame": 157,
+          "psnr_db": 20.494764166008743,
+          "ssim": 0.45938522880645066,
+          "lpips_vgg": 0.3667685389518738,
+          "clip": 0.956298828125,
+          "dists": 0.16551291942596436
+        }
+      },
+      {
+        "case": "webvid_013_79401da3/snr_6",
+        "boundary": "lossless_frames",
+        "frame": 501,
+        "recomputed": {
+          "frame": 48,
+          "psnr_db": 13.38470977559,
+          "ssim": 0.6876324598120701,
+          "lpips_vgg": 0.39554572105407715,
+          "clip": 0.9638671875,
+          "dists": 0.15950298309326172
+        },
+        "imported": {
+          "frame": 501,
+          "psnr_db": 13.38470977559,
+          "ssim": 0.6876324598120701,
+          "lpips_vgg": 0.39554572105407715,
+          "clip": 0.9638671875,
+          "dists": 0.15950298309326172
+        }
+      },
+      {
+        "case": "webvid_013_79401da3/snr_6",
+        "boundary": "delivered_mp4",
+        "frame": 501,
+        "recomputed": {
+          "frame": 49,
+          "psnr_db": 13.390772276885357,
+          "ssim": 0.689112971561335,
+          "lpips_vgg": 0.3967098593711853,
+          "clip": 0.969970703125,
+          "dists": 0.15848135948181152
+        },
+        "imported": {
+          "frame": 501,
+          "psnr_db": 13.390772276885357,
+          "ssim": 0.689112971561335,
+          "lpips_vgg": 0.3967098593711853,
+          "clip": 0.969970703125,
+          "dists": 0.15848135948181152
+        }
+      },
+      {
+        "case": "webvid_013_79401da3/snr_8",
+        "boundary": "lossless_frames",
+        "frame": 501,
+        "recomputed": {
+          "frame": 50,
+          "psnr_db": 13.414216169047709,
+          "ssim": 0.7002779605023444,
+          "lpips_vgg": 0.38114890456199646,
+          "clip": 0.961181640625,
+          "dists": 0.15622514486312866
+        },
+        "imported": {
+          "frame": 501,
+          "psnr_db": 13.414216169047709,
+          "ssim": 0.7002779605023444,
+          "lpips_vgg": 0.38114890456199646,
+          "clip": 0.961181640625,
+          "dists": 0.15622514486312866
+        }
+      },
+      {
+        "case": "webvid_013_79401da3/snr_8",
+        "boundary": "delivered_mp4",
+        "frame": 501,
+        "recomputed": {
+          "frame": 51,
+          "psnr_db": 13.422678304859883,
+          "ssim": 0.6996076546873842,
+          "lpips_vgg": 0.383396714925766,
+          "clip": 0.9677734375,
+          "dists": 0.1528855562210083
+        },
+        "imported": {
+          "frame": 501,
+          "psnr_db": 13.422678304859883,
+          "ssim": 0.6996076546873842,
+          "lpips_vgg": 0.383396714925766,
+          "clip": 0.9677734375,
+          "dists": 0.1528855562210083
+        }
+      },
+      {
+        "case": "webvid_013_79401da3/snr_10",
+        "boundary": "lossless_frames",
+        "frame": 501,
+        "recomputed": {
+          "frame": 52,
+          "psnr_db": 13.415721375831499,
+          "ssim": 0.7027535363935519,
+          "lpips_vgg": 0.3768003582954407,
+          "clip": 0.96044921875,
+          "dists": 0.15726137161254883
+        },
+        "imported": {
+          "frame": 501,
+          "psnr_db": 13.415721375831499,
+          "ssim": 0.7027535363935519,
+          "lpips_vgg": 0.3768003582954407,
+          "clip": 0.96044921875,
+          "dists": 0.15726137161254883
+        }
+      },
+      {
+        "case": "webvid_013_79401da3/snr_10",
+        "boundary": "delivered_mp4",
+        "frame": 501,
+        "recomputed": {
+          "frame": 53,
+          "psnr_db": 13.428877822373497,
+          "ssim": 0.7019376179756427,
+          "lpips_vgg": 0.3767305016517639,
+          "clip": 0.976318359375,
+          "dists": 0.15262281894683838
+        },
+        "imported": {
+          "frame": 501,
+          "psnr_db": 13.428877822373497,
+          "ssim": 0.7019376179756427,
+          "lpips_vgg": 0.3767305016517639,
+          "clip": 0.976318359375,
+          "dists": 0.15262281894683838
+        }
+      },
+      {
+        "case": "webvid_014_11e49905/snr_6",
+        "boundary": "lossless_frames",
+        "frame": 357,
+        "recomputed": {
+          "frame": 54,
+          "psnr_db": 37.25450171613617,
+          "ssim": 0.9765683424107827,
+          "lpips_vgg": 0.17701290547847748,
+          "clip": 0.956298828125,
+          "dists": 0.12946414947509766
+        },
+        "imported": {
+          "frame": 357,
+          "psnr_db": 37.25450171613617,
+          "ssim": 0.9765683424107827,
+          "lpips_vgg": 0.17701290547847748,
+          "clip": 0.956298828125,
+          "dists": 0.12946414947509766
+        }
+      },
+      {
+        "case": "webvid_014_11e49905/snr_6",
+        "boundary": "delivered_mp4",
+        "frame": 357,
+        "recomputed": {
+          "frame": 55,
+          "psnr_db": 36.86942327399305,
+          "ssim": 0.9758998027005079,
+          "lpips_vgg": 0.19783733785152435,
+          "clip": 0.954345703125,
+          "dists": 0.13840508460998535
+        },
+        "imported": {
+          "frame": 357,
+          "psnr_db": 36.86942327399305,
+          "ssim": 0.9758998027005079,
+          "lpips_vgg": 0.19783733785152435,
+          "clip": 0.954345703125,
+          "dists": 0.13840508460998535
+        }
+      },
+      {
+        "case": "webvid_014_11e49905/snr_8",
+        "boundary": "lossless_frames",
+        "frame": 357,
+        "recomputed": {
+          "frame": 56,
+          "psnr_db": 37.60687841429116,
+          "ssim": 0.9775349719209239,
+          "lpips_vgg": 0.1757843941450119,
+          "clip": 0.96533203125,
+          "dists": 0.1186172366142273
+        },
+        "imported": {
+          "frame": 357,
+          "psnr_db": 37.60687841429116,
+          "ssim": 0.9775349719209239,
+          "lpips_vgg": 0.1757843941450119,
+          "clip": 0.96533203125,
+          "dists": 0.1186172366142273
+        }
+      },
+      {
+        "case": "webvid_014_11e49905/snr_8",
+        "boundary": "delivered_mp4",
+        "frame": 357,
+        "recomputed": {
+          "frame": 57,
+          "psnr_db": 36.861178955162835,
+          "ssim": 0.9764375050408471,
+          "lpips_vgg": 0.19337743520736694,
+          "clip": 0.970703125,
+          "dists": 0.11978393793106079
+        },
+        "imported": {
+          "frame": 357,
+          "psnr_db": 36.861178955162835,
+          "ssim": 0.9764375050408471,
+          "lpips_vgg": 0.19337743520736694,
+          "clip": 0.970703125,
+          "dists": 0.11978393793106079
+        }
+      },
+      {
+        "case": "webvid_014_11e49905/snr_10",
+        "boundary": "lossless_frames",
+        "frame": 357,
+        "recomputed": {
+          "frame": 58,
+          "psnr_db": 37.02668162764673,
+          "ssim": 0.9769767063368756,
+          "lpips_vgg": 0.17565757036209106,
+          "clip": 0.9619140625,
+          "dists": 0.11548680067062378
+        },
+        "imported": {
+          "frame": 357,
+          "psnr_db": 37.02668162764673,
+          "ssim": 0.9769767063368756,
+          "lpips_vgg": 0.17565757036209106,
+          "clip": 0.9619140625,
+          "dists": 0.11548680067062378
+        }
+      },
+      {
+        "case": "webvid_014_11e49905/snr_10",
+        "boundary": "delivered_mp4",
+        "frame": 357,
+        "recomputed": {
+          "frame": 59,
+          "psnr_db": 36.36836970406656,
+          "ssim": 0.9759987798459908,
+          "lpips_vgg": 0.18725045025348663,
+          "clip": 0.967529296875,
+          "dists": 0.11444306373596191
+        },
+        "imported": {
+          "frame": 357,
+          "psnr_db": 36.36836970406656,
+          "ssim": 0.9759987798459908,
+          "lpips_vgg": 0.18725045025348663,
+          "clip": 0.967529296875,
+          "dists": 0.11444306373596191
+        }
+      },
+      {
+        "case": "webvid_015_833efbb9/snr_6",
+        "boundary": "lossless_frames",
+        "frame": 120,
+        "recomputed": {
+          "frame": 60,
+          "psnr_db": 20.136644669760937,
+          "ssim": 0.5168809692948716,
+          "lpips_vgg": 0.3424968421459198,
+          "clip": 0.947998046875,
+          "dists": 0.15188145637512207
+        },
+        "imported": {
+          "frame": 120,
+          "psnr_db": 20.136644669760937,
+          "ssim": 0.5168809692948716,
+          "lpips_vgg": 0.3424968421459198,
+          "clip": 0.947998046875,
+          "dists": 0.15188145637512207
+        }
+      },
+      {
+        "case": "webvid_015_833efbb9/snr_6",
+        "boundary": "delivered_mp4",
+        "frame": 120,
+        "recomputed": {
+          "frame": 61,
+          "psnr_db": 20.155379007675034,
+          "ssim": 0.5195240542618725,
+          "lpips_vgg": 0.37370583415031433,
+          "clip": 0.952880859375,
+          "dists": 0.17245960235595703
+        },
+        "imported": {
+          "frame": 120,
+          "psnr_db": 20.155379007675034,
+          "ssim": 0.5195240542618725,
+          "lpips_vgg": 0.37370583415031433,
+          "clip": 0.952880859375,
+          "dists": 0.17245960235595703
+        }
+      },
+      {
+        "case": "webvid_015_833efbb9/snr_8",
+        "boundary": "lossless_frames",
+        "frame": 120,
+        "recomputed": {
+          "frame": 62,
+          "psnr_db": 21.832757951551297,
+          "ssim": 0.5905241453903596,
+          "lpips_vgg": 0.31075042486190796,
+          "clip": 0.96875,
+          "dists": 0.1337653398513794
+        },
+        "imported": {
+          "frame": 120,
+          "psnr_db": 21.832757951551297,
+          "ssim": 0.5905241453903596,
+          "lpips_vgg": 0.31075042486190796,
+          "clip": 0.96875,
+          "dists": 0.1337653398513794
+        }
+      },
+      {
+        "case": "webvid_015_833efbb9/snr_8",
+        "boundary": "delivered_mp4",
+        "frame": 120,
+        "recomputed": {
+          "frame": 63,
+          "psnr_db": 21.9541274958221,
+          "ssim": 0.599043336535921,
+          "lpips_vgg": 0.3452971577644348,
+          "clip": 0.961669921875,
+          "dists": 0.16420668363571167
+        },
+        "imported": {
+          "frame": 120,
+          "psnr_db": 21.9541274958221,
+          "ssim": 0.599043336535921,
+          "lpips_vgg": 0.3452971577644348,
+          "clip": 0.961669921875,
+          "dists": 0.16420668363571167
+        }
+      },
+      {
+        "case": "webvid_015_833efbb9/snr_10",
+        "boundary": "lossless_frames",
+        "frame": 120,
+        "recomputed": {
+          "frame": 64,
+          "psnr_db": 22.010928319333587,
+          "ssim": 0.5953912078082362,
+          "lpips_vgg": 0.31336918473243713,
+          "clip": 0.968505859375,
+          "dists": 0.1400824785232544
+        },
+        "imported": {
+          "frame": 120,
+          "psnr_db": 22.010928319333587,
+          "ssim": 0.5953912078082362,
+          "lpips_vgg": 0.31336918473243713,
+          "clip": 0.968505859375,
+          "dists": 0.1400824785232544
+        }
+      },
+      {
+        "case": "webvid_015_833efbb9/snr_10",
+        "boundary": "delivered_mp4",
+        "frame": 120,
+        "recomputed": {
+          "frame": 65,
+          "psnr_db": 22.023088989932226,
+          "ssim": 0.5989695814960095,
+          "lpips_vgg": 0.338278204202652,
+          "clip": 0.964599609375,
+          "dists": 0.16076266765594482
+        },
+        "imported": {
+          "frame": 120,
+          "psnr_db": 22.023088989932226,
+          "ssim": 0.5989695814960095,
+          "lpips_vgg": 0.338278204202652,
+          "clip": 0.964599609375,
+          "dists": 0.16076266765594482
+        }
+      },
+      {
+        "case": "webvid_016_9cda7e71/snr_6",
+        "boundary": "lossless_frames",
+        "frame": 180,
+        "recomputed": {
+          "frame": 66,
+          "psnr_db": 13.446049741946325,
+          "ssim": 0.428160444224158,
+          "lpips_vgg": 0.47335273027420044,
+          "clip": 0.880126953125,
+          "dists": 0.2753622531890869
+        },
+        "imported": {
+          "frame": 180,
+          "psnr_db": 13.446049741946325,
+          "ssim": 0.428160444224158,
+          "lpips_vgg": 0.47335273027420044,
+          "clip": 0.880126953125,
+          "dists": 0.2753622531890869
+        }
+      },
+      {
+        "case": "webvid_016_9cda7e71/snr_6",
+        "boundary": "delivered_mp4",
+        "frame": 180,
+        "recomputed": {
+          "frame": 67,
+          "psnr_db": 13.42711348089294,
+          "ssim": 0.4312956883342105,
+          "lpips_vgg": 0.4859863817691803,
+          "clip": 0.8916015625,
+          "dists": 0.28325068950653076
+        },
+        "imported": {
+          "frame": 180,
+          "psnr_db": 13.42711348089294,
+          "ssim": 0.4312956883342105,
+          "lpips_vgg": 0.4859863817691803,
+          "clip": 0.8916015625,
+          "dists": 0.28325068950653076
+        }
+      },
+      {
+        "case": "webvid_016_9cda7e71/snr_8",
+        "boundary": "lossless_frames",
+        "frame": 180,
+        "recomputed": {
+          "frame": 68,
+          "psnr_db": 17.275675456493854,
+          "ssim": 0.5013762778057653,
+          "lpips_vgg": 0.3500608801841736,
+          "clip": 0.919189453125,
+          "dists": 0.19909358024597168
+        },
+        "imported": {
+          "frame": 180,
+          "psnr_db": 17.275675456493854,
+          "ssim": 0.5013762778057653,
+          "lpips_vgg": 0.3500608801841736,
+          "clip": 0.919189453125,
+          "dists": 0.19909358024597168
+        }
+      },
+      {
+        "case": "webvid_016_9cda7e71/snr_8",
+        "boundary": "delivered_mp4",
+        "frame": 180,
+        "recomputed": {
+          "frame": 69,
+          "psnr_db": 17.30330480373183,
+          "ssim": 0.504290759254767,
+          "lpips_vgg": 0.3657218813896179,
+          "clip": 0.9140625,
+          "dists": 0.2081788182258606
+        },
+        "imported": {
+          "frame": 180,
+          "psnr_db": 17.30330480373183,
+          "ssim": 0.504290759254767,
+          "lpips_vgg": 0.3657218813896179,
+          "clip": 0.9140625,
+          "dists": 0.2081788182258606
+        }
+      }
+    ],
+    "scope": "Sampled remote/local neural metric parity; source PSNR and exact reused RGB checked on all reused rows in main evaluation"
+  },
+  "ai_sample_review": {
+    "verdict": "추가 12편 모두 화질 개선을 확인했지만 6편의 정지 오판 증가와 1편의 광류 회귀가 남아 있어 움직임 부작용 해결이나 기본 교체를 확정하지 않는다.",
+    "reviewer": "Same implementing AI; nonblind post-hoc thumbnail inspection; no independent semantic labels or full-video human review.",
+    "reviewed_panels": [
+      {
+        "case": "webvid_005_ba30bf76/snr_10",
+        "indices": [
+          0,
+          6,
+          16,
+          147,
+          170,
+          171,
+          172,
+          173,
+          174,
+          293
+        ],
+        "image": "webvid_005_ba30bf76_snr_10.jpg"
+      },
+      {
+        "case": "webvid_009_96620087/snr_10",
+        "indices": [
+          0,
+          5,
+          163,
+          204,
+          250,
+          251,
+          252,
+          253,
+          254,
+          325
+        ],
+        "image": "webvid_009_96620087_snr_10.jpg"
+      },
+      {
+        "case": "webvid_010_98ae3279/snr_10",
+        "indices": [
+          0,
+          237,
+          243,
+          484,
+          485,
+          486
+        ],
+        "image": "webvid_010_98ae3279_snr_10.jpg"
+      },
+      {
+        "case": "webvid_016_9cda7e71/snr_8",
+        "indices": [
+          0,
+          58,
+          59,
+          60,
+          61,
+          62,
+          180,
+          284,
+          359
+        ],
+        "image": "webvid_016_9cda7e71_snr_8.jpg"
+      }
+    ],
+    "reviewed_times": 35,
+    "columns": 3,
+    "observations": [
+      {
+        "id": "webvid_005_ba30bf76",
+        "description": "수신 키 주변 토양 결의 복원이 보이지만 중간 147번의 트랙터 형태와 위치 차이는 남는다. 평균 광류 오차 +7.52%는 별도 정량 결과다."
+      },
+      {
+        "id": "webvid_009_96620087",
+        "description": "204번 키의 천 무늬·형태와 250~254번 주변 인물·천 위치가 원본에 가까워진다. 5번의 하늘 색·잔상 오류는 남는다."
+      },
+      {
+        "id": "webvid_010_98ae3279",
+        "description": "끝 키 근처 나뭇잎·바위 질감은 복원되지만 중간 237~243번 물결·식생 차이가 남는다. 정지 오판 증가는 정적 표본만으로 판정하지 않고 광류 지표로 보고한다."
+      },
+      {
+        "id": "webvid_016_9cda7e71",
+        "description": "58~62번의 체크무늬 옷과 식생이 개선된다. 180번 중간에는 원본에 없는 자막 같은 글자와 인물 잔상이 두 방식 모두 남는다."
+      }
+    ],
+    "independent_semantic_review": "PENDING",
+    "full_video_human_review": false,
+    "automatically_adopted": false
+  },
+  "samples": {
+    "panels": [
+      {
+        "case": "webvid_005_ba30bf76/snr_10",
+        "indices": [
+          0,
+          6,
+          16,
+          147,
+          170,
+          171,
+          172,
+          173,
+          174,
+          293
+        ],
+        "image": "webvid_005_ba30bf76_snr_10.jpg",
+        "preview": "webvid_005_ba30bf76_snr_10.mp4",
+        "preview_range": [
+          148,
+          221
+        ]
+      },
+      {
+        "case": "webvid_006_567064bb/snr_10",
+        "indices": [
+          0,
+          2,
+          102,
+          170,
+          171,
+          172,
+          173,
+          174,
+          203
+        ],
+        "image": "webvid_006_567064bb_snr_10.jpg",
+        "preview": "webvid_006_567064bb_snr_10.mp4",
+        "preview_range": [
+          148,
+          204
+        ]
+      },
+      {
+        "case": "webvid_007_48259b0b/snr_10",
+        "indices": [
+          0,
+          90,
+          146,
+          147,
+          148,
+          149,
+          150,
+          210,
+          419
+        ],
+        "image": "webvid_007_48259b0b_snr_10.jpg",
+        "preview": "webvid_007_48259b0b_snr_10.mp4",
+        "preview_range": [
+          124,
+          197
+        ]
+      },
+      {
+        "case": "webvid_008_852d56f2/snr_10",
+        "indices": [
+          0,
+          70,
+          75,
+          147,
+          148,
+          149
+        ],
+        "image": "webvid_008_852d56f2_snr_10.jpg",
+        "preview": "webvid_008_852d56f2_snr_10.mp4",
+        "preview_range": [
+          125,
+          150
+        ]
+      },
+      {
+        "case": "webvid_009_96620087/snr_10",
+        "indices": [
+          0,
+          5,
+          163,
+          204,
+          250,
+          251,
+          252,
+          253,
+          254,
+          325
+        ],
+        "image": "webvid_009_96620087_snr_10.jpg",
+        "preview": "webvid_009_96620087_snr_10.mp4",
+        "preview_range": [
+          228,
+          301
+        ]
+      },
+      {
+        "case": "webvid_010_98ae3279/snr_10",
+        "indices": [
+          0,
+          237,
+          243,
+          484,
+          485,
+          486
+        ],
+        "image": "webvid_010_98ae3279_snr_10.jpg",
+        "preview": "webvid_010_98ae3279_snr_10.mp4",
+        "preview_range": [
+          462,
+          487
+        ]
+      },
+      {
+        "case": "webvid_011_65f0e6cf/snr_10",
+        "indices": [
+          0,
+          9,
+          90,
+          114,
+          115,
+          116,
+          117,
+          118,
+          179
+        ],
+        "image": "webvid_011_65f0e6cf_snr_10.jpg",
+        "preview": "webvid_011_65f0e6cf_snr_10.mp4",
+        "preview_range": [
+          92,
+          165
+        ]
+      },
+      {
+        "case": "webvid_012_9bdbf20f/snr_10",
+        "indices": [
+          0,
+          1,
+          2,
+          157,
+          310,
+          314
+        ],
+        "image": "webvid_012_9bdbf20f_snr_10.jpg",
+        "preview": "webvid_012_9bdbf20f_snr_10.mp4",
+        "preview_range": [
+          0,
+          49
+        ]
+      },
+      {
+        "case": "webvid_013_79401da3/snr_10",
+        "indices": [
+          0,
+          26,
+          27,
+          28,
+          29,
+          30,
+          501,
+          531,
+          1002
+        ],
+        "image": "webvid_013_79401da3_snr_10.jpg",
+        "preview": "webvid_013_79401da3_snr_10.mp4",
+        "preview_range": [
+          4,
+          77
+        ]
+      },
+      {
+        "case": "webvid_014_11e49905/snr_10",
+        "indices": [
+          0,
+          7,
+          357,
+          458,
+          459,
+          460,
+          461,
+          462,
+          714
+        ],
+        "image": "webvid_014_11e49905_snr_10.jpg",
+        "preview": "webvid_014_11e49905_snr_10.mp4",
+        "preview_range": [
+          436,
+          509
+        ]
+      },
+      {
+        "case": "webvid_015_833efbb9/snr_10",
+        "indices": [
+          0,
+          120,
+          142,
+          143,
+          144,
+          145,
+          146,
+          208,
+          239
+        ],
+        "image": "webvid_015_833efbb9_snr_10.jpg",
+        "preview": "webvid_015_833efbb9_snr_10.mp4",
+        "preview_range": [
+          120,
+          193
+        ]
+      },
+      {
+        "case": "webvid_016_9cda7e71/snr_8",
+        "indices": [
+          0,
+          58,
+          59,
+          60,
+          61,
+          62,
+          180,
+          284,
+          359
+        ],
+        "image": "webvid_016_9cda7e71_snr_8.jpg",
+        "preview": "webvid_016_9cda7e71_snr_8.mp4",
+        "preview_range": [
+          36,
+          109
+        ]
+      }
+    ],
+    "sample_times": 101,
+    "columns": 3,
+    "selection": "post-hoc pixel gain/loss and high-correction key neighborhoods plus fixed midpoint",
+    "independent_review": false,
+    "full_video_human_review": false
+  },
+  "tests": {
+    "passed": 53,
+    "command": "PYTHONPATH=src <lgvsc-python> -m pytest -q tests/test_bsu_context_extension.py tests/test_bsu_key_context_experiment.py tests/test_receiver_key_context.py tests/test_bsu_receiver_compare.py tests/test_terminal_progress.py"
+  },
+  "report_validation": {
+    "local_assets": 28,
+    "all_links_exist": true,
+    "previews_pts_verified": 12,
+    "preview_fps": 24
+  },
+  "independent_semantic_review": "PENDING",
+  "previous_receiver_source_hash_overlap": false,
+  "globally_unseen_sources_proven": false,
+  "continuous_60s_verified": false,
+  "etri_goal_achievement_demonstrated": false,
+  "production_defaults_changed": false,
+  "recommendation": "Quality improvement extends to these 12 additional sources; original motion side effects remain. Retain an experimental receiver option; do not claim ETRI acceptance or universal motion improvement.",
+  "evidence_hashes": {
+    "/home/sangukbae/semantic_transmission/outputs/bsu_context_extension_20261013_v1/RESULT.json": "d75769c59e70c50dd20a66ec539118279cc55386b60e2f8140e6418c3f5aa0bc",
+    "/home/sangukbae/semantic_transmission/outputs/bsu_context_extension_20261013_v1/protocol.json": "b1d14b7e55cf029c6833a0fb0851c512dfa101c7f0740246e8883572d370aed7",
+    "/home/sangukbae/semantic_transmission/outputs/bsu_context_extension_20261013_v1/transfer_manifest.json": "7d6ab128ca531114420bc5b2bfdf077fda0650d71096c1358d4d1d9da2bf7a35",
+    "/home/sangukbae/semantic_transmission/outputs/bsu_context_extension_20261013_v1/cohort.json": "52946c0c11ff80ab0dd57593816569433179a2eeeca9605bb00ea8878dca1f08",
+    "/home/sangukbae/semantic_transmission/outputs/bsu_context_extension_20261013_v1/analysis/analyze.py": "9a08f44f358750d62c6db815e471c24bdb29f227e5c9818bddd74777a262ba4f",
+    "/home/sangukbae/semantic_transmission/outputs/bsu_context_extension_20261013_v1/analysis/index.html": "24c753b3e3fc9d875a143585d73b77a51f565ca5ef18f2cc01984f098138db6e",
+    "/home/sangukbae/semantic_transmission/outputs/bsu_context_extension_20261013_v1/analysis/review.json": "c5e825a8a1502bfc46e42d626a6a0fcfd1c47bdc828e991e8c69f3f777f2fae5",
+    "/home/sangukbae/semantic_transmission/outputs/bsu_context_extension_20261013_v1/analysis/integrity.json": "96662e02602df0b49ad6de54dc7981694665f8b438265442fe05039da15f39f3",
+    "/home/sangukbae/semantic_transmission/outputs/bsu_context_extension_20261013_v1/analysis/resume_verification.json": "34f3b5f6731d0eedfff0155697a58519fff61875664f74e4256f971a4a7ccf8c",
+    "/home/sangukbae/semantic_transmission/outputs/bsu_context_extension_20261013_v1/analysis/imported_metric_verification.json": "6952dfebe56aa115ef3fbf4a8ac6532a150b85bd439222f557882ace946c01f8"
+  }
+}

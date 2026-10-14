@@ -1,0 +1,988 @@
+{
+  "date": "2026-10-13",
+  "status": "COMPLETE_QUANTITATIVE_AND_LIMITED_NONINDEPENDENT_AI_SAMPLE_REVIEW",
+  "root": "outputs/bsu_path_context_20261013_v1",
+  "command": "bash scripts/experiment_bsu_path_context.sh",
+  "signature": "0d7535cbda0be679d816e804b82f2df1415afa9cfdcdf9add8fe6ff2a4c216e1",
+  "completed": 48,
+  "total": 48,
+  "reused_baselines": 32,
+  "new_output_conditions": 16,
+  "source_identities": 8,
+  "elapsed_seconds": 1079,
+  "algorithm": {
+    "policy": "framewise_path_key_context_v1",
+    "parameters": {
+      "tracker": "adjacent_bidirectional_DIS_MEDIUM",
+      "path_correction": "subtract_linear_endpoint_displacement",
+      "path_strength": 1.0,
+      "inverse_iterations": 4
+    },
+    "ablation": "Only endpoint-to-interior motion paths change. Same support radii, endpoint RGB, blend weights, baseline cycle confidence, encoder, metrics. No RGB residual, no region/selection gate.",
+    "code": {
+      "bsu_receiver_compare.py": "c52a58d0d44a312e2276be83d42a25535cd0613ba5ee43520a741a8455a9f252",
+      "bsu_compare_transfer.py": "3eed3efdc36f34f95d99982d87e14b7af6ee860cb47dd04717e36a213e39dcd0",
+      "receiver_key_guard.py": "f194fbe7594aec624248bdc8c2206beaae5017e08e22edc7928ff5223b3ea3d5",
+      "guarded_trajectory_receiver.py": "3643fe4618ac919a562b5ff37e67e69a4382e4c074f9c5a9e987fc3205012184",
+      "trajectory_receiver.py": "98a5b5abf1ecd551ad054a11813f96ec0a44d821f0cc9fe2a977ff38bd5d15a9",
+      "sparse_trajectory.py": "a455ac030cb8f48c3dd8d616efae192a7d91472920e065647caf58db469ad582",
+      "bsu_sequence_refinement.py": "e7077447c67c43fc7489938f0f761e0c811aaf97511ad8bc34480824a41aa455",
+      "official_quality.py": "e4b52561f7bf7f852f2e38de7dfad4e0d36ae3f67548059b32062487eda14e11",
+      "stutter_metrics.py": "7dd30a23e8d171736727626a609ca58f89978d512e0ff9a33e71d6371f98fada",
+      "research_quality.py": "3a509179ff0f83fe33a793e71a21167e2444b84c164b3272f85094a8a15a1c6e",
+      "wire.py": "6066ec2706cc253be561ee71e147da6f9a52fedb95c633c40cfd94a5920e0259",
+      "artifacts.py": "14d38ae089cd9551a28eb68f1efa6d0bca48a5b2236f0a1a044632920a13bca7",
+      "etri_60s_check.py": "711415b8ee0d44203a00ecbed42c58b5fdc549ed18c745d1ee4bb5fef8d51bf9",
+      "receiver_key_context.py": "eaa3adfad606207df6f788a023691aad18fcf11c8327b4843e0f3d860eabdbdd",
+      "bsu_key_context_experiment.py": "6b9301d57f54f960f2203e1ce716919b114ab21acc3dc59205ad164e272dcb1b",
+      "receiver_path_context.py": "97fee419d3d9343c0a6da5897c29f629e91fbf07930b54a1721c7398a1fb6291",
+      "bsu_path_context_experiment.py": "b8ab3fc21aaa8461e654688ca6b59eab72bd651150a570696cd0cb0771e223e2"
+    },
+    "synthetic_checks": [
+      "real DIS tracking recovers an excursion absent from endpoints",
+      "known nonlinear translation with a mismatched received key retains acceleration",
+      "linear paths reduce to prior interpolation",
+      "exact keys, bounded support, unchanged cuts, no input mutation"
+    ]
+  },
+  "development_scope": "All eight sources previously inspected; fixed policy before this full run, no per-video tuning. This is a development ablation, not unseen evaluation.",
+  "receiver_reads_source": false,
+  "source_used_for_evaluation": true,
+  "additional_transmission": 0,
+  "new_training": false,
+  "generator_reused": true,
+  "delivered_groups": [
+    {
+      "group": "webvid_development",
+      "boundary": "delivered_mp4",
+      "cases": [
+        "webvid_001_2255949c/snr_6",
+        "webvid_001_2255949c/snr_8",
+        "webvid_001_2255949c/snr_10",
+        "webvid_002_1669a7b1/snr_6",
+        "webvid_002_1669a7b1/snr_8",
+        "webvid_002_1669a7b1/snr_10",
+        "webvid_003_1ca01463/snr_6",
+        "webvid_003_1ca01463/snr_8",
+        "webvid_003_1ca01463/snr_10",
+        "webvid_004_10d5cd04/snr_6",
+        "webvid_004_10d5cd04/snr_8",
+        "webvid_004_10d5cd04/snr_10"
+      ],
+      "means": {
+        "current": {
+          "psnr_db": 20.01073808617767,
+          "ssim": 0.640746938265702,
+          "lpips_vgg": 0.3472953819622131,
+          "clip": 0.9377251469369888,
+          "dists": 0.16949497574122957,
+          "flow_error_mean": 0.15534035569695537,
+          "cadence_error_mean": 0.08628143237459635,
+          "false_freeze_rate": 0.2910092044226119,
+          "nonkey_psnr": 19.963314652274498,
+          "boundary_error": 3.4543967507102273
+        },
+        "context_only": {
+          "psnr_db": 20.261844000380613,
+          "ssim": 0.6486222050519082,
+          "lpips_vgg": 0.3413264003409261,
+          "clip": 0.9397915436094006,
+          "dists": 0.1669034352619108,
+          "flow_error_mean": 0.1517457486341711,
+          "cadence_error_mean": 0.07851608482418702,
+          "false_freeze_rate": 0.3046383758907478,
+          "nonkey_psnr": 20.15579056018404,
+          "boundary_error": 2.1893141621291035
+        },
+        "path_context": {
+          "psnr_db": 20.247735538970026,
+          "ssim": 0.6481605090084129,
+          "lpips_vgg": 0.341611834742047,
+          "clip": 0.9396079290069587,
+          "dists": 0.16706842413709821,
+          "flow_error_mean": 0.1552209133719739,
+          "cadence_error_mean": 0.08302999162744688,
+          "false_freeze_rate": 0.2934912506318174,
+          "nonkey_psnr": 20.141390131490326,
+          "boundary_error": 2.481615101207386
+        }
+      }
+    },
+    {
+      "group": "davis_transfer",
+      "boundary": "delivered_mp4",
+      "cases": [
+        "transfer_bus/snr_10",
+        "transfer_lady-running/snr_10",
+        "transfer_longboard/snr_10",
+        "transfer_skate-park/snr_10"
+      ],
+      "means": {
+        "current": {
+          "psnr_db": 14.957536033599242,
+          "ssim": 0.44398654802347537,
+          "lpips_vgg": 0.5019285288872197,
+          "clip": 0.9434197743733723,
+          "dists": 0.17856687183181444,
+          "flow_error_mean": 1.441717720472891,
+          "cadence_error_mean": 2.208400648652001,
+          "false_freeze_rate": 0.5780378370060688,
+          "nonkey_psnr": 14.753768669650697,
+          "boundary_error": 14.740280490451388
+        },
+        "context_only": {
+          "psnr_db": 15.470570324039675,
+          "ssim": 0.45724560953827514,
+          "lpips_vgg": 0.49326207814738154,
+          "clip": 0.9443804423014323,
+          "dists": 0.17463430979599556,
+          "flow_error_mean": 1.4199222272458045,
+          "cadence_error_mean": 2.1864220308130013,
+          "false_freeze_rate": 0.5811473432529376,
+          "nonkey_psnr": 15.072632958623654,
+          "boundary_error": 14.145328776041666
+        },
+        "path_context": {
+          "psnr_db": 15.425661855342668,
+          "ssim": 0.45653188806771977,
+          "lpips_vgg": 0.4932411738166896,
+          "clip": 0.9444122314453125,
+          "dists": 0.174668044783175,
+          "flow_error_mean": 1.4304529301135949,
+          "cadence_error_mean": 2.2060891048675604,
+          "false_freeze_rate": 0.5841113688152388,
+          "nonkey_psnr": 15.025370299194442,
+          "boundary_error": 13.978352864583334
+        }
+      }
+    }
+  ],
+  "derived": [
+    {
+      "group": "webvid_development",
+      "psnr_gain_retained_percent": 94.38146988478174,
+      "nonkey_gain_retained_percent": 92.51832146157062,
+      "relative_changes_vs_context": {
+        "flow_error_mean": 2.2901232944461336,
+        "cadence_error_mean": 5.749021762059825,
+        "boundary_error": 13.351256029606118
+      },
+      "freeze_change_percentage_points": -1.1147125258930413,
+      "timing_total_seconds": {
+        "context_only": 9.619818602965097,
+        "path_context": 14.11176350901951
+      },
+      "timing_mean_seconds": {
+        "context_only": 0.8016515502470914,
+        "path_context": 1.1759802924182925
+      },
+      "timing_ratio": 1.4669469447864507,
+      "mean_additional_seconds": 0.37432874217120116,
+      "total_tracking_seconds": 3.7939153099578107
+    },
+    {
+      "group": "davis_transfer",
+      "psnr_gain_retained_percent": 91.24649764473746,
+      "nonkey_gain_retained_percent": 85.17781355151378,
+      "relative_changes_vs_context": {
+        "flow_error_mean": 0.7416394127597092,
+        "cadence_error_mean": 0.8995095081092863,
+        "boundary_error": -1.1804314632908652
+      },
+      "freeze_change_percentage_points": 0.29640255623012424,
+      "timing_total_seconds": {
+        "context_only": 0.7318331340211444,
+        "path_context": 1.1419621180102695
+      },
+      "timing_mean_seconds": {
+        "context_only": 0.1829582835052861,
+        "path_context": 0.28549052950256737
+      },
+      "timing_ratio": 1.5604132484896147,
+      "mean_additional_seconds": 0.10253224599728128,
+      "total_tracking_seconds": 0.30984732003707904
+    }
+  ],
+  "sources": [
+    {
+      "id": "webvid_001_2255949c",
+      "group": "webvid_development",
+      "means": {
+        "current": {
+          "psnr_db": 20.549666430108182,
+          "flow_error_mean": 0.044468096792008034,
+          "false_freeze_rate": 0.7541218637992831,
+          "boundary_error": 1.7967664930555556
+        },
+        "context_only": {
+          "psnr_db": 20.614852209816284,
+          "flow_error_mean": 0.04429990496708477,
+          "false_freeze_rate": 0.7562724014336918,
+          "boundary_error": 1.451070601851852
+        },
+        "path_context": {
+          "psnr_db": 20.613057449311192,
+          "flow_error_mean": 0.04443829798708773,
+          "false_freeze_rate": 0.7562724014336918,
+          "boundary_error": 1.5101671006944444
+        }
+      },
+      "freeze_guardrail": true,
+      "pedestrian_excess_reduced": null
+    },
+    {
+      "id": "webvid_002_1669a7b1",
+      "group": "webvid_development",
+      "means": {
+        "current": {
+          "psnr_db": 17.22566436930048,
+          "flow_error_mean": 0.3773649173849837,
+          "false_freeze_rate": 0.21094244149272612,
+          "boundary_error": 6.093219960016835
+        },
+        "context_only": {
+          "psnr_db": 17.933090496464377,
+          "flow_error_mean": 0.3601451294472211,
+          "false_freeze_rate": 0.2584756483238457,
+          "boundary_error": 3.49182515256734
+        },
+        "path_context": {
+          "psnr_db": 17.88411512352395,
+          "flow_error_mean": 0.3735866687898561,
+          "false_freeze_rate": 0.2206831119544592,
+          "boundary_error": 4.328701073232323
+        }
+      },
+      "freeze_guardrail": false,
+      "pedestrian_excess_reduced": true
+    },
+    {
+      "id": "webvid_003_1ca01463",
+      "group": "webvid_development",
+      "means": {
+        "current": {
+          "psnr_db": 24.16126301618197,
+          "flow_error_mean": 0.1512000302930742,
+          "false_freeze_rate": 0.16425029017621612,
+          "boundary_error": 1.6542607060185186
+        },
+        "context_only": {
+          "psnr_db": 24.283571042521604,
+          "flow_error_mean": 0.15440281360858568,
+          "false_freeze_rate": 0.16809116809116809,
+          "boundary_error": 1.582713035300926
+        },
+        "path_context": {
+          "psnr_db": 24.281638851839297,
+          "flow_error_mean": 0.15457393548071938,
+          "false_freeze_rate": 0.16427139390102352,
+          "boundary_error": 1.5708893952546297
+        }
+      },
+      "freeze_guardrail": true,
+      "pedestrian_excess_reduced": null
+    },
+    {
+      "id": "webvid_004_10d5cd04",
+      "group": "webvid_development",
+      "means": {
+        "current": {
+          "psnr_db": 18.10635852912005,
+          "flow_error_mean": 0.04832837831775549,
+          "false_freeze_rate": 0.034722222222222224,
+          "boundary_error": 4.2733398437500005
+        },
+        "context_only": {
+          "psnr_db": 18.21586225272019,
+          "flow_error_mean": 0.04813514651379285,
+          "false_freeze_rate": 0.03571428571428571,
+          "boundary_error": 2.231647858796296
+        },
+        "path_context": {
+          "psnr_db": 18.21213073120567,
+          "flow_error_mean": 0.04828475123023245,
+          "false_freeze_rate": 0.03273809523809524,
+          "boundary_error": 2.516702835648148
+        }
+      },
+      "freeze_guardrail": true,
+      "pedestrian_excess_reduced": null
+    },
+    {
+      "id": "davis_bus",
+      "group": "davis_transfer",
+      "means": {
+        "current": {
+          "psnr_db": 16.27686461836468,
+          "flow_error_mean": 0.9527539449302773,
+          "false_freeze_rate": 0.5088709677419355,
+          "boundary_error": 11.239279513888889
+        },
+        "context_only": {
+          "psnr_db": 16.868488632360684,
+          "flow_error_mean": 0.9291135741103637,
+          "false_freeze_rate": 0.5209677419354839,
+          "boundary_error": 10.822634548611111
+        },
+        "path_context": {
+          "psnr_db": 16.855314383859724,
+          "flow_error_mean": 0.943117753769222,
+          "false_freeze_rate": 0.5241935483870968,
+          "boundary_error": 10.413617621527777
+        }
+      },
+      "freeze_guardrail": false,
+      "pedestrian_excess_reduced": null
+    },
+    {
+      "id": "davis_lady-running",
+      "group": "davis_transfer",
+      "means": {
+        "current": {
+          "psnr_db": 13.643539847731839,
+          "flow_error_mean": 2.0795047243959024,
+          "false_freeze_rate": 0.6741935483870968,
+          "boundary_error": 21.736078559027778
+        },
+        "context_only": {
+          "psnr_db": 14.194072852257856,
+          "flow_error_mean": 2.059312485550579,
+          "false_freeze_rate": 0.6774193548387096,
+          "boundary_error": 20.954253472222224
+        },
+        "path_context": {
+          "psnr_db": 14.16782288855265,
+          "flow_error_mean": 2.066116414415209,
+          "false_freeze_rate": 0.6766129032258065,
+          "boundary_error": 21.10240885416667
+        }
+      },
+      "freeze_guardrail": true,
+      "pedestrian_excess_reduced": null
+    },
+    {
+      "id": "davis_longboard",
+      "group": "davis_transfer",
+      "means": {
+        "current": {
+          "psnr_db": 13.174367327226184,
+          "flow_error_mean": 1.777754134880869,
+          "false_freeze_rate": 0.7650130548302873,
+          "boundary_error": 17.014301215277776
+        },
+        "context_only": {
+          "psnr_db": 13.728276025790697,
+          "flow_error_mean": 1.752749473562366,
+          "false_freeze_rate": 0.7589208006962577,
+          "boundary_error": 16.15930989583333
+        },
+        "path_context": {
+          "psnr_db": 13.56890208463986,
+          "flow_error_mean": 1.7689516894127193,
+          "false_freeze_rate": 0.7667536988685814,
+          "boundary_error": 15.856510416666667
+        }
+      },
+      "freeze_guardrail": true,
+      "pedestrian_excess_reduced": null
+    },
+    {
+      "id": "davis_skate-park",
+      "group": "davis_transfer",
+      "means": {
+        "current": {
+          "psnr_db": 16.735372341074264,
+          "flow_error_mean": 0.9568580776845154,
+          "false_freeze_rate": 0.3640737770649559,
+          "boundary_error": 8.97146267361111
+        },
+        "context_only": {
+          "psnr_db": 17.091443785749465,
+          "flow_error_mean": 0.938513375759909,
+          "false_freeze_rate": 0.36728147554129914,
+          "boundary_error": 8.645117187499999
+        },
+        "path_context": {
+          "psnr_db": 17.110608064318438,
+          "flow_error_mean": 0.9436258628572288,
+          "false_freeze_rate": 0.3688853247794707,
+          "boundary_error": 8.54087456597222
+        }
+      },
+      "freeze_guardrail": true,
+      "pedestrian_excess_reduced": null
+    }
+  ],
+  "pedestrian_excess_freeze_recovered_percent": 79.5076513639388,
+  "criteria": {
+    "min_quality_gain_retention": 0.75,
+    "max_lpips_relative_increase_vs_context": 0.01,
+    "max_flow_relative_increase_vs_current": 0.02,
+    "max_cadence_relative_increase_vs_current": 0.02,
+    "max_boundary_relative_increase_vs_context": 0.2,
+    "min_pedestrian_excess_freeze_reduction": 0.5,
+    "max_source_freeze_increase_vs_current": 0.005,
+    "received_keys_exact": true
+  },
+  "criteria_scope": "engineering development screening, not ETRI thresholds or independent statistical validation",
+  "group_engineering_screen": [
+    {
+      "group": "webvid_development",
+      "checks": {
+        "psnr_db": true,
+        "nonkey_psnr": true,
+        "lpips": true,
+        "boundary": true,
+        "flow": true,
+        "cadence": true
+      },
+      "passed": true
+    },
+    {
+      "group": "davis_transfer",
+      "checks": {
+        "psnr_db": true,
+        "nonkey_psnr": true,
+        "lpips": true,
+        "boundary": true,
+        "flow": true,
+        "cadence": true
+      },
+      "passed": true
+    }
+  ],
+  "overall_engineering_screen_passed": false,
+  "failed_requirements": [
+    "pedestrian false freeze <= current + 0.005",
+    "bus false freeze <= current + 0.005"
+  ],
+  "timing_scope": "Two algorithms measured on the same loaded segment, two OpenCV threads; alternating execution order. Excludes I/O, encoding, metrics and model generation. Single pass per segment.",
+  "timing_rows": [
+    {
+      "case": "webvid_001_2255949c/snr_6",
+      "group": "webvid_development",
+      "frames": 721,
+      "seconds": {
+        "context_only": 0.7026107470010174,
+        "path_context": 0.7002672090020496
+      },
+      "additional_seconds": -0.002343537998967804,
+      "ratio": 0.9966645286754141,
+      "tracking_seconds": 0.08020912400388625,
+      "baseline_exact": true
+    },
+    {
+      "case": "webvid_001_2255949c/snr_8",
+      "group": "webvid_development",
+      "frames": 721,
+      "seconds": {
+        "context_only": 0.29568520199973136,
+        "path_context": 0.38222335900354665
+      },
+      "additional_seconds": 0.08653815700381529,
+      "ratio": 1.2926698949374338,
+      "tracking_seconds": 0.07999093800026458,
+      "baseline_exact": true
+    },
+    {
+      "case": "webvid_001_2255949c/snr_10",
+      "group": "webvid_development",
+      "frames": 721,
+      "seconds": {
+        "context_only": 0.26782924600411206,
+        "path_context": 0.3194643949973397
+      },
+      "additional_seconds": 0.05163514899322763,
+      "ratio": 1.1927913017849994,
+      "tracking_seconds": 0.07396799798880238,
+      "baseline_exact": true
+    },
+    {
+      "case": "webvid_002_1669a7b1/snr_6",
+      "group": "webvid_development",
+      "frames": 636,
+      "seconds": {
+        "context_only": 1.923070057964651,
+        "path_context": 3.0458495850034524
+      },
+      "additional_seconds": 1.1227795270388015,
+      "ratio": 1.583847438312848,
+      "tracking_seconds": 0.8612891669617966,
+      "baseline_exact": true
+    },
+    {
+      "case": "webvid_002_1669a7b1/snr_8",
+      "group": "webvid_development",
+      "frames": 636,
+      "seconds": {
+        "context_only": 1.926624254017952,
+        "path_context": 3.026746639981866
+      },
+      "additional_seconds": 1.100122385963914,
+      "ratio": 1.5710103481099762,
+      "tracking_seconds": 0.8785322799958522,
+      "baseline_exact": true
+    },
+    {
+      "case": "webvid_002_1669a7b1/snr_10",
+      "group": "webvid_development",
+      "frames": 636,
+      "seconds": {
+        "context_only": 1.910741029001656,
+        "path_context": 3.036442740019993
+      },
+      "additional_seconds": 1.125701711018337,
+      "ratio": 1.589144051408424,
+      "tracking_seconds": 0.8901553349860478,
+      "baseline_exact": true
+    },
+    {
+      "case": "webvid_003_1ca01463/snr_6",
+      "group": "webvid_development",
+      "frames": 721,
+      "seconds": {
+        "context_only": 0.7412000440090196,
+        "path_context": 0.8916109850106295
+      },
+      "additional_seconds": 0.1504109410016099,
+      "ratio": 1.2029289423514653,
+      "tracking_seconds": 0.23271254502469674,
+      "baseline_exact": true
+    },
+    {
+      "case": "webvid_003_1ca01463/snr_8",
+      "group": "webvid_development",
+      "frames": 721,
+      "seconds": {
+        "context_only": 0.5684285899769748,
+        "path_context": 0.9126442840060918
+      },
+      "additional_seconds": 0.344215694029117,
+      "ratio": 1.6055566171347224,
+      "tracking_seconds": 0.2330811039864784,
+      "baseline_exact": true
+    },
+    {
+      "case": "webvid_003_1ca01463/snr_10",
+      "group": "webvid_development",
+      "frames": 721,
+      "seconds": {
+        "context_only": 0.5867968129896326,
+        "path_context": 0.8555252660007682
+      },
+      "additional_seconds": 0.26872845301113557,
+      "ratio": 1.4579582694766329,
+      "tracking_seconds": 0.22756620701693464,
+      "baseline_exact": true
+    },
+    {
+      "case": "webvid_004_10d5cd04/snr_6",
+      "group": "webvid_development",
+      "frames": 494,
+      "seconds": {
+        "context_only": 0.24670278599660378,
+        "path_context": 0.3146183189965086
+      },
+      "additional_seconds": 0.06791553299990483,
+      "ratio": 1.2752929308258392,
+      "tracking_seconds": 0.07854615499672946,
+      "baseline_exact": true
+    },
+    {
+      "case": "webvid_004_10d5cd04/snr_8",
+      "group": "webvid_development",
+      "frames": 494,
+      "seconds": {
+        "context_only": 0.209775591007201,
+        "path_context": 0.2995721890038112
+      },
+      "additional_seconds": 0.08979659799661022,
+      "ratio": 1.4280602789174255,
+      "tracking_seconds": 0.07445146799727809,
+      "baseline_exact": true
+    },
+    {
+      "case": "webvid_004_10d5cd04/snr_10",
+      "group": "webvid_development",
+      "frames": 494,
+      "seconds": {
+        "context_only": 0.2403542429965455,
+        "path_context": 0.3267985379934544
+      },
+      "additional_seconds": 0.08644429499690887,
+      "ratio": 1.3596537091219616,
+      "tracking_seconds": 0.08341298899904359,
+      "baseline_exact": true
+    },
+    {
+      "case": "transfer_bus/snr_10",
+      "group": "davis_transfer",
+      "frames": 96,
+      "seconds": {
+        "context_only": 0.18374988599680364,
+        "path_context": 0.28018094300932717
+      },
+      "additional_seconds": 0.09643105701252352,
+      "ratio": 1.5247951936917172,
+      "tracking_seconds": 0.07490940501156729,
+      "baseline_exact": true
+    },
+    {
+      "case": "transfer_lady-running/snr_10",
+      "group": "davis_transfer",
+      "frames": 96,
+      "seconds": {
+        "context_only": 0.18196941300993785,
+        "path_context": 0.2955728709930554
+      },
+      "additional_seconds": 0.11360345798311755,
+      "ratio": 1.6242997441383917,
+      "tracking_seconds": 0.08066832002077717,
+      "baseline_exact": true
+    },
+    {
+      "case": "transfer_longboard/snr_10",
+      "group": "davis_transfer",
+      "frames": 96,
+      "seconds": {
+        "context_only": 0.1862012500059791,
+        "path_context": 0.2824184500059346
+      },
+      "additional_seconds": 0.09621719999995548,
+      "ratio": 1.5167376695745376,
+      "tracking_seconds": 0.07571566800470464,
+      "baseline_exact": true
+    },
+    {
+      "case": "transfer_skate-park/snr_10",
+      "group": "davis_transfer",
+      "frames": 96,
+      "seconds": {
+        "context_only": 0.17991258500842378,
+        "path_context": 0.28378985400195234
+      },
+      "additional_seconds": 0.10387726899352856,
+      "ratio": 1.5773763352278267,
+      "tracking_seconds": 0.07855392700002994,
+      "baseline_exact": true
+    }
+  ],
+  "keys": {
+    "preserved": 65,
+    "total": 65
+  },
+  "integrity": {
+    "status": "PASSED",
+    "signature": "0d7535cbda0be679d816e804b82f2df1415afa9cfdcdf9add8fe6ff2a4c216e1",
+    "inputs": 35170,
+    "code_files": 17,
+    "generation": 48,
+    "evaluation": 48,
+    "artifacts": 8308,
+    "source_absent_from_receiver_jobs": true,
+    "new_transmission": 0
+  },
+  "ablation": {
+    "status": "PASSED",
+    "frames": 8100,
+    "windows": 98,
+    "changed_frames": 727,
+    "outside_support_exact": 7213,
+    "directed_flow_fields": 1650,
+    "rows": [
+      {
+        "case": "webvid_001_2255949c/snr_6",
+        "frames": 721,
+        "windows": 2,
+        "directed_flow_fields": 32,
+        "outside_support_exact": 703,
+        "changed_frames": 14,
+        "same_support": true,
+        "received_only_job": true,
+        "timed_baseline_rgb_exact": true
+      },
+      {
+        "case": "webvid_001_2255949c/snr_8",
+        "frames": 721,
+        "windows": 2,
+        "directed_flow_fields": 32,
+        "outside_support_exact": 703,
+        "changed_frames": 14,
+        "same_support": true,
+        "received_only_job": true,
+        "timed_baseline_rgb_exact": true
+      },
+      {
+        "case": "webvid_001_2255949c/snr_10",
+        "frames": 721,
+        "windows": 2,
+        "directed_flow_fields": 32,
+        "outside_support_exact": 703,
+        "changed_frames": 14,
+        "same_support": true,
+        "received_only_job": true,
+        "timed_baseline_rgb_exact": true
+      },
+      {
+        "case": "webvid_002_1669a7b1/snr_6",
+        "frames": 636,
+        "windows": 20,
+        "directed_flow_fields": 342,
+        "outside_support_exact": 455,
+        "changed_frames": 151,
+        "same_support": true,
+        "received_only_job": true,
+        "timed_baseline_rgb_exact": true
+      },
+      {
+        "case": "webvid_002_1669a7b1/snr_8",
+        "frames": 636,
+        "windows": 20,
+        "directed_flow_fields": 352,
+        "outside_support_exact": 450,
+        "changed_frames": 156,
+        "same_support": true,
+        "received_only_job": true,
+        "timed_baseline_rgb_exact": true
+      },
+      {
+        "case": "webvid_002_1669a7b1/snr_10",
+        "frames": 636,
+        "windows": 20,
+        "directed_flow_fields": 348,
+        "outside_support_exact": 452,
+        "changed_frames": 154,
+        "same_support": true,
+        "received_only_job": true,
+        "timed_baseline_rgb_exact": true
+      },
+      {
+        "case": "webvid_003_1ca01463/snr_6",
+        "frames": 721,
+        "windows": 6,
+        "directed_flow_fields": 96,
+        "outside_support_exact": 669,
+        "changed_frames": 42,
+        "same_support": true,
+        "received_only_job": true,
+        "timed_baseline_rgb_exact": true
+      },
+      {
+        "case": "webvid_003_1ca01463/snr_8",
+        "frames": 721,
+        "windows": 6,
+        "directed_flow_fields": 96,
+        "outside_support_exact": 669,
+        "changed_frames": 42,
+        "same_support": true,
+        "received_only_job": true,
+        "timed_baseline_rgb_exact": true
+      },
+      {
+        "case": "webvid_003_1ca01463/snr_10",
+        "frames": 721,
+        "windows": 6,
+        "directed_flow_fields": 96,
+        "outside_support_exact": 669,
+        "changed_frames": 42,
+        "same_support": true,
+        "received_only_job": true,
+        "timed_baseline_rgb_exact": true
+      },
+      {
+        "case": "webvid_004_10d5cd04/snr_6",
+        "frames": 494,
+        "windows": 2,
+        "directed_flow_fields": 32,
+        "outside_support_exact": 476,
+        "changed_frames": 14,
+        "same_support": true,
+        "received_only_job": true,
+        "timed_baseline_rgb_exact": true
+      },
+      {
+        "case": "webvid_004_10d5cd04/snr_8",
+        "frames": 494,
+        "windows": 2,
+        "directed_flow_fields": 32,
+        "outside_support_exact": 476,
+        "changed_frames": 14,
+        "same_support": true,
+        "received_only_job": true,
+        "timed_baseline_rgb_exact": true
+      },
+      {
+        "case": "webvid_004_10d5cd04/snr_10",
+        "frames": 494,
+        "windows": 2,
+        "directed_flow_fields": 32,
+        "outside_support_exact": 476,
+        "changed_frames": 14,
+        "same_support": true,
+        "received_only_job": true,
+        "timed_baseline_rgb_exact": true
+      },
+      {
+        "case": "transfer_bus/snr_10",
+        "frames": 96,
+        "windows": 2,
+        "directed_flow_fields": 32,
+        "outside_support_exact": 78,
+        "changed_frames": 14,
+        "same_support": true,
+        "received_only_job": true,
+        "timed_baseline_rgb_exact": true
+      },
+      {
+        "case": "transfer_lady-running/snr_10",
+        "frames": 96,
+        "windows": 2,
+        "directed_flow_fields": 32,
+        "outside_support_exact": 78,
+        "changed_frames": 14,
+        "same_support": true,
+        "received_only_job": true,
+        "timed_baseline_rgb_exact": true
+      },
+      {
+        "case": "transfer_longboard/snr_10",
+        "frames": 96,
+        "windows": 2,
+        "directed_flow_fields": 32,
+        "outside_support_exact": 78,
+        "changed_frames": 14,
+        "same_support": true,
+        "received_only_job": true,
+        "timed_baseline_rgb_exact": true
+      },
+      {
+        "case": "transfer_skate-park/snr_10",
+        "frames": 96,
+        "windows": 2,
+        "directed_flow_fields": 32,
+        "outside_support_exact": 78,
+        "changed_frames": 14,
+        "same_support": true,
+        "received_only_job": true,
+        "timed_baseline_rgb_exact": true
+      }
+    ]
+  },
+  "resume": {
+    "status": "PASSED",
+    "command": "bash scripts/experiment_bsu_path_context.sh",
+    "exit_code": 0,
+    "elapsed_seconds": 16.481344060986885,
+    "completed_artifacts": 8404,
+    "all_mtimes_and_sizes_unchanged": true
+  },
+  "ai_sample_review": {
+    "reviewer": "동일 구현자 AI의 비독립·비맹검 정지화면과 시간 곡선 검토",
+    "verdict": "프레임별 경로 반영은 보행 추가 정지 오판의 79.5%를 회복했지만, 광류·키 직후 오류와 DAVIS 정지 회귀가 남는다. 첫 변경의 부분 효과만 확인했으며 기본 방식으로 채택하지 않는다.",
+    "viewed": [
+      {
+        "case": "webvid_002_1669a7b1/snr_10",
+        "frames": [
+          264,
+          267,
+          268,
+          269,
+          270,
+          271,
+          272
+        ],
+        "observation": "268번 키는 정확하지만 269~272번의 발 자세가 원본과 다르다. 264~267번 정지 오판 감소와 268→269번 광류 오차 0.350→1.614 증가가 함께 나타난다."
+      },
+      {
+        "case": "webvid_003_1ca01463/snr_10",
+        "frames": [
+          592,
+          595,
+          596,
+          597,
+          600,
+          603
+        ],
+        "observation": "수신 키 근처의 도시 외형을 유지하지만 600~603번에는 생성 영상의 해안·건물 형태 차이가 남는다. 전체 광류 회귀는 해결되지 않았다."
+      },
+      {
+        "case": "transfer_bus/snr_10",
+        "frames": [
+          0,
+          2,
+          4,
+          6,
+          8,
+          48,
+          89,
+          91,
+          93,
+          95
+        ],
+        "observation": "중간의 차량·도로 배치 차이가 남는다. 끝점 근처 경로 변경이 원본의 버스 이동을 완전히 회복하지 못하며 정지 오판은 52.10→52.42%로 증가했다."
+      },
+      {
+        "case": "transfer_longboard/snr_10",
+        "frames": [
+          0,
+          2,
+          4,
+          6,
+          8,
+          48,
+          89,
+          91,
+          93,
+          95
+        ],
+        "observation": "양끝 키를 보존했지만 48번의 인물 자세와 자전거 위치·등장 시점 차이는 그대로다. 인접 키 구간 변경에도 전체 정지 오판은 75.89→76.68%로 증가했다."
+      }
+    ],
+    "sample_times": 33,
+    "columns": 4,
+    "viewed_thumbnails": 132,
+    "viewed_plot": "motion_windows.png",
+    "generated_material": "Eight panels, 65 times x 4 thumbnails and eight synchronized MP4 previews; only the four listed panels and plot were reviewed.",
+    "full_video_human_review": false,
+    "independent_semantic_review": "PENDING",
+    "semantic_error_rate_established": false,
+    "etri_goal_achievement_demonstrated": false,
+    "production_defaults_changed": false,
+    "interpretation": "Measured motion quantity improved in some videos, but correct source motion is not established. Tracking drift, occlusion and inaccurate generated paths remain possible causes, not isolated causal findings."
+  },
+  "tests": {
+    "passed": 62,
+    "seconds": 7.29,
+    "command": "pytest -q tests/test_receiver_path_context.py tests/test_bsu_path_context_experiment.py tests/test_receiver_key_context.py tests/test_bsu_key_context_experiment.py tests/test_bsu_receiver_compare.py tests/test_terminal_progress.py"
+  },
+  "report_validation": {
+    "local_links_and_assets": 31,
+    "all_preview_frames_and_24fps_verified": 8
+  },
+  "repository_checks": {
+    "public_docs": "PASS: 8 public Markdown files, 471 local links/anchors",
+    "diff_check": "PASSED",
+    "shell_syntax": "PASSED",
+    "python_compile": "PASSED"
+  },
+  "independent_semantic_review": "PENDING",
+  "unseen_sources_validated": false,
+  "continuous_60s_verified": false,
+  "etri_goal_achievement_demonstrated": false,
+  "production_defaults_changed": false,
+  "recommendation": "Partial motion-underestimation improvement, with flow and DAVIS regressions. Keep as a development candidate; do not replace production defaults.",
+  "evidence_hashes": {
+    "protocol.json": "399de812664db225e3cc0723a46cab03ea20c26e580e0e7df3fb362b59ff0ffd",
+    "RESULT.json": "bd441311487427152e810291dee834aa5eca701118ad5c5ec5e75626fb84d237",
+    "analysis/analyze.py": "c4ea767bbd3f20c635dbf9f1a388628df2151b6c1bacb494002388d2070e1eb8",
+    "analysis/build_validation.py": "99aa3cdf0a266f0310709f296c5f1af68ec5f711103a5991c7ee72107d88c8c2",
+    "analysis/verify_ablation.py": "07d961f7b9a8321a077b042e44a85b881f7edf9c412d2fe42c05c199f5afefa8",
+    "analysis/verify_resume.py": "47d9e743b32d34fe7a895e42b52254c770c3ba87d930f2352b750ee8f25317ae",
+    "analysis/index.html": "d9bfc568b9a0347feb4a27ba03d1b90f747a6b4a9e0881ee886ba4000556bc09",
+    "analysis/samples.json": "26f6f7f0491e7c451b73126f925aded835e99cf33cb1e938e20e4d6cff7a3202",
+    "analysis/review.json": "9973c7d9ddc94a1a004e2dc169dfa7336a1e1a04f9416a1b670e777ec406aafe",
+    "analysis/integrity.json": "7b31a6f9494c44d3f8a70fa3b848b0835c7dec9eb9f974aac8b3cc6fc922f8ff",
+    "analysis/ablation_verification.json": "bd12cea8b74e93839eca103e90b14c1d4ffa61bebd24fec242be3bb3a704d811",
+    "analysis/resume_verification.json": "fc25ad9c59d956302f8c017cef3d3a5a8ae64868747114f335d6ab5a3b1392b7"
+  }
+}

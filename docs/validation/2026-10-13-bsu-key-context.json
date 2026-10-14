@@ -1,0 +1,4073 @@
+{
+  "date": "2026-10-13",
+  "status": "COMPLETE_QUANTITATIVE_AND_NONINDEPENDENT_AI_SAMPLE_REVIEW",
+  "root": "outputs/bsu_key_context_20261013_v1",
+  "signature": "0bafc8f3bd16af7913e583c53a77bcba65b09db3f2d558614f50f6334e710db7",
+  "elapsed_seconds": 4828,
+  "elapsed": "01:20:28",
+  "command": "bash scripts/experiment_bsu_key_context.sh",
+  "completed": 96,
+  "total": 96,
+  "independent_sources": 8,
+  "design": "2x3: correspondence gate off/on x none/legacy key/context interpolation; same received inputs and generator outputs",
+  "scope": {
+    "webvid": "four inspected development sources, three SNRs",
+    "davis": "four 96-frame transfer sources, one SNR; historical LGVSC and adaptive receiver use, not globally unseen"
+  },
+  "parameters": {
+    "context": {
+      "min_radius": 8,
+      "max_radius": 24,
+      "flow_quantile": 95.0,
+      "correction_speed_floor": 1.0,
+      "displacement_factor": 2.0,
+      "scene_cut_mad": 45.0,
+      "cycle_scale": 1.5,
+      "confidence_floor": 0.02
+    },
+    "legacy_anchor": {
+      "radius": 4,
+      "cycle_scale": 1.5,
+      "photometric_scale": 18.0
+    },
+    "gate": {
+      "agreement_scale": 12.0,
+      "rejection_error": 24.0,
+      "rejection_neighborhood": 3
+    }
+  },
+  "preregistered_criteria": {
+    "key_png_exact": true,
+    "boundary_error_reduction_vs_key_only": 0.2,
+    "max_psnr_loss_db": 0.1,
+    "max_nonkey_psnr_loss_db": 0.1,
+    "max_lpips_relative_increase": 0.01,
+    "max_flow_relative_increase": 0.02,
+    "max_cadence_relative_increase": 0.02,
+    "max_false_freeze_increase": 0.02
+  },
+  "criteria_scope": "engineering screening bounds, not ETRI acceptance thresholds or statistical noninferiority; each dataset group separately",
+  "primary_candidate_screen": [
+    {
+      "group": "webvid_development",
+      "checks": {
+        "psnr": true,
+        "nonkey": true,
+        "lpips": true,
+        "flow": true,
+        "cadence": true,
+        "freeze": true,
+        "boundary": true,
+        "keys": true
+      },
+      "passed": true
+    },
+    {
+      "group": "davis_transfer",
+      "checks": {
+        "psnr": true,
+        "nonkey": true,
+        "lpips": true,
+        "flow": true,
+        "cadence": true,
+        "freeze": true,
+        "boundary": false,
+        "keys": true
+      },
+      "passed": false
+    }
+  ],
+  "groups": [
+    {
+      "group": "webvid_development",
+      "boundary": "lossless_frames",
+      "cases": [
+        "webvid_001_2255949c/snr_6",
+        "webvid_001_2255949c/snr_8",
+        "webvid_001_2255949c/snr_10",
+        "webvid_002_1669a7b1/snr_6",
+        "webvid_002_1669a7b1/snr_8",
+        "webvid_002_1669a7b1/snr_10",
+        "webvid_003_1ca01463/snr_6",
+        "webvid_003_1ca01463/snr_8",
+        "webvid_003_1ca01463/snr_10",
+        "webvid_004_10d5cd04/snr_6",
+        "webvid_004_10d5cd04/snr_8",
+        "webvid_004_10d5cd04/snr_10"
+      ],
+      "means": {
+        "current": {
+          "psnr_db": 20.047273061693208,
+          "ssim": 0.6432990664025231,
+          "lpips_vgg": 0.34441050518590893,
+          "clip": 0.9310918878310233,
+          "dists": 0.17149142968587544,
+          "flow_error_mean": 0.1539391700682009,
+          "cadence_error_mean": 0.08525277932827499,
+          "false_freeze_rate": 0.2902868748797398,
+          "max_luma_impulse": 2.4487232349537047,
+          "nonkey_psnr": 19.99983354969484,
+          "key_psnr": 25.575562103985,
+          "boundary_error": 3.5124443079887415
+        },
+        "guard_only": {
+          "psnr_db": 19.68481384395746,
+          "ssim": 0.633856398701343,
+          "lpips_vgg": 0.3467659415388457,
+          "clip": 0.9296297110664451,
+          "dists": 0.17228412865181425,
+          "flow_error_mean": 0.1552297978915789,
+          "cadence_error_mean": 0.08597749932108849,
+          "false_freeze_rate": 0.3112514111578522,
+          "max_luma_impulse": 2.6122531467013874,
+          "nonkey_psnr": 19.635911126330527,
+          "key_psnr": 25.575562103985,
+          "boundary_error": 3.552458750920665
+        },
+        "key_only": {
+          "psnr_db": 20.140466545437217,
+          "ssim": 0.6458247028170387,
+          "lpips_vgg": 0.34301298415275316,
+          "clip": 0.9317170309515346,
+          "dists": 0.17079414238888696,
+          "flow_error_mean": 0.16059454003761484,
+          "cadence_error_mean": 0.09142280121941955,
+          "false_freeze_rate": 0.2885207443958498,
+          "max_luma_impulse": 2.6640796802662097,
+          "nonkey_psnr": 20.022800250363304,
+          "key_psnr": 33.19818608195088,
+          "boundary_error": 5.668681032328493
+        },
+        "guard_key": {
+          "psnr_db": 19.778014082969534,
+          "ssim": 0.6364029614996477,
+          "lpips_vgg": 0.3453929746702185,
+          "clip": 0.9302525481041655,
+          "dists": 0.1716107377716828,
+          "flow_error_mean": 0.16194665694314872,
+          "cadence_error_mean": 0.09220185551734546,
+          "false_freeze_rate": 0.3093903889967387,
+          "max_luma_impulse": 2.830919053819449,
+          "nonkey_psnr": 19.658884962756506,
+          "key_psnr": 33.19818608195088,
+          "boundary_error": 5.780287535182555
+        },
+        "context_only": {
+          "psnr_db": 20.316310809724676,
+          "ssim": 0.6512870729599223,
+          "lpips_vgg": 0.33952197008492147,
+          "clip": 0.9330253131732291,
+          "dists": 0.16917585639072985,
+          "flow_error_mean": 0.15026986168815812,
+          "cadence_error_mean": 0.07755168689419395,
+          "false_freeze_rate": 0.3043168799113964,
+          "max_luma_impulse": 2.1769883897569504,
+          "nonkey_psnr": 20.20111527314621,
+          "key_psnr": 33.19818608195088,
+          "boundary_error": 2.055432416614057
+        },
+        "guard_context": {
+          "psnr_db": 19.957250403318987,
+          "ssim": 0.6420401269627025,
+          "lpips_vgg": 0.34187584351165184,
+          "clip": 0.9316139893164163,
+          "dists": 0.17000022064796366,
+          "flow_error_mean": 0.15167552350487118,
+          "cadence_error_mean": 0.07818228410187582,
+          "false_freeze_rate": 0.3248440695243879,
+          "max_luma_impulse": 2.3416142216435234,
+          "nonkey_psnr": 19.840628249643043,
+          "key_psnr": 33.19818608195088,
+          "boundary_error": 2.133672499736953
+        }
+      }
+    },
+    {
+      "group": "webvid_development",
+      "boundary": "delivered_mp4",
+      "cases": [
+        "webvid_001_2255949c/snr_6",
+        "webvid_001_2255949c/snr_8",
+        "webvid_001_2255949c/snr_10",
+        "webvid_002_1669a7b1/snr_6",
+        "webvid_002_1669a7b1/snr_8",
+        "webvid_002_1669a7b1/snr_10",
+        "webvid_003_1ca01463/snr_6",
+        "webvid_003_1ca01463/snr_8",
+        "webvid_003_1ca01463/snr_10",
+        "webvid_004_10d5cd04/snr_6",
+        "webvid_004_10d5cd04/snr_8",
+        "webvid_004_10d5cd04/snr_10"
+      ],
+      "means": {
+        "current": {
+          "psnr_db": 20.01073808617767,
+          "ssim": 0.640746938265702,
+          "lpips_vgg": 0.3472953819622131,
+          "clip": 0.9377251469369888,
+          "dists": 0.16949497574122957,
+          "flow_error_mean": 0.15534035569695537,
+          "cadence_error_mean": 0.08628143237459635,
+          "false_freeze_rate": 0.2910092044226119,
+          "max_luma_impulse": 2.3738543475115716,
+          "nonkey_psnr": 19.963314652274498,
+          "key_psnr": 25.580923458462895,
+          "boundary_error": 3.4543967507102273
+        },
+        "guard_only": {
+          "psnr_db": 19.65306166308603,
+          "ssim": 0.6314296201318417,
+          "lpips_vgg": 0.34909704646727047,
+          "clip": 0.935565919566928,
+          "dists": 0.17018686465580612,
+          "flow_error_mean": 0.1565579544332779,
+          "cadence_error_mean": 0.08690731976955496,
+          "false_freeze_rate": 0.3091650444590523,
+          "max_luma_impulse": 2.5715286820023127,
+          "nonkey_psnr": 19.604300230749484,
+          "key_psnr": 25.552092071228927,
+          "boundary_error": 3.5276467474221382
+        },
+        "key_only": {
+          "psnr_db": 20.093852281348674,
+          "ssim": 0.6432925567141758,
+          "lpips_vgg": 0.34539285932240743,
+          "clip": 0.93832439262826,
+          "dists": 0.16871182247850078,
+          "flow_error_mean": 0.16195496423645098,
+          "cadence_error_mean": 0.0922775194239434,
+          "false_freeze_rate": 0.2882452089245873,
+          "max_luma_impulse": 2.593853081597224,
+          "nonkey_psnr": 19.98625141562157,
+          "key_psnr": 32.03554276483125,
+          "boundary_error": 5.621949845130998
+        },
+        "guard_key": {
+          "psnr_db": 19.735455755087226,
+          "ssim": 0.6339809646635051,
+          "lpips_vgg": 0.347332009291173,
+          "clip": 0.9361635046404702,
+          "dists": 0.16940963104376977,
+          "flow_error_mean": 0.16323792236810625,
+          "cadence_error_mean": 0.0930554757485086,
+          "false_freeze_rate": 0.3068211568266474,
+          "max_luma_impulse": 2.795062934027778,
+          "nonkey_psnr": 19.62638451210819,
+          "key_psnr": 32.03178083012548,
+          "boundary_error": 5.836964575770728
+        },
+        "context_only": {
+          "psnr_db": 20.261844000380613,
+          "ssim": 0.6486222050519082,
+          "lpips_vgg": 0.3413264003409261,
+          "clip": 0.9397915436094006,
+          "dists": 0.1669034352619108,
+          "flow_error_mean": 0.1517457486341711,
+          "cadence_error_mean": 0.07851608482418702,
+          "false_freeze_rate": 0.3046383758907478,
+          "max_luma_impulse": 2.1244004991319425,
+          "nonkey_psnr": 20.15579056018404,
+          "key_psnr": 32.11290380142663,
+          "boundary_error": 2.1893141621291035
+        },
+        "guard_context": {
+          "psnr_db": 19.906904321996453,
+          "ssim": 0.6394781111949118,
+          "lpips_vgg": 0.34319744086802406,
+          "clip": 0.9371747609826144,
+          "dists": 0.16766973489544523,
+          "flow_error_mean": 0.1531028996421838,
+          "cadence_error_mean": 0.07923115533596187,
+          "false_freeze_rate": 0.32166600245567495,
+          "max_luma_impulse": 2.3196135344328694,
+          "nonkey_psnr": 19.799430154635058,
+          "key_psnr": 32.10501603109024,
+          "boundary_error": 2.2636752863925715
+        }
+      }
+    },
+    {
+      "group": "davis_transfer",
+      "boundary": "lossless_frames",
+      "cases": [
+        "transfer_bus/snr_10",
+        "transfer_lady-running/snr_10",
+        "transfer_longboard/snr_10",
+        "transfer_skate-park/snr_10"
+      ],
+      "means": {
+        "current": {
+          "psnr_db": 14.966738692888566,
+          "ssim": 0.44447975713728083,
+          "lpips_vgg": 0.4960751788069805,
+          "clip": 0.9421380360921224,
+          "dists": 0.18100561946630478,
+          "flow_error_mean": 1.4411206254637556,
+          "cadence_error_mean": 2.2069141037336135,
+          "false_freeze_rate": 0.5754646489456162,
+          "max_luma_impulse": 1.000830078124995,
+          "nonkey_psnr": 14.760670814234356,
+          "key_psnr": 24.65192898963646,
+          "boundary_error": 14.737459309895833
+        },
+        "guard_only": {
+          "psnr_db": 14.547621122325877,
+          "ssim": 0.4323550069335912,
+          "lpips_vgg": 0.5008520248423641,
+          "clip": 0.9439277648925781,
+          "dists": 0.18064838306357464,
+          "flow_error_mean": 1.4502195843838548,
+          "cadence_error_mean": 2.2091566712119954,
+          "false_freeze_rate": 0.5562801881200921,
+          "max_luma_impulse": 0.9872992621527832,
+          "nonkey_psnr": 14.332635848553311,
+          "key_psnr": 24.65192898963646,
+          "boundary_error": 14.794181315104167
+        },
+        "key_only": {
+          "psnr_db": 15.20602730226743,
+          "ssim": 0.4497124557195604,
+          "lpips_vgg": 0.4922438328697657,
+          "clip": 0.9428647359212239,
+          "dists": 0.17917433955396214,
+          "flow_error_mean": 1.46461805840464,
+          "cadence_error_mean": 2.23028390604428,
+          "false_freeze_rate": 0.5756651301003877,
+          "max_luma_impulse": 1.0198540581597157,
+          "nonkey_psnr": 14.767628436719693,
+          "key_psnr": 35.8107739830111,
+          "boundary_error": 14.908916558159722
+        },
+        "guard_key": {
+          "psnr_db": 14.787574190944182,
+          "ssim": 0.43761340054547604,
+          "lpips_vgg": 0.4970475914888084,
+          "clip": 0.9446551005045574,
+          "dists": 0.17884685145691037,
+          "flow_error_mean": 1.4739676843446334,
+          "cadence_error_mean": 2.2327272794952497,
+          "false_freeze_rate": 0.5568816315844064,
+          "max_luma_impulse": 1.006399197048614,
+          "nonkey_psnr": 14.340272067708714,
+          "key_psnr": 35.8107739830111,
+          "boundary_error": 14.978860134548611
+        },
+        "context_only": {
+          "psnr_db": 15.553096153734458,
+          "ssim": 0.458101771857572,
+          "lpips_vgg": 0.4863309010203617,
+          "clip": 0.9439487457275391,
+          "dists": 0.1759341163560748,
+          "flow_error_mean": 1.4194709905668308,
+          "cadence_error_mean": 2.1844193672041774,
+          "false_freeze_rate": 0.5815528325562979,
+          "max_luma_impulse": 0.9114773220486079,
+          "nonkey_psnr": 15.122081731834953,
+          "key_psnr": 35.8107739830111,
+          "boundary_error": 14.11723361545139
+        },
+        "guard_context": {
+          "psnr_db": 15.141406126027283,
+          "ssim": 0.4464999376128859,
+          "lpips_vgg": 0.4909791274694726,
+          "clip": 0.9457562764485677,
+          "dists": 0.1755080739967525,
+          "flow_error_mean": 1.4282683195521761,
+          "cadence_error_mean": 2.1866473270099647,
+          "false_freeze_rate": 0.5615653153632335,
+          "max_luma_impulse": 0.8838297526041767,
+          "nonkey_psnr": 14.701632341836136,
+          "key_psnr": 35.8107739830111,
+          "boundary_error": 14.17007107204861
+        }
+      }
+    },
+    {
+      "group": "davis_transfer",
+      "boundary": "delivered_mp4",
+      "cases": [
+        "transfer_bus/snr_10",
+        "transfer_lady-running/snr_10",
+        "transfer_longboard/snr_10",
+        "transfer_skate-park/snr_10"
+      ],
+      "means": {
+        "current": {
+          "psnr_db": 14.957536033599242,
+          "ssim": 0.44398654802347537,
+          "lpips_vgg": 0.5019285288872197,
+          "clip": 0.9434197743733723,
+          "dists": 0.17856687183181444,
+          "flow_error_mean": 1.441717720472891,
+          "cadence_error_mean": 2.208400648652001,
+          "false_freeze_rate": 0.5780378370060688,
+          "max_luma_impulse": 1.0611111111111171,
+          "nonkey_psnr": 14.753768669650697,
+          "key_psnr": 24.53460213918084,
+          "boundary_error": 14.740280490451388
+        },
+        "guard_only": {
+          "psnr_db": 14.543156570607469,
+          "ssim": 0.432191858593462,
+          "lpips_vgg": 0.5062530533565829,
+          "clip": 0.9445343017578125,
+          "dists": 0.17813741012165943,
+          "flow_error_mean": 1.4502796843647956,
+          "cadence_error_mean": 2.2095962632546557,
+          "false_freeze_rate": 0.558090177255307,
+          "max_luma_impulse": 1.0712402343749972,
+          "nonkey_psnr": 14.330631310909606,
+          "key_psnr": 24.531843776406987,
+          "boundary_error": 14.785104709201388
+        },
+        "key_only": {
+          "psnr_db": 15.167858248604455,
+          "ssim": 0.4493636156717278,
+          "lpips_vgg": 0.49874401882213226,
+          "clip": 0.9437624613444011,
+          "dists": 0.17782873349885148,
+          "flow_error_mean": 1.4643553680495212,
+          "cadence_error_mean": 2.230261943139572,
+          "false_freeze_rate": 0.5768668852805621,
+          "max_luma_impulse": 1.0721164279513822,
+          "nonkey_psnr": 14.762473212805356,
+          "key_psnr": 34.22095493116201,
+          "boundary_error": 14.89607204861111
+        },
+        "guard_key": {
+          "psnr_db": 14.752673452272772,
+          "ssim": 0.4370606342076008,
+          "lpips_vgg": 0.5025344671642719,
+          "clip": 0.9457721710205078,
+          "dists": 0.17624836275354028,
+          "flow_error_mean": 1.4740761347899312,
+          "cadence_error_mean": 2.232934648711036,
+          "false_freeze_rate": 0.5594240161901914,
+          "max_luma_impulse": 1.050447591145831,
+          "nonkey_psnr": 14.33845190190664,
+          "key_psnr": 34.22108631948103,
+          "boundary_error": 14.96923828125
+        },
+        "context_only": {
+          "psnr_db": 15.470570324039675,
+          "ssim": 0.45724560953827514,
+          "lpips_vgg": 0.49326207814738154,
+          "clip": 0.9443804423014323,
+          "dists": 0.17463430979599556,
+          "flow_error_mean": 1.4199222272458045,
+          "cadence_error_mean": 2.1864220308130013,
+          "false_freeze_rate": 0.5811473432529376,
+          "max_luma_impulse": 0.9922309027777807,
+          "nonkey_psnr": 15.072632958623654,
+          "key_psnr": 34.17362649859278,
+          "boundary_error": 14.145328776041666
+        },
+        "guard_context": {
+          "psnr_db": 15.061474417668858,
+          "ssim": 0.44544859998179004,
+          "lpips_vgg": 0.49700453221642726,
+          "clip": 0.9460169474283855,
+          "dists": 0.17340653870875636,
+          "flow_error_mean": 1.4286767936066576,
+          "cadence_error_mean": 2.1880034594969984,
+          "false_freeze_rate": 0.5619161113711848,
+          "max_luma_impulse": 0.9727132161458343,
+          "nonkey_psnr": 14.65447505454296,
+          "key_psnr": 34.19044448458597,
+          "boundary_error": 14.197018771701389
+        }
+      }
+    }
+  ],
+  "contrasts": [
+    {
+      "group": "webvid_development",
+      "boundary": "lossless_frames",
+      "arm": "guard_only",
+      "baseline": "current",
+      "delta": {
+        "psnr_db": -0.3624592177357471,
+        "ssim": -0.009442667701180074,
+        "lpips_vgg": 0.0023554363529367794,
+        "clip": -0.0014621767645781603,
+        "dists": 0.0007926989659388095,
+        "flow_error_mean": 0.0012906278233779933,
+        "cadence_error_mean": 0.0007247199928134967,
+        "false_freeze_rate": 0.0209645362781124,
+        "max_luma_impulse": 0.16352991174768272,
+        "nonkey_psnr": -0.3639224233643148,
+        "key_psnr": 0.0,
+        "boundary_error": 0.040014442931923355
+      },
+      "relative_percent": {
+        "psnr_db": -1.8080225505998748,
+        "ssim": -1.4678503660802256,
+        "lpips_vgg": 0.6839037478445498,
+        "clip": -0.1570389328581001,
+        "dists": 0.46223823977140643,
+        "flow_error_mean": 0.8384011832766047,
+        "cadence_error_mean": 0.8500837140134498,
+        "false_freeze_rate": 7.222006260805824,
+        "max_luma_impulse": 6.678170460973898,
+        "nonkey_psnr": -1.8196272606972097,
+        "key_psnr": 0.0,
+        "boundary_error": 1.1392192850122607
+      }
+    },
+    {
+      "group": "webvid_development",
+      "boundary": "lossless_frames",
+      "arm": "key_only",
+      "baseline": "current",
+      "delta": {
+        "psnr_db": 0.0931934837440096,
+        "ssim": 0.002525636414515642,
+        "lpips_vgg": -0.0013975210331557686,
+        "clip": 0.0006251431205113178,
+        "dists": -0.0006972872969884802,
+        "flow_error_mean": 0.006655369969413932,
+        "cadence_error_mean": 0.006170021891144559,
+        "false_freeze_rate": -0.001766130483890016,
+        "max_luma_impulse": 0.21535644531250497,
+        "nonkey_psnr": 0.02296670066846218,
+        "key_psnr": 7.62262397796588,
+        "boundary_error": 2.1562367243397516
+      },
+      "relative_percent": {
+        "psnr_db": 0.46486863054748806,
+        "ssim": 0.3926068832400986,
+        "lpips_vgg": -0.4057718949082023,
+        "clip": 0.06714086210841685,
+        "dists": -0.4066018332611221,
+        "flow_error_mean": 4.323376543127622,
+        "cadence_error_mean": 7.237326383678622,
+        "false_freeze_rate": -0.6084086594069005,
+        "max_luma_impulse": 8.794642131803698,
+        "nonkey_psnr": 0.11483445905384748,
+        "key_psnr": 29.804326282151106,
+        "boundary_error": 61.38849573886718
+      }
+    },
+    {
+      "group": "webvid_development",
+      "boundary": "lossless_frames",
+      "arm": "guard_key",
+      "baseline": "guard_only",
+      "delta": {
+        "psnr_db": 0.09320023901207364,
+        "ssim": 0.0025465627983046746,
+        "lpips_vgg": -0.0013729668686272012,
+        "clip": 0.0006228370377203696,
+        "dists": -0.0006733908801314636,
+        "flow_error_mean": 0.0067168590515698234,
+        "cadence_error_mean": 0.006224356196256969,
+        "false_freeze_rate": -0.0018610221611135014,
+        "max_luma_impulse": 0.21866590711806166,
+        "nonkey_psnr": 0.0229738364259795,
+        "key_psnr": 7.62262397796588,
+        "boundary_error": 2.22782878426189
+      },
+      "relative_percent": {
+        "psnr_db": 0.473462638513511,
+        "ssim": 0.40175705467706546,
+        "lpips_vgg": -0.395934751416005,
+        "clip": 0.06699840057886597,
+        "dists": -0.39086065872753206,
+        "flow_error_mean": 4.3270423222874,
+        "cadence_error_mean": 7.239517601008272,
+        "false_freeze_rate": -0.5979160557667895,
+        "max_luma_impulse": 8.370777824277154,
+        "nonkey_psnr": 0.11699908539091197,
+        "key_psnr": 29.804326282151106,
+        "boundary_error": 62.71230548938871
+      }
+    },
+    {
+      "group": "webvid_development",
+      "boundary": "lossless_frames",
+      "arm": "guard_key",
+      "baseline": "key_only",
+      "delta": {
+        "psnr_db": -0.36245246246768303,
+        "ssim": -0.009421741317391041,
+        "lpips_vgg": 0.002379990517465347,
+        "clip": -0.0014644828473691085,
+        "dists": 0.0008165953827958261,
+        "flow_error_mean": 0.0013521169055338844,
+        "cadence_error_mean": 0.0007790542979259074,
+        "false_freeze_rate": 0.020869644600888915,
+        "max_luma_impulse": 0.1668393735532394,
+        "nonkey_psnr": -0.3639152876067975,
+        "key_psnr": 0.0,
+        "boundary_error": 0.1116065028540616
+      },
+      "relative_percent": {
+        "psnr_db": -1.799622971245396,
+        "ssim": -1.4588697639303816,
+        "lpips_vgg": 0.6938485210243428,
+        "clip": -0.15718107523198244,
+        "dists": 0.47811673829918355,
+        "flow_error_mean": 0.8419445052223917,
+        "cadence_error_mean": 0.8521444186075033,
+        "false_freeze_rate": 7.233325508219202,
+        "max_luma_impulse": 6.2625519345040015,
+        "nonkey_psnr": -1.8175044601975388,
+        "key_psnr": 0.0,
+        "boundary_error": 1.9688266497544848
+      }
+    },
+    {
+      "group": "webvid_development",
+      "boundary": "lossless_frames",
+      "arm": "context_only",
+      "baseline": "current",
+      "delta": {
+        "psnr_db": 0.26903774803146874,
+        "ssim": 0.007988006557399174,
+        "lpips_vgg": -0.004888535100987468,
+        "clip": 0.0019334253422058634,
+        "dists": -0.00231557329514559,
+        "flow_error_mean": -0.003669308380042785,
+        "cadence_error_mean": -0.007701092434081042,
+        "false_freeze_rate": 0.014030005031656578,
+        "max_luma_impulse": -0.2717348451967543,
+        "nonkey_psnr": 0.20128172345136974,
+        "key_psnr": 7.62262397796588,
+        "boundary_error": -1.4570118913746843
+      },
+      "relative_percent": {
+        "psnr_db": 1.3420166782960319,
+        "ssim": 1.2417251904421223,
+        "lpips_vgg": -1.419391983513596,
+        "clip": 0.20765140019742834,
+        "dists": -1.3502559861953922,
+        "flow_error_mean": -2.383609303867973,
+        "cadence_error_mean": -9.033245009440872,
+        "false_freeze_rate": 4.8331517012158765,
+        "max_luma_impulse": -11.097001135854857,
+        "nonkey_psnr": 1.006416993177628,
+        "key_psnr": 29.804326282151106,
+        "boundary_error": -41.481423294337816
+      }
+    },
+    {
+      "group": "webvid_development",
+      "boundary": "lossless_frames",
+      "arm": "context_only",
+      "baseline": "key_only",
+      "delta": {
+        "psnr_db": 0.17584426428745914,
+        "ssim": 0.0054623701428835325,
+        "lpips_vgg": -0.003491014067831699,
+        "clip": 0.0013082822216945456,
+        "dists": -0.0016182859981571096,
+        "flow_error_mean": -0.010324678349456717,
+        "cadence_error_mean": -0.0138711143252256,
+        "false_freeze_rate": 0.015796135515546594,
+        "max_luma_impulse": -0.48709129050925926,
+        "nonkey_psnr": 0.17831502278290756,
+        "key_psnr": 0.0,
+        "boundary_error": -3.613248615714436
+      },
+      "relative_percent": {
+        "psnr_db": 0.8730893293397823,
+        "ssim": 0.8457976474199658,
+        "lpips_vgg": -1.0177498313816202,
+        "clip": 0.14041626140057772,
+        "dists": -0.9475067326796149,
+        "flow_error_mean": -6.429034478406582,
+        "cadence_error_mean": -15.172488854212851,
+        "false_freeze_rate": 5.474869943450011,
+        "max_luma_impulse": -18.28366073722639,
+        "nonkey_psnr": 0.8905598645208013,
+        "key_psnr": 0.0,
+        "boundary_error": -63.74055261017644
+      }
+    },
+    {
+      "group": "webvid_development",
+      "boundary": "lossless_frames",
+      "arm": "guard_context",
+      "baseline": "guard_only",
+      "delta": {
+        "psnr_db": 0.2724365593615268,
+        "ssim": 0.00818372826135949,
+        "lpips_vgg": -0.004890098027193868,
+        "clip": 0.001984278249971161,
+        "dists": -0.0022839080038505877,
+        "flow_error_mean": -0.0035542743867077176,
+        "cadence_error_mean": -0.00779521521921267,
+        "false_freeze_rate": 0.01359265836653567,
+        "max_luma_impulse": -0.270638925057864,
+        "nonkey_psnr": 0.20471712331251624,
+        "key_psnr": 7.62262397796588,
+        "boundary_error": -1.418786251183712
+      },
+      "relative_percent": {
+        "psnr_db": 1.38399357759309,
+        "ssim": 1.2911013090861623,
+        "lpips_vgg": -1.410201361037089,
+        "clip": 0.2134482392666781,
+        "dists": -1.3256636126165566,
+        "flow_error_mean": -2.28968563702584,
+        "cadence_error_mean": -9.066575884117,
+        "false_freeze_rate": 4.3670993541751635,
+        "max_luma_impulse": -10.360363634727065,
+        "nonkey_psnr": 1.0425649311378349,
+        "key_psnr": 29.804326282151106,
+        "boundary_error": -39.93814849548964
+      }
+    },
+    {
+      "group": "webvid_development",
+      "boundary": "lossless_frames",
+      "arm": "guard_context",
+      "baseline": "guard_key",
+      "delta": {
+        "psnr_db": 0.17923632034945314,
+        "ssim": 0.005637165463054816,
+        "lpips_vgg": -0.0035171311585666665,
+        "clip": 0.0013614412122507913,
+        "dists": -0.001610517123719124,
+        "flow_error_mean": -0.010271133438277541,
+        "cadence_error_mean": -0.01401957141546964,
+        "false_freeze_rate": 0.015453680527649172,
+        "max_luma_impulse": -0.4893048321759257,
+        "nonkey_psnr": 0.18174328688653674,
+        "key_psnr": 0.0,
+        "boundary_error": -3.6466150354456017
+      },
+      "relative_percent": {
+        "psnr_db": 0.9062402301745154,
+        "ssim": 0.8857855484787791,
+        "lpips_vgg": -1.0182984068870637,
+        "clip": 0.14635178533242144,
+        "dists": -0.9384710680877206,
+        "flow_error_mean": -6.342294204864762,
+        "cadence_error_mean": -15.205302905029072,
+        "false_freeze_rate": 4.99488060303388,
+        "max_luma_impulse": -17.28431024955518,
+        "nonkey_psnr": 0.9244842076793658,
+        "key_psnr": 0.0,
+        "boundary_error": -63.087087160456164
+      }
+    },
+    {
+      "group": "webvid_development",
+      "boundary": "lossless_frames",
+      "arm": "guard_context",
+      "baseline": "context_only",
+      "delta": {
+        "psnr_db": -0.35906040640568904,
+        "ssim": -0.009246945997219758,
+        "lpips_vgg": 0.0023538734267303796,
+        "clip": -0.0014113238568128628,
+        "dists": 0.0008243642572338117,
+        "flow_error_mean": 0.0014056618167130608,
+        "cadence_error_mean": 0.0006305972076818683,
+        "false_freeze_rate": 0.020527189612991492,
+        "max_luma_impulse": 0.16462583188657298,
+        "nonkey_psnr": -0.3604870235031683,
+        "key_psnr": 0.0,
+        "boundary_error": 0.07824008312289576
+      },
+      "relative_percent": {
+        "psnr_db": -1.7673504297533227,
+        "ssim": -1.4197957216001367,
+        "lpips_vgg": 0.6932904595663203,
+        "clip": -0.15126319049296733,
+        "dists": 0.487282449648041,
+        "flow_error_mean": 0.9354249753886767,
+        "cadence_error_mean": 0.813131516458454,
+        "false_freeze_rate": 6.745333883210192,
+        "max_luma_impulse": 7.562090485239237,
+        "nonkey_psnr": -1.784490700780128,
+        "key_psnr": 0.0,
+        "boundary_error": 3.806502344250351
+      }
+    },
+    {
+      "group": "webvid_development",
+      "boundary": "delivered_mp4",
+      "arm": "guard_only",
+      "baseline": "current",
+      "delta": {
+        "psnr_db": -0.3576764230916396,
+        "ssim": -0.009317318133860275,
+        "lpips_vgg": 0.0018016645050573654,
+        "clip": -0.002159227370060801,
+        "dists": 0.000691888914576555,
+        "flow_error_mean": 0.001217598736322545,
+        "cadence_error_mean": 0.000625887394958613,
+        "false_freeze_rate": 0.018155840036440385,
+        "max_luma_impulse": 0.197674334490741,
+        "nonkey_psnr": -0.35901442152501417,
+        "key_psnr": -0.02883138723396783,
+        "boundary_error": 0.0732499967119109
+      },
+      "relative_percent": {
+        "psnr_db": -1.7874224406480232,
+        "ssim": -1.4541338518260116,
+        "lpips_vgg": 0.5187700725756805,
+        "clip": -0.23026228710126828,
+        "dists": 0.40820614979930614,
+        "flow_error_mean": 0.7838264119195637,
+        "cadence_error_mean": 0.7254021841469616,
+        "false_freeze_rate": 6.238922948318137,
+        "max_luma_impulse": 8.32714672228969,
+        "nonkey_psnr": -1.7983708005329224,
+        "key_psnr": -0.1127065927888915,
+        "boundary_error": 2.1204859197731407
+      }
+    },
+    {
+      "group": "webvid_development",
+      "boundary": "delivered_mp4",
+      "arm": "key_only",
+      "baseline": "current",
+      "delta": {
+        "psnr_db": 0.08311419517100305,
+        "ssim": 0.0025456184484738964,
+        "lpips_vgg": -0.0019025226398056705,
+        "clip": 0.0005992456912711219,
+        "dists": -0.0007831532627287918,
+        "flow_error_mean": 0.006614608539495609,
+        "cadence_error_mean": 0.005996087049347051,
+        "false_freeze_rate": -0.002763995498024585,
+        "max_luma_impulse": 0.21999873408565218,
+        "nonkey_psnr": 0.022936763347072286,
+        "key_psnr": 6.454619306368354,
+        "boundary_error": 2.1675530944207706
+      },
+      "relative_percent": {
+        "psnr_db": 0.41534797373823373,
+        "ssim": 0.3972892098968339,
+        "lpips_vgg": -0.5478110964379779,
+        "clip": 0.06390419337996,
+        "dists": -0.4620510190959548,
+        "flow_error_mean": 4.2581391743428565,
+        "cadence_error_mean": 6.949452372689713,
+        "false_freeze_rate": -0.9497965892551696,
+        "max_luma_impulse": 9.267575085904877,
+        "nonkey_psnr": 0.11489456408713128,
+        "key_psnr": 25.232159100311847,
+        "boundary_error": 62.74765902252311
+      }
+    },
+    {
+      "group": "webvid_development",
+      "boundary": "delivered_mp4",
+      "arm": "guard_key",
+      "baseline": "guard_only",
+      "delta": {
+        "psnr_db": 0.08239409200119496,
+        "ssim": 0.002551344531663391,
+        "lpips_vgg": -0.0017650371760974393,
+        "clip": 0.0005975850735421284,
+        "dists": -0.0007772336120363543,
+        "flow_error_mean": 0.006679967934828335,
+        "cadence_error_mean": 0.006148155978953643,
+        "false_freeze_rate": -0.002343887632404895,
+        "max_luma_impulse": 0.22353425202546529,
+        "nonkey_psnr": 0.02208428135870477,
+        "key_psnr": 6.47968875889655,
+        "boundary_error": 2.30931782834859
+      },
+      "relative_percent": {
+        "psnr_db": 0.4192430340558717,
+        "ssim": 0.40405841764765693,
+        "lpips_vgg": -0.505600718756849,
+        "clip": 0.06387418150275437,
+        "dists": -0.4566942423014031,
+        "flow_error_mean": 4.266770065442582,
+        "cadence_error_mean": 7.074382221493192,
+        "false_freeze_rate": -0.7581347485470125,
+        "max_luma_impulse": 8.69266026818767,
+        "nonkey_psnr": 0.11265018949293548,
+        "key_psnr": 25.358740649625844,
+        "boundary_error": 65.4634092837143
+      }
+    },
+    {
+      "group": "webvid_development",
+      "boundary": "delivered_mp4",
+      "arm": "guard_key",
+      "baseline": "key_only",
+      "delta": {
+        "psnr_db": -0.3583965262614477,
+        "ssim": -0.00931159205067078,
+        "lpips_vgg": 0.0019391499687655966,
+        "clip": -0.0021608879877897946,
+        "dists": 0.0006978085652689925,
+        "flow_error_mean": 0.0012829581316552707,
+        "cadence_error_mean": 0.0007779563245652044,
+        "false_freeze_rate": 0.018575947902060075,
+        "max_luma_impulse": 0.20120985243055411,
+        "nonkey_psnr": -0.3598669035133817,
+        "key_psnr": -0.0037619347057713526,
+        "boundary_error": 0.2150147306397301
+      },
+      "relative_percent": {
+        "psnr_db": -1.783612824675307,
+        "ssim": -1.4474894748095268,
+        "lpips_vgg": 0.5614331380705995,
+        "clip": -0.23029221074996054,
+        "dists": 0.4136097607255307,
+        "flow_error_mean": 0.7921696860012206,
+        "cadence_error_mean": 0.8430615922726536,
+        "false_freeze_rate": 6.444494939348688,
+        "max_luma_impulse": 7.757179998284824,
+        "nonkey_psnr": -1.8005722835654159,
+        "key_psnr": -0.0117430028683696,
+        "boundary_error": 3.8245579658799045
+      }
+    },
+    {
+      "group": "webvid_development",
+      "boundary": "delivered_mp4",
+      "arm": "context_only",
+      "baseline": "current",
+      "delta": {
+        "psnr_db": 0.2511059142029417,
+        "ssim": 0.007875266786206203,
+        "lpips_vgg": -0.005968981621287006,
+        "clip": 0.002066396672411819,
+        "dists": -0.0025915404793187824,
+        "flow_error_mean": -0.0035946070627842774,
+        "cadence_error_mean": -0.007765347550409321,
+        "false_freeze_rate": 0.013629171468135914,
+        "max_luma_impulse": -0.24945384837962914,
+        "nonkey_psnr": 0.19247590790954305,
+        "key_psnr": 6.531980342963738,
+        "boundary_error": -1.2650825885811239
+      },
+      "relative_percent": {
+        "psnr_db": 1.2548558335106597,
+        "ssim": 1.229075991767048,
+        "lpips_vgg": -1.7187045757885877,
+        "clip": 0.2203627234655725,
+        "dists": -1.5289777575916652,
+        "flow_error_mean": -2.31402010550098,
+        "cadence_error_mean": -9.000021599891351,
+        "false_freeze_rate": 4.683415940460511,
+        "max_luma_impulse": -10.508388968393234,
+        "nonkey_psnr": 0.9641480448619566,
+        "key_psnr": 25.53457600375555,
+        "boundary_error": -36.622388216438125
+      }
+    },
+    {
+      "group": "webvid_development",
+      "boundary": "delivered_mp4",
+      "arm": "context_only",
+      "baseline": "key_only",
+      "delta": {
+        "psnr_db": 0.16799171903193866,
+        "ssim": 0.005329648337732307,
+        "lpips_vgg": -0.004066458981481336,
+        "clip": 0.0014671509811406969,
+        "dists": -0.0018083872165899906,
+        "flow_error_mean": -0.010209215602279886,
+        "cadence_error_mean": -0.013761434599756373,
+        "false_freeze_rate": 0.0163931669661605,
+        "max_luma_impulse": -0.4694525824652813,
+        "nonkey_psnr": 0.16953914456247077,
+        "key_psnr": 0.07736103659538429,
+        "boundary_error": -3.4326356830018945
+      },
+      "relative_percent": {
+        "psnr_db": 0.8360354036635931,
+        "ssim": 0.8284952595993378,
+        "lpips_vgg": -1.1773430954707398,
+        "clip": 0.15635861037686105,
+        "dists": -1.071879368039208,
+        "flow_error_mean": -6.303737369466889,
+        "cadence_error_mean": -14.913095503286433,
+        "false_freeze_rate": 5.687229642886926,
+        "max_luma_impulse": -18.098657391042572,
+        "nonkey_psnr": 0.8482788544827091,
+        "key_psnr": 0.2414850191965856,
+        "boundary_error": -61.057742910581055
+      }
+    },
+    {
+      "group": "webvid_development",
+      "boundary": "delivered_mp4",
+      "arm": "guard_context",
+      "baseline": "guard_only",
+      "delta": {
+        "psnr_db": 0.2538426589104219,
+        "ssim": 0.008048491063070151,
+        "lpips_vgg": -0.005899605599246405,
+        "clip": 0.0016088414156864017,
+        "dists": -0.002517129760360892,
+        "flow_error_mean": -0.00345505479109412,
+        "cadence_error_mean": -0.007676164433593091,
+        "false_freeze_rate": 0.012500957996622653,
+        "max_luma_impulse": -0.2519151475694432,
+        "nonkey_psnr": 0.19512992388557393,
+        "key_psnr": 6.55292395986131,
+        "boundary_error": -1.2639714610295667
+      },
+      "relative_percent": {
+        "psnr_db": 1.2916189002103895,
+        "ssim": 1.2746457889304619,
+        "lpips_vgg": -1.6899614760274129,
+        "clip": 0.17196451709475813,
+        "dists": -1.47903879976381,
+        "flow_error_mean": -2.20688549719561,
+        "cadence_error_mean": -8.832586776289208,
+        "false_freeze_rate": 4.043457764928005,
+        "max_luma_impulse": -9.796318794052505,
+        "nonkey_psnr": 0.995342458485271,
+        "key_psnr": 25.645352018904767,
+        "boundary_error": -35.830443112061204
+      }
+    },
+    {
+      "group": "webvid_development",
+      "boundary": "delivered_mp4",
+      "arm": "guard_context",
+      "baseline": "guard_key",
+      "delta": {
+        "psnr_db": 0.17144856690922694,
+        "ssim": 0.00549714653140676,
+        "lpips_vgg": -0.0041345684231489654,
+        "clip": 0.0010112563421442733,
+        "dists": -0.0017398961483245379,
+        "flow_error_mean": -0.010135022725922455,
+        "cadence_error_mean": -0.013824320412546734,
+        "false_freeze_rate": 0.014844845629027548,
+        "max_luma_impulse": -0.4754493995949085,
+        "nonkey_psnr": 0.17304564252686916,
+        "key_psnr": 0.07323520096475988,
+        "boundary_error": -3.5732892893781565
+      },
+      "relative_percent": {
+        "psnr_db": 0.8687337603796363,
+        "ssim": 0.8670838460149044,
+        "lpips_vgg": -1.190379323687063,
+        "clip": 0.10802133784659773,
+        "dists": -1.0270349670232215,
+        "flow_error_mean": -6.208742784086462,
+        "cadence_error_mean": -14.855998855895692,
+        "false_freeze_rate": 4.838273143404792,
+        "max_luma_impulse": -17.01032895562642,
+        "nonkey_psnr": 0.8816990333604835,
+        "key_psnr": 0.22863293599924006,
+        "boundary_error": -61.21827951827736
+      }
+    },
+    {
+      "group": "webvid_development",
+      "boundary": "delivered_mp4",
+      "arm": "guard_context",
+      "baseline": "context_only",
+      "delta": {
+        "psnr_db": -0.3549396783841594,
+        "ssim": -0.009144093856996327,
+        "lpips_vgg": 0.0018710405270979669,
+        "clip": -0.002616782626786218,
+        "dists": 0.0007662996335344452,
+        "flow_error_mean": 0.0013571510080127025,
+        "cadence_error_mean": 0.0007150705117748429,
+        "false_freeze_rate": 0.017027626564927123,
+        "max_luma_impulse": 0.19521303530092693,
+        "nonkey_psnr": -0.3563604055489833,
+        "key_psnr": -0.00788777033639576,
+        "boundary_error": 0.07436112426346808
+      },
+      "relative_percent": {
+        "psnr_db": -1.7517639479283864,
+        "ssim": -1.409771942091398,
+        "lpips_vgg": 0.5481675385288431,
+        "clip": -0.27844287859157824,
+        "dists": 0.45912753822707764,
+        "flow_error_mean": 0.8943585044247415,
+        "cadence_error_mean": 0.910731238543061,
+        "false_freeze_rate": 5.589455535645893,
+        "max_luma_impulse": 9.189088186558681,
+        "nonkey_psnr": -1.7680299092457386,
+        "key_psnr": -0.024562619391788054,
+        "boundary_error": 3.3965488165093705
+      }
+    },
+    {
+      "group": "davis_transfer",
+      "boundary": "lossless_frames",
+      "arm": "guard_only",
+      "baseline": "current",
+      "delta": {
+        "psnr_db": -0.4191175705626886,
+        "ssim": -0.012124750203689638,
+        "lpips_vgg": 0.004776846035383642,
+        "clip": 0.0017897288004556922,
+        "dists": -0.0003572364027301378,
+        "flow_error_mean": 0.009098958920099154,
+        "cadence_error_mean": 0.0022425674783819183,
+        "false_freeze_rate": -0.019184460825524163,
+        "max_luma_impulse": -0.01353081597221184,
+        "nonkey_psnr": -0.4280349656810447,
+        "key_psnr": 0.0,
+        "boundary_error": 0.056722005208333925
+      },
+      "relative_percent": {
+        "psnr_db": -2.8003266387074177,
+        "ssim": -2.727852058276037,
+        "lpips_vgg": 0.9629278463138435,
+        "clip": 0.189964605173909,
+        "dists": -0.19736205084872616,
+        "flow_error_mean": 0.6313807990341536,
+        "cadence_error_mean": 0.1016155306900357,
+        "false_freeze_rate": -3.3337340287843076,
+        "max_luma_impulse": -1.3519593653261497,
+        "nonkey_psnr": -2.8998341001431505,
+        "key_psnr": 0.0,
+        "boundary_error": 0.3848832014772485
+      }
+    },
+    {
+      "group": "davis_transfer",
+      "boundary": "lossless_frames",
+      "arm": "key_only",
+      "baseline": "current",
+      "delta": {
+        "psnr_db": 0.23928860937886398,
+        "ssim": 0.0052326985822795935,
+        "lpips_vgg": -0.0038313459372147918,
+        "clip": 0.0007266998291014515,
+        "dists": -0.001831279912342637,
+        "flow_error_mean": 0.023497432940884355,
+        "cadence_error_mean": 0.023369802310666543,
+        "false_freeze_rate": 0.000200481154771448,
+        "max_luma_impulse": 0.019023980034720722,
+        "nonkey_psnr": 0.006957622485337822,
+        "key_psnr": 11.158844993374643,
+        "boundary_error": 0.17145724826388964
+      },
+      "relative_percent": {
+        "psnr_db": 1.5988026135083322,
+        "ssim": 1.1772636432267225,
+        "lpips_vgg": -0.7723317152107612,
+        "clip": 0.07713305282903704,
+        "dists": -1.0117254468353876,
+        "flow_error_mean": 1.6304973036745496,
+        "cadence_error_mean": 1.0589357452168047,
+        "false_freeze_rate": 0.03483813560725135,
+        "max_luma_impulse": 1.9008201742259034,
+        "nonkey_psnr": 0.04713622146921281,
+        "key_psnr": 45.26560577902752,
+        "boundary_error": 1.163411173245854
+      }
+    },
+    {
+      "group": "davis_transfer",
+      "boundary": "lossless_frames",
+      "arm": "guard_key",
+      "baseline": "guard_only",
+      "delta": {
+        "psnr_db": 0.23995306861830556,
+        "ssim": 0.0052583936118848484,
+        "lpips_vgg": -0.003804433353555736,
+        "clip": 0.0007273356119792407,
+        "dists": -0.0018015316066642695,
+        "flow_error_mean": 0.023748099960778646,
+        "cadence_error_mean": 0.023570608283254302,
+        "false_freeze_rate": 0.000601443464314344,
+        "max_luma_impulse": 0.019099934895830728,
+        "nonkey_psnr": 0.007636219155402912,
+        "key_psnr": 11.158844993374643,
+        "boundary_error": 0.18467881944444464
+      },
+      "relative_percent": {
+        "psnr_db": 1.6494316603424375,
+        "ssim": 1.2162212828710217,
+        "lpips_vgg": -0.7595922877127514,
+        "clip": 0.07705416018375377,
+        "dists": -0.9972586391931659,
+        "flow_error_mean": 1.6375520105024854,
+        "cadence_error_mean": 1.0669505060645124,
+        "false_freeze_rate": 0.10811880005054952,
+        "max_luma_impulse": 1.934563878249418,
+        "nonkey_psnr": 0.05327854022170175,
+        "key_psnr": 45.26560577902752,
+        "boundary_error": 1.248320643845946
+      }
+    },
+    {
+      "group": "davis_transfer",
+      "boundary": "lossless_frames",
+      "arm": "guard_key",
+      "baseline": "key_only",
+      "delta": {
+        "psnr_db": -0.41845311132324703,
+        "ssim": -0.012099055174084383,
+        "lpips_vgg": 0.004803758619042697,
+        "clip": 0.0017903645833334814,
+        "dists": -0.0003274880970517702,
+        "flow_error_mean": 0.009349625939993444,
+        "cadence_error_mean": 0.002443373450969677,
+        "false_freeze_rate": -0.018783498515981267,
+        "max_luma_impulse": -0.013454861111101835,
+        "nonkey_psnr": -0.4273563690109796,
+        "key_psnr": 0.0,
+        "boundary_error": 0.06994357638888893
+      },
+      "relative_percent": {
+        "psnr_db": -2.7518897803165854,
+        "ssim": -2.690398057737886,
+        "lpips_vgg": 0.9758900565674855,
+        "clip": 0.1898856235814428,
+        "dists": -0.18277622670022087,
+        "flow_error_mean": 0.638366151935732,
+        "cadence_error_mean": 0.1095543685872391,
+        "false_freeze_rate": -3.262921016721243,
+        "max_luma_impulse": -1.319292795224114,
+        "nonkey_psnr": -2.893872708419165,
+        "key_psnr": 0.0,
+        "boundary_error": 0.4691392303125319
+      }
+    },
+    {
+      "group": "davis_transfer",
+      "boundary": "lossless_frames",
+      "arm": "context_only",
+      "baseline": "current",
+      "delta": {
+        "psnr_db": 0.5863574608458926,
+        "ssim": 0.013622014720291176,
+        "lpips_vgg": -0.009744277786618794,
+        "clip": 0.0018107096354166297,
+        "dists": -0.005071503110229969,
+        "flow_error_mean": -0.02164963489692484,
+        "cadence_error_mean": -0.02249473652943612,
+        "false_freeze_rate": 0.006088183610681641,
+        "max_luma_impulse": -0.08935275607638715,
+        "nonkey_psnr": 0.3614109176005975,
+        "key_psnr": 11.158844993374643,
+        "boundary_error": -0.6202256944444429
+      },
+      "relative_percent": {
+        "psnr_db": 3.9177370092289943,
+        "ssim": 3.0647098099641834,
+        "lpips_vgg": -1.9642744089823139,
+        "clip": 0.19219154370704317,
+        "dists": -2.8018484316582493,
+        "flow_error_mean": -1.5022777770568596,
+        "cadence_error_mean": -1.0192846423601187,
+        "false_freeze_rate": 1.0579596195590124,
+        "max_luma_impulse": -8.927864782379945,
+        "nonkey_psnr": 2.4484721741241833,
+        "key_psnr": 45.26560577902752,
+        "boundary_error": -4.208498095923341
+      }
+    },
+    {
+      "group": "davis_transfer",
+      "boundary": "lossless_frames",
+      "arm": "context_only",
+      "baseline": "key_only",
+      "delta": {
+        "psnr_db": 0.3470688514670286,
+        "ssim": 0.008389316138011582,
+        "lpips_vgg": -0.005912931849404002,
+        "clip": 0.0010840098063151782,
+        "dists": -0.003240223197887332,
+        "flow_error_mean": -0.045147067837809196,
+        "cadence_error_mean": -0.045864538840102664,
+        "false_freeze_rate": 0.005887702455910193,
+        "max_luma_impulse": -0.10837673611110787,
+        "nonkey_psnr": 0.3544532951152597,
+        "key_psnr": 0.0,
+        "boundary_error": -0.7916829427083325
+      },
+      "relative_percent": {
+        "psnr_db": 2.2824426430911204,
+        "ssim": 1.8654844959960615,
+        "lpips_vgg": -1.2012200975544562,
+        "clip": 0.11496981115282079,
+        "dists": -1.8084192222801332,
+        "flow_error_mean": -3.0825147606732606,
+        "cadence_error_mean": -2.05644396732656,
+        "false_freeze_rate": 1.0227651716343322,
+        "max_luma_impulse": -10.626690676376693,
+        "nonkey_psnr": 2.4002045869051747,
+        "key_psnr": 0.0,
+        "boundary_error": -5.310130616265607
+      }
+    },
+    {
+      "group": "davis_transfer",
+      "boundary": "lossless_frames",
+      "arm": "guard_context",
+      "baseline": "guard_only",
+      "delta": {
+        "psnr_db": 0.5937850037014059,
+        "ssim": 0.014144930679294732,
+        "lpips_vgg": -0.009872897372891543,
+        "clip": 0.0018285115559896203,
+        "dists": -0.005140309066822141,
+        "flow_error_mean": -0.02195126483167864,
+        "cadence_error_mean": -0.022509344202030768,
+        "false_freeze_rate": 0.005285127243141452,
+        "max_luma_impulse": -0.10346950954860645,
+        "nonkey_psnr": 0.36899649328282536,
+        "key_psnr": 11.158844993374643,
+        "boundary_error": -0.6241102430555561
+      },
+      "relative_percent": {
+        "psnr_db": 4.081663927789125,
+        "ssim": 3.271600988182244,
+        "lpips_vgg": -1.971220417048103,
+        "clip": 0.19371308102138496,
+        "dists": -2.845477484851411,
+        "flow_error_mean": -1.5136511096700556,
+        "cadence_error_mean": -1.0189111752622604,
+        "false_freeze_rate": 0.9500836729422479,
+        "max_luma_impulse": -10.480055391006127,
+        "nonkey_psnr": 2.5745194197484,
+        "key_psnr": 45.26560577902752,
+        "boundary_error": -4.21861967054824
+      }
+    },
+    {
+      "group": "davis_transfer",
+      "boundary": "lossless_frames",
+      "arm": "guard_context",
+      "baseline": "guard_key",
+      "delta": {
+        "psnr_db": 0.3538319350831003,
+        "ssim": 0.008886537067409883,
+        "lpips_vgg": -0.006068464019335806,
+        "clip": 0.0011011759440103797,
+        "dists": -0.0033387774601578712,
+        "flow_error_mean": -0.04569936479245729,
+        "cadence_error_mean": -0.04607995248528507,
+        "false_freeze_rate": 0.004683683778827108,
+        "max_luma_impulse": -0.12256944444443718,
+        "nonkey_psnr": 0.36136027412742244,
+        "key_psnr": 0.0,
+        "boundary_error": -0.8087890625000007
+      },
+      "relative_percent": {
+        "psnr_db": 2.3927652400201227,
+        "ssim": 2.0306821172141998,
+        "lpips_vgg": -1.2209020068196907,
+        "clip": 0.11656909949697702,
+        "dists": -1.8668360292393937,
+        "flow_error_mean": -3.1004319346917386,
+        "cadence_error_mean": -2.063841513850373,
+        "false_freeze_rate": 0.8410555337408754,
+        "max_luma_impulse": -12.179008568755489,
+        "nonkey_psnr": 2.5198983144896436,
+        "key_psnr": 0.0,
+        "boundary_error": -5.399536782071523
+      }
+    },
+    {
+      "group": "davis_transfer",
+      "boundary": "lossless_frames",
+      "arm": "guard_context",
+      "baseline": "context_only",
+      "delta": {
+        "psnr_db": -0.41169002770717533,
+        "ssim": -0.011601834244686082,
+        "lpips_vgg": 0.004648226449110893,
+        "clip": 0.0018075307210286828,
+        "dists": -0.0004260423593223095,
+        "flow_error_mean": 0.008797328985345354,
+        "cadence_error_mean": 0.002227959805787272,
+        "false_freeze_rate": -0.019987517193064352,
+        "max_luma_impulse": -0.02764756944443114,
+        "nonkey_psnr": -0.42044938999881687,
+        "key_psnr": 0.0,
+        "boundary_error": 0.05283745659722072
+      },
+      "relative_percent": {
+        "psnr_db": -2.6469972514657436,
+        "ssim": -2.5325888170310784,
+        "lpips_vgg": 0.9557744406860635,
+        "clip": 0.1914861086695474,
+        "dists": -0.24216017231134535,
+        "flow_error_mean": 0.6197610971839795,
+        "cadence_error_mean": 0.10199322708985825,
+        "false_freeze_rate": -3.4369219912843363,
+        "max_luma_impulse": -3.0332701402039586,
+        "nonkey_psnr": -2.7803671310259404,
+        "key_psnr": 0.0,
+        "boundary_error": 0.37427627845862954
+      }
+    },
+    {
+      "group": "davis_transfer",
+      "boundary": "delivered_mp4",
+      "arm": "guard_only",
+      "baseline": "current",
+      "delta": {
+        "psnr_db": -0.4143794629917732,
+        "ssim": -0.011794689430013383,
+        "lpips_vgg": 0.004324524469363156,
+        "clip": 0.0011145273844401782,
+        "dists": -0.0004294617101550102,
+        "flow_error_mean": 0.008561963891904556,
+        "cadence_error_mean": 0.0011956146026546044,
+        "false_freeze_rate": -0.019947659750761848,
+        "max_luma_impulse": 0.010129123263880047,
+        "nonkey_psnr": -0.4231373587410907,
+        "key_psnr": -0.002758362773853662,
+        "boundary_error": 0.044824218749999645
+      },
+      "relative_percent": {
+        "psnr_db": -2.770372486891881,
+        "ssim": -2.6565420692407415,
+        "lpips_vgg": 0.8615817233881273,
+        "clip": 0.1181369539535515,
+        "dists": -0.24050469482351788,
+        "flow_error_mean": 0.593872418318897,
+        "cadence_error_mean": 0.05413938831182463,
+        "false_freeze_rate": -3.4509263016552993,
+        "max_luma_impulse": 0.954577061517492,
+        "nonkey_psnr": -2.8679950744483818,
+        "key_psnr": -0.01124274507573464,
+        "boundary_error": 0.3040933907535681
+      }
+    },
+    {
+      "group": "davis_transfer",
+      "boundary": "delivered_mp4",
+      "arm": "key_only",
+      "baseline": "current",
+      "delta": {
+        "psnr_db": 0.2103222150052133,
+        "ssim": 0.005377067648252409,
+        "lpips_vgg": -0.0031845100650874647,
+        "clip": 0.00034268697102879386,
+        "dists": -0.000738138332962962,
+        "flow_error_mean": 0.022637647576630116,
+        "cadence_error_mean": 0.02186129448757068,
+        "false_freeze_rate": -0.0011709517255067414,
+        "max_luma_impulse": 0.011005316840265067,
+        "nonkey_psnr": 0.00870454315465885,
+        "key_psnr": 9.686352791981172,
+        "boundary_error": 0.1557915581597218
+      },
+      "relative_percent": {
+        "psnr_db": 1.406128753644742,
+        "ssim": 1.2110879647570183,
+        "lpips_vgg": -0.634454883875113,
+        "clip": 0.0363239122538328,
+        "dists": -0.4133680146775398,
+        "flow_error_mean": 1.5701858453404327,
+        "cadence_error_mean": 0.989915235757377,
+        "false_freeze_rate": -0.2025735428621167,
+        "max_luma_impulse": 1.0371502781401531,
+        "nonkey_psnr": 0.058998777529728486,
+        "key_psnr": 39.480374440278496,
+        "boundary_error": 1.0569104045248023
+      }
+    },
+    {
+      "group": "davis_transfer",
+      "boundary": "delivered_mp4",
+      "arm": "guard_key",
+      "baseline": "guard_only",
+      "delta": {
+        "psnr_db": 0.20951688166530325,
+        "ssim": 0.004868775614138787,
+        "lpips_vgg": -0.003718586192311024,
+        "clip": 0.0012378692626953125,
+        "dists": -0.001889047368119151,
+        "flow_error_mean": 0.023796450425135562,
+        "cadence_error_mean": 0.02333838545638045,
+        "false_freeze_rate": 0.0013338389348844792,
+        "max_luma_impulse": -0.020792643229166075,
+        "nonkey_psnr": 0.00782059099703325,
+        "key_psnr": 9.689242543074045,
+        "boundary_error": 0.18413357204861214
+      },
+      "relative_percent": {
+        "psnr_db": 1.4406561646234994,
+        "ssim": 1.1265310804289275,
+        "lpips_vgg": -0.7345311139667965,
+        "clip": 0.13105604109788782,
+        "dists": -1.0604439386589393,
+        "flow_error_mean": 1.6408180216327173,
+        "cadence_error_mean": 1.0562284994998894,
+        "false_freeze_rate": 0.23900061123531824,
+        "max_luma_impulse": -1.9409878906664901,
+        "nonkey_psnr": 0.054572550415699084,
+        "key_psnr": 39.49659320915977,
+        "boundary_error": 1.245399174846673
+      }
+    },
+    {
+      "group": "davis_transfer",
+      "boundary": "delivered_mp4",
+      "arm": "guard_key",
+      "baseline": "key_only",
+      "delta": {
+        "psnr_db": -0.41518479633168326,
+        "ssim": -0.012302981464127005,
+        "lpips_vgg": 0.0037904483421395962,
+        "clip": 0.002009709676106697,
+        "dists": -0.0015803707453111993,
+        "flow_error_mean": 0.009720766740410003,
+        "cadence_error_mean": 0.0026727055714643733,
+        "false_freeze_rate": -0.017442869090370627,
+        "max_luma_impulse": -0.021668836805551095,
+        "nonkey_psnr": -0.4240213108987163,
+        "key_psnr": 0.0001313883190192655,
+        "boundary_error": 0.07316623263889
+      },
+      "relative_percent": {
+        "psnr_db": -2.7372671179194508,
+        "ssim": -2.7378677389659156,
+        "lpips_vgg": 0.759998756695146,
+        "clip": 0.21294655789168004,
+        "dists": -0.8887038186781049,
+        "flow_error_mean": 0.6638256636678053,
+        "cadence_error_mean": 0.11983819119030237,
+        "false_freeze_rate": -3.0237251496742057,
+        "max_luma_impulse": -2.021127206021478,
+        "nonkey_psnr": -2.8722918225579486,
+        "key_psnr": 0.0003839411240491586,
+        "boundary_error": 0.4911780259931886
+      }
+    },
+    {
+      "group": "davis_transfer",
+      "boundary": "delivered_mp4",
+      "arm": "context_only",
+      "baseline": "current",
+      "delta": {
+        "psnr_db": 0.5130342904404337,
+        "ssim": 0.013259061514799775,
+        "lpips_vgg": -0.008666450739838183,
+        "clip": 0.0009606679280599328,
+        "dists": -0.003932562035818876,
+        "flow_error_mean": -0.021795493227086515,
+        "cadence_error_mean": -0.021978617838999792,
+        "false_freeze_rate": 0.0031095062468687873,
+        "max_luma_impulse": -0.06888020833333641,
+        "nonkey_psnr": 0.31886428897295716,
+        "key_psnr": 9.639024359411941,
+        "boundary_error": -0.5949517144097225
+      },
+      "relative_percent": {
+        "psnr_db": 3.4299385225480927,
+        "ssim": 2.9863655945942646,
+        "lpips_vgg": -1.7266304346261752,
+        "clip": 0.1018282586559005,
+        "dists": -2.2022909375501665,
+        "flow_error_mean": -1.5117725833277196,
+        "cadence_error_mean": -0.9952278293531291,
+        "false_freeze_rate": 0.5379416446117835,
+        "max_luma_impulse": -6.491328534031671,
+        "nonkey_psnr": 2.1612395863904066,
+        "key_psnr": 39.28746961019098,
+        "boundary_error": -4.036230618509107
+      }
+    },
+    {
+      "group": "davis_transfer",
+      "boundary": "delivered_mp4",
+      "arm": "context_only",
+      "baseline": "key_only",
+      "delta": {
+        "psnr_db": 0.3027120754352204,
+        "ssim": 0.007881993866547365,
+        "lpips_vgg": -0.005481940674750718,
+        "clip": 0.000617980957031139,
+        "dists": -0.003194423702855914,
+        "flow_error_mean": -0.04443314080371663,
+        "cadence_error_mean": -0.043839912326570474,
+        "false_freeze_rate": 0.004280457972375529,
+        "max_luma_impulse": -0.07988552517360148,
+        "nonkey_psnr": 0.3101597458182983,
+        "key_psnr": -0.04732843256923047,
+        "boundary_error": -0.7507432725694443
+      },
+      "relative_percent": {
+        "psnr_db": 1.9957469965350638,
+        "ssim": 1.7540347263685474,
+        "lpips_vgg": -1.0991491562539868,
+        "clip": 0.0654805613004461,
+        "dists": -1.7963484528086937,
+        "flow_error_mean": -3.034314058813492,
+        "cadence_error_mean": -1.965684455201544,
+        "false_freeze_rate": 0.7420183202739628,
+        "max_luma_impulse": -7.451198684292903,
+        "nonkey_psnr": 2.1010012438109404,
+        "key_psnr": -0.1383024894087148,
+        "boundary_error": -5.039874069617179
+      }
+    },
+    {
+      "group": "davis_transfer",
+      "boundary": "delivered_mp4",
+      "arm": "guard_context",
+      "baseline": "guard_only",
+      "delta": {
+        "psnr_db": 0.5183178470613896,
+        "ssim": 0.013256741388328053,
+        "lpips_vgg": -0.009248521140155619,
+        "clip": 0.0014826456705729907,
+        "dists": -0.0047308714129030704,
+        "flow_error_mean": -0.021602890758138038,
+        "cadence_error_mean": -0.021592803757657375,
+        "false_freeze_rate": 0.003825934115877838,
+        "max_luma_impulse": -0.09852701822916288,
+        "nonkey_psnr": 0.3238437436333541,
+        "key_psnr": 9.65860070817898,
+        "boundary_error": -0.5880859374999989
+      },
+      "relative_percent": {
+        "psnr_db": 3.563998259558998,
+        "ssim": 3.067327883378268,
+        "lpips_vgg": -1.8268573549997669,
+        "clip": 0.15697107747316696,
+        "dists": -2.6557427828731273,
+        "flow_error_mean": -1.4895672187258069,
+        "cadence_error_mean": -0.9772284700487299,
+        "false_freeze_rate": 0.6855404864306802,
+        "max_luma_impulse": -9.19747177780783,
+        "nonkey_psnr": 2.2598009578741918,
+        "key_psnr": 39.37168684185062,
+        "boundary_error": -3.977556798322901
+      }
+    },
+    {
+      "group": "davis_transfer",
+      "boundary": "delivered_mp4",
+      "arm": "guard_context",
+      "baseline": "guard_key",
+      "delta": {
+        "psnr_db": 0.30880096539608637,
+        "ssim": 0.008387965774189265,
+        "lpips_vgg": -0.005529934947844595,
+        "clip": 0.0002447764078776782,
+        "dists": -0.0028418240447839194,
+        "flow_error_mean": -0.0453993411832736,
+        "cadence_error_mean": -0.044931189214037826,
+        "false_freeze_rate": 0.002492095180993359,
+        "max_luma_impulse": -0.0777343749999968,
+        "nonkey_psnr": 0.31602315263632086,
+        "key_psnr": -0.030641834895064335,
+        "boundary_error": -0.7722195095486111
+      },
+      "relative_percent": {
+        "psnr_db": 2.0931864749471174,
+        "ssim": 1.9191766811478717,
+        "lpips_vgg": -1.1004090881664652,
+        "clip": 0.02588111760717382,
+        "dists": -1.6123974148672393,
+        "flow_error_mean": -3.0798504983423625,
+        "cadence_error_mean": -2.012203502685328,
+        "false_freeze_rate": 0.44547518677604536,
+        "max_luma_impulse": -7.400119306780828,
+        "nonkey_psnr": 2.204025614468863,
+        "key_psnr": -0.08954080127380193,
+        "boundary_error": -5.158709448268118
+      }
+    },
+    {
+      "group": "davis_transfer",
+      "boundary": "delivered_mp4",
+      "arm": "guard_context",
+      "baseline": "context_only",
+      "delta": {
+        "psnr_db": -0.4090959063708173,
+        "ssim": -0.011797009556485105,
+        "lpips_vgg": 0.0037424540690457198,
+        "clip": 0.001636505126953236,
+        "dists": -0.0012277710872392045,
+        "flow_error_mean": 0.008754566360853033,
+        "cadence_error_mean": 0.0015814286839970215,
+        "false_freeze_rate": -0.019231231881752797,
+        "max_luma_impulse": -0.019517686631946418,
+        "nonkey_psnr": -0.41815790408069375,
+        "key_psnr": 0.016817985993185403,
+        "boundary_error": 0.05168999565972321
+      },
+      "relative_percent": {
+        "psnr_db": -2.6443492243794275,
+        "ssim": -2.5800159280693125,
+        "lpips_vgg": 0.7587151404587544,
+        "clip": 0.1732887566969321,
+        "dists": -0.7030526181673324,
+        "flow_error_mean": 0.616552526107994,
+        "cadence_error_mean": 0.07232952566842421,
+        "false_freeze_rate": -3.309183480751565,
+        "max_luma_impulse": -1.9670508726654323,
+        "nonkey_psnr": -2.774285721868186,
+        "key_psnr": 0.04921334876144545,
+        "boundary_error": 0.36542095611995506
+      }
+    }
+  ],
+  "source_means": [
+    {
+      "id": "webvid_001_2255949c",
+      "group": "webvid_development",
+      "means": {
+        "current": {
+          "psnr_db": 20.549666430108182,
+          "ssim": 0.6282114980407403,
+          "lpips_vgg": 0.3415262054856927,
+          "clip": 0.9446918207134188,
+          "dists": 0.1558517803762227,
+          "flow_error_mean": 0.044468096792008034,
+          "cadence_error_mean": 0.02961257282268009,
+          "false_freeze_rate": 0.7541218637992831
+        },
+        "guard_only": {
+          "psnr_db": 19.743517739936042,
+          "ssim": 0.6072085927349582,
+          "lpips_vgg": 0.35165427386126913,
+          "clip": 0.940700917237344,
+          "dists": 0.1643272020229299,
+          "flow_error_mean": 0.04611266172556767,
+          "cadence_error_mean": 0.030468240193493742,
+          "false_freeze_rate": 0.8100358422939068
+        },
+        "key_only": {
+          "psnr_db": 20.58048365567961,
+          "ssim": 0.6298577353464417,
+          "lpips_vgg": 0.340029727851854,
+          "clip": 0.9446151810997457,
+          "dists": 0.15539145067341065,
+          "flow_error_mean": 0.04457633792793516,
+          "cadence_error_mean": 0.02974285933530838,
+          "false_freeze_rate": 0.7562724014336918
+        },
+        "guard_key": {
+          "psnr_db": 19.772455681558753,
+          "ssim": 0.6088259099582517,
+          "lpips_vgg": 0.3502424413401167,
+          "clip": 0.9409446063771383,
+          "dists": 0.16395769274130056,
+          "flow_error_mean": 0.04624584063513558,
+          "cadence_error_mean": 0.030596124466349302,
+          "false_freeze_rate": 0.8100358422939068
+        },
+        "context_only": {
+          "psnr_db": 20.614852209816284,
+          "ssim": 0.6312136020669095,
+          "lpips_vgg": 0.3387390544885185,
+          "clip": 0.9450747930391816,
+          "dists": 0.15465274548232968,
+          "flow_error_mean": 0.04429990496708477,
+          "cadence_error_mean": 0.029382201212906918,
+          "false_freeze_rate": 0.7562724014336918
+        },
+        "guard_context": {
+          "psnr_db": 19.8090054795189,
+          "ssim": 0.6104219614407626,
+          "lpips_vgg": 0.3488449854840849,
+          "clip": 0.9412390876025775,
+          "dists": 0.1632714639148721,
+          "flow_error_mean": 0.04593970130560963,
+          "cadence_error_mean": 0.030135988312821764,
+          "false_freeze_rate": 0.8100358422939068
+        }
+      }
+    },
+    {
+      "id": "webvid_002_1669a7b1",
+      "group": "webvid_development",
+      "means": {
+        "current": {
+          "psnr_db": 17.22566436930048,
+          "ssim": 0.6241213658332029,
+          "lpips_vgg": 0.37311428098839783,
+          "clip": 0.9417252450619104,
+          "dists": 0.16779237288973867,
+          "flow_error_mean": 0.3773649173849837,
+          "cadence_error_mean": 0.15222778901669318,
+          "false_freeze_rate": 0.21094244149272612
+        },
+        "guard_only": {
+          "psnr_db": 17.169479331277117,
+          "ssim": 0.6244045231512035,
+          "lpips_vgg": 0.3723851106670418,
+          "clip": 0.9412716399698637,
+          "dists": 0.16751736012019952,
+          "flow_error_mean": 0.3779869056592776,
+          "cadence_error_mean": 0.15329363290416362,
+          "false_freeze_rate": 0.21685641998734978
+        },
+        "key_only": {
+          "psnr_db": 17.428115171296565,
+          "ssim": 0.630342163636213,
+          "lpips_vgg": 0.3690098351222976,
+          "clip": 0.9435053731410509,
+          "dists": 0.16626071876824777,
+          "flow_error_mean": 0.39833839240818825,
+          "cadence_error_mean": 0.17158459605635404,
+          "false_freeze_rate": 0.20550284629981025
+        },
+        "guard_key": {
+          "psnr_db": 17.372145206426232,
+          "ssim": 0.6306724028208087,
+          "lpips_vgg": 0.3683705564658597,
+          "clip": 0.9426920828829272,
+          "dists": 0.16587437270697308,
+          "flow_error_mean": 0.39906111165607383,
+          "cadence_error_mean": 0.17282313878572578,
+          "false_freeze_rate": 0.21103731815306767
+        },
+        "context_only": {
+          "psnr_db": 17.933090496464377,
+          "ssim": 0.6463153577930588,
+          "lpips_vgg": 0.35725261896177035,
+          "clip": 0.946266030365566,
+          "dists": 0.16184817401368162,
+          "flow_error_mean": 0.3601451294472211,
+          "cadence_error_mean": 0.12144001575870406,
+          "false_freeze_rate": 0.2584756483238457
+        },
+        "guard_context": {
+          "psnr_db": 17.88319160518612,
+          "ssim": 0.646704730675829,
+          "lpips_vgg": 0.3565520115930829,
+          "clip": 0.9450198639363863,
+          "dists": 0.16151322505634036,
+          "flow_error_mean": 0.36080257725997233,
+          "cadence_error_mean": 0.12233421141644067,
+          "false_freeze_rate": 0.2625237191650854
+        }
+      }
+    },
+    {
+      "id": "webvid_003_1ca01463",
+      "group": "webvid_development",
+      "means": {
+        "current": {
+          "psnr_db": 24.16126301618197,
+          "ssim": 0.7286565446772374,
+          "lpips_vgg": 0.33954485154818786,
+          "clip": 0.9477241082264216,
+          "dists": 0.18891099760833296,
+          "flow_error_mean": 0.1512000302930742,
+          "cadence_error_mean": 0.13173852710974718,
+          "false_freeze_rate": 0.16425029017621612
+        },
+        "guard_only": {
+          "psnr_db": 23.998525421377753,
+          "ssim": 0.7247792023475288,
+          "lpips_vgg": 0.3377510318244104,
+          "clip": 0.9471340170625289,
+          "dists": 0.18393464924503244,
+          "flow_error_mean": 0.15271803957617117,
+          "cadence_error_mean": 0.13201402137975657,
+          "false_freeze_rate": 0.17058140761844465
+        },
+        "key_only": {
+          "psnr_db": 24.2204175308875,
+          "ssim": 0.729507398866072,
+          "lpips_vgg": 0.3385006254104018,
+          "clip": 0.9484770726782825,
+          "dists": 0.1885071798049902,
+          "flow_error_mean": 0.15651422432554818,
+          "cadence_error_mean": 0.13634251474368736,
+          "false_freeze_rate": 0.16045161971087896
+        },
+        "guard_key": {
+          "psnr_db": 24.057697988872473,
+          "ssim": 0.7256355635208793,
+          "lpips_vgg": 0.3370387536739234,
+          "clip": 0.9473615656062182,
+          "dists": 0.1835751784823308,
+          "flow_error_mean": 0.15814554443824347,
+          "cadence_error_mean": 0.13695640587815683,
+          "false_freeze_rate": 0.16950511765326579
+        },
+        "context_only": {
+          "psnr_db": 24.283571042521604,
+          "ssim": 0.731261486774929,
+          "lpips_vgg": 0.33710346170806577,
+          "clip": 0.9488785558974804,
+          "dists": 0.187564662579745,
+          "flow_error_mean": 0.15440281360858568,
+          "cadence_error_mean": 0.13187294284043266,
+          "false_freeze_rate": 0.16809116809116809
+        },
+        "guard_context": {
+          "psnr_db": 24.121765893111384,
+          "ssim": 0.7274478034179636,
+          "lpips_vgg": 0.3354917390653506,
+          "clip": 0.9474280468027624,
+          "dists": 0.18266946694611733,
+          "flow_error_mean": 0.15643105547771685,
+          "cadence_error_mean": 0.13275308638731667,
+          "false_freeze_rate": 0.17640603566529492
+        }
+      }
+    },
+    {
+      "id": "webvid_004_10d5cd04",
+      "group": "webvid_development",
+      "means": {
+        "current": {
+          "psnr_db": 18.10635852912005,
+          "ssim": 0.5819983445116275,
+          "lpips_vgg": 0.3349961898265741,
+          "clip": 0.9167594137462044,
+          "dists": 0.165424752090624,
+          "flow_error_mean": 0.04832837831775549,
+          "cadence_error_mean": 0.031546840549264925,
+          "false_freeze_rate": 0.034722222222222224
+        },
+        "guard_only": {
+          "psnr_db": 17.70072415975321,
+          "ssim": 0.5693261622936763,
+          "lpips_vgg": 0.3345977695163606,
+          "clip": 0.9131571039979757,
+          "dists": 0.16496824723506265,
+          "flow_error_mean": 0.049414210772095214,
+          "cadence_error_mean": 0.03185338460080588,
+          "false_freeze_rate": 0.039186507936507936
+        },
+        "key_only": {
+          "psnr_db": 18.146392767531015,
+          "ssim": 0.5834629290079766,
+          "lpips_vgg": 0.33403124890507635,
+          "clip": 0.9166999435939609,
+          "dists": 0.16468794066735445,
+          "flow_error_mean": 0.0483909022841323,
+          "cadence_error_mean": 0.0314401075604238,
+          "false_freeze_rate": 0.030753968253968252
+        },
+        "guard_key": {
+          "psnr_db": 17.73952414349145,
+          "ssim": 0.5707899823540804,
+          "lpips_vgg": 0.33367628568479246,
+          "clip": 0.9136557636955972,
+          "dists": 0.16423128024447464,
+          "flow_error_mean": 0.04949919274297213,
+          "cadence_error_mean": 0.0318462338638025,
+          "false_freeze_rate": 0.03670634920634921
+        },
+        "context_only": {
+          "psnr_db": 18.21586225272019,
+          "ssim": 0.5856983735727352,
+          "lpips_vgg": 0.33221046620534983,
+          "clip": 0.9189467951353745,
+          "dists": 0.16354815897188688,
+          "flow_error_mean": 0.04813514651379285,
+          "cadence_error_mean": 0.03136917948470448,
+          "false_freeze_rate": 0.03571428571428571
+        },
+        "guard_context": {
+          "psnr_db": 17.813654310169404,
+          "ssim": 0.5733379492450923,
+          "lpips_vgg": 0.33190102732957777,
+          "clip": 0.9150120455887315,
+          "dists": 0.16322478366445112,
+          "flow_error_mean": 0.049238264525436407,
+          "cadence_error_mean": 0.031701335227268375,
+          "false_freeze_rate": 0.0376984126984127
+        }
+      }
+    },
+    {
+      "id": "davis_bus",
+      "group": "davis_transfer",
+      "means": {
+        "current": {
+          "psnr_db": 16.27686461836468,
+          "ssim": 0.4351844011620643,
+          "lpips_vgg": 0.49377931592365104,
+          "clip": 0.9655710856119791,
+          "dists": 0.15669571235775948,
+          "flow_error_mean": 0.9527539449302773,
+          "cadence_error_mean": 1.4294626262990084,
+          "false_freeze_rate": 0.5088709677419355
+        },
+        "guard_only": {
+          "psnr_db": 15.711116680802988,
+          "ssim": 0.41055265227439136,
+          "lpips_vgg": 0.500774573845168,
+          "clip": 0.9623667399088541,
+          "dists": 0.15623568619290987,
+          "flow_error_mean": 0.9649816430713001,
+          "cadence_error_mean": 1.4309984514925709,
+          "false_freeze_rate": 0.5008064516129033
+        },
+        "key_only": {
+          "psnr_db": 16.492835306759314,
+          "ssim": 0.44118760030836196,
+          "lpips_vgg": 0.4903761822109421,
+          "clip": 0.9658864339192709,
+          "dists": 0.1551366647084554,
+          "flow_error_mean": 0.9679919614603645,
+          "cadence_error_mean": 1.4439789654607786,
+          "false_freeze_rate": 0.510483870967742
+        },
+        "guard_key": {
+          "psnr_db": 15.928998120469851,
+          "ssim": 0.4161641447407458,
+          "lpips_vgg": 0.4971047332510352,
+          "clip": 0.9630559285481771,
+          "dists": 0.15406565368175507,
+          "flow_error_mean": 0.9816888453929048,
+          "cadence_error_mean": 1.4478717197446114,
+          "false_freeze_rate": 0.4967741935483871
+        },
+        "context_only": {
+          "psnr_db": 16.868488632360684,
+          "ssim": 0.4515718790801522,
+          "lpips_vgg": 0.4853253713808954,
+          "clip": 0.9666773478190104,
+          "dists": 0.1520557248344024,
+          "flow_error_mean": 0.9291135741103637,
+          "cadence_error_mean": 1.384426082454701,
+          "false_freeze_rate": 0.5209677419354839
+        },
+        "guard_context": {
+          "psnr_db": 16.327412932795063,
+          "ssim": 0.4279711531731805,
+          "lpips_vgg": 0.4919693962049981,
+          "clip": 0.9633611043294271,
+          "dists": 0.15163425418237844,
+          "flow_error_mean": 0.9421886468012082,
+          "cadence_error_mean": 1.3872093725255987,
+          "false_freeze_rate": 0.5080645161290323
+        }
+      }
+    },
+    {
+      "id": "davis_lady-running",
+      "group": "davis_transfer",
+      "means": {
+        "current": {
+          "psnr_db": 13.643539847731839,
+          "ssim": 0.32785758414149374,
+          "lpips_vgg": 0.5620134601679941,
+          "clip": 0.9532267252604166,
+          "dists": 0.1845666809628407,
+          "flow_error_mean": 2.0795047243959024,
+          "cadence_error_mean": 3.27830963558022,
+          "false_freeze_rate": 0.6741935483870968
+        },
+        "guard_only": {
+          "psnr_db": 13.593190335738392,
+          "ssim": 0.32585964608412077,
+          "lpips_vgg": 0.5627598166465759,
+          "clip": 0.9524993896484375,
+          "dists": 0.18387796295185885,
+          "flow_error_mean": 2.0788180972400463,
+          "cadence_error_mean": 3.2787160836160183,
+          "false_freeze_rate": 0.6685483870967742
+        },
+        "key_only": {
+          "psnr_db": 13.86005421461605,
+          "ssim": 0.33403317327232457,
+          "lpips_vgg": 0.5580941833710918,
+          "clip": 0.9540150960286459,
+          "dists": 0.18378606935342154,
+          "flow_error_mean": 2.1094545499274604,
+          "cadence_error_mean": 3.3076756090084287,
+          "false_freeze_rate": 0.6709677419354839
+        },
+        "guard_key": {
+          "psnr_db": 13.809004702674178,
+          "ssim": 0.33166894546889636,
+          "lpips_vgg": 0.5586358311120421,
+          "clip": 0.953399658203125,
+          "dists": 0.18255973048508167,
+          "flow_error_mean": 2.110213368503671,
+          "cadence_error_mean": 3.3086762344266507,
+          "false_freeze_rate": 0.6717741935483871
+        },
+        "context_only": {
+          "psnr_db": 14.194072852257856,
+          "ssim": 0.34457322274944474,
+          "lpips_vgg": 0.5527256526984274,
+          "clip": 0.9542821248372396,
+          "dists": 0.18129683410127959,
+          "flow_error_mean": 2.059312485550579,
+          "cadence_error_mean": 3.266118743902746,
+          "false_freeze_rate": 0.6774193548387096
+        },
+        "guard_context": {
+          "psnr_db": 14.146747376278304,
+          "ssim": 0.3424199036293862,
+          "lpips_vgg": 0.55278274587666,
+          "clip": 0.9539388020833334,
+          "dists": 0.18053281866014004,
+          "flow_error_mean": 2.0593398694733254,
+          "cadence_error_mean": 3.2655761567776667,
+          "false_freeze_rate": 0.6766129032258065
+        }
+      }
+    },
+    {
+      "id": "davis_longboard",
+      "group": "davis_transfer",
+      "means": {
+        "current": {
+          "psnr_db": 13.174367327226184,
+          "ssim": 0.35406459438308646,
+          "lpips_vgg": 0.5690003459652265,
+          "clip": 0.9300155639648438,
+          "dists": 0.207289711261789,
+          "flow_error_mean": 1.777754134880869,
+          "cadence_error_mean": 2.7224365121268845,
+          "false_freeze_rate": 0.7650130548302873
+        },
+        "guard_only": {
+          "psnr_db": 13.068070145490251,
+          "ssim": 0.35190621082480683,
+          "lpips_vgg": 0.5713233087832729,
+          "clip": 0.9301554361979166,
+          "dists": 0.20919854442278543,
+          "flow_error_mean": 1.7776784953318143,
+          "cadence_error_mean": 2.7213848272061094,
+          "false_freeze_rate": 0.7711053089643168
+        },
+        "key_only": {
+          "psnr_db": 13.37674548760379,
+          "ssim": 0.3606006611033819,
+          "lpips_vgg": 0.5650649778544903,
+          "clip": 0.9302088419596354,
+          "dists": 0.2058663840095202,
+          "flow_error_mean": 1.808937468183668,
+          "cadence_error_mean": 2.7528878532429326,
+          "false_freeze_rate": 0.7667536988685814
+        },
+        "guard_key": {
+          "psnr_db": 13.269190002617583,
+          "ssim": 0.35783592541569403,
+          "lpips_vgg": 0.5665317911965152,
+          "clip": 0.9309768676757812,
+          "dists": 0.20652236975729465,
+          "flow_error_mean": 1.8082409741062866,
+          "cadence_error_mean": 2.7515367288935058,
+          "false_freeze_rate": 0.7676240208877284
+        },
+        "context_only": {
+          "psnr_db": 13.728276025790697,
+          "ssim": 0.3712812033120416,
+          "lpips_vgg": 0.5557420634043714,
+          "clip": 0.9306488037109375,
+          "dists": 0.20038453117012978,
+          "flow_error_mean": 1.752749473562366,
+          "cadence_error_mean": 2.69628835132623,
+          "false_freeze_rate": 0.7589208006962577
+        },
+        "guard_context": {
+          "psnr_db": 13.615741663588686,
+          "ssim": 0.36871080381846183,
+          "lpips_vgg": 0.557210679166019,
+          "clip": 0.9317703247070312,
+          "dists": 0.2014299320677916,
+          "flow_error_mean": 1.7517895204456229,
+          "cadence_error_mean": 2.695190768787994,
+          "false_freeze_rate": 0.7606614447345518
+        }
+      }
+    },
+    {
+      "id": "davis_skate-park",
+      "group": "davis_transfer",
+      "means": {
+        "current": {
+          "psnr_db": 16.735372341074264,
+          "ssim": 0.6588396124072569,
+          "lpips_vgg": 0.38292099349200726,
+          "clip": 0.92486572265625,
+          "dists": 0.1657153827448686,
+          "flow_error_mean": 0.9568580776845154,
+          "cadence_error_mean": 1.4033938206018919,
+          "false_freeze_rate": 0.3640737770649559
+        },
+        "guard_only": {
+          "psnr_db": 15.80024912039824,
+          "ssim": 0.6404489251905291,
+          "lpips_vgg": 0.3901545141513149,
+          "clip": 0.9331156412760416,
+          "dists": 0.1632374469190836,
+          "flow_error_mean": 0.9796405018160218,
+          "cadence_error_mean": 1.4072856907039246,
+          "false_freeze_rate": 0.29190056134723336
+        },
+        "key_only": {
+          "psnr_db": 16.941797985438665,
+          "ssim": 0.6616330280028427,
+          "lpips_vgg": 0.38144073185200494,
+          "clip": 0.9249394734700521,
+          "dists": 0.1665258159240087,
+          "flow_error_mean": 0.9710374926265918,
+          "cadence_error_mean": 1.416505344846147,
+          "false_freeze_rate": 0.35926222935044105
+        },
+        "guard_key": {
+          "psnr_db": 16.003500983329477,
+          "ssim": 0.6425735212050668,
+          "lpips_vgg": 0.38786551309749484,
+          "clip": 0.9356562296549479,
+          "dists": 0.16184569709002972,
+          "flow_error_mean": 0.9961613511568621,
+          "cadence_error_mean": 1.423653911779377,
+          "false_freeze_rate": 0.301523656776263
+        },
+        "context_only": {
+          "psnr_db": 17.091443785749465,
+          "ssim": 0.661556133011462,
+          "lpips_vgg": 0.37925522510583204,
+          "clip": 0.9259134928385416,
+          "dists": 0.16480014907817045,
+          "flow_error_mean": 0.938513375759909,
+          "cadence_error_mean": 1.3988549455683281,
+          "false_freeze_rate": 0.36728147554129914
+        },
+        "guard_context": {
+          "psnr_db": 16.155995698013378,
+          "ssim": 0.6426925393061316,
+          "lpips_vgg": 0.3860553076180319,
+          "clip": 0.93499755859375,
+          "dists": 0.16002914992471537,
+          "flow_error_mean": 0.9613891377064743,
+          "cadence_error_mean": 1.4040375398967335,
+          "false_freeze_rate": 0.3023255813953488
+        }
+      }
+    }
+  ],
+  "source_win_counts": [
+    {
+      "group": "webvid_development",
+      "arm": "guard_only",
+      "sources": 4,
+      "improved": {
+        "psnr_db": 0,
+        "ssim": 1,
+        "lpips_vgg": 3,
+        "clip": 0,
+        "dists": 3,
+        "flow_error_mean": 0,
+        "cadence_error_mean": 0,
+        "false_freeze_rate": 0
+      }
+    },
+    {
+      "group": "webvid_development",
+      "arm": "key_only",
+      "sources": 4,
+      "improved": {
+        "psnr_db": 4,
+        "ssim": 4,
+        "lpips_vgg": 4,
+        "clip": 2,
+        "dists": 4,
+        "flow_error_mean": 0,
+        "cadence_error_mean": 1,
+        "false_freeze_rate": 3
+      }
+    },
+    {
+      "group": "webvid_development",
+      "arm": "guard_key",
+      "sources": 4,
+      "improved": {
+        "psnr_db": 1,
+        "ssim": 1,
+        "lpips_vgg": 3,
+        "clip": 1,
+        "dists": 3,
+        "flow_error_mean": 0,
+        "cadence_error_mean": 0,
+        "false_freeze_rate": 0
+      }
+    },
+    {
+      "group": "webvid_development",
+      "arm": "context_only",
+      "sources": 4,
+      "improved": {
+        "psnr_db": 4,
+        "ssim": 4,
+        "lpips_vgg": 4,
+        "clip": 4,
+        "dists": 4,
+        "flow_error_mean": 3,
+        "cadence_error_mean": 3,
+        "false_freeze_rate": 0
+      }
+    },
+    {
+      "group": "webvid_development",
+      "arm": "guard_context",
+      "sources": 4,
+      "improved": {
+        "psnr_db": 1,
+        "ssim": 1,
+        "lpips_vgg": 3,
+        "clip": 1,
+        "dists": 3,
+        "flow_error_mean": 1,
+        "cadence_error_mean": 1,
+        "false_freeze_rate": 0
+      }
+    },
+    {
+      "group": "davis_transfer",
+      "arm": "guard_only",
+      "sources": 4,
+      "improved": {
+        "psnr_db": 0,
+        "ssim": 0,
+        "lpips_vgg": 0,
+        "clip": 2,
+        "dists": 3,
+        "flow_error_mean": 2,
+        "cadence_error_mean": 1,
+        "false_freeze_rate": 3
+      }
+    },
+    {
+      "group": "davis_transfer",
+      "arm": "key_only",
+      "sources": 4,
+      "improved": {
+        "psnr_db": 4,
+        "ssim": 4,
+        "lpips_vgg": 4,
+        "clip": 4,
+        "dists": 3,
+        "flow_error_mean": 0,
+        "cadence_error_mean": 0,
+        "false_freeze_rate": 2
+      }
+    },
+    {
+      "group": "davis_transfer",
+      "arm": "guard_key",
+      "sources": 4,
+      "improved": {
+        "psnr_db": 2,
+        "ssim": 2,
+        "lpips_vgg": 2,
+        "clip": 3,
+        "dists": 4,
+        "flow_error_mean": 0,
+        "cadence_error_mean": 0,
+        "false_freeze_rate": 3
+      }
+    },
+    {
+      "group": "davis_transfer",
+      "arm": "context_only",
+      "sources": 4,
+      "improved": {
+        "psnr_db": 4,
+        "ssim": 4,
+        "lpips_vgg": 4,
+        "clip": 4,
+        "dists": 4,
+        "flow_error_mean": 4,
+        "cadence_error_mean": 4,
+        "false_freeze_rate": 1
+      }
+    },
+    {
+      "group": "davis_transfer",
+      "arm": "guard_context",
+      "sources": 4,
+      "improved": {
+        "psnr_db": 3,
+        "ssim": 2,
+        "lpips_vgg": 3,
+        "clip": 3,
+        "dists": 4,
+        "flow_error_mean": 3,
+        "cadence_error_mean": 3,
+        "false_freeze_rate": 3
+      }
+    }
+  ],
+  "near_key_nonkey_metrics": [
+    {
+      "case": "webvid_001_2255949c/snr_6",
+      "group": "webvid_development",
+      "region": "nonkeys within 24 frames of a received key",
+      "count": 48,
+      "means": {
+        "current": {
+          "psnr_db": 23.61154591092998,
+          "ssim": 0.7142934095255177,
+          "lpips_vgg": 0.3031016780684392,
+          "clip": 0.9588877360026041,
+          "dists": 0.14538014059265456
+        },
+        "guard_only": {
+          "psnr_db": 22.94557685500482,
+          "ssim": 0.6717105301149484,
+          "lpips_vgg": 0.321393258869648,
+          "clip": 0.956512451171875,
+          "dists": 0.1512625887989998
+        },
+        "key_only": {
+          "psnr_db": 23.822149355523226,
+          "ssim": 0.7284454542619826,
+          "lpips_vgg": 0.29294184781610966,
+          "clip": 0.9608001708984375,
+          "dists": 0.1407464543978373
+        },
+        "guard_key": {
+          "psnr_db": 23.134853147217257,
+          "ssim": 0.6853757562843166,
+          "lpips_vgg": 0.3115409603342414,
+          "clip": 0.9590250651041666,
+          "dists": 0.14631160348653793
+        },
+        "context_only": {
+          "psnr_db": 24.261122542076837,
+          "ssim": 0.7480128927939023,
+          "lpips_vgg": 0.27654138300567865,
+          "clip": 0.9601542154947916,
+          "dists": 0.1329220893482367
+        },
+        "guard_context": {
+          "psnr_db": 23.61815279800928,
+          "ssim": 0.7089131486738793,
+          "lpips_vgg": 0.29408537161846954,
+          "clip": 0.9615580240885416,
+          "dists": 0.13860184450944266
+        }
+      }
+    },
+    {
+      "case": "webvid_001_2255949c/snr_8",
+      "group": "webvid_development",
+      "region": "nonkeys within 24 frames of a received key",
+      "count": 48,
+      "means": {
+        "current": {
+          "psnr_db": 23.714172971624656,
+          "ssim": 0.7209045439529115,
+          "lpips_vgg": 0.3035232362647851,
+          "clip": 0.9590199788411459,
+          "dists": 0.14820876096685728
+        },
+        "guard_only": {
+          "psnr_db": 22.9797112304618,
+          "ssim": 0.6773535082603753,
+          "lpips_vgg": 0.32289707598586875,
+          "clip": 0.9555613199869791,
+          "dists": 0.15320528919498125
+        },
+        "key_only": {
+          "psnr_db": 23.951735070941176,
+          "ssim": 0.73587146907156,
+          "lpips_vgg": 0.29209216094265383,
+          "clip": 0.9592488606770834,
+          "dists": 0.14420355359713236
+        },
+        "guard_key": {
+          "psnr_db": 23.199232386441317,
+          "ssim": 0.6922251181448399,
+          "lpips_vgg": 0.3124459745983283,
+          "clip": 0.9571329752604166,
+          "dists": 0.15063419193029404
+        },
+        "context_only": {
+          "psnr_db": 24.475551341207336,
+          "ssim": 0.7564450613904615,
+          "lpips_vgg": 0.27191645962496597,
+          "clip": 0.9623311360677084,
+          "dists": 0.13319786389668783
+        },
+        "guard_context": {
+          "psnr_db": 23.74971198593974,
+          "ssim": 0.7161225823212035,
+          "lpips_vgg": 0.2919474545245369,
+          "clip": 0.96075439453125,
+          "dists": 0.14022493859132132
+        }
+      }
+    },
+    {
+      "case": "webvid_001_2255949c/snr_10",
+      "group": "webvid_development",
+      "region": "nonkeys within 24 frames of a received key",
+      "count": 48,
+      "means": {
+        "current": {
+          "psnr_db": 23.837924199956007,
+          "ssim": 0.7300244431906795,
+          "lpips_vgg": 0.3026629438002904,
+          "clip": 0.9581349690755209,
+          "dists": 0.15084212645888329
+        },
+        "guard_only": {
+          "psnr_db": 23.009478687918044,
+          "ssim": 0.6825384328366725,
+          "lpips_vgg": 0.3248868255565564,
+          "clip": 0.9529215494791666,
+          "dists": 0.15593341613809267
+        },
+        "key_only": {
+          "psnr_db": 24.09376163721071,
+          "ssim": 0.7459125225851712,
+          "lpips_vgg": 0.2899379525333643,
+          "clip": 0.9574025472005209,
+          "dists": 0.14605530351400375
+        },
+        "guard_key": {
+          "psnr_db": 23.24306546118991,
+          "ssim": 0.6981924859039411,
+          "lpips_vgg": 0.3131860153128703,
+          "clip": 0.9574839274088541,
+          "dists": 0.15220586955547333
+        },
+        "context_only": {
+          "psnr_db": 24.674812071529093,
+          "ssim": 0.76665637335863,
+          "lpips_vgg": 0.2687808259700735,
+          "clip": 0.95867919921875,
+          "dists": 0.13467940191427866
+        },
+        "guard_context": {
+          "psnr_db": 23.847452373520753,
+          "ssim": 0.7224175982561611,
+          "lpips_vgg": 0.29151435662060976,
+          "clip": 0.957366943359375,
+          "dists": 0.1415005810558796
+        }
+      }
+    },
+    {
+      "case": "webvid_002_1669a7b1/snr_6",
+      "group": "webvid_development",
+      "region": "nonkeys within 24 frames of a received key",
+      "count": 400,
+      "means": {
+        "current": {
+          "psnr_db": 18.01951411515372,
+          "ssim": 0.6508404221860195,
+          "lpips_vgg": 0.3622236604988575,
+          "clip": 0.9360662841796875,
+          "dists": 0.15826066821813584
+        },
+        "guard_only": {
+          "psnr_db": 18.019640796550277,
+          "ssim": 0.6508088117490999,
+          "lpips_vgg": 0.36220686215907333,
+          "clip": 0.9355291748046874,
+          "dists": 0.15829076886177063
+        },
+        "key_only": {
+          "psnr_db": 18.05626829642334,
+          "ssim": 0.6559372582488525,
+          "lpips_vgg": 0.35909636624157426,
+          "clip": 0.9382525634765625,
+          "dists": 0.15711501404643058
+        },
+        "guard_key": {
+          "psnr_db": 18.05626829642334,
+          "ssim": 0.6559372582488525,
+          "lpips_vgg": 0.35909636624157426,
+          "clip": 0.9382525634765625,
+          "dists": 0.15711501404643058
+        },
+        "context_only": {
+          "psnr_db": 18.857907873841018,
+          "ssim": 0.6809429417103682,
+          "lpips_vgg": 0.3419634971022606,
+          "clip": 0.9420489501953125,
+          "dists": 0.15069364562630652
+        },
+        "guard_context": {
+          "psnr_db": 18.857907873841018,
+          "ssim": 0.6809429417103682,
+          "lpips_vgg": 0.3419634971022606,
+          "clip": 0.9420489501953125,
+          "dists": 0.15069364562630652
+        }
+      }
+    },
+    {
+      "case": "webvid_002_1669a7b1/snr_8",
+      "group": "webvid_development",
+      "region": "nonkeys within 24 frames of a received key",
+      "count": 400,
+      "means": {
+        "current": {
+          "psnr_db": 18.12688166344515,
+          "ssim": 0.6592265680090765,
+          "lpips_vgg": 0.3488995766639709,
+          "clip": 0.9432720947265625,
+          "dists": 0.15580717265605926
+        },
+        "guard_only": {
+          "psnr_db": 18.126806062424432,
+          "ssim": 0.6592728445436177,
+          "lpips_vgg": 0.34879926577210424,
+          "clip": 0.9441473388671875,
+          "dists": 0.15613808676600457
+        },
+        "key_only": {
+          "psnr_db": 18.166441681676307,
+          "ssim": 0.6645503950527143,
+          "lpips_vgg": 0.34552822705358266,
+          "clip": 0.9460235595703125,
+          "dists": 0.1551264527440071
+        },
+        "guard_key": {
+          "psnr_db": 18.166441681676307,
+          "ssim": 0.6645503950527143,
+          "lpips_vgg": 0.34552822705358266,
+          "clip": 0.9460235595703125,
+          "dists": 0.1551264527440071
+        },
+        "context_only": {
+          "psnr_db": 18.956838882082284,
+          "ssim": 0.6900314248428187,
+          "lpips_vgg": 0.32713810421526435,
+          "clip": 0.9505535888671875,
+          "dists": 0.1482167999446392
+        },
+        "guard_context": {
+          "psnr_db": 18.956838882082284,
+          "ssim": 0.6900314248428187,
+          "lpips_vgg": 0.32713810421526435,
+          "clip": 0.9505535888671875,
+          "dists": 0.1482167999446392
+        }
+      }
+    },
+    {
+      "case": "webvid_002_1669a7b1/snr_10",
+      "group": "webvid_development",
+      "region": "nonkeys within 24 frames of a received key",
+      "count": 400,
+      "means": {
+        "current": {
+          "psnr_db": 18.526571607661865,
+          "ssim": 0.6662935386029881,
+          "lpips_vgg": 0.34240336921066045,
+          "clip": 0.951463623046875,
+          "dists": 0.15543374553322792
+        },
+        "guard_only": {
+          "psnr_db": 18.3061191971213,
+          "ssim": 0.6667422962408557,
+          "lpips_vgg": 0.339895795173943,
+          "clip": 0.9491094970703124,
+          "dists": 0.15440008476376532
+        },
+        "key_only": {
+          "psnr_db": 18.56839511059853,
+          "ssim": 0.6715026619362556,
+          "lpips_vgg": 0.33869718622416256,
+          "clip": 0.95240478515625,
+          "dists": 0.15450241550803184
+        },
+        "guard_key": {
+          "psnr_db": 18.348622204760076,
+          "ssim": 0.6721835748337596,
+          "lpips_vgg": 0.3363696951046586,
+          "clip": 0.950306396484375,
+          "dists": 0.1529936198890209
+        },
+        "context_only": {
+          "psnr_db": 19.37207169339203,
+          "ssim": 0.6968246611826283,
+          "lpips_vgg": 0.31914787221699953,
+          "clip": 0.956871337890625,
+          "dists": 0.14686549067497254
+        },
+        "guard_context": {
+          "psnr_db": 19.181748164735634,
+          "ssim": 0.6978084222096061,
+          "lpips_vgg": 0.31672039404511454,
+          "clip": 0.9541497802734376,
+          "dists": 0.1456507432460785
+        }
+      }
+    },
+    {
+      "case": "webvid_003_1ca01463/snr_6",
+      "group": "webvid_development",
+      "region": "nonkeys within 24 frames of a received key",
+      "count": 144,
+      "means": {
+        "current": {
+          "psnr_db": 27.11899669755655,
+          "ssim": 0.7802647012838473,
+          "lpips_vgg": 0.2785568594311674,
+          "clip": 0.9538709852430556,
+          "dists": 0.15678134395016563
+        },
+        "guard_only": {
+          "psnr_db": 27.117742207529908,
+          "ssim": 0.7801755199455234,
+          "lpips_vgg": 0.2783581635190381,
+          "clip": 0.9551255967881944,
+          "dists": 0.15653376032908758
+        },
+        "key_only": {
+          "psnr_db": 27.270797488076543,
+          "ssim": 0.7821715816318758,
+          "lpips_vgg": 0.27633663763602573,
+          "clip": 0.9560156928168403,
+          "dists": 0.1552922096517351
+        },
+        "guard_key": {
+          "psnr_db": 27.270797488076543,
+          "ssim": 0.7821715816318758,
+          "lpips_vgg": 0.27633663763602573,
+          "clip": 0.9560156928168403,
+          "dists": 0.1552922096517351
+        },
+        "context_only": {
+          "psnr_db": 27.572806950448115,
+          "ssim": 0.7921144126548936,
+          "lpips_vgg": 0.2697403620307644,
+          "clip": 0.9583367241753472,
+          "dists": 0.15122760832309723
+        },
+        "guard_context": {
+          "psnr_db": 27.572806950448115,
+          "ssim": 0.7921144126548936,
+          "lpips_vgg": 0.2697403620307644,
+          "clip": 0.9583367241753472,
+          "dists": 0.15122760832309723
+        }
+      }
+    },
+    {
+      "case": "webvid_003_1ca01463/snr_8",
+      "group": "webvid_development",
+      "region": "nonkeys within 24 frames of a received key",
+      "count": 144,
+      "means": {
+        "current": {
+          "psnr_db": 27.57856203258496,
+          "ssim": 0.79013100726778,
+          "lpips_vgg": 0.2730832193046808,
+          "clip": 0.9595659044053819,
+          "dists": 0.15542959504657322
+        },
+        "guard_only": {
+          "psnr_db": 27.577670015803626,
+          "ssim": 0.7901264678050103,
+          "lpips_vgg": 0.27255418948415255,
+          "clip": 0.9583468967013888,
+          "dists": 0.1551875550713804
+        },
+        "key_only": {
+          "psnr_db": 27.73402375732006,
+          "ssim": 0.7922480232246762,
+          "lpips_vgg": 0.2707141221811374,
+          "clip": 0.9593319363064237,
+          "dists": 0.15481746445099512
+        },
+        "guard_key": {
+          "psnr_db": 27.73402375732006,
+          "ssim": 0.7922480232246762,
+          "lpips_vgg": 0.2707141221811374,
+          "clip": 0.9593319363064237,
+          "dists": 0.15481746445099512
+        },
+        "context_only": {
+          "psnr_db": 28.07996446188984,
+          "ssim": 0.8014531493686025,
+          "lpips_vgg": 0.26306436945580775,
+          "clip": 0.9608917236328125,
+          "dists": 0.15029706640375984
+        },
+        "guard_context": {
+          "psnr_db": 28.07996446188984,
+          "ssim": 0.8014531493686025,
+          "lpips_vgg": 0.26306436945580775,
+          "clip": 0.9608917236328125,
+          "dists": 0.15029706971512902
+        }
+      }
+    },
+    {
+      "case": "webvid_003_1ca01463/snr_10",
+      "group": "webvid_development",
+      "region": "nonkeys within 24 frames of a received key",
+      "count": 144,
+      "means": {
+        "current": {
+          "psnr_db": 28.598013652914346,
+          "ssim": 0.8171698639775679,
+          "lpips_vgg": 0.27007112300230396,
+          "clip": 0.9612986246744791,
+          "dists": 0.16525192062060037
+        },
+        "guard_only": {
+          "psnr_db": 28.053665619250268,
+          "ssim": 0.801928948611405,
+          "lpips_vgg": 0.2680493114102218,
+          "clip": 0.958282470703125,
+          "dists": 0.15686814280019867
+        },
+        "key_only": {
+          "psnr_db": 28.771540454510614,
+          "ssim": 0.8195868011759064,
+          "lpips_vgg": 0.26685865668372977,
+          "clip": 0.9629397922092013,
+          "dists": 0.16372131183743477
+        },
+        "guard_key": {
+          "psnr_db": 28.225217949526773,
+          "ssim": 0.8041908876293506,
+          "lpips_vgg": 0.265759389847517,
+          "clip": 0.9589301215277778,
+          "dists": 0.15586954686376783
+        },
+        "context_only": {
+          "psnr_db": 29.07434371654747,
+          "ssim": 0.8267360824472711,
+          "lpips_vgg": 0.2599730717225207,
+          "clip": 0.9656914605034722,
+          "dists": 0.1593345751365026
+        },
+        "guard_context": {
+          "psnr_db": 28.541038146919227,
+          "ssim": 0.8119515106548136,
+          "lpips_vgg": 0.2584398404384653,
+          "clip": 0.9614732530381944,
+          "dists": 0.15199104696512222
+        }
+      }
+    },
+    {
+      "case": "webvid_004_10d5cd04/snr_6",
+      "group": "webvid_development",
+      "region": "nonkeys within 24 frames of a received key",
+      "count": 48,
+      "means": {
+        "current": {
+          "psnr_db": 20.965245593655098,
+          "ssim": 0.7302945672338538,
+          "lpips_vgg": 0.3051006868481636,
+          "clip": 0.9021402994791666,
+          "dists": 0.16559595117966333
+        },
+        "guard_only": {
+          "psnr_db": 20.404166037204742,
+          "ssim": 0.7006139177676324,
+          "lpips_vgg": 0.31121619418263435,
+          "clip": 0.8982137044270834,
+          "dists": 0.16673877711097398
+        },
+        "key_only": {
+          "psnr_db": 21.121302057239316,
+          "ssim": 0.7379851259341973,
+          "lpips_vgg": 0.3009135127067566,
+          "clip": 0.9058888753255209,
+          "dists": 0.16202608371774355
+        },
+        "guard_key": {
+          "psnr_db": 20.54713323573381,
+          "ssim": 0.7079765645941928,
+          "lpips_vgg": 0.3081236171225707,
+          "clip": 0.9000244140625,
+          "dists": 0.16395009060700735
+        },
+        "context_only": {
+          "psnr_db": 21.7312272752814,
+          "ssim": 0.7600884612507104,
+          "lpips_vgg": 0.28447495431949693,
+          "clip": 0.9203898111979166,
+          "dists": 0.15230285748839378
+        },
+        "guard_context": {
+          "psnr_db": 21.208999223915878,
+          "ssim": 0.7337135353290352,
+          "lpips_vgg": 0.2917548380792141,
+          "clip": 0.913421630859375,
+          "dists": 0.15475080658992132
+        }
+      }
+    },
+    {
+      "case": "webvid_004_10d5cd04/snr_8",
+      "group": "webvid_development",
+      "region": "nonkeys within 24 frames of a received key",
+      "count": 48,
+      "means": {
+        "current": {
+          "psnr_db": 21.302406898935175,
+          "ssim": 0.7454313819398826,
+          "lpips_vgg": 0.2850977946072817,
+          "clip": 0.9141642252604166,
+          "dists": 0.16236749663949013
+        },
+        "guard_only": {
+          "psnr_db": 20.713556060194513,
+          "ssim": 0.71604766974438,
+          "lpips_vgg": 0.29173760550717515,
+          "clip": 0.91241455078125,
+          "dists": 0.163836640616258
+        },
+        "key_only": {
+          "psnr_db": 21.47571388828559,
+          "ssim": 0.7535194385447631,
+          "lpips_vgg": 0.2795412090296547,
+          "clip": 0.9157765706380209,
+          "dists": 0.15887927263975143
+        },
+        "guard_key": {
+          "psnr_db": 20.873508075838444,
+          "ssim": 0.7240679572774065,
+          "lpips_vgg": 0.28682240067670745,
+          "clip": 0.91363525390625,
+          "dists": 0.1613050252199173
+        },
+        "context_only": {
+          "psnr_db": 22.206083815703423,
+          "ssim": 0.7764038623728277,
+          "lpips_vgg": 0.2611319860443473,
+          "clip": 0.9230143229166666,
+          "dists": 0.1464838758111
+        },
+        "guard_context": {
+          "psnr_db": 21.650007232616268,
+          "ssim": 0.750493406256863,
+          "lpips_vgg": 0.2683032937347889,
+          "clip": 0.9234568277994791,
+          "dists": 0.14809094493587813
+        }
+      }
+    },
+    {
+      "case": "webvid_004_10d5cd04/snr_10",
+      "group": "webvid_development",
+      "region": "nonkeys within 24 frames of a received key",
+      "count": 48,
+      "means": {
+        "current": {
+          "psnr_db": 21.444072916337763,
+          "ssim": 0.7516342605333153,
+          "lpips_vgg": 0.2800096527983745,
+          "clip": 0.9111073811848959,
+          "dists": 0.16150226071476936
+        },
+        "guard_only": {
+          "psnr_db": 20.83581731067059,
+          "ssim": 0.7221611104428594,
+          "lpips_vgg": 0.2868506535887718,
+          "clip": 0.9121907552083334,
+          "dists": 0.16383378952741623
+        },
+        "key_only": {
+          "psnr_db": 21.627633639176118,
+          "ssim": 0.759851377503339,
+          "lpips_vgg": 0.27396720089018345,
+          "clip": 0.9150644938151041,
+          "dists": 0.15823297078410783
+        },
+        "guard_key": {
+          "psnr_db": 21.005040260661204,
+          "ssim": 0.7302020384545935,
+          "lpips_vgg": 0.28112674690783024,
+          "clip": 0.914947509765625,
+          "dists": 0.15999804188807806
+        },
+        "context_only": {
+          "psnr_db": 22.422313151427524,
+          "ssim": 0.7833053660706234,
+          "lpips_vgg": 0.2542234640568495,
+          "clip": 0.9271952311197916,
+          "dists": 0.1454695612192154
+        },
+        "guard_context": {
+          "psnr_db": 21.847136394986947,
+          "ssim": 0.7570500213716075,
+          "lpips_vgg": 0.2610663257849713,
+          "clip": 0.9248911539713541,
+          "dists": 0.14872348308563232
+        }
+      }
+    },
+    {
+      "case": "transfer_bus/snr_10",
+      "group": "davis_transfer",
+      "region": "nonkeys within 24 frames of a received key",
+      "count": 48,
+      "means": {
+        "current": {
+          "psnr_db": 17.094509757884005,
+          "ssim": 0.46877070794072634,
+          "lpips_vgg": 0.4293279964476824,
+          "clip": 0.9661610921223959,
+          "dists": 0.1467085195084413
+        },
+        "guard_only": {
+          "psnr_db": 16.58326929462559,
+          "ssim": 0.4453678437720496,
+          "lpips_vgg": 0.43433946029593545,
+          "clip": 0.964111328125,
+          "dists": 0.14686154946684837
+        },
+        "key_only": {
+          "psnr_db": 17.116232009952647,
+          "ssim": 0.4698343928843922,
+          "lpips_vgg": 0.42734326391170424,
+          "clip": 0.9664357503255209,
+          "dists": 0.14548827583591142
+        },
+        "guard_key": {
+          "psnr_db": 16.608582560738316,
+          "ssim": 0.44618115935434,
+          "lpips_vgg": 0.43231566281368333,
+          "clip": 0.9648335774739584,
+          "dists": 0.14431194961071014
+        },
+        "context_only": {
+          "psnr_db": 17.86949844940075,
+          "ssim": 0.4906701307538997,
+          "lpips_vgg": 0.41692401841282845,
+          "clip": 0.9674021402994791,
+          "dists": 0.13928593198458353
+        },
+        "guard_context": {
+          "psnr_db": 17.405525957111937,
+          "ssim": 0.46959059010552107,
+          "lpips_vgg": 0.4217332915092508,
+          "clip": 0.9658559163411459,
+          "dists": 0.13922156020998955
+        }
+      }
+    },
+    {
+      "case": "transfer_lady-running/snr_10",
+      "group": "davis_transfer",
+      "region": "nonkeys within 24 frames of a received key",
+      "count": 48,
+      "means": {
+        "current": {
+          "psnr_db": 14.136632781593057,
+          "ssim": 0.3415653554082029,
+          "lpips_vgg": 0.5220329224442443,
+          "clip": 0.9617207845052084,
+          "dists": 0.16072812676429749
+        },
+        "guard_only": {
+          "psnr_db": 14.087289193721658,
+          "ssim": 0.3397780912127979,
+          "lpips_vgg": 0.523059551914533,
+          "clip": 0.9605560302734375,
+          "dists": 0.16105670109391212
+        },
+        "key_only": {
+          "psnr_db": 14.150005040894603,
+          "ssim": 0.34203587817505754,
+          "lpips_vgg": 0.5196681519349416,
+          "clip": 0.9616953531901041,
+          "dists": 0.16028440246979395
+        },
+        "guard_key": {
+          "psnr_db": 14.100144766452889,
+          "ssim": 0.3398722056813636,
+          "lpips_vgg": 0.5204577542220553,
+          "clip": 0.9606679280598959,
+          "dists": 0.15999207894007364
+        },
+        "context_only": {
+          "psnr_db": 14.819378114304346,
+          "ssim": 0.36313593818837886,
+          "lpips_vgg": 0.5088020612796148,
+          "clip": 0.962615966796875,
+          "dists": 0.15568748116493225
+        },
+        "guard_context": {
+          "psnr_db": 14.776421248054703,
+          "ssim": 0.3614239733294094,
+          "lpips_vgg": 0.5090706882377466,
+          "clip": 0.962005615234375,
+          "dists": 0.15608025714755058
+        }
+      }
+    },
+    {
+      "case": "transfer_longboard/snr_10",
+      "group": "davis_transfer",
+      "region": "nonkeys within 24 frames of a received key",
+      "count": 48,
+      "means": {
+        "current": {
+          "psnr_db": 14.456451039558393,
+          "ssim": 0.37683764316808593,
+          "lpips_vgg": 0.5118922957529625,
+          "clip": 0.9496307373046875,
+          "dists": 0.18810576821366945
+        },
+        "guard_only": {
+          "psnr_db": 14.29811378869988,
+          "ssim": 0.3730088308084566,
+          "lpips_vgg": 0.5150494097421566,
+          "clip": 0.9497426350911459,
+          "dists": 0.19084646801153818
+        },
+        "key_only": {
+          "psnr_db": 14.463358589048967,
+          "ssim": 0.3775348891115497,
+          "lpips_vgg": 0.509976452216506,
+          "clip": 0.9499104817708334,
+          "dists": 0.1862015761435032
+        },
+        "guard_key": {
+          "psnr_db": 14.303197424438947,
+          "ssim": 0.3731276044884008,
+          "lpips_vgg": 0.5121700173864762,
+          "clip": 0.95068359375,
+          "dists": 0.18785650407274565
+        },
+        "context_only": {
+          "psnr_db": 15.168780925903762,
+          "ssim": 0.3990238967749869,
+          "lpips_vgg": 0.4913806039839983,
+          "clip": 0.9513753255208334,
+          "dists": 0.1758298104008039
+        },
+        "guard_context": {
+          "psnr_db": 14.99912994939666,
+          "ssim": 0.395013990742989,
+          "lpips_vgg": 0.4933232779925068,
+          "clip": 0.9527384440104166,
+          "dists": 0.17787175377209982
+        }
+      }
+    },
+    {
+      "case": "transfer_skate-park/snr_10",
+      "group": "davis_transfer",
+      "region": "nonkeys within 24 frames of a received key",
+      "count": 48,
+      "means": {
+        "current": {
+          "psnr_db": 17.977776703634095,
+          "ssim": 0.7051766106782428,
+          "lpips_vgg": 0.3462719339877367,
+          "clip": 0.9363810221354166,
+          "dists": 0.15472403665383658
+        },
+        "guard_only": {
+          "psnr_db": 17.478733142798355,
+          "ssim": 0.6938824194396761,
+          "lpips_vgg": 0.34734351622561616,
+          "clip": 0.9382476806640625,
+          "dists": 0.1529575102031231
+        },
+        "key_only": {
+          "psnr_db": 17.997829318117006,
+          "ssim": 0.7061197334254644,
+          "lpips_vgg": 0.3454380566254258,
+          "clip": 0.9375152587890625,
+          "dists": 0.15574082732200623
+        },
+        "guard_key": {
+          "psnr_db": 17.494660192622856,
+          "ssim": 0.694027202512761,
+          "lpips_vgg": 0.34606464207172394,
+          "clip": 0.9408721923828125,
+          "dists": 0.15193599089980125
+        },
+        "context_only": {
+          "psnr_db": 18.30100779589254,
+          "ssim": 0.7058686969829084,
+          "lpips_vgg": 0.3412093259394169,
+          "clip": 0.9392801920572916,
+          "dists": 0.15197272971272469
+        },
+        "guard_context": {
+          "psnr_db": 17.802634522179222,
+          "ssim": 0.6941056384395039,
+          "lpips_vgg": 0.3420092314481735,
+          "clip": 0.9408925374348959,
+          "dists": 0.14750182628631592
+        }
+      }
+    }
+  ],
+  "temporal_support": [
+    {
+      "case": "webvid_001_2255949c/snr_6",
+      "group": "webvid_development",
+      "arm": "context_only",
+      "radii": [
+        8,
+        8
+      ],
+      "possible_changed_frames": 16,
+      "frames": 721,
+      "fraction": 0.022191400832177532
+    },
+    {
+      "case": "webvid_001_2255949c/snr_6",
+      "group": "webvid_development",
+      "arm": "guard_context",
+      "radii": [
+        8,
+        8
+      ],
+      "possible_changed_frames": 16,
+      "frames": 721,
+      "fraction": 0.022191400832177532
+    },
+    {
+      "case": "webvid_001_2255949c/snr_8",
+      "group": "webvid_development",
+      "arm": "context_only",
+      "radii": [
+        8,
+        8
+      ],
+      "possible_changed_frames": 16,
+      "frames": 721,
+      "fraction": 0.022191400832177532
+    },
+    {
+      "case": "webvid_001_2255949c/snr_8",
+      "group": "webvid_development",
+      "arm": "guard_context",
+      "radii": [
+        8,
+        8
+      ],
+      "possible_changed_frames": 16,
+      "frames": 721,
+      "fraction": 0.022191400832177532
+    },
+    {
+      "case": "webvid_001_2255949c/snr_10",
+      "group": "webvid_development",
+      "arm": "context_only",
+      "radii": [
+        8,
+        8
+      ],
+      "possible_changed_frames": 16,
+      "frames": 721,
+      "fraction": 0.022191400832177532
+    },
+    {
+      "case": "webvid_001_2255949c/snr_10",
+      "group": "webvid_development",
+      "arm": "guard_context",
+      "radii": [
+        8,
+        8
+      ],
+      "possible_changed_frames": 16,
+      "frames": 721,
+      "fraction": 0.022191400832177532
+    },
+    {
+      "case": "webvid_002_1669a7b1/snr_6",
+      "group": "webvid_development",
+      "arm": "context_only",
+      "radii": [
+        8,
+        8,
+        8,
+        8,
+        8,
+        17,
+        6,
+        6,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        10,
+        8,
+        12,
+        8,
+        8
+      ],
+      "possible_changed_frames": 162,
+      "frames": 636,
+      "fraction": 0.25471698113207547
+    },
+    {
+      "case": "webvid_002_1669a7b1/snr_6",
+      "group": "webvid_development",
+      "arm": "guard_context",
+      "radii": [
+        8,
+        8,
+        8,
+        8,
+        8,
+        17,
+        6,
+        6,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        10,
+        8,
+        12,
+        8,
+        8
+      ],
+      "possible_changed_frames": 162,
+      "frames": 636,
+      "fraction": 0.25471698113207547
+    },
+    {
+      "case": "webvid_002_1669a7b1/snr_8",
+      "group": "webvid_development",
+      "arm": "context_only",
+      "radii": [
+        8,
+        10,
+        8,
+        8,
+        8,
+        15,
+        6,
+        6,
+        8,
+        10,
+        9,
+        8,
+        8,
+        8,
+        8,
+        11,
+        8,
+        13,
+        8,
+        8
+      ],
+      "possible_changed_frames": 167,
+      "frames": 636,
+      "fraction": 0.26257861635220126
+    },
+    {
+      "case": "webvid_002_1669a7b1/snr_8",
+      "group": "webvid_development",
+      "arm": "guard_context",
+      "radii": [
+        8,
+        10,
+        8,
+        8,
+        8,
+        15,
+        6,
+        6,
+        8,
+        10,
+        9,
+        8,
+        8,
+        8,
+        8,
+        11,
+        8,
+        13,
+        8,
+        8
+      ],
+      "possible_changed_frames": 167,
+      "frames": 636,
+      "fraction": 0.26257861635220126
+    },
+    {
+      "case": "webvid_002_1669a7b1/snr_10",
+      "group": "webvid_development",
+      "arm": "context_only",
+      "radii": [
+        8,
+        11,
+        8,
+        8,
+        8,
+        12,
+        6,
+        6,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        11,
+        8,
+        12,
+        11,
+        9
+      ],
+      "possible_changed_frames": 165,
+      "frames": 636,
+      "fraction": 0.25943396226415094
+    },
+    {
+      "case": "webvid_002_1669a7b1/snr_10",
+      "group": "webvid_development",
+      "arm": "guard_context",
+      "radii": [
+        8,
+        11,
+        8,
+        8,
+        8,
+        12,
+        6,
+        6,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        12,
+        8,
+        12,
+        11,
+        9
+      ],
+      "possible_changed_frames": 166,
+      "frames": 636,
+      "fraction": 0.2610062893081761
+    },
+    {
+      "case": "webvid_003_1ca01463/snr_6",
+      "group": "webvid_development",
+      "arm": "context_only",
+      "radii": [
+        8,
+        8,
+        8,
+        8,
+        8,
+        8
+      ],
+      "possible_changed_frames": 46,
+      "frames": 721,
+      "fraction": 0.0638002773925104
+    },
+    {
+      "case": "webvid_003_1ca01463/snr_6",
+      "group": "webvid_development",
+      "arm": "guard_context",
+      "radii": [
+        8,
+        8,
+        8,
+        8,
+        8,
+        8
+      ],
+      "possible_changed_frames": 46,
+      "frames": 721,
+      "fraction": 0.0638002773925104
+    },
+    {
+      "case": "webvid_003_1ca01463/snr_8",
+      "group": "webvid_development",
+      "arm": "context_only",
+      "radii": [
+        8,
+        8,
+        8,
+        8,
+        8,
+        8
+      ],
+      "possible_changed_frames": 46,
+      "frames": 721,
+      "fraction": 0.0638002773925104
+    },
+    {
+      "case": "webvid_003_1ca01463/snr_8",
+      "group": "webvid_development",
+      "arm": "guard_context",
+      "radii": [
+        8,
+        8,
+        8,
+        8,
+        8,
+        8
+      ],
+      "possible_changed_frames": 46,
+      "frames": 721,
+      "fraction": 0.0638002773925104
+    },
+    {
+      "case": "webvid_003_1ca01463/snr_10",
+      "group": "webvid_development",
+      "arm": "context_only",
+      "radii": [
+        8,
+        8,
+        8,
+        8,
+        8,
+        8
+      ],
+      "possible_changed_frames": 46,
+      "frames": 721,
+      "fraction": 0.0638002773925104
+    },
+    {
+      "case": "webvid_003_1ca01463/snr_10",
+      "group": "webvid_development",
+      "arm": "guard_context",
+      "radii": [
+        8,
+        8,
+        8,
+        8,
+        8,
+        8
+      ],
+      "possible_changed_frames": 46,
+      "frames": 721,
+      "fraction": 0.0638002773925104
+    },
+    {
+      "case": "webvid_004_10d5cd04/snr_6",
+      "group": "webvid_development",
+      "arm": "context_only",
+      "radii": [
+        8,
+        8
+      ],
+      "possible_changed_frames": 16,
+      "frames": 494,
+      "fraction": 0.032388663967611336
+    },
+    {
+      "case": "webvid_004_10d5cd04/snr_6",
+      "group": "webvid_development",
+      "arm": "guard_context",
+      "radii": [
+        8,
+        8
+      ],
+      "possible_changed_frames": 16,
+      "frames": 494,
+      "fraction": 0.032388663967611336
+    },
+    {
+      "case": "webvid_004_10d5cd04/snr_8",
+      "group": "webvid_development",
+      "arm": "context_only",
+      "radii": [
+        8,
+        8
+      ],
+      "possible_changed_frames": 16,
+      "frames": 494,
+      "fraction": 0.032388663967611336
+    },
+    {
+      "case": "webvid_004_10d5cd04/snr_8",
+      "group": "webvid_development",
+      "arm": "guard_context",
+      "radii": [
+        8,
+        8
+      ],
+      "possible_changed_frames": 16,
+      "frames": 494,
+      "fraction": 0.032388663967611336
+    },
+    {
+      "case": "webvid_004_10d5cd04/snr_10",
+      "group": "webvid_development",
+      "arm": "context_only",
+      "radii": [
+        8,
+        8
+      ],
+      "possible_changed_frames": 16,
+      "frames": 494,
+      "fraction": 0.032388663967611336
+    },
+    {
+      "case": "webvid_004_10d5cd04/snr_10",
+      "group": "webvid_development",
+      "arm": "guard_context",
+      "radii": [
+        8,
+        8
+      ],
+      "possible_changed_frames": 16,
+      "frames": 494,
+      "fraction": 0.032388663967611336
+    },
+    {
+      "case": "transfer_bus/snr_10",
+      "group": "davis_transfer",
+      "arm": "context_only",
+      "radii": [
+        8,
+        8
+      ],
+      "possible_changed_frames": 16,
+      "frames": 96,
+      "fraction": 0.16666666666666666
+    },
+    {
+      "case": "transfer_bus/snr_10",
+      "group": "davis_transfer",
+      "arm": "guard_context",
+      "radii": [
+        8,
+        8
+      ],
+      "possible_changed_frames": 16,
+      "frames": 96,
+      "fraction": 0.16666666666666666
+    },
+    {
+      "case": "transfer_lady-running/snr_10",
+      "group": "davis_transfer",
+      "arm": "context_only",
+      "radii": [
+        8,
+        8
+      ],
+      "possible_changed_frames": 16,
+      "frames": 96,
+      "fraction": 0.16666666666666666
+    },
+    {
+      "case": "transfer_lady-running/snr_10",
+      "group": "davis_transfer",
+      "arm": "guard_context",
+      "radii": [
+        8,
+        8
+      ],
+      "possible_changed_frames": 16,
+      "frames": 96,
+      "fraction": 0.16666666666666666
+    },
+    {
+      "case": "transfer_longboard/snr_10",
+      "group": "davis_transfer",
+      "arm": "context_only",
+      "radii": [
+        8,
+        8
+      ],
+      "possible_changed_frames": 16,
+      "frames": 96,
+      "fraction": 0.16666666666666666
+    },
+    {
+      "case": "transfer_longboard/snr_10",
+      "group": "davis_transfer",
+      "arm": "guard_context",
+      "radii": [
+        8,
+        8
+      ],
+      "possible_changed_frames": 16,
+      "frames": 96,
+      "fraction": 0.16666666666666666
+    },
+    {
+      "case": "transfer_skate-park/snr_10",
+      "group": "davis_transfer",
+      "arm": "context_only",
+      "radii": [
+        8,
+        8
+      ],
+      "possible_changed_frames": 16,
+      "frames": 96,
+      "fraction": 0.16666666666666666
+    },
+    {
+      "case": "transfer_skate-park/snr_10",
+      "group": "davis_transfer",
+      "arm": "guard_context",
+      "radii": [
+        8,
+        8
+      ],
+      "possible_changed_frames": 16,
+      "frames": 96,
+      "fraction": 0.16666666666666666
+    }
+  ],
+  "key_png_exact": {
+    "preserved": 65,
+    "total": 65,
+    "scope": "equality to received RGB, not original; delivered MP4 is lossy"
+  },
+  "integrity": {
+    "status": "PASSED",
+    "signature": "0bafc8f3bd16af7913e583c53a77bcba65b09db3f2d558614f50f6334e710db7",
+    "input_files": 26925,
+    "code_files": 15,
+    "generation": 96,
+    "evaluation": 96,
+    "output_artifacts": 33236,
+    "imported_generations": 28,
+    "source_absent_from_receiver_jobs": true,
+    "imported_factorization": [
+      {
+        "case": "webvid_001_2255949c/snr_6",
+        "verified_frames": 721,
+        "exact_factorization": true
+      },
+      {
+        "case": "webvid_001_2255949c/snr_8",
+        "verified_frames": 721,
+        "exact_factorization": true
+      },
+      {
+        "case": "webvid_001_2255949c/snr_10",
+        "verified_frames": 721,
+        "exact_factorization": true
+      },
+      {
+        "case": "webvid_002_1669a7b1/snr_6",
+        "verified_frames": 636,
+        "exact_factorization": true
+      },
+      {
+        "case": "webvid_002_1669a7b1/snr_8",
+        "verified_frames": 636,
+        "exact_factorization": true
+      },
+      {
+        "case": "webvid_002_1669a7b1/snr_10",
+        "verified_frames": 636,
+        "exact_factorization": true
+      },
+      {
+        "case": "webvid_003_1ca01463/snr_6",
+        "verified_frames": 721,
+        "exact_factorization": true
+      },
+      {
+        "case": "webvid_003_1ca01463/snr_8",
+        "verified_frames": 721,
+        "exact_factorization": true
+      },
+      {
+        "case": "webvid_003_1ca01463/snr_10",
+        "verified_frames": 721,
+        "exact_factorization": true
+      },
+      {
+        "case": "webvid_004_10d5cd04/snr_6",
+        "verified_frames": 494,
+        "exact_factorization": true
+      },
+      {
+        "case": "webvid_004_10d5cd04/snr_8",
+        "verified_frames": 494,
+        "exact_factorization": true
+      },
+      {
+        "case": "webvid_004_10d5cd04/snr_10",
+        "verified_frames": 494,
+        "exact_factorization": true
+      }
+    ]
+  },
+  "resume": {
+    "status": "PASSED",
+    "checked_files": 33428,
+    "changed_mtimes": [],
+    "command": "bash scripts/experiment_bsu_key_context.sh run",
+    "no_regeneration": true
+  },
+  "tests": {
+    "passed": 50,
+    "command": "env -u PYTHONPATH -u LD_LIBRARY_PATH PYTHONNOUSERSITE=1 PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 OPENBLAS_NUM_THREADS=1 /home/sangukbae/anaconda3/envs/lgvsc/bin/python -m pytest -q tests/test_receiver_key_context.py tests/test_bsu_key_context_experiment.py tests/test_bsu_receiver_compare.py tests/test_terminal_progress.py"
+  },
+  "ai_sample_review": {
+    "status": "NONINDEPENDENT_AI_SAMPLE_REVIEW_COMPLETE",
+    "reviewer": "Codex, same assistant as implementation; unblinded and nonindependent",
+    "scope": "58 source-aligned sample times across 8 sources at SNR 10 dB, 5 columns = 290 PNG-derived or decoded-source thumbnails; two temporal plots. Eight video previews generated for user viewing; no claim of full-video visual review.",
+    "verdict": "수신 키의 정확도를 주변까지 유지하는 효과는 확인했다. 정지 오판·일부 광류 회귀와 중간 구간 의미 오류가 남아 범용 해결이나 ETRI 목표 달성은 미입증이며 기본 교체는 보류한다.",
+    "observations": [
+      {
+        "id": "webvid_001_2255949c",
+        "frames": [
+          0,
+          4,
+          8,
+          16,
+          24,
+          360
+        ],
+        "observation": "시작 키와 가까운 4번에서 천과 강아지 윤곽이 수신 키 쪽으로 복원되지만 이중 윤곽·자세 차이가 남는다. 8번 이후와 360번의 생성된 자세·천 형태 오류는 새 구간 연결만으로 바뀌지 않는다."
+      },
+      {
+        "id": "webvid_002_1669a7b1",
+        "frames": [
+          260,
+          264,
+          267,
+          268,
+          269,
+          272,
+          280
+        ],
+        "observation": "기존 키 보존은 268번만 정확하고 옆 프레임의 발 위치가 다르다. 새 연결은 264~267번까지 키의 위치를 이어 주며 급격한 전환 오차를 줄인다. 269~272번의 발 들기·보행 자세는 원본과 여전히 다르다. 정지 오판율 증가와 함께 판단해야 한다."
+      },
+      {
+        "id": "webvid_003_1ca01463",
+        "frames": [
+          588,
+          592,
+          595,
+          596,
+          597,
+          600,
+          604
+        ],
+        "observation": "595~597번의 도시·해안 형태와 색이 키에 연결되며 기존의 한 프레임 교체보다 이웃 화질이 개선된다. 이후에는 기존 생성 형태로 돌아가고 전체 광류 오차는 증가한다."
+      },
+      {
+        "id": "webvid_004_10d5cd04",
+        "frames": [
+          0,
+          4,
+          8,
+          16,
+          24,
+          240
+        ],
+        "observation": "시작과 4번에서 건물·선박 정보가 일부 유지되지만 8번 이후 기존 생성의 단순화된 도시 구조가 남는다. 240번의 구도·선박·건물 차이는 그대로다."
+      },
+      {
+        "id": "davis_bus",
+        "frames": [
+          0,
+          4,
+          8,
+          16,
+          48,
+          87,
+          91,
+          95
+        ],
+        "observation": "양끝 수신 키와 주변은 버스·도로 윤곽을 복원하지만 중간의 차량·도로 배치 차이는 남는다. 91번 부근 보정은 일부 윤곽의 겹침을 보인다."
+      },
+      {
+        "id": "davis_lady-running",
+        "frames": [
+          0,
+          4,
+          8,
+          16,
+          48,
+          87,
+          91,
+          95
+        ],
+        "observation": "91번의 인물·의자 위치가 마지막 키 쪽으로 연결된다. 16~48번의 인물 위치·자세 차이와 겹친 실내 구조는 여전히 남는다."
+      },
+      {
+        "id": "davis_longboard",
+        "frames": [
+          0,
+          4,
+          8,
+          16,
+          48,
+          87,
+          91,
+          95
+        ],
+        "observation": "키 가까운 위치·윤곽 일부를 복원하나 16~48번의 보더 자세와 자전거 등장 위치·시점 차이를 고치지 못한다. 이를 새 객체 추가 오류율로 정량화하지 않았다."
+      },
+      {
+        "id": "davis_skate-park",
+        "frames": [
+          0,
+          4,
+          8,
+          16,
+          48,
+          87,
+          91,
+          95
+        ],
+        "observation": "양끝 인물 위치는 수신 키로 복원된다. 16번의 인물 형태 흐림과 48번의 인물 위치·카메라 구도 차이는 남는다."
+      }
+    ],
+    "independent_semantic_review": "PENDING",
+    "semantic_error_rate_established": false,
+    "etri_goal_achievement_demonstrated": false,
+    "decision": "Keep context_only as a follow-up candidate; do not replace production defaults. Resolve motion underestimation and validate untouched sources and continuous 60 seconds with independent semantic annotation."
+  },
+  "recommendation": "Keep context_only as a follow-up receiver candidate; do not change production default until motion regressions and transfer robustness are addressed.",
+  "additional_transmission": 0,
+  "new_training": false,
+  "generator_reused": true,
+  "source_only_used_for_evaluation": true,
+  "independent_semantic_review": "PENDING",
+  "etri_goal_achievement_demonstrated": false,
+  "production_defaults_changed": false,
+  "limitations": [
+    "Four WebVid development sources and four previously used DAVIS transfer sources; SNR is not an independent source.",
+    "One cached generator/channel realization per condition; no 60-second continuous evaluation.",
+    "Proxy metrics and unblinded same-implementer AI sample review do not establish semantic error rates.",
+    "Engineering screening bounds are not ETRI targets or statistical noninferiority margins."
+  ],
+  "analysis_artifacts": {
+    "protocol.json": "dbd0cb67c843fed2197c73770e5ad9643a5fc018f565cd53bd3a58f07c4d3e3d",
+    "RESULT.json": "80d1e666588d7f6df88f284cf138b755b1be5a54026b12f7bf220fec791ba39d",
+    "analysis/transfer_longboard_snr_10.jpg": "42727bf7306c42d3f87cb3eb281ecc8d80667199f9b3827bfd5b60ef79d47060",
+    "analysis/verify_baseline.py": "8f072b561653ddb496d10378bb83a45acde0a04bd47dc460c49b66011f08a5d0",
+    "analysis/sample_manifest.json": "f6626547bdf2dbd4302b93a2d23d1ae277d3e89ceb2cb8f11138ddd5b0ff2d9a",
+    "analysis/integrity.json": "e6269c9a12900f74fd59bd4fc8f512f8fc85eb87ac171379a1d7736ba0139cd7",
+    "analysis/webvid_002_1669a7b1_snr_10.jpg": "69a394fb817e8ca53300a06add335f8248fae635c6f31498f83e6b66bc354b6e",
+    "analysis/transfer_bus_snr_10.mp4": "5bbd4cc21d010aa21ddb800a35760048903e64b9aefba80d5e92a5b30140529c",
+    "analysis/webvid_003_1ca01463_snr_10.mp4": "44c320bc4cd49c6ef0aabc2bbbe590b934375ce32c654972cbf1ab0eeb61065b",
+    "analysis/summary.json": "3378e5d21118f1d56c3ffbc715bba474207f3e96db80b3c5ac5465209d1b7fea",
+    "analysis/resume.log": "bca34a515c6f6f65c4e4633bc9c997ef9d3b79446d0638b54174d91f39ca0a37",
+    "analysis/resume_verification.json": "2c704f912e6160b74e903d476f0fb3f7e7cab9f8ed12920348d3ad598dd73e26",
+    "analysis/transfer_bus_snr_10.jpg": "9f4f974e675bc47b7a4e918225c49f3da25ac26eb103cd5aca76a080cd9c8245",
+    "analysis/webvid_004_10d5cd04_snr_10.mp4": "2e24c90f4da066fa3e89f7516f4363d1da91c233ff04b3daa240059aa5e707de",
+    "analysis/key_windows.pdf": "eb51ea713564ac6d4f05f4bc27e1457bfc0aa7eab58c43eb349bc5b55c13dea9",
+    "analysis/webvid_001_2255949c_snr_10.jpg": "3f7bbdb8494d05edaf5dd12b4b392a5e3342563c02221bb5b54037c37070e776",
+    "analysis/webvid_004_10d5cd04_snr_10.jpg": "caeb85874d462af5f1da03606ac8b725d05be1edbfb4b0d26501722a68781000",
+    "analysis/index.html": "2db6aa34c7379b483473d10da29afbda93ee3644f20065c313525bb291abd18d",
+    "analysis/webvid_003_1ca01463_snr_10.jpg": "4b5d9748b63c5b77ca1d49201bdad4c65a1c288362608deb795ca4d16b199f2f",
+    "analysis/transfer_lady-running_snr_10.jpg": "d9a19425dbc6992caa99dd054b70f3edad4ece57ad3f6ff779ca913b735ec3b4",
+    "analysis/transfer_skate-park_snr_10.jpg": "9adb3e818ade62abc989804c6e0537876e0376a2d152c88b38c2c0a26986a3df",
+    "analysis/key_windows.png": "294a91373f18b2ae0d5522b6e5cac982ff5235c9395470959a2e4bdd9f04ee1d",
+    "analysis/baseline_factorization.json": "818c91df07a6a4b366613785ed57ed359425da177b285f4bce9343a5b040d85f",
+    "analysis/webvid_001_2255949c_snr_10.mp4": "a3e282c411a1e828c692b46760dfaa84cb1e8f7d76d14be70186dfa8a0828657",
+    "analysis/webvid_002_1669a7b1_snr_10.mp4": "95e9912d67de09dfee9efd00cf11bbf6af10da918aa64469b397cd8bbcb1903c",
+    "analysis/transfer_longboard_snr_10.mp4": "9f4913b0b7fde514fa2b69a37534ac4555603d3edb6a9ad18917bad59f5a18ad",
+    "analysis/analyze.py": "cd5ac894648f7e3e3994ad47b26a0c6626b739574657bafab2c0a5e8ab7662d7",
+    "analysis/ai_sample_review.json": "52a3a4d7cc9ce1953de9304429a9dbfeb461adf762aed897fd7aca77fe2bac78",
+    "analysis/transfer_skate-park_snr_10.mp4": "ac666ac5a8c129d9ea81babb71d5d13db6851369ecb5142737736640088ccf30",
+    "analysis/transfer_lady-running_snr_10.mp4": "2a47e48460e174c9c0ee65fe5ece4a15c363ddc9af089845c3f2aae8e8efe7f9"
+  },
+  "baseline_factorization": {
+    "status": "PASSED",
+    "signature": "0bafc8f3bd16af7913e583c53a77bcba65b09db3f2d558614f50f6334e710db7",
+    "frames": 8100,
+    "rows": [
+      {
+        "case": "webvid_001_2255949c/snr_6",
+        "frames": 721,
+        "exact_rgb": 721,
+        "mismatches": []
+      },
+      {
+        "case": "webvid_001_2255949c/snr_8",
+        "frames": 721,
+        "exact_rgb": 721,
+        "mismatches": []
+      },
+      {
+        "case": "webvid_001_2255949c/snr_10",
+        "frames": 721,
+        "exact_rgb": 721,
+        "mismatches": []
+      },
+      {
+        "case": "webvid_002_1669a7b1/snr_6",
+        "frames": 636,
+        "exact_rgb": 636,
+        "mismatches": []
+      },
+      {
+        "case": "webvid_002_1669a7b1/snr_8",
+        "frames": 636,
+        "exact_rgb": 636,
+        "mismatches": []
+      },
+      {
+        "case": "webvid_002_1669a7b1/snr_10",
+        "frames": 636,
+        "exact_rgb": 636,
+        "mismatches": []
+      },
+      {
+        "case": "webvid_003_1ca01463/snr_6",
+        "frames": 721,
+        "exact_rgb": 721,
+        "mismatches": []
+      },
+      {
+        "case": "webvid_003_1ca01463/snr_8",
+        "frames": 721,
+        "exact_rgb": 721,
+        "mismatches": []
+      },
+      {
+        "case": "webvid_003_1ca01463/snr_10",
+        "frames": 721,
+        "exact_rgb": 721,
+        "mismatches": []
+      },
+      {
+        "case": "webvid_004_10d5cd04/snr_6",
+        "frames": 494,
+        "exact_rgb": 494,
+        "mismatches": []
+      },
+      {
+        "case": "webvid_004_10d5cd04/snr_8",
+        "frames": 494,
+        "exact_rgb": 494,
+        "mismatches": []
+      },
+      {
+        "case": "webvid_004_10d5cd04/snr_10",
+        "frames": 494,
+        "exact_rgb": 494,
+        "mismatches": []
+      },
+      {
+        "case": "transfer_bus/snr_10",
+        "frames": 96,
+        "exact_rgb": 96,
+        "mismatches": []
+      },
+      {
+        "case": "transfer_lady-running/snr_10",
+        "frames": 96,
+        "exact_rgb": 96,
+        "mismatches": []
+      },
+      {
+        "case": "transfer_longboard/snr_10",
+        "frames": 96,
+        "exact_rgb": 96,
+        "mismatches": []
+      },
+      {
+        "case": "transfer_skate-park/snr_10",
+        "frames": 96,
+        "exact_rgb": 96,
+        "mismatches": []
+      }
+    ]
+  },
+  "report_validation": {
+    "local_links_and_assets": 30,
+    "video_previews": 8,
+    "all_preview_frame_counts_and_24fps_verified": true,
+    "public_doc_check": "PASS: 8 public Markdown files, 463 local links/anchors",
+    "diff_check": "PASSED"
+  }
+}
