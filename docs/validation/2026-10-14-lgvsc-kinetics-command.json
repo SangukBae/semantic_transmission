@@ -13,7 +13,7 @@
   "source_frames": 3333,
   "bsu_packet_replay_base_channel_uses": 4217279,
   "bsu_files_unchanged": true,
-  "lgvsc_model_inference_started": false,
+  "lgvsc_model_inference_started": true,
   "root": "/home/sangukbae/semantic_transmission/outputs/lgvsc_kinetics_prepare_validation_20261014_v2",
   "code": {
     "src/semantic_transmission/lgvsc_kinetics.py": "8ca0dd55b347c87eeea721f736cef62f3a1a3bb085d84b3ef48e8df21f4a9fd4",
@@ -43,7 +43,7 @@
   "snr_db": 10,
   "exact_paper_reproduction": false,
   "full_lgvsc_benchmark_completed": false,
-  "scope": "Implementation and real preparation/input/display/accounting validation only. BSU packet replay checks the accounting function and is not an LGVSC transmission measurement.",
+  "scope": "Preparation/input/display/accounting validation plus subsequent remote LGVSC inference launch. BSU packet replay checks accounting and is not an LGVSC transmission measurement. Full comparison results remain pending.",
   "shared_receiver_repairs": [
     "tail17",
     "FP32 T5 cache",
@@ -58,7 +58,7 @@
   ],
   "persistent_session_validation": {
     "date": "2026-10-14",
-    "status": "PASSED_LOCAL_CHECKS_REMOTE_AUTH_PENDING",
+    "status": "PASSED_LOCAL_CHECKS",
     "commands": {
       "start": "bash scripts/run_lgvsc_kinetics.sh start",
       "watch": "bash scripts/run_lgvsc_kinetics.sh watch",
@@ -98,6 +98,86 @@
       "scripts/lgvsc_kinetics_session.sh": "be22a8206f10f08ae6010438b46c78802ef3eb6c49c5dca550012929f53fef6a"
     },
     "remote_experiment_started": false,
-    "scope": "Local monitoring implementation, full regression and completed-BSU input preflight only. Remote stop, deployment and experiment launch await SSH access."
+    "scope": "Local monitoring implementation, full regression and completed-BSU input preflight. Subsequent remote deployment is recorded separately in remote_deployment."
+  },
+  "remote_deployment": {
+    "status": "RUNNING_INTERNVL_SELECTION",
+    "observed_at": "2026-10-14T23:15:52.512131+09:00",
+    "source_commit": "1ceb034edde307326e23245f730553b840c906e5",
+    "host": "sangukcom",
+    "repository": "/home/sangukbae/ETRI/Semantic/semantic_transmission",
+    "prior_experiment": {
+      "status": "FAILED_BEFORE_DEPLOYMENT",
+      "completed": 108,
+      "total": 159,
+      "active_processes_before": 0,
+      "forced_termination": false,
+      "preserved_result_and_state_receipts": 218
+    },
+    "preserved_remote_changes": {
+      "archive": "/home/sangukbae/ETRI/Semantic/semantic_transmission/.local/deployment/lgvsc_kinetics_20261014/before_pull_worktree.tar.gz",
+      "stash_commit": "1ce3de7fbe05c813e96d89f4bce217bcafdca0e4"
+    },
+    "baseline_transfer": {
+      "status": "BYTE_IDENTICAL",
+      "files": 16446,
+      "bytes": 4295869232,
+      "seconds": 2.291220696992241
+    },
+    "baseline_unchanged_after_launch": true,
+    "compatibility_links": {
+      "/home/sangukbae/semantic_transmission": "/home/sangukbae/ETRI/Semantic/semantic_transmission",
+      "/home/sangukbae/datasets/semantic_transmission/kinetics400_14": "/legend/semantic_transmission/datasets/kinetics400_14"
+    },
+    "remote_tests": {
+      "passed": 173,
+      "failed": 0
+    },
+    "preflight": {
+      "status": "READY",
+      "videos": 14,
+      "frames": 3333,
+      "snr_db": 10,
+      "output": "/home/sangukbae/ETRI/Semantic/semantic_transmission/outputs/lgvsc_kinetics_matched",
+      "model_inference_started": false,
+      "scope": {
+        "selector": "InternVL2-8B SKEM/PSSS threshold 0.35; BF16",
+        "caption": "PLLaVA-7B, released four-frame caption inference",
+        "candidates": "int(0.2*24)=4 frame grid plus final frame; no key-count budget",
+        "common": "exact BSU normalized bytes and all source frames; NTSCC checkpoint; LDPC(6144,9216), 16-QAM; source-frame-seeded AWGN; base Open-Sora weights, seeds and steps",
+        "common_receiver_repairs": "tail17, FP32 T5 cache, endpoint collision/short-schedule repair, memory chunking and endpoint-exact concatenation",
+        "common_semantic_clips": "frame_exact, matching the BSU base runtime",
+        "excluded_from_lgvsc": [
+          "BSU trajectory packets",
+          "cadence refinement",
+          "key-context stitching"
+        ],
+        "cost": "all visual symbols + serialized metadata/CRC/LDPC padding/parity; BSU trajectory included",
+        "physical_link_overhead_included": false,
+        "exact_paper_reproduction": false
+      }
+    },
+    "timesformer_check": "official TimeSformer loaded strictly; parameters=121566352",
+    "command": "bash scripts/run_lgvsc_kinetics.sh run",
+    "launcher": "bash scripts/run_lgvsc_kinetics.sh start",
+    "progress_command": "bash scripts/run_lgvsc_kinetics.sh watch",
+    "remote_readonly_watch_and_detach_verified": true,
+    "tmux": {
+      "socket": "semantic-transmission",
+      "session": "lgvsc_kinetics",
+      "pane_pid": 3054770,
+      "alive": true
+    },
+    "benchmark_state": {
+      "status": "RUNNING",
+      "total": 14,
+      "transmitted": 0,
+      "reconstructed": 0,
+      "action_evaluated": 0,
+      "mode": "run",
+      "stage": "input-audit",
+      "current": "kinetics_001_a393e9d3"
+    },
+    "full_lgvsc_benchmark_completed": false
   }
 }

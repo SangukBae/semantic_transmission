@@ -4,6 +4,8 @@
 
 **2026-10-13 실행 상태:** 이 체크아웃의 새 BSU 실행은 궤적·키 합성 → 시간 보정 → 새 구간 연결(`combined_context`)이 기본이다. Qwen 의미 선택·캡션·생성기와 송신 패킷은 유지한다. 기존 프로토콜은 저장된 방식으로 재개하며 원격 체크아웃은 이번 통합으로 변경하지 않았다.
 
+**2026-10-14 원격 배포:** 위 기본 통합과 LGVSC Kinetics 실행기를 원격 체크아웃에도 반영했다. 기존 WebVid 배치의 결과·프로토콜은 보존하고, 로컬 완료 BSU Kinetics 결과를 해시 검증해 옮긴 뒤 LGVSC 비교를 시작했다. 실행 시작과 전체 결과 완료는 구분한다. [배포·검증 기록](validation/2026-10-14-lgvsc-kinetics-command.json)
+
 <a id="lgvsc-kinetics-matched"></a>
 ## 완료된 BSU와 같은 Kinetics-400 14편을 LGVSC로 비교
 
@@ -32,6 +34,12 @@ bash scripts/run_lgvsc_kinetics.sh watch
 ```
 
 `start`와 `watch`에는 `tmux`가 필요하다. `watch`는 새 실험을 시작하지 않으며, **Ctrl+b를 누른 뒤 d**로 화면에서 나와도 실험은 계속된다. 화면에는 단계별 진행률·경과 시간·GPU 사용률·사용/전체 VRAM·상세 로그가 표시된다. 완료·실패 후에도 세션의 마지막 화면과 종료 코드를 보존하며, 같은 세션이 있으면 `start`는 중복 실행을 거부한다. 기본 세션은 `lgvsc_kinetics`, 전용 tmux 소켓 이름은 `semantic-transmission`이다. 다른 세션 이름은 `LGVSC_KINETICS_SESSION`으로 지정한다.
+
+로컬에서 원격 진행 화면에 접속하려면 아래의 계정·호스트·체크아웃 경로를 실제 값으로 바꾼다. SSH 연결을 닫아도 원격 실험은 유지된다.
+
+```bash
+ssh -t USER@HOST 'cd /path/to/semantic_transmission && bash scripts/run_lgvsc_kinetics.sh watch'
+```
 
 `--bsu-root PATH`로 검증할 완료 BSU 배치를, `--root PATH`로 별도의 LGVSC 출력 위치를 지정한다. 기존 출력의 입력·코드·모델이 달라지면 중단하며 새 출력 위치가 필요하다. GPU 공유 잠금과 실행 잠금으로 중복 작업을 막는다. Ctrl+C 후 같은 명령으로 재개하면 완료 단계의 해시를 검증해 재사용하고, 실패한 단계의 부분 출력은 보존한 뒤 재시도한다. SKEM 비교·PLLaVA 캡션·개별 행동 분류의 검증된 체크포인트도 재사용한다.
 
