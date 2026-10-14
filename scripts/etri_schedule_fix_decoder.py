@@ -3,7 +3,8 @@ import os
 from pathlib import Path
 import runpy
 
-from semantic_transmission import short_schedule
+from semantic_transmission import decoder_memory, short_schedule
+from semantic_transmission.artifacts import write_json
 from semantic_transmission.webvid5 import read_json
 
 
@@ -13,9 +14,12 @@ def main():
     if policy.get("short_schedule_policy") != short_schedule.POLICY:
         raise ValueError("short-schedule policy missing")
     keys = read_json(run / "keyframes.json")["indices"]
+    short_schedule.install_frame_metadata()
+    memory = decoder_memory.install()
     records = short_schedule.install(keys, run / short_schedule.TRACE)
     runpy.run_path(str(Path(__file__).with_name("etri_condition_fix_decoder.py")), run_name="__main__")
     short_schedule.validate_trace(records, keys, policy["noise_contract"]["steps"])
+    write_json(run / decoder_memory.TRACE, memory)
 
 
 if __name__ == "__main__":

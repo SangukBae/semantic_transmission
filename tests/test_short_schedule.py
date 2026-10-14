@@ -17,6 +17,52 @@ def arguments(n, dtype=torch.bfloat16):
     return {k:torch.tensor([v],dtype=dtype) for k,v in dict(height=320,width=576,num_frames=n).items()}
 
 
+@pytest.fixture
+def exact_metadata(monkeypatch):
+    from opensora.utils import inference_utils
+    original = inference_utils.prepare_multi_resolution_info
+    monkeypatch.setattr(inference_utils, "prepare_multi_resolution_info", original)
+    fix.install_frame_metadata()
+    return original, inference_utils.prepare_multi_resolution_info
+
+
+@pytest.mark.parametrize("n", [257, 333, 487, 721, 1003, 1201, 2049])
+@pytest.mark.parametrize("dtype", [torch.bfloat16, torch.float16, torch.float32])
+def test_decoder_metadata_keeps_actual_frame_count(exact_metadata, n, dtype):
+    original, prepare = exact_metadata
+    args = ("STDiT2", 2, (320, 576), n, 24, "cpu", dtype)
+    before, after = original(*args), prepare(*args)
+    assert after["num_frames"].tolist() == [n, n]
+    for key in before.keys() - {"num_frames"}:
+        assert before[key].dtype == after[key].dtype
+        assert torch.equal(before[key], after[key])
+    if before["num_frames"].tolist() == [n, n]:
+        assert before["num_frames"].dtype == after["num_frames"].dtype
+    else:
+        assert after["num_frames"].dtype == torch.float32
+
+
+@pytest.mark.parametrize("n", [1, 9, 17, 150, 256, 288, 384, 720])
+def test_exact_existing_metadata_and_schedule_are_unchanged(exact_metadata, n):
+    original, prepare = exact_metadata
+    args = ("STDiT2", 1, (320, 576), n, 24, "cpu", torch.bfloat16)
+    before, after = original(*args), prepare(*args)
+    assert all(before[k].dtype == after[k].dtype and torch.equal(before[k], after[k]) for k in before)
+    for i in range(30):
+        t = torch.tensor([1000 * (1 - i / 30)])
+        assert torch.equal(fix.transform(t, before, rf.timestep_transform, num_timesteps=1000),
+                           fix.transform(t, after, rf.timestep_transform, num_timesteps=1000))
+
+
+@pytest.mark.parametrize("info_type", [None, "PixArtMS"])
+def test_other_metadata_formats_are_unchanged(exact_metadata, info_type):
+    original, prepare = exact_metadata
+    args = (info_type, 1, (320, 576), 721, 24, "cpu", torch.bfloat16)
+    before, after = original(*args), prepare(*args)
+    assert before.keys() == after.keys()
+    assert all(torch.equal(before[k], after[k]) for k in before)
+
+
 @pytest.mark.parametrize("n", range(1,42))
 def test_all_short_lengths_are_finite_and_other_lengths_identical(n):
     kw=arguments(n)
@@ -87,6 +133,41 @@ def test_real_rflow_preserves_keys_updates_middle_and_consumes_same_noise(tmp_pa
 def test_trace_rejects_missing_steps_or_no_updates():
     with pytest.raises(ValueError,match='incomplete'):
         fix.validate_trace([],[0,8],30)
+
+
+@pytest.mark.parametrize("wrong_count", [False, True])
+def test_long_decoder_metadata_reaches_actual_rflow_with_strict_count_check(
+        tmp_path, monkeypatch, exact_metadata, wrong_count):
+    class Encoder:
+        def encode(self, text): return dict(y=torch.zeros(1, 1, 1))
+        def null(self, n): return torch.zeros(n, 1, 1)
+
+    class Model(torch.nn.Module):
+        def forward(self, z, t, **kw):
+            assert kw["num_frames"].tolist() == [721]
+            return torch.cat([torch.ones_like(z), torch.zeros_like(z)], dim=1)
+
+    monkeypatch.setattr(rf, "timestep_transform", rf.timestep_transform)
+    monkeypatch.setattr(rf.RFLOW, "sample", rf.RFLOW.sample)
+    records = fix.install([0, 720], tmp_path / "trace.json")
+    metadata = exact_metadata[1]("STDiT2", 1, (320, 576), 720 if wrong_count else 721,
+                                 24, "cpu", torch.bfloat16)
+    latent_frames = 721 // 17 * 5 + (721 % 17 + 3) // 4
+    z = torch.zeros(1, 1, latent_frames, 1, 1)
+    mask = torch.ones(1, latent_frames)
+    mask[:, [0, -1]] = 0
+    scheduler = rf.RFLOW(num_sampling_steps=30, use_timestep_transform=True)
+    if wrong_count:
+        with pytest.raises(ValueError, match="sampling frame count differs"):
+            scheduler.sample(Model(), Encoder(), z, ["caption"], "cpu",
+                             additional_args=metadata, mask=mask, progress=False)
+        assert not records
+    else:
+        actual = scheduler.sample(Model(), Encoder(), z, ["caption"], "cpu",
+                                  additional_args=metadata, mask=mask, progress=False)
+        fix.validate_trace(records, [0, 720], 30)
+        assert torch.equal(actual[:, :, [0, -1]], z[:, :, [0, -1]])
+        assert (actual[:, :, 1:-1] != 0).all()
 
 
 def test_check_does_not_create_outputs(tmp_path,monkeypatch,capsys):

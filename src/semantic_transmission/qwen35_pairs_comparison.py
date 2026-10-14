@@ -118,7 +118,7 @@ def build_protocol():
         "src/semantic_transmission/" + name + ".py" for name in (
             "qwen35_pairs_comparison", "qwen35_pairs_review", "qwen35_backend", "qwen35_caption_adapter",
             "auto_extraction", "assisted_captions", "fc_lgvsc_qwen35", "hybrid_reconstruction",
-            "condition_collision", "short_schedule", "generation_noise", "webvid_ablation", "artifacts",
+            "condition_collision", "short_schedule", "decoder_memory", "generation_noise", "webvid_ablation", "artifacts",
             "codec_transport", "metadata_channel", "wire", "transmission_accounting", "workers",
             "etri_60s", "etri_60s_check", "research_quality", "official_quality", "semantic_clips",
             "temporal", "decoder_runner", "qwen35_feedback_eval")}

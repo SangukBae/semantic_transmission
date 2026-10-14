@@ -10,7 +10,7 @@ from pathlib import Path
 import signal
 
 from . import auto_extraction as extraction, qwen35_conditions as conditions
-from . import condition_collision as collision, generation_noise as noise
+from . import condition_collision as collision, decoder_memory, generation_noise as noise
 from . import precision_text_cache as text_cache, short_schedule, tail_reference as tail
 from .artifacts import sha256, write_json
 from .cli import settings
@@ -59,7 +59,7 @@ def job_plan():
         ("prepare-text", MODULE, ["receiver_policy.json", text_cache.REPORT]),
         ("reconstruct", MODULE, ["receiver/decoder_config.py", "receiver/reconstruction",
             "receiver/reference_trace.json", "receiver/tail_reference_trace.json",
-            text_cache.TRACE, noise.TRACE, collision.TRACE, short_schedule.TRACE]),
+            text_cache.TRACE, noise.TRACE, collision.TRACE, short_schedule.TRACE, decoder_memory.TRACE]),
         ("output-audit", MODULE, ["output_audit.json"]),
         ("evaluate", "semantic_transmission.research_quality", ["quality.json", "quality_delivered_mp4.csv", "quality_lossless_frames.csv"]),
         ("comparison", ETRI, [])]
@@ -85,6 +85,7 @@ def preflight(root, video_id, output):
     code = sorted(set(tail.CODE) | set(text_cache.CODE) | {
         "src/semantic_transmission/fc_lgvsc_qwen35.py", "src/semantic_transmission/qwen35_conditions.py",
         "src/semantic_transmission/condition_collision.py", "src/semantic_transmission/short_schedule.py",
+        "src/semantic_transmission/decoder_memory.py",
         "src/semantic_transmission/generation_noise.py", "scripts/etri_precision_decoder.py",
         "scripts/etri_condition_fix_decoder.py", "scripts/etri_schedule_fix_decoder.py"})
     identity = dict(policy=POLICY, config=cfg, selection_sha256=sha256(dest / "selection.json"),

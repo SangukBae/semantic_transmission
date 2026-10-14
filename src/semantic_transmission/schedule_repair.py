@@ -21,6 +21,7 @@ from .webvid_ablation import Stages, environment, snapshot
 REPO, INPUTS = base.REPO, base.INPUTS
 MODULE = "semantic_transmission.schedule_repair"
 CODE = ("src/semantic_transmission/short_schedule.py", "src/semantic_transmission/schedule_repair.py",
+        "src/semantic_transmission/decoder_memory.py",
         "scripts/etri_schedule_fix_decoder.py", "scripts/reconstruct_schedule_fix.sh",
         ".local/vendor/Open-Sora/opensora/schedulers/rf/rectified_flow.py")
 

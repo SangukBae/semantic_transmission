@@ -1,13 +1,42 @@
-"""Repair RFLOW's zero temporal ratio for 2..16 input frames only.
+"""Repair short RFLOW schedules and preserve exact frame-count metadata.
 
-Retain the released schedule for one-frame and >=17-frame inputs. This changes
-inference scheduling, not STDiT weights, reference masks, or random draws.
+Retain the released schedule outside 2..16 frames when metadata is exact. This
+changes inference scheduling, not STDiT weights, reference masks, or random draws.
 """
+from functools import wraps
+
 from .artifacts import write_json
 from .temporal import segment_lengths
 
 POLICY = "short_segment_actual_latent_schedule_v1"
 TRACE = "receiver/short_schedule_trace.json"
+
+
+def install_frame_metadata():
+    """Preserve the Python frame count before reduced-precision metadata loses it.
+
+    Open-Sora uses the model dtype for metadata too: e.g. BF16 maps 721 to 720.
+    Promote only a lossy num_frames field, leaving established exact inputs and
+    the other model arguments unchanged. Install before the decoder imports it.
+    """
+    import torch
+    from opensora.utils import inference_utils
+
+    original = inference_utils.prepare_multi_resolution_info
+
+    @wraps(original)
+    def prepare(info_type, batch_size, image_size, num_frames, fps, device, dtype):
+        result = original(info_type, batch_size, image_size, num_frames, fps, device, dtype)
+        frames = result.get("num_frames")
+        if frames is not None and any(value != num_frames for value in frames.tolist()):
+            # Rebuild from the integer input, not from the already rounded tensor.
+            exact = torch.full(frames.shape, num_frames, dtype=torch.float32, device=frames.device)
+            if any(value != num_frames for value in exact.tolist()):
+                raise ValueError("frame count cannot be represented exactly in FP32 metadata")
+            result["num_frames"] = exact
+        return result
+
+    inference_utils.prepare_multi_resolution_info = prepare
 
 
 def transform(t, model_kwargs, original, base_resolution=512 * 512,

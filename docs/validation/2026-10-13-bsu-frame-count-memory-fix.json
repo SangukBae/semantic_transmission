@@ -1,0 +1,181 @@
+{
+  "status": "PASSED_FOR_FAILED_721_FRAME_CONDITION",
+  "date": "2026-10-13",
+  "causes": [
+    "BF16 num_frames metadata rounded 721 to 720, violating adjacent-keyframe validation",
+    "After metadata repair, dense temporal attention exhausted the remote RTX 4080 VRAM"
+  ],
+  "implementation": {
+    "frame_metadata": "Promote only lossy frame counts to FP32 using the original integer",
+    "memory": "Chunk independent attention batches and MLP tokens; retain full temporal context and upstream attention kernel choice",
+    "limits": "Floating point rounding may vary with GEMM batch size; no full-cohort quality claim"
+  },
+  "code_parity": {
+    "status": "IDENTICAL",
+    "sha256": {
+      "src/semantic_transmission/short_schedule.py": "62e1561ced9b03972140ecbfac64d137b8bf6f800db6f5dddae89e3343270024",
+      "src/semantic_transmission/decoder_memory.py": "b8f08cbc06b805876a074248ea144842e4dd9fc6408ffed73f00dda391b01ca2",
+      "src/semantic_transmission/fc_lgvsc_qwen35.py": "c5d733e62188e079ae9e4b89a0783ed618a9d3920ba90a617a5ae8089292d283",
+      "src/semantic_transmission/qwen35_pairs_comparison.py": "fe82953b74dc1d9ed1870368126da07963ba89983a98a3935ec2d3c39d03eae4",
+      "src/semantic_transmission/schedule_repair.py": "7158d80f42a43acc2a3b79bc0b82d6bb64b6e922abbfc3d3d921ee8e4bb0d951",
+      "scripts/etri_schedule_fix_decoder.py": "ab272890e377213202d457fada51d83ed15ee87e2e03e1790e8336205b37b507",
+      "tests/test_short_schedule.py": "04cd865f9b56efd25542cd029a9807a0f170d63275ec86af161635a3c31553ab",
+      "tests/test_decoder_memory.py": "d96868c992bab6579a379be822a93b8055ed028a04db486963e068dec5f1ef26"
+    },
+    "local_tests": "194 passed in 7.59s",
+    "remote_initial_tests": "136 passed in 3.14s"
+  },
+  "remote_tests": "194 passed in 4.05s",
+  "gpu_operator_probes": {
+    "status": "PASSED",
+    "gpu": "NVIDIA GeForce RTX 4080",
+    "probes": [
+      {
+        "name": "attention",
+        "input_shape": [
+          256,
+          213,
+          1152
+        ],
+        "max_abs_error": 0.0,
+        "rms_error": 0.0,
+        "baseline_peak_mib": 2176.326171875,
+        "chunked_peak_mib": 643.13134765625,
+        "trace": {
+          "policy": "independent_attention_batches_and_mlp_tokens_v1",
+          "limit_bytes": 536870912,
+          "chunk_bytes": 134217728,
+          "attention_calls": 1,
+          "mlp_calls": 0,
+          "max_attention_batch": 46,
+          "max_mlp_tokens": 0
+        }
+      },
+      {
+        "name": "mlp",
+        "input_shape": [
+          2,
+          32768,
+          1152
+        ],
+        "max_abs_error": 0.0078125,
+        "rms_error": 0.0008478302625007927,
+        "baseline_peak_mib": 1334.544921875,
+        "chunked_peak_mib": 582.544921875,
+        "trace": {
+          "policy": "independent_attention_batches_and_mlp_tokens_v1",
+          "limit_bytes": 536870912,
+          "chunk_bytes": 134217728,
+          "attention_calls": 0,
+          "mlp_calls": 1,
+          "max_attention_batch": 0,
+          "max_mlp_tokens": 7281
+        }
+      }
+    ]
+  },
+  "remote_integration": {
+    "checked_at": "2026-10-13T00:15:00.238196+09:00",
+    "integration": {
+      "status": "PASSED",
+      "condition": {
+        "id": "webvid_001_2255949c",
+        "snr_db": 6.0
+      },
+      "frames": 721,
+      "full_batch_started": false,
+      "default_command_resume_verified": true,
+      "completed": 1,
+      "total": 159,
+      "seconds": 1244.8581778439693,
+      "video": "/home/sangukbae/ETRI/Semantic/semantic_transmission/outputs/bsu_webvid_paper/snr_6/webvid_001_2255949c/refined/reconstruction.mp4"
+    },
+    "status": {
+      "status": "PARTIAL",
+      "completed": 1,
+      "total": 159,
+      "failures": [],
+      "seconds": 1244.8580047639553
+    },
+    "movies": {
+      "base": {
+        "path": "/home/sangukbae/ETRI/Semantic/semantic_transmission/outputs/bsu_webvid_paper/snr_6/webvid_001_2255949c/base/reconstruction/event_pairs/run/receiver/reconstruction/sample_0000.mp4",
+        "sha256": "a00ab248f42962a9fd410a396d5e701cc2740f8a61d492b787583c6dcd4d1b76",
+        "width": 576,
+        "height": 320,
+        "avg_frame_rate": "24/1",
+        "duration": "30.041667",
+        "nb_read_frames": "721"
+      },
+      "refined": {
+        "path": "/home/sangukbae/ETRI/Semantic/semantic_transmission/outputs/bsu_webvid_paper/snr_6/webvid_001_2255949c/refined/reconstruction.mp4",
+        "sha256": "daec69b72fe74b8faba83123afeb4236b8707f7e0f748968e88848cdfc58f981",
+        "width": 576,
+        "height": 320,
+        "avg_frame_rate": "24/1",
+        "duration": "30.041667",
+        "nb_read_frames": "721"
+      }
+    },
+    "schedule": [
+      {
+        "loop": 0,
+        "frames": 721,
+        "latent_frames": 212,
+        "finite_output": true,
+        "conditions_preserved": true,
+        "generated_update_nonzero": true,
+        "sampling_steps": 30
+      }
+    ],
+    "memory_execution": {
+      "policy": "independent_attention_batches_and_mlp_tokens_v1",
+      "limit_bytes": 536870912,
+      "chunk_bytes": 134217728,
+      "attention_calls": 840,
+      "mlp_calls": 1680,
+      "max_attention_batch": 46,
+      "max_mlp_tokens": 7281
+    },
+    "metric_frames": {
+      "base": {
+        "lossless_frames": 721,
+        "delivered_mp4": 721
+      },
+      "refined": {
+        "lossless_frames": 721,
+        "delivered_mp4": 721
+      }
+    },
+    "base_stage_seconds": {
+      "initialize": 0.18298292497638613,
+      "input-audit": 2.572435959998984,
+      "semantic-clips": 7.5428851780015975,
+      "caption": 0.41480000904994085,
+      "flow": 5.425883116025943,
+      "send": 2.7234221920371056,
+      "channel": 2.070106626022607,
+      "receive": 2.722003801027313,
+      "prepare-text": 13.905632584006526,
+      "reconstruct": 708.3225547060138,
+      "output-audit": 3.5234297459828667,
+      "evaluate": 78.84245459001977
+    },
+    "refined_stage_seconds": {
+      "evaluate": 86.28711004799698,
+      "prepare": 3.237107378023211,
+      "refine": 64.81730970303761,
+      "channel": 2.0523006709991023
+    },
+    "independent_semantic_review": "PENDING",
+    "full_cohort_verified": false
+  },
+  "archived_attempts": [
+    "outputs/bsu_webvid_paper_failed_before_framefix_20261012",
+    "outputs/bsu_webvid_paper_failed_memory_20261012"
+  ],
+  "resume_command": "bash scripts/run_bsu_webvid.sh run",
+  "remaining_video_snr_pairs": 158,
+  "full_batch_started": false,
+  "independent_semantic_review": "PENDING"
+}
