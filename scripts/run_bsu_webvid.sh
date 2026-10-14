@@ -9,4 +9,10 @@ export OMP_NUM_THREADS=2 MKL_NUM_THREADS=2
 export PYTORCH_ALLOC_CONF=expandable_segments:True
 ulimit -n 8192
 python=$(python3 -c 'import json; print(json.load(open(".local/settings.json"))["python"])')
-exec "$python" -m semantic_transmission.bsu_webvid "$@"
+case "${1:-}" in
+  run|check)
+    exec "$python" -m semantic_transmission.terminal_progress -- \
+      "$python" -m semantic_transmission.bsu_default "$@"
+    ;;
+  *) exec "$python" -m semantic_transmission.bsu_default "$@" ;;
+esac

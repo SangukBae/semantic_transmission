@@ -1,0 +1,91 @@
+{
+  "date": "2026-10-13",
+  "status": "LOCAL_DEFAULT_INTEGRATED_VERIFIED",
+  "default_mode": "combined_context",
+  "default_root": "outputs/bsu_webvid_context",
+  "algorithm": "original context_only: unguarded paid trajectory, cadence, received-key context",
+  "entrypoint": "bash scripts/run_bsu_webvid.sh run",
+  "standalone_entrypoint": "python -m semantic_transmission.bsu_refine",
+  "previous_mode": "--mode combined with a separate output root",
+  "default_applies_to": "new local runs; frozen existing protocols retain their stored mode",
+  "remote_changed": false,
+  "generator_retrained": false,
+  "generator_inference_run": false,
+  "sender_changed": false,
+  "additional_context_transmission": 0,
+  "received_key_endpoint_reference": "exact RGB in PNG; delivered MP4 is lossy",
+  "original_context_code_unchanged": true,
+  "historical_bsu_runner_code_unchanged": true,
+  "code": {
+    "src/semantic_transmission/bsu_receiver.py": "fde8c0407089eff6a64893683b4fbd961488e3a571626bed484250752a6d4789",
+    "src/semantic_transmission/bsu_default.py": "ceb0c13d8669b61e9c6be45eec19586a531f4f2187c0cf28fccba40d3a0c2ee0",
+    "src/semantic_transmission/bsu_refine.py": "0aae104ede93241ac1778cbf835e8e6575023925970f0f8e917f8d1070b32f7e",
+    "src/semantic_transmission/receiver_key_context.py": "eaa3adfad606207df6f788a023691aad18fcf11c8327b4843e0f3d860eabdbdd",
+    "scripts/run_bsu_webvid.sh": "9c3651c963a14717c83e84f49072706c5ce9358170b39c9d8d23573c7dc3543f"
+  },
+  "parity": {
+    "status": "PASSED",
+    "completed": 51,
+    "total": 51,
+    "source_identities": 20,
+    "total_frames": 21822,
+    "received_keys": 421,
+    "full_pipeline_cases": 16,
+    "cached_combined_cases": 35,
+    "all_png_rgb_exact": true,
+    "all_mp4_rgb_exact": true,
+    "mp4_byte_identical_cases": 51,
+    "seconds": 1163.9893184970133
+  },
+  "parity_scope": {
+    "full_receiver_cases": "16 cases from 8 sources: cached raw generation -> trajectory/cadence -> context",
+    "cached_combined_cases": "35 cases from 12 additional sources: cached combined -> production context pass",
+    "outputs": "all PNG RGB and all decoded MP4 frames compared to frozen original context_only results",
+    "retained_artifacts": "small receipts; temporary generated media removed after comparison"
+  },
+  "png_byte_identical_frames": 21822,
+  "resume": {
+    "status": "PASSED",
+    "standalone_default": "combined_context",
+    "standalone_resume_files": 100,
+    "standalone_png_and_mp4_byte_identical": true,
+    "historical_artifacts_unchanged": 14177,
+    "historical_resume_seconds": 17.087711632993887,
+    "exit_code": 0
+  },
+  "automated_tests": {
+    "passed": 105,
+    "seconds": 7.02,
+    "files": [
+      "tests/test_bsu_default.py",
+      "tests/test_bsu_receiver.py",
+      "tests/test_bsu_webvid.py",
+      "tests/test_bsu_sequence_refinement.py",
+      "tests/test_receiver_key_context.py",
+      "tests/test_bsu_key_context_experiment.py",
+      "tests/test_bsu_receiver_compare.py",
+      "tests/test_bsu_context_extension.py",
+      "tests/test_terminal_progress.py"
+    ],
+    "coverage": [
+      "new default protocol and worker routing",
+      "frozen mode retention and mismatch rejection",
+      "actual nonempty sender packet bytes and budget equal legacy combined",
+      "shared received key boundaries and no source-image requirement",
+      "full-length MP4 timeline",
+      "standalone default and no-rewrite resume",
+      "fixed terminal progress and existing experiment regression tests"
+    ]
+  },
+  "evidence": {
+    "outputs/bsu_context_default_integration_20261013_v1/RESULT.json": "e76e180e13dbf3fc6f42832f8d579c62750b85262623bfe6e0f030bc12a3cf53",
+    "outputs/bsu_context_default_integration_20261013_v1/resume_verification.json": "ecc863fb9b6523393f732877be7134dc16d324b25af598ccb37f6a53fb853ac8",
+    "outputs/bsu_context_default_integration_20261013_v1/verify_integration.py": "7a43f7e7f87e2e4a47bd6bdc73459cb88ac2a09a80b76eb89fd3b2c62ef28a02",
+    "outputs/bsu_context_default_integration_20261013_v1/verify_resume.py": "e3f25e23801c3d506b855f6fc5007e8cd3c6be6da23328f56ca87fcbe48938ff"
+  },
+  "limitations": [
+    "This verifies integration identity, not a new quality improvement.",
+    "Existing motion regressions remain; continuous 60-second and independent semantic evaluation are pending.",
+    "No full sender/model-inference batch was launched by this integration."
+  ]
+}
