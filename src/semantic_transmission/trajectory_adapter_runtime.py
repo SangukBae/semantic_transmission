@@ -6,6 +6,22 @@ from .artifacts import sha256,write_json
 from .bsu_motion_validation import read
 
 
+def checkpoint_record(path):
+    """Validate the exported receiver module before freezing an execution."""
+    import torch
+    from .trajectory_adapter import POLICY, TrajectoryAdapter
+    path = Path(path).resolve()
+    value = torch.load(path, map_location='cpu', weights_only=True)
+    if value.get('policy') != POLICY:
+        raise ValueError('unsupported trajectory adapter policy')
+    adapter = TrajectoryAdapter()
+    adapter.load_state_dict(value['state_dict'], strict=True)
+    if not all(torch.isfinite(v).all() for v in adapter.state_dict().values()):
+        raise ValueError('nonfinite trajectory adapter weights')
+    return dict(checkpoint=str(path), checkpoint_sha256=sha256(path),
+                policy=POLICY, steps=value.get('steps'), enabled=True)
+
+
 def native_condition(tracks,keys,frames,height,width,continuation):
     from .trajectory_adapter import condition_maps
     condition=condition_maps(tracks,keys,list(range(frames)),height,width)
@@ -20,7 +36,8 @@ def install(run):
     from .trajectory_adapter import TrajectoryAdapter
     from .bsu_sequence_refinement import decode_packet
     config=read(run/'adapter_runtime.json');keys=read(run/'keyframes.json')['indices']
-    tracks=decode_packet((run/'received/trajectory.bin').read_bytes(),(run/'received/metadata.bin').read_bytes())
+    trajectory=run/'received/trajectory.bin'
+    tracks=decode_packet(trajectory.read_bytes(),(run/'received/metadata.bin').read_bytes()) if trajectory.exists() else {}
     checkpoint=Path(config['checkpoint'])
     if sha256(checkpoint)!=config['checkpoint_sha256']:raise ValueError('adapter checkpoint changed')
     state=torch.load(checkpoint,map_location='cpu',weights_only=True)['state_dict']

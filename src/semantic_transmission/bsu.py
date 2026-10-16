@@ -35,6 +35,8 @@ def parser():
     p.add_argument('--semantic-run', type=Path, help='existing event_pairs/run containing transmitter and run_config.json')
     p.add_argument('--source-frames', type=Path, help='normalized sender RGB PNGs: 0.png, 1.png, ...')
     p.add_argument('--trajectory', type=Path, help='optional explicit original trajectory packet')
+    p.add_argument('--adapter-checkpoint', type=Path,
+                   help='optional trained trajectory adapter for the BSU fallback receiver')
     p.add_argument('--output', type=Path, help='separate resumable output directory')
     return p
 
@@ -76,6 +78,11 @@ def preflight(args):
             raise ValueError(f'pinned model or implementation changed: {path}')
     record = dict(profile=value, config_sha256=sha256(CONFIG),
                   code={n: sha256(REPO / f'src/semantic_transmission/{n}.py') for n in CODE})
+    if args.adapter_checkpoint:
+        from .trajectory_adapter_runtime import checkpoint_record
+        record['adapter'] = checkpoint_record(args.adapter_checkpoint)
+        record['adapter_code'] = {n: sha256(REPO / f'src/semantic_transmission/{n}.py')
+                                  for n in ('trajectory_adapter', 'trajectory_adapter_runtime', 'bsu_adapter_native')}
     record['signature'] = fingerprint(record)
     prior = root / 'default_profile.json'
     if prior.exists() and json.loads(prior.read_text()) != record:

@@ -1,5 +1,6 @@
 import numpy as np
 import torch
+import pytest
 from semantic_transmission.trajectory_adapter import latent_positions,condition_maps,TrajectoryAdapter
 
 
@@ -42,3 +43,17 @@ def test_native_absent_paid_track_is_identity_even_after_training():
     torch.nn.init.normal_(a.projection.weight);torch.nn.init.ones_(a.projection.bias)
     c=native_condition(None,[None,None],33,40,72,True)
     assert torch.count_nonzero(a(torch.from_numpy(c)[None]))==0
+
+
+def test_export_validation_rejects_wrong_policy_and_nonfinite_weights(tmp_path):
+    from semantic_transmission.trajectory_adapter import POLICY
+    from semantic_transmission.trajectory_adapter_runtime import checkpoint_record
+    path=tmp_path/'final.pt';state=TrajectoryAdapter().state_dict()
+    torch.save(dict(policy=POLICY,state_dict=state,steps=905),path)
+    record=checkpoint_record(path)
+    assert record['steps']==905 and record['enabled']
+    torch.save(dict(policy='unknown',state_dict=state),path)
+    with pytest.raises(ValueError,match='policy'):checkpoint_record(path)
+    state['projection.bias'][0]=float('nan')
+    torch.save(dict(policy=POLICY,state_dict=state),path)
+    with pytest.raises(ValueError,match='nonfinite'):checkpoint_record(path)

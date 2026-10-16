@@ -150,7 +150,15 @@ def worker(j, stage):
     elif stage == 'bsu_reconstruct':
         from .bsu_key_reduction import reconstruct,refine
         job=dict(run=str(run),output=str(root),keys=read(run/'keyframes.json')['indices'])
-        reconstruct(job);refine(job)
+        if j.get('adapter'):
+            from .bsu_adapter_native import reconstruct as reconstruct_adapter
+            if sha256(j['adapter']['checkpoint']) != j['adapter']['checkpoint_sha256']:
+                raise ValueError('adapter checkpoint changed')
+            write_json(run/'adapter_runtime.json',j['adapter'])
+            reconstruct_adapter(run)
+        else:
+            reconstruct(job)
+        refine(job)
     else:
         raise ValueError(stage)
 
@@ -180,6 +188,11 @@ def execute(args):
         code={n:sha256(REPO/f'src/semantic_transmission/{n}.py') for n in
             ['bsu_adaptive_dense','bsu_dense_router','bsu_dense_neural','bsu_key_reduction','codec_transport',
              'bsu_dense_temporal','dense_temporal_receiver']})
+    if getattr(args,'adapter_checkpoint',None):
+        from .trajectory_adapter_runtime import checkpoint_record
+        p['adapter']=checkpoint_record(args.adapter_checkpoint)
+        p['adapter_code']={n:sha256(REPO/f'src/semantic_transmission/{n}.py') for n in
+            ('trajectory_adapter','trajectory_adapter_runtime','bsu_adapter_native')}
     p['signature']=fingerprint(p);root.mkdir(parents=True,exist_ok=True)
     with lock(REPO/'.local/etri_60s_check.lock'),lock(root/'execution.lock'):
         freeze(root/'protocol.json',p);freeze(root/'job.json',p)
@@ -225,7 +238,8 @@ def execute(args):
         movie=root/'refined/reconstruction.mp4'
         write_json(root/'RESULT.json',dict(status='COMPLETE_ADAPTIVE_DENSE_BSU',mode=mode,
             channel_uses=read(root/'channel.json')['channel_uses'],movie=str(movie),movie_sha256=sha256(movie),
-            receiver_ran_afresh=True,source_pixels_at_receiver=False,quality_selected_routing=False))
+            receiver_ran_afresh=True,source_pixels_at_receiver=False,quality_selected_routing=False,
+            adapter=p.get('adapter'),adapter_branch_executed=bool(p.get('adapter') and mode=='bsu')))
         progress('complete',5,5)
 
 
@@ -244,6 +258,7 @@ def main():
     parser.add_argument('--protect-semantic-keys',action=argparse.BooleanOptionalAction,default=False,
         help='include original BSU event timestamps among the paid predictive anchors')
     parser.add_argument('--output',type=Path);parser.add_argument('--trajectory',type=Path)
+    parser.add_argument('--adapter-checkpoint',type=Path)
     parser.add_argument('--worker');parser.add_argument('--job',type=Path)
     args=parser.parse_args()
     if args.worker:return worker(read(args.job),args.worker)

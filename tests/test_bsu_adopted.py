@@ -75,3 +75,24 @@ def test_entrypoint_and_historical_commands_remain_distinct():
     assert 'semantic_transmission.bsu_adaptive_rate' not in shell
     for script, module in [('run_bsu_webvid.sh', 'bsu_default'), ('run_bsu_kinetics.sh', 'bsu_kinetics')]:
         assert f'-m semantic_transmission.{module}' in (bsu.REPO / 'scripts' / script).read_text()
+
+
+def test_opt_in_adapter_dispatch_and_changed_weight_rejection(tmp_path,monkeypatch):
+    from semantic_transmission import bsu_adaptive_dense as pipeline, bsu_adapter_native, bsu_key_reduction
+    from semantic_transmission.artifacts import sha256
+    run=tmp_path/'run';write_json(run/'keyframes.json',dict(indices=[0,32]))
+    checkpoint=tmp_path/'adapter.pt';checkpoint.write_bytes(b'weights')
+    adapter=dict(checkpoint=str(checkpoint),checkpoint_sha256=sha256(checkpoint),enabled=True)
+    calls=[]
+    monkeypatch.setattr(bsu_adapter_native,'reconstruct',lambda r:calls.append(('adapter',r)))
+    monkeypatch.setattr(bsu_key_reduction,'reconstruct',lambda j:calls.append(('baseline',Path(j['run']))))
+    monkeypatch.setattr(bsu_key_reduction,'refine',lambda j:calls.append(('refine',Path(j['run']))))
+    job=dict(output=str(tmp_path),adapter=adapter)
+    pipeline.worker(job,'bsu_reconstruct')
+    assert calls==[('adapter',run),('refine',run)]
+    assert json.loads((run/'adapter_runtime.json').read_text())==adapter
+    checkpoint.write_bytes(b'changed')
+    with pytest.raises(ValueError,match='checkpoint changed'):pipeline.worker(job,'bsu_reconstruct')
+    assert len(calls)==2
+    pipeline.worker(dict(output=str(tmp_path)),'bsu_reconstruct')
+    assert calls[-2:]==[('baseline',run),('refine',run)]
