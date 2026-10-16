@@ -1,0 +1,130 @@
+{
+  "status": "FIXED_AND_REMOTE_EXPERIMENT_COMPLETE",
+  "date_kst": "2026-10-15",
+  "cause": {
+    "location": "bsu_key_reduction.action",
+    "expected": "path,label",
+    "actual": "path label",
+    "parser": "Kinetics._construct_loader uses literal PATH_LABEL_SEPARATOR from frozen YAML: comma",
+    "consequence": "manifest parsing AssertionError before model classification; reconstruction outputs unaffected"
+  },
+  "fix": {
+    "file": "src/semantic_transmission/bsu_key_reduction.py",
+    "behavior": "derive separator from effective TimeSformer config and reject unsupported path/label rows before writing",
+    "old_sha256": "3ba796a0e24d662950449193c782d55a83ca2cba6b0f5cb2a923aeae75d44a19",
+    "new_sha256": "5b53e7258aa5170f8abb71712bbaa5924e8116e58f56f49bcb93e182a48959eb"
+  },
+  "recovery": {
+    "command": "bash scripts/recover_bsu_key_reduction.sh",
+    "remote": "sangukcom",
+    "exit_code": 0,
+    "preserved": {
+      "status": "PASSED",
+      "completed_stages": 155,
+      "protected_files": 11919,
+      "all_protected_hashes_unchanged": true,
+      "action_result_sha256": "c9cbebaa708bf1f3381c7b46ee2a1759005ca333b6201dea64ce1f368e14ef0a"
+    },
+    "original_protocol_unchanged": true,
+    "thresholds_unchanged": true,
+    "evidence": "outputs/bsu_key_reduction_20261015_v2/recovery/action_manifest_v1/receipt.json"
+  },
+  "tests": {
+    "local": 16,
+    "remote": 16,
+    "real_action_inputs": 32,
+    "spatial_views_per_input": 3,
+    "classification_complete": true
+  },
+  "experiment": {
+    "cohort": 14,
+    "frames": 3333,
+    "snr_db": 10,
+    "receiver": "combined_context",
+    "candidate_eligible_videos": 8,
+    "skipped_videos": 6,
+    "seed_2025_trials": 11,
+    "seed_2025_passed": 2,
+    "seed_2026_confirmations": 2,
+    "seed_2026_passed": 0,
+    "accepted_videos": 0,
+    "baseline": {
+      "videos": 14,
+      "keys": 135,
+      "channel_uses": 4392383,
+      "quality": {
+        "psnr_db": 20.476578513141042,
+        "ssim": 0.7046635190542155,
+        "lpips_vgg": 0.3028025325848068,
+        "clip": 0.9618007514078613,
+        "dists": 0.13746968098384554
+      },
+      "temporal": {
+        "flow_error_mean": 0.782086058270893,
+        "cadence_error_mean": 0.4607982001675141,
+        "false_freeze_rate": 0.3388383829156099
+      }
+    },
+    "selected": {
+      "videos": 14,
+      "keys": 135,
+      "channel_uses": 4392383,
+      "quality": {
+        "psnr_db": 20.476578513141042,
+        "ssim": 0.7046635190542155,
+        "lpips_vgg": 0.3028025325848068,
+        "clip": 0.9618007514078613,
+        "dists": 0.13746968098384554
+      },
+      "temporal": {
+        "flow_error_mean": 0.782086058270893,
+        "cadence_error_mean": 0.4607982001675141,
+        "false_freeze_rate": 0.3388383829156099
+      }
+    },
+    "action": {
+      "baseline_2025": {
+        "videos": 14,
+        "top1_correct": 12,
+        "top5_correct": 14
+      },
+      "baseline_2026": {
+        "videos": 2,
+        "top1_correct": 2,
+        "top5_correct": 2
+      },
+      "candidate_2026": {
+        "videos": 2,
+        "top1_correct": 2,
+        "top5_correct": 2
+      },
+      "selected_2025": {
+        "videos": 14,
+        "top1_correct": 12,
+        "top5_correct": 14
+      }
+    },
+    "aggressive_proposal": {
+      "keys": 118,
+      "channel_uses": 3794086,
+      "savings_percent": 13.621239313602661,
+      "accepted": false,
+      "scope": "first motion-ranked proposal on 8 eligible videos, original keys on other 6"
+    },
+    "conclusion_ko": "전송량은 줄었지만 사전 품질·동작 기준과 별도 생성 난수 재검증을 모두 통과한 감축안은 없었음. 기존 135개 키 구성을 유지.",
+    "limitations": [
+      "14 previously seen development sources; seed confirmation is not unseen-source validation",
+      "same scoped RNG seed and policy; different segment counts/shapes are NOT identical noise tensors",
+      "temporal metrics are optical-flow proxies",
+      "independent semantic review pending; no production promotion"
+    ]
+  },
+  "artifacts": {
+    "outputs/bsu_key_reduction_20261015_v2/RESULT.json": "5d308d4773ac53e8c29e5a78aaa33567c534d2acc04f886e0d6f7af280845d51",
+    "outputs/bsu_key_reduction_20261015_v2/comparison.csv": "ca7d1deb0f56276cec7b0c4eb02e26ac87dc83ff09258caffdbd7f6b0db5ffdc",
+    "outputs/bsu_key_reduction_20261015_v2/completion_receipt.json": "5a03984de91aab97cfccfe948b896adf0d653d92ccfc8f52140957f7ff7ffc52",
+    "outputs/bsu_key_reduction_20261015_v2/action/RESULT.json": "c9cbebaa708bf1f3381c7b46ee2a1759005ca333b6201dea64ce1f368e14ef0a",
+    "outputs/bsu_key_reduction_20261015_v2/recovery/action_manifest_v1/receipt.json": "88c6294c527920cfad091ee6ece2ecb71c1ac0ff4cdb34470420bbbcde851695",
+    "outputs/bsu_key_reduction_20261015_v2/recovery/action_manifest_v1/verification.json": "110c915d82bdf65fcc84a6c388257f862c3230cfc74fe94a5dae0ee18f730563"
+  }
+}
