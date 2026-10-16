@@ -29,6 +29,28 @@ DEFAULT_SELECTION = core.REPO / 'outputs/bsu_adapter_training_7h_v1/protocol.jso
 
 
 def data_plan(args):
+    if getattr(args, 'training_config', None):
+        from . import unified_bsu_training_policy as policy
+        c = policy.config(args.training_config); profile = core.profile(args.profile)
+        examples, quality, summary, inputs, excluded = policy.expanded_plan(args.selection, c, profile)
+        if c['max_steps'] <= args.codec_warmup_steps+c['min_joint_steps']:
+            raise ValueError('maximum steps must include the minimum joint training period')
+        runtime = u.paths()
+        value = dict(policy=core.POLICY, examples=examples, quality_examples=quality,
+            sources=summary['sources'], data_summary=summary, inputs=inputs, excluded_sources=excluded,
+            runtime=runtime, selection=str(args.selection.resolve()), selection_sha256=sha256(args.selection),
+            profile=profile, budget_per_frame=args.budget_per_frame,
+            training_config=c, training_config_sha256=sha256(args.training_config),
+            backbone=u.model_inventory(runtime['models']),
+            code={name: sha256(core.REPO / f'src/semantic_transmission/{name}.py') for name in u.CODE},
+            train=dict(learning_rate=c['learning_rate'], weight_decay=.01, seed=2025,
+                max_steps=c['max_steps'], innovation_warmup_steps=args.codec_warmup_steps,
+                validate_every=c['validate_every'], save_every=c['save_every'], condition_dropout=.1),
+            smoke_only=args.smoke, source_disjoint=True, test_sources_used=False)
+        if args.initialize:
+            value['initialize'] = dict(path=str(args.initialize.resolve()), sha256=sha256(args.initialize))
+        value['signature'] = fingerprint(value)
+        return value
     p = core.read(args.selection); rows = []; counts = {'train': 0, 'validation': 0}
     grouped = {}
     for e in p['examples']:
@@ -81,6 +103,20 @@ def verify_plan(root):
             raise ValueError('training implementation changed; choose a new root')
     if u.model_inventory(p['runtime']['models']) != p['backbone']:
         raise ValueError('frozen backbone changed')
+    for name, digest in p.get('inputs', {}).items():
+        if sha256(name) != digest:
+            raise ValueError('training source manifest changed: '+name)
+    return p
+
+
+def plan(args):
+    """Freeze and audit inputs without launching codecs, model inference or training."""
+    p = data_plan(args); root = args.root.resolve()
+    freeze(root / 'protocol.json', p)
+    report = dict(status='PLANNED_DATA_VERIFIED_TRAINING_NOT_STARTED', signature=p['signature'],
+                  **p.get('data_summary', dict(sources=p['sources'], examples=len(p['examples']))))
+    write_json(root / 'plan.json', report)
+    print(json.dumps(report, indent=2))
     return p
 
 
@@ -91,7 +127,16 @@ def prepare(args):
     if args.reuse_prepared:
         return import_prepared(args)
     root = args.root.resolve(); root.mkdir(parents=True, exist_ok=True)
-    p = data_plan(args); freeze(root / 'protocol.json', p)
+    if args.training_config and (root / 'protocol.json').exists():
+        p = verify_plan(root)
+        if args.training_config and p.get('training_config') != core.read(args.training_config):
+            raise ValueError('training configuration changed; choose a new root')
+        if p['selection_sha256'] != sha256(args.selection) or p['profile'] != core.profile(args.profile):
+            raise ValueError('training inputs/profile changed; choose a new root')
+        if p['smoke_only'] != args.smoke or p['train']['innovation_warmup_steps'] != args.codec_warmup_steps:
+            raise ValueError('training mode/warmup changed; choose a new root')
+    else:
+        p = data_plan(args); freeze(root / 'protocol.json', p)
     for i, e in enumerate(p['examples']):
         u.event('학습용 실제 압축·수신 데이터', i, len(p['examples']), e['name'])
         out = root / 'examples' / e['name']; out.mkdir(parents=True, exist_ok=True)
@@ -115,7 +160,8 @@ def prepare(args):
         profile_path = root / 'profile.json'; freeze(profile_path, p['profile'])
         command = [p['runtime']['python'], '-m', u.MODULE, '--semantic-run', semantic.parent,
                    '--source-frames', source, '--output', out / 'transport', '--base-only',
-                   '--profile', profile_path, '--budget-channel-uses', str(17*p['budget_per_frame'])]
+                   '--profile', profile_path, '--budget-channel-uses',
+                   str(len(e['source_frames'])*e.get('budget_per_frame', p['budget_per_frame']))]
         # The transport controller acquires its own GPU lock.
         launch(command, out / f'prepare_transport_{time.time_ns()}.log')
         job = dict(output=str(out), example=e, protocol=p, root=str(root))
@@ -134,6 +180,8 @@ def import_prepared(args):
     """Reuse verified target/base caches without rewriting their old receipts."""
     import copy
     import torch
+    if getattr(args, 'training_config', None):
+        raise ValueError('expanded timeline training requires its own prepared sequences')
     old = args.reuse_prepared.resolve(); root = args.root.resolve()
     if root == old or root in old.parents or old in root.parents:
         raise ValueError('reused training data needs a separate output root')
@@ -189,12 +237,16 @@ def prepare_worker(stage, j):
     side, _ = core.decode_packet((out / 'transport/received/packet.bin').read_bytes())
     modes, build = u.registry()
     vae = build(u.recipe(p['runtime']['models']).vae, modes).cuda().to(torch.bfloat16).eval()
+    texts = u.text_conditions(out / 'text'); windows = []
     with torch.no_grad():
-        prior = guide_latents(vae, u.padded_tensor(base)).cpu()
-        target = guide_latents(vae, u.padded_tensor(source)).cpu()
-    text = u.text_conditions(out / 'text')[0]
-    value = dict(prior=prior, target=target, text=text, qp=side['coding']['qp'],
-        video=e['context']['video'], signature=p['signature'], name=e['name'])
+        for i, (start, end) in enumerate(core.windows(len(source), overlap=p['profile']['window_overlap'])):
+            prior = guide_latents(vae, u.padded_tensor(base[start:end])).cpu()
+            target = guide_latents(vae, u.padded_tensor(source[start:end])).cpu()
+            windows.append(dict(prior=prior, target=target, text=texts[i], qp=side['coding']['qp'],
+                video=dict(e['context']['video'], frames=end-start), start=start))
+    value = dict(windows=windows, signature=p['signature'], name=e['name'])
+    if not p.get('training_config'):
+        value.update(windows[0])
     atomic_torch_save(value, out / 'cache.pt')
     write_json(out / 'cache.json', dict(sha256=sha256(out / 'cache.pt'), signature=p['signature'],
         received_packet_sha256=sha256(out / 'transport/received/packet.bin'),
@@ -230,7 +282,8 @@ class Trainer:
         self.handle = self.adapter.attach(self.model)
         self.optimizer = torch.optim.AdamW(self.parameters(), lr=p['train']['learning_rate'],
                                           weight_decay=p['train']['weight_decay'])
-        self.scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(self.optimizer, mode='min', factor=.5, patience=3)
+        self.scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(self.optimizer, mode='min', factor=.5, patience=3,
+            min_lr=p.get('training_config', {}).get('min_learning_rate', 0.))
         self.rng = np.random.default_rng(p['train']['seed']); self.cache = {}
         self.state = dict(step=0, order=[], offset=0, epoch=0, elapsed_seconds=0., history=[], validation=[])
 
@@ -251,10 +304,11 @@ class Trainer:
             self.cache[e['name']] = value
         return self.cache[e['name']]
 
-    def loss(self, e, seed, fixed_time=None):
+    def loss(self, e, seed, fixed_time=None, window_index=0, return_error=False):
         import torch
         from .unified_bsu_adapter import condition, flow_objective
-        x = self.load(e); target = x['target'].cuda().float(); prior = x['prior'].cuda().float()
+        cached = self.load(e); x = cached['windows'][window_index] if 'windows' in cached else cached
+        target = x['target'].cuda().float(); prior = x['prior'].cuda().float()
         g = torch.Generator(device='cuda').manual_seed(seed)
         noise = torch.randn(target.shape, device='cuda', generator=g)
         t = (torch.rand(1, device='cuda', generator=g)*.999+.001)*1000*self.p['profile']['start_noise']
@@ -270,7 +324,8 @@ class Trainer:
                 pixels = x['video']['frames']*x['video']['height']*x['video']['width']
                 value = codec_parts['distortion']+.1*codec_parts['temporal']
                 value = value+config['rate_weight']*codec_parts['rate_bits_proxy']/pixels
-                return value, {f'codec_{k}': float(v.detach()) for k, v in codec_parts.items()}
+                result = (value, {f'codec_{k}': float(v.detach()) for k, v in codec_parts.items()})
+                return (*result, None) if return_error else result
         values = condition(prior, x['qp'])
         audit_joint = self.innovation is not None and self.state['step'] == self.p['train'].get('innovation_warmup_steps', 0)
         if fixed_time is None and not audit_joint and self.rng.random() < self.p['train']['condition_dropout']:
@@ -292,7 +347,27 @@ class Trainer:
             parts.update({f'codec_{k}': v for k, v in codec_parts.items()})
         if not torch.isfinite(value):
             raise ValueError('nonfinite unified adapter loss')
-        return value, {k: float(v.detach()) for k, v in parts.items()}
+        result = (value, {k: float(v.detach()) for k, v in parts.items()})
+        error = z+t[:, None, None, None, None]/1000*prediction-target
+        return (*result, error) if return_error else result
+
+    def backward_sequence(self, e, seed, accumulation=1):
+        """One continuous received sequence, bounded memory across its windows."""
+        from .unified_bsu_training_policy import overlap_error_loss
+        cached = self.load(e); windows = cached.get('windows', [cached])
+        weight = self.p.get('training_config', {}).get('overlap_consistency_weight', 0.)
+        total, previous, previous_start, rows = 0., None, 0, []
+        for i, window in enumerate(windows):
+            loss, parts, error = self.loss(e, seed+i, window_index=i, return_error=True)
+            if weight and previous is not None and error is not None:
+                seam = overlap_error_loss(previous, error, previous_start, window['start'])
+                loss = loss+weight*seam; parts['overlap_error_consistency'] = float(seam.detach())
+            (loss/(len(windows)*accumulation)).backward()
+            total += float(loss.detach())/len(windows); rows.append(parts)
+            previous = error.detach() if error is not None else None
+            previous_start = window.get('start', 0)
+        keys = set().union(*(r.keys() for r in rows))
+        return total, {k: float(np.mean([r[k] for r in rows if k in r])) for k in keys}
 
     def validate(self):
         import torch
@@ -303,24 +378,48 @@ class Trainer:
             for e in self.p['examples']:
                 if e['role'] != 'validation':
                     continue
-                seed = int(fingerprint(e['name'])[:12], 16)
-                loss, _ = self.loss(e, seed, 500*self.p['profile']['start_noise'])
-                row = dict(source=e['source_sha256'], loss=float(loss))
+                c = self.p.get('training_config', {})
+                seeds = c.get('validation_seeds', [int(fingerprint(e['name'])[:12], 16)])
+                times = c.get('validation_noise_fractions', [.5])
+                cached = self.load(e); windows = cached.get('windows', [cached]); losses = []; packet_bytes = 0
+                for i, x in enumerate(windows):
+                    for seed in seeds:
+                        for fraction in times:
+                            loss, _ = self.loss(e, seed, 1000*fraction*self.p['profile']['start_noise'], i)
+                            losses.append(float(loss))
+                    if self.innovation:
+                        target = x['target'].cuda().float(); prior = x['prior'].cuda().float()
+                        blob = self.innovation.compress(target, prior, self.p['profile']['innovation']['steps'][0])
+                        decoded, _ = self.innovation.decompress(blob, prior)
+                        expected = self.innovation(target, prior, self.p['profile']['innovation']['steps'][0])[0]
+                        if not torch.equal(decoded, expected):
+                            raise ValueError('training/bitstream quantization mismatch')
+                        packet_bytes += len(blob)
+                row = dict(source=e['source_sha256'], dataset=e.get('dataset', 'legacy'), loss=float(np.mean(losses)),
+                    windows=len(windows), noise_cases=len(seeds)*len(times))
                 if self.innovation:
-                    x = self.load(e); target = x['target'].cuda().float(); prior = x['prior'].cuda().float()
-                    blob = self.innovation.compress(target, prior, self.p['profile']['innovation']['steps'][0])
-                    decoded, _ = self.innovation.decompress(blob, prior)
-                    expected = self.innovation(target, prior, self.p['profile']['innovation']['steps'][0])[0]
-                    if not torch.equal(decoded, expected):
-                        raise ValueError('training/bitstream quantization mismatch')
-                    row.update(innovation_packet_bytes=len(blob), actual_entropy_roundtrip=True)
+                    row.update(innovation_packet_bytes=packet_bytes, actual_entropy_roundtrip=True)
                 rows.append(row)
         self.adapter.train()
         if self.innovation:
             self.innovation.train()
-        value = float(np.mean([np.mean([r['loss'] for r in rows if r['source'] == source])
-                               for source in {r['source'] for r in rows}]))
-        return dict(step=self.state['step'], loss=value, rows=rows, source_disjoint=True)
+        by_dataset = {d: float(np.mean([np.mean([r['loss'] for r in rows if r['source'] == s])
+            for s in {r['source'] for r in rows if r['dataset'] == d}])) for d in {r['dataset'] for r in rows}}
+        return dict(step=self.state['step'], loss=float(np.mean(list(by_dataset.values()))),
+                    datasets=by_dataset, rows=rows, source_disjoint=True)
+
+    def record_validation(self):
+        from .unified_bsu_training_policy import update_monitor
+        value = self.validate(); self.state['validation'].append(value)
+        self.scheduler.step(value['loss'])
+        if self.p.get('training_config'):
+            self.state['loss_monitor'], improved = update_monitor(self.state.get('loss_monitor'),
+                value['loss'], self.state['step'], self.p['training_config'])
+            if improved and self.state['step']:
+                receipt = self.save()
+                write_json(self.root / 'best_loss.json', dict(receipt, loss=value['loss'],
+                    selection='validation_loss_only_not_final_video_quality'))
+        return value
 
     def save(self):
         import torch
@@ -378,39 +477,54 @@ def train(args):
         try:
             with independent_chunks() as memory:
                 if not trainer.state['validation']:
-                    trainer.state['validation'].append(trainer.validate())
+                    trainer.record_validation()
                 while trainer.state['step'] < p['train']['max_steps']:
                     elapsed = trainer.state['elapsed_seconds']+time.monotonic()-started
-                    if elapsed >= args.seconds:
+                    if args.seconds and elapsed >= args.seconds:
                         status = 'TIME_BUDGET_REACHED'; break
                     if args.stop_after and trainer.state['step']-start_step >= args.stop_after:
                         status = 'BOUNDED_SMOKE_COMPLETE' if p['smoke_only'] else 'REQUESTED_UPDATE_LIMIT'; break
                     s = trainer.state
-                    if s['offset'] >= len(s['order']):
-                        s['order'] = trainer.rng.permutation(len(examples)).tolist(); s['offset'] = 0; s['epoch'] += 1
-                    e = examples[s['order'][s['offset']]]
                     trainer.optimizer.zero_grad(set_to_none=True)
-                    seed = int(trainer.rng.integers(0, 2**50))
+                    c = p.get('training_config', {}); accumulation = c.get('gradient_accumulation', 1)
+                    losses, part_rows = [], []
                     with torch.autograd.graph.save_on_cpu(pin_memory=False):
-                        loss, parts = trainer.loss(e, seed); loss.backward()
+                        for _ in range(accumulation):
+                            if s['offset'] >= len(s['order']):
+                                from .unified_bsu_training_policy import balanced_order
+                                s['order'] = (balanced_order(examples, trainer.rng) if c else
+                                              trainer.rng.permutation(len(examples)).tolist())
+                                s['offset'] = 0; s['epoch'] += 1
+                            e = examples[s['order'][s['offset']]]
+                            seed = int(trainer.rng.integers(0, 2**50))
+                            loss, parts = trainer.backward_sequence(e, seed, accumulation)
+                            losses.append(loss); part_rows.append(parts); s['offset'] += 1
+                    parts = {k: float(np.mean([r[k] for r in part_rows if k in r]))
+                             for k in set().union(*(r.keys() for r in part_rows))}
                     norm = torch.nn.utils.clip_grad_norm_(trainer.parameters(), 1., error_if_nonfinite=True)
                     sender_grad = sum(float(x.grad.detach().square().sum()) for x in trainer.innovation.parameters()
                                       if x.grad is not None)**.5 if trainer.innovation else None
-                    trainer.optimizer.step(); s['step'] += 1; s['offset'] += 1
-                    s['history'].append(dict(step=s['step'], loss=float(loss.detach()), grad_norm=float(norm),
+                    trainer.optimizer.step(); s['step'] += 1
+                    s['history'].append(dict(step=s['step'], loss=float(np.mean(losses)), grad_norm=float(norm),
                                             sender_grad_norm=sender_grad, **parts))
                     if s['step'] % p['train']['validate_every'] == 0:
-                        v = trainer.validate(); s['validation'].append(v); trainer.scheduler.step(v['loss'])
+                        trainer.record_validation()
                     phase = '송신 압축 사전학습' if s['step'] <= p['train'].get('innovation_warmup_steps', 0) else '송수신 공동 학습'
                     total = min(p['train']['max_steps'], start_step+args.stop_after) if args.stop_after else p['train']['max_steps']
-                    u.event(phase, s['step'], total, e['name'])
+                    if c:
+                        print('COMPARE_PROGRESS '+json.dumps(dict(stage=phase,
+                            overall=f'{s["step"]}/{total} updates ({100*s["step"]/total:.1f}% of update cap)',
+                            current=f'{e["name"]}; epoch {s["epoch"]}; convergence ETA unknown', state='실행 중')), flush=True)
+                    else:
+                        u.event(phase, s['step'], total, e['name'])
                     if s['step'] % p['train']['save_every'] == 0 or interrupted:
                         s['elapsed_seconds'] += time.monotonic()-started; started = time.monotonic()
                         trainer.save()
                     if interrupted:
                         status = 'INTERRUPTED_AFTER_COMMITTED_UPDATE'; break
                 if not interrupted:
-                    v = trainer.validate(); trainer.state['validation'].append(v); trainer.scheduler.step(v['loss'])
+                    if not trainer.state['validation'] or trainer.state['validation'][-1]['step'] != trainer.state['step']:
+                        trainer.record_validation()
                 trainer.state['elapsed_seconds'] += time.monotonic()-started
                 receipt = trainer.save()
                 changed = any(not torch.equal(v.cpu(), initial_weights[k]) for k, v in trainer.adapter.state_dict().items())
@@ -433,7 +547,7 @@ def train(args):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('action', choices=['prepare', 'train', 'status'], nargs='?', default='status')
+    parser.add_argument('action', choices=['plan', 'prepare', 'train', 'status'], nargs='?', default='status')
     parser.add_argument('--root', type=Path, default=core.REPO / 'outputs/bsu_unified_training_v1')
     parser.add_argument('--selection', type=Path, default=DEFAULT_SELECTION)
     parser.add_argument('--profile', type=Path); parser.add_argument('--budget-per-frame', type=int, default=2048)
@@ -444,12 +558,15 @@ def main():
     parser.add_argument('--reuse-prepared', type=Path)
     parser.add_argument('--initialize', type=Path)
     parser.add_argument('--codec-warmup-steps', type=int, default=200)
+    parser.add_argument('--training-config', type=Path)
     args = parser.parse_args()
     if args.worker:
         return prepare_worker(args.worker, core.read(args.job))
-    if args.seconds < 1 or args.stop_after < 0 or args.budget_per_frame < 1 or args.windows_per_video < 1 or args.codec_warmup_steps < 0:
+    if args.seconds < 0 or args.stop_after < 0 or args.budget_per_frame < 1 or args.windows_per_video < 1 or args.codec_warmup_steps < 0:
         parser.error('invalid budget or sampling count')
-    if args.action == 'prepare':
+    if args.action == 'plan':
+        plan(args)
+    elif args.action == 'prepare':
         prepare(args)
     elif args.action == 'train':
         train(args)

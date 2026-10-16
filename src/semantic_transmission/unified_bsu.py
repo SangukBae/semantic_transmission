@@ -27,6 +27,7 @@ REPO, POLICY = core.REPO, core.POLICY
 MODULE = 'semantic_transmission.unified_bsu'
 CODE = ('unified_bsu', 'unified_bsu_core', 'unified_bsu_adapter', 'unified_bsu_training',
         'unified_bsu_tokens', 'unified_bsu_sender',
+        'unified_bsu_training_policy', 'unified_bsu_training_quality', 'unified_bsu_evaluate', 'official_quality',
         'bsu_dcvc_keys', 'dense_temporal_receiver', 'dense_generation_runtime',
         'precision_text_cache', 'adapter_training_memory')
 
