@@ -1,0 +1,557 @@
+{
+  "status": "COMPLETE_DEVELOPMENT_VALIDATION",
+  "objective": "Replace independent high-resolution BSU image-key transmission with temporal appearance/motion information; approach LGVSC rate while reporting all quality and action changes.",
+  "old_architecture": "BSU selected RGB keys -> independent NTSCC; captions/scalar motion plus sparse trajectories -> OpenSora generation and combined_context refinement",
+  "new_architectures": [
+    {
+      "name": "dense_guide",
+      "sender": "Predictive HEVC-coded 288x160 guide at all original frame timestamps; losslessly compressed BSU captions and semantic boundaries",
+      "receiver": "Received guide decoded and reconstructed with bicubic or official pretrained SwinIR-S x2",
+      "independent_ntscc_keys": 0,
+      "spatial_temporal_tradeoff": "Reduce spatial detail, retain every original frame timestamp and observed object appearance"
+    },
+    {
+      "name": "predictive_dense_latents",
+      "sender": "Official DCVC-RT first-frame reference plus entropy-coded temporal features/residuals for subsequent timeline frames; captions/boundaries included",
+      "receiver": "Fresh DCVC decoder state and shared pretrained weights; optional SwinIR for half-resolution stream",
+      "independent_ntscc_keys": 0,
+      "spatial_temporal_tradeoff": "Transmit temporal feature redundancy instead of numerous independently coded RGB keys"
+    },
+    {
+      "name": "controlled_generation_ablation",
+      "sender": "Same received dense stream; no extra data",
+      "receiver": "Virtual keys derived from guide; frozen BSU VAE posterior modes inject a bounded consistency term inside RFLOW. A separate fixed, bounded detail projection tests whether generated high frequencies help.",
+      "training": "No new weights; no use of the user adapter being trained",
+      "limits": "A novel experimental guidance operator, not the published DGVC/VACE implementation"
+    },
+    {
+      "name": "short_gap_predictive_latents",
+      "sender": "DCVC-RT QP32 at every second frame plus final frame and scene-change brackets; all source timestamps, model identity and captions paid",
+      "receiver": "Independent DCVC decoding and official pretrained Practical-RIFE4.25 interpolation; original BSU combined_context for lower-rate or below-key-floor clips",
+      "source_key_floor": "Optional minimum5 source-selected BSU keys; not classifier labels",
+      "learned_codec_caption_usage": "Captions are paid and available but unused by DCVC/RIFE; only fallback OpenSora generation uses them."
+    }
+  ],
+  "references": [
+    {
+      "name": "Dense-Prior-Guided Generative Video Compression (DGVC), v2 September 2026",
+      "url": "https://arxiv.org/abs/2604.06655v2",
+      "use": "Dense luminance priors motivate preserving temporal structure and appearance; our RGB guide and receiver differ"
+    },
+    {
+      "name": "DiSCo, Low-Bitrate Video Compression through Semantic-Conditioned Diffusion",
+      "url": "https://arxiv.org/abs/2512.00408",
+      "use": "Compressed degraded video with semantic conditions; not a claimed reproduction"
+    },
+    {
+      "name": "DCVC-RT, Towards Practical Real-Time Neural Video Compression, CVPR 2025",
+      "url": "https://arxiv.org/abs/2502.20762",
+      "code": "https://github.com/microsoft/DCVC",
+      "use": "Actual pretrained codec and entropy bitstreams"
+    },
+    {
+      "name": "SwinIR, ICCV Workshops 2021",
+      "url": "https://github.com/JingyunLiang/SwinIR",
+      "use": "Official pretrained lightweight x2 restoration, not the latest generation model"
+    },
+    {
+      "name": "Practical-RIFE4.25, official trained model (2024), based on ECCV2022 RIFE",
+      "url": "https://github.com/hzwer/Practical-RIFE",
+      "use": "Official interpolation weights; no new training"
+    }
+  ],
+  "fixed_validation": {
+    "cohort": "14 previously examined Kinetics-400 videos, development rather than unseen benchmark",
+    "frames": 3333,
+    "geometry": [
+      576,
+      320
+    ],
+    "fps": 24,
+    "snr_db": 10,
+    "channel": "actual LDPC(6144,9216),16QAM,AWGN",
+    "channel_seeds": [
+      42,
+      1042,
+      2042
+    ],
+    "all_side_information_paid": true,
+    "physical_link_overhead_included": false,
+    "strict_legacy_guards_unchanged": true,
+    "no_quality_selected_per_clip_fallback": true,
+    "source_pixels_at_receiver": false,
+    "native_hevc_comparator": "Same target cap; if CRF51 cannot fit, report the actual higher rate explicitly"
+  },
+  "implementations": [
+    "src/semantic_transmission/dense_video_transport.py",
+    "src/semantic_transmission/dense_video_receiver.py",
+    "src/semantic_transmission/bsu_dense_neural.py",
+    "src/semantic_transmission/dense_generation_runtime.py",
+    "src/semantic_transmission/bsu_dense.py",
+    "scripts/run_bsu_dense.sh",
+    "src/semantic_transmission/bsu_dense_temporal.py",
+    "src/semantic_transmission/dense_temporal_receiver.py",
+    "src/semantic_transmission/bsu_adaptive_dense.py",
+    "src/semantic_transmission/bsu_dense_router.py",
+    "scripts/run_bsu_adaptive_dense.sh"
+  ],
+  "weights": {
+    "swinir_sha256": "193b229909ca89cd8b55de9c9e7fce146ae759d59dfcd78d8feb9dd1d6fa0fd7",
+    "swinir_revision": "6545850fbf8df298df73d81f3e8cba638787c8bd",
+    "dcvc_revision": "cbdae87a5445114cdc7f48816da63ea80bdeac40"
+  },
+  "local_gpu_used": false,
+  "remote_host": "semantic-pc / sangukcom",
+  "existing_training_interrupted": false,
+  "defaults": "Original BSU runners remain available; new explicit run_bsu_dense.sh path",
+  "completed_hevc_experiment": {
+    "result": "outputs/bsu_dense_512_20261015_v2/RESULT.json",
+    "summary": {
+      "dense_bicubic": {
+        "videos": 14,
+        "channel_uses": 1589760,
+        "bsu_saving_percent": 63.80643491243819,
+        "ratio_to_lgvsc": 1.1293981246319134,
+        "strict_all_metric_passes": 0,
+        "mean_quality": {
+          "psnr_db": 27.56396758795816,
+          "ssim": 0.8184621374673611,
+          "lpips_vgg": 0.322772135819033,
+          "clip": 0.9478456503588589,
+          "dists": 0.16929025761158495
+        },
+        "action": {
+          "videos": 14,
+          "top1_correct": 11,
+          "top5_correct": 12
+        },
+        "budget_miss_videos": 0
+      },
+      "dense_swinir": {
+        "videos": 14,
+        "channel_uses": 1589760,
+        "bsu_saving_percent": 63.80643491243819,
+        "ratio_to_lgvsc": 1.1293981246319134,
+        "strict_all_metric_passes": 0,
+        "mean_quality": {
+          "psnr_db": 28.063768394650655,
+          "ssim": 0.8217314810341354,
+          "lpips_vgg": 0.321218982832956,
+          "clip": 0.940199610341083,
+          "dists": 0.15926087371115513
+        },
+        "action": {
+          "videos": 14,
+          "top1_correct": 11,
+          "top5_correct": 12
+        },
+        "budget_miss_videos": 0
+      },
+      "native_hevc": {
+        "videos": 14,
+        "channel_uses": 1698048,
+        "bsu_saving_percent": 61.341076131111514,
+        "ratio_to_lgvsc": 1.2063281418169858,
+        "strict_all_metric_passes": 0,
+        "mean_quality": {
+          "psnr_db": 28.428681582231725,
+          "ssim": 0.8256400560374686,
+          "lpips_vgg": 0.32152642504787443,
+          "clip": 0.9392013611208265,
+          "dists": 0.15713002367993276
+        },
+        "action": {
+          "videos": 14,
+          "top1_correct": 11,
+          "top5_correct": 12
+        },
+        "budget_miss_videos": 2
+      }
+    },
+    "adopted": false,
+    "reason": "Reduced rate and temporal errors but poorer average LPIPS/DISTS/CLIP and action accuracy; unchanged strict guards reject all 14 per-clip configurations."
+  },
+  "preregistered_cost_router": {
+    "recorded_utc": "2026-10-15T15:27:31.706212+00:00",
+    "selection": "Pick lower actual transmitter channel-use count between original BSU with losslessly bundled metadata/trajectory and learned dense stream, including a self-describing mode wrapper. Never inspect receiver output quality or action labels to route.",
+    "motivation": "Short/simple clips with two original keys can be cheaper on the existing generator path; complex clips can use predictive neural features.",
+    "validation": "Three AWGN seeds for routed packets, exact recovered inner bytes, inherited video metrics only after exact input/output hash verification. No quality noninferiority claimed in advance."
+  },
+  "local_tests": "23 CPU tests passed, including paid routing, CRC corruption, source-only key floor, semantic anchor protection, and rejection of partial-cohort rate comparison.",
+  "predefined_neural_quality_index": 32,
+  "controlled_generation_pilot": {
+    "ids": [
+      "kinetics_005_11836d73",
+      "kinetics_013_64921930",
+      "kinetics_014_524c5c3f"
+    ],
+    "selection": "Previously diagnosed golf, drummer and handwriting examples; fixed before completed neural-codec results",
+    "strength": 0.12,
+    "detail_projection_strength": 0.25,
+    "detail_projection_max_delta": 12,
+    "seed": 2025
+  },
+  "completed_conservative_routed_profile": {
+    "result": "outputs/bsu_dense_routed_qp32_20261016_v1/RESULT.json",
+    "summary": {
+      "channel_uses": 3484547,
+      "bsu_saving_percent": 20.668416210517158,
+      "ratio_to_lgvsc": 2.4754936889793173,
+      "routes": {
+        "bsu": 8,
+        "neural": 6
+      },
+      "mean_quality": {
+        "psnr_db": 25.628396922789626,
+        "ssim": 0.7912756694633275,
+        "lpips_vgg": 0.24739680044699053,
+        "clip": 0.9681867726132184,
+        "dists": 0.11972997882581453
+      },
+      "mean_temporal": {
+        "flow_error_mean": 0.3994358868810262,
+        "cadence_error_mean": 0.22256786011260804,
+        "false_freeze_rate": 0.18834814585966372
+      },
+      "action": {
+        "top1_correct": 12,
+        "top5_correct": 14,
+        "videos": 14
+      },
+      "strict_all_metric_passes": 14
+    },
+    "strict_per_clip_rate_quality_motion_guards": "14/14 pass",
+    "action": "12/14 top1; 14/14 top5; same as original BSU",
+    "scope": "Original received-input and output equality verified; routed digital packets retransmitted at 3 seeds; output metrics inherited rather than regenerated."
+  },
+  "completed_native_neural_qp32": {
+    "result": "outputs/bsu_dense_neural_qp32_20261015_v1/RESULT.json",
+    "summary": {
+      "native": {
+        "channel_uses": 4338432,
+        "bsu_saving_percent": 1.2282854204653804,
+        "mean_quality": {
+          "psnr_db": 34.064143253032526,
+          "ssim": 0.9391797738396247,
+          "lpips_vgg": 0.15463547440664874,
+          "clip": 0.9783329861984407,
+          "dists": 0.0842050241460083
+        },
+        "strict_all_metric_passes": 6,
+        "action": {
+          "videos": 14,
+          "top1_correct": 12,
+          "top5_correct": 14
+        }
+      }
+    }
+  },
+  "conservative_routed_ntscc_keys": 35,
+  "implementation_commands": {
+    "encode_and_decode_neural": "bash scripts/run_bsu_dense.sh --backend neural --qp 32 --semantic-run <BSU_RUN> --source-frames <SOURCE_FRAMES> --output <NEURAL_RUN>",
+    "route_and_decode_afresh": "bash scripts/run_bsu_adaptive_dense.sh --semantic-run <BSU_RUN> --neural-run <NEURAL_RUN> --output <ADAPTIVE_RUN>",
+    "contracts": "Source frames are sender-only; sender encodings must already exist. Old BSU scripts and saved results are preserved.",
+    "single_command_sender_to_receiver": "bash scripts/run_bsu_adaptive_dense.sh --semantic-run <BSU_RUN> --source-frames <SOURCE_FRAMES> --output <NEW_ROOT>",
+    "output": "NEW_ROOT/delivery/refined/reconstruction.mp4; NEW_ROOT/RESULT.json"
+  },
+  "preregistered_sender_fidelity_router": {
+    "recorded_utc": "2026-10-15T15:51:18.569762+00:00",
+    "candidate_quality_indices": [
+      16,
+      32
+    ],
+    "source_roundtrip_floor": {
+      "clip_min": 0.97,
+      "lpips_vgg_max": 0.25
+    },
+    "rule": "Among deterministic neural codec candidates satisfying fixed source-to-roundtrip fidelity floors, select the lowest actual wrapped transmission cost if cheaper than original BSU. Otherwise keep original BSU.",
+    "sender_only": "Only source frames and locally decodable transmitter packets; no target labels, original BSU reconstructed-video metrics or received analog noise are used for selection.",
+    "limits": "A development policy. Floors are not a mathematical per-video BSU noninferiority guarantee. Thresholds fixed before QP16 finished; all final metrics must still be reported.",
+    "executed": false,
+    "disposition": "Deferred; actual short-gap temporal coding and semantic-anchor preservation were tested instead."
+  },
+  "completed_controlled_generation_ablation": {
+    "result": "outputs/bsu_dense_generation_20261015_v1/RESULT.json",
+    "actual_stdit_forward_guidance_calls": 630,
+    "zero_gain_first_steps": 21,
+    "pilot_videos": 3,
+    "adopted": false,
+    "reason": "Raw guided generation worsened fidelity and motion. Bounded detail projection slightly improved guide pixel metrics but no candidate passed the full original guards.",
+    "action": {
+      "baseline": {
+        "videos": 3,
+        "top1_correct": 3,
+        "top5_correct": 3
+      },
+      "control": {
+        "videos": 3,
+        "top1_correct": 3,
+        "top5_correct": 3
+      },
+      "projected": {
+        "videos": 3,
+        "top1_correct": 3,
+        "top5_correct": 3
+      },
+      "raw": {
+        "videos": 3,
+        "top1_correct": 3,
+        "top5_correct": 3
+      }
+    }
+  },
+  "preregistered_temporal_candidate": {
+    "recorded_utc": "2026-10-15T16:16:02.965039+00:00",
+    "qp": 32,
+    "stride": 2,
+    "cut_rule": "retain both adjacent frames when mean RGB absolute change exceeds 40/255",
+    "receiver": "official Practical-RIFE 4.25, fixed weights; no source pixels",
+    "all_indices_paid": true,
+    "additional_target": "preserve high spatial fidelity while reducing temporal entropy payload",
+    "strict_guards_unchanged": true,
+    "weights_sha256": "6615790efd627772917205db291f51cd392528a157ecbb2ecaeec3bff8eb6de2",
+    "source": "https://github.com/hzwer/Practical-RIFE"
+  },
+  "completed_fresh_receiver_branches": [
+    {
+      "id": "kinetics_011_e0339900",
+      "mode": "bsu",
+      "cost_equal": true,
+      "movie_hash_equal": true,
+      "actual_sha256": "6b4007de6ea00fb75616e5a4b8039aaa15e12ffb0384a583459dbce0cf090559",
+      "expected_sha256": "6b4007de6ea00fb75616e5a4b8039aaa15e12ffb0384a583459dbce0cf090559",
+      "expected_movie": "/home/sangukbae/semantic_transmission/outputs/bsu_kinetics_context/benchmark/snr_10/kinetics_011_e0339900/refined/reconstruction.mp4",
+      "fresh_awgn_equal": true,
+      "received_key_pixels_equal": true
+    },
+    {
+      "id": "kinetics_005_11836d73",
+      "mode": "neural",
+      "cost_equal": true,
+      "movie_hash_equal": true,
+      "actual_sha256": "752e55b0f0154c66e1f708e133e5e501d11104404cd6db11b39324d1d9661cd7",
+      "expected_sha256": "752e55b0f0154c66e1f708e133e5e501d11104404cd6db11b39324d1d9661cd7",
+      "expected_movie": "/home/sangukbae/ETRI/Semantic/semantic_transmission/outputs/bsu_dense_neural_qp32_20261015_v1/kinetics_005_11836d73/native/reconstruction.mp4"
+    }
+  ],
+  "completed_aggressive_routed_profile": {
+    "result": "outputs/bsu_dense_routed_qp16_20261016_v1/RESULT.json",
+    "summary": {
+      "channel_uses": 1754369,
+      "bsu_saving_percent": 60.05883366728266,
+      "ratio_to_lgvsc": 1.2463397358798594,
+      "routes": {
+        "bsu": 3,
+        "neural": 11
+      },
+      "mean_quality": {
+        "psnr_db": 28.400752101674154,
+        "ssim": 0.8566068466063819,
+        "lpips_vgg": 0.24973539092048933,
+        "clip": 0.9615026452251922,
+        "dists": 0.13914814921212149
+      },
+      "mean_temporal": {
+        "flow_error_mean": 0.3469815622180106,
+        "cadence_error_mean": 0.19024792816149716,
+        "false_freeze_rate": 0.08421164411942565
+      },
+      "action": {
+        "top1_correct": 12,
+        "top5_correct": 14,
+        "videos": 14
+      },
+      "strict_all_metric_passes": 7
+    },
+    "adopted_as_noninferior": false,
+    "reason": "Action counts retained but seven clips violate original perceptual quality guards."
+  },
+  "preregistered_temporal_source_key_floor": {
+    "recorded_utc": "2026-10-15T16:26:52.973900+00:00",
+    "min_original_keys": 5,
+    "rule": "Choose predictive temporal stream only if the original source-selected BSU key count is at least five AND its actual paid rate is lower.",
+    "basis": "Few-key sequences already need little original BSU information. Earlier completed full-frame QP16/24/32 experiments revealed perceptual vulnerability in some such sequences.",
+    "development_disclosure": "This is a source-only development policy informed by earlier experiments, not an independent held-out hypothesis. No per-clip IDs, receiver BSU metrics, or action labels are used by the routing function.",
+    "temporal_results_seen_at_registration": false
+  },
+  "completed_balanced_routed_profile": {
+    "result": "outputs/bsu_dense_routed_qp24_20261016_v1/RESULT.json",
+    "summary": {
+      "channel_uses": 2495499,
+      "bsu_saving_percent": 43.18576044028948,
+      "ratio_to_lgvsc": 1.7728536952878517,
+      "routes": {
+        "bsu": 6,
+        "neural": 8
+      },
+      "mean_quality": {
+        "psnr_db": 26.62373479965206,
+        "ssim": 0.8261142632272607,
+        "lpips_vgg": 0.24168028046138396,
+        "clip": 0.9671230528516149,
+        "dists": 0.12403485862741848
+      },
+      "mean_temporal": {
+        "flow_error_mean": 0.36825431342250237,
+        "cadence_error_mean": 0.20161632891392536,
+        "false_freeze_rate": 0.14641166709064973
+      },
+      "action": {
+        "top1_correct": 12,
+        "top5_correct": 14,
+        "videos": 14
+      },
+      "strict_all_metric_passes": 13
+    },
+    "adopted_as_noninferior": false,
+    "failed_video": "kinetics_012_ebbc951a",
+    "failure": "Full-video and fixed-original-nonkey CLIP/DISTS guards fail; all other 13 clips pass.",
+    "sample_review": {
+      "frames": [
+        48,
+        180
+      ],
+      "artifact": "outputs/bsu_dense_routed_qp24_20261016_v1/review_012.png",
+      "observation": "Small dancing people and patterned clothing lose fine texture. Two-frame inspection only; not an independent full-cohort semantic audit."
+    }
+  },
+  "preregistered_stride4_extension": {
+    "recorded_utc": "2026-10-15T16:35:40.945518+00:00",
+    "qp": 32,
+    "stride": 4,
+    "max_gap_seconds": 0.16666666666666666,
+    "reason": "Stride2 all-frame neural candidates pass quality/motion on all eight cost-saving clips. Test whether preserving QP32 spatial detail with wider short interpolation gaps can approach LGVSC rate.",
+    "same_cohort_development": true,
+    "guard_thresholds_unchanged": true,
+    "source_key_floor_policies": [
+      0,
+      5
+    ],
+    "results_not_yet_available": true
+  },
+  "completed_temporal_stride2": {
+    "result": "outputs/bsu_temporal_routed_qp32_s2_min5_20261016_v1/RESULT.json",
+    "summary": {
+      "channel_uses": 2470155,
+      "bsu_saving_percent": 43.76275930400423,
+      "ratio_to_lgvsc": 1.7548487976487923,
+      "routes": {
+        "bsu": 6,
+        "neural": 8
+      },
+      "mean_quality": {
+        "psnr_db": 26.305288979471243,
+        "ssim": 0.8236486343255097,
+        "lpips_vgg": 0.2346198803371057,
+        "clip": 0.9690375938901639,
+        "dists": 0.11849846159233533
+      },
+      "mean_temporal": {
+        "flow_error_mean": 0.45136387735376543,
+        "cadence_error_mean": 0.31418035542959566,
+        "false_freeze_rate": 0.15215272043562303
+      },
+      "action": {
+        "top1_correct": 12,
+        "top5_correct": 14,
+        "videos": 14
+      },
+      "strict_all_metric_passes": 14
+    },
+    "strict_per_clip_quality_motion_rate_passes": "14/14",
+    "baseline_independent_ntscc_keys": 135,
+    "new_independent_ntscc_keys": 19,
+    "new_codec_initial_references": 8,
+    "all_predictive_frame_and_interpolation_timestamp_bytes_paid": true,
+    "cost_only_and_key_floor5_routes_identical": true,
+    "per_clip_action_correctness_unchanged": true
+  },
+  "preregistered_protected_semantic_anchors": {
+    "recorded_utc": "2026-10-15T16:49:01.700367+00:00",
+    "qp": 32,
+    "stride": 4,
+    "min_original_keys": 5,
+    "rule": "Union source-selected original BSU semantic key timestamps with periodic/cut-protected predictive anchors. Encode all anchors in the actual predictive bitstream; RIFE only fills other timestamps.",
+    "motivation": "Unprotected stride4 loses full-video CLIP/DISTS on complex clips; original fixed-nonkey guards pass on those clips. Preserve semantic event times directly rather than interpolate them.",
+    "all_extra_anchor_costs_paid": true,
+    "unchanged_guard_thresholds": true,
+    "development_not_unseen": true
+  },
+  "completed_unprotected_stride4": {
+    "result": "outputs/bsu_temporal_routed_qp32_s4_min5_20261016_v1/RESULT.json",
+    "summary": {
+      "channel_uses": 1760768,
+      "bsu_saving_percent": 59.91314965020127,
+      "ratio_to_lgvsc": 1.250885716782335,
+      "routes": {
+        "bsu": 5,
+        "neural": 9
+      },
+      "mean_quality": {
+        "psnr_db": 25.82799199107456,
+        "ssim": 0.8190518361698472,
+        "lpips_vgg": 0.24274080461306508,
+        "clip": 0.9680638866565277,
+        "dists": 0.12408404296337759
+      },
+      "mean_temporal": {
+        "flow_error_mean": 0.5032463846130512,
+        "cadence_error_mean": 0.33643842439911487,
+        "false_freeze_rate": 0.16035017263321497
+      },
+      "action": {
+        "top1_correct": 12,
+        "top5_correct": 14,
+        "videos": 14
+      },
+      "strict_all_metric_passes": 12
+    },
+    "adopted_as_noninferior": false,
+    "failed_videos": [
+      "kinetics_001_a393e9d3",
+      "kinetics_012_ebbc951a"
+    ]
+  },
+  "completed_semantic_protection": {
+    "result": "outputs/bsu_temporal_routed_qp32_s4_protected_min5_20261016_v1/RESULT.json",
+    "summary": {
+      "channel_uses": 1760768,
+      "bsu_saving_percent": 59.91314965020127,
+      "ratio_to_lgvsc": 1.250885716782335,
+      "routes": {
+        "bsu": 5,
+        "neural": 9
+      },
+      "mean_quality": {
+        "psnr_db": 25.827306352966502,
+        "ssim": 0.8190420612546915,
+        "lpips_vgg": 0.24286234079226776,
+        "clip": 0.9680794145979392,
+        "dists": 0.12420137185830746
+      },
+      "mean_temporal": {
+        "flow_error_mean": 0.503169990628145,
+        "cadence_error_mean": 0.3362300946053899,
+        "false_freeze_rate": 0.15953010513972735
+      },
+      "action": {
+        "top1_correct": 12,
+        "top5_correct": 14,
+        "videos": 14
+      },
+      "strict_all_metric_passes": 12
+    },
+    "additional_semantic_timestamps": 0,
+    "reason": "All original BSU timestamps were already periodic/cut anchors in this cohort. The initial interpolation-at-semantic-keys explanation was not supported. This arm adds no actual anchor information and does not repair stride4 quality regressions.",
+    "adopted": false
+  },
+  "adopted_profile": {
+    "qp": 32,
+    "temporal_stride": 2,
+    "min_original_keys": 5,
+    "protect_semantic_keys": false,
+    "result": "outputs/bsu_temporal_routed_qp32_s2_min5_20261016_v1/RESULT.json"
+  },
+  "final_report": "docs/validation/2026-10-16-bsu-predictive-final.json",
+  "final_default_validation": "outputs/bsu_predictive_default_validation_20261016_v1/audit.json"
+}

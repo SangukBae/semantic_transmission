@@ -1,0 +1,472 @@
+{
+  "status": "COMPLETE_IMPLEMENTATION_AND_DEVELOPMENT_VALIDATION",
+  "date": "2026-10-16",
+  "model": "BSU predictive temporal hybrid: DCVC-RT and Practical-RIFE4.25 with combined_context fallback",
+  "adopted_profile": {
+    "qp": 32,
+    "temporal_stride": 2,
+    "min_original_keys": 5,
+    "protect_semantic_keys": false
+  },
+  "architecture": {
+    "sender": "Encode one initial reference and subsequent predictive neural features at every second frame, final frame and abrupt-change brackets. Compare all paid bits with the original BSU stream. Use neural mode only with at least five source-selected keys and a lower total channel cost.",
+    "receiver": "Decode a received DCVC entropy stream in a fresh process, then interpolate missing timestamps with shared RIFE weights. Otherwise decode NTSCC and run existing BSU combined_context.",
+    "caption_role": "BSU captions and semantic boundaries are included in the paid packet. DCVC/RIFE does not use text; fallback BSU generation does. This is a hybrid codec redesign, not an improvement to OpenSora alone.",
+    "original_ntscc_keys": 135,
+    "remaining_ntscc_keys": 19,
+    "new_codec_initial_references": 8,
+    "additional_predictive_features_and_timestamps_paid": true
+  },
+  "conditions": {
+    "videos": 14,
+    "frames": 3333,
+    "width": 576,
+    "height": 320,
+    "fps": 24,
+    "snr_db": 10,
+    "digital_seeds": [
+      42,
+      1042,
+      2042
+    ],
+    "channel": "simulated actual LDPC(6144,9216),16QAM,AWGN",
+    "cohort": "Previously examined Kinetics author-subset development videos",
+    "guard_thresholds": {
+      "psnr_loss_db": 0.1,
+      "ssim_loss": 0.005,
+      "lpips_increase": 0.01,
+      "dists_increase": 0.01,
+      "clip_loss": 0.002,
+      "flow_increase": 0.02,
+      "cadence_increase": 0.02,
+      "freeze_increase": 0.005,
+      "boundary_increase": 0.05
+    },
+    "source_hashes_and_frame_mapping_verified": true,
+    "source_at_receiver": false,
+    "shared_model_weights_preinstalled": true,
+    "physical_radio_overhead_included": false,
+    "new_training": false
+  },
+  "comparison": {
+    "original_bsu": {
+      "channel_uses": 4392383,
+      "ratio_to_lgvsc": 3.120439011464056,
+      "mean_quality": {
+        "psnr_db": 20.476578513141042,
+        "ssim": 0.7046635190542156,
+        "lpips_vgg": 0.3028025325848068,
+        "clip": 0.9618007514078614,
+        "dists": 0.13746968098384554
+      },
+      "mean_temporal": {
+        "flow_error_mean": 0.782086058270893,
+        "cadence_error_mean": 0.4607982001675141,
+        "false_freeze_rate": 0.3388383829156099
+      },
+      "action": {
+        "videos": 14,
+        "top1_correct": 12,
+        "top1_percent": 85.71428571428571,
+        "top5_correct": 14,
+        "top5_percent": 100.0
+      }
+    },
+    "lgvsc": {
+      "channel_uses": 1407617,
+      "mean_quality": {
+        "psnr_db": 17.375533869749923,
+        "ssim": 0.6119546422588745,
+        "lpips_vgg": 0.3765435674055689,
+        "clip": 0.9588074938072445,
+        "dists": 0.15337547464514842
+      },
+      "action": {
+        "videos": 14,
+        "top1_correct": 12,
+        "top1_percent": 85.71428571428571,
+        "top5_correct": 13,
+        "top5_percent": 92.85714285714286
+      }
+    },
+    "adopted": {
+      "channel_uses": 2470155,
+      "bsu_saving_percent": 43.76275930400423,
+      "ratio_to_lgvsc": 1.7548487976487923,
+      "routes": {
+        "bsu": 6,
+        "neural": 8
+      },
+      "mean_quality": {
+        "psnr_db": 26.305288979471243,
+        "ssim": 0.8236486343255097,
+        "lpips_vgg": 0.2346198803371057,
+        "clip": 0.9690375938901639,
+        "dists": 0.11849846159233533
+      },
+      "mean_temporal": {
+        "flow_error_mean": 0.45136387735376543,
+        "cadence_error_mean": 0.31418035542959566,
+        "false_freeze_rate": 0.15215272043562303
+      },
+      "action": {
+        "top1_correct": 12,
+        "top5_correct": 14,
+        "videos": 14
+      },
+      "strict_all_metric_passes": 14
+    }
+  },
+  "evidence": {
+    "selected_result": "outputs/bsu_temporal_routed_qp32_s2_min5_20261016_v1/RESULT.json",
+    "selected_result_sha256": "2f24e44dee157032b25230e37706ef6b5e264743f2685d7ddd980a8a03d08517",
+    "matched_baseline_sha256": "da5742eefce833b0833ed9ba02108614eb9138d88c30ae78f8ee43aacb915b11",
+    "baseline_audit": "outputs/bsu_dense_512_20261015_v2/matched_baseline_audit.json",
+    "full_cohort_neural_receiver_outputs": "outputs/bsu_dense_temporal_qp32_s2_20261016_v1/RESULT.json",
+    "routed_quality": "Actual reference movies evaluated; digital routed packets replayed at three seeds; exact inner bytes and source/movie/action hashes verified. Six unchanged BSU outputs and eight neural outputs reused in routed summary; not 14 freshly regenerated hybrid outputs.",
+    "fresh_default_validation": "outputs/bsu_predictive_default_validation_20261016_v1/audit.json",
+    "fresh_default_audit": {
+      "status": "COMPLETE_DEFAULT_PIPELINE_INDEPENDENT_QUALITY_ACTION_VALIDATION",
+      "profile": {
+        "qp": 32,
+        "stride": 2,
+        "min_original_keys": 5
+      },
+      "packet_exact": true,
+      "channel_uses": 133632,
+      "movie_byte_equal": false,
+      "rgb_pixel_difference": {
+        "maximum": 1,
+        "changed_channels": 13002,
+        "total_channels": 132710400,
+        "changed_percent": 0.009797272858796295
+      },
+      "quality": {
+        "psnr_db": 34.56144581489587,
+        "ssim": 0.9458821829164242,
+        "lpips_vgg": 0.12730071597422163,
+        "clip": 0.9753336588541667,
+        "dists": 0.07389917969703674,
+        "frames": 240,
+        "shape": [
+          240,
+          320,
+          576,
+          3
+        ]
+      },
+      "reference_quality": {
+        "psnr_db": 34.56578527636266,
+        "ssim": 0.9459310777406228,
+        "lpips_vgg": 0.1277521212895711,
+        "clip": 0.975860595703125,
+        "dists": 0.07395144328474998,
+        "frames": 240,
+        "shape": [
+          240,
+          320,
+          576,
+          3
+        ]
+      },
+      "strict_guard": {
+        "passed": true,
+        "checks": {
+          "quality.psnr_db": true,
+          "quality.ssim": true,
+          "quality.clip": true,
+          "quality.lpips_vgg": true,
+          "quality.dists": true,
+          "nonkeys.psnr_db": true,
+          "nonkeys.ssim": true,
+          "nonkeys.clip": true,
+          "nonkeys.lpips_vgg": true,
+          "nonkeys.dists": true,
+          "flow_error_mean": true,
+          "cadence_error_mean": true,
+          "false_freeze_rate": true,
+          "fixed_boundary_error": true,
+          "fewer_total_symbols": true
+        },
+        "failures": []
+      },
+      "action": {
+        "default": {
+          "videos": 1,
+          "top1_correct": 1,
+          "top5_correct": 1
+        }
+      },
+      "runtime_code_matches": {
+        "bsu_adaptive_dense": true,
+        "bsu_dense_router": true,
+        "bsu_dense_neural": true,
+        "bsu_key_reduction": true,
+        "codec_transport": true,
+        "bsu_dense_temporal": true,
+        "dense_temporal_receiver": true
+      }
+    },
+    "legacy_and_full_neural_fresh_receiver_branches": "outputs/bsu_adaptive_fresh_20261016_v1/audit.json",
+    "per_clip_action_correctness_unchanged": true,
+    "local_cpu_tests": "23 passed",
+    "shell_syntax_and_diff_whitespace": "passed",
+    "local_remote_code_files_identical": 15,
+    "code_sha256": {
+      "src/semantic_transmission/bsu_dense_neural.py": "1d3a76143a4bab47ff8451441c907046bf3e7500a2ea49605be4dbe2584937ef",
+      "src/semantic_transmission/bsu_dense_temporal.py": "f1e0c24a90479d415b725a3ede447fdcb5f8472d247566c468ddd9b6e4ec04cb",
+      "src/semantic_transmission/dense_generation_runtime.py": "ec7f199e194962322b9250bb4ff4e5d1254f29d2c00537df1b5243c043a871d3",
+      "src/semantic_transmission/bsu_dense_generation.py": "3df1fbc52bc95fe19d61bf8fb68cc39e6d35518c2adb73415a4158c2a8bd5136",
+      "src/semantic_transmission/bsu_adaptive_dense.py": "ed17b3a181ce58da0c704076fbf6597b6c74126f766905081d9726ba1f150d3a",
+      "src/semantic_transmission/dense_temporal_receiver.py": "6efaf9586adf876541435da2bd7c19625fa8d207b293a39fb39c24b8a31bcd23",
+      "src/semantic_transmission/dense_video_receiver.py": "91d22812f93b64008455a84847467162ef2489c1eea8a37bd29a41ff7bc594bb",
+      "src/semantic_transmission/dense_video_transport.py": "6ef499438fd513c340171e798f6172ff4da2179345f567e5bcb58487d7395f4a",
+      "src/semantic_transmission/bsu_dense_validation.py": "182941b0e7ee806db1c34cd0ffe13447ba8fa075b56876af33184b2a53f5ffb2",
+      "src/semantic_transmission/bsu_dense_router.py": "c23d7aead1c28eba1ecf5c7b057cb020c6ce0da3c281a404b58f5e5f62255052",
+      "src/semantic_transmission/bsu_dense.py": "c009de0f53090559f67fce0a1e30dd38d5a0e9471bbfa634d84afc7c4400ca6f",
+      "scripts/run_bsu_adaptive_dense.sh": "25ecbd60588bc5ed476acb431f3028028f524f2122699dc098dca75a77e7ddd7",
+      "scripts/run_bsu_dense.sh": "d4f969386b38ca34d9ae925fcb283bc1847105e1ef12888ed608285ceced4cdf",
+      "scripts/experiment_bsu_dense_video.sh": "dc8acd0e447df86ebbc2a571c0b639d170374a67bb12eb14515acc6d9bfed4e7",
+      "scripts/etri_dense_condition_decoder.py": "8ea5fc5bd0d15dbabb6c2c55fc790b20c915a8bf16ec5664c0e1e7239a331655"
+    },
+    "vendor_audit": "outputs/bsu_temporal_routed_qp32_s2_min5_20261016_v1/vendor_source_audit.json",
+    "remote": "semantic-pc / sangukcom, RTX4080",
+    "local_gpu_used": false
+  },
+  "limitations": [
+    "Development results on 14 clips; unseen videos and other SNRs are not validated.",
+    "RIFE has small GPU rounding variation: independent default replay differs by at most 1/255 on 0.0098 percent of RGB samples before MP4 encoding; re-evaluated quality/motion guards and action still pass. Bit-identical movies are not promised.",
+    "The 59.9 percent reduction stride4 profile fails strict quality guards on two complex clips and is not adopted.",
+    "Semantic-key protection added zero timestamps in this cohort because all selected keys were already coded; it did not repair stride4.",
+    "No complete independent human or multimodal semantic review of every reconstructed frame was performed."
+  ],
+  "experiment_summaries": [
+    {
+      "profile": "native_QP32",
+      "result": "outputs/bsu_dense_routed_qp32_20261016_v1/RESULT.json",
+      "sha256": "8785f08012f5f9be4baa7c6fefc17a8daaafe73bb6852f97538761eb89db9a08",
+      "summary": {
+        "channel_uses": 3484547,
+        "bsu_saving_percent": 20.668416210517158,
+        "ratio_to_lgvsc": 2.4754936889793173,
+        "routes": {
+          "bsu": 8,
+          "neural": 6
+        },
+        "mean_quality": {
+          "psnr_db": 25.628396922789626,
+          "ssim": 0.7912756694633275,
+          "lpips_vgg": 0.24739680044699053,
+          "clip": 0.9681867726132184,
+          "dists": 0.11972997882581453
+        },
+        "mean_temporal": {
+          "flow_error_mean": 0.3994358868810262,
+          "cadence_error_mean": 0.22256786011260804,
+          "false_freeze_rate": 0.18834814585966372
+        },
+        "action": {
+          "top1_correct": 12,
+          "top5_correct": 14,
+          "videos": 14
+        },
+        "strict_all_metric_passes": 14
+      }
+    },
+    {
+      "profile": "native_QP24",
+      "result": "outputs/bsu_dense_routed_qp24_20261016_v1/RESULT.json",
+      "sha256": "b93be15cca1955d6fee6710de343516efe72cebedcb42cb247ce65baed348d09",
+      "summary": {
+        "channel_uses": 2495499,
+        "bsu_saving_percent": 43.18576044028948,
+        "ratio_to_lgvsc": 1.7728536952878517,
+        "routes": {
+          "bsu": 6,
+          "neural": 8
+        },
+        "mean_quality": {
+          "psnr_db": 26.62373479965206,
+          "ssim": 0.8261142632272607,
+          "lpips_vgg": 0.24168028046138396,
+          "clip": 0.9671230528516149,
+          "dists": 0.12403485862741848
+        },
+        "mean_temporal": {
+          "flow_error_mean": 0.36825431342250237,
+          "cadence_error_mean": 0.20161632891392536,
+          "false_freeze_rate": 0.14641166709064973
+        },
+        "action": {
+          "top1_correct": 12,
+          "top5_correct": 14,
+          "videos": 14
+        },
+        "strict_all_metric_passes": 13
+      }
+    },
+    {
+      "profile": "native_QP16",
+      "result": "outputs/bsu_dense_routed_qp16_20261016_v1/RESULT.json",
+      "sha256": "130d7d9749525d5e8bea6f569e4658341aa8adeddfeaa8116bc67c9019a2e4c6",
+      "summary": {
+        "channel_uses": 1754369,
+        "bsu_saving_percent": 60.05883366728266,
+        "ratio_to_lgvsc": 1.2463397358798594,
+        "routes": {
+          "bsu": 3,
+          "neural": 11
+        },
+        "mean_quality": {
+          "psnr_db": 28.400752101674154,
+          "ssim": 0.8566068466063819,
+          "lpips_vgg": 0.24973539092048933,
+          "clip": 0.9615026452251922,
+          "dists": 0.13914814921212149
+        },
+        "mean_temporal": {
+          "flow_error_mean": 0.3469815622180106,
+          "cadence_error_mean": 0.19024792816149716,
+          "false_freeze_rate": 0.08421164411942565
+        },
+        "action": {
+          "top1_correct": 12,
+          "top5_correct": 14,
+          "videos": 14
+        },
+        "strict_all_metric_passes": 7
+      }
+    },
+    {
+      "profile": "RIFE_stride2_adopted",
+      "result": "outputs/bsu_temporal_routed_qp32_s2_min5_20261016_v1/RESULT.json",
+      "sha256": "2f24e44dee157032b25230e37706ef6b5e264743f2685d7ddd980a8a03d08517",
+      "summary": {
+        "channel_uses": 2470155,
+        "bsu_saving_percent": 43.76275930400423,
+        "ratio_to_lgvsc": 1.7548487976487923,
+        "routes": {
+          "bsu": 6,
+          "neural": 8
+        },
+        "mean_quality": {
+          "psnr_db": 26.305288979471243,
+          "ssim": 0.8236486343255097,
+          "lpips_vgg": 0.2346198803371057,
+          "clip": 0.9690375938901639,
+          "dists": 0.11849846159233533
+        },
+        "mean_temporal": {
+          "flow_error_mean": 0.45136387735376543,
+          "cadence_error_mean": 0.31418035542959566,
+          "false_freeze_rate": 0.15215272043562303
+        },
+        "action": {
+          "top1_correct": 12,
+          "top5_correct": 14,
+          "videos": 14
+        },
+        "strict_all_metric_passes": 14
+      }
+    },
+    {
+      "profile": "RIFE_stride4",
+      "result": "outputs/bsu_temporal_routed_qp32_s4_min5_20261016_v1/RESULT.json",
+      "sha256": "1d4fb4fee5ca92f9aa230c1d91e1efd393a0c47efb9107d6fb29e0e84ce05101",
+      "summary": {
+        "channel_uses": 1760768,
+        "bsu_saving_percent": 59.91314965020127,
+        "ratio_to_lgvsc": 1.250885716782335,
+        "routes": {
+          "bsu": 5,
+          "neural": 9
+        },
+        "mean_quality": {
+          "psnr_db": 25.82799199107456,
+          "ssim": 0.8190518361698472,
+          "lpips_vgg": 0.24274080461306508,
+          "clip": 0.9680638866565277,
+          "dists": 0.12408404296337759
+        },
+        "mean_temporal": {
+          "flow_error_mean": 0.5032463846130512,
+          "cadence_error_mean": 0.33643842439911487,
+          "false_freeze_rate": 0.16035017263321497
+        },
+        "action": {
+          "top1_correct": 12,
+          "top5_correct": 14,
+          "videos": 14
+        },
+        "strict_all_metric_passes": 12
+      }
+    },
+    {
+      "profile": "RIFE_stride4_semantic_protection",
+      "result": "outputs/bsu_temporal_routed_qp32_s4_protected_min5_20261016_v1/RESULT.json",
+      "sha256": "3626fdbbbffcc177c54a9261da6fd68753bda32f219ba27b447cc8da5d5b2a12",
+      "summary": {
+        "channel_uses": 1760768,
+        "bsu_saving_percent": 59.91314965020127,
+        "ratio_to_lgvsc": 1.250885716782335,
+        "routes": {
+          "bsu": 5,
+          "neural": 9
+        },
+        "mean_quality": {
+          "psnr_db": 25.827306352966502,
+          "ssim": 0.8190420612546915,
+          "lpips_vgg": 0.24286234079226776,
+          "clip": 0.9680794145979392,
+          "dists": 0.12420137185830746
+        },
+        "mean_temporal": {
+          "flow_error_mean": 0.503169990628145,
+          "cadence_error_mean": 0.3362300946053899,
+          "false_freeze_rate": 0.15953010513972735
+        },
+        "action": {
+          "top1_correct": 12,
+          "top5_correct": 14,
+          "videos": 14
+        },
+        "strict_all_metric_passes": 12
+      }
+    }
+  ],
+  "usage": {
+    "command": "bash scripts/run_bsu_adaptive_dense.sh --semantic-run <BSU_RUN> --source-frames <SOURCE_FRAMES> --output <NEW_ROOT>",
+    "tested_remote_repository": "/home/sangukbae/ETRI/Semantic/semantic_transmission",
+    "example": "bash scripts/run_bsu_adaptive_dense.sh --semantic-run outputs/bsu_kinetics_context/benchmark/snr_10/kinetics_005_11836d73/base/reconstruction/event_pairs/run --source-frames outputs/bsu_kinetics_context/inputs/kinetics/kinetics_005_11836d73/source_frames --output outputs/bsu_predictive_golf_new",
+    "outputs": [
+      "NEW_ROOT/RESULT.json",
+      "NEW_ROOT/delivery/refined/reconstruction.mp4"
+    ],
+    "resume": "Run the same command with the same inputs/code. Frozen protocols and stage hashes prevent silent reuse after changes.",
+    "required_installation": "The validated remote installation has isolated DCVC, evaluation and Sionna runtimes plus pinned weights; it does not use the local training GPU."
+  },
+  "sample_visual_review": {
+    "artifact": "outputs/bsu_predictive_summary_20261016_v1/sample_comparison.png",
+    "clips": [
+      "001 football",
+      "005 golf",
+      "012 group dance"
+    ],
+    "frame": 73,
+    "observed": "Source positions and goal-post geometry are better preserved than BSU in these samples; group-dance fine texture remains softer than the source.",
+    "scope": "Three selected frames, not a whole-cohort semantic audit"
+  },
+  "references": [
+    {
+      "name": "DCVC-RT CVPR2025",
+      "url": "https://arxiv.org/abs/2502.20762",
+      "code": "https://github.com/microsoft/DCVC",
+      "revision": "cbdae87a5445114cdc7f48816da63ea80bdeac40"
+    },
+    {
+      "name": "Practical-RIFE4.25 official pretrained model",
+      "url": "https://github.com/hzwer/Practical-RIFE",
+      "revision": "bbfd2ea90910789a860ea3e2b32a240cd577b75e"
+    }
+  ]
+}
