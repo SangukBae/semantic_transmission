@@ -1,0 +1,12 @@
+{
+  "policy": "bsu_predictive_temporal_default_v1",
+  "adopted_on": "2026-10-16",
+  "model": "DCVC-RT + Practical-RIFE4.25 with combined_context fallback",
+  "qp": 32,
+  "temporal_stride": 2,
+  "min_original_keys": 5,
+  "protect_semantic_keys": false,
+  "snr_db": 10,
+  "adaptive_rate_search": false,
+  "evidence": "docs/validation/2026-10-16-bsu-predictive-final.json"
+}
