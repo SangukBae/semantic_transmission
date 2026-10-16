@@ -2,9 +2,57 @@
 
 [프로젝트](../README.md) · [데이터](DATA.md) · [구조](MODEL_ARCHITECTURE.md) · [결과](RESULTS.md)
 
-**2026-10-13 실행 상태:** 이 체크아웃의 새 BSU 실행은 궤적·키 합성 → 시간 보정 → 새 구간 연결(`combined_context`)이 기본이다. Qwen 의미 선택·캡션·생성기와 송신 패킷은 유지한다. 기존 프로토콜은 저장된 방식으로 재개하며 원격 체크아웃은 이번 통합으로 변경하지 않았다.
+**2026-10-16 기본 채택:** `run_bsu.sh`는 DCVC-RT + Practical-RIFE4.25와 `combined_context` 대체 경로를 실행한다. QP32·2프레임 간격·최소 의미 키 5개를 고정한다. 기존 `run_bsu_webvid.sh`·`run_bsu_kinetics.sh`와 모듈명 `bsu_default.py`는 이전 생성 배치의 재현·재개용이다. 적응형 간격·QP 탐색은 기본에 포함하지 않는다.
 
-**2026-10-14 원격 배포:** 위 기본 통합과 LGVSC Kinetics 실행기를 원격 체크아웃에도 반영했다. 기존 WebVid 배치의 결과·프로토콜은 보존하고, 로컬 완료 BSU Kinetics 결과를 해시 검증해 옮긴 뒤 LGVSC 비교를 시작했다. 실행 시작과 전체 결과 완료는 구분한다. [배포·검증 기록](validation/2026-10-14-lgvsc-kinetics-command.json)
+<a id="bsu-default"></a>
+## 기본 BSU 실행
+
+현재 명령은 **기존 Qwen 의미 추출·전송 산출물과 정규화 원본 PNG**를 받아 새 송수신·복원을 실행한다. 새 영상 파일에서 의미 추출까지 한 번에 자동 수행하는 명령은 아니다. 원본 PNG는 송신부만 읽으며 수신부는 선택된 패킷을 독립 복호화한다.
+
+```bash
+# 설치·GPU 없이 채택 설정 확인
+bash scripts/run_bsu.sh profile
+
+# 입력·전송 조건·고정 가중치·실행 환경 검사 (추론하지 않음)
+bash scripts/run_bsu.sh check \
+  --semantic-run /absolute/path/event_pairs/run \
+  --source-frames /absolute/path/source_frames \
+  --output outputs/bsu_default_my_video
+
+# 실제 송신·채널·독립 수신·복원; 같은 명령으로 완료 단계 검증 후 재개
+bash scripts/run_bsu.sh \
+  --semantic-run /absolute/path/event_pairs/run \
+  --source-frames /absolute/path/source_frames \
+  --output outputs/bsu_default_my_video
+
+bash scripts/run_bsu.sh status --output outputs/bsu_default_my_video
+```
+
+`semantic-run`에는 `run_config.json`, `transmitter/metadata.bin`, `transmitter/visual.c64`가 필요하다. 원본은 같은 영상·정규화 시간표의 `0.png`, `1.png`, …여야 한다. 현재 구현은 **10dB·프레임 시점별 고정 AWGN** 입력을 요구한다. 궤적은 원래 배치의 `sender/trajectory.bin`을 찾으며 다른 배치 구조에서는 `--trajectory PATH`로 명시한다. 입력 폴더 안이나 기존 산출물 위에 출력을 만들지 않는다. 다른 SNR을 이 설정으로 조용히 덮어쓰지 않는다.
+
+검증된 설치는 원격 `sangukcom`의 `/home/sangukbae/ETRI/Semantic/semantic_transmission`이다. 해당 저장소에서 골프 입력은 `outputs/bsu_kinetics_context/benchmark/snr_10/kinetics_005_11836d73/base/reconstruction/event_pairs/run`, 원본은 `outputs/bsu_kinetics_context/inputs/kinetics/kinetics_005_11836d73/source_frames`다. 각 체크아웃의 배포 여부와 `profile`을 확인한 뒤 실행한다.
+
+| 필요한 설치 | 위치 / 고정 버전 |
+|---|---|
+| DCVC 실행 환경·소스 | `.local/dcvc_rt_env/bin/python`, `.local/vendor/DCVC-RT` · revision `cbdae87a5445114cdc7f48816da63ea80bdeac40` |
+| DCVC 가중치 | `.local/checkpoints/dcvc_rt/dcvc_rt_intra.tar`, `dcvc_rt_inter.tar` · [검사 해시](../src/semantic_transmission/bsu_dcvc_keys.py) |
+| RIFE 소스·모델 | `.local/vendor/Practical-RIFE` · revision `bbfd2ea90910789a860ea3e2b32a240cd577b75e`; `.local/checkpoints/rife/v4.25/{flownet.pkl,IFNet_HDv3.py}` · [검사 해시](../src/semantic_transmission/dense_temporal_receiver.py) |
+| 복원 실행 환경 | `.local/bsu_codec_eval_env/bin/python`와 기존 BSU/Open-Sora 모델·T5 캐시 |
+| 실제 디지털 채널 환경 | `.local/settings.json`의 `channel_python` · LDPC(6144,9216), 16QAM |
+
+외부 코드·가중치·원본·환경은 Git에 포함하지 않으며 새 장비용 DCVC/RIFE 자동 설치 명령은 아직 제공하지 않는다. [외부 출처](../THIRD_PARTY_NOTICES.md#bsu-predictive-dependencies)를 따라 고정 자산을 준비하고 `check`로 검사한다. `READY`는 환경·파일 검사이지 전체 추론 성공이 아니다.
+
+| 출력 | 내용 |
+|---|---|
+| `default_profile.json`, `sender_protocol.json`, `delivery/protocol.json` | 채택 설정·입력·실행 코드와 재개 계약 |
+| `predictive_sender/sender/` | 송신부가 시험 부호화한 유료 예측 후보 |
+| `delivery/selection.json`, `delivery/channel.json` | 실제 비용에 따른 선택, 세 디지털 시드 채널 검사·전송량 |
+| `delivery/refined/reconstruction.mp4` | 최종 전달 영상 |
+| `RESULT.json` | 완료 상태·선택 경로·전송량·영상 SHA256 |
+
+이 기본 명령은 복원까지 수행하며, 원본 대비 화질·TimeSformer 평가를 자동 실행하지 않는다. 고정 진행 화면·GPU/VRAM·상세 로그는 `.local/terminal_logs/bsu/`에 표시한다. 기존 완료 단계를 해시로 검증하고 입력·코드·모델이 달라지면 재사용을 거부한다. 기존 실험 결과를 새 기본 모델 결과로 재명명하지 않는다.
+
+**연구 옵션:** `run_bsu_adaptive_dense.sh`는 간격·QP 등을 명시해 바꾸는 기존 실험용 인터페이스다. 이름의 `adaptive_dense`는 비용에 따른 두 경로 선택이며 구간별 간격+QP 탐색과 다르다. 그 탐색은 별도 `experiment_bsu_adaptive_rate.sh`에만 남긴다. [미채택 근거](RESULTS.md#bsu-adaptive-rate)
 
 <a id="lgvsc-kinetics-matched"></a>
 ## 완료된 BSU와 같은 Kinetics-400 14편을 LGVSC로 비교
@@ -43,6 +91,15 @@ ssh -t USER@HOST 'cd /path/to/semantic_transmission && bash scripts/run_lgvsc_ki
 
 `--bsu-root PATH`로 검증할 완료 BSU 배치를, `--root PATH`로 별도의 LGVSC 출력 위치를 지정한다. 기존 출력의 입력·코드·모델이 달라지면 중단하며 새 출력 위치가 필요하다. GPU 공유 잠금과 실행 잠금으로 중복 작업을 막는다. Ctrl+C 후 같은 명령으로 재개하면 완료 단계의 해시를 검증해 재사용하고, 실패한 단계의 부분 출력은 보존한 뒤 재시도한다. SKEM 비교·PLLaVA 캡션·개별 행동 분류의 검증된 체크포인트도 재사용한다.
 
+**이전 실행의 설정 경로 오류 복구:** 복원·화질 14편을 완료한 뒤 행동평가에서 `action policy/BSU reference/config changed`로 중단됐고, BSU가 기록한 설정과 현재 설정의 내용은 같지만 절대 경로만 다른 경우에 사용한다.
+
+```bash
+bash scripts/recover_lgvsc_kinetics_action.sh --check
+bash scripts/recover_lgvsc_kinetics_action.sh
+```
+
+이 복구는 알려진 이전 행동평가 코드에서 이번 경로 검증 수정으로의 변경만 허용한다. 기존 입력·모델·나머지 코드와 14편의 완료 단계·의존성·파일 해시를 모두 확인한 후 행동평가만 실행한다. 기록된 설정 파일과 실제 평가기가 읽는 설정 파일은 모두 동결된 SHA-256과 같아야 한다. 원래 `protocol.json`, `action_job.json`, 영상·화질·전송 결과는 보존하며, 새 평가 작업·수정 이력·평가 결과는 `recovery/action_config_path_v1/`에 저장하고 최종 `RESULT.json`에서 연결한다. 이 과거 실행을 다시 확인하거나 재개할 때도 복구 명령을 사용한다. 다른 코드·입력 변경을 허용하는 일반 복구 기능은 아니다.
+
 **비교에서 유지하는 차이와 공통 조건:** LGVSC는 InternVL2-8B BF16 SKEM/PSSS 임계값 0.35와 실제 PLLaVA-7B 추론을 사용한다. Qwen·캡션 LoRA·BSU 궤적·시간 보정·새 구간 연결은 LGVSC에 적용하지 않는다. 키 개수를 강제로 맞추지 않는다. NTSCC 가중치·통신 부호·변조·SNR·프레임별 잡음 시드는 BSU와 같다. 두 방식에 같은 원본 시점의 키가 있으면 같은 시각 채널 잡음을 쓴다.
 
 **공개 LGVSC 코드와의 차이:** 4프레임 후보 격자에 EOF 프레임을 포함하고, BSU와 같은 `frame_exact` 구간 추출·`endpoint_exact` 연결을 사용한다. 기본 Open-Sora는 BSU와 같은 tail17·T5 FP32 캐시·키 조건 충돌/짧은 구간 시간표 수정·메모리 실행 보정을 사용한다. 서로 다른 구간 길이의 확산 난수가 같은 텐서라는 뜻은 아니다. 이 공통 실행 보정과 마지막 프레임 규칙을 `protocol.json`에 기록하며 **수정하지 않은 논문 원본 실행의 재현값으로 표시하지 않는다.** 목적은 동일 입력과 전송 회계에서 현재 BSU를 로컬 LGVSC 대조와 비교하는 것이다.
@@ -71,14 +128,14 @@ GPU 메모리 : GPU 0 13.20/15.99 GiB (82.6%)
 상세 로그 : /.../.local/terminal_logs/lgvsc_kinetics/...
 ```
 
-이 명령 구현 검증과 14편 본실험 완료는 구분한다. `READY`나 `prepare`는 LGVSC 모델 추론 완료가 아니며, 실제 전송량은 `COMPLETE_RATE_COMPARISON`, 복원·화질·행동 전체 비교는 `COMPLETE_RATE_QUALITY_ACTION_COMPARISON` 결과가 생성된 뒤 확인한다.
+아래는 실행 상태를 판별하는 규칙이다. 10월 16일 현재 14편의 실제 완료 비교는 [결과표](RESULTS.md#bsu-predictive-default)에 반영했다. `READY`나 `prepare`는 LGVSC 모델 추론 완료가 아니며, 실제 전송량은 `COMPLETE_RATE_COMPARISON`, 복원·화질·행동 전체 비교는 `COMPLETE_RATE_QUALITY_ACTION_COMPARISON` 결과가 생성된 뒤 확인한다.
 
 **구현 검증(2026-10-14):** 관련 테스트 72개 통과. 실제 14편·3,333프레임의 원본 픽셀 일치, 준비 재실행 시 3,403개 파일의 해시 유지, 고정 8줄과 실제 GPU/VRAM 갱신을 확인했다. 기존 BSU 패킷을 검증용으로 다시 집계해 기본 전송량 4,217,279심벌과 일치함을 확인했고, BSU 파일은 변경되지 않았다. 이 검증에서는 LGVSC 모델 추론을 시작하지 않았다. [검증 기록](validation/2026-10-14-lgvsc-kinetics-command.json)
 
 <a id="bsu-kinetics-benchmark"></a>
-## Kinetics-400 저자 14편을 최신 BSU로 복원·행동 평가
+## 이전 combined_context BSU의 Kinetics-400 배치 재현·행동 평가
 
-프로젝트 루트(`/home/sangukbae/semantic_transmission`)에서 다음 **한 명령**으로 준비부터 최종 평가까지 수행한다. 중단 후에도 같은 명령을 사용한다.
+아래 명령은 **이전 `combined_context` 모델**의 준비부터 최종 평가까지 수행한다. 현재 기본 하이브리드는 [기본 BSU 실행](#bsu-default)을 사용한다. 중단 후에도 같은 명령을 사용한다.
 
 ```bash
 bash scripts/run_bsu_kinetics.sh
@@ -122,14 +179,14 @@ bash scripts/run_bsu_kinetics.sh prepare
 bash scripts/run_bsu_kinetics.sh status
 ```
 
-**구현 검증(2026-10-13):** 저자 원본 14편, 새로 정규화한 **3,333프레임·138.875초**, 공식 가중치 엄격 로딩, 원본 1편의 실제 CUDA 3크롭 추론을 확인했다. 이 준비본은 앞서 시간 추정에 사용한 기존 `processed/`의 3,346프레임과 별개이며 원본 시작부터 EOF까지 사용한다. **14편 BSU 복원·성능 실험은 아직 실행하지 않았다.** 테스트와 재개 검증은 [검증 기록](validation/2026-10-13-bsu-kinetics-command.json)에 남긴다. 논문과 맞춘 범위는 원본 목록·10dB·행동 평가 설정이다. BSU의 선택·복원·전송 정책 및 원본 정규화를 포함한 논문 전체 수치의 정확한 재현이나 신규 LGVSC/코덱 대조 실험으로 표시하지 않는다.
+**구현 검증(2026-10-13):** 저자 원본 14편, 새로 정규화한 **3,333프레임·138.875초**, 공식 가중치 엄격 로딩, 원본 1편의 실제 CUDA 3크롭 추론을 확인했다. 이 준비본은 앞서 시간 추정에 사용한 기존 `processed/`의 3,346프레임과 별개이며 원본 시작부터 EOF까지 사용한다. **당시에는 14편 복원 전이었다. 이후 이전 BSU·LGVSC·새 기본 BSU의 비교가 완료됐으며 [현재 결과](RESULTS.md#bsu-predictive-default)에 별도로 기록한다.** 테스트와 재개 검증은 [검증 기록](validation/2026-10-13-bsu-kinetics-command.json)에 남긴다. 논문과 맞춘 범위는 원본 목록·10dB·행동 평가 설정이다. BSU의 선택·복원·전송 정책 및 원본 정규화를 포함한 논문 전체 수치의 정확한 재현이나 신규 LGVSC/코덱 대조 실험으로 표시하지 않는다.
 
 <a id="bsu-webvid-benchmark"></a>
-## 현재 BSU로 WebVid 전체 영상 복원·평가
+## 이전 combined_context BSU의 WebVid 전체 영상 복원·평가
 
 [`run_bsu_webvid.sh`](../scripts/run_bsu_webvid.sh)는 [`bsu_default.py`](../src/semantic_transmission/bsu_default.py)를 통해 준비된 WebVid 원본 전체 길이를 **576×320·24fps**로 처리한다. 기본은 AWGN **6·8·10dB**, Qwen 의미 변화 선택 + 고정 캡션 LoRA + 수정 Open-Sora + **궤적·수신 키 합성 → 시간 보정 → 새 구간 연결(`combined_context`)**이다. 검증한 원래 `context_only` 연산을 사용하며 후속 경로·잔차·윤곽 게이트는 추가하지 않는다. 기존 단일 영상 생성 명령과 과거 동결 실행기도 보존한다.
 
-준비 inventory·실행 템플릿·모델이 있는 환경에서 다음을 실행한다. 이 컴퓨터의 프로젝트는 `/home/sangukbae/semantic_transmission`이며 설정된 전용 Python 환경을 사용한다. 아래 기본값 변경은 이 체크아웃에 적용됐다. 원격의 기존 실행은 기존 코드·프로토콜을 유지한다.
+준비 inventory·실행 템플릿·모델이 있는 환경에서 다음을 실행한다. 이 컴퓨터의 프로젝트는 `/home/sangukbae/semantic_transmission`이며 설정된 전용 Python 환경을 사용한다. 아래는 이전 생성 배치의 설정이다. 10월 14일 원격에도 해당 코드가 배포됐으며 기존 실행의 저장된 프로토콜은 유지한다.
 
 ```bash
 cd /home/sangukbae/semantic_transmission
@@ -189,6 +246,66 @@ bash scripts/run_bsu_webvid.sh run --mode combined --snr 10 \
 논문은 WebVid **55편**을 사용하지만 현재 보유 입력은 **53편**이다. 결과는 누락 파일명과 `53/55`를 표시한다. `--require-complete-manifest`를 쓰면 누락 상태에서 시작하지 않는다. 논문과 같은 다섯 화질 지표·전체 프레임 평균을 계산하지만, 준비 해상도·NTSCC 가중치·부가정보 비용까지 논문과 동일하다고 확인된 재현은 아니다. 논문의 정확한 화질 수치는 곡선으로 제시되어 표에 임의의 값을 채우지 않으며, 공개된 CBR 표 값만 출처와 함께 제공한다. [평가·집계 기준](METRICS.md#bsu-webvid-metrics) · [논문 기준 설정](../configs/bsu_webvid_paper.json)
 
 **과거 실험의 산출물 가용성:** 2026-10-08 성능 문제로 보류된 후보의 일부 가중치·캐시·영상은 사용자 요청으로 삭제했다. 현재 기본 모델과 실행 중 LGVSC/Qwen 비교의 의존 파일은 보존했다. 아래 과거 명령은 삭제된 산출물이 있으면 바로 재개할 수 없으며, 해당 실행의 `ARTIFACT_CLEANUP.json`과 [정리 기록](validation/2026-10-08-rejected-artifact-cleanup.json)을 확인하고 원래 추출·학습·생성 단계부터 복구해야 한다.
+
+<a id="bsu-adapter-training"></a>
+### 생성 내부 궤적 어댑터의 로컬 학습
+
+현재 학습의 최신 체크포인트에서 **추가 약 7시간**만 이어 학습할 때는 [train_bsu_adapter_7h.sh](../scripts/train_bsu_adapter_7h.sh)를 사용한다. 2026-10-15 로컬 실행은 221번째 업데이트를 끝내고 가중치·옵티마이저·스케줄러·난수·데이터 순서를 저장한 뒤 안전하게 중단했다. 원래 실행의 코드·설정·체크포인트는 보존하고, 별도 `outputs/bsu_adapter_training_7h_v1/`에 이어 학습 상태를 둔다.
+
+```bash
+# 원본 최신 체크포인트와 데이터 해시 검사·준비. GPU 학습은 시작하지 않는다.
+bash scripts/train_bsu_adapter_7h.sh check
+
+# 검증된 체크포인트부터 추가 7시간. 중간 중단 후에는 남은 시간만 재개한다.
+bash scripts/train_bsu_adapter_7h.sh run
+
+# 별도 터미널에서 진행 상황과 최신 체크포인트를 확인한다.
+bash scripts/train_bsu_adapter_7h.sh status
+```
+
+이 명령은 기존 학습 시간과 별도로 **25,200초의 실행 시간 예산**을 사용한다. 시작 시 검사·모델 로딩·250회마다의 고정 잡음 검증도 예산에 포함하고, 중단해 둔 시간은 제외한다. 시간 만료나 Ctrl-C를 받으면 진행 중인 누적 4회의 업데이트를 끝내고 저장하므로 해당 업데이트와 저장 시간만큼 초과할 수 있다. 검증 중에는 현재 순전파를 마치고 멈추며 미완료 검증을 학습률 스케줄러에 반영하지 않는다. 매 업데이트를 저장하고, 같은 명령의 재실행은 남은 예산만 사용한다. 완료한 명령을 다시 실행해도 7시간이 새로 추가되지 않는다. 원본 `run` 명령의 20,000회 설정은 이 시간 제한 실행에 적용하지 않는다.
+
+시간 예산·백분율·추가/누적 업데이트·남은 시간·GPU·VRAM·로그를 고정 행으로 표시한다. 데이터 캐시는 해시를 검증해 읽기 전용으로 재사용하고, `continuation.json`에 시작 체크포인트와 추가 실행 코드를 고정한다. 최종 가중치는 `outputs/bsu_adapter_training_7h_v1/final.pt`, 재개 상태는 같은 폴더의 `latest.json`이다. 전체 영상 품질 검증과 최종 시험은 추가 시간이 필요하므로 자동 실행하지 않는다. `RESULT.json`의 `TRAINING_BUDGET_COMPLETE_EVALUATION_PENDING`은 시간 예산을 마쳤다는 뜻이며 성능 개선이나 수렴을 입증하지 않는다. 종료 시점의 가중치와 검증으로 선택한 최적 가중치를 구분한다.
+
+아래는 원래의 장기 학습 명령과 설정이다.
+
+실행 명령은 [train_bsu_adapter.sh](../scripts/train_bsu_adapter.sh), 기본 학습 설정은 [bsu_adapter_training.json](../configs/bsu_adapter_training.json)이다. 현재 로컬의 `bsu_webvid_completed_20261015`, `bsu_receiver_improvement_20261015_v1`, `bsu_motion_validation_20261015_v1`, `bsu_kinetics_context` 산출물과 고정 모델 캐시가 필요하다. Git 코드만 복사하면 입력이 준비되는 명령은 아니다. 기존 600회 실험의 가중치·결과와 `combined_context` 생성 경로는 변경하지 않는다. 학습 명령의 구현·준비는 충분한 학습 완료나 기본 하이브리드에 대한 어댑터 채택을 뜻하지 않는다.
+
+```bash
+# 입력·원본별 분리·모델·코드 검사. 학습이나 모델 추론을 시작하지 않는다.
+bash scripts/train_bsu_adapter.sh check
+
+# 준비 → 학습 → 주기적 검증 → 최종 평가. 중단 후 같은 명령으로 재개한다.
+bash scripts/train_bsu_adapter.sh run
+
+# 다른 터미널에서 저장된 상태를 읽는다. 실행 중인 학습에는 영향을 주지 않는다.
+bash scripts/train_bsu_adapter.sh status
+```
+
+기본 출력은 `outputs/bsu_adapter_training_v1/`이다. 준비 단계는 실제 수신 메타데이터, FP32 T5 캐시, 원본 목표 잠재값과 수신 조건 잠재값을 만든다. 학습 24개 원본의 128개 구간, 검증 8개 원본, 최종 평가 18개 원본을 분리한다. 이전 어댑터 평가에 사용했던 8개 원본은 이제 개발용 검증 세트이며 새로운 독립 시험으로 부르지 않는다. 최종 평가 원본도 다른 과거 진단에서 관찰됐을 수 있어 완전히 눈가림된 모집단 시험은 아니다.
+
+학습은 **576×320·24fps의 실제 구간 전체**를 사용한다. 균등 33프레임 추출이나 긴 구간 잘라내기는 하지 않는다. 시작·끝 키의 실제 잠재 위치, 충돌 보정, RFLOW 시간 변환과 이전 생성 구간의 마지막 17프레임을 반영한다. 이전 구간 조건은 동결된 기존 생성 결과에서 가져오며 원본 정답 프레임을 조건으로 넣지 않는다. 학습 중 갱신된 어댑터가 직접 생성한 이력과의 차이는 남으므로, 검증에서는 전체 영상을 실제 구간 순서로 다시 생성한다.
+
+| 기본 설정 | 동작 |
+|---|---|
+| 최소 3,000 / 최대 20,000 업데이트 | 횟수 도달 자체를 충분한 학습으로 판정하지 않음 |
+| 배치 1, 누적 4회 | 어댑터만 AdamW로 학습, 생성 본체는 고정 |
+| 250회마다 검증 | 고정 원본·잡음 2개·시간 조건 2개로 검증 손실 비교, 정체 시 학습률 감소 |
+| 2,000회마다 전체 영상 검증 | 같은 수신 정보·생성 잡음으로 기준/후보의 화질·동작·경계 비교 |
+| 손실 4회·영상 품질 3회 연속 정체 | 최소 업데이트 이후 종료. 운영상 기준이며 최적성의 증명이 아님 |
+| 25회마다 체크포인트 | 가중치·옵티마이저·스케줄러·난수·데이터 순서를 원자적으로 저장 |
+
+추가 출력이 0이 되도록 초기화한 새 어댑터를 학습한다. 체크포인트 선택은 품질 기준 통과 여부를 우선하고, 그 안에서 LPIPS·흐름 오차·시간 변화 오차의 고정 복합 점수를 사용한다. 최대 횟수에 먼저 도달하면 `MAX_STEPS_WITHOUT_CONFIRMED_PLATEAU`로 기록한다. `best.pt`가 있어도 성능 개선이 보장되지는 않는다. `RESULT.json`의 검증·최종 평가 판정과 제한을 확인해야 하며, 기본 BSU 모델에 자동 적용하지 않는다. 데이터는 여전히 소규모이므로 업데이트 횟수만으로 범용성이나 내용·동작 오류 해결을 입증할 수 없다.
+
+`latest.json`, `checkpoints/`는 재개 상태이고 `exports/`는 시점별 추론용 가중치다. `validation_loss.json`, `validation/step_*/quality.json`, `best.json`, `final_test/`, `RESULT.json`에 학습 곡선과 선택·평가 근거를 남긴다. 고정 행의 진행 화면에는 단계, 업데이트 수/상한, 경과 시간, 로그, 실패·중단 상태, GPU 사용률과 사용/전체 VRAM을 표시한다. 조기 종료 시점과 검증 비용을 미리 알 수 없으므로 전체 ETA를 확정하지 않는다. 로그는 `.local/terminal_logs/bsu_adapter_training/`에 남는다.
+
+환경에서 실제 역전파·저장 시험만 실행하려면 아래 명령을 사용한다. 가장 긴 학습 구간과 이전 구간 연결이 있는 가장 긴 구간을 검사하며, 이 시험의 가중치는 본 학습에 사용하지 않는다.
+
+```bash
+bash scripts/train_bsu_adapter.sh smoke --root outputs/bsu_adapter_training_smoke
+```
+
+출력 폴더와 설정은 `--root`, `--config`로 지정한다. 같은 폴더에서 코드·모델·입력·설정이 달라지면 재개를 거부하므로 변경 실험에는 새 폴더를 사용한다. 메모리를 줄이기 위해 체크포인트 재계산, CPU 활성값 보관, 독립 어텐션 배치·MLP 토큰의 미분 가능한 분할을 사용한다. 시공간 어텐션 문맥은 유지한다. 전체 생성 검증이 학습 업데이트 자체보다 오래 걸릴 수 있다.
 
 <a id="public-start"></a>
 ## 완료된 WebVid 4편의 수신부만 로컬 비교

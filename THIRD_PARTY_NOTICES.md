@@ -2,7 +2,7 @@
 
 LGVSC builds on several external models, libraries, and datasets. They are **not**
 vendored into this repository — we ship only our own scripts and `.patch` files (see the
-dependency table in `README.md`). When you obtain and run the upstream components, you do so
+runtime requirements in `docs/RUN_GUIDE.md`). When you obtain and run the upstream components, you do so
 under **their** licenses and terms, summarized below.
 
 The license names are recorded for convenience; the upstream `LICENSE` file is always the
@@ -20,6 +20,16 @@ authoritative source. Verify before any redistribution or commercial use.
 | UniMatch | https://github.com/autonomousvision/unimatch | See upstream repo | Optical flow; bundled inside Open-Sora `tools/scoring`. |
 | TimeSformer | https://github.com/facebookresearch/TimeSformer | **CC BY-NC 4.0 (NonCommercial)** | ⚠ Non-commercial only. Used for downstream action-recognition evaluation. |
 | Depth-Anything-V2 | https://github.com/DepthAnything/Depth-Anything-V2 | Apache-2.0 (code) | Pretrained depth checkpoints may carry separate terms — check the model card. |
+
+<a id="bsu-predictive-dependencies"></a>
+## Adopted BSU predictive components — 2026-10-16
+
+| Component | Pinned upstream source | Observed code license | Role |
+|---|---|---|---|
+| DCVC-RT | [Microsoft DCVC at cbdae87](https://github.com/microsoft/DCVC/tree/cbdae87a5445114cdc7f48816da63ea80bdeac40) · [license](https://github.com/microsoft/DCVC/blob/cbdae87a5445114cdc7f48816da63ea80bdeac40/LICENSE.txt) | MIT | Initial image and predictive neural entropy coding |
+| Practical-RIFE 4.25 | [Practical-RIFE at bbfd2ea](https://github.com/hzwer/Practical-RIFE/tree/bbfd2ea90910789a860ea3e2b32a240cd577b75e) · [license](https://github.com/hzwer/Practical-RIFE/blob/bbfd2ea90910789a860ea3e2b32a240cd577b75e/LICENSE) | MIT | Interpolation between decoded anchors |
+
+The pinned checkouts' license files were inspected. Source and pretrained assets are obtained separately; neither weights nor these checkouts are redistributed here. Exact inference-weight and RIFE implementation hashes are checked by [DCVC integration](src/semantic_transmission/bsu_dcvc_keys.py) and [RIFE integration](src/semantic_transmission/dense_temporal_receiver.py). Model download terms remain those of their upstream distribution. The new default retains the existing Open-Sora/NTSCC dependencies for its `combined_context` branch and the existing TimeSformer evaluation terms.
 
 ## Datasets
 

@@ -1,0 +1,75 @@
+{
+  "status": "COMPLETE_DEFAULT_ADOPTION_VALIDATION",
+  "date": "2026-10-16",
+  "adoption": "User requested DCVC-RT + RIFE fixed profile as the default BSU model",
+  "entrypoint": "scripts/run_bsu.sh",
+  "module": "semantic_transmission.bsu",
+  "profile": {
+    "policy": "bsu_predictive_temporal_default_v1",
+    "adopted_on": "2026-10-16",
+    "model": "DCVC-RT + Practical-RIFE4.25 with combined_context fallback",
+    "qp": 32,
+    "temporal_stride": 2,
+    "min_original_keys": 5,
+    "protect_semantic_keys": false,
+    "snr_db": 10,
+    "adaptive_rate_search": false,
+    "evidence": "docs/validation/2026-10-16-bsu-predictive-final.json"
+  },
+  "profile_sha256": "c262e99498858b4da8df28b1a34f7af27a19830c90c063b43f2e27c6866569a1",
+  "inference_implementation_changed": false,
+  "new_integration": "Canonical default command, fixed profile checks and immutable resume manifest",
+  "legacy_batch_commands_preserved": [
+    "scripts/run_bsu_webvid.sh",
+    "scripts/run_bsu_kinetics.sh"
+  ],
+  "adaptive_rate_search_adopted": false,
+  "input_contract": "Existing BSU semantic transmission plus matched normalized source PNGs; current channel profile is 10dB frame-seeded AWGN",
+  "benchmark_evidence": {
+    "predictive_report": "docs/validation/2026-10-16-bsu-predictive-final.json",
+    "predictive_report_sha256": "bd41b411c58ed9a677435b0a82da14da71e9ded90ca2416576de3498ae7602ec",
+    "selected_result_sha256": "2f24e44dee157032b25230e37706ef6b5e264743f2685d7ddd980a8a03d08517",
+    "adaptive_report": "docs/validation/2026-10-16-bsu-adaptive-rate.json",
+    "adaptive_report_sha256": "68976d6c417778291036799916c879cb7e92c184cbea9e57a21b3b9faa1ae350",
+    "unchanged_runtime_module_hashes": 16,
+    "new_quality_benchmark_run": false
+  },
+  "validation": {
+    "full_cpu_suite": {
+      "passed": 1480,
+      "skipped": 17,
+      "seconds": 87.5,
+      "gpu_visible": false,
+      "command": "CUDA_VISIBLE_DEVICES=-1 PYTHONPATH=src PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 /home/sangukbae/anaconda3/envs/lgvsc/bin/python -m pytest -q"
+    },
+    "targeted_cpu_suite": {
+      "passed": 47,
+      "subtests": 23,
+      "environment": ".local/fc_auto_env"
+    },
+    "syntax": {
+      "python_files": 71,
+      "shell_files": 17,
+      "json_files_before_this_record": 18
+    },
+    "public_docs": {
+      "files": 8,
+      "links_checked_before_this_record": 527
+    },
+    "git_diff_check": "passed",
+    "remote_preflight": {
+      "host": "sangukcom",
+      "isolated_source_copy": true,
+      "status": "READY",
+      "source_clip": "kinetics_005_11836d73",
+      "frames": 240,
+      "pinned_assets_checked": true,
+      "model_inference_started": false,
+      "active_checkout_code_changed": false
+    },
+    "environment_notes": [
+      "System Python lacks torch; fc_auto_env lacks scipy for whole-suite collection; the full suite passed in the existing lgvsc environment."
+    ]
+  },
+  "scope": "Default adoption and integration checks. Previous 14-clip development evidence is retained; this is not a new GPU benchmark or unseen-cohort validation."
+}

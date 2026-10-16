@@ -1,40 +1,42 @@
 # BSU: LGVSC 기반 의미 영상 전송 모델
 
-LGVSC를 기반으로 **영상의 키프레임·캡션·움직임 정보를 전송하고 생성 모델로 복원**하는 연구 구현입니다. 원본 대비 내용의 추가·누락·왜곡을 줄이는 방법과 그 평가를 연구합니다. 원본 LGVSC 구현과 이 저장소에서 수정한 부분을 구분합니다.
+LGVSC에서 출발해 **의미 키·캡션과 예측 압축 정보를 이용해 영상을 전송·복원**하는 연구 구현입니다. 현재 기본 BSU는 **DCVC-RT + Practical-RIFE4.25와 `combined_context` 대체 경로를 결합한 모델**입니다. 원본 LGVSC 구현과 이 저장소에서 수정한 부분을 구분합니다.
 
-2026-10-09 사용자 지정으로 현재 개발 모델을 **BSU**라고 부릅니다. 과거 `FC-LGVSC` 실험명·코드·산출물 ID는 출처 보존을 위해 유지합니다. [BSU와 LGVSC 내부 블록다이어그램](docs/MODEL_ARCHITECTURE.md#bsu-lgvsc-blocks)
+2026-10-16 사용자 요청으로 아래 검증 프로필을 기본 채택했습니다. 과거 `FC-LGVSC`·`combined_context` 실험명과 동결 산출물은 그대로 유지합니다.
 
 ## 현재 기본 구조
 
-2026-10-09부터 `run_qwen35_pairs_video.sh`와 `run_lgvsc_qwen_baseline.sh`의 Qwen 경로는 **의미 변화에 따라 키 개수가 달라지는 순차 선택**을 사용합니다. 과거 고정 키 예산·최대 1초 간격은 이 기본 경로에서 제거했습니다. 새 선택기의 복원 품질 개선은 별도 검증 대상입니다.
+기본 명령은 [`bash scripts/run_bsu.sh`](docs/RUN_GUIDE.md#bsu-default)입니다. 기존 Qwen 의미 선택·캡션 산출물과 정규화 원본 PNG를 입력으로 사용합니다. **QP 32·2프레임 간격·의미 키 최소 5개**를 고정하며, 추가로 시험한 적응형 간격·QP 탐색은 기본에 포함하지 않습니다.
 
 ```mermaid
 flowchart LR
-    V[원본 영상] --> P[4프레임마다 후보 관찰]
-    P --> S[Qwen · 직전 채택 키와 의미 비교 · 변화 시 채택]
-    S --> C[구간 원본 4장 · Qwen + 보강 LoRA rank 32]
-    C --> R[Qwen 본체 시각 재검토 · LoRA 끔]
-    S --> T[키프레임·캡션·움직임 전송]
-    R --> T
-    T --> D[T5 · DSA / Open-Sora 복원]
-    D --> RX[궤적·시간 보정 → 수신 키 전후 새 구간 연결]
-    T -->|수신 키·유료 궤적| RX
+    V[원본 영상] --> S[Qwen 의미 키·캡션·구간 정보]
+    V --> N[DCVC-RT · QP 32 · 기본 2프레임 간격]
+    S --> B[NTSCC 키·메타데이터·궤적 후보]
+    S --> N
+    N --> R[송신부 · 실제 총 채널 비용 비교]
+    B --> R
+    R -->|의미 키 5개 이상이며 더 저렴| T[유료 예측 패킷 → LDPC·16QAM·AWGN]
+    T --> D[DCVC 독립 복호화 → RIFE 시간 보간]
+    R -->|그 외| G[NTSCC·디지털 전송 → Open-Sora → combined_context]
+    D --> O[복원 영상]
+    G --> O
 ```
 
-- Qwen3.5-9B NF4 본체에 캡션 전용 LoRA를 적용합니다. 후보·재검토에는 어댑터를 끕니다.
-- 최종 키프레임 선택은 Qwen 본체의 의미 변화 판정입니다. 처음·끝을 유지하고 중간 키는 판정 결과로 추가합니다. 후보 간격은 관찰 빈도이며 키 간격을 강제하지 않습니다. 이전 InternVL 혼합 경로는 별도 코드·기록으로 보존합니다.
-- 수신단은 마지막 17프레임 참조, T5 FP32 조건 캐시, 키프레임 조건 충돌·짧은 구간 시간표 수정을 포함합니다.
-- [`run_bsu_webvid.sh`](docs/RUN_GUIDE.md#bsu-webvid-benchmark)의 새 실행은 **궤적·수신 키 합성 → 시간 보정 → 새 구간 연결(`combined_context`)**이 기본입니다. 모든 인접 키 구간에서 수신 키 RGB를 정확히 보존하고 주변 프레임을 연결합니다. 기존 `combined` 대비 추가 전송은 없습니다.
-- 저자 Kinetics-400 14편은 [`bash scripts/run_bsu_kinetics.sh`](docs/RUN_GUIDE.md#bsu-kinetics-benchmark) 한 명령으로 최신 BSU 복원·10dB·TimeSformer 행동 평가를 수행합니다. 2026-10-14 04:40 KST에 14편·3,333프레임 복원과 원본/BSU 28건 행동 평가가 완료됐습니다. 고정 화면에서 진행률·GPU 사용률·VRAM을 갱신합니다.
-- 동일 BSU 입력과 통신 조건의 LGVSC 대조는 [`bash scripts/run_lgvsc_kinetics.sh`](docs/RUN_GUIDE.md#lgvsc-kinetics-matched)로 실행합니다. `rate`는 전송량만 측정하며, 기본 실행은 복원·화질·행동 평가까지 수행합니다. InternVL·PLLaVA와 공통 보정 Open-Sora를 사용하고 BSU 추가 수신 보정은 제외합니다. 논문 원본 실행의 정확한 재현과 구분합니다.
-- 양끝 2키의 완료 복원에 적용하는 [`bsu_refine`](docs/RUN_GUIDE.md#bsu-trajectory-cadence)도 같은 기본 보정을 사용합니다. `--mode combined`로 이전 결합, `--mode cadence`로 시간 보정만 선택할 수 있습니다. 기존 배치의 저장된 방식과 과거 동결 실험은 유지합니다.
-- GPT6-Astra는 일부 학습 정답·평가 작성에 사용했습니다. 온라인 추론 모델이나 사람 정답으로 표시하지 않습니다.
+- 처음·끝·급격한 화면 변화 양쪽 프레임을 보존합니다. Qwen 의미 키와 DCVC 전송 시점은 서로 다른 역할입니다.
+- 경로 선택은 키 개수와 직렬화·오류정정까지 포함한 실제 비용으로 결정합니다. 화질 정답이나 행동 라벨로 경로를 고르지 않습니다.
+- 신경 압축 경로는 최초 참조 영상과 이후 예측 특성을 전송하며, 수신부는 받은 패킷과 고정 가중치만 사용합니다. 캡션·구간 정보도 유료 패킷에 포함하지만 DCVC/RIFE 자체는 텍스트 조건을 사용하지 않습니다.
+- `combined_context` 경로는 Qwen 의미 선택·고정 캡션 LoRA, NTSCC 키, Open-Sora와 궤적·시간·구간 연결 보정을 유지합니다. 새 생성 어댑터 학습은 기본 모델에 포함하지 않습니다.
+- 이전 [`run_bsu_webvid.sh`](docs/RUN_GUIDE.md#bsu-webvid-benchmark)와 [`run_bsu_kinetics.sh`](docs/RUN_GUIDE.md#bsu-kinetics-benchmark)는 기존 `combined_context` 배치의 생성·재개 명령입니다. 기본 하이브리드 모델 명령과 구분합니다.
+- LGVSC 대조는 [`run_lgvsc_kinetics.sh`](docs/RUN_GUIDE.md#lgvsc-kinetics-matched)로 보존합니다. 공통 실행 보정이 포함된 로컬 비교이며 논문 원본 수치의 정확한 재현으로 표시하지 않습니다.
 
 <a id="status"></a>
 <a id="scope"></a>
 ## 검증 범위와 한계
 
-현황 정리: **2026-10-13**. 추가 WebVid 12편 모두에서 PSNR·비키 PSNR·LPIPS 개선을 확인해, 사용자 요청으로 **원래 새 구간 연결을 이 컴퓨터의 BSU 기본 수신부에 통합**했습니다. 3개 SNR이 완료된 11편의 평균 PSNR은 +0.694dB, 광류 오차는 −6.00%입니다. 다만 6/12편의 정지 오판 증가가 남으며, 연속 60초·독립 의미 평가와 ETRI 목표 달성은 미완료입니다. 후속 프레임별 경로·잔차·게이트 후보는 기본값에 포함하지 않습니다. [검증 결과](docs/RESULTS.md#bsu-context-extension) · [기본 통합](docs/RESULTS.md#bsu-context-default)
+현황 정리: **2026-10-16**. 동일 Kinetics-400 개발 영상 **14편·3,333프레임·576×320·24fps·AWGN 10dB**에서 기본 BSU는 **2,470,155 복소 채널 사용량**으로 이전 BSU보다 **43.76% 절감**했습니다. LGVSC의 1,407,617 대비 **1.75배**이며 PSNR 26.305dB, LPIPS 0.23462, 행동 Top-1 12/14·Top-5 14/14입니다. 영상별 화질·동작 허용 기준은 14/14 통과했습니다. [세 모델 비교와 증거](docs/RESULTS.md#bsu-predictive-default)
+
+적응형 간격+QP 후보는 이 기본 모델에서 추가 1.12%를 줄였지만 시험 인코딩·복원 비용에 비해 이득이 작아 **연구 옵션으로 유지**합니다. 위 결과는 이미 관찰한 개발 자료의 비교이며 전체 Kinetics-400·미사용 영상·연속 60초·독립 의미 오류 평가를 입증하지 않습니다. 아래 표는 이전 구성 요소의 검증 이력입니다.
 
 | 확인한 범위 | 현재 근거 |
 |---|---|
@@ -58,7 +60,7 @@ flowchart LR
 
 평가 목표는 동일 원본·채널에서 기준선과 제안 방식의 Added/Missing/Distorted, 시간 흐름, 전송량·처리 시간을 비교하는 것입니다. AWGN, 연속 60초 이상 및 저·중·고전환 확장이 연구 범위이며, 목표와 완료 결과를 구분합니다.
 
-**남은 문제:** 희소 궤적과 수신 키 대응 검사를 구현했지만 새 외형·가림·잘못 생성된 자세를 함께 고치지는 못했습니다. 오류 위치의 이미지 앵커·패치 배치와 구조 조건 어댑터 학습이 남습니다. 시간 보정의 일부 정지 악화, 미사용 원본·긴 구간·여러 seed/SNR 검증도 필요합니다. 품질 이득이 있으면 LGVSC보다 소폭 많은 전송을 허용하며 이번 후보의 탐색 상한은 +5%로 정했습니다. 최종 전송량·품질 목표 달성은 미완료입니다. [후보 구조·논문·비용](docs/MODEL_ARCHITECTURE.md#bsu-next-design) · [단계별 상태](docs/RESULTS.md#bsu-progress)
+**남은 문제:** 기본 BSU의 전송량은 아직 LGVSC보다 75.5% 많습니다. 고전환·가림·작은 객체에서의 손실, 대체 생성 경로의 내용·동작 오류, 미사용 원본·긴 영상·다른 SNR 검증이 남아 있습니다. 과거 궤적 실험의 +5% 탐색 상한을 이번 모델이 달성했다고 표시하지 않습니다. [후속 후보](docs/research/BSU_RATE_QUALITY_IDEAS_2026-10-11.md) · [단계별 상태](docs/RESULTS.md#bsu-progress)
 
 ## 시작하기
 
@@ -75,7 +77,7 @@ bash scripts/run_qwen35_caption.sh caption \
   --output outputs/my_caption.json
 ```
 
-위 단독 점검은 LoRA·InternVL·수신단 전체 실행이 아닙니다. 통합 경로는 [설치·데이터·어댑터 준비 및 실행](docs/RUN_GUIDE.md#public-start)을 따릅니다.
+위 단독 점검은 LoRA·InternVL·수신단 전체 실행이 아닙니다. 기본 하이브리드 실행은 [BSU 기본 명령](docs/RUN_GUIDE.md#bsu-default), 의미 입력 준비는 [설치·데이터·어댑터 준비 및 실행](docs/RUN_GUIDE.md#public-start)을 따릅니다.
 
 **코드만 clone하면 기존 실험 전체를 바로 재현할 수 있는 상태는 아닙니다.** 데이터·고정 주석·가중치·prepared inventory는 Git에 포함하지 않습니다. 기본 LoRA의 해시·검증 명령과 전달 패키지 절차를 제공하지만 공개 다운로드 URL은 아직 없습니다. 새 장비에서는 경로를 설정하고 새 실행 폴더에서 준비해야 하며 기존 동결 기록의 경로·해시를 덮어쓰지 않습니다.
 
