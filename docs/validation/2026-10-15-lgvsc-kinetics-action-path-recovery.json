@@ -1,0 +1,132 @@
+{
+  "status": "PASSED_LOCAL_TESTS_AND_REMOTE_ACTION_RECOVERY",
+  "date": "2026-10-15",
+  "cause": {
+    "type": "absolute_path_equality_rejected_identical_config",
+    "recorded_config": "/home/sangukbae/semantic_transmission/07_downstream/timesformer/TimeSformer_divST_8x32_224_TEST.yaml",
+    "active_config": "/home/sangukbae/ETRI/Semantic/semantic_transmission/07_downstream/timesformer/TimeSformer_divST_8x32_224_TEST.yaml",
+    "both_sha256": "4b5767db75771e16fc26faf3fc936f9ec1be387147112e50ee16173635b1e48c",
+    "resolved_to_same_file": true,
+    "bsu_reference_changed": false,
+    "watch_caused_failure": false
+  },
+  "fix": "Verify both recorded and active config bytes against the frozen digest; retain all reference/runtime/input/code checks.",
+  "recovery": {
+    "original_protocol_and_job_preserved": true,
+    "completed_receipts_preserved": 210,
+    "allowed_code_change": "Only the pinned action validator replacement",
+    "reconstruction_rerun": false,
+    "original_output": "outputs/lgvsc_kinetics_matched",
+    "new_action_output": "recovery/action_config_path_v1/action",
+    "backup": ".local/deployment/lgvsc_action_path_fix_20261015",
+    "remote": "semantic-pc (sangukcom)",
+    "terminal_session": "lgvsc_kinetics",
+    "terminal_exit_code": 0
+  },
+  "tests": {
+    "tests": 66,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "checks": {
+    "public_docs": "PASS: 8 files, 499 links",
+    "bash_syntax": "PASS",
+    "git_diff_check": "PASS"
+  },
+  "final": {
+    "status": {
+      "status": "COMPLETE",
+      "total": 14,
+      "transmitted": 14,
+      "reconstructed": 14,
+      "action_evaluated": 14,
+      "mode": "action-recovery",
+      "recovery": "action_config_path_v1"
+    },
+    "final_status": "COMPLETE_RATE_QUALITY_ACTION_COMPARISON",
+    "action": {
+      "original": {
+        "videos": 14,
+        "top1_correct": 12,
+        "top1_percent": 85.71428571428571,
+        "top5_correct": 14,
+        "top5_percent": 100.0
+      },
+      "bsu_context": {
+        "videos": 14,
+        "top1_correct": 12,
+        "top1_percent": 85.71428571428571,
+        "top5_correct": 14,
+        "top5_percent": 100.0
+      },
+      "lgvsc": {
+        "videos": 14,
+        "top1_correct": 12,
+        "top1_percent": 85.71428571428571,
+        "top5_correct": 13,
+        "top5_percent": 92.85714285714286
+      }
+    },
+    "rate": {
+      "lgvsc_channel_uses": 1407617,
+      "bsu_channel_uses": 4392383,
+      "denominator": 1843015680,
+      "lgvsc_cbr": 0.0007637574738376615,
+      "bsu_cbr": 0.002383258616660277,
+      "bsu_over_lgvsc": 3.120439011464056,
+      "bsu_change_percent": 212.0439011464056
+    },
+    "quality_lgvsc": {
+      "psnr_db": 17.375533869749923,
+      "ssim": 0.6119546422588745,
+      "lpips_vgg": 0.3765435674055689,
+      "clip": 0.9588074938072445,
+      "dists": 0.15337547464514842
+    },
+    "unchanged_original_receipts": {
+      "protocol.json": true,
+      "action_job.json": true
+    },
+    "unchanged_completed_receipts": 210,
+    "action_records": 14,
+    "action_inference_seconds": 4.670627161744051,
+    "action_summary_verified": true,
+    "recovery_log": "/home/sangukbae/ETRI/Semantic/semantic_transmission/outputs/lgvsc_kinetics_matched/logs/action_recovery_1792038741655309902.log",
+    "report": "/home/sangukbae/ETRI/Semantic/semantic_transmission/outputs/lgvsc_kinetics_matched/RESULT.json",
+    "pane": "1 0"
+  },
+  "implementation_sha256": {
+    "src/semantic_transmission/lgvsc_kinetics_action.py": "4793bffbcd63fd60eca58763377723d1893e40177bf25ad4e2583f5221b7a899",
+    "src/semantic_transmission/lgvsc_kinetics_recovery.py": "23517f80f8abff1611067f2e014b34e1e1f98354eff736a8de71946cb65dd887",
+    "scripts/recover_lgvsc_kinetics_action.sh": "c398b058e3ce58453d0b109e56e4e6fdb5fd9e184c22562b5c7fb07a0a621895"
+  },
+  "evidence_sha256": {
+    "outputs/lgvsc_kinetics_action_path_fix_20261015/action_config_path_v1/action/RESULT.json": "7dd4338416f5e0d95cc10a28e4fba421c649b99a240853042ff9451c7adb9a7f",
+    "outputs/lgvsc_kinetics_action_path_fix_20261015/action_config_path_v1/action/predictions/kinetics_001_a393e9d3_lgvsc.json": "1038ce5147b5ea4811e4c5ba6edbceb6c16886d6db2a109f45720086b07b431e",
+    "outputs/lgvsc_kinetics_action_path_fix_20261015/action_config_path_v1/action/predictions/kinetics_002_5e11db4c_lgvsc.json": "ccea4a8ae0cdf0dd9cc283de3274a5d7160f7290ac383ddc4f0a8d781421ba72",
+    "outputs/lgvsc_kinetics_action_path_fix_20261015/action_config_path_v1/action/predictions/kinetics_003_5d588509_lgvsc.json": "21fe9d588703111e20077721ae0017abfc4b52027d65817b49dfb475a636ac3c",
+    "outputs/lgvsc_kinetics_action_path_fix_20261015/action_config_path_v1/action/predictions/kinetics_004_afa8dee0_lgvsc.json": "fd71d8a50765a75cc6f72853ce3ef6f5dbafa1c9095cc95c30d56fe1c20c39e4",
+    "outputs/lgvsc_kinetics_action_path_fix_20261015/action_config_path_v1/action/predictions/kinetics_005_11836d73_lgvsc.json": "cdc6c4a04aea0d64feb8ecd73813d1cbd1cfae6a840a44f9dd47ccb04f72d5cc",
+    "outputs/lgvsc_kinetics_action_path_fix_20261015/action_config_path_v1/action/predictions/kinetics_006_ecbad330_lgvsc.json": "2b5c39d68f47f5a9fe30fb3fbb233139f1e853519a26dd2e3e88c4e51f13ebec",
+    "outputs/lgvsc_kinetics_action_path_fix_20261015/action_config_path_v1/action/predictions/kinetics_007_91361599_lgvsc.json": "b1a4baa262e9d470b381550a7b8f17cca354ca694bbcf86488a2e35400b8a18b",
+    "outputs/lgvsc_kinetics_action_path_fix_20261015/action_config_path_v1/action/predictions/kinetics_008_278ecb48_lgvsc.json": "10508ca09b1cd099c9e49f87b4560b5b5d868516f20089ef307babb60079a158",
+    "outputs/lgvsc_kinetics_action_path_fix_20261015/action_config_path_v1/action/predictions/kinetics_009_eb51ffae_lgvsc.json": "3ff137c591f3398f52a5879dc24f17965d571ac5801e7ed7053feb4af64c527b",
+    "outputs/lgvsc_kinetics_action_path_fix_20261015/action_config_path_v1/action/predictions/kinetics_010_2b3cec91_lgvsc.json": "072e2e7121299508c7ccd070709a50fbec81c502759cda15c97f2c27551e54f6",
+    "outputs/lgvsc_kinetics_action_path_fix_20261015/action_config_path_v1/action/predictions/kinetics_011_e0339900_lgvsc.json": "415b4ac77e94ed2355d3bb61fb90ade488a6ee58a37f0e956e69c131d1f91726",
+    "outputs/lgvsc_kinetics_action_path_fix_20261015/action_config_path_v1/action/predictions/kinetics_012_ebbc951a_lgvsc.json": "034c748efa3dd541973316d8b4e4ba2d8d8f33b7b9e2710226c82a9a6d4b8afc",
+    "outputs/lgvsc_kinetics_action_path_fix_20261015/action_config_path_v1/action/predictions/kinetics_013_64921930_lgvsc.json": "95bea6a15b6fae3c0c45973a53046110d4b81acdb5e40884f7f09df5e6892122",
+    "outputs/lgvsc_kinetics_action_path_fix_20261015/action_config_path_v1/action/predictions/kinetics_014_524c5c3f_lgvsc.json": "23478ccdbfaad3bb5d612e5d9de2107e452f69ce06ce127954569c8e6ac7f40d",
+    "outputs/lgvsc_kinetics_action_path_fix_20261015/action_config_path_v1/action/status.json": "5130914cfcbf051989bdaeb8c61bd39be4218b7b2ea8007ccdf910b6b84a80c2",
+    "outputs/lgvsc_kinetics_action_path_fix_20261015/action_config_path_v1/action/test.csv": "5eaf4bf253e9e947299135e8c7c0bad761a643dc909eedd26abba2e1675c6971",
+    "outputs/lgvsc_kinetics_action_path_fix_20261015/action_config_path_v1/action_job.json": "fe8660576472cca6994062f7fa4ed88b41e1de702d5bb2fd9a7875a840fdacb6",
+    "outputs/lgvsc_kinetics_action_path_fix_20261015/action_config_path_v1/receipt.json": "ab078bc70366b01e46675ba0972d3768caafdded0d59dc9448421dfdc6d3dc17",
+    "outputs/lgvsc_kinetics_action_path_fix_20261015/action_config_path_v1/status_before.json": "fd93e4c7c3349652ca392eda6bb43cde34432dfdcb6582d01fec0a06cb3a7897",
+    "outputs/lgvsc_kinetics_action_path_fix_20261015/remote_RESULT.json": "da5742eefce833b0833ed9ba02108614eb9138d88c30ae78f8ee43aacb915b11",
+    "outputs/lgvsc_kinetics_action_path_fix_20261015/remote_completed.json": "8a9fd8b94054ce96ace48504e5c4aabfc220ffe0f058d2531265124dbe86cc27",
+    "outputs/lgvsc_kinetics_action_path_fix_20261015/tests.log": "6e5e1aeb617f86ade41c192f2c46b15ec0f8a1f38cdbf561357fc4233bf966e0",
+    "outputs/lgvsc_kinetics_action_path_fix_20261015/tests.xml": "149df6bfd1d7c174b42e939b46a19676a32fc73ea477c191b2733092c9283127"
+  },
+  "independent_semantic_review": "PENDING",
+  "production_training_started": false
+}

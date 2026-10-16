@@ -39,10 +39,16 @@ def make_job(plan, results):
 
 def validate_job(job):
     base.verify_signature(job)
-    if (job['policy'] != POLICY or job['config'] != str(base.CONFIG)
-            or sha256(job['config']) != job['config_sha256']
-            or sha256(job['bsu_action_job']) != job['bsu_action_job_sha256']):
-        raise ValueError('action policy/BSU reference/config changed')
+    if job['policy'] != POLICY:
+        raise ValueError('action policy changed')
+    # A transferred BSU receipt can name a compatibility symlink or a byte-identical
+    # copy. configure() loads CONFIG, so verify both files against the frozen hash.
+    if sha256(job['config']) != job['config_sha256']:
+        raise ValueError('recorded action config bytes changed: ' + job['config'])
+    if sha256(base.CONFIG) != job['config_sha256']:
+        raise ValueError('active TimeSformer config bytes differ from BSU: ' + str(base.CONFIG))
+    if sha256(job['bsu_action_job']) != job['bsu_action_job_sha256']:
+        raise ValueError('BSU action reference changed: ' + job['bsu_action_job'])
     old = read(job['bsu_action_job']); base.validate_evaluation(old)
     if job['runtime'] != old['runtime'] or job['evaluation'] != evaluation_config(old):
         raise ValueError('TimeSformer conditions differ from BSU')

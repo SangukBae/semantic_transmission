@@ -206,3 +206,26 @@ def test_action_rejects_mismatched_bsu_comparison(tmp_path,monkeypatch,mutation)
     else:Path(job['rows'][0]['path']).write_bytes(b'changed')
     job=base.signed({k:v for k,v in job.items() if k!='signature'})
     with pytest.raises(ValueError):action.validate_job(job)
+
+
+@pytest.mark.parametrize('kind', ['symlink', 'copy'])
+def test_action_accepts_relocated_identical_config(tmp_path, monkeypatch, kind):
+    job = action_fixture(tmp_path, monkeypatch)
+    relocated = tmp_path/'relocated.yaml'
+    if kind == 'symlink': relocated.symlink_to(base.CONFIG)
+    else: relocated.write_bytes(base.CONFIG.read_bytes())
+    job = base.signed(dict({k:v for k,v in job.items() if k != 'signature'}, config=str(relocated)))
+    action.validate_job(job)
+
+
+@pytest.mark.parametrize('target', ['recorded', 'active', 'reference'])
+def test_action_path_compatibility_still_rejects_changed_bytes(tmp_path, monkeypatch, target):
+    job = action_fixture(tmp_path, monkeypatch)
+    recorded = tmp_path/'recorded.yaml'; active = tmp_path/'active.yaml'
+    recorded.write_bytes(base.CONFIG.read_bytes()); active.write_bytes(base.CONFIG.read_bytes())
+    monkeypatch.setattr(base, 'CONFIG', active)
+    job = base.signed(dict({k:v for k,v in job.items() if k != 'signature'}, config=str(recorded)))
+    path = {'recorded':recorded, 'active':active, 'reference':Path(job['bsu_action_job'])}[target]
+    path.write_bytes(b'changed')
+    error = {'recorded':'recorded action config', 'active':'active TimeSformer config', 'reference':'BSU action reference'}[target]
+    with pytest.raises(ValueError, match=error): action.validate_job(job)
