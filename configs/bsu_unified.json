@@ -1,0 +1,25 @@
+{
+  "policy": "bsu_unified_received_video_v1",
+  "status": "experimental_requires_trained_adapter",
+  "qps": [32, 24, 16],
+  "strides": [2, 4],
+  "scales": [1, 2],
+  "motion_threshold": 12.0,
+  "cut_threshold": 40.0,
+  "window_frames": 17,
+  "window_overlap": 5,
+  "diffusion_steps": 12,
+  "start_noise": 0.3,
+  "cfg_scale": 3.0,
+  "adapter_width": 32,
+  "max_rgb_correction": 8.0,
+  "snr_db": 10.0,
+  "channel_seed": 42,
+  "seed": 2025,
+  "references": {
+    "multimodal_compressed_guide": "https://arxiv.org/abs/2512.00408",
+    "compression_conditioned_video_refinement": "https://arxiv.org/abs/2512.05016",
+    "decoded_feature_semantic_guidance": "https://arxiv.org/abs/2512.07480",
+    "rate_dependent_refinement_strength": "https://arxiv.org/abs/2608.20515"
+  }
+}
