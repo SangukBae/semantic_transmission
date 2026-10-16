@@ -119,3 +119,19 @@ def test_flow_supervision_has_zero_loss_for_exact_velocity():
     time = torch.tensor([200.]); z = .8*target+.2*noise
     loss, _ = flow_objective(target-noise, target, noise, z, time)
     assert float(loss) < 1e-6
+
+
+def test_fresh_receiver_job_does_not_need_sender_paths(tmp_path, monkeypatch):
+    from semantic_transmission import unified_bsu as u
+    from semantic_transmission import bsu_dcvc_keys, bsu_dense_validation
+    data = packet(); received = tmp_path / 'received.bin'; received.write_bytes(data)
+    seen = {}
+    class Codec:
+        def __init__(self, vendor, checkpoints):
+            seen['fresh'] = True
+    monkeypatch.setattr(bsu_dcvc_keys, 'Codec', Codec)
+    monkeypatch.setattr(u, 'recover_base', lambda *args: np.zeros((17, 64, 96, 3), np.uint8))
+    monkeypatch.setattr(bsu_dense_validation, 'save_movie', lambda *args: None)
+    u.worker('decode', dict(output=str(tmp_path), packet=str(received),
+                           runtime=dict(vendor='shared', checkpoints='shared')))
+    assert seen['fresh'] and core.read(tmp_path / 'base/audit.json')['source_used'] is False
