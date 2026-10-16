@@ -24,6 +24,18 @@ bash scripts/train_bsu_unified_etri.sh run
 bash scripts/train_bsu_unified_etri.sh status
 ```
 
+2026-10-16 원격 Linux PC `sangukcom`에는 `feat/bsu-unified` 브랜치와 같은 입력을 배포했다.
+원격 터미널에서 다음과 같이 시작한다. [배포·실행 검증 기록](validation/2026-10-16-bsu-unified-etri-remote.json)
+
+```bash
+cd /home/sangukbae/ETRI/Semantic/semantic_transmission
+bash scripts/train_bsu_unified_etri.sh run
+```
+
+별도 터미널에서 같은 디렉터리의 `bash scripts/train_bsu_unified_etri.sh status`로 확인한다.
+Git에 포함되지 않는 원본·프레임·의미 패킷·가중치·전용 Python 환경도 준비해야 하므로,
+다른 새 컴퓨터에서는 `git pull`만으로 실행 준비가 완료되지는 않는다.
+
 기본 출력은 `outputs/bsu_unified_etri_training_v2`다. 이 개선 작업에서는 본학습을 자동 실행하지 않는다.
 기존 7시간 명령의 출력과 별개이며 이전 데이터·가중치를 덮어쓰지 않는다.
 새 설정은 **고정 7시간으로 학습 충분성을 판단하지 않는다.** 공동 학습 최소 2,000회와 균형 표집의
