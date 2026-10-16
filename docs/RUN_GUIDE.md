@@ -4,6 +4,51 @@
 
 **2026-10-16 기본 채택:** `run_bsu.sh`는 DCVC-RT + Practical-RIFE4.25와 `combined_context` 대체 경로를 실행한다. QP32·2프레임 간격·최소 의미 키 5개를 고정한다. 기존 `run_bsu_webvid.sh`·`run_bsu_kinetics.sh`와 모듈명 `bsu_default.py`는 이전 생성 배치의 재현·재개용이다. 적응형 간격·QP 탐색은 기본에 포함하지 않는다.
 
+<a id="bsu-unified-etri-training"></a>
+## 다양한 영상·긴 영상을 위한 통합 BSU 학습
+
+[`ETRI 학습 설정`](../configs/bsu_unified_training_etri.json)은 전체 원본 시간축에서 장면 전환과
+시작·중간·끝을 포함하는 53·101·197프레임 연속 구간을 선택한다. 짧은 원본은 실제 길이로 줄인다.
+기존 학습/검증/평가 분할을 유지하고 ETRI 평가 원본·같은 원본의 확장본을 제외한 TVSum을 추가한다.
+원본별 두 압축 예산(프레임당 768/1536 복소 채널 사용)을 실제 송수신으로 준비한다.
+[데이터 범위](DATA.md#bsu-unified-etri-training) · [학습과 긴 영상 처리의 범위](MODEL_ARCHITECTURE.md#bsu-unified-etri-training)
+
+```bash
+# 원본·분할·프레임 해시·가중치·코드를 동결하고 계획만 확인; 학습/GPU 추론 없음
+bash scripts/train_bsu_unified_etri.sh plan
+
+# 실제 데이터 준비 → 학습 → 고정 검증 영상 복원을 반복
+bash scripts/train_bsu_unified_etri.sh run
+
+# 읽기 전용 진행 상태
+bash scripts/train_bsu_unified_etri.sh status
+```
+
+기본 출력은 `outputs/bsu_unified_etri_training_v2`다. 이 개선 작업에서는 본학습을 자동 실행하지 않는다.
+기존 7시간 명령의 출력과 별개이며 이전 데이터·가중치를 덮어쓰지 않는다.
+새 설정은 **고정 7시간으로 학습 충분성을 판단하지 않는다.** 공동 학습 최소 2,000회와 균형 표집의
+완전한 순회 최소 2회를 충족한 뒤, 검증 손실과 실제 영상 검증 목적값이 모두 정체되면 중단한다.
+안전 상한은 총 100,000회이며, 상한 도달은 수렴과 구별한다. 사용자가 시간 상한을 원하면
+`run --seconds 25200`을 지정한다. 이는 재개를 포함한 누적 학습 시간이며 데이터 준비·영상 평가 시간은 별도다.
+수렴까지의 ETA는 알 수 없고 화면의 백분율은 명시된 업데이트 상한 대비 비율이다.
+
+검증 손실은 고정 난수 2개·노이즈 시점 2개로 계산하고 데이터셋/원본별 평균으로 집계한다.
+1,000회마다 학습 프로세스를 종료해 GPU 메모리를 해제한 뒤, 검증 12원본 중 사전에 고정한 6원본에서
+60초·120초 TVSum과 짧은 WebVid/Kinetics 구간을 실제 패킷·독립 수신·생성·최종 MP4까지 평가한다.
+동일 입력·예산의 DCVC/RIFE 기준선, 화질과 시간 오차, 초 단위/최악 구간을 함께 기록한다.
+검증 비용은 길이와 장면에 따라 크므로 전체 완료 시간을 7시간으로 예상하지 않는다.
+
+`best_loss.json`은 손실 기준, `best_candidate_quality.json`은 영상 목적값 기준 후보다.
+`best_quality.json`은 모든 등록 영상의 예산·PSNR·LPIPS·평균/최악 1초 시간 오차 허용치를 통과한 후보 중
+최선일 때만 생성한다. 이 파일이 없으면 품질 기준을 통과한 체크포인트가 없는 것이다.
+`controller.json`에는 `VALIDATION_PLATEAU`, `VALIDATION_PLATEAU_QUALITY_TARGET_NOT_MET`,
+`MAX_UPDATES_WITHOUT_CONFIRMED_PLATEAU`, `TIME_BUDGET_WITHOUT_CONFIRMED_PLATEAU`를 구별한다.
+정체는 등록된 검증 목적값의 운영상 중단 조건이며 독립 ETRI 의미 평가나 충분한 학습의 증명은 아니다.
+
+Ctrl+C/SIGTERM은 현재 optimizer update를 끝내고 두 학습 모듈·optimizer·scheduler·난수·데이터 순서·
+누적 시간·검증 이력을 저장한다. 같은 `run`으로 재개하면 미완료 영상 검증을 먼저 끝낸다.
+입력·코드·설정을 바꿀 때는 새 `--root`를 사용한다. 평가 원본을 학습에 넣어 재개하지 않는다.
+
 <a id="bsu-unified"></a>
 ## 통합 BSU 구현·학습·복원
 
@@ -24,7 +69,7 @@ DCVC-RT의 C++ 엔트로피 확장만 이 환경에 빌드한다. 확장 패키�
 현재 Python 3.10에서 빌드하므로 실제 부호화·복호화 왕복을 설치 마지막에 검사한다.
 Open-Sora 학습·추론은 기존 GPU 라이브러리를 사용한다.
 
-**본학습 명령:** 다음 명령은 데이터 준비 후 최대 7시간의 학습을 실행한다.
+**기존 17프레임 파일럿 명령:** 다음 명령은 데이터 준비 후 최대 7시간의 학습을 실행한다.
 데이터 준비 시간은 7시간에 포함되지 않는다. 이 명령은 이번 구현 작업에서 자동 실행하지 않는다.
 
 ```bash
@@ -90,7 +135,8 @@ reference JSON은 `source_hashes`(0.png부터의 SHA256 매핑), `fps`, `movie`,
 학습된 토큰 인코더·디코더와 조건 어댑터가 하나의 export에 들어가며,
 송신부와 수신부가 같은 SHA256의 export를 사용한다. [구조와 논문별 적용 범위](MODEL_ARCHITECTURE.md#bsu-unified-sender)
 
-본학습 명령은 다음과 같다. 데이터 준비 후 최대 7시간 학습이며 이 작업에서는 자동 실행하지 않았다.
+기존 17프레임 파일럿 명령은 다음과 같다. 다양한 영상·긴 영상의 후속 학습에는
+[ETRI 학습 실행기](#bsu-unified-etri-training)를 사용한다. 아래 명령은 데이터 준비 후 최대 7시간 학습이며 자동 실행하지 않았다.
 새 root를 사용하며, 아래의 짧은 검증 캐시 3개만을 본학습 데이터로 사용하는 명령이 아니다.
 
 ```bash

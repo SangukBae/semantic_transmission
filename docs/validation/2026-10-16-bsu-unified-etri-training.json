@@ -1,0 +1,261 @@
+{
+  "date": "2026-10-16",
+  "status": "IMPLEMENTED_DATA_PLAN_AND_BOUNDED_GPU_TRAINING_VERIFIED_MAIN_TRAINING_NOT_STARTED",
+  "training_improvement_proven": false,
+  "sufficient_training_verified": false,
+  "main_training_started": false,
+  "main_data_preparation_started": false,
+  "long_60_120_second_reconstruction_completed": false,
+  "independent_semantic_evaluation": false,
+  "main_plan": {
+    "root": "outputs/bsu_unified_etri_training_v2",
+    "signature": "48cfcc52cef920893a478286e3ca901ddc275c2f24595ae42f1cb8545b5dfed7",
+    "sources": {
+      "train": 37,
+      "validation": 12
+    },
+    "datasets": {
+      "kinetics": {
+        "train": 0,
+        "validation": 4
+      },
+      "tvsum": {
+        "train": 13,
+        "validation": 4
+      },
+      "webvid": {
+        "train": 24,
+        "validation": 4
+      }
+    },
+    "sequences": {
+      "train": 838,
+      "validation": 48
+    },
+    "window_examples": 7782,
+    "sequence_frames": [
+      53,
+      101,
+      197
+    ],
+    "source_duration_seconds": [
+      10.0,
+      10.0,
+      10.0,
+      10.0,
+      130.0,
+      98.125,
+      167.04166666666666,
+      133.29166666666666,
+      167.04166666666666,
+      199.25,
+      647.5,
+      141.29166666666666,
+      233.91666666666666,
+      274.1666666666667,
+      164.54166666666666,
+      156.83333333333334,
+      216.5,
+      450.8333333333333,
+      148.91666666666666,
+      194.125,
+      143.625,
+      20.583333333333332,
+      29.791666666666668,
+      26.5,
+      29.791666666666668,
+      30.041666666666668,
+      30.041666666666668,
+      11.583333333333334,
+      17.5,
+      8.5,
+      12.75,
+      7.5,
+      15.375,
+      41.791666666666664,
+      10.833333333333334,
+      10.0,
+      6.25,
+      27.708333333333332,
+      16.333333333333332,
+      20.291666666666668,
+      13.125,
+      15.0,
+      20.333333333333332,
+      12.25,
+      14.625,
+      7.25,
+      6.375,
+      10.0,
+      14.0
+    ],
+    "quality_seconds": [
+      10.0,
+      10.0,
+      60.0,
+      120.0,
+      10.833333333333334,
+      16.333333333333332
+    ],
+    "excluded_originals": 33,
+    "long_term_generator_memory": false,
+    "training_completed": false,
+    "sufficient_training_verified": false
+  },
+  "policies": {
+    "variable_sequence_frames": [
+      53,
+      101,
+      197
+    ],
+    "received_window_frames": 17,
+    "window_overlap": 5,
+    "sequence_gradient_accumulation": 2,
+    "loss_validation_noise_cases": 4,
+    "quality_selection": "six registered validation sources including continuous 60 and 120 seconds",
+    "stop": "loss and video quality plateau after minimum joint updates and full source coverage; separate time/update cap statuses",
+    "held_out_etri_originals_used": false,
+    "tvsum_caption_scope": "legacy source-reviewed AI auxiliary conditions; fixed flow=1.0, not newly measured flow; not semantic ground truth"
+  },
+  "checks": {
+    "pytest_passed": 80,
+    "test_files": [
+      "tests/test_unified_bsu.py",
+      "tests/test_unified_bsu_tokens.py",
+      "tests/test_unified_bsu_sender_validation.py",
+      "tests/test_unified_bsu_training_policy.py",
+      "tests/test_dense_video_transport.py",
+      "tests/test_adapter_training.py",
+      "tests/test_terminal_gpu_progress.py"
+    ],
+    "gpu_training_modules_match_final_code": true,
+    "controller_resume_and_selection_cpu_verified": true,
+    "public_docs": {
+      "passed": true,
+      "files": 8,
+      "local_links_and_anchors": 569
+    },
+    "git_diff_check": true,
+    "shell_syntax": true,
+    "python_compile": true,
+    "main_status_command_verified": true
+  },
+  "gpu_smoke": {
+    "root": "outputs/bsu_unified_etri_sequence_smoke_20261016_v1",
+    "smoke_only": true,
+    "source_counts": {
+      "train": 2,
+      "validation": 1
+    },
+    "channels": [
+      {
+        "name": "webvid_004_10d5cd04_sequence_smoke",
+        "frames": 53,
+        "bit_errors": 0,
+        "channel_uses": 80640,
+        "budget_met": true
+      },
+      {
+        "name": "webvid_014_11e49905_sequence_smoke",
+        "frames": 53,
+        "bit_errors": 0,
+        "channel_uses": 23040,
+        "budget_met": true
+      },
+      {
+        "name": "webvid_024_7bfbcc91_sequence_smoke",
+        "frames": 53,
+        "bit_errors": 0,
+        "channel_uses": 20736,
+        "budget_met": true
+      }
+    ],
+    "codec_warmup_updates": 1,
+    "joint_updates": 2,
+    "backbone_frozen": true,
+    "resume": {
+      "step": 3,
+      "resumed_from_step": 2,
+      "history_prefix_preserved": true,
+      "fields": [
+        "adapter",
+        "cpu_rng",
+        "cuda_rng",
+        "innovation",
+        "numpy_rng",
+        "optimizer",
+        "scheduler",
+        "signature",
+        "state",
+        "step"
+      ],
+      "optimizer_steps_before": [
+        1,
+        2
+      ],
+      "optimizer_steps_after": [
+        2,
+        3
+      ],
+      "adapter_tensors_changed": 6,
+      "sender_tensors_changed": 17,
+      "training_result_sha256": "b55646eb9838f004e07375ad700ab8328234bd12c3c57397973ba7e75face6ce",
+      "peak_gpu_gib": 4.512172698974609,
+      "validation": [
+        {
+          "step": 0,
+          "loss": 0.5695127546787262
+        },
+        {
+          "step": 1,
+          "loss": 0.5688837319612503
+        },
+        {
+          "step": 2,
+          "loss": 0.5681954622268677
+        },
+        {
+          "step": 3,
+          "loss": 0.5673211067914963
+        }
+      ]
+    }
+  },
+  "metric_check": {
+    "root": "outputs/bsu_unified_etri_metric_smoke_20261016_v1",
+    "scope": "re-evaluation of existing 17-frame outputs; no new generated video",
+    "final_mp4_domain": true,
+    "full_perceptual_metrics": true,
+    "old_receiver_run": "outputs/bsu_unified_receiver_smoke_20261016_v1"
+  },
+  "command": "bash scripts/train_bsu_unified_etri.sh run",
+  "artifact_sha256": {
+    "outputs/bsu_unified_etri_training_v2/protocol.json": "49bb9dcd3d69578d3f40045f3d4de4e5d03fdc7ae3c09c7375a4f2fd2b6c4bfa",
+    "outputs/bsu_unified_etri_training_v2/plan.json": "0a2378aeff48d22c40b0321444aebd89bc0ec707867694cc74312643cc0abf88",
+    "outputs/bsu_unified_etri_sequence_smoke_20261016_v1/protocol.json": "b2c08f662eb822849988429bafe518be5d8e39b87d2bc9a0a69aed615c8a52ef",
+    "outputs/bsu_unified_etri_sequence_smoke_20261016_v1/prepared.json": "ebf6e0f02eedd60bc183476e9a67ba9d23367f0ba701a39247e2656b97f0ca95",
+    "outputs/bsu_unified_etri_sequence_smoke_20261016_v1/training_result.json": "b55646eb9838f004e07375ad700ab8328234bd12c3c57397973ba7e75face6ce",
+    "outputs/bsu_unified_etri_sequence_smoke_20261016_v1/latest.json": "381d07d8c2dc6e90275d1b51940f8e492a8fc5e146138fd837c47ebab0f2b059",
+    "/home/sangukbae/semantic_transmission/outputs/bsu_unified_etri_sequence_smoke_20261016_v1/checkpoints/step_0000003_7c062c4b72.pt": "414fe86948d8e325e11aad72a55e711031f377aa6352249e5cb5b6f33b51519e",
+    "outputs/bsu_unified_etri_sequence_smoke_20261016_v1/export.json": "39b83e1830f68c775902345465df68d48e6785fd89812d9acca3bad098d68c92",
+    "/home/sangukbae/semantic_transmission/outputs/bsu_unified_etri_sequence_smoke_20261016_v1/exports/step_0000003.pt": "66ea76593d0a55dbaf7274a1a2ef8b640795b1d4671390744c1c3a546ca88c45",
+    "outputs/bsu_unified_etri_metric_smoke_20261016_v1/quality.json": "69bee218c0c2d8b5a7383104fae147057ff6becef3dc60c94219c8d2fd3b209d"
+  },
+  "implementation_sha256": {
+    "src/semantic_transmission/unified_bsu.py": "663b26d567f588359e1dbc7349f937282a234649e8c2d057fc75317d3467ecd7",
+    "src/semantic_transmission/unified_bsu_core.py": "41e4e7e5287710f024b960b582577e2286a91045f18144c1008f21359414fed2",
+    "src/semantic_transmission/unified_bsu_adapter.py": "ccd3c39d4730532d1708b26935a7d811e111c30b73a2ece0c616eeb3c764726f",
+    "src/semantic_transmission/unified_bsu_training.py": "cd021390e7bf4fa38b51fcd0aa723a768eecc75dfbd4dcce8446e6038f8d1701",
+    "src/semantic_transmission/unified_bsu_tokens.py": "35846934b0438138e8e2f7243029b397a82fbf1140c6791e12d250174bbce9e6",
+    "src/semantic_transmission/unified_bsu_sender.py": "19cb7596907369cb72f23f8ce9055958a4f4a6c8fca6e393c7676d251ec1e262",
+    "src/semantic_transmission/unified_bsu_training_policy.py": "626d158911dc54a2a9fde8589ec5da0ead788c3bdd8433dafa9db7b61e7ce609",
+    "src/semantic_transmission/unified_bsu_training_quality.py": "8cf9872eae864fe8124e310e26ad78cbc9ab3b8fead2e90e78daaa57375c4472",
+    "src/semantic_transmission/unified_bsu_evaluate.py": "73f41a3385e428f1806f54021022bfbdd4bdf7dc77e29ae14afc1c7e03847702",
+    "src/semantic_transmission/official_quality.py": "e4b52561f7bf7f852f2e38de7dfad4e0d36ae3f67548059b32062487eda14e11",
+    "src/semantic_transmission/bsu_dcvc_keys.py": "a07b0de1014b7875697a39f91f5c1c42a5fdf5db8e9dc79a39b7b75cd96985ed",
+    "src/semantic_transmission/dense_temporal_receiver.py": "6efaf9586adf876541435da2bd7c19625fa8d207b293a39fb39c24b8a31bcd23",
+    "src/semantic_transmission/dense_generation_runtime.py": "ec7f199e194962322b9250bb4ff4e5d1254f29d2c00537df1b5243c043a871d3",
+    "src/semantic_transmission/precision_text_cache.py": "5a401b46e0063f016247474edc8ed2859a0f158c480e4dba1c220e0b6a35e940",
+    "src/semantic_transmission/adapter_training_memory.py": "982ea583522fd7c3d60e8122b3cff7f39228aa89682541f1f756ad83af28cb98"
+  }
+}
