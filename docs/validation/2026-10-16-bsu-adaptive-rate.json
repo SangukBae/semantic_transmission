@@ -1,0 +1,320 @@
+{
+  "status": "COMPLETE_IMPLEMENTATION_AND_DEVELOPMENT_VALIDATION",
+  "date": "2026-10-16",
+  "baseline": {
+    "channel_uses": 2470155,
+    "bsu_saving_percent": 43.76275930400423,
+    "ratio_to_lgvsc": 1.7548487976487923,
+    "routes": {
+      "bsu": 6,
+      "neural": 8
+    },
+    "mean_quality": {
+      "psnr_db": 26.305288979471243,
+      "ssim": 0.8236486343255097,
+      "lpips_vgg": 0.2346198803371057,
+      "clip": 0.9690375938901639,
+      "dists": 0.11849846159233533
+    },
+    "mean_temporal": {
+      "flow_error_mean": 0.45136387735376543,
+      "cadence_error_mean": 0.31418035542959566,
+      "false_freeze_rate": 0.15215272043562303
+    },
+    "action": {
+      "top1_correct": 12,
+      "top5_correct": 14,
+      "videos": 14
+    },
+    "strict_all_metric_passes": 14
+  },
+  "conditions": {
+    "videos": 14,
+    "frames": 3333,
+    "width": 576,
+    "height": 320,
+    "fps": 24,
+    "snr_db": 10,
+    "digital_seeds": [
+      42,
+      1042,
+      2042
+    ],
+    "channel": "simulated actual LDPC(6144,9216),16QAM,AWGN",
+    "cohort": "Previously examined Kinetics author-subset development videos",
+    "guard_thresholds": {
+      "psnr_loss_db": 0.1,
+      "ssim_loss": 0.005,
+      "lpips_increase": 0.01,
+      "dists_increase": 0.01,
+      "clip_loss": 0.002,
+      "flow_increase": 0.02,
+      "cadence_increase": 0.02,
+      "freeze_increase": 0.005,
+      "boundary_increase": 0.05
+    },
+    "source_hashes_and_frame_mapping_verified": true,
+    "source_at_receiver": false,
+    "shared_model_weights_preinstalled": true,
+    "physical_radio_overhead_included": false,
+    "new_training": false
+  },
+  "summary": {
+    "temporal": {
+      "channel_uses": 2470155,
+      "saving_vs_new_bsu_percent": 0.0,
+      "ratio_to_lgvsc": 1.7548487976487923,
+      "mean_quality": {
+        "psnr_db": 26.305288979471243,
+        "ssim": 0.8236486343255097,
+        "lpips_vgg": 0.2346198803371057,
+        "clip": 0.9690375938901639,
+        "dists": 0.11849846159233533
+      },
+      "mean_temporal": {
+        "flow_error_mean": 0.45136387735376543,
+        "cadence_error_mean": 0.31418035542959566,
+        "false_freeze_rate": 0.15215272043562303
+      },
+      "quality_motion_passes": 14,
+      "changed_videos": 0,
+      "action": {
+        "videos": 14,
+        "top1_correct": 12,
+        "top5_correct": 14
+      },
+      "action_regressions": [],
+      "performance_preserved": true
+    },
+    "quantization": {
+      "channel_uses": 2444811,
+      "saving_vs_new_bsu_percent": 1.0260084893458088,
+      "ratio_to_lgvsc": 1.7368439000097327,
+      "mean_quality": {
+        "psnr_db": 26.293954524295884,
+        "ssim": 0.8233862203939624,
+        "lpips_vgg": 0.23483191075363766,
+        "clip": 0.9691180295067934,
+        "dists": 0.11847282127070595
+      },
+      "mean_temporal": {
+        "flow_error_mean": 0.4518062676184915,
+        "cadence_error_mean": 0.31416546870488005,
+        "false_freeze_rate": 0.15229575826733094
+      },
+      "quality_motion_passes": 14,
+      "changed_videos": 4,
+      "action": {
+        "videos": 14,
+        "top1_correct": 12,
+        "top5_correct": 14
+      },
+      "action_regressions": [],
+      "performance_preserved": true
+    },
+    "joint": {
+      "channel_uses": 2442507,
+      "saving_vs_new_bsu_percent": 1.119281988377252,
+      "ratio_to_lgvsc": 1.7352070911334547,
+      "mean_quality": {
+        "psnr_db": 26.28961356372208,
+        "ssim": 0.8233533614948008,
+        "lpips_vgg": 0.23477300617960672,
+        "clip": 0.9691962852964139,
+        "dists": 0.11846235201642227
+      },
+      "mean_temporal": {
+        "flow_error_mean": 0.4520076057779987,
+        "cadence_error_mean": 0.3142357847197831,
+        "false_freeze_rate": 0.15245018557958295
+      },
+      "quality_motion_passes": 14,
+      "changed_videos": 5,
+      "action": {
+        "videos": 14,
+        "top1_correct": 12,
+        "top5_correct": 14
+      },
+      "action_regressions": [],
+      "performance_preserved": true
+    }
+  },
+  "phase1_summary": {
+    "temporal": {
+      "channel_uses": 2470155,
+      "saving_vs_new_bsu_percent": 0.0,
+      "ratio_to_lgvsc": 1.7548487976487923,
+      "mean_quality": {
+        "psnr_db": 26.305288979471243,
+        "ssim": 0.8236486343255097,
+        "lpips_vgg": 0.2346198803371057,
+        "clip": 0.9690375938901639,
+        "dists": 0.11849846159233533
+      },
+      "mean_temporal": {
+        "flow_error_mean": 0.45136387735376543,
+        "cadence_error_mean": 0.31418035542959566,
+        "false_freeze_rate": 0.15215272043562303
+      },
+      "quality_motion_passes": 14,
+      "changed_videos": 0,
+      "action": {
+        "videos": 14,
+        "top1_correct": 12,
+        "top5_correct": 14
+      },
+      "action_regressions": [],
+      "performance_preserved": true
+    },
+    "quantization": {
+      "channel_uses": 2444811,
+      "saving_vs_new_bsu_percent": 1.0260084893458088,
+      "ratio_to_lgvsc": 1.7368439000097327,
+      "mean_quality": {
+        "psnr_db": 26.293745234050895,
+        "ssim": 0.8233879376374883,
+        "lpips_vgg": 0.234843876124419,
+        "clip": 0.9691184654721952,
+        "dists": 0.11838878721878242
+      },
+      "mean_temporal": {
+        "flow_error_mean": 0.45189936074259124,
+        "cadence_error_mean": 0.3143405428758139,
+        "false_freeze_rate": 0.15231936292205636
+      },
+      "quality_motion_passes": 14,
+      "changed_videos": 4,
+      "action": {
+        "videos": 14,
+        "top1_correct": 12,
+        "top5_correct": 14
+      },
+      "action_regressions": [],
+      "performance_preserved": true
+    },
+    "joint": {
+      "channel_uses": 2444811,
+      "saving_vs_new_bsu_percent": 1.0260084893458088,
+      "ratio_to_lgvsc": 1.7368439000097327,
+      "mean_quality": {
+        "psnr_db": 26.293745234050895,
+        "ssim": 0.8233879376374883,
+        "lpips_vgg": 0.234843876124419,
+        "clip": 0.9691184654721952,
+        "dists": 0.11838878721878242
+      },
+      "mean_temporal": {
+        "flow_error_mean": 0.45189936074259124,
+        "cadence_error_mean": 0.3143405428758139,
+        "false_freeze_rate": 0.15231936292205636
+      },
+      "quality_motion_passes": 14,
+      "changed_videos": 4,
+      "action": {
+        "videos": 14,
+        "top1_correct": 12,
+        "top5_correct": 14
+      },
+      "action_regressions": [],
+      "performance_preserved": true
+    }
+  },
+  "audit": {
+    "status": "PASSED",
+    "videos": 14,
+    "variants": 3,
+    "fresh_movie_hashes": 5,
+    "channel_seeds_per_fresh_movie": 3,
+    "action_labels_used_for_selection": false,
+    "all_per_video_action_preserved": true,
+    "source_movie_hashes_match": true,
+    "receiver_jobs_exclude_source_paths": true,
+    "local_remote_runtime_modules_match": 16,
+    "phase1_minutes": 46.227178784211475,
+    "phase2_minutes": 22.4295615196228,
+    "total_experiment_minutes": 68.65674030383428
+  },
+  "implementation": {
+    "sender": "Actual source-paired trial reconstruction; 24-frame block allocation of spacing and QP; continuous predictive reference; full-stream guard before sending.",
+    "receiver": "Fresh independent DCVC decoder and RIFE; only the selected paid packet and fixed weights.",
+    "candidate_profiles": [
+      [
+        2,
+        31
+      ],
+      [
+        2,
+        28
+      ],
+      [
+        3,
+        32
+      ],
+      [
+        3,
+        36
+      ],
+      [
+        4,
+        40
+      ]
+    ],
+    "protected_baseline": "NEW BSU, not the older combined_context model",
+    "criteria": {
+      "psnr_loss_db": 0.1,
+      "ssim_loss": 0.005,
+      "lpips_increase": 0.01,
+      "dists_increase": 0.01,
+      "clip_loss": 0.002,
+      "flow_increase": 0.02,
+      "cadence_increase": 0.02,
+      "freeze_increase": 0.005,
+      "boundary_increase": 0.05
+    },
+    "selection_margin": 0.85,
+    "action_labels_used_for_selection": false,
+    "models_trained": false
+  },
+  "evidence": {
+    "final_result": "outputs/bsu_adaptive_rate_joint_20261016_v2/RESULT.json",
+    "final_result_sha256": "6f26e28d88db95e04939dcaaae2758aa801a097b078baf14538ac203255cb525",
+    "protocol": "outputs/bsu_adaptive_rate_joint_20261016_v2/protocol.json",
+    "per_video": "outputs/bsu_adaptive_rate_joint_20261016_v2/per_video.csv",
+    "local_audit": "outputs/bsu_adaptive_rate_joint_20261016_v2/local_audit.json",
+    "code_manifest": {
+      "adaptive_rate": "de4e9df364dc4ecec8755444bc6f529ad95ba9daa614f9dba9ae7e802480dd7b",
+      "adaptive_rate_codec": "d11b3ae6ea2d72a2a01a22eb0a94c77dcf4def708dcf9e46122defd0cea80c26",
+      "bsu_adaptive_rate": "3a1f2282cd0b51f0daca3ed3ed561a32c4292bf73ac7c98a321e47df3a113ae7",
+      "bsu_dcvc_keys": "a07b0de1014b7875697a39f91f5c1c42a5fdf5db8e9dc79a39b7b75cd96985ed",
+      "bsu_dense_neural": "1d3a76143a4bab47ff8451441c907046bf3e7500a2ea49605be4dbe2584937ef",
+      "bsu_dense_temporal": "f1e0c24a90479d415b725a3ede447fdcb5f8472d247566c468ddd9b6e4ec04cb",
+      "dense_temporal_receiver": "6efaf9586adf876541435da2bd7c19625fa8d207b293a39fb39c24b8a31bcd23",
+      "bsu_dense_router": "c23d7aead1c28eba1ecf5c7b057cb020c6ce0da3c281a404b58f5e5f62255052",
+      "bsu_dense_validation": "182941b0e7ee806db1c34cd0ffe13447ba8fa075b56876af33184b2a53f5ffb2",
+      "key_reduction_selection": "8e78caf1e833165fe7f4a1a163bbf6b9565d0fcf86ceb1a362672868b1bba568",
+      "official_quality": "e4b52561f7bf7f852f2e38de7dfad4e0d36ae3f67548059b32062487eda14e11",
+      "stutter_metrics": "7dd30a23e8d171736727626a609ca58f89978d512e0ff9a33e71d6371f98fada",
+      "bsu_key_reduction": "5b53e7258aa5170f8abb71712bbaa5924e8116e58f56f49bcb93e182a48959eb",
+      "metadata_channel": "6c7ded68b4ff5d63e64148fe9d7112be786c4ed8078138f3ae975dcd4dd8edd8",
+      "packets": "7c828b262b4e2eec7eea4e979a3e9fb5ca09760900208e4f930d217670ac4e5b",
+      "wire": "6066ec2706cc253be561ee71e147da6f9a52fedb95c633c40cfd94a5920e0259"
+    },
+    "cpu_tests_passed": 20,
+    "gpu_smoke": {
+      "uniform_qp_bitstream_identical": true,
+      "variable_qp_decode": true
+    },
+    "gpu": "sangukcom RTX4080",
+    "local_gpu_used": false
+  },
+  "conclusion": "Joint search saves 1.1193 percent against NEW BSU with all registered quality/motion guards and per-video action correctness preserved. Temporal-only adds no admitted savings; most gain comes from modest QP adaptation. This does not close the rate gap to LGVSC.",
+  "limitations": [
+    "14 development clips, not full Kinetics-400 or unseen generalization.",
+    "Only the 8 neural-route clips were optimized; 6 existing BSU-route clips retained.",
+    "Final joint result changes 5 clips; 9 keep verified existing outputs.",
+    "Quality preservation is within explicit tolerances, not bit-identical video or proof of all semantic details.",
+    "Offline candidate search adds encoder compute; full experiment time includes three ablations and evaluation, not production codec latency.",
+    "No new weights were trained; physical radio overhead excluded as in baseline."
+  ],
+  "command": "bash scripts/experiment_bsu_adaptive_rate.sh --extended-joint --reuse-trials outputs/bsu_adaptive_rate_20261016_v1 --root outputs/bsu_adaptive_rate_joint_20261016_v2"
+}
