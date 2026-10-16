@@ -1,0 +1,261 @@
+{
+  "date": "2026-10-16",
+  "policy": "bsu_unified_received_video_v1",
+  "status": "IMPLEMENTATION_AND_SHORT_GPU_TRAINING_VALIDATED_MAIN_TRAINING_NOT_STARTED",
+  "default_model_replaced": false,
+  "performance_improvement_proven": false,
+  "novelty_proven": false,
+  "paper_inspiration": {
+    "multimodal_compressed_guide": "https://arxiv.org/abs/2512.00408",
+    "compression_conditioned_video_refinement": "https://arxiv.org/abs/2512.05016",
+    "decoded_feature_semantic_guidance": "https://arxiv.org/abs/2512.07480",
+    "rate_dependent_refinement_strength": "https://arxiv.org/abs/2608.20515"
+  },
+  "scope": {
+    "reuses_existing_qwen_semantic_outputs": true,
+    "frozen_backbone": true,
+    "trainable_component": "received video latent + temporal activity + QP to STDiT token adapter",
+    "one_step_distillation": false,
+    "joint_codec_training": false,
+    "shared_preinstalled_weights_assumed": true,
+    "physical_radio_overhead_included": false
+  },
+  "checks": {
+    "pytest_passed": 43,
+    "pytest_files": [
+      "tests/test_unified_bsu.py",
+      "tests/test_dense_video_transport.py",
+      "tests/test_bsu_default.py",
+      "tests/test_bsu_adopted.py"
+    ],
+    "frozen_code_hashes_match_smoke_and_main_plan": true,
+    "dcvc_actual_two_frame_roundtrip_passed": true,
+    "source_free_receiver_job": true,
+    "public_docs": {
+      "passed": true,
+      "files": 8,
+      "local_links_and_anchors": 540
+    },
+    "git_diff_check": true,
+    "shell_syntax": true,
+    "python_compile": true
+  },
+  "short_training": {
+    "sources": {
+      "train": 2,
+      "validation": 1
+    },
+    "examples": 3,
+    "actual_codec_channel_fresh_decoder": true,
+    "steps": 3,
+    "resumed_from_step": 2,
+    "adapter_weights_changed": true,
+    "checkpoint": {
+      "path": "outputs/bsu_unified_smoke_20261016_v2/checkpoints/step_0000003_4036383a45.pt",
+      "sha256": "f4dbface008ac2c59fa886f371ca5a11771593543bd2dd26bf912262e548c90a"
+    },
+    "smoke_only": true,
+    "validation_losses": [
+      {
+        "step": 0,
+        "loss": 0.28524094820022583
+      },
+      {
+        "step": 2,
+        "loss": 0.28514984250068665
+      },
+      {
+        "step": 3,
+        "loss": 0.28531038761138916
+      }
+    ],
+    "validation_loss_improved": false,
+    "peak_torch_allocated_gpu_bytes": 4844908544
+  },
+  "reconstruction": {
+    "status": "COMPLETE_UNIFIED_RECONSTRUCTION",
+    "source": "kinetics_003 piano validation clip",
+    "frames": 17,
+    "fps": 24,
+    "duration_seconds": 0.7083333333333334,
+    "width": 576,
+    "height": 320,
+    "selected_coding": {
+      "qp": 24,
+      "scale": 2,
+      "stride": 2,
+      "indices": [
+        0,
+        2,
+        4,
+        6,
+        8,
+        10,
+        12,
+        14,
+        16
+      ]
+    },
+    "channel": {
+      "packet_bytes": 3324,
+      "information_bits": 26592,
+      "ldpc_k": 6144,
+      "ldpc_n": 9216,
+      "bits_per_symbol": 4,
+      "blocks": 5,
+      "padding_bits": 4128,
+      "coded_bits": 46080,
+      "complex_channel_uses": 11520,
+      "snr_db": 10.0,
+      "snr_definition": "Es/N0 per complex symbol",
+      "seed": 42,
+      "bit_errors": 0,
+      "backend": "sionna_ldpc5g_qam_awgn"
+    },
+    "budget": 13824,
+    "budget_met": true,
+    "refinement_audit": {
+      "max_absolute_rgb_change": 4,
+      "mean_gate": 0.6581426858901978,
+      "source_used": false,
+      "temporal_warping": false,
+      "semantic_preservation_proven": false,
+      "windows": 1,
+      "diffusion_steps": 12,
+      "checkpoint_sha256": "0ccbbfb1be6c6b726d118ed8562a0d13ea3d7c512c6ab8af39f23066618da214",
+      "initialization": "received_video_plus_partial_noise",
+      "one_step_distillation": false,
+      "quality_improvement_proven": false
+    },
+    "checkpoint_sha256": "0ccbbfb1be6c6b726d118ed8562a0d13ea3d7c512c6ab8af39f23066618da214",
+    "movie": "outputs/bsu_unified_receiver_smoke_20261016_v1/refined/reconstruction.mp4",
+    "movie_sha256": "b51dfcacff1743ba39875285ee791a38fde4f4e01487d627497f5031e483d221"
+  },
+  "quality": {
+    "definition": "Per-frame mean final MP4 metrics; SSIM is grayscale in official_quality. Basic RGB metrics are separate in source quality.json.",
+    "metrics": {
+      "base": {
+        "psnr_db": 28.280843227994495,
+        "ssim": 0.8633219607232543,
+        "lpips_vgg": 0.3014029036549961,
+        "clip": 0.9614401424632353,
+        "dists": 0.19182380507974064,
+        "frames": 17,
+        "shape": [
+          17,
+          320,
+          576,
+          3
+        ]
+      },
+      "generated": {
+        "psnr_db": 26.637680799410152,
+        "ssim": 0.8434484695511572,
+        "lpips_vgg": 0.3065560617867638,
+        "clip": 0.9547047334558824,
+        "dists": 0.19390470841351679,
+        "frames": 17,
+        "shape": [
+          17,
+          320,
+          576,
+          3
+        ]
+      },
+      "refined": {
+        "psnr_db": 28.309509843682456,
+        "ssim": 0.8640688033171328,
+        "lpips_vgg": 0.3008824499214397,
+        "clip": 0.9609231387867647,
+        "dists": 0.19266574523028204,
+        "frames": 17,
+        "shape": [
+          17,
+          320,
+          576,
+          3
+        ]
+      },
+      "native_resolution_predictive_reference": {
+        "psnr_db": 32.967770505525486,
+        "ssim": 0.9373491384752982,
+        "lpips_vgg": 0.18522605475257425,
+        "clip": 0.9866440716911765,
+        "dists": 0.1093006449587205,
+        "frames": 17,
+        "shape": [
+          17,
+          320,
+          576,
+          3
+        ]
+      }
+    },
+    "temporal_rgb_mae": {
+      "base": 1.9230079933449074,
+      "generated": 1.944730857566551,
+      "refined": 1.9231215865523728
+    },
+    "reference": "Same 17-frame source, native resolution QP24 stride2 DCVC/RIFE; not adopted BSU full-video benchmark.",
+    "reference_channel_uses": 18432,
+    "channel_saving_percent": 37.5,
+    "official_psnr_delta_db": -4.6582606618430304,
+    "independent_semantic_review": false,
+    "action_evaluation": false,
+    "joint_rate_quality_improvement": false,
+    "conclusion": "Transmission fell with spatial downsampling, but quality was worse than native-resolution predictive reference. Bounded refinement slightly helped PSNR/SSIM/LPIPS versus the same low-rate base; CLIP/DISTS/temporal RGB error worsened."
+  },
+  "main_training": {
+    "status": "PLANNED_MAIN_TRAINING_NOT_STARTED",
+    "signature": "4564242b6a5719c1560c76cda0ee68bedfe8956fb9e2ee5cfdb54900622e250a",
+    "sources": {
+      "train": 24,
+      "validation": 8
+    },
+    "examples": 64,
+    "seconds": 25200,
+    "data_preparation_started": false,
+    "training_started": false,
+    "command": "bash scripts/train_bsu_unified.sh run --root outputs/bsu_unified_training_v1 --seconds 25200",
+    "data_preparation_included_in_seconds": false
+  },
+  "artifact_sha256": {
+    "outputs/bsu_unified_smoke_20261016_v2/protocol.json": "c763bb24b6006f7be30de9eef2f520d2a2e50bae16bd350488c90dcd5b0d3ad9",
+    "outputs/bsu_unified_smoke_20261016_v2/prepared.json": "2ec6e893613ecd26db7cc6f71b9790687111561c4b4acb9b82cf59dd45094566",
+    "outputs/bsu_unified_smoke_20261016_v2/training_result.json": "575b956df14a05999261413bea7ecb490eb819dd1721117df0a4ef310323a4ec",
+    "outputs/bsu_unified_smoke_20261016_v2/latest.json": "713aa2970fad7551f8d9cc46ecac73f04dead65dd7ba40d80c72ef1b7f2e7694",
+    "outputs/bsu_unified_smoke_20261016_v2/export.json": "a8dc0b36f76e614749e473b96bd1305e57b24e8a9fc807e61921a071dcb85554",
+    "outputs/bsu_unified_smoke_20261016_v2/checkpoints/step_0000003_4036383a45.pt": "f4dbface008ac2c59fa886f371ca5a11771593543bd2dd26bf912262e548c90a",
+    "outputs/bsu_unified_smoke_20261016_v2/exports/step_0000003.pt": "0ccbbfb1be6c6b726d118ed8562a0d13ea3d7c512c6ab8af39f23066618da214",
+    "outputs/bsu_unified_receiver_smoke_20261016_v1/protocol.json": "3d59528c8dd9adf4718e5eaa270b5ab8136f254ed0c0363c815ea3c54f5bb9d1",
+    "outputs/bsu_unified_receiver_smoke_20261016_v1/receiver_job.json": "a8a0e8fca607be4204d9876a190ac424c3409a4163a9b51b166778bc1ee118dd",
+    "outputs/bsu_unified_receiver_smoke_20261016_v1/RESULT.json": "d5ab80ec55b94c0c1f9dc301994f235e1bb2d7724281f7c21d304d5b3ec96db4",
+    "outputs/bsu_unified_receiver_smoke_20261016_v1/quality.json": "86f36e1cfc12d9975ea3f14f7f5b98a3c82ab2b76dcd9cfc9218f97253d26f1a",
+    "outputs/bsu_unified_receiver_smoke_20261016_v1/reference.json": "450c3a924f64be8813d786b246f1ba172d7ee1052d5ead2d8a5cae31d9e524bd",
+    "outputs/bsu_unified_receiver_smoke_20261016_v1/sender/selection.json": "f136b554e7aabc0efe19195a54a4c45b6dc4c3e4efc3b29d33e69776de611b03",
+    "outputs/bsu_unified_receiver_smoke_20261016_v1/received/channel.json": "3e6f0cc5ba5be63d9aa8f6d0b192d015297bcf1ab1568a16ff7884d55edefacf",
+    "outputs/bsu_unified_receiver_smoke_20261016_v1/refined/audit.json": "88fd60031e2e0b92384cda9aa384a0cb5971aa6cb46b5a760ee65dcd0e9990aa",
+    "outputs/bsu_unified_receiver_smoke_20261016_v1/refined/reconstruction.mp4": "b51dfcacff1743ba39875285ee791a38fde4f4e01487d627497f5031e483d221",
+    "outputs/bsu_unified_training_v1/protocol.json": "5529611dec6aea9f82dd2457db275d3edee3c5af892c904f2ceaccb851872bc6",
+    "outputs/bsu_unified_training_v1/status.json": "c0d2170be92305fb193c21742729310f32245239d7c6a42a4a5ddef350c397bc"
+  },
+  "implementation_sha256": {
+    "configs/bsu_unified.json": "ce2ed899500c9b542e138f66958b1edf749de81c7da17f21d251c45528297cf5",
+    "scripts/run_bsu_unified.sh": "508c89156db543dac0aedc79368ee8dd7c6c14d5574a02d1533ac022f2f05e6d",
+    "scripts/setup_bsu_unified.sh": "f67c11dd4aed60576de7d834b45efbe277e18b4b789ac42299b6199913cd62ae",
+    "scripts/train_bsu_unified.sh": "96c34a406236ebc0fe2897548e66e31394b7bd9195255c0a4e7ea8ff7335ee10",
+    "src/semantic_transmission/unified_bsu.py": "d9ea3615f20f35b2bb3907f2eeb0b9c974f79b3e641cd7b2d1563c62eb379fd8",
+    "src/semantic_transmission/unified_bsu_adapter.py": "ccd3c39d4730532d1708b26935a7d811e111c30b73a2ece0c616eeb3c764726f",
+    "src/semantic_transmission/unified_bsu_core.py": "3437bca15d2bf8faae61c4a666d69ea2b9c81d41c0b7f86eca0b5e6e804fdd66",
+    "src/semantic_transmission/unified_bsu_evaluate.py": "8e9875296f724cad065556fe887f8dcf35b3c1d4dd07e2d65ea05e2fa004dcd0",
+    "src/semantic_transmission/unified_bsu_training.py": "b7ee3454abe4ac659c10f6b3ef0dbcc13c8071632def334f8b03b572ce08754b",
+    "tests/test_unified_bsu.py": "de9aa5bdd662cc24ceafe907a1e50d3c2ec9bde5b9df2a0ccbd53427059cb967"
+  },
+  "limitations": [
+    "Only three optimizer updates; no convergence claim.",
+    "Short 17-frame validation clip; no full-video quality claim.",
+    "No matched-quality rate reduction versus latest adopted BSU established.",
+    "Main training preparation and full training are not executed.",
+    "No guarantee of preserving hands, motion events, or semantics."
+  ]
+}

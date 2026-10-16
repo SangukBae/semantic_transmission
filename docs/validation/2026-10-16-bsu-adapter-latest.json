@@ -1,0 +1,300 @@
+{
+  "status": "COMPLETE_LATEST_BSU_ADAPTER_VALIDATION",
+  "date": "2026-10-16",
+  "checkpoint": {
+    "checkpoint": "/home/sangukbae/semantic_transmission/outputs/bsu_adapter_training_7h_v1/final.pt",
+    "checkpoint_sha256": "bb06a18aa34e0d31a55fad56af3e0d1f596a0c683752e528839fa5c2b862afee",
+    "policy": "received_trajectory_patch_residual_adapter_v1",
+    "steps": 905,
+    "enabled": true
+  },
+  "profile": {
+    "policy": "bsu_predictive_temporal_default_v1",
+    "adopted_on": "2026-10-16",
+    "model": "DCVC-RT + Practical-RIFE4.25 with combined_context fallback",
+    "qp": 32,
+    "temporal_stride": 2,
+    "min_original_keys": 5,
+    "protect_semantic_keys": false,
+    "snr_db": 10,
+    "adaptive_rate_search": false,
+    "evidence": "docs/validation/2026-10-16-bsu-predictive-final.json"
+  },
+  "training_steps": 905,
+  "training_sources": 24,
+  "summary": {
+    "all_14": {
+      "before": {
+        "quality": {
+          "psnr_db": 26.305288979471243,
+          "ssim": 0.8236486343255097,
+          "lpips_vgg": 0.2346198803371057,
+          "clip": 0.9690375938901639,
+          "dists": 0.11849846159233533
+        },
+        "temporal": {
+          "flow_error_mean": 0.45136387735376543,
+          "cadence_error_mean": 0.31418035542959566,
+          "false_freeze_rate": 0.15215272043562303
+        },
+        "action": {
+          "top1_correct": 12,
+          "top5_correct": 14
+        },
+        "videos": 14
+      },
+      "after": {
+        "quality": {
+          "psnr_db": 26.225151398756346,
+          "ssim": 0.8207197237135779,
+          "lpips_vgg": 0.23695727446410708,
+          "clip": 0.9679474624029987,
+          "dists": 0.11770132225354113
+        },
+        "temporal": {
+          "flow_error_mean": 0.48464449280977134,
+          "cadence_error_mean": 0.3400572876469249,
+          "false_freeze_rate": 0.11654119711010176
+        },
+        "action": {
+          "top1_correct": 12,
+          "top5_correct": 14
+        },
+        "videos": 14
+      }
+    },
+    "adapter_active_4": {
+      "before": {
+        "quality": {
+          "psnr_db": 18.56515341161977,
+          "ssim": 0.6442656729067894,
+          "lpips_vgg": 0.35714608870912345,
+          "clip": 0.9481697082519531,
+          "dists": 0.1612697674582402
+        },
+        "temporal": {
+          "flow_error_mean": 0.8318244418456652,
+          "cadence_error_mean": 0.4359164803617579,
+          "false_freeze_rate": 0.3409695936474964
+        },
+        "action": {
+          "top1_correct": 4,
+          "top5_correct": 4
+        },
+        "videos": 4
+      },
+      "after": {
+        "quality": {
+          "psnr_db": 18.284671879117624,
+          "ssim": 0.6340144857650282,
+          "lpips_vgg": 0.3653269681536282,
+          "clip": 0.944354248046875,
+          "dists": 0.15847977977246047
+        },
+        "temporal": {
+          "flow_error_mean": 0.948306595941686,
+          "cadence_error_mean": 0.5264857431224101,
+          "false_freeze_rate": 0.21632926200817199
+        },
+        "action": {
+          "top1_correct": 4,
+          "top5_correct": 4
+        },
+        "videos": 4
+      }
+    },
+    "heldout_test_active": {
+      "before": {
+        "quality": {
+          "psnr_db": 17.15995118722713,
+          "ssim": 0.5888227882311918,
+          "lpips_vgg": 0.44090334757541616,
+          "clip": 0.9320256551106771,
+          "dists": 0.21276168835659823
+        },
+        "temporal": {
+          "flow_error_mean": 1.2586579387033334,
+          "cadence_error_mean": 0.6084991447361452,
+          "false_freeze_rate": 0.2751089846338249
+        },
+        "action": {
+          "top1_correct": 2,
+          "top5_correct": 2
+        },
+        "videos": 2
+      },
+      "after": {
+        "quality": {
+          "psnr_db": 16.998086867324343,
+          "ssim": 0.5757879074093302,
+          "lpips_vgg": 0.45119769939531884,
+          "clip": 0.9252222696940104,
+          "dists": 0.20195371061563494
+        },
+        "temporal": {
+          "flow_error_mean": 1.4223988449598455,
+          "cadence_error_mean": 0.7501182513108023,
+          "false_freeze_rate": 0.18203217276687023
+        },
+        "action": {
+          "top1_correct": 2,
+          "top5_correct": 2
+        },
+        "videos": 2
+      }
+    }
+  },
+  "channel_uses": {
+    "before": 2470155,
+    "after": 2470155
+  },
+  "adapter_active": [
+    "kinetics_002_5e11db4c",
+    "kinetics_003_5d588509",
+    "kinetics_008_278ecb48",
+    "kinetics_009_eb51ffae"
+  ],
+  "regenerated_frames": 960,
+  "unchanged_outputs_reused": 10,
+  "source_disjoint": true,
+  "noise_tensor_identity": true,
+  "received_keys_rgb_exact": true,
+  "scope": "14 existing development videos; not a new unseen cohort or WebVid validation",
+  "recommendation": "DO_NOT_ADOPT_AS_DEFAULT",
+  "matched_rate_quality_guards": {
+    "kinetics_002_5e11db4c": {
+      "passed": false,
+      "checks": {
+        "quality.psnr_db": false,
+        "quality.ssim": false,
+        "quality.clip": true,
+        "quality.lpips_vgg": false,
+        "quality.dists": false,
+        "nonkeys.psnr_db": false,
+        "nonkeys.ssim": false,
+        "nonkeys.clip": true,
+        "nonkeys.lpips_vgg": false,
+        "nonkeys.dists": false,
+        "flow_error_mean": false,
+        "cadence_error_mean": false,
+        "false_freeze_rate": true,
+        "fixed_boundary_error": true,
+        "same_total_symbols": true
+      },
+      "failures": [
+        "quality.psnr_db",
+        "quality.ssim",
+        "quality.lpips_vgg",
+        "quality.dists",
+        "nonkeys.psnr_db",
+        "nonkeys.ssim",
+        "nonkeys.lpips_vgg",
+        "nonkeys.dists",
+        "flow_error_mean",
+        "cadence_error_mean"
+      ]
+    },
+    "kinetics_003_5d588509": {
+      "passed": false,
+      "checks": {
+        "quality.psnr_db": false,
+        "quality.ssim": true,
+        "quality.clip": true,
+        "quality.lpips_vgg": false,
+        "quality.dists": false,
+        "nonkeys.psnr_db": false,
+        "nonkeys.ssim": true,
+        "nonkeys.clip": true,
+        "nonkeys.lpips_vgg": false,
+        "nonkeys.dists": false,
+        "flow_error_mean": false,
+        "cadence_error_mean": false,
+        "false_freeze_rate": true,
+        "fixed_boundary_error": true,
+        "same_total_symbols": true
+      },
+      "failures": [
+        "quality.psnr_db",
+        "quality.lpips_vgg",
+        "quality.dists",
+        "nonkeys.psnr_db",
+        "nonkeys.lpips_vgg",
+        "nonkeys.dists",
+        "flow_error_mean",
+        "cadence_error_mean"
+      ]
+    },
+    "kinetics_008_278ecb48": {
+      "passed": false,
+      "checks": {
+        "quality.psnr_db": true,
+        "quality.ssim": true,
+        "quality.clip": false,
+        "quality.lpips_vgg": false,
+        "quality.dists": false,
+        "nonkeys.psnr_db": true,
+        "nonkeys.ssim": true,
+        "nonkeys.clip": false,
+        "nonkeys.lpips_vgg": false,
+        "nonkeys.dists": false,
+        "flow_error_mean": false,
+        "cadence_error_mean": false,
+        "false_freeze_rate": true,
+        "fixed_boundary_error": true,
+        "same_total_symbols": true
+      },
+      "failures": [
+        "quality.clip",
+        "quality.lpips_vgg",
+        "quality.dists",
+        "nonkeys.clip",
+        "nonkeys.lpips_vgg",
+        "nonkeys.dists",
+        "flow_error_mean",
+        "cadence_error_mean"
+      ]
+    },
+    "kinetics_009_eb51ffae": {
+      "passed": false,
+      "checks": {
+        "quality.psnr_db": false,
+        "quality.ssim": false,
+        "quality.clip": true,
+        "quality.lpips_vgg": false,
+        "quality.dists": true,
+        "nonkeys.psnr_db": false,
+        "nonkeys.ssim": false,
+        "nonkeys.clip": true,
+        "nonkeys.lpips_vgg": false,
+        "nonkeys.dists": true,
+        "flow_error_mean": true,
+        "cadence_error_mean": true,
+        "false_freeze_rate": true,
+        "fixed_boundary_error": false,
+        "same_total_symbols": true
+      },
+      "failures": [
+        "quality.psnr_db",
+        "quality.ssim",
+        "quality.lpips_vgg",
+        "nonkeys.psnr_db",
+        "nonkeys.ssim",
+        "nonkeys.lpips_vgg",
+        "fixed_boundary_error"
+      ]
+    }
+  },
+  "raw_guard_note": "RESULT.json guards come from the key-reduction screen and include fewer_total_symbols; that condition is inapplicable to this equal-rate receiver adapter. The matched-rate guards here exclude it.",
+  "production_default_changed": false,
+  "artifacts": {
+    "outputs/bsu_adapter_latest_20261016_v1/RESULT.json": "76ede943fd9e3517a8c0ccea2b26fd0a9c6958823d66e8bc0f92aceef5248d6c",
+    "outputs/bsu_adapter_latest_20261016_v1/AUDIT.json": "d9eb47095ea59c80b0d07d55f171397f4cc8f91f2a53be644a72ddee31f01eef",
+    "outputs/bsu_adapter_latest_20261016_v1/protocol.json": "a0f31fd8509c5150e5319843de6ea24dc7e2d9a48103e8b199306a7aad492b7d"
+  },
+  "validation": {
+    "protected_input_hashes": 363,
+    "targeted_tests_passed": 15,
+    "command": "bash scripts/validate_bsu_adapter_latest.sh",
+    "gpu": "NVIDIA GeForce RTX 4080"
+  }
+}

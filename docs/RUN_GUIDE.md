@@ -4,10 +4,113 @@
 
 **2026-10-16 기본 채택:** `run_bsu.sh`는 DCVC-RT + Practical-RIFE4.25와 `combined_context` 대체 경로를 실행한다. QP32·2프레임 간격·최소 의미 키 5개를 고정한다. 기존 `run_bsu_webvid.sh`·`run_bsu_kinetics.sh`와 모듈명 `bsu_default.py`는 이전 생성 배치의 재현·재개용이다. 적응형 간격·QP 탐색은 기본에 포함하지 않는다.
 
+<a id="bsu-unified"></a>
+## 통합 BSU 구현·학습·복원
+
+[`통합 구조`](MODEL_ARCHITECTURE.md#bsu-unified)는 학습형 수신 어댑터를 포함하는 연구 경로다.
+기존 Qwen 의미 추출 산출물을 입력으로 재사용한다. `--base-only`는 학습용 수신 영상 준비와
+기본 복호화 비교용이며, 전체 통합 모델의 생성 복원 완료로 표시하지 않는다.
+
+현재 로컬은 `.local/settings.json`의 Open-Sora 환경을 상속하는 격리 환경을 사용한다.
+이미 설치된 DCVC-RT·RIFE·Open-Sora·T5 가중치가 필요하다.
+
+```bash
+bash scripts/setup_bsu_unified.sh
+```
+
+설치 스크립트는 기존 conda 환경을 변경하지 않고 `.local/unified_bsu_env`를 만든다.
+DCVC-RT의 C++ 엔트로피 확장만 이 환경에 빌드한다. 확장 패키지의 Python 3.12 제한을 넘어
+현재 Python 3.10에서 빌드하므로 실제 부호화·복호화 왕복을 설치 마지막에 검사한다.
+Open-Sora 학습·추론은 기존 GPU 라이브러리를 사용한다.
+
+**본학습 명령:** 다음 명령은 데이터 준비 후 최대 7시간의 학습을 실행한다.
+데이터 준비 시간은 7시간에 포함되지 않는다. 이 명령은 이번 구현 작업에서 자동 실행하지 않는다.
+
+```bash
+bash scripts/train_bsu_unified.sh run \
+  --root outputs/bsu_unified_training_v1 --seconds 25200
+```
+
+기본 데이터 출처는 `outputs/bsu_adapter_training_7h_v1/protocol.json`의 동결 원본·train/validation 구분이다.
+현재 준비된 계획은 학습 원본 24개·검증 원본 8개, 총 64개 구간이다. 계획의 입력 해시는 확인했으며,
+본학습 데이터 준비·학습은 아직 실행하지 않았다. [짧은 실제 학습·복원 결과](RESULTS.md#bsu-unified)
+각 원본에서 가장 긴 의미 구간의 17프레임 창 두 개를 결정론적으로 선택한다.
+기본 창당 예산은 `17 × 2048` complex channel uses이며 실제 후보가 맞지 않으면 중단한다.
+이 학습용 예산은 최신 BSU보다 적은 전송량이라는 주장을 뜻하지 않는다.
+다른 데이터 인계본은 `--selection`, 다른 예산은 `--budget-per-frame`으로 지정하고 별도 root를 사용한다.
+
+```bash
+# 준비만 / 준비가 끝난 데이터로 학습만 / 상태 확인
+bash scripts/train_bsu_unified.sh prepare --root outputs/bsu_unified_training_v1
+bash scripts/train_bsu_unified.sh train --root outputs/bsu_unified_training_v1 --seconds 25200
+bash scripts/train_bsu_unified.sh status --root outputs/bsu_unified_training_v1
+```
+
+같은 명령은 입력·코드·모델·완료 산출물 해시를 확인해 재개한다. 학습 체크포인트는 가중치뿐 아니라
+optimizer·scheduler·CPU/CUDA/NumPy RNG·원본 선택 순서·커서·누적 학습 시간을 저장한다.
+Ctrl+C/SIGTERM 시 현재 optimizer update 완료 후 저장하며, 진행 표시기는 강제 종료 시간제한 없이 이를 기다린다.
+단계·실제 처리 수·GPU·VRAM·로그를 고정 행에 표시한다. 10,000 업데이트는 학습의 상한이며 수렴 보장이 아니다.
+`export.json`에 추론용 어댑터 경로와 해시가 기록된다. smoke 가중치에는 `smoke_only=true`를 유지한다.
+
+**기존 의미 추출부터 전체 복원:**
+
+```bash
+bash scripts/run_bsu_unified.sh \
+  --semantic-run /absolute/path/event_pairs/run \
+  --source-frames /absolute/path/source_frames \
+  --adapter-checkpoint /absolute/path/exports/step_0000002.pt \
+  --budget-channel-uses 100000 \
+  --output outputs/bsu_unified_my_video
+```
+
+위 예산은 형식 예시다. 실제 비교에서는 동일 영상에 대해 측정한 최신 BSU의 전체 비용보다 작은 값을 지정한다.
+예산은 캡션·프레임 번호·모델 식별자·FEC 패딩을 포함하며 물리 무선 링크 헤더는 제외한다.
+DCVC·RIFE·Open-Sora와 학습 어댑터는 사전 공유한 공통 가중치로 가정하며, 모델 배포 비용은 영상별 전송량에 포함하지 않는다.
+평가 영상별로 어댑터를 다시 학습하지 않는다.
+QP·간격·해상도 후보를 모두 검사하므로 송신 시간이 늘 수 있다.
+출력은 `refined/reconstruction.mp4`, 기본 복호화는 `base/reconstruction.mp4`,
+제한 전 생성 영상은 `generated/reconstruction.mp4`, 비용·학습 상태는 `RESULT.json`이다.
+`--check`는 입력·모델 파일 확인만 수행하며 전체 실행 성공을 의미하지 않는다.
+
+```bash
+PYTHONPATH=src .local/unified_bsu_env/bin/python -m semantic_transmission.unified_bsu_evaluate \
+  --run outputs/bsu_unified_my_video --full-metrics
+```
+
+평가기만 원본을 읽는다. base/generated/refined를 같은 원본과 비교하며, 선택적으로 `--reference <JSON>`을 받는다.
+reference JSON은 `source_hashes`(0.png부터의 SHA256 매핑), `fps`, `movie`, `movie_sha256`,
+`channel_uses`를 가져야 하며 입력·타임라인·복원 영상이 일치해야 비교를 허용한다.
+화질·동작·전송량의 동시 개선은 이 비교를 완료한 뒤 판정한다.
+
 <a id="bsu-default"></a>
 ## 기본 BSU 실행
 
-현재 명령은 **기존 Qwen 의미 추출·전송 산출물과 정규화 원본 PNG**를 받아 새 송수신·복원을 실행한다. 새 영상 파일에서 의미 추출까지 한 번에 자동 수행하는 명령은 아니다. 원본 PNG는 송신부만 읽으며 수신부는 선택된 패킷을 독립 복호화한다.
+`run_bsu.sh`는 **기존 Qwen 의미 추출·전송 산출물과 정규화 원본 PNG**를 받아 새 송수신·복원을 실행한다. 원본 파일부터 시작하려면 아래 `run_bsu_video.sh`를 사용한다. 원본 PNG는 송신부만 읽으며 수신부는 선택된 패킷을 독립 복호화한다.
+
+**ETRI 첫 번째 영상(`01_person_walk`, 여자 한 명이 걷는 10초 영상), 원본부터 최종 복원까지:**
+
+```bash
+# 로컬 WSL에서 실행. 설치된 GPU 환경이 없으면 semantic-pc에서 실행하고 최종 영상을 가져온다.
+bash scripts/run_bsu_etri01.sh
+
+# 추론 없이 환경 검사 / 원본 정규화만 준비 / 상태 조회 / 완료 영상 다시 받기
+bash scripts/run_bsu_etri01.sh check
+bash scripts/run_bsu_etri01.sh prepare
+bash scripts/run_bsu_etri01.sh status
+bash scripts/run_bsu_etri01.sh fetch
+```
+
+입력은 `data/etri_video_eval/raw/01_person_walk.mp4`이며 EOF까지 576×320·24fps로 정규화한다. Qwen 의미 변화 키 선택과 캡션 LoRA 추론 → 광류·NTSCC·유료 궤적 준비 → 현재 기본 DCVC-RT/RIFE 비용 선택 → 실제 AWGN 채널과 독립 수신 복원 → 전체 프레임·길이·디코딩 검증 순서다. 기존 생성 복원을 먼저 실행하지 않으며, 선택기가 생성 경로를 고른 경우에만 Open-Sora + `combined_context`가 실행된다. 미채택 학습 궤적 어댑터는 기본 실행에 넣지 않는다.
+
+원격 기본 위치는 `semantic-pc:/home/sangukbae/ETRI/Semantic/semantic_transmission`이고 `BSU_REMOTE_HOST`, `BSU_REMOTE_REPO`로 바꿀 수 있다. 원격 산출물은 `outputs/bsu_etri01_latest_20261016_v1/`, 로컬에서 실행한 뒤 내려받는 영상은 같은 이름의 로컬 폴더 안 `delivered/reconstruction.mp4`와 `delivered/source_vs_bsu.mp4`다. 비교 영상은 왼쪽 원본, 오른쪽 BSU다. 내려받은 두 영상의 SHA256도 검사한다.
+
+같은 명령으로 재개한다. 입력·설정·코드가 같고 완료 파일 해시가 맞는 단계를 재사용하며, 키 선택·캡션의 유효한 개별 추론 캐시는 보존한다. Ctrl+C 또는 연결 종료로 중단되면 실행 중이던 단계부터 다시 진행한다. 터미널 고정 화면에 단계 진행률·경과 시간·측정 가능한 ETA·GPU 사용률·VRAM·로그 위치를 표시한다. 상세 로그는 실행 장비의 `.local/terminal_logs/bsu_video/`와 출력 폴더에 저장한다. `check`/`prepare` 성공은 추론 성공이나 복원 화질 검증을 뜻하지 않는다.
+
+설치된 장비에서 다른 원본을 처리할 때는 다음처럼 입력과 별도 출력 폴더를 지정한다.
+
+```bash
+bash scripts/run_bsu_video.sh run --input /absolute/path/video.mp4 --root outputs/bsu_my_video
+```
 
 ```bash
 # 설치·GPU 없이 채택 설정 확인
@@ -27,6 +130,8 @@ bash scripts/run_bsu.sh \
 
 bash scripts/run_bsu.sh status --output outputs/bsu_default_my_video
 ```
+
+학습된 생성 어댑터를 시험할 때는 위 실행에 `--adapter-checkpoint outputs/bsu_adapter_training_7h_v1/final.pt`를 추가하고 별도 출력 경로를 사용한다. 가중치 형식·유한값·SHA256을 검사하여 실행에 고정한다. 어댑터는 `combined_context` 생성 분기에만 연결되며, DCVC-RT·RIFE 분기에는 연결되지 않는다. 수신 궤적이 없는 구간은 어댑터의 유효 지지 마스크가 0이므로 잔차도 정확히 0이다. 이 옵션은 기본 채택이나 성능 향상 판정을 뜻하지 않는다.
 
 `semantic-run`에는 `run_config.json`, `transmitter/metadata.bin`, `transmitter/visual.c64`가 필요하다. 원본은 같은 영상·정규화 시간표의 `0.png`, `1.png`, …여야 한다. 현재 구현은 **10dB·프레임 시점별 고정 AWGN** 입력을 요구한다. 궤적은 원래 배치의 `sender/trajectory.bin`을 찾으며 다른 배치 구조에서는 `--trajectory PATH`로 명시한다. 입력 폴더 안이나 기존 산출물 위에 출력을 만들지 않는다. 다른 SNR을 이 설정으로 조용히 덮어쓰지 않는다.
 
@@ -268,6 +373,15 @@ bash scripts/train_bsu_adapter_7h.sh status
 시간 예산·백분율·추가/누적 업데이트·남은 시간·GPU·VRAM·로그를 고정 행으로 표시한다. 데이터 캐시는 해시를 검증해 읽기 전용으로 재사용하고, `continuation.json`에 시작 체크포인트와 추가 실행 코드를 고정한다. 최종 가중치는 `outputs/bsu_adapter_training_7h_v1/final.pt`, 재개 상태는 같은 폴더의 `latest.json`이다. 전체 영상 품질 검증과 최종 시험은 추가 시간이 필요하므로 자동 실행하지 않는다. `RESULT.json`의 `TRAINING_BUDGET_COMPLETE_EVALUATION_PENDING`은 시간 예산을 마쳤다는 뜻이며 성능 개선이나 수렴을 입증하지 않는다. 종료 시점의 가중치와 검증으로 선택한 최적 가중치를 구분한다.
 
 아래는 원래의 장기 학습 명령과 설정이다.
+
+완료된 7시간 가중치를 최신 BSU의 기존 Kinetics 14개 영상에 적용하는 검증 명령은 다음과 같다. 기존 수신 패킷·원본·출력·동작 인식 입력을 해시 검사하고, 어댑터가 실제로 영향을 주는 생성 분기 4개를 복원한다. 동일 난수 텐서·수신 키 보존을 확인하고 화질·시간 변화·TimeSformer를 평가한다. 나머지 10개는 다른 디코더 또는 정확한 0 잔차 근거로 검증된 출력을 재사용한다. 새로운 미사용 코호트나 WebVid 전체 시험은 아니다.
+
+```bash
+bash scripts/validate_bsu_adapter_latest.sh --check
+bash scripts/validate_bsu_adapter_latest.sh
+```
+
+결과는 `outputs/bsu_adapter_latest_20261016_v1/RESULT.json`에 별도로 저장한다. 같은 명령은 완료 복원의 출력 해시를 확인한 뒤 미완료 단계부터 재개한다. 체크포인트나 고정 코드를 변경할 때는 `--root outputs/새_검증_폴더`를 지정한다.
 
 실행 명령은 [train_bsu_adapter.sh](../scripts/train_bsu_adapter.sh), 기본 학습 설정은 [bsu_adapter_training.json](../configs/bsu_adapter_training.json)이다. 현재 로컬의 `bsu_webvid_completed_20261015`, `bsu_receiver_improvement_20261015_v1`, `bsu_motion_validation_20261015_v1`, `bsu_kinetics_context` 산출물과 고정 모델 캐시가 필요하다. Git 코드만 복사하면 입력이 준비되는 명령은 아니다. 기존 600회 실험의 가중치·결과와 `combined_context` 생성 경로는 변경하지 않는다. 학습 명령의 구현·준비는 충분한 학습 완료나 기본 하이브리드에 대한 어댑터 채택을 뜻하지 않는다.
 
