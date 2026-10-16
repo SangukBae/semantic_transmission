@@ -1,7 +1,8 @@
 """Source-disjoint, resumable training of the unified BSU dense condition adapter.
 
 Preparation uses real DCVC packets and a fresh received-only decoder. Training
-freezes STDiT/VAE/T5/DCVC; target pixels are available ONLY to the trainer. An
+freezes STDiT/VAE/T5/DCVC; optional innovation encoder/decoder and the receiver
+adapter learn jointly. Target pixels are available ONLY to sender/trainer. An
 export records that reconstruction quality is unvalidated until independently
 measured. A smoke export can never masquerade as completed main training.
 """
@@ -62,8 +63,11 @@ def data_plan(args):
         budget_per_frame=args.budget_per_frame, backbone=u.model_inventory(runtime['models']),
         code={name: sha256(core.REPO / f'src/semantic_transmission/{name}.py') for name in u.CODE},
         train=dict(learning_rate=.0001, weight_decay=.01, seed=2025, max_steps=10000,
+                   innovation_warmup_steps=args.codec_warmup_steps if profile.get('innovation') else 0,
                    validate_every=50, save_every=10, condition_dropout=.1),
         smoke_only=args.smoke, source_disjoint=True, test_sources_used=False)
+    if args.initialize:
+        value['initialize'] = dict(path=str(args.initialize.resolve()), sha256=sha256(args.initialize))
     value['signature'] = fingerprint(value)
     return value
 
@@ -84,6 +88,8 @@ def prepare(args):
     from .bsu_video import launch
     from .etri_60s_check import lock
     from .webvid_ablation import Stages
+    if args.reuse_prepared:
+        return import_prepared(args)
     root = args.root.resolve(); root.mkdir(parents=True, exist_ok=True)
     p = data_plan(args); freeze(root / 'protocol.json', p)
     for i, e in enumerate(p['examples']):
@@ -124,6 +130,53 @@ def prepare(args):
         caches={e['name']: sha256(root / 'examples' / e['name'] / 'cache.pt') for e in p['examples']}))
 
 
+def import_prepared(args):
+    """Reuse verified target/base caches without rewriting their old receipts."""
+    import copy
+    import torch
+    old = args.reuse_prepared.resolve(); root = args.root.resolve()
+    if root == old or root in old.parents or old in root.parents:
+        raise ValueError('reused training data needs a separate output root')
+    p = core.read(old / 'protocol.json'); receipt = core.read(old / 'prepared.json')
+    if (fingerprint({k: v for k, v in p.items() if k != 'signature'}) != p['signature']
+            or receipt['signature'] != p['signature'] or receipt['status'] != 'COMPLETE_RECEIVED_TRAINING_DATA'):
+        raise ValueError('invalid prepared source protocol')
+    train_sources = {e['source_sha256'] for e in p['examples'] if e['role'] == 'train'}
+    validation_sources = {e['source_sha256'] for e in p['examples'] if e['role'] == 'validation'}
+    if not train_sources or not validation_sources or train_sources & validation_sources:
+        raise ValueError('training/validation source leakage')
+    new = copy.deepcopy(p); new['profile'] = core.profile(args.profile)
+    new['code'] = {n: sha256(core.REPO / f'src/semantic_transmission/{n}.py') for n in u.CODE}
+    new['prepared_from'] = dict(path=str(old), protocol_sha256=sha256(old / 'protocol.json'),
+                               base_codec_profile=p['profile'])
+    new['smoke_only'] = p['smoke_only'] or args.smoke
+    new['train']['innovation_warmup_steps'] = args.codec_warmup_steps if new['profile'].get('innovation') else 0
+    if args.initialize:
+        new['initialize'] = dict(path=str(args.initialize.resolve()), sha256=sha256(args.initialize))
+    new.pop('signature'); new['signature'] = fingerprint(new)
+    root.mkdir(parents=True, exist_ok=True); freeze(root / 'protocol.json', new)
+    caches = {}
+    for e in p['examples']:
+        source = old / 'examples' / e['name']; dest = root / 'examples' / e['name']
+        r = core.read(source / 'cache.json'); path = source / 'cache.pt'
+        if (r['signature'] != p['signature'] or r['sha256'] != sha256(path)
+                or receipt['caches'][e['name']] != sha256(path)):
+            raise ValueError('cached training input changed')
+        for file, digest in zip(e['source_frames'], e['source_hashes']):
+            if sha256(file) != digest:
+                raise ValueError('cached source changed')
+        x = torch.load(path, map_location='cpu', weights_only=True)
+        if x['signature'] != p['signature'] or x['name'] != e['name']:
+            raise ValueError('cached latent provenance mismatch')
+        x['signature'] = new['signature']; atomic_torch_save(x, dest / 'cache.pt')
+        caches[e['name']] = sha256(dest / 'cache.pt')
+        write_json(dest / 'cache.json', dict(r, signature=new['signature'], sha256=caches[e['name']],
+            reused_from=str(path), reused_from_sha256=sha256(path)))
+    write_json(root / 'prepared.json', dict(status='COMPLETE_RECEIVED_TRAINING_DATA', signature=new['signature'],
+        sources=new['sources'], examples=len(new['examples']), caches=caches,
+        reused_verified_packets_and_latents=True, fresh_channel_run=False))
+
+
 def prepare_worker(stage, j):
     out = Path(j['output']); p = j['protocol']; e = j['example']
     if stage == 'text':
@@ -162,12 +215,27 @@ class Trainer:
         self.model = self.model.cuda().to(torch.bfloat16).eval().requires_grad_(False)
         set_grad_checkpoint(self.model)
         self.adapter = DenseConditionAdapter(self.model.hidden_size, p['profile']['adapter_width']).cuda()
+        if p.get('initialize'):
+            if sha256(p['initialize']['path']) != p['initialize']['sha256']:
+                raise ValueError('initial receiver adapter changed')
+            initial = torch.load(p['initialize']['path'], map_location='cpu', weights_only=True)
+            if initial['backbone'] != p['backbone']:
+                raise ValueError('initial adapter backbone differs')
+            self.adapter.load_state_dict(initial['state_dict'], strict=True)
+        self.innovation = None
+        if p['profile'].get('innovation'):
+            from .unified_bsu_tokens import InnovationCodec
+            config = p['profile']['innovation']
+            self.innovation = InnovationCodec(config['tokens'], config['width']).cuda()
         self.handle = self.adapter.attach(self.model)
-        self.optimizer = torch.optim.AdamW(self.adapter.parameters(), lr=p['train']['learning_rate'],
+        self.optimizer = torch.optim.AdamW(self.parameters(), lr=p['train']['learning_rate'],
                                           weight_decay=p['train']['weight_decay'])
         self.scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(self.optimizer, mode='min', factor=.5, patience=3)
         self.rng = np.random.default_rng(p['train']['seed']); self.cache = {}
         self.state = dict(step=0, order=[], offset=0, epoch=0, elapsed_seconds=0., history=[], validation=[])
+
+    def parameters(self):
+        return list(self.adapter.parameters())+(list(self.innovation.parameters()) if self.innovation else [])
 
     def load(self, e):
         import torch
@@ -193,8 +261,19 @@ class Trainer:
         if fixed_time is not None:
             t.fill_(fixed_time)
         z = (1-t[:, None, None, None, None]/1000)*target+t[:, None, None, None, None]/1000*noise
+        codec_parts = {}
+        if self.innovation:
+            config = self.p['profile']['innovation']
+            step = config['steps'][seed % len(config['steps'])] if fixed_time is None else config['steps'][0]
+            prior, codec_parts, _ = self.innovation(target, prior, step)
+            if fixed_time is None and self.state['step'] < self.p['train'].get('innovation_warmup_steps', 0):
+                pixels = x['video']['frames']*x['video']['height']*x['video']['width']
+                value = codec_parts['distortion']+.1*codec_parts['temporal']
+                value = value+config['rate_weight']*codec_parts['rate_bits_proxy']/pixels
+                return value, {f'codec_{k}': float(v.detach()) for k, v in codec_parts.items()}
         values = condition(prior, x['qp'])
-        if fixed_time is None and self.rng.random() < self.p['train']['condition_dropout']:
+        audit_joint = self.innovation is not None and self.state['step'] == self.p['train'].get('innovation_warmup_steps', 0)
+        if fixed_time is None and not audit_joint and self.rng.random() < self.p['train']['condition_dropout']:
             values = torch.zeros_like(values)
         self.adapter.received = values
         kwargs = {key: torch.tensor([x['video'][key]], device='cuda', dtype=torch.bfloat16)
@@ -203,6 +282,14 @@ class Trainer:
             prediction = self.model(z.to(torch.bfloat16), t, y=x['text']['y'].cuda().to(torch.bfloat16),
                                     mask=x['text']['mask'].cuda(), **kwargs).chunk(2, dim=1)[0].float()
             value, parts = flow_objective(prediction, target, noise, z, t)
+        if self.innovation:
+            if fixed_time is None and audit_joint:
+                grad = torch.autograd.grad(value, self.innovation.analysis[0].weight, retain_graph=True)[0]
+                parts['flow_to_sender_grad_norm'] = grad.detach().norm()
+            pixels = x['video']['frames']*x['video']['height']*x['video']['width']
+            value = value+codec_parts['distortion']+.1*codec_parts['temporal']
+            value = value+config['rate_weight']*codec_parts['rate_bits_proxy']/pixels
+            parts.update({f'codec_{k}': v for k, v in codec_parts.items()})
         if not torch.isfinite(value):
             raise ValueError('nonfinite unified adapter loss')
         return value, {k: float(v.detach()) for k, v in parts.items()}
@@ -210,14 +297,27 @@ class Trainer:
     def validate(self):
         import torch
         rows = []; self.adapter.eval()
+        if self.innovation:
+            self.innovation.eval()
         with torch.no_grad():
             for e in self.p['examples']:
                 if e['role'] != 'validation':
                     continue
                 seed = int(fingerprint(e['name'])[:12], 16)
                 loss, _ = self.loss(e, seed, 500*self.p['profile']['start_noise'])
-                rows.append(dict(source=e['source_sha256'], loss=float(loss)))
+                row = dict(source=e['source_sha256'], loss=float(loss))
+                if self.innovation:
+                    x = self.load(e); target = x['target'].cuda().float(); prior = x['prior'].cuda().float()
+                    blob = self.innovation.compress(target, prior, self.p['profile']['innovation']['steps'][0])
+                    decoded, _ = self.innovation.decompress(blob, prior)
+                    expected = self.innovation(target, prior, self.p['profile']['innovation']['steps'][0])[0]
+                    if not torch.equal(decoded, expected):
+                        raise ValueError('training/bitstream quantization mismatch')
+                    row.update(innovation_packet_bytes=len(blob), actual_entropy_roundtrip=True)
+                rows.append(row)
         self.adapter.train()
+        if self.innovation:
+            self.innovation.train()
         value = float(np.mean([np.mean([r['loss'] for r in rows if r['source'] == source])
                                for source in {r['source'] for r in rows}]))
         return dict(step=self.state['step'], loss=value, rows=rows, source_disjoint=True)
@@ -225,6 +325,7 @@ class Trainer:
     def save(self):
         import torch
         value = dict(step=self.state['step'], state=self.state, adapter=self.adapter.state_dict(),
+            innovation=self.innovation.state_dict() if self.innovation else None,
             optimizer=self.optimizer.state_dict(), scheduler=self.scheduler.state_dict(),
             numpy_rng=json.dumps(self.rng.bit_generator.state), cpu_rng=torch.get_rng_state(),
             cuda_rng=torch.cuda.get_rng_state_all())
@@ -235,7 +336,9 @@ class Trainer:
             atomic_torch_save(dict(policy=POLICY, state_dict={k: v.detach().cpu() for k, v in self.adapter.state_dict().items()},
                 steps=self.state['step'], training_signature=self.p['signature'], backbone=self.p['backbone'],
                 width=self.p['profile']['adapter_width'], profile=self.p['profile'],
-                smoke_only=self.p['smoke_only'], validated_quality=False), export)
+                smoke_only=self.p['smoke_only'], validated_quality=False,
+                innovation_state={k: v.detach().cpu() for k, v in self.innovation.state_dict().items()} if self.innovation else None,
+                innovation_config=self.p['profile'].get('innovation')), export)
             write_json(self.root / 'export.json', dict(path=str(export), sha256=sha256(export),
                 step=self.state['step'], smoke_only=self.p['smoke_only'], validated_quality=False))
         return receipt
@@ -243,6 +346,8 @@ class Trainer:
     def restore(self, value):
         import torch
         self.adapter.load_state_dict(value['adapter'], strict=True)
+        if self.innovation:
+            self.innovation.load_state_dict(value['innovation'], strict=True)
         self.optimizer.load_state_dict(value['optimizer']); self.scheduler.load_state_dict(value['scheduler'])
         self.state = value['state']; self.rng.bit_generator.state = json.loads(value['numpy_rng'])
         torch.set_rng_state(value['cpu_rng']); torch.cuda.set_rng_state_all(value['cuda_rng'])
@@ -288,12 +393,17 @@ def train(args):
                     seed = int(trainer.rng.integers(0, 2**50))
                     with torch.autograd.graph.save_on_cpu(pin_memory=False):
                         loss, parts = trainer.loss(e, seed); loss.backward()
-                    norm = torch.nn.utils.clip_grad_norm_(trainer.adapter.parameters(), 1., error_if_nonfinite=True)
+                    norm = torch.nn.utils.clip_grad_norm_(trainer.parameters(), 1., error_if_nonfinite=True)
+                    sender_grad = sum(float(x.grad.detach().square().sum()) for x in trainer.innovation.parameters()
+                                      if x.grad is not None)**.5 if trainer.innovation else None
                     trainer.optimizer.step(); s['step'] += 1; s['offset'] += 1
-                    s['history'].append(dict(step=s['step'], loss=float(loss.detach()), grad_norm=float(norm), **parts))
+                    s['history'].append(dict(step=s['step'], loss=float(loss.detach()), grad_norm=float(norm),
+                                            sender_grad_norm=sender_grad, **parts))
                     if s['step'] % p['train']['validate_every'] == 0:
                         v = trainer.validate(); s['validation'].append(v); trainer.scheduler.step(v['loss'])
-                    u.event('학습 업데이트', s['step'], p['train']['max_steps'], e['name'])
+                    phase = '송신 압축 사전학습' if s['step'] <= p['train'].get('innovation_warmup_steps', 0) else '송수신 공동 학습'
+                    total = min(p['train']['max_steps'], start_step+args.stop_after) if args.stop_after else p['train']['max_steps']
+                    u.event(phase, s['step'], total, e['name'])
                     if s['step'] % p['train']['save_every'] == 0 or interrupted:
                         s['elapsed_seconds'] += time.monotonic()-started; started = time.monotonic()
                         trainer.save()
@@ -307,6 +417,9 @@ def train(args):
                 write_json(root / 'training_result.json', dict(status=status, step=trainer.state['step'],
                     resumed_from_step=start_step, checkpoint=receipt, source_disjoint=True,
                     adapter_weights_changed_this_run=changed, backbone_frozen=not any(x.requires_grad or x.grad is not None for x in trainer.model.parameters()),
+                    sender_codec_jointly_trained=trainer.innovation is not None,
+                    innovation_warmup_steps=min(trainer.state['step'], p['train'].get('innovation_warmup_steps', 0)),
+                    joint_steps=max(0, trainer.state['step']-p['train'].get('innovation_warmup_steps', 0)),
                     smoke_only=p['smoke_only'], performance_improvement_proven=False,
                     peak_gpu_bytes=torch.cuda.max_memory_allocated(), memory=memory,
                     elapsed_training_seconds=trainer.state['elapsed_seconds'], validation=trainer.state['validation']))
@@ -328,10 +441,13 @@ def main():
     parser.add_argument('--windows-per-video', type=int, default=2); parser.add_argument('--smoke', action='store_true')
     parser.add_argument('--seconds', type=int, default=25200); parser.add_argument('--stop-after', type=int, default=0)
     parser.add_argument('--worker'); parser.add_argument('--job', type=Path)
+    parser.add_argument('--reuse-prepared', type=Path)
+    parser.add_argument('--initialize', type=Path)
+    parser.add_argument('--codec-warmup-steps', type=int, default=200)
     args = parser.parse_args()
     if args.worker:
         return prepare_worker(args.worker, core.read(args.job))
-    if args.seconds < 1 or args.stop_after < 0 or args.budget_per_frame < 1 or args.windows_per_video < 1:
+    if args.seconds < 1 or args.stop_after < 0 or args.budget_per_frame < 1 or args.windows_per_video < 1 or args.codec_warmup_steps < 0:
         parser.error('invalid budget or sampling count')
     if args.action == 'prepare':
         prepare(args)

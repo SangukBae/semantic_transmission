@@ -26,6 +26,7 @@ from .wire import pack, unpack
 REPO, POLICY = core.REPO, core.POLICY
 MODULE = 'semantic_transmission.unified_bsu'
 CODE = ('unified_bsu', 'unified_bsu_core', 'unified_bsu_adapter', 'unified_bsu_training',
+        'unified_bsu_tokens', 'unified_bsu_sender',
         'bsu_dcvc_keys', 'dense_temporal_receiver', 'dense_generation_runtime',
         'precision_text_cache', 'adapter_training_memory')
 
@@ -138,9 +139,22 @@ def sender(j):
         if row['fits']:
             base = recover_base(codec, stream, coding, v)
             row['distortion'] = core.proxy_distortion(images, base)
+            if p.get('innovation') and j.get('checkpoint'):
+                save_rgb(base, out / (name+'_base'))
+        row['breakdown'] = core.packet_breakdown(packet)
         records.append(row)
         write_json(out / 'candidates.json', dict(rows=records, budget=j['budget'], complete=False))
-    chosen = core.choose_candidate([r for r in records if r['fits']], j['budget'])
+    del codec; gc.collect()
+    if p.get('innovation') and j.get('checkpoint'):
+        import torch
+        torch.cuda.empty_cache()
+        from .unified_bsu_sender import enhance_candidates
+        records = enhance_candidates(j, images, records)
+    eligible = [r for r in records if r['fits']]
+    if p.get('require_innovation') and j.get('checkpoint'):
+        eligible = [r for r in eligible if 'innovation_step' in r]
+    chosen = core.choose_candidate(eligible, j['budget'])
+    write_json(out / 'candidates.json', dict(rows=records, budget=j['budget'], complete=True))
     (out / 'packet.bin').write_bytes((out / f'{chosen["name"]}.bin').read_bytes())
     write_json(out / 'selection.json', dict(selected=chosen, rows=records, budget=j['budget'],
         complete=True, actual_bytes_not_entropy_estimates=True, sender_local_decode=True,
@@ -217,6 +231,19 @@ def generate(j):
         for a, b in ws:
             latents.append(guide_latents(vae, padded_tensor(base[a:b])).cpu())
     del vae; gc.collect(); torch.cuda.empty_cache()
+    innovation_rois = []
+    if side.get('enhancements'):
+        from .unified_bsu_tokens import InnovationCodec
+        if not c.get('innovation_state') or c.get('innovation_config') != p.get('innovation'):
+            raise ValueError('received tokens require matching shared innovation decoder')
+        config = c['innovation_config']
+        innovation = InnovationCodec(config['tokens'], config['width']).cuda().eval()
+        innovation.load_state_dict(c['innovation_state'], strict=True)
+        with torch.no_grad():
+            for i, (prior, blob) in enumerate(zip(latents, side['enhancements'])):
+                restored, roi = innovation.decompress(blob, prior.cuda().float())
+                latents[i] = restored.to(torch.bfloat16).cpu(); innovation_rois.append(roi.cpu())
+        del innovation; gc.collect(); torch.cuda.empty_cache()
     model = build(dict(cfg.model), modes, input_size=latents[0].shape[2:], in_channels=4,
                   caption_channels=4096, model_max_length=300, enable_sequence_parallelism=False)
     model = model.cuda().to(torch.bfloat16).eval().requires_grad_(False)
@@ -253,7 +280,8 @@ def generate(j):
     save_movie(raw, root / 'generated', v['fps']); save_movie(final, root / 'refined', v['fps'])
     write_json(root / 'refined/audit.json', dict(audit, windows=len(ws), diffusion_steps=p['diffusion_steps'],
         checkpoint_sha256=sha256(j['checkpoint']), initialization='received_video_plus_partial_noise',
-        one_step_distillation=False, quality_improvement_proven=False))
+        one_step_distillation=False, quality_improvement_proven=False,
+        paid_innovation_windows=len(innovation_rois), packet_breakdown=core.packet_breakdown(Path(j['packet']).read_bytes())))
 
 
 def worker(stage, j):
