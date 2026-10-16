@@ -1,0 +1,445 @@
+{
+  "date": "2026-10-15",
+  "status": "COMPLETE_LOCAL_RECEIVER_ABLATION_NO_CANDIDATE_PROMOTED",
+  "conclusion": "세 후보 모두 사전 고정 종합 개선 기준 미달. production combined_context 유지.",
+  "result_root": "outputs/bsu_receiver_improvement_20261015_v1",
+  "import_root": "outputs/bsu_webvid_completed_20261015",
+  "import_receipt": {
+    "status": "PASSED",
+    "manifest_sha256": "f37d335542fb4b730f12a4601fc5571a7a907201be0e2148135d4d3fe9d6d175",
+    "conditions": 108,
+    "sources": 36,
+    "files": 128565,
+    "bytes": 25157423194,
+    "remote_writes": false,
+    "reused": false,
+    "transferred_files": 128565,
+    "transferred_bytes": 25157423194
+  },
+  "scope": {
+    "source_videos": 36,
+    "completed_legacy_conditions": 108,
+    "snr_db": 10,
+    "candidate_count": 3,
+    "arms": [
+      "combined_context",
+      "motion_safe_context",
+      "guarded_motion_context",
+      "trajectory_warp_context"
+    ],
+    "evaluated_conditions": 144,
+    "frame_instances": 59104,
+    "received_key_instances": 940,
+    "generator_reused": true,
+    "model_training": false,
+    "extra_transmission": 0,
+    "original_used_only_for_evaluation": true,
+    "secondary_6_8db": "NOT_RUN: no candidate passed the frozen 10dB promotion rule",
+    "cohort": "Previously inspected completed 36 of 53 WebVid sources; incomplete sources excluded; no unseen-data claim"
+  },
+  "methods": {
+    "combined_context": "가져온 combined PNG에 현재 production preserve_context를 적용. 수신 키프레임과 주변 문맥을 보존.",
+    "motion_safe_context": "기존 참조 혼합 후 시간 보간이 생성 동작을 과도하게 줄인 영역은 보간 전 RGB를 유지하고 combined_context 적용.",
+    "guarded_motion_context": "기존 guarded reference의 신뢰도 검사를 적용하여 부정확한 참조 혼합을 억제하고 동작 보존 및 combined_context 적용.",
+    "trajectory_warp_context": "이미 수신한 궤적과 양방향 영상 대응으로 생성 영상의 위치를 한 번 교정한 후 guarded reference, 동작 보존, combined_context 적용."
+  },
+  "mean_scores_equal_video": {
+    "combined_context": {
+      "psnr_db": 22.050939300907192,
+      "ssim": 0.6803527505043966,
+      "lpips_vgg": 0.3096703372380865,
+      "clip": 0.9510352756985991,
+      "dists": 0.1557282534131312,
+      "flow_error_mean": 0.2901522158749253,
+      "cadence_error_mean": 0.14482261436695415,
+      "false_freeze_rate": 0.3720636235369969,
+      "nonkey_psnr": 21.82119192709167,
+      "boundary_error": 4.017939246313632
+    },
+    "motion_safe_context": {
+      "psnr_db": 22.04783607691542,
+      "ssim": 0.6802561286667309,
+      "lpips_vgg": 0.3096096554886357,
+      "clip": 0.9510812703960067,
+      "dists": 0.15552839888295522,
+      "flow_error_mean": 0.2933531030739452,
+      "cadence_error_mean": 0.14832164866640254,
+      "false_freeze_rate": 0.3677616139873295,
+      "nonkey_psnr": 21.81797225731793,
+      "boundary_error": 4.0238740508568975
+    },
+    "guarded_motion_context": {
+      "psnr_db": 21.453736257235406,
+      "ssim": 0.6662347768066209,
+      "lpips_vgg": 0.31495347179793554,
+      "clip": 0.9486221206579596,
+      "dists": 0.15905020570172976,
+      "flow_error_mean": 0.31191109761812846,
+      "cadence_error_mean": 0.15658641482614336,
+      "false_freeze_rate": 0.3916938807060698,
+      "nonkey_psnr": 21.212678331009453,
+      "boundary_error": 4.322782767233764
+    },
+    "trajectory_warp_context": {
+      "psnr_db": 21.35407946935096,
+      "ssim": 0.6536290358835015,
+      "lpips_vgg": 0.3229698601908015,
+      "clip": 0.947465800329085,
+      "dists": 0.1637726241503168,
+      "flow_error_mean": 0.4288614689886703,
+      "cadence_error_mean": 0.28337589528016693,
+      "false_freeze_rate": 0.2649142622009348,
+      "nonkey_psnr": 21.113582537081893,
+      "boundary_error": 4.3347648185725385
+    }
+  },
+  "deltas_from_combined_context": {
+    "motion_safe_context": {
+      "psnr_db": -0.003103223991772097,
+      "ssim": -9.6621837665678e-05,
+      "lpips_vgg": -6.068174945078608e-05,
+      "clip": 4.599469740751427e-05,
+      "dists": -0.00019985453017598576,
+      "flow_error_mean": 0.0032008871990198973,
+      "cadence_error_mean": 0.0034990342994483947,
+      "false_freeze_rate": -0.004302009549667418,
+      "nonkey_psnr": -0.0032196697737418845,
+      "boundary_error": 0.00593480454326567
+    },
+    "guarded_motion_context": {
+      "psnr_db": -0.5972030436717866,
+      "ssim": -0.014117973697775676,
+      "lpips_vgg": 0.005283134559849023,
+      "clip": -0.0024131550406395474,
+      "dists": 0.003321952288598551,
+      "flow_error_mean": 0.021758881743203173,
+      "cadence_error_mean": 0.011763800459189205,
+      "false_freeze_rate": 0.019630257169072907,
+      "nonkey_psnr": -0.6085135960822186,
+      "boundary_error": 0.3048435209201319
+    },
+    "trajectory_warp_context": {
+      "psnr_db": -0.6968598315562318,
+      "ssim": -0.026723714620895067,
+      "lpips_vgg": 0.01329952295271497,
+      "clip": -0.00356947536951413,
+      "dists": 0.008044370737185585,
+      "flow_error_mean": 0.138709253113745,
+      "cadence_error_mean": 0.13855328091321278,
+      "false_freeze_rate": -0.10714936133606212,
+      "nonkey_psnr": -0.7076093900097788,
+      "boundary_error": 0.3168255722589066
+    }
+  },
+  "screening": {
+    "motion_safe_context": {
+      "guardrails": {
+        "psnr": true,
+        "nonkeys": true,
+        "lpips": true,
+        "dists": true,
+        "flow": true,
+        "cadence": false,
+        "freeze": true,
+        "boundary": true
+      },
+      "improvement": false,
+      "passed": false
+    },
+    "guarded_motion_context": {
+      "guardrails": {
+        "psnr": false,
+        "nonkeys": false,
+        "lpips": false,
+        "dists": false,
+        "flow": false,
+        "cadence": false,
+        "freeze": false,
+        "boundary": false
+      },
+      "improvement": false,
+      "passed": false
+    },
+    "trajectory_warp_context": {
+      "guardrails": {
+        "psnr": false,
+        "nonkeys": false,
+        "lpips": false,
+        "dists": false,
+        "flow": false,
+        "cadence": false,
+        "freeze": true,
+        "boundary": false
+      },
+      "improvement": false,
+      "passed": false
+    }
+  },
+  "frozen_criteria": {
+    "max_psnr_loss_db": 0.1,
+    "max_nonkey_psnr_loss_db": 0.1,
+    "max_lpips_relative_increase": 0.01,
+    "max_dists_relative_increase": 0.01,
+    "max_flow_relative_increase": 0.02,
+    "max_cadence_relative_increase": 0.02,
+    "max_freeze_increase": 0.005,
+    "max_boundary_relative_increase": 0.05,
+    "min_psnr_gain_db": 0.1,
+    "min_lpips_relative_gain": 0.02,
+    "min_flow_relative_gain": 0.05
+  },
+  "verification": {
+    "status": "PASSED",
+    "conditions": 144,
+    "source_videos": 36,
+    "frame_instances": 59104,
+    "received_key_instances": 940,
+    "artifact_hash_checks": 59680,
+    "import_files_unchanged": 128565,
+    "same_channel_uses_all_arms": true,
+    "aggregate_means_recomputed": true,
+    "metric_parity": {
+      "status": "PASSED",
+      "frames": 3,
+      "max_error": {
+        "psnr_db": 0.0,
+        "ssim": 0.0,
+        "lpips_vgg": 0.0,
+        "clip": 0.0,
+        "dists": 0.0
+      }
+    },
+    "protocol_sha256": "5acf9224fe6790c40971424624aac6524a53ca362426bafdfbedd30d3698b8f7",
+    "result_sha256": "7a038c629bb4ac0d35b6d6021256e1830594576f79f24849e857d862cb07aa90",
+    "test_result": "..........................................................               [100%]\n58 passed in 7.57s"
+  },
+  "semantic_review": {
+    "status": "AI_SELECTED_SAMPLE_REVIEW_COMPLETE",
+    "independent_review": "PENDING",
+    "blinded": false,
+    "representative_population_claim": false,
+    "hallucination_mitigation_verified": false,
+    "samples": [
+      {
+        "id": "webvid_030_23cb4cc7",
+        "frames": [
+          55,
+          111,
+          166,
+          222
+        ],
+        "title": "눈 위 인물: 잔상 감소와 동작 오류의 공존",
+        "observation": "신뢰도 기반 참조 혼합은 투명한 인물 잔상을 줄였다. 그러나 원본이 몸을 숙이는 시점에 생성 인물은 서 있는 등 자세·시점 오류가 남았다. 궤적 교정은 111 프레임에서 인물 윤곽이 늘어나거나 겹치는 부작용을 보였다.",
+        "status": "부분적인 잔상 개선 / 동작 오류 미해결 / 새 형상 왜곡",
+        "candidate_deltas": {
+          "motion_safe_context": {
+            "psnr_db": -0.0033455839902245543,
+            "lpips_vgg": -0.00023642667441914345,
+            "flow_error_mean": 0.002912662419009726,
+            "false_freeze_percentage_points": -0.2376708259061222
+          },
+          "guarded_motion_context": {
+            "psnr_db": -1.2707311191028268,
+            "lpips_vgg": -0.01626240443304286,
+            "flow_error_mean": 0.016732098205210072,
+            "false_freeze_percentage_points": 22.87581699346405
+          },
+          "trajectory_warp_context": {
+            "psnr_db": -1.1207521299857248,
+            "lpips_vgg": 0.005249052784211339,
+            "flow_error_mean": 0.23088386613835282,
+            "false_freeze_percentage_points": -15.092097445038624
+          }
+        },
+        "sheet": "review/webvid_030_23cb4cc7.jpg"
+      },
+      {
+        "id": "webvid_028_e1800b23",
+        "frames": [
+          34,
+          104,
+          174,
+          243
+        ],
+        "title": "열차: 잘못된 크기와 위치가 유지됨",
+        "observation": "원본에도 작은 노란 열차가 있다. 문제는 열차의 존재 자체가 아니라 생성 결과의 과도한 크기·위치·경로이다. 세 후보 모두 이를 해결하지 못했고, 궤적 교정은 주변 형상과 질감을 더 왜곡했다.",
+        "status": "형상·위치 오류 미해결 / 교정 부작용",
+        "candidate_deltas": {
+          "motion_safe_context": {
+            "psnr_db": -0.0009163434182077879,
+            "lpips_vgg": 0.0002986160650891856,
+            "flow_error_mean": 0.04239572758121152,
+            "false_freeze_percentage_points": 0.0
+          },
+          "guarded_motion_context": {
+            "psnr_db": -2.0284112894251507,
+            "lpips_vgg": 0.02856598582193043,
+            "flow_error_mean": 0.25397021326103386,
+            "false_freeze_percentage_points": -1.953125
+          },
+          "trajectory_warp_context": {
+            "psnr_db": -3.17962272226071,
+            "lpips_vgg": 0.07821656880300609,
+            "flow_error_mean": 0.5577273695436972,
+            "false_freeze_percentage_points": -31.25
+          }
+        },
+        "sheet": "review/webvid_028_e1800b23.jpg"
+      },
+      {
+        "id": "webvid_017_6db8f5a7",
+        "frames": [
+          45,
+          137,
+          229,
+          320
+        ],
+        "title": "곡식: 동작량 증가가 정확한 동작을 뜻하지 않음",
+        "observation": "정지에 가까운 생성 질감이 남는다. 궤적 교정의 정지율 지표는 감소했지만 원본 대비 optical-flow 오차와 지각 오차는 증가했다. 정지 화면만으로 정확한 동작 복원을 판정하지 않았다.",
+        "status": "동작 충실도 미해결",
+        "candidate_deltas": {
+          "motion_safe_context": {
+            "psnr_db": -0.004139875918909297,
+            "lpips_vgg": 0.0002535844479150118,
+            "flow_error_mean": 0.0009031316022509728,
+            "false_freeze_percentage_points": 0.04351610095735259
+          },
+          "guarded_motion_context": {
+            "psnr_db": -0.6897392251059742,
+            "lpips_vgg": 0.0035133851656746207,
+            "flow_error_mean": 0.0018278750712456548,
+            "false_freeze_percentage_points": -0.6962576153176747
+          },
+          "trajectory_warp_context": {
+            "psnr_db": -0.768810791035289,
+            "lpips_vgg": 0.01940337419106064,
+            "flow_error_mean": 0.029856749364863266,
+            "false_freeze_percentage_points": -23.61473745285756
+          }
+        },
+        "sheet": "review/webvid_017_6db8f5a7.jpg"
+      },
+      {
+        "id": "webvid_022_f54228f7",
+        "frames": [
+          48,
+          96,
+          143,
+          191
+        ],
+        "title": "계곡: 잘못된 물·이끼 질감이 유지됨",
+        "observation": "원본과 다른 물·이끼의 형상과 질감이 세 후보에서 남았다. 궤적 교정은 false-freeze를 줄였지만 PSNR·LPIPS·flow 오차가 함께 악화했다.",
+        "status": "내용·동작 오류 미해결",
+        "candidate_deltas": {
+          "motion_safe_context": {
+            "psnr_db": -0.0007208359351267291,
+            "lpips_vgg": -0.00013415698582924795,
+            "flow_error_mean": 0.00011492179215702447,
+            "false_freeze_percentage_points": -1.4832162373145885
+          },
+          "guarded_motion_context": {
+            "psnr_db": -1.0060650947480916,
+            "lpips_vgg": 0.019189726871748747,
+            "flow_error_mean": 0.00117617586791266,
+            "false_freeze_percentage_points": -7.259953161592502
+          },
+          "trajectory_warp_context": {
+            "psnr_db": -1.5796520838384431,
+            "lpips_vgg": 0.04723661970347165,
+            "flow_error_mean": 0.10498242875148062,
+            "false_freeze_percentage_points": -45.277127244340356
+          }
+        },
+        "sheet": "review/webvid_022_f54228f7.jpg"
+      },
+      {
+        "id": "webvid_013_79401da3",
+        "frames": [
+          219,
+          220,
+          221,
+          222
+        ],
+        "title": "조리 장면: 경계 직후 잔상과 잘못된 팔 위치",
+        "observation": "combined_context를 적용해도 220→221 부근에서 팔 위치와 윤곽이 원본에서 벗어나는 사례가 남는다. 동작 보존 및 궤적 교정이 이 잔상을 안정적으로 제거하지 못했다.",
+        "status": "잔여 경계·내용 오류",
+        "candidate_deltas": {
+          "motion_safe_context": {
+            "psnr_db": -0.0013135900623488794,
+            "lpips_vgg": -0.00011097539517124222,
+            "flow_error_mean": 0.002741865114775477,
+            "false_freeze_percentage_points": -0.24634334103156297
+          },
+          "guarded_motion_context": {
+            "psnr_db": -0.4758142639490117,
+            "lpips_vgg": 0.0018269116818488973,
+            "flow_error_mean": 0.02656244138579167,
+            "false_freeze_percentage_points": 2.8206312548113956
+          },
+          "trajectory_warp_context": {
+            "psnr_db": -0.3487077934199192,
+            "lpips_vgg": 0.0018846752235325837,
+            "flow_error_mean": 0.1550746739446045,
+            "false_freeze_percentage_points": -3.830638953040799
+          }
+        },
+        "sheet": "review/webvid_013_79401da3.jpg"
+      },
+      {
+        "id": "webvid_003_1ca01463",
+        "frames": [
+          144,
+          260,
+          288,
+          432
+        ],
+        "title": "도시: 어두워지는 오류가 남음",
+        "observation": "일부 참조 혼합 후보의 질감은 선명해졌지만 288 프레임의 원본에 없는 큰 밝기 저하가 모든 방식에 남는다. 평균 지각 지표의 일부 개선을 장면 오류 해결로 해석하지 않는다.",
+        "status": "밝기 오류 미해결",
+        "candidate_deltas": {
+          "motion_safe_context": {
+            "psnr_db": -0.00019299363835401095,
+            "lpips_vgg": -0.00015440484025769363,
+            "flow_error_mean": 0.0013645333703607432,
+            "false_freeze_percentage_points": -0.13295346628680038
+          },
+          "guarded_motion_context": {
+            "psnr_db": -0.4848243047735288,
+            "lpips_vgg": -0.005030972927023369,
+            "flow_error_mean": 0.0076783064442376425,
+            "false_freeze_percentage_points": 2.3551756885090205
+          },
+          "trajectory_warp_context": {
+            "psnr_db": -0.5559517197585571,
+            "lpips_vgg": -0.004986370279454977,
+            "flow_error_mean": 0.026236553334941487,
+            "false_freeze_percentage_points": 0.265906932573598
+          }
+        },
+        "sheet": "review/webvid_003_1ca01463.jpg"
+      }
+    ]
+  },
+  "interpretation": [
+    "Motion retention preserves generated motion, including wrong motion; it does not recover absent source actions.",
+    "Reference gating can reduce ghosting while discarding useful pixel constraints; some perceptual gains coexist with worse source fidelity.",
+    "Received sparse tracks plus unreliable generated correspondences can cause geometric distortion. Lower freeze proxy alone is not motion correctness.",
+    "This tests fixed-generator receiver processing, not retrained or regenerated Open-Sora."
+  ],
+  "limitations": [
+    "Engineering screening is not a statistical significance test or ETRI acceptance.",
+    "No independent action labels or blinded semantic correctness evaluation.",
+    "Only 10dB tested for new candidates; no 6/8dB improvement claim.",
+    "Incomplete remote cases were not treated as completed results."
+  ],
+  "future_unvalidated": "Generation-stage temporal/object conditioning or additional motion/event evidence requires a separate fixed-budget experiment; no efficacy claim here.",
+  "code": [
+    "src/semantic_transmission/receiver_motion_repair.py",
+    "src/semantic_transmission/bsu_receiver_improvement.py",
+    "scripts/experiment_bsu_receiver_improvement.sh",
+    "tests/test_receiver_motion_repair.py"
+  ],
+  "command": "bash scripts/experiment_bsu_receiver_improvement.sh",
+  "production_defaults_changed": false,
+  "remote_modified": false
+}

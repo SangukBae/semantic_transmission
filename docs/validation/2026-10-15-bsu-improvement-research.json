@@ -1,0 +1,421 @@
+{
+  "status": "RESEARCH_COMPLETE_BSU_IMPROVEMENT_NOT_YET_TESTED",
+  "as_of": "2026-10-15",
+  "scope": "2025–2026 논문·공식 공개 구현과 현재 로컬 BSU 코드의 대조. 구현·학습·생성 실험은 실행하지 않았다.",
+  "ranking": "복원 품질의 연구 우선순위 1→2→3→4. 비용 대비 실행 순서는 0→3→2→1. 서로 다른 논문 점수로 순위를 계산하지 않았다.",
+  "central_finding": "수신 trajectory packet은 OpenSora 생성 이후 보정에 사용된다. 생성 내부에는 별도 희소 궤적이 들어가지 않는다.",
+  "measured_local": {
+    "source_videos": 36,
+    "conditions": 108,
+    "segments_at_10db": 199,
+    "flow_later_frames_unobserved": 97,
+    "duplicate_pair_segments": 85,
+    "positive_scalar_rounded_to_zero": 10,
+    "effective_scalar_histogram": {
+      "0.0": 10,
+      "1.2": 6,
+      "1.8": 5,
+      "4.0": 1,
+      "0.7": 7,
+      "1.6": 2,
+      "1.5": 5,
+      "1.4": 1,
+      "2.1": 4,
+      "1.7": 4,
+      "0.4": 8,
+      "3.9": 3,
+      "3.6": 2,
+      "0.6": 7,
+      "0.5": 9,
+      "1.1": 6,
+      "2.0": 2,
+      "6.8": 1,
+      "5.7": 1,
+      "19.3": 1,
+      "8.8": 1,
+      "18.8": 1,
+      "18.2": 1,
+      "23.1": 1,
+      "29.2": 1,
+      "0.3": 6,
+      "4.3": 2,
+      "9.3": 1,
+      "2.7": 1,
+      "9.1": 1,
+      "0.9": 3,
+      "2.5": 1,
+      "1.3": 4,
+      "0.8": 6,
+      "2.8": 2,
+      "1.0": 9,
+      "2.4": 4,
+      "0.2": 12,
+      "0.1": 20,
+      "14.7": 1,
+      "7.0": 1,
+      "12.6": 1,
+      "18.9": 1,
+      "10.5": 1,
+      "4.9": 2,
+      "17.9": 1,
+      "2.9": 2,
+      "12.3": 1,
+      "5.3": 2,
+      "8.4": 1,
+      "13.4": 1,
+      "16.0": 1,
+      "23.8": 1,
+      "5.1": 1,
+      "4.8": 1,
+      "8.9": 1,
+      "11.8": 1,
+      "5.4": 1,
+      "1.9": 1,
+      "7.8": 1,
+      "7.5": 1,
+      "10.4": 1,
+      "14.1": 1,
+      "3.2": 1,
+      "7.4": 1,
+      "9.4": 1,
+      "4.1": 1,
+      "3.8": 1,
+      "6.9": 1,
+      "11.6": 1,
+      "24.7": 1,
+      "13.3": 1,
+      "6.7": 1
+    },
+    "missing_trajectory_reasons": {
+      "mode does not request trajectories or budget below one LDPC block": 19,
+      "no useful full-video trajectory packet fits the declared budget": 6
+    },
+    "receiver_screening_decisions": {
+      "motion_safe_context": {
+        "guardrails": {
+          "psnr": true,
+          "nonkeys": true,
+          "lpips": true,
+          "dists": true,
+          "flow": true,
+          "cadence": false,
+          "freeze": true,
+          "boundary": true
+        },
+        "improvement": false,
+        "passed": false
+      },
+      "guarded_motion_context": {
+        "guardrails": {
+          "psnr": false,
+          "nonkeys": false,
+          "lpips": false,
+          "dists": false,
+          "flow": false,
+          "cadence": false,
+          "freeze": false,
+          "boundary": false
+        },
+        "improvement": false,
+        "passed": false
+      },
+      "trajectory_warp_context": {
+        "guardrails": {
+          "psnr": false,
+          "nonkeys": false,
+          "lpips": false,
+          "dists": false,
+          "flow": false,
+          "cadence": false,
+          "freeze": true,
+          "boundary": false
+        },
+        "improvement": false,
+        "passed": false
+      }
+    },
+    "interpretation": "전달 손실보다 표현 정밀도와 수신 활용 경로를 우선 조사할 근거. 10개 motion score=0.0이 실제 무동작이나 복원 실패를 뜻하는 것은 아니다."
+  },
+  "candidates": [
+    {
+      "id": "generation_adapter",
+      "priority": 1,
+      "title": "수신 궤적·키프레임 특징을 생성 단계에 연결",
+      "location": "수신부 OpenSora 내부",
+      "expected": "현재 구조에서 내용·동작 오류를 함께 줄일 가능성이 가장 큰 연구 후보. BSU 개선량은 미측정.",
+      "mechanism": "수신 키프레임에서 추출한 물체 주변 특징과 시간별 점 좌표·유효성을 인코딩하고 STDiT 블록에 학습된 residual 조건으로 넣는다. VAE 시간축 및 DSA 참조 프레임의 정렬을 보존한다.",
+      "training": "OpenSora 본체를 고정하고 작은 어댑터부터 학습. 별도 학습 영상의 원본을 정답으로 사용하되 입력은 실제 송수신 경로로 만든 수신 키와 양자화된 궤적이다. 가림·패킷 부재·추적 오류·SNR을 포함한다.",
+      "bitrate": "첫 실험은 기존 수신 패킷을 그대로 재사용하므로 추가 전송 없음.",
+      "local": "16 GiB에서 짧은 구간의 forward/backward 메모리 시험이 먼저 필요하다. 파라미터를 적게 학습해도 backbone activation 메모리는 남는다.",
+      "generality": "임의 점을 이용해 사람·차량·물체에 공통 적용 가능. 희소 궤적이 설명하지 못하는 변형·유체 운동은 남을 수 있다.",
+      "evidence": [
+        "tora",
+        "ati",
+        "magicmotion",
+        "wanmove"
+      ],
+      "code": [
+        ".local/vendor/Open-Sora/opensora/models/stdit/stdit3.py:422",
+        "04_semantic_decoder/scripts/mydemo_new_align_sh.py:569",
+        "src/semantic_transmission/bsu_receiver.py:72"
+      ]
+    },
+    {
+      "id": "tracking",
+      "priority": 2,
+      "title": "학습형 전 구간 추적 + 고정 예산 점 선택",
+      "location": "송신부 궤적 추출",
+      "expected": "가림·큰 이동·재등장에서 더 정확한 조건을 보낼 가능성. 수신부가 조건을 활용해야 복원 이득으로 이어진다.",
+      "mechanism": "LK와 TAPNext++를 먼저 비교하고 밀집 동작이 필요하면 CoWTracker를 비교한다. 신뢰도, 움직이는 영역의 분포, 서로 다른 동작의 중복도를 고려해 기존 패킷에 들어갈 점과 시각만 선택한다.",
+      "training": "우선 공개 사전학습 가중치를 추론에 사용. BSU 전용 재학습 없이 추적 정확도를 선별한다.",
+      "bitrate": "후보 점을 많이 계산해도 전송 점 수·knots·좌표 비트 수와 실제 LDPC 비용은 제한한다. confidence를 추가 필드로 보내면 비용을 별도 계산한다.",
+      "local": "온라인/분할 실행 후보. 해상도·길이·query 수별 GPU 실측이 필요하며 생성 모델과 동시에 적재할 필요는 없다.",
+      "generality": "사람 관절에 한정되지 않는다. 가림 뒤 예측된 좌표를 실제로 관측된 신뢰 좌표와 구분해야 한다.",
+      "evidence": [
+        "tapnextpp",
+        "cowtracker"
+      ],
+      "code": [
+        "src/semantic_transmission/sparse_trajectory.py:22",
+        "src/semantic_transmission/sparse_trajectory.py:47"
+      ]
+    },
+    {
+      "id": "budget_allocator",
+      "priority": 3,
+      "title": "구간별 중요도에 따라 궤적 전송 예산 재배분",
+      "location": "송신부 패킷 선택 알고리즘",
+      "expected": "학습 없이 정보 생략을 줄일 수 있는 실용 후보. 현재 6개 전체 패킷 초과 조건을 먼저 검사할 수 있다.",
+      "mechanism": "모든 구간에 동일한 점/knots 등급을 적용하는 현재 first-fit 대신 구간별 등급·생략을 선택한다. 송신 측 추적의 압축 오차, 동작 전환, 공간 분포를 효용으로 두고 실제 직렬화와 LDPC 블록 단위 비용에 맞춰 탐욕법 또는 동적 계획법으로 선택한다.",
+      "training": "불필요. 효용의 가중치는 개발 영상에서 고정하고 테스트 결과로 선택하지 않는다.",
+      "bitrate": "동일 상한 내 재배분. 최소 LDPC 블록보다 예산이 작은 19개 조건은 이 선택 알고리즘만으로 해결할 수 없다. 기존 패킷 여유 공간 활용 또는 다른 항목과의 예산 교환은 별도 설계·검증 사항이다.",
+      "local": "CPU에서 패킷 재생만으로 전송 가능성 검증 가능. 복원 이득 검증은 이후 단계.",
+      "generality": "장면 종류와 무관한 예산 최적화. 일정한 저속 움직임도 최소한의 시간·공간 coverage를 보존한다.",
+      "evidence": [],
+      "code": [
+        "src/semantic_transmission/bsu_sequence_refinement.py:70",
+        "src/semantic_transmission/bsu_sequence_refinement.py:103"
+      ]
+    },
+    {
+      "id": "camera_shape",
+      "priority": 4,
+      "title": "카메라 이동과 물체 형태·크기 변화를 분리해 표현",
+      "location": "송신 표현 + 수신 조건 모듈",
+      "expected": "배경 이동을 물체 운동으로 오인하거나 열차 크기·사람 윤곽이 변하는 오류에 직접 대응하는 확장 후보.",
+      "mechanism": "신뢰할 수 있는 배경 점으로 전역 이동을 추정하고, 물체별 잔여 운동과 필요한 시점의 저해상도 mask/box를 보낸다. 추정이 불확실한 장면에는 전역 모델을 강제하지 않는다.",
+      "training": "생성 모델이 분리 조건을 사용하도록 어댑터 학습 필요. 분할 가중치는 사전학습 모델을 사용할 수 있다.",
+      "bitrate": "mask·box·카메라 파라미터는 유료 정보다. 다른 정보와 예산을 교환하거나 rate-quality 곡선으로 비교한다.",
+      "local": "추적 개선보다 구현 범위가 크다. 카메라 포즈와 segmentation 실패율을 먼저 측정한다.",
+      "generality": "사람·차량에 공통이나 큰 시차·장면 전환·물에는 하나의 전역 변환으로 충분하지 않다.",
+      "evidence": [
+        "cpsgd",
+        "magicmotion"
+      ],
+      "code": [
+        "src/semantic_transmission/sparse_trajectory.py",
+        "src/semantic_transmission/bsu_sequence_refinement.py"
+      ]
+    },
+    {
+      "id": "scalar_baseline",
+      "priority": 0,
+      "title": "초·중·후반의 짧은 프레임 쌍으로 동작량 측정",
+      "location": "송신부 UniMatch sampling",
+      "expected": "확인된 표본 편향을 낮은 비용으로 수정하는 기준선. 정밀한 자세·경로 복원 개선의 폭은 제한적.",
+      "mechanism": "기존 3쌍 연산 예산으로 시간축에 분산된 짧은 쌍을 고른다. 중복 프레임/중복 쌍 제거, 실제 시간 차 정규화, 기존 10-frame/24-FPS 척도 유지. 프레임이 모자라면 가능한 유효 쌍만 사용한다.",
+      "training": "불필요. T5의 motion score 소수 한 자리 반올림 뒤 실제 프롬프트가 변했는지 검사한다. 소수 자릿수만 늘리는 수정은 사전학습 조건 분포와 별도로 검증해야 한다.",
+      "bitrate": "동일한 scalar 필드 사용. 실제 직렬화 크기·channel uses가 같은지 확인한다.",
+      "local": "기존 UniMatch와 생성 파이프라인으로 검증 가능. 전체 구간의 모든 순간을 관찰하는 방식은 아니다.",
+      "generality": "FPS·길이에 맞춰 사용할 수 있다. 먼 프레임 간의 변위를 단순히 시간으로 나누는 방법은 왕복·가림 정보를 되찾지 못한다.",
+      "evidence": [],
+      "code": [
+        "src/semantic_transmission/workers.py:290",
+        "src/semantic_transmission/sender_repairs.py:91",
+        "04_semantic_decoder/scripts/mydemo_new_align_sh.py:198"
+      ]
+    }
+  ],
+  "papers": [
+    {
+      "id": "tora",
+      "name": "Tora",
+      "date": "CVPR 2025",
+      "paper": "https://arxiv.org/html/2407.21705v3",
+      "code": "https://github.com/alibaba/Tora",
+      "finding": "논문은 OpenSora ST-DiT에 궤적 인코더와 동작 융합 모듈을 연결한다.",
+      "qualification": "공개 구현은 CogVideoX-5B 버전이다. 논문 구조의 관련성과 체크포인트 호환성은 다르다. 공개 SAT 실행 안내는 추론 약 30 GiB, 학습 약 60 GiB이다."
+    },
+    {
+      "id": "magicmotion",
+      "name": "MagicMotion",
+      "date": "ICCV 2025",
+      "paper": "https://openaccess.thecvf.com/content/ICCV2025/html/Li_MagicMotion_Controllable_Video_Generation_with_Dense-to-Sparse_Trajectory_Guidance_ICCV_2025_paper.html",
+      "code": "https://quanhaol.github.io/magicmotion-site/",
+      "finding": "마스크·박스·희소 박스 조건과 점진적 학습, 물체 형태를 위한 latent segment loss를 제시한다.",
+      "qualification": "BSU의 익명 희소 점이 곧 물체 마스크인 것은 아니다. 형태 조건을 추가하면 송신 비용과 대응 학습이 필요하다."
+    },
+    {
+      "id": "ati",
+      "name": "ATI: Any Trajectory Instruction",
+      "date": "2025-05 preprint",
+      "paper": "https://arxiv.org/abs/2505.22944",
+      "code": "https://github.com/bytedance/ATI",
+      "finding": "물체·국소 영역·카메라 움직임을 궤적 조건으로 다루는 Wan 기반 모듈의 공개 구현이다.",
+      "qualification": "OpenSora에 그대로 로드할 수 있는 모듈은 아니다."
+    },
+    {
+      "id": "tapnextpp",
+      "name": "TAPNext++",
+      "date": "2026-04 preprint",
+      "paper": "https://arxiv.org/abs/2604.10582",
+      "code": "https://github.com/google-deepmind/tapnet/blob/main/tapnet/tapnextpp/README.md",
+      "finding": "긴 시퀀스와 가림 후 재등장을 위한 온라인 점 추적. PyTorch 체크포인트와 평가 코드가 공개돼 있다.",
+      "qualification": "BSU의 해상도·전체 길이에서 정확도, 메모리, 소요 시간은 별도 측정해야 한다."
+    },
+    {
+      "id": "cowtracker",
+      "name": "CoWTracker",
+      "date": "CVPR 2026",
+      "paper": "https://openaccess.thecvf.com/content/CVPR2026/html/Lai_CoWTracker_Tracking_by_Warping_instead_of_Correlation_CVPR_2026_paper.html",
+      "code": "https://github.com/facebookresearch/cowtracker",
+      "finding": "특징 warping과 시공간 추론으로 밀집 점 추적 및 optical flow를 수행한다. 공개 출력에 visibility와 confidence가 포함된다.",
+      "qualification": "밀집 추적 결과를 그대로 전송하지 않고 고정 예산으로 압축해야 한다. 특징 추적의 warping은 복원 영상 후처리 warping과 다르다."
+    },
+    {
+      "id": "cpsgd",
+      "name": "Diffusion-aided Extreme Video Compression with Lightweight Semantics Guidance",
+      "date": "ICASSP 2026",
+      "paper": "https://arxiv.org/html/2602.05201v1",
+      "code": null,
+      "finding": "카메라 움직임과 전경 분할을 따로 압축하고 SVD-XL의 두 어댑터로 조건화한다.",
+      "qualification": "공개 논문에서는 RealEstate10K 학습 및 DAVIS/MCL-JCV 평가를 사용한다. 해당 BPP를 BSU의 AWGN channel uses와 바로 비교할 수 없다. 이번 조사에서 공식 실행 코드는 확인하지 못했다."
+    },
+    {
+      "id": "wanmove",
+      "name": "Wan-Move",
+      "date": "NeurIPS 2025",
+      "paper": "https://arxiv.org/abs/2512.08765",
+      "code": "https://github.com/ali-vilab/Wan-Move",
+      "finding": "첫 프레임의 특징을 궤적을 따라 전달해 생성의 latent 조건을 만든다.",
+      "qualification": "구조를 추가하지 않는다는 설명은 학습이 없다는 의미가 아니다. 공개 14B 모델은 5초 480p이며 공식 BF16 offload 안내도 40 GB GPU 기준이다. 커뮤니티 저메모리 구현의 로컬 품질·속도는 미검증이다."
+    },
+    {
+      "id": "flashmotion",
+      "name": "FlashMotion",
+      "date": "CVPR 2026",
+      "paper": "https://arxiv.org/abs/2603.12146",
+      "code": "https://github.com/quanhaol/FlashMotion",
+      "finding": "Wan2.2-TI2V-5B의 궤적 제어를 4-step 생성으로 증류한다. 코드·학습 스크립트·가중치가 공개돼 있다.",
+      "qualification": "공식 A100 추론은 ResNet 어댑터 42 GiB, ControlNet 어댑터 50 GiB. 11/24초는 해당 환경의 denoising 시간이며 로컬 BSU 총처리 시간으로 사용할 수 없다."
+    },
+    {
+      "id": "ditraj",
+      "name": "DiTraj",
+      "date": "2025-09 preprint",
+      "paper": "https://arxiv.org/abs/2509.21839",
+      "code": "https://github.com/xduzhangjiayu/DiTraj",
+      "finding": "학습 없이 3D full attention의 위치 임베딩을 궤적에 맞게 변경한다.",
+      "qualification": "현재 OpenSora는 공간·시간 attention을 분리한다. 공개 Wan 패치를 그대로 적용할 수 없고 박스 조건도 현재 점 패킷과 다르다."
+    },
+    {
+      "id": "lamo",
+      "name": "LaMo",
+      "date": "2026-05 preprint",
+      "paper": "https://arxiv.org/abs/2605.23878",
+      "code": "https://github.com/Applied-Intuition-Open-Source/LaMo",
+      "finding": "자기지도 동작 사전학습으로 물리적 자연스러움을 개선하는 코드가 공개돼 있다.",
+      "qualification": "자연스럽게 움직이는 것과 송신 원본의 실제 자세·시점을 복원하는 것은 다른 목표다. 정확한 수신 조건 활용을 먼저 검증해야 한다."
+    },
+    {
+      "id": "unigvc",
+      "name": "UniGVC",
+      "date": "2026-10-09 preprint",
+      "paper": "https://arxiv.org/abs/2610.13023",
+      "code": null,
+      "finding": "공통 계층형 latent bitstream으로 양방향 고품질 복원과 autoregressive 저지연 복원을 지원한다.",
+      "qualification": "조사 시점 논문은 코드와 모델을 추후 공개한다고 명시한다. 즉시 재현 가능한 BSU 개선 후보로 올리지 않았다."
+    }
+  ],
+  "deferred": [
+    {
+      "id": "modern_generator",
+      "sources": [
+        "wanmove",
+        "flashmotion"
+      ],
+      "reason": "기성 모델 비교군으로 가치가 있으나 공식 설정은 로컬 16 GiB를 넘는다. 저메모리 변환, endpoint 조건, 장구간 연결을 검증해야 하며 즉시 대체 후보로 단정하지 않는다."
+    },
+    {
+      "id": "training_free_rope",
+      "sources": [
+        "ditraj"
+      ],
+      "reason": "학습 불필요라는 장점은 있지만 현 OpenSora attention 구조와 불일치하여 단순 코드 패치가 아니다."
+    },
+    {
+      "id": "physical_prior",
+      "sources": [
+        "lamo"
+      ],
+      "reason": "물리적 자연스러움은 원본 동작 정확도를 보장하지 않는다. 주된 후보보다 후순위."
+    },
+    {
+      "id": "unreleased_codec",
+      "sources": [
+        "unigvc"
+      ],
+      "reason": "최신 관련 연구지만 현재 공개 코드/모델을 이용한 재현 계획을 세울 수 없다."
+    },
+    {
+      "id": "stronger_postwarp",
+      "sources": [],
+      "reason": "기존 로컬 36영상×4군 결과에서 전체 품질 통과 후보가 없었다. 같은 계열 후처리를 가장 유망하다고 재추천할 근거가 없다."
+    }
+  ],
+  "validation": [
+    "0번 scalar 기준선은 실제 반올림된 decoder prompt가 바뀌는 비율부터 계산한다.",
+    "3번은 고정 budget의 packet replay로 조건 6개에서 일부 궤적을 보낼 수 있는지 확인하고 실제 bytes/LDPC channel uses를 기록한다.",
+    "2번은 LK/TAPNext++/CoWTracker의 궤적을 수동 검증 점과 비교한 뒤 동일 양자화·점수·knot 예산에서 비교한다. 평가에 동일 tracker만 사용하지 않는다.",
+    "1번은 먼저 기존 수신 패킷·키·caption·noise·OpenSora를 고정해 어댑터 유무만 비교한다. 이어 송신 추적 개선×수신 어댑터의 2×2 비교를 한다.",
+    "어댑터 적용 시 legacy trajectory/cadence 후처리 on/off를 별도로 비교한다. 이중 보정으로 생기는 윤곽·정지 오류를 확인한다. combined_context 경계 연결도 별도로 기록한다.",
+    "본 학습 전 짧은 구간의 메모리/정렬 검증. 기존 실패 영상은 개발·진단용으로 사용하고, 학습과 겹치지 않는 새 영상 및 다른 데이터셋을 최종 평가로 둔다.",
+    "사람·차량·유체·카메라 이동·가림·장면 전환·짧은/긴 구간을 포함한다. 6/8/10 dB, 사전 고정 seed, 실제 전송 비용을 맞춘다.",
+    "PSNR/LPIPS뿐 아니라 위치·크기·행동 순서·시점·Added/Missing/Distorted와 잔상·과정지를 함께 평가한다. 자연스러움 또는 궤적 일치 하나만으로 채택하지 않는다.",
+    "추론 입력은 수신 정보만 허용한다. 송신 원본 및 수동 정답은 학습/평가 역할을 명시한다. 적응 여부를 테스트 원본 품질로 선택하지 않는다."
+  ],
+  "provenance": [
+    {
+      "path": "outputs/bsu_sender_information_audit_20261015/packet_audit.json",
+      "sha256": "0022e75d7cd2a7de8cc6f666cc607c9cb52559f5369ee9b359b02f67408f3b8c"
+    },
+    {
+      "path": "outputs/bsu_receiver_improvement_20261015_v1/RESULT.json",
+      "sha256": "7a038c629bb4ac0d35b6d6021256e1830594576f79f24849e857d862cb07aa90"
+    },
+    {
+      "path": "src/semantic_transmission/bsu_receiver.py",
+      "sha256": "fde8c0407089eff6a64893683b4fbd961488e3a571626bed484250752a6d4789"
+    },
+    {
+      "path": "src/semantic_transmission/workers.py",
+      "sha256": "92eb86bad6d7cf33582663c7f128a9a4091d25cb26d086274990fe7a4901a678"
+    },
+    {
+      "path": "src/semantic_transmission/sparse_trajectory.py",
+      "sha256": "a455ac030cb8f48c3dd8d616efae192a7d91472920e065647caf58db469ad582"
+    },
+    {
+      "path": "src/semantic_transmission/bsu_sequence_refinement.py",
+      "sha256": "e7077447c67c43fc7489938f0f761e0c811aaf97511ad8bc34480824a41aa455"
+    },
+    {
+      "path": "04_semantic_decoder/scripts/mydemo_new_align_sh.py",
+      "sha256": "c2a01717d00c4c6f280f6fcdc8e775913a8d10ff2574384a7be2f9e5b7e312bc"
+    },
+    {
+      "path": ".local/vendor/Open-Sora/opensora/models/stdit/stdit3.py",
+      "sha256": "a54aded7f93b05092ec0a59302b250c09974fb5324ffdf6640be62b42a5aa81b"
+    }
+  ]
+}

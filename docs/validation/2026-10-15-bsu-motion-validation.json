@@ -1,0 +1,1181 @@
+{
+  "status": "COMPLETE_FOUR_STAGE_LOCAL_VALIDATION",
+  "summary": {
+    "flow_reconstruction": {
+      "changes": {
+        "psnr_db": {
+          "before": 20.34216912289247,
+          "after": 20.2137816396293,
+          "delta": -0.12838748326317173,
+          "relative_percent": -0.6311395922801943
+        },
+        "ssim": {
+          "before": 0.6438902940243266,
+          "after": 0.6407219391686299,
+          "delta": -0.0031683548556967756,
+          "relative_percent": -0.4920643912636913
+        },
+        "lpips_vgg": {
+          "before": 0.3064690534192316,
+          "after": 0.30945859131009057,
+          "delta": 0.0029895378908589842,
+          "relative_percent": 0.9754779014406578
+        },
+        "clip": {
+          "before": 0.9511542158515494,
+          "after": 0.952793882955453,
+          "delta": 0.0016396671039036192,
+          "relative_percent": 0.17238709313143197
+        },
+        "dists": {
+          "before": 0.1535808543441561,
+          "after": 0.15494992551172287,
+          "delta": 0.0013690711675667655,
+          "relative_percent": 0.8914334885120834
+        },
+        "flow_error_mean": {
+          "before": 0.2819953483500261,
+          "after": 0.3064777777179237,
+          "delta": 0.02448242936789763,
+          "relative_percent": 8.681855750864687
+        },
+        "cadence_error_mean": {
+          "before": 0.12151391140241495,
+          "after": 0.14287355228277532,
+          "delta": 0.021359640880360367,
+          "relative_percent": 17.57793871816382
+        },
+        "false_freeze_rate": {
+          "before": 0.6243921504201217,
+          "after": 0.617780798600583,
+          "delta": -0.006611351819538758,
+          "relative_percent": -1.0588460817597234
+        },
+        "boundary_error": {
+          "before": 4.502227967923281,
+          "after": 4.811134341931217,
+          "delta": 0.3089063740079361,
+          "relative_percent": 6.861189087020492
+        }
+      },
+      "guards": {
+        "psnr": false,
+        "lpips": true,
+        "flow": false,
+        "cadence": false,
+        "boundary": false
+      },
+      "gain": false,
+      "aggregate_guard_pass": false
+    },
+    "budget": {
+      "changes": {
+        "psnr_db": {
+          "before": 26.90562682239982,
+          "after": 27.787800325365605,
+          "delta": 0.8821735029657845,
+          "relative_percent": 3.2787695629203695
+        },
+        "lpips_vgg": {
+          "before": 0.2222671620331787,
+          "after": 0.2181507583652099,
+          "delta": -0.00411640366796881,
+          "relative_percent": -1.852007120761423
+        },
+        "ssim": {
+          "before": 0.9089539255759872,
+          "after": 0.913891106406619,
+          "delta": 0.004937180830631771,
+          "relative_percent": 0.5431717375006917
+        },
+        "clip": {
+          "before": 0.972294900006054,
+          "after": 0.9739452818528446,
+          "delta": 0.0016503818467905607,
+          "relative_percent": 0.1697408725254368
+        },
+        "dists": {
+          "before": 0.12031964145385943,
+          "after": 0.12113924372269169,
+          "delta": 0.0008196022688322646,
+          "relative_percent": 0.6811874261997142
+        },
+        "flow_error_mean": {
+          "before": 0.3435663780453121,
+          "after": 0.3360795572660307,
+          "delta": -0.007486820779281367,
+          "relative_percent": -2.179148268779063
+        },
+        "cadence_error_mean": {
+          "before": 0.23330839171704354,
+          "after": 0.2307933686774662,
+          "delta": -0.0025150230395773465,
+          "relative_percent": -1.0779822453311327
+        },
+        "false_freeze_rate": {
+          "before": 0.4463425504354083,
+          "after": 0.4233673906848403,
+          "delta": -0.02297515975056802,
+          "relative_percent": -5.147427626641399
+        },
+        "boundary_error": {
+          "before": 3.8960521238743895,
+          "after": 3.8720554832175926,
+          "delta": -0.023996640656796853,
+          "relative_percent": -0.6159219613554257
+        }
+      },
+      "guards": {
+        "psnr": true,
+        "lpips": true,
+        "flow": true,
+        "cadence": true,
+        "boundary": true
+      },
+      "gain": true,
+      "aggregate_guard_pass": true
+    },
+    "tracking": {
+      "changes": {
+        "psnr_db": {
+          "before": 20.358182441511598,
+          "after": 20.484830637596055,
+          "delta": 0.12664819608445654,
+          "relative_percent": 0.6220997205831802
+        },
+        "lpips_vgg": {
+          "before": 0.30626071014493966,
+          "after": 0.2983859189379522,
+          "delta": -0.007874791206987475,
+          "relative_percent": -2.5712704718998003
+        },
+        "ssim": {
+          "before": 0.6439547785323484,
+          "after": 0.6664828193898764,
+          "delta": 0.02252804085752802,
+          "relative_percent": 3.498388645996564
+        },
+        "clip": {
+          "before": 0.9508295368824402,
+          "after": 0.9538200064294553,
+          "delta": 0.0029904695470150955,
+          "relative_percent": 0.3145116375770307
+        },
+        "dists": {
+          "before": 0.15363551303661468,
+          "after": 0.1514187351965185,
+          "delta": -0.00221677784009619,
+          "relative_percent": -1.4428811387949603
+        },
+        "flow_error_mean": {
+          "before": 0.2834248503958587,
+          "after": 0.31336287381504574,
+          "delta": 0.029938023419187054,
+          "relative_percent": 10.56294935937081
+        },
+        "cadence_error_mean": {
+          "before": 0.1227131101072343,
+          "after": 0.13562141799907257,
+          "delta": 0.012908307891838264,
+          "relative_percent": 10.51909439876324
+        },
+        "false_freeze_rate": {
+          "before": 0.6272391255090897,
+          "after": 0.6098079135238529,
+          "delta": -0.017431211985236783,
+          "relative_percent": -2.7790377347855943
+        },
+        "boundary_error": {
+          "before": 4.504882357804233,
+          "after": 4.438618510251323,
+          "delta": -0.06626384755290982,
+          "relative_percent": -1.4709340286792383
+        }
+      },
+      "guards": {
+        "psnr": true,
+        "lpips": true,
+        "flow": false,
+        "cadence": false,
+        "boundary": true
+      },
+      "gain": true,
+      "aggregate_guard_pass": false
+    },
+    "adapter": {
+      "heldout_kinetics": {
+        "raw": {
+          "changes": {
+            "psnr_db": {
+              "before": 16.14791377298392,
+              "after": 18.137211843295923,
+              "delta": 1.9892980703120031,
+              "relative_percent": 12.319226485096646
+            },
+            "lpips_vgg": {
+              "before": 0.4194444918045492,
+              "after": 0.33655838386127446,
+              "delta": -0.08288610794327472,
+              "relative_percent": -19.760924165836368
+            },
+            "ssim": {
+              "before": 0.45842001359670587,
+              "after": 0.5381210868385563,
+              "delta": 0.07970107324185044,
+              "relative_percent": 17.38603701363861
+            },
+            "dists": {
+              "before": 0.21504896156715625,
+              "after": 0.18382168628952722,
+              "delta": -0.03122727527762903,
+              "relative_percent": -14.521007239496608
+            },
+            "clip": {
+              "before": 0.9255297111742424,
+              "after": 0.9402179140033144,
+              "delta": 0.014688202829072017,
+              "relative_percent": 1.5870050039168193
+            },
+            "flow_error_mean": {
+              "before": 1.4227779819630086,
+              "after": 1.5068065028171986,
+              "delta": 0.08402852085418999,
+              "relative_percent": 5.905947513909071
+            },
+            "cadence_error_mean": {
+              "before": 1.1111391853961734,
+              "after": 1.228761463576267,
+              "delta": 0.11762227818009352,
+              "relative_percent": 10.585737567895759
+            },
+            "false_freeze_rate": {
+              "before": 0.45058800038519475,
+              "after": 0.24177567161255076,
+              "delta": -0.208812328772644,
+              "relative_percent": -46.342185898012445
+            }
+          },
+          "guards": {
+            "psnr": true,
+            "lpips": true,
+            "flow": false,
+            "cadence": false
+          },
+          "gain": true,
+          "aggregate_guard_pass": false
+        },
+        "combined_context": {
+          "changes": {
+            "psnr_db": {
+              "before": 18.106269037296222,
+              "after": 20.049726228660983,
+              "delta": 1.943457191364761,
+              "relative_percent": 10.733614900792254
+            },
+            "lpips_vgg": {
+              "before": 0.36068346280830377,
+              "after": 0.2874592836438255,
+              "delta": -0.07322417916447826,
+              "relative_percent": -20.3015071981261
+            },
+            "ssim": {
+              "before": 0.5612735646192323,
+              "after": 0.625226686741575,
+              "delta": 0.06395312212234272,
+              "relative_percent": 11.394287234198973
+            },
+            "dists": {
+              "before": 0.18980791487477042,
+              "after": 0.1675318411805413,
+              "delta": -0.022276073694229126,
+              "relative_percent": -11.736114223121941
+            },
+            "clip": {
+              "before": 0.9370764530066288,
+              "after": 0.9519061464251893,
+              "delta": 0.014829693418560552,
+              "relative_percent": 1.5825489340788756
+            },
+            "flow_error_mean": {
+              "before": 1.2654538773931563,
+              "after": 1.1983430858235806,
+              "delta": -0.06711079156957567,
+              "relative_percent": -5.303298110542309
+            },
+            "cadence_error_mean": {
+              "before": 0.9761337664338849,
+              "after": 0.874213743233873,
+              "delta": -0.10192002320001192,
+              "relative_percent": -10.44119430192001
+            },
+            "false_freeze_rate": {
+              "before": 0.3948598847184487,
+              "after": 0.22014362855283615,
+              "delta": -0.17471625616561254,
+              "relative_percent": -44.24765921465848
+            }
+          },
+          "guards": {
+            "psnr": true,
+            "lpips": true,
+            "flow": true,
+            "cadence": true
+          },
+          "gain": true,
+          "aggregate_guard_pass": true
+        }
+      },
+      "heldout_webvid": {
+        "raw": {
+          "changes": {
+            "psnr_db": {
+              "before": 19.63606801860464,
+              "after": 21.85466576529224,
+              "delta": 2.2185977466875997,
+              "relative_percent": 11.298584546486289
+            },
+            "lpips_vgg": {
+              "before": 0.32952535660429433,
+              "after": 0.2639147431561441,
+              "delta": -0.06561061344815022,
+              "relative_percent": -19.91064181653789
+            },
+            "ssim": {
+              "before": 0.629670792239096,
+              "after": 0.6781816339656844,
+              "delta": 0.04851084172658837,
+              "relative_percent": 7.704159431325186
+            },
+            "dists": {
+              "before": 0.21771075960361597,
+              "after": 0.18042784477725174,
+              "delta": -0.03728291482636423,
+              "relative_percent": -17.124975767961537
+            },
+            "clip": {
+              "before": 0.9198386452414773,
+              "after": 0.9341134736032197,
+              "delta": 0.014274828361742431,
+              "relative_percent": 1.5518839565601183
+            },
+            "flow_error_mean": {
+              "before": 0.864159653079696,
+              "after": 0.7405659209471196,
+              "delta": -0.1235937321325764,
+              "relative_percent": -14.302187297464364
+            },
+            "cadence_error_mean": {
+              "before": 0.5333009910198949,
+              "after": 0.4741914019349121,
+              "delta": -0.059109589084982816,
+              "relative_percent": -11.08372009058909
+            },
+            "false_freeze_rate": {
+              "before": 0.45666617809046656,
+              "after": 0.27255230726409174,
+              "delta": -0.18411387082637481,
+              "relative_percent": -40.31694915446562
+            }
+          },
+          "guards": {
+            "psnr": true,
+            "lpips": true,
+            "flow": true,
+            "cadence": true
+          },
+          "gain": true,
+          "aggregate_guard_pass": true
+        },
+        "combined_context": {
+          "changes": {
+            "psnr_db": {
+              "before": 21.571235862191227,
+              "after": 23.557186944219087,
+              "delta": 1.98595108202786,
+              "relative_percent": 9.206477990946805
+            },
+            "lpips_vgg": {
+              "before": 0.2920914214160858,
+              "after": 0.23842737939434522,
+              "delta": -0.05366404202174058,
+              "relative_percent": -18.372344439823806
+            },
+            "ssim": {
+              "before": 0.6755704184626221,
+              "after": 0.7168587058303452,
+              "delta": 0.04128828736772305,
+              "relative_percent": 6.111618602496205
+            },
+            "dists": {
+              "before": 0.19475898417559537,
+              "after": 0.16908208980704797,
+              "delta": -0.025676894368547393,
+              "relative_percent": -13.18393319683626
+            },
+            "clip": {
+              "before": 0.9391941879734849,
+              "after": 0.9475837476325758,
+              "delta": 0.00838955965909094,
+              "relative_percent": 0.8932721013950484
+            },
+            "flow_error_mean": {
+              "before": 0.8116899194428697,
+              "after": 0.649736356746871,
+              "delta": -0.1619535626959987,
+              "relative_percent": -19.952639402884408
+            },
+            "cadence_error_mean": {
+              "before": 0.43799397142063223,
+              "after": 0.3459318087045704,
+              "delta": -0.09206216271606182,
+              "relative_percent": -21.019047914622767
+            },
+            "false_freeze_rate": {
+              "before": 0.4160475875686474,
+              "after": 0.24996663863522406,
+              "delta": -0.16608094893342334,
+              "relative_percent": -39.91873860006944
+            }
+          },
+          "guards": {
+            "psnr": true,
+            "lpips": true,
+            "flow": true,
+            "cadence": true
+          },
+          "gain": true,
+          "aggregate_guard_pass": true
+        }
+      }
+    },
+    "adapter_native": {
+      "heldout_kinetics": {
+        "raw": {
+          "changes": {
+            "psnr_db": {
+              "before": 17.4564675869018,
+              "after": 17.128175167018284,
+              "delta": -0.328292419883514,
+              "relative_percent": -1.8806348893280256
+            },
+            "lpips_vgg": {
+              "before": 0.37821553464358054,
+              "after": 0.3893442930964132,
+              "delta": 0.011128758452832677,
+              "relative_percent": 2.9424382219836787
+            },
+            "ssim": {
+              "before": 0.5671173987401469,
+              "after": 0.5624905609814678,
+              "delta": -0.004626837758679114,
+              "relative_percent": -0.8158518446017782
+            },
+            "dists": {
+              "before": 0.14573861764123042,
+              "after": 0.14816732984036207,
+              "delta": 0.002428712199131655,
+              "relative_percent": 1.6664849978956786
+            },
+            "clip": {
+              "before": 0.950922139485677,
+              "after": 0.9520256042480468,
+              "delta": 0.0011034647623697769,
+              "relative_percent": 0.11604154709938808
+            },
+            "flow_error_mean": {
+              "before": 1.6593441032535674,
+              "after": 1.747872556181757,
+              "delta": 0.08852845292818956,
+              "relative_percent": 5.3351473485582
+            },
+            "cadence_error_mean": {
+              "before": 1.2156395521239933,
+              "after": 1.2772450550017143,
+              "delta": 0.06160550287772093,
+              "relative_percent": 5.067744198523516
+            },
+            "false_freeze_rate": {
+              "before": 0.453699307730635,
+              "after": 0.3515453792908026,
+              "delta": -0.1021539284398324,
+              "relative_percent": -22.515777895011034
+            },
+            "boundary_error": {
+              "before": 23.737108383269863,
+              "after": 26.943190915051897,
+              "delta": 3.206082531782034,
+              "relative_percent": 13.506626333819627
+            }
+          },
+          "guards": {
+            "psnr": false,
+            "lpips": false,
+            "flow": false,
+            "cadence": false,
+            "boundary": false
+          },
+          "gain": false,
+          "aggregate_guard_pass": false
+        },
+        "combined_context": {
+          "changes": {
+            "psnr_db": {
+              "before": 19.0293201979199,
+              "after": 18.861367142481264,
+              "delta": -0.16795305543863748,
+              "relative_percent": -0.8826014470921351
+            },
+            "lpips_vgg": {
+              "before": 0.3458935909361268,
+              "after": 0.3538782634306699,
+              "delta": 0.007984672494543099,
+              "relative_percent": 2.3084187460465477
+            },
+            "ssim": {
+              "before": 0.6199878759397914,
+              "after": 0.6171277065555967,
+              "delta": -0.002860169384194755,
+              "relative_percent": -0.4613266638253566
+            },
+            "dists": {
+              "before": 0.13821003939956428,
+              "after": 0.1413094432403644,
+              "delta": 0.0030994038408001245,
+              "relative_percent": 2.2425316237988824
+            },
+            "clip": {
+              "before": 0.955609130859375,
+              "after": 0.9548896789550781,
+              "delta": -0.0007194519042968972,
+              "relative_percent": -0.07528725721256402
+            },
+            "flow_error_mean": {
+              "before": 1.4393920117373498,
+              "after": 1.4966781275136452,
+              "delta": 0.05728611577629539,
+              "relative_percent": 3.979882847005034
+            },
+            "cadence_error_mean": {
+              "before": 0.9192715716223475,
+              "after": 0.949754232129849,
+              "delta": 0.03048266050750148,
+              "relative_percent": 3.3159581399547777
+            },
+            "false_freeze_rate": {
+              "before": 0.39155664949111846,
+              "after": 0.30513763905589186,
+              "delta": -0.0864190104352266,
+              "relative_percent": -22.070627723354963
+            },
+            "boundary_error": {
+              "before": 20.144803110940767,
+              "after": 20.400980565881216,
+              "delta": 0.25617745494044897,
+              "relative_percent": 1.2716801128789257
+            }
+          },
+          "guards": {
+            "psnr": false,
+            "lpips": false,
+            "flow": false,
+            "cadence": false,
+            "boundary": true
+          },
+          "gain": false,
+          "aggregate_guard_pass": false
+        }
+      },
+      "heldout_webvid": {
+        "raw": {
+          "changes": {
+            "psnr_db": {
+              "before": 20.359235766709503,
+              "after": 19.847069417904088,
+              "delta": -0.5121663488054153,
+              "relative_percent": -2.515646238759539
+            },
+            "lpips_vgg": {
+              "before": 0.32100405898651463,
+              "after": 0.32869908379154855,
+              "delta": 0.007695024805033923,
+              "relative_percent": 2.39717367728276
+            },
+            "ssim": {
+              "before": 0.6637211317909028,
+              "after": 0.6522801155922218,
+              "delta": -0.011441016198680987,
+              "relative_percent": -1.7237685604208464
+            },
+            "dists": {
+              "before": 0.15731002381381368,
+              "after": 0.1579696934643411,
+              "delta": 0.0006596696505274113,
+              "relative_percent": 0.41934368486789
+            },
+            "clip": {
+              "before": 0.9484159754762549,
+              "after": 0.9461613336060282,
+              "delta": -0.0022546418702267257,
+              "relative_percent": -0.23772710799124797
+            },
+            "flow_error_mean": {
+              "before": 0.3671756842349527,
+              "after": 0.42186907460593637,
+              "delta": 0.05469339037098364,
+              "relative_percent": 14.895700537725642
+            },
+            "cadence_error_mean": {
+              "before": 0.26853748572838343,
+              "after": 0.27380021879331895,
+              "delta": 0.005262733064935521,
+              "relative_percent": 1.9597759510784352
+            },
+            "false_freeze_rate": {
+              "before": 0.3784460917768414,
+              "after": 0.29142334529793207,
+              "delta": -0.08702274647890934,
+              "relative_percent": -22.99475364386221
+            },
+            "boundary_error": {
+              "before": 6.8513264521846065,
+              "after": 6.261786114728009,
+              "delta": -0.5895403374565973,
+              "relative_percent": -8.604762035074497
+            }
+          },
+          "guards": {
+            "psnr": false,
+            "lpips": false,
+            "flow": false,
+            "cadence": true,
+            "boundary": true
+          },
+          "gain": false,
+          "aggregate_guard_pass": false
+        },
+        "combined_context": {
+          "changes": {
+            "psnr_db": {
+              "before": 21.49974412831616,
+              "after": 21.053913208020617,
+              "delta": -0.44583092029554194,
+              "relative_percent": -2.0736568660292165
+            },
+            "lpips_vgg": {
+              "before": 0.31649623321385545,
+              "after": 0.3233136383367737,
+              "delta": 0.00681740512291823,
+              "relative_percent": 2.154024094912921
+            },
+            "ssim": {
+              "before": 0.6835835166038963,
+              "after": 0.6732005948719099,
+              "delta": -0.010382921731986405,
+              "relative_percent": -1.5188958598021274
+            },
+            "dists": {
+              "before": 0.15939172782707356,
+              "after": 0.1617469522560543,
+              "delta": 0.002355224428980729,
+              "relative_percent": 1.4776327862735528
+            },
+            "clip": {
+              "before": 0.9481175178752728,
+              "after": 0.9440866825320156,
+              "delta": -0.004030835343257211,
+              "relative_percent": -0.4251408994414896
+            },
+            "flow_error_mean": {
+              "before": 0.32619347043257696,
+              "after": 0.36751094291143943,
+              "delta": 0.04131747247886247,
+              "relative_percent": 12.666554123253881
+            },
+            "cadence_error_mean": {
+              "before": 0.1822074651729301,
+              "after": 0.17557343605199066,
+              "delta": -0.006634029120939439,
+              "relative_percent": -3.640920592711827
+            },
+            "false_freeze_rate": {
+              "before": 0.31370832105780677,
+              "after": 0.2615416860592471,
+              "delta": -0.05216663499855967,
+              "relative_percent": -16.629024956257688
+            },
+            "boundary_error": {
+              "before": 3.679181224681713,
+              "after": 3.809950584129051,
+              "delta": 0.13076935944733803,
+              "relative_percent": 3.5543060116222103
+            }
+          },
+          "guards": {
+            "psnr": false,
+            "lpips": false,
+            "flow": false,
+            "cadence": true,
+            "boundary": true
+          },
+          "gain": false,
+          "aggregate_guard_pass": false
+        }
+      }
+    }
+  },
+  "conclusions": {
+    "flow": "sampling defects corrected; reconstruction guards failed",
+    "budget": "positive three-source six-condition fallback pilot; consumes additional actual rate under the old 5 percent cap",
+    "tracking": "better synthetic tracking and LPIPS; motion guards failed at identical actual rate",
+    "adapter": "33-frame pilot gains did not transfer to native full-video execution; do not promote"
+  },
+  "production_default_changed": false,
+  "combined_all_four_improvement_claim": false,
+  "hallucination_mitigation_verified": false,
+  "semantic_review": "contact sheets and videos are diagnostic, not independent blinded Added/Missing/Distorted ground truth",
+  "experiment_sizes": {
+    "flow_audit_sources": 36,
+    "flow_audit_segments": 199,
+    "flow_generation_pairs": 5,
+    "budget_sources": 3,
+    "budget_conditions": 6,
+    "tracker_pairs": 5,
+    "adapter_training_sources": 19,
+    "adapter_training_intervals": 30,
+    "adapter_training_steps": 600,
+    "adapter_pilot_eval_sources": 8,
+    "adapter_native_eval_sources": 8,
+    "adapter_native_frames_per_arm": 2253
+  },
+  "audit": {
+    "status": "PASSED",
+    "imported_webvid_files_rehashed": 128565,
+    "kinetics_files_rehashed": 972,
+    "generation_receipts_verified": 26,
+    "sealed_generated_files": 25014,
+    "train_sources": 19,
+    "heldout_sources": 8,
+    "source_disjoint": true,
+    "native_noise_identical": true,
+    "native_packets_and_keys_identical": true,
+    "budget_actual_costs": [
+      {
+        "id": "webvid_014_11e49905",
+        "snr": 6,
+        "extra_symbols": 9216,
+        "relative_to_base": 0.04963164017060876,
+        "windows": 4
+      },
+      {
+        "id": "webvid_014_11e49905",
+        "snr": 8,
+        "extra_symbols": 9216,
+        "relative_to_base": 0.04963164017060876,
+        "windows": 4
+      },
+      {
+        "id": "webvid_024_7bfbcc91",
+        "snr": 6,
+        "extra_symbols": 4608,
+        "relative_to_base": 0.039914073868754764,
+        "windows": 2
+      },
+      {
+        "id": "webvid_024_7bfbcc91",
+        "snr": 8,
+        "extra_symbols": 4608,
+        "relative_to_base": 0.039914073868754764,
+        "windows": 2
+      },
+      {
+        "id": "webvid_031_c225fee8",
+        "snr": 6,
+        "extra_symbols": 9216,
+        "relative_to_base": 0.03438344103030936,
+        "windows": 6
+      },
+      {
+        "id": "webvid_031_c225fee8",
+        "snr": 8,
+        "extra_symbols": 9216,
+        "relative_to_base": 0.03438344103030936,
+        "windows": 6
+      }
+    ],
+    "tracker_same_actual_costs": [
+      {
+        "id": "webvid_017_6db8f5a7",
+        "symbols": 2304
+      },
+      {
+        "id": "webvid_019_ece4bef6",
+        "symbols": 11520
+      },
+      {
+        "id": "webvid_022_f54228f7",
+        "symbols": 4608
+      },
+      {
+        "id": "webvid_028_e1800b23",
+        "symbols": 4608
+      },
+      {
+        "id": "webvid_030_23cb4cc7",
+        "symbols": 13824
+      }
+    ],
+    "seconds": 36.485796963999746,
+    "artifact_manifest_sha256": "600eb371c07da5235b2c9f115f9708fa505c18e3912e83417520f1949a6dbe78"
+  },
+  "gallery": [
+    {
+      "stage": "adapter_native",
+      "id": "webvid_024_7bfbcc91",
+      "sheet": "review/native_webvid_024_7bfbcc91.png",
+      "videos": [
+        "adapter_native/webvid_024_7bfbcc91/baseline/refined/reconstruction.mp4",
+        "adapter_native/webvid_024_7bfbcc91/adapter/refined/reconstruction.mp4"
+      ],
+      "source_video": "../bsu_webvid_completed_20261015/inputs/outputs/remote_webvid_full_20261012/webvid/webvid_024_7bfbcc91/normalized.mp4"
+    },
+    {
+      "stage": "adapter_native",
+      "id": "webvid_025_efae75c7",
+      "sheet": "review/native_webvid_025_efae75c7.png",
+      "videos": [
+        "adapter_native/webvid_025_efae75c7/baseline/refined/reconstruction.mp4",
+        "adapter_native/webvid_025_efae75c7/adapter/refined/reconstruction.mp4"
+      ],
+      "source_video": "../bsu_webvid_completed_20261015/inputs/outputs/remote_webvid_full_20261012/webvid/webvid_025_efae75c7/normalized.mp4"
+    },
+    {
+      "stage": "adapter_native",
+      "id": "webvid_026_b15906e2",
+      "sheet": "review/native_webvid_026_b15906e2.png",
+      "videos": [
+        "adapter_native/webvid_026_b15906e2/baseline/refined/reconstruction.mp4",
+        "adapter_native/webvid_026_b15906e2/adapter/refined/reconstruction.mp4"
+      ],
+      "source_video": "../bsu_webvid_completed_20261015/inputs/outputs/remote_webvid_full_20261012/webvid/webvid_026_b15906e2/normalized.mp4"
+    },
+    {
+      "stage": "adapter_native",
+      "id": "webvid_027_8e3b5f7e",
+      "sheet": "review/native_webvid_027_8e3b5f7e.png",
+      "videos": [
+        "adapter_native/webvid_027_8e3b5f7e/baseline/refined/reconstruction.mp4",
+        "adapter_native/webvid_027_8e3b5f7e/adapter/refined/reconstruction.mp4"
+      ],
+      "source_video": "../bsu_webvid_completed_20261015/inputs/outputs/remote_webvid_full_20261012/webvid/webvid_027_8e3b5f7e/normalized.mp4"
+    },
+    {
+      "stage": "adapter_native",
+      "id": "kinetics_001_a393e9d3",
+      "sheet": "review/native_kinetics_001_a393e9d3.png",
+      "videos": [
+        "adapter_native/kinetics_001_a393e9d3/baseline/refined/reconstruction.mp4",
+        "adapter_native/kinetics_001_a393e9d3/adapter/refined/reconstruction.mp4"
+      ],
+      "source_video": "../bsu_kinetics_context/inputs/kinetics/kinetics_001_a393e9d3/normalized.mp4"
+    },
+    {
+      "stage": "adapter_native",
+      "id": "kinetics_002_5e11db4c",
+      "sheet": "review/native_kinetics_002_5e11db4c.png",
+      "videos": [
+        "adapter_native/kinetics_002_5e11db4c/baseline/refined/reconstruction.mp4",
+        "adapter_native/kinetics_002_5e11db4c/adapter/refined/reconstruction.mp4"
+      ],
+      "source_video": "../bsu_kinetics_context/inputs/kinetics/kinetics_002_5e11db4c/normalized.mp4"
+    },
+    {
+      "stage": "adapter_native",
+      "id": "kinetics_003_5d588509",
+      "sheet": "review/native_kinetics_003_5d588509.png",
+      "videos": [
+        "adapter_native/kinetics_003_5d588509/baseline/refined/reconstruction.mp4",
+        "adapter_native/kinetics_003_5d588509/adapter/refined/reconstruction.mp4"
+      ],
+      "source_video": "../bsu_kinetics_context/inputs/kinetics/kinetics_003_5d588509/normalized.mp4"
+    },
+    {
+      "stage": "adapter_native",
+      "id": "kinetics_004_afa8dee0",
+      "sheet": "review/native_kinetics_004_afa8dee0.png",
+      "videos": [
+        "adapter_native/kinetics_004_afa8dee0/baseline/refined/reconstruction.mp4",
+        "adapter_native/kinetics_004_afa8dee0/adapter/refined/reconstruction.mp4"
+      ],
+      "source_video": "../bsu_kinetics_context/inputs/kinetics/kinetics_004_afa8dee0/normalized.mp4"
+    },
+    {
+      "stage": "budget",
+      "id": "webvid_014_11e49905",
+      "sheet": "review/budget_webvid_014_11e49905.png",
+      "videos": [
+        "budget/webvid_014_11e49905/snr_6/baseline/reconstruction.mp4",
+        "budget/webvid_014_11e49905/snr_6/allocated/reconstruction.mp4"
+      ],
+      "source_video": "../bsu_webvid_completed_20261015/inputs/outputs/remote_webvid_full_20261012/webvid/webvid_014_11e49905/normalized.mp4"
+    },
+    {
+      "stage": "budget",
+      "id": "webvid_024_7bfbcc91",
+      "sheet": "review/budget_webvid_024_7bfbcc91.png",
+      "videos": [
+        "budget/webvid_024_7bfbcc91/snr_6/baseline/reconstruction.mp4",
+        "budget/webvid_024_7bfbcc91/snr_6/allocated/reconstruction.mp4"
+      ],
+      "source_video": "../bsu_webvid_completed_20261015/inputs/outputs/remote_webvid_full_20261012/webvid/webvid_024_7bfbcc91/normalized.mp4"
+    },
+    {
+      "stage": "budget",
+      "id": "webvid_031_c225fee8",
+      "sheet": "review/budget_webvid_031_c225fee8.png",
+      "videos": [
+        "budget/webvid_031_c225fee8/snr_6/baseline/reconstruction.mp4",
+        "budget/webvid_031_c225fee8/snr_6/allocated/reconstruction.mp4"
+      ],
+      "source_video": "../bsu_webvid_completed_20261015/inputs/outputs/remote_webvid_full_20261012/webvid/webvid_031_c225fee8/normalized.mp4"
+    },
+    {
+      "stage": "flow_reconstruction",
+      "id": "webvid_017_6db8f5a7",
+      "sheet": "review/flow_reconstruction_webvid_017_6db8f5a7.png",
+      "videos": [
+        "flow_reconstruction/webvid_017_6db8f5a7/baseline/refined/reconstruction.mp4",
+        "flow_reconstruction/webvid_017_6db8f5a7/distributed_flow/refined/reconstruction.mp4"
+      ],
+      "source_video": "../bsu_webvid_completed_20261015/inputs/outputs/remote_webvid_full_20261012/webvid/webvid_017_6db8f5a7/normalized.mp4"
+    },
+    {
+      "stage": "flow_reconstruction",
+      "id": "webvid_019_ece4bef6",
+      "sheet": "review/flow_reconstruction_webvid_019_ece4bef6.png",
+      "videos": [
+        "flow_reconstruction/webvid_019_ece4bef6/baseline/refined/reconstruction.mp4",
+        "flow_reconstruction/webvid_019_ece4bef6/distributed_flow/refined/reconstruction.mp4"
+      ],
+      "source_video": "../bsu_webvid_completed_20261015/inputs/outputs/remote_webvid_full_20261012/webvid/webvid_019_ece4bef6/normalized.mp4"
+    },
+    {
+      "stage": "flow_reconstruction",
+      "id": "webvid_022_f54228f7",
+      "sheet": "review/flow_reconstruction_webvid_022_f54228f7.png",
+      "videos": [
+        "flow_reconstruction/webvid_022_f54228f7/baseline/refined/reconstruction.mp4",
+        "flow_reconstruction/webvid_022_f54228f7/distributed_flow/refined/reconstruction.mp4"
+      ],
+      "source_video": "../bsu_webvid_completed_20261015/inputs/outputs/remote_webvid_full_20261012/webvid/webvid_022_f54228f7/normalized.mp4"
+    },
+    {
+      "stage": "flow_reconstruction",
+      "id": "webvid_028_e1800b23",
+      "sheet": "review/flow_reconstruction_webvid_028_e1800b23.png",
+      "videos": [
+        "flow_reconstruction/webvid_028_e1800b23/baseline/refined/reconstruction.mp4",
+        "flow_reconstruction/webvid_028_e1800b23/distributed_flow/refined/reconstruction.mp4"
+      ],
+      "source_video": "../bsu_webvid_completed_20261015/inputs/outputs/remote_webvid_full_20261012/webvid/webvid_028_e1800b23/normalized.mp4"
+    },
+    {
+      "stage": "flow_reconstruction",
+      "id": "webvid_030_23cb4cc7",
+      "sheet": "review/flow_reconstruction_webvid_030_23cb4cc7.png",
+      "videos": [
+        "flow_reconstruction/webvid_030_23cb4cc7/baseline/refined/reconstruction.mp4",
+        "flow_reconstruction/webvid_030_23cb4cc7/distributed_flow/refined/reconstruction.mp4"
+      ],
+      "source_video": "../bsu_webvid_completed_20261015/inputs/outputs/remote_webvid_full_20261012/webvid/webvid_030_23cb4cc7/normalized.mp4"
+    },
+    {
+      "stage": "tracking",
+      "id": "webvid_017_6db8f5a7",
+      "sheet": "review/tracking_webvid_017_6db8f5a7.png",
+      "videos": [
+        "tracking/webvid_017_6db8f5a7/lk/reconstruction.mp4",
+        "tracking/webvid_017_6db8f5a7/tapnextpp/reconstruction.mp4"
+      ],
+      "source_video": "../bsu_webvid_completed_20261015/inputs/outputs/remote_webvid_full_20261012/webvid/webvid_017_6db8f5a7/normalized.mp4"
+    },
+    {
+      "stage": "tracking",
+      "id": "webvid_019_ece4bef6",
+      "sheet": "review/tracking_webvid_019_ece4bef6.png",
+      "videos": [
+        "tracking/webvid_019_ece4bef6/lk/reconstruction.mp4",
+        "tracking/webvid_019_ece4bef6/tapnextpp/reconstruction.mp4"
+      ],
+      "source_video": "../bsu_webvid_completed_20261015/inputs/outputs/remote_webvid_full_20261012/webvid/webvid_019_ece4bef6/normalized.mp4"
+    },
+    {
+      "stage": "tracking",
+      "id": "webvid_022_f54228f7",
+      "sheet": "review/tracking_webvid_022_f54228f7.png",
+      "videos": [
+        "tracking/webvid_022_f54228f7/lk/reconstruction.mp4",
+        "tracking/webvid_022_f54228f7/tapnextpp/reconstruction.mp4"
+      ],
+      "source_video": "../bsu_webvid_completed_20261015/inputs/outputs/remote_webvid_full_20261012/webvid/webvid_022_f54228f7/normalized.mp4"
+    },
+    {
+      "stage": "tracking",
+      "id": "webvid_028_e1800b23",
+      "sheet": "review/tracking_webvid_028_e1800b23.png",
+      "videos": [
+        "tracking/webvid_028_e1800b23/lk/reconstruction.mp4",
+        "tracking/webvid_028_e1800b23/tapnextpp/reconstruction.mp4"
+      ],
+      "source_video": "../bsu_webvid_completed_20261015/inputs/outputs/remote_webvid_full_20261012/webvid/webvid_028_e1800b23/normalized.mp4"
+    },
+    {
+      "stage": "tracking",
+      "id": "webvid_030_23cb4cc7",
+      "sheet": "review/tracking_webvid_030_23cb4cc7.png",
+      "videos": [
+        "tracking/webvid_030_23cb4cc7/lk/reconstruction.mp4",
+        "tracking/webvid_030_23cb4cc7/tapnextpp/reconstruction.mp4"
+      ],
+      "source_video": "../bsu_webvid_completed_20261015/inputs/outputs/remote_webvid_full_20261012/webvid/webvid_030_23cb4cc7/normalized.mp4"
+    }
+  ],
+  "limitations": [
+    "Single generation seed; small purposive cohorts, no population-level significance claim.",
+    "Flow and tracking use five previously diagnosed development sources.",
+    "Budget fallback improves formerly unsent conditions; actual channel uses increase 3.44-4.96 percent of base.",
+    "TAPNext++ is compared with LK, not every candidate tracker from the literature.",
+    "The adapter is a small new prototype, not a reproduction of Tora or other published full models.",
+    "Native evaluation reuses the same eight heldout pilot sources; no checkpoint or strength tuning.",
+    "Motion metrics use Farneback flow and are diagnostic proxies, not action-semantic ground truth.",
+    "Budget/tracking/flow comparisons use matched MP4 encoding; adapter comparisons use lossless PNG arrays. Do not compare absolute scores between stages."
+  ],
+  "tests": {
+    "tests": 348,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "visual_review": {
+    "status": "DIAGNOSTIC_SAMPLE_REVIEW",
+    "reviewer": "assistant",
+    "blinded": false,
+    "independent_action_ground_truth": false,
+    "sampling": "Four equally spaced interior times per inspected source; contact sheets, not exhaustive video annotation",
+    "inspected": [
+      "native_webvid_024_7bfbcc91",
+      "native_webvid_025_efae75c7",
+      "native_webvid_026_b15906e2",
+      "native_webvid_027_8e3b5f7e",
+      "native_kinetics_001_a393e9d3",
+      "native_kinetics_002_5e11db4c",
+      "native_kinetics_003_5d588509",
+      "native_kinetics_004_afa8dee0",
+      "budget_webvid_014_11e49905",
+      "budget_webvid_024_7bfbcc91",
+      "budget_webvid_031_c225fee8",
+      "flow_reconstruction_webvid_019_ece4bef6",
+      "flow_reconstruction_webvid_028_e1800b23",
+      "tracking_webvid_019_ece4bef6",
+      "tracking_webvid_028_e1800b23"
+    ],
+    "summary_ko": "예산 배분의 평균 개선에도 헬리콥터 윤곽의 겹침과 컵·손의 잔상이 남습니다. 어댑터는 도시 풍경의 구조 왜곡과 사람·풍선의 잘못된 위치·자세를 해결하지 못했습니다. 의미 오류 감소로 해석하지 않습니다.",
+    "observations": [
+      {
+        "case": "native_webvid_024_7bfbcc91",
+        "frames": [
+          155,
+          207
+        ],
+        "finding": "Both reconstructions retain or generate raised arms where the source has withdrawn the arm."
+      },
+      {
+        "case": "native_webvid_026_b15906e2",
+        "frames": [
+          97,
+          195,
+          292,
+          390
+        ],
+        "finding": "Both arms alter boat geometry and background detail; adapter does not restore source shape."
+      },
+      {
+        "case": "native_webvid_027_8e3b5f7e",
+        "frames": [
+          235,
+          313
+        ],
+        "finding": "Adapter generates a large foreground wall and distorts building geometry relative to the source."
+      },
+      {
+        "case": "native_kinetics_001_a393e9d3",
+        "frames": [
+          96,
+          143
+        ],
+        "finding": "Overlapping or translucent players remain in both arms."
+      },
+      {
+        "case": "native_kinetics_003_5d588509",
+        "frames": [
+          96,
+          191
+        ],
+        "finding": "Adapter hands and arms visibly blur; exact piano actions remain unverified."
+      },
+      {
+        "case": "native_kinetics_004_afa8dee0",
+        "frames": [
+          48,
+          96
+        ],
+        "finding": "Balloon position and shape diverge from the source, including with the adapter."
+      },
+      {
+        "case": "budget_webvid_014_11e49905",
+        "frames": [
+          143,
+          286
+        ],
+        "finding": "Allocated output retains doubled faint helicopter outlines despite improved aggregate quality."
+      },
+      {
+        "case": "budget_webvid_031_c225fee8",
+        "frames": [
+          141,
+          211
+        ],
+        "finding": "Cup/hand transparency and door-edge distortions remain in both arms."
+      },
+      {
+        "case": "flow_reconstruction_webvid_019_ece4bef6",
+        "frames": [
+          35,
+          69,
+          104,
+          138
+        ],
+        "finding": "Distributed scalar motion does not remove doubled or distorted legs/equipment."
+      },
+      {
+        "case": "tracking_webvid_028_e1800b23",
+        "frames": [
+          70,
+          140,
+          210,
+          280
+        ],
+        "finding": "TAPNext++ postprocessing reduces some oversized train appearances, but source train scale and motion are not faithfully recovered."
+      },
+      {
+        "case": "tracking_webvid_019_ece4bef6",
+        "frames": [
+          35,
+          69,
+          104,
+          138
+        ],
+        "finding": "Overlapping leg poses remain after the tracker replacement."
+      }
+    ]
+  }
+}

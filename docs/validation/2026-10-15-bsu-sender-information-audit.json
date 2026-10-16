@@ -1,0 +1,6421 @@
+{
+  "date": "2026-10-15",
+  "status": "COMPLETE_SENDER_INFORMATION_AUDIT",
+  "conclusion": "No transmitted digital metadata loss or reviewed main-action caption omission found; sender motion sampling and budget fallback demonstrably omit parts of the available detailed motion evidence.",
+  "scope": {
+    "status": "PACKET_AND_REPRESENTATION_AUDIT_COMPLETE",
+    "source_videos": 36,
+    "conditions": 108,
+    "base_packets_byte_identical": 108,
+    "caption_and_flow_csv_exact": 108,
+    "decoder_prompt_traces_verified": 108,
+    "trajectories_byte_identical": 83,
+    "trajectories_not_sent": 25,
+    "segments_at_10db": 199,
+    "keys_at_10db": 235,
+    "only_endpoint_keys": 12,
+    "max_key_gap_seconds": 30.0,
+    "flow_segments_with_unobserved_later_frames": 97,
+    "flow_segments_with_duplicate_pairs": 85,
+    "duplicated_flow_pairs": 121,
+    "total_flow_pairs": 597,
+    "per_snr": {
+      "6": {
+        "conditions": 36,
+        "trajectory_packets": 24,
+        "segment_windows": 199,
+        "missing_trajectory_windows": 42
+      },
+      "8": {
+        "conditions": 36,
+        "trajectory_packets": 24,
+        "segment_windows": 199,
+        "missing_trajectory_windows": 42
+      },
+      "10": {
+        "conditions": 36,
+        "trajectory_packets": 35,
+        "segment_windows": 199,
+        "missing_trajectory_windows": 1
+      }
+    },
+    "inference_changed": false,
+    "source_role": "diagnostic only; no original used to change reconstruction"
+  },
+  "prompt_check": {
+    "captions": 199,
+    "caption_word_sequence_preserved": 199,
+    "max_prompt_tokens": 99,
+    "min_prompt_tokens": 41,
+    "token_limit": 300,
+    "truncation_detected": false,
+    "tokenizer_model": "/home/sangukbae/.cache/huggingface/hub/models--DeepFloyd--t5-v1_1-xxl/snapshots/c9c625d2ec93667ec579ede125fd3811d1f81d37"
+  },
+  "findings": [
+    {
+      "id": "metadata_transport",
+      "status": "NO_LOSS_FOUND",
+      "scope": "108 conditions",
+      "detail": "108 base metadata packets byte-identical; caption/flow CSV and actual decoder input CSV match; 83 transmitted trajectory packets byte-identical. This does not imply analog visual reconstruction is lossless."
+    },
+    {
+      "id": "caption_delivery",
+      "status": "NO_DROP_OR_TRUNCATION_FOUND",
+      "scope": "199 unique segment captions at 10dB; text/key selections also matched across SNR",
+      "detail": "Caption word sequence preserved in effective T5 prompts; prompt hashes match decoder calls; all prompt token counts below 300."
+    },
+    {
+      "id": "main_event_omission",
+      "status": "NOT_SUPPORTED_IN_FIVE_REVIEWED_FAILURE_WINDOWS",
+      "scope": "Five selected videos and source-paired frames",
+      "detail": "Train movement, bending/rising, repeated leg extension, grain motion, and flowing/rippling water are explicitly present. This is not an exhaustive semantic audit of all 36 videos."
+    },
+    {
+      "id": "flow_temporal_coverage",
+      "status": "CONFIRMED_UNOBSERVED_LATER_MOTION_IN_SCALAR",
+      "scope": "97 of 199 unique segments",
+      "detail": "Only source clip offsets 0/10/20/30 (clamped for short clips) feed the single global motion scalar; later source frames do not contribute. Other transmitted modalities may still contain related information."
+    },
+    {
+      "id": "duplicate_flow_inputs",
+      "status": "CONFIRMED_DUPLICATE_COMPARISONS",
+      "scope": "85 of 199 unique segments; 121 of 597 flow pairs",
+      "detail": "Short clips repeat their last frame. These comparisons contain no real temporal change; the size and quality effect of any numerical bias were not measured."
+    },
+    {
+      "id": "trajectory_budget",
+      "status": "CONFIRMED_NOT_SENT_BY_BUDGET_FALLBACK",
+      "scope": "25 of 108 conditions",
+      "detail": "24 missing packets at 6/8dB plus one at 10dB. The sender intentionally fell back because no trajectory packet fit its declared budget; not packet loss in transit. Captions and keyframes still exist."
+    },
+    {
+      "id": "keyframe_coverage",
+      "status": "CONFIRMED_SPARSE_DIRECT_VISUAL_EVIDENCE",
+      "scope": "12 of 36 videos have only endpoint keys; maximum key gap 30 seconds",
+      "detail": "Intermediate full RGB frames are not transmitted as keys. This alone does not prove an important event was absent from all other modalities."
+    }
+  ],
+  "source_review": [
+    {
+      "id": "webvid_028_e1800b23",
+      "start": 0,
+      "end": 280,
+      "source_movie": "outputs/bsu_webvid_completed_20261015/inputs/outputs/remote_webvid_full_20261012/webvid/webvid_028_e1800b23/normalized.mp4",
+      "segment": {
+        "start": 0,
+        "end": 280,
+        "duration_seconds": 11.666666666666666,
+        "caption": "A long yellow train moves along a curved track near the waterfront, its front end progressing towards the lower right. The harbor, boats, palm trees, and red-roofed houses remain in a similar arrangement. The sea and parked cars stay steady in the background.",
+        "caption_source_indices": [
+          34,
+          104,
+          174,
+          243
+        ],
+        "scalar_flow": 0.1224159523844719,
+        "scalar_flow_source_indices": [
+          0,
+          10,
+          20,
+          30
+        ],
+        "flow_sample_span_fraction": 0.10752688172043011,
+        "later_frames_unobserved_by_flow": 249,
+        "duplicate_flow_pairs": 0,
+        "effective_t5_prompt": "a long yellow train moves along a curved track near the waterfront, its front end progressing towards the lower right. the harbor, boats, palm trees, and red-roofed houses remain in a similar arrangement. the sea and parked cars stay steady in the background. aesthetic score: 6.5. motion score: 0.1.",
+        "trajectory": {
+          "points": 16,
+          "knot_indices": [
+            0,
+            44,
+            84,
+            120,
+            149,
+            169,
+            188,
+            214,
+            280
+          ],
+          "valid_point_frame_ratio": 1.0,
+          "frames_without_any_valid_track": 0,
+          "knot_positions": [
+            [
+              [
+                228.0,
+                111.0
+              ],
+              [
+                167.0,
+                59.0
+              ],
+              [
+                267.0,
+                78.0
+              ],
+              [
+                219.0,
+                71.0
+              ],
+              [
+                11.0,
+                36.0
+              ],
+              [
+                93.0,
+                33.0
+              ],
+              [
+                187.0,
+                136.0
+              ],
+              [
+                3.0,
+                142.0
+              ],
+              [
+                231.0,
+                114.5
+              ],
+              [
+                192.75,
+                58.5
+              ],
+              [
+                261.5,
+                76.5
+              ],
+              [
+                151.5,
+                48.75
+              ],
+              [
+                3.0,
+                142.0
+              ],
+              [
+                139.25,
+                107.25
+              ],
+              [
+                27.5,
+                36.25
+              ],
+              [
+                246.0,
+                98.75
+              ]
+            ],
+            [
+              [
+                227.75,
+                111.0
+              ],
+              [
+                173.0,
+                60.5
+              ],
+              [
+                269.0,
+                78.5
+              ],
+              [
+                222.5,
+                72.25
+              ],
+              [
+                14.75,
+                35.75
+              ],
+              [
+                93.25,
+                33.0
+              ],
+              [
+                187.0,
+                136.0
+              ],
+              [
+                3.25,
+                142.0
+              ],
+              [
+                230.75,
+                114.5
+              ],
+              [
+                193.5,
+                58.75
+              ],
+              [
+                262.5,
+                76.5
+              ],
+              [
+                151.25,
+                49.25
+              ],
+              [
+                3.0,
+                142.0
+              ],
+              [
+                139.25,
+                107.25
+              ],
+              [
+                27.75,
+                36.25
+              ],
+              [
+                246.5,
+                99.5
+              ]
+            ],
+            [
+              [
+                227.75,
+                111.0
+              ],
+              [
+                176.5,
+                61.0
+              ],
+              [
+                274.75,
+                79.75
+              ],
+              [
+                224.25,
+                73.0
+              ],
+              [
+                17.0,
+                35.75
+              ],
+              [
+                93.75,
+                33.0
+              ],
+              [
+                186.75,
+                136.0
+              ],
+              [
+                3.25,
+                142.0
+              ],
+              [
+                230.75,
+                114.75
+              ],
+              [
+                193.75,
+                58.75
+              ],
+              [
+                265.5,
+                77.25
+              ],
+              [
+                151.5,
+                50.25
+              ],
+              [
+                3.0,
+                142.0
+              ],
+              [
+                139.25,
+                107.25
+              ],
+              [
+                28.0,
+                36.25
+              ],
+              [
+                246.5,
+                101.25
+              ]
+            ],
+            [
+              [
+                227.5,
+                111.25
+              ],
+              [
+                176.5,
+                61.5
+              ],
+              [
+                274.25,
+                79.75
+              ],
+              [
+                225.5,
+                73.5
+              ],
+              [
+                17.75,
+                35.5
+              ],
+              [
+                94.0,
+                33.0
+              ],
+              [
+                187.0,
+                136.0
+              ],
+              [
+                3.25,
+                142.0
+              ],
+              [
+                230.5,
+                115.0
+              ],
+              [
+                196.75,
+                59.5
+              ],
+              [
+                265.0,
+                77.0
+              ],
+              [
+                153.5,
+                51.5
+              ],
+              [
+                3.0,
+                142.25
+              ],
+              [
+                139.25,
+                107.25
+              ],
+              [
+                28.25,
+                36.0
+              ],
+              [
+                245.5,
+                103.75
+              ]
+            ],
+            [
+              [
+                227.0,
+                112.0
+              ],
+              [
+                180.25,
+                62.25
+              ],
+              [
+                273.5,
+                79.75
+              ],
+              [
+                228.0,
+                74.25
+              ],
+              [
+                18.0,
+                35.5
+              ],
+              [
+                94.0,
+                33.0
+              ],
+              [
+                187.0,
+                136.0
+              ],
+              [
+                3.25,
+                142.0
+              ],
+              [
+                229.5,
+                116.0
+              ],
+              [
+                195.75,
+                59.5
+              ],
+              [
+                264.0,
+                77.25
+              ],
+              [
+                153.5,
+                52.25
+              ],
+              [
+                3.0,
+                142.25
+              ],
+              [
+                139.25,
+                107.25
+              ],
+              [
+                28.25,
+                36.25
+              ],
+              [
+                243.75,
+                106.25
+              ]
+            ],
+            [
+              [
+                225.75,
+                113.25
+              ],
+              [
+                183.5,
+                62.75
+              ],
+              [
+                273.25,
+                79.75
+              ],
+              [
+                228.75,
+                74.5
+              ],
+              [
+                18.25,
+                35.5
+              ],
+              [
+                94.25,
+                33.0
+              ],
+              [
+                187.0,
+                136.0
+              ],
+              [
+                3.25,
+                142.0
+              ],
+              [
+                228.25,
+                117.25
+              ],
+              [
+                197.0,
+                59.75
+              ],
+              [
+                264.25,
+                77.25
+              ],
+              [
+                153.5,
+                52.5
+              ],
+              [
+                3.0,
+                142.25
+              ],
+              [
+                139.25,
+                107.25
+              ],
+              [
+                28.25,
+                36.0
+              ],
+              [
+                242.0,
+                108.0
+              ]
+            ],
+            [
+              [
+                222.75,
+                114.5
+              ],
+              [
+                186.25,
+                63.5
+              ],
+              [
+                274.75,
+                80.25
+              ],
+              [
+                229.5,
+                74.75
+              ],
+              [
+                18.5,
+                35.5
+              ],
+              [
+                94.5,
+                33.0
+              ],
+              [
+                187.0,
+                136.0
+              ],
+              [
+                3.0,
+                142.0
+              ],
+              [
+                226.25,
+                118.5
+              ],
+              [
+                202.25,
+                61.0
+              ],
+              [
+                266.25,
+                77.75
+              ],
+              [
+                154.0,
+                53.0
+              ],
+              [
+                2.75,
+                142.25
+              ],
+              [
+                139.5,
+                107.25
+              ],
+              [
+                28.5,
+                36.0
+              ],
+              [
+                240.75,
+                109.25
+              ]
+            ],
+            [
+              [
+                216.0,
+                116.75
+              ],
+              [
+                186.25,
+                63.25
+              ],
+              [
+                278.5,
+                80.75
+              ],
+              [
+                230.5,
+                75.25
+              ],
+              [
+                20.0,
+                35.5
+              ],
+              [
+                94.75,
+                33.0
+              ],
+              [
+                187.0,
+                135.75
+              ],
+              [
+                3.0,
+                142.0
+              ],
+              [
+                220.0,
+                121.25
+              ],
+              [
+                208.0,
+                61.75
+              ],
+              [
+                268.25,
+                78.0
+              ],
+              [
+                153.75,
+                52.75
+              ],
+              [
+                3.0,
+                142.0
+              ],
+              [
+                139.75,
+                107.0
+              ],
+              [
+                28.5,
+                36.0
+              ],
+              [
+                239.5,
+                110.25
+              ]
+            ],
+            [
+              [
+                206.75,
+                121.25
+              ],
+              [
+                187.5,
+                63.5
+              ],
+              [
+                276.25,
+                80.5
+              ],
+              [
+                235.25,
+                77.75
+              ],
+              [
+                21.25,
+                35.25
+              ],
+              [
+                96.25,
+                33.0
+              ],
+              [
+                183.25,
+                136.5
+              ],
+              [
+                3.25,
+                142.0
+              ],
+              [
+                210.0,
+                126.0
+              ],
+              [
+                210.0,
+                62.0
+              ],
+              [
+                267.0,
+                78.0
+              ],
+              [
+                154.0,
+                54.0
+              ],
+              [
+                3.0,
+                142.0
+              ],
+              [
+                140.0,
+                107.0
+              ],
+              [
+                29.0,
+                36.0
+              ],
+              [
+                236.0,
+                113.0
+              ]
+            ]
+          ],
+          "knot_valid": [
+            [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true
+            ],
+            [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true
+            ],
+            [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true
+            ],
+            [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true
+            ],
+            [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true
+            ],
+            [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true
+            ],
+            [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true
+            ],
+            [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true
+            ],
+            [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true
+            ]
+          ],
+          "origin_endpoint": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        }
+      },
+      "observations": [
+        {
+          "frame": 0,
+          "valid_tracks": 16,
+          "positions": [
+            {
+              "point": 0,
+              "x": 456.0,
+              "y": 222.0,
+              "origin": 0
+            },
+            {
+              "point": 1,
+              "x": 334.0,
+              "y": 118.0,
+              "origin": 0
+            },
+            {
+              "point": 2,
+              "x": 534.0,
+              "y": 156.0,
+              "origin": 0
+            },
+            {
+              "point": 3,
+              "x": 438.0,
+              "y": 142.0,
+              "origin": 0
+            },
+            {
+              "point": 4,
+              "x": 22.0,
+              "y": 72.0,
+              "origin": 0
+            },
+            {
+              "point": 5,
+              "x": 186.0,
+              "y": 66.0,
+              "origin": 0
+            },
+            {
+              "point": 6,
+              "x": 374.0,
+              "y": 272.0,
+              "origin": 0
+            },
+            {
+              "point": 7,
+              "x": 6.0,
+              "y": 284.0,
+              "origin": 0
+            },
+            {
+              "point": 8,
+              "x": 462.0,
+              "y": 229.0,
+              "origin": 1
+            },
+            {
+              "point": 9,
+              "x": 385.5,
+              "y": 117.0,
+              "origin": 1
+            },
+            {
+              "point": 10,
+              "x": 523.0,
+              "y": 153.0,
+              "origin": 1
+            },
+            {
+              "point": 11,
+              "x": 303.0,
+              "y": 97.5,
+              "origin": 1
+            },
+            {
+              "point": 12,
+              "x": 6.0,
+              "y": 284.0,
+              "origin": 1
+            },
+            {
+              "point": 13,
+              "x": 278.5,
+              "y": 214.5,
+              "origin": 1
+            },
+            {
+              "point": 14,
+              "x": 55.0,
+              "y": 72.5,
+              "origin": 1
+            },
+            {
+              "point": 15,
+              "x": 492.0,
+              "y": 197.5,
+              "origin": 1
+            }
+          ]
+        },
+        {
+          "frame": 34,
+          "valid_tracks": 16,
+          "positions": [
+            {
+              "point": 0,
+              "x": 455.6136474609375,
+              "y": 222.0,
+              "origin": 0
+            },
+            {
+              "point": 1,
+              "x": 343.272705078125,
+              "y": 120.31818389892578,
+              "origin": 0
+            },
+            {
+              "point": 2,
+              "x": 537.0908813476562,
+              "y": 156.77272033691406,
+              "origin": 0
+            },
+            {
+              "point": 3,
+              "x": 443.4090576171875,
+              "y": 143.93182373046875,
+              "origin": 0
+            },
+            {
+              "point": 4,
+              "x": 27.795454025268555,
+              "y": 71.61363220214844,
+              "origin": 0
+            },
+            {
+              "point": 5,
+              "x": 186.3863525390625,
+              "y": 66.0,
+              "origin": 0
+            },
+            {
+              "point": 6,
+              "x": 374.0,
+              "y": 272.0,
+              "origin": 0
+            },
+            {
+              "point": 7,
+              "x": 6.386363506317139,
+              "y": 284.0,
+              "origin": 0
+            },
+            {
+              "point": 8,
+              "x": 461.6136169433594,
+              "y": 229.0,
+              "origin": 1
+            },
+            {
+              "point": 9,
+              "x": 386.6590881347656,
+              "y": 117.38636016845703,
+              "origin": 1
+            },
+            {
+              "point": 10,
+              "x": 524.54541015625,
+              "y": 153.0,
+              "origin": 1
+            },
+            {
+              "point": 11,
+              "x": 302.6136474609375,
+              "y": 98.27272033691406,
+              "origin": 1
+            },
+            {
+              "point": 12,
+              "x": 6.0,
+              "y": 284.0,
+              "origin": 1
+            },
+            {
+              "point": 13,
+              "x": 278.5,
+              "y": 214.5,
+              "origin": 1
+            },
+            {
+              "point": 14,
+              "x": 55.3863639831543,
+              "y": 72.5,
+              "origin": 1
+            },
+            {
+              "point": 15,
+              "x": 492.772705078125,
+              "y": 198.65908813476562,
+              "origin": 1
+            }
+          ]
+        },
+        {
+          "frame": 104,
+          "valid_tracks": 16,
+          "positions": [
+            {
+              "point": 0,
+              "x": 455.22222900390625,
+              "y": 222.27777099609375,
+              "origin": 0
+            },
+            {
+              "point": 1,
+              "x": 353.0,
+              "y": 122.55555725097656,
+              "origin": 0
+            },
+            {
+              "point": 2,
+              "x": 548.9444580078125,
+              "y": 159.5,
+              "origin": 0
+            },
+            {
+              "point": 3,
+              "x": 449.888916015625,
+              "y": 146.55557250976562,
+              "origin": 0
+            },
+            {
+              "point": 4,
+              "x": 34.833335876464844,
+              "y": 71.22222900390625,
+              "origin": 0
+            },
+            {
+              "point": 5,
+              "x": 187.7777862548828,
+              "y": 66.0,
+              "origin": 0
+            },
+            {
+              "point": 6,
+              "x": 373.77777099609375,
+              "y": 272.0,
+              "origin": 0
+            },
+            {
+              "point": 7,
+              "x": 6.5,
+              "y": 284.0,
+              "origin": 0
+            },
+            {
+              "point": 8,
+              "x": 461.22222900390625,
+              "y": 229.7777862548828,
+              "origin": 1
+            },
+            {
+              "point": 9,
+              "x": 390.8333435058594,
+              "y": 118.33333587646484,
+              "origin": 1
+            },
+            {
+              "point": 10,
+              "x": 530.4444580078125,
+              "y": 154.22222900390625,
+              "origin": 1
+            },
+            {
+              "point": 11,
+              "x": 305.22222900390625,
+              "y": 101.8888931274414,
+              "origin": 1
+            },
+            {
+              "point": 12,
+              "x": 6.0,
+              "y": 284.27777099609375,
+              "origin": 1
+            },
+            {
+              "point": 13,
+              "x": 278.5,
+              "y": 214.5,
+              "origin": 1
+            },
+            {
+              "point": 14,
+              "x": 56.27777862548828,
+              "y": 72.22222137451172,
+              "origin": 1
+            },
+            {
+              "point": 15,
+              "x": 491.888916015625,
+              "y": 205.2777862548828,
+              "origin": 1
+            }
+          ]
+        },
+        {
+          "frame": 174,
+          "valid_tracks": 16,
+          "positions": [
+            {
+              "point": 0,
+              "x": 449.9210510253906,
+              "y": 227.15789794921875,
+              "origin": 0
+            },
+            {
+              "point": 1,
+              "x": 368.4473876953125,
+              "y": 125.89474487304688,
+              "origin": 0
+            },
+            {
+              "point": 2,
+              "x": 547.2894897460938,
+              "y": 159.76315307617188,
+              "origin": 0
+            },
+            {
+              "point": 3,
+              "x": 457.89471435546875,
+              "y": 149.13157653808594,
+              "origin": 0
+            },
+            {
+              "point": 4,
+              "x": 36.6315803527832,
+              "y": 71.0,
+              "origin": 0
+            },
+            {
+              "point": 5,
+              "x": 188.63157653808594,
+              "y": 66.0,
+              "origin": 0
+            },
+            {
+              "point": 6,
+              "x": 374.0,
+              "y": 272.0,
+              "origin": 0
+            },
+            {
+              "point": 7,
+              "x": 6.3684210777282715,
+              "y": 284.0,
+              "origin": 0
+            },
+            {
+              "point": 8,
+              "x": 455.4473571777344,
+              "y": 235.15789794921875,
+              "origin": 1
+            },
+            {
+              "point": 9,
+              "x": 396.76318359375,
+              "y": 120.15789031982422,
+              "origin": 1
+            },
+            {
+              "point": 10,
+              "x": 529.5526123046875,
+              "y": 154.76315307617188,
+              "origin": 1
+            },
+            {
+              "point": 11,
+              "x": 307.2631530761719,
+              "y": 105.2631607055664,
+              "origin": 1
+            },
+            {
+              "point": 12,
+              "x": 5.8684210777282715,
+              "y": 284.5,
+              "origin": 1
+            },
+            {
+              "point": 13,
+              "x": 278.631591796875,
+              "y": 214.5,
+              "origin": 1
+            },
+            {
+              "point": 14,
+              "x": 56.63157653808594,
+              "y": 72.0,
+              "origin": 1
+            },
+            {
+              "point": 15,
+              "x": 483.34210205078125,
+              "y": 216.65789794921875,
+              "origin": 1
+            }
+          ]
+        },
+        {
+          "frame": 243,
+          "valid_tracks": 16,
+          "positions": [
+            {
+              "point": 0,
+              "x": 423.8712158203125,
+              "y": 237.45455932617188,
+              "origin": 0
+            },
+            {
+              "point": 1,
+              "x": 373.5984802246094,
+              "y": 126.71969604492188,
+              "origin": 0
+            },
+            {
+              "point": 2,
+              "x": 555.022705078125,
+              "y": 161.28030395507812,
+              "origin": 0
+            },
+            {
+              "point": 3,
+              "x": 465.17425537109375,
+              "y": 152.6969757080078,
+              "origin": 0
+            },
+            {
+              "point": 4,
+              "x": 41.09848403930664,
+              "y": 70.78030395507812,
+              "origin": 0
+            },
+            {
+              "point": 5,
+              "x": 190.81817626953125,
+              "y": 66.0,
+              "origin": 0
+            },
+            {
+              "point": 6,
+              "x": 370.70452880859375,
+              "y": 272.1590881347656,
+              "origin": 0
+            },
+            {
+              "point": 7,
+              "x": 6.219696998596191,
+              "y": 284.0,
+              "origin": 0
+            },
+            {
+              "point": 8,
+              "x": 431.2121276855469,
+              "y": 246.67425537109375,
+              "origin": 1
+            },
+            {
+              "point": 9,
+              "x": 417.757568359375,
+              "y": 123.71969604492188,
+              "origin": 1
+            },
+            {
+              "point": 10,
+              "x": 535.4015502929688,
+              "y": 156.0,
+              "origin": 1
+            },
+            {
+              "point": 11,
+              "x": 307.7196960449219,
+              "y": 106.59848022460938,
+              "origin": 1
+            },
+            {
+              "point": 12,
+              "x": 6.0,
+              "y": 284.0,
+              "origin": 1
+            },
+            {
+              "point": 13,
+              "x": 279.7196960449219,
+              "y": 214.0,
+              "origin": 1
+            },
+            {
+              "point": 14,
+              "x": 57.43939208984375,
+              "y": 72.0,
+              "origin": 1
+            },
+            {
+              "point": 15,
+              "x": 475.92425537109375,
+              "y": 222.9166717529297,
+              "origin": 1
+            }
+          ]
+        },
+        {
+          "frame": 280,
+          "valid_tracks": 16,
+          "positions": [
+            {
+              "point": 0,
+              "x": 413.5,
+              "y": 242.5,
+              "origin": 0
+            },
+            {
+              "point": 1,
+              "x": 375.0,
+              "y": 127.0,
+              "origin": 0
+            },
+            {
+              "point": 2,
+              "x": 552.5,
+              "y": 161.0,
+              "origin": 0
+            },
+            {
+              "point": 3,
+              "x": 470.5,
+              "y": 155.5,
+              "origin": 0
+            },
+            {
+              "point": 4,
+              "x": 42.5,
+              "y": 70.5,
+              "origin": 0
+            },
+            {
+              "point": 5,
+              "x": 192.5,
+              "y": 66.0,
+              "origin": 0
+            },
+            {
+              "point": 6,
+              "x": 366.5,
+              "y": 273.0,
+              "origin": 0
+            },
+            {
+              "point": 7,
+              "x": 6.5,
+              "y": 284.0,
+              "origin": 0
+            },
+            {
+              "point": 8,
+              "x": 420.0,
+              "y": 252.0,
+              "origin": 1
+            },
+            {
+              "point": 9,
+              "x": 420.0,
+              "y": 124.0,
+              "origin": 1
+            },
+            {
+              "point": 10,
+              "x": 534.0,
+              "y": 156.0,
+              "origin": 1
+            },
+            {
+              "point": 11,
+              "x": 308.0,
+              "y": 108.0,
+              "origin": 1
+            },
+            {
+              "point": 12,
+              "x": 6.0,
+              "y": 284.0,
+              "origin": 1
+            },
+            {
+              "point": 13,
+              "x": 280.0,
+              "y": 214.0,
+              "origin": 1
+            },
+            {
+              "point": 14,
+              "x": 58.0,
+              "y": 72.0,
+              "origin": 1
+            },
+            {
+              "point": 15,
+              "x": 472.0,
+              "y": 226.0,
+              "origin": 1
+            }
+          ]
+        }
+      ],
+      "sheet": "webvid_028_e1800b23.jpg",
+      "title": "열차의 크기·경로",
+      "meaning": "열차가 곡선 선로를 따라 오른쪽 아래로 진행한다는 내용은 송신 설명에 있다. 양끝 수신 키프레임에도 작은 열차와 선로가 보인다.",
+      "limit": "11.67초 구간의 동작량은 0~1.25초 샘플만 사용했다. 16개 희소 점의 9개 시점은 수신됐지만, 열차 전체 형상·객체별 경로를 충분히 담았는지는 이 검사로 보장하지 않는다.",
+      "review_status": "AI_SELECTED_SOURCE_PAIRED_REVIEW; not independent or blinded",
+      "main_action_present_in_transmitted_caption": true,
+      "precise_action_fully_encoded": "NOT_ESTABLISHED",
+      "semantic_omission_confirmed": false
+    },
+    {
+      "id": "webvid_030_23cb4cc7",
+      "start": 88,
+      "end": 180,
+      "source_movie": "outputs/bsu_webvid_completed_20261015/inputs/outputs/remote_webvid_full_20261012/webvid/webvid_030_23cb4cc7/normalized.mp4",
+      "segment": {
+        "start": 88,
+        "end": 180,
+        "duration_seconds": 3.8333333333333335,
+        "caption": "A person in a blue coat bends over a small snow figure and shifts their hands, while a person in a black coat stands nearby. The person in blue then rises to a standing position beside the snow figure. Both remain near the snow figure with the tree-lined bank behind them.",
+        "caption_source_indices": [
+          99,
+          122,
+          145,
+          167
+        ],
+        "scalar_flow": 0.2464035004377365,
+        "scalar_flow_source_indices": [
+          88,
+          98,
+          108,
+          118
+        ],
+        "flow_sample_span_fraction": 0.32967032967032966,
+        "later_frames_unobserved_by_flow": 61,
+        "duplicate_flow_pairs": 0,
+        "effective_t5_prompt": "a person in a blue coat bends over a small snow figure and shifts their hands, while a person in a black coat stands nearby. the person in blue then rises to a standing position beside the snow figure. both remain near the snow figure with the tree-lined bank behind them. aesthetic score: 6.5. motion score: 0.2.",
+        "trajectory": {
+          "points": 12,
+          "knot_indices": [
+            88,
+            102,
+            108,
+            143,
+            150,
+            155,
+            164,
+            178,
+            180
+          ],
+          "valid_point_frame_ratio": 1.0,
+          "frames_without_any_valid_track": 0,
+          "knot_positions": [
+            [
+              [
+                133.0,
+                85.0
+              ],
+              [
+                89.0,
+                63.0
+              ],
+              [
+                110.0,
+                132.0
+              ],
+              [
+                87.0,
+                101.0
+              ],
+              [
+                125.0,
+                57.0
+              ],
+              [
+                242.0,
+                85.0
+              ],
+              [
+                143.25,
+                78.0
+              ],
+              [
+                117.5,
+                49.25
+              ],
+              [
+                89.25,
+                75.75
+              ],
+              [
+                93.5,
+                138.5
+              ],
+              [
+                130.75,
+                68.25
+              ],
+              [
+                157.25,
+                100.25
+              ]
+            ],
+            [
+              [
+                139.5,
+                91.75
+              ],
+              [
+                96.25,
+                63.25
+              ],
+              [
+                113.5,
+                134.25
+              ],
+              [
+                84.75,
+                103.5
+              ],
+              [
+                129.75,
+                62.25
+              ],
+              [
+                241.5,
+                84.25
+              ],
+              [
+                149.25,
+                84.75
+              ],
+              [
+                118.25,
+                51.5
+              ],
+              [
+                91.5,
+                81.0
+              ],
+              [
+                94.25,
+                139.75
+              ],
+              [
+                135.75,
+                72.5
+              ],
+              [
+                158.0,
+                101.25
+              ]
+            ],
+            [
+              [
+                139.75,
+                99.75
+              ],
+              [
+                99.5,
+                63.5
+              ],
+              [
+                113.75,
+                135.25
+              ],
+              [
+                84.0,
+                104.25
+              ],
+              [
+                129.75,
+                64.5
+              ],
+              [
+                241.5,
+                84.0
+              ],
+              [
+                149.25,
+                94.0
+              ],
+              [
+                116.75,
+                52.25
+              ],
+              [
+                91.5,
+                83.0
+              ],
+              [
+                92.25,
+                141.0
+              ],
+              [
+                136.75,
+                76.75
+              ],
+              [
+                160.5,
+                105.5
+              ]
+            ],
+            [
+              [
+                138.5,
+                97.75
+              ],
+              [
+                97.0,
+                63.25
+              ],
+              [
+                114.0,
+                135.25
+              ],
+              [
+                84.5,
+                104.25
+              ],
+              [
+                129.0,
+                63.25
+              ],
+              [
+                240.25,
+                89.25
+              ],
+              [
+                148.5,
+                92.5
+              ],
+              [
+                117.0,
+                52.0
+              ],
+              [
+                91.25,
+                82.0
+              ],
+              [
+                92.75,
+                141.0
+              ],
+              [
+                135.5,
+                76.0
+              ],
+              [
+                160.25,
+                105.25
+              ]
+            ],
+            [
+              [
+                137.0,
+                95.75
+              ],
+              [
+                94.0,
+                63.25
+              ],
+              [
+                112.25,
+                134.5
+              ],
+              [
+                84.25,
+                103.25
+              ],
+              [
+                128.75,
+                61.25
+              ],
+              [
+                240.75,
+                89.25
+              ],
+              [
+                147.75,
+                90.0
+              ],
+              [
+                118.25,
+                51.25
+              ],
+              [
+                90.5,
+                80.25
+              ],
+              [
+                91.75,
+                140.75
+              ],
+              [
+                133.25,
+                73.0
+              ],
+              [
+                159.75,
+                104.5
+              ]
+            ],
+            [
+              [
+                131.5,
+                94.75
+              ],
+              [
+                90.5,
+                63.0
+              ],
+              [
+                111.5,
+                133.75
+              ],
+              [
+                83.5,
+                102.25
+              ],
+              [
+                128.0,
+                59.0
+              ],
+              [
+                241.0,
+                88.75
+              ],
+              [
+                141.5,
+                89.5
+              ],
+              [
+                119.0,
+                49.75
+              ],
+              [
+                89.5,
+                77.5
+              ],
+              [
+                90.5,
+                139.75
+              ],
+              [
+                129.25,
+                72.5
+              ],
+              [
+                158.0,
+                104.0
+              ]
+            ],
+            [
+              [
+                107.0,
+                106.25
+              ],
+              [
+                81.25,
+                63.75
+              ],
+              [
+                107.0,
+                132.5
+              ],
+              [
+                80.25,
+                100.75
+              ],
+              [
+                119.25,
+                55.5
+              ],
+              [
+                241.75,
+                88.0
+              ],
+              [
+                114.75,
+                103.75
+              ],
+              [
+                113.75,
+                48.0
+              ],
+              [
+                83.0,
+                73.5
+              ],
+              [
+                86.5,
+                138.75
+              ],
+              [
+                118.75,
+                75.75
+              ],
+              [
+                158.0,
+                104.0
+              ]
+            ],
+            [
+              [
+                90.25,
+                103.75
+              ],
+              [
+                64.0,
+                66.5
+              ],
+              [
+                94.75,
+                130.25
+              ],
+              [
+                67.25,
+                100.5
+              ],
+              [
+                98.0,
+                56.75
+              ],
+              [
+                241.75,
+                89.75
+              ],
+              [
+                99.75,
+                103.25
+              ],
+              [
+                91.75,
+                48.25
+              ],
+              [
+                66.5,
+                75.5
+              ],
+              [
+                82.5,
+                138.25
+              ],
+              [
+                99.5,
+                75.75
+              ],
+              [
+                158.0,
+                104.0
+              ]
+            ],
+            [
+              [
+                87.0,
+                104.25
+              ],
+              [
+                61.5,
+                66.75
+              ],
+              [
+                88.25,
+                129.75
+              ],
+              [
+                64.5,
+                100.25
+              ],
+              [
+                95.25,
+                56.75
+              ],
+              [
+                241.75,
+                90.0
+              ],
+              [
+                96.0,
+                104.0
+              ],
+              [
+                89.0,
+                48.0
+              ],
+              [
+                64.0,
+                76.0
+              ],
+              [
+                74.0,
+                138.0
+              ],
+              [
+                97.0,
+                76.0
+              ],
+              [
+                158.0,
+                104.0
+              ]
+            ]
+          ],
+          "knot_valid": [
+            [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true
+            ],
+            [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true
+            ],
+            [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true
+            ],
+            [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true
+            ],
+            [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true
+            ],
+            [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true
+            ],
+            [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true
+            ],
+            [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true
+            ],
+            [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true
+            ]
+          ],
+          "origin_endpoint": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        }
+      },
+      "observations": [
+        {
+          "frame": 88,
+          "valid_tracks": 12,
+          "positions": [
+            {
+              "point": 0,
+              "x": 266.0,
+              "y": 170.0,
+              "origin": 0
+            },
+            {
+              "point": 1,
+              "x": 178.0,
+              "y": 126.0,
+              "origin": 0
+            },
+            {
+              "point": 2,
+              "x": 220.0,
+              "y": 264.0,
+              "origin": 0
+            },
+            {
+              "point": 3,
+              "x": 174.0,
+              "y": 202.0,
+              "origin": 0
+            },
+            {
+              "point": 4,
+              "x": 250.0,
+              "y": 114.0,
+              "origin": 0
+            },
+            {
+              "point": 5,
+              "x": 484.0,
+              "y": 170.0,
+              "origin": 0
+            },
+            {
+              "point": 6,
+              "x": 286.5,
+              "y": 156.0,
+              "origin": 1
+            },
+            {
+              "point": 7,
+              "x": 235.0,
+              "y": 98.5,
+              "origin": 1
+            },
+            {
+              "point": 8,
+              "x": 178.5,
+              "y": 151.5,
+              "origin": 1
+            },
+            {
+              "point": 9,
+              "x": 187.0,
+              "y": 277.0,
+              "origin": 1
+            },
+            {
+              "point": 10,
+              "x": 261.5,
+              "y": 136.5,
+              "origin": 1
+            },
+            {
+              "point": 11,
+              "x": 314.5,
+              "y": 200.5,
+              "origin": 1
+            }
+          ]
+        },
+        {
+          "frame": 99,
+          "valid_tracks": 12,
+          "positions": [
+            {
+              "point": 0,
+              "x": 276.21429443359375,
+              "y": 180.60714721679688,
+              "origin": 0
+            },
+            {
+              "point": 1,
+              "x": 189.39285278320312,
+              "y": 126.39285278320312,
+              "origin": 0
+            },
+            {
+              "point": 2,
+              "x": 225.49998474121094,
+              "y": 267.53570556640625,
+              "origin": 0
+            },
+            {
+              "point": 3,
+              "x": 170.46429443359375,
+              "y": 205.92855834960938,
+              "origin": 0
+            },
+            {
+              "point": 4,
+              "x": 257.46429443359375,
+              "y": 122.25,
+              "origin": 0
+            },
+            {
+              "point": 5,
+              "x": 483.21429443359375,
+              "y": 168.82142639160156,
+              "origin": 0
+            },
+            {
+              "point": 6,
+              "x": 295.9285583496094,
+              "y": 166.60714721679688,
+              "origin": 1
+            },
+            {
+              "point": 7,
+              "x": 236.17857360839844,
+              "y": 102.03570556640625,
+              "origin": 1
+            },
+            {
+              "point": 8,
+              "x": 182.03570556640625,
+              "y": 159.75,
+              "origin": 1
+            },
+            {
+              "point": 9,
+              "x": 188.17857360839844,
+              "y": 278.9642639160156,
+              "origin": 1
+            },
+            {
+              "point": 10,
+              "x": 269.3571472167969,
+              "y": 143.17855834960938,
+              "origin": 1
+            },
+            {
+              "point": 11,
+              "x": 315.6785583496094,
+              "y": 202.0714111328125,
+              "origin": 1
+            }
+          ]
+        },
+        {
+          "frame": 111,
+          "valid_tracks": 12,
+          "positions": [
+            {
+              "point": 0,
+              "x": 279.28570556640625,
+              "y": 199.15713500976562,
+              "origin": 0
+            },
+            {
+              "point": 1,
+              "x": 198.57142639160156,
+              "y": 126.95714569091797,
+              "origin": 0
+            },
+            {
+              "point": 2,
+              "x": 227.54286193847656,
+              "y": 270.5,
+              "origin": 0
+            },
+            {
+              "point": 3,
+              "x": 168.08572387695312,
+              "y": 208.5,
+              "origin": 0
+            },
+            {
+              "point": 4,
+              "x": 259.3714294433594,
+              "y": 128.78570556640625,
+              "origin": 0
+            },
+            {
+              "point": 5,
+              "x": 482.78570556640625,
+              "y": 168.90000915527344,
+              "origin": 0
+            },
+            {
+              "point": 6,
+              "x": 298.3714294433594,
+              "y": 187.74285888671875,
+              "origin": 1
+            },
+            {
+              "point": 7,
+              "x": 233.54286193847656,
+              "y": 104.45713806152344,
+              "origin": 1
+            },
+            {
+              "point": 8,
+              "x": 182.95713806152344,
+              "y": 165.8285675048828,
+              "origin": 1
+            },
+            {
+              "point": 9,
+              "x": 184.58570861816406,
+              "y": 282.0,
+              "origin": 1
+            },
+            {
+              "point": 10,
+              "x": 273.28570556640625,
+              "y": 153.37142944335938,
+              "origin": 1
+            },
+            {
+              "point": 11,
+              "x": 320.9571533203125,
+              "y": 210.9571533203125,
+              "origin": 1
+            }
+          ]
+        },
+        {
+          "frame": 145,
+          "valid_tracks": 12,
+          "positions": [
+            {
+              "point": 0,
+              "x": 276.14288330078125,
+              "y": 194.35714721679688,
+              "origin": 0
+            },
+            {
+              "point": 1,
+              "x": 192.28570556640625,
+              "y": 126.50000762939453,
+              "origin": 0
+            },
+            {
+              "point": 2,
+              "x": 227.0,
+              "y": 270.0714416503906,
+              "origin": 0
+            },
+            {
+              "point": 3,
+              "x": 168.85714721679688,
+              "y": 207.92857360839844,
+              "origin": 0
+            },
+            {
+              "point": 4,
+              "x": 257.8571472167969,
+              "y": 125.35714721679688,
+              "origin": 0
+            },
+            {
+              "point": 5,
+              "x": 480.7857360839844,
+              "y": 178.5,
+              "origin": 0
+            },
+            {
+              "point": 6,
+              "x": 296.5714416503906,
+              "y": 183.57142639160156,
+              "origin": 1
+            },
+            {
+              "point": 7,
+              "x": 234.71429443359375,
+              "y": 103.57142639160156,
+              "origin": 1
+            },
+            {
+              "point": 8,
+              "x": 182.07144165039062,
+              "y": 163.0,
+              "origin": 1
+            },
+            {
+              "point": 9,
+              "x": 184.92857360839844,
+              "y": 281.8571472167969,
+              "origin": 1
+            },
+            {
+              "point": 10,
+              "x": 269.71429443359375,
+              "y": 150.2857208251953,
+              "origin": 1
+            },
+            {
+              "point": 11,
+              "x": 320.21429443359375,
+              "y": 210.07144165039062,
+              "origin": 1
+            }
+          ]
+        },
+        {
+          "frame": 167,
+          "valid_tracks": 12,
+          "positions": [
+            {
+              "point": 0,
+              "x": 206.82142639160156,
+              "y": 211.42855834960938,
+              "origin": 0
+            },
+            {
+              "point": 1,
+              "x": 155.1071319580078,
+              "y": 128.67855834960938,
+              "origin": 0
+            },
+            {
+              "point": 2,
+              "x": 208.75,
+              "y": 264.03570556640625,
+              "origin": 0
+            },
+            {
+              "point": 3,
+              "x": 154.92857360839844,
+              "y": 201.39285278320312,
+              "origin": 0
+            },
+            {
+              "point": 4,
+              "x": 229.39285278320312,
+              "y": 111.53571319580078,
+              "origin": 0
+            },
+            {
+              "point": 5,
+              "x": 483.5,
+              "y": 176.75,
+              "origin": 0
+            },
+            {
+              "point": 6,
+              "x": 223.07142639160156,
+              "y": 207.28570556640625,
+              "origin": 1
+            },
+            {
+              "point": 7,
+              "x": 218.07142639160156,
+              "y": 96.10714721679688,
+              "origin": 1
+            },
+            {
+              "point": 8,
+              "x": 158.92857360839844,
+              "y": 147.85714721679688,
+              "origin": 1
+            },
+            {
+              "point": 9,
+              "x": 171.2857208251953,
+              "y": 277.28570556640625,
+              "origin": 1
+            },
+            {
+              "point": 10,
+              "x": 229.24998474121094,
+              "y": 151.5,
+              "origin": 1
+            },
+            {
+              "point": 11,
+              "x": 316.0,
+              "y": 208.0,
+              "origin": 1
+            }
+          ]
+        },
+        {
+          "frame": 180,
+          "valid_tracks": 12,
+          "positions": [
+            {
+              "point": 0,
+              "x": 174.0,
+              "y": 208.5,
+              "origin": 0
+            },
+            {
+              "point": 1,
+              "x": 123.0,
+              "y": 133.5,
+              "origin": 0
+            },
+            {
+              "point": 2,
+              "x": 176.5,
+              "y": 259.5,
+              "origin": 0
+            },
+            {
+              "point": 3,
+              "x": 129.0,
+              "y": 200.5,
+              "origin": 0
+            },
+            {
+              "point": 4,
+              "x": 190.5,
+              "y": 113.5,
+              "origin": 0
+            },
+            {
+              "point": 5,
+              "x": 483.5,
+              "y": 180.0,
+              "origin": 0
+            },
+            {
+              "point": 6,
+              "x": 192.0,
+              "y": 208.0,
+              "origin": 1
+            },
+            {
+              "point": 7,
+              "x": 178.0,
+              "y": 96.0,
+              "origin": 1
+            },
+            {
+              "point": 8,
+              "x": 128.0,
+              "y": 152.0,
+              "origin": 1
+            },
+            {
+              "point": 9,
+              "x": 148.0,
+              "y": 276.0,
+              "origin": 1
+            },
+            {
+              "point": 10,
+              "x": 194.0,
+              "y": 152.0,
+              "origin": 1
+            },
+            {
+              "point": 11,
+              "x": 316.0,
+              "y": 208.0,
+              "origin": 1
+            }
+          ]
+        }
+      ],
+      "sheet": "webvid_030_23cb4cc7.jpg",
+      "title": "눈 위 인물의 숙이기·일어서기",
+      "meaning": "송신 설명에 bends over와 then rises가 모두 있다. 수신 키 88은 숙인 모습, 180은 선 모습이며 인물 부근의 희소 궤적도 존재한다.",
+      "limit": "동작량 샘플은 88/98/108/118 프레임이다. 원본의 후반 일어서기(145~167 부근)는 동작량 계산에 쓰이지 않았다. 설명과 궤적에는 관련 정보가 있으므로 동작 전체 누락이라고 부를 수 없다.",
+      "review_status": "AI_SELECTED_SOURCE_PAIRED_REVIEW; not independent or blinded",
+      "main_action_present_in_transmitted_caption": true,
+      "precise_action_fully_encoded": "NOT_ESTABLISHED",
+      "semantic_omission_confirmed": false
+    },
+    {
+      "id": "webvid_019_ece4bef6",
+      "start": 16,
+      "end": 80,
+      "source_movie": "outputs/bsu_webvid_completed_20261015/inputs/outputs/remote_webvid_full_20261012/webvid/webvid_019_ece4bef6/normalized.mp4",
+      "segment": {
+        "start": 16,
+        "end": 80,
+        "duration_seconds": 2.6666666666666665,
+        "caption": "A person in a dark top and red leggings lies on a red gym seat, gripping the side supports. Their bent legs are repeatedly extended upward toward the machine's weight stack, with the head tilted back. Other exercise equipment is visible in the gym background.",
+        "caption_source_indices": [
+          23,
+          39,
+          55,
+          70
+        ],
+        "scalar_flow": 7.823275566101074,
+        "scalar_flow_source_indices": [
+          16,
+          26,
+          36,
+          46
+        ],
+        "flow_sample_span_fraction": 0.47619047619047616,
+        "later_frames_unobserved_by_flow": 33,
+        "duplicate_flow_pairs": 0,
+        "effective_t5_prompt": "a person in a dark top and red leggings lies on a red gym seat, gripping the side supports. their bent legs are repeatedly extended upward toward the machine's weight stack, with the head tilted back. other exercise equipment is visible in the gym background. aesthetic score: 6.5. motion score: 7.8.",
+        "trajectory": {
+          "points": 12,
+          "knot_indices": [
+            16,
+            24,
+            31,
+            36,
+            41,
+            47,
+            60,
+            69,
+            80
+          ],
+          "valid_point_frame_ratio": 1.0,
+          "frames_without_any_valid_track": 0,
+          "knot_positions": [
+            [
+              [
+                152.0,
+                76.0
+              ],
+              [
+                120.0,
+                32.0
+              ],
+              [
+                37.0,
+                51.0
+              ],
+              [
+                84.0,
+                58.0
+              ],
+              [
+                144.0,
+                43.0
+              ],
+              [
+                45.0,
+                89.0
+              ],
+              [
+                118.25,
+                32.25
+              ],
+              [
+                38.75,
+                53.75
+              ],
+              [
+                111.75,
+                96.75
+              ],
+              [
+                169.25,
+                68.25
+              ],
+              [
+                71.0,
+                35.5
+              ],
+              [
+                280.0,
+                118.5
+              ]
+            ],
+            [
+              [
+                161.25,
+                76.25
+              ],
+              [
+                119.75,
+                40.75
+              ],
+              [
+                60.5,
+                76.0
+              ],
+              [
+                84.0,
+                60.25
+              ],
+              [
+                144.0,
+                43.5
+              ],
+              [
+                45.25,
+                92.5
+              ],
+              [
+                118.5,
+                41.5
+              ],
+              [
+                62.0,
+                78.25
+              ],
+              [
+                113.0,
+                98.75
+              ],
+              [
+                171.25,
+                68.75
+              ],
+              [
+                98.0,
+                54.25
+              ],
+              [
+                279.5,
+                118.75
+              ]
+            ],
+            [
+              [
+                163.75,
+                76.25
+              ],
+              [
+                119.75,
+                44.5
+              ],
+              [
+                66.0,
+                82.0
+              ],
+              [
+                85.25,
+                63.0
+              ],
+              [
+                143.5,
+                46.5
+              ],
+              [
+                45.25,
+                95.0
+              ],
+              [
+                119.0,
+                45.5
+              ],
+              [
+                67.5,
+                84.0
+              ],
+              [
+                113.0,
+                99.25
+              ],
+              [
+                172.25,
+                68.75
+              ],
+              [
+                101.75,
+                59.75
+              ],
+              [
+                279.0,
+                119.0
+              ]
+            ],
+            [
+              [
+                159.75,
+                75.5
+              ],
+              [
+                119.25,
+                39.0
+              ],
+              [
+                56.5,
+                72.25
+              ],
+              [
+                83.5,
+                59.25
+              ],
+              [
+                143.5,
+                42.75
+              ],
+              [
+                44.75,
+                91.5
+              ],
+              [
+                118.25,
+                40.0
+              ],
+              [
+                58.0,
+                74.5
+              ],
+              [
+                112.5,
+                98.5
+              ],
+              [
+                170.75,
+                68.5
+              ],
+              [
+                94.75,
+                50.75
+              ],
+              [
+                279.0,
+                119.0
+              ]
+            ],
+            [
+              [
+                151.75,
+                75.0
+              ],
+              [
+                119.0,
+                31.5
+              ],
+              [
+                34.5,
+                49.75
+              ],
+              [
+                83.5,
+                57.25
+              ],
+              [
+                143.25,
+                43.5
+              ],
+              [
+                44.5,
+                90.75
+              ],
+              [
+                117.75,
+                32.25
+              ],
+              [
+                35.75,
+                51.25
+              ],
+              [
+                111.0,
+                96.75
+              ],
+              [
+                169.5,
+                68.25
+              ],
+              [
+                70.5,
+                32.25
+              ],
+              [
+                279.25,
+                119.0
+              ]
+            ],
+            [
+              [
+                145.0,
+                77.0
+              ],
+              [
+                117.5,
+                47.5
+              ],
+              [
+                13.5,
+                28.0
+              ],
+              [
+                80.0,
+                63.0
+              ],
+              [
+                141.0,
+                54.25
+              ],
+              [
+                44.5,
+                90.75
+              ],
+              [
+                116.5,
+                48.25
+              ],
+              [
+                14.5,
+                29.75
+              ],
+              [
+                110.25,
+                96.5
+              ],
+              [
+                169.5,
+                68.5
+              ],
+              [
+                51.25,
+                20.25
+              ],
+              [
+                279.0,
+                119.25
+              ]
+            ],
+            [
+              [
+                144.5,
+                77.25
+              ],
+              [
+                115.5,
+                52.25
+              ],
+              [
+                11.75,
+                27.0
+              ],
+              [
+                79.75,
+                63.5
+              ],
+              [
+                140.5,
+                54.25
+              ],
+              [
+                44.0,
+                90.75
+              ],
+              [
+                114.25,
+                53.0
+              ],
+              [
+                13.0,
+                28.75
+              ],
+              [
+                110.0,
+                96.75
+              ],
+              [
+                169.25,
+                68.5
+              ],
+              [
+                49.75,
+                22.0
+              ],
+              [
+                278.0,
+                119.25
+              ]
+            ],
+            [
+              [
+                149.0,
+                75.0
+              ],
+              [
+                117.75,
+                31.5
+              ],
+              [
+                31.75,
+                48.25
+              ],
+              [
+                82.25,
+                60.0
+              ],
+              [
+                142.75,
+                45.5
+              ],
+              [
+                43.25,
+                90.75
+              ],
+              [
+                116.5,
+                32.5
+              ],
+              [
+                32.25,
+                49.5
+              ],
+              [
+                110.5,
+                97.5
+              ],
+              [
+                168.5,
+                68.75
+              ],
+              [
+                64.5,
+                30.25
+              ],
+              [
+                277.0,
+                119.25
+              ]
+            ],
+            [
+              [
+                161.25,
+                74.0
+              ],
+              [
+                117.5,
+                43.25
+              ],
+              [
+                63.75,
+                82.25
+              ],
+              [
+                82.5,
+                63.5
+              ],
+              [
+                143.25,
+                47.25
+              ],
+              [
+                43.0,
+                94.75
+              ],
+              [
+                117.0,
+                45.0
+              ],
+              [
+                64.0,
+                83.0
+              ],
+              [
+                112.0,
+                100.0
+              ],
+              [
+                171.0,
+                69.0
+              ],
+              [
+                98.0,
+                58.0
+              ],
+              [
+                276.0,
+                119.0
+              ]
+            ]
+          ],
+          "knot_valid": [
+            [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true
+            ],
+            [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true
+            ],
+            [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true
+            ],
+            [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true
+            ],
+            [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true
+            ],
+            [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true
+            ],
+            [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true
+            ],
+            [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true
+            ],
+            [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true
+            ]
+          ],
+          "origin_endpoint": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        }
+      },
+      "observations": [
+        {
+          "frame": 16,
+          "valid_tracks": 12,
+          "positions": [
+            {
+              "point": 0,
+              "x": 304.0,
+              "y": 152.0,
+              "origin": 0
+            },
+            {
+              "point": 1,
+              "x": 240.0,
+              "y": 64.0,
+              "origin": 0
+            },
+            {
+              "point": 2,
+              "x": 74.0,
+              "y": 102.0,
+              "origin": 0
+            },
+            {
+              "point": 3,
+              "x": 168.0,
+              "y": 116.0,
+              "origin": 0
+            },
+            {
+              "point": 4,
+              "x": 288.0,
+              "y": 86.0,
+              "origin": 0
+            },
+            {
+              "point": 5,
+              "x": 90.0,
+              "y": 178.0,
+              "origin": 0
+            },
+            {
+              "point": 6,
+              "x": 236.5,
+              "y": 64.5,
+              "origin": 1
+            },
+            {
+              "point": 7,
+              "x": 77.5,
+              "y": 107.5,
+              "origin": 1
+            },
+            {
+              "point": 8,
+              "x": 223.5,
+              "y": 193.5,
+              "origin": 1
+            },
+            {
+              "point": 9,
+              "x": 338.5,
+              "y": 136.5,
+              "origin": 1
+            },
+            {
+              "point": 10,
+              "x": 142.0,
+              "y": 71.0,
+              "origin": 1
+            },
+            {
+              "point": 11,
+              "x": 560.0,
+              "y": 237.0,
+              "origin": 1
+            }
+          ]
+        },
+        {
+          "frame": 28,
+          "valid_tracks": 12,
+          "positions": [
+            {
+              "point": 0,
+              "x": 325.357177734375,
+              "y": 152.5,
+              "origin": 0
+            },
+            {
+              "point": 1,
+              "x": 239.5,
+              "y": 85.78572082519531,
+              "origin": 0
+            },
+            {
+              "point": 2,
+              "x": 127.28572082519531,
+              "y": 158.85714721679688,
+              "origin": 0
+            },
+            {
+              "point": 3,
+              "x": 169.42857360839844,
+              "y": 123.64285278320312,
+              "origin": 0
+            },
+            {
+              "point": 4,
+              "x": 287.4285888671875,
+              "y": 90.42857360839844,
+              "origin": 0
+            },
+            {
+              "point": 5,
+              "x": 90.5,
+              "y": 187.85714721679688,
+              "origin": 0
+            },
+            {
+              "point": 6,
+              "x": 237.57142639160156,
+              "y": 87.5714340209961,
+              "origin": 1
+            },
+            {
+              "point": 7,
+              "x": 130.2857208251953,
+              "y": 163.07144165039062,
+              "origin": 1
+            },
+            {
+              "point": 8,
+              "x": 226.00001525878906,
+              "y": 198.07144165039062,
+              "origin": 1
+            },
+            {
+              "point": 9,
+              "x": 343.64288330078125,
+              "y": 137.5,
+              "origin": 1
+            },
+            {
+              "point": 10,
+              "x": 200.2857208251953,
+              "y": 114.78572082519531,
+              "origin": 1
+            },
+            {
+              "point": 11,
+              "x": 558.4285888671875,
+              "y": 237.78570556640625,
+              "origin": 1
+            }
+          ]
+        },
+        {
+          "frame": 40,
+          "valid_tracks": 12,
+          "positions": [
+            {
+              "point": 0,
+              "x": 306.70001220703125,
+              "y": 150.1999969482422,
+              "origin": 0
+            },
+            {
+              "point": 1,
+              "x": 238.10000610351562,
+              "y": 66.0,
+              "origin": 0
+            },
+            {
+              "point": 2,
+              "x": 77.80000305175781,
+              "y": 108.5,
+              "origin": 0
+            },
+            {
+              "point": 3,
+              "x": 167.0,
+              "y": 115.30000305175781,
+              "origin": 0
+            },
+            {
+              "point": 4,
+              "x": 286.6000061035156,
+              "y": 86.69999694824219,
+              "origin": 0
+            },
+            {
+              "point": 5,
+              "x": 89.10000610351562,
+              "y": 181.8000030517578,
+              "origin": 0
+            },
+            {
+              "point": 6,
+              "x": 235.70001220703125,
+              "y": 67.60000610351562,
+              "origin": 1
+            },
+            {
+              "point": 7,
+              "x": 80.4000015258789,
+              "y": 111.80000305175781,
+              "origin": 1
+            },
+            {
+              "point": 8,
+              "x": 222.60000610351562,
+              "y": 194.20001220703125,
+              "origin": 1
+            },
+            {
+              "point": 9,
+              "x": 339.5,
+              "y": 136.60000610351562,
+              "origin": 1
+            },
+            {
+              "point": 10,
+              "x": 150.70001220703125,
+              "y": 71.9000015258789,
+              "origin": 1
+            },
+            {
+              "point": 11,
+              "x": 558.4000244140625,
+              "y": 238.00001525878906,
+              "origin": 1
+            }
+          ]
+        },
+        {
+          "frame": 52,
+          "valid_tracks": 12,
+          "positions": [
+            {
+              "point": 0,
+              "x": 289.6153869628906,
+              "y": 154.1923065185547,
+              "origin": 0
+            },
+            {
+              "point": 1,
+              "x": 233.4615478515625,
+              "y": 98.65384674072266,
+              "origin": 0
+            },
+            {
+              "point": 2,
+              "x": 25.653846740722656,
+              "y": 55.23077392578125,
+              "origin": 0
+            },
+            {
+              "point": 3,
+              "x": 159.8076934814453,
+              "y": 126.3846206665039,
+              "origin": 0
+            },
+            {
+              "point": 4,
+              "x": 281.6153869628906,
+              "y": 108.5,
+              "origin": 0
+            },
+            {
+              "point": 5,
+              "x": 88.61538696289062,
+              "y": 181.5,
+              "origin": 0
+            },
+            {
+              "point": 6,
+              "x": 231.26925659179688,
+              "y": 100.15384674072266,
+              "origin": 1
+            },
+            {
+              "point": 7,
+              "x": 27.846155166625977,
+              "y": 58.73077392578125,
+              "origin": 1
+            },
+            {
+              "point": 8,
+              "x": 220.3076934814453,
+              "y": 193.19232177734375,
+              "origin": 1
+            },
+            {
+              "point": 9,
+              "x": 338.80767822265625,
+              "y": 137.0,
+              "origin": 1
+            },
+            {
+              "point": 10,
+              "x": 101.34616088867188,
+              "y": 41.846153259277344,
+              "origin": 1
+            },
+            {
+              "point": 11,
+              "x": 557.2307739257812,
+              "y": 238.50001525878906,
+              "origin": 1
+            }
+          ]
+        },
+        {
+          "frame": 64,
+          "valid_tracks": 12,
+          "positions": [
+            {
+              "point": 0,
+              "x": 293.0,
+              "y": 152.5,
+              "origin": 0
+            },
+            {
+              "point": 1,
+              "x": 233.0,
+              "y": 86.05555725097656,
+              "origin": 0
+            },
+            {
+              "point": 2,
+              "x": 41.27777862548828,
+              "y": 72.8888931274414,
+              "origin": 0
+            },
+            {
+              "point": 3,
+              "x": 161.72222900390625,
+              "y": 123.88888549804688,
+              "origin": 0
+            },
+            {
+              "point": 4,
+              "x": 283.0,
+              "y": 100.72222900390625,
+              "origin": 0
+            },
+            {
+              "point": 5,
+              "x": 87.33334350585938,
+              "y": 181.5,
+              "origin": 0
+            },
+            {
+              "point": 6,
+              "x": 230.5,
+              "y": 87.77778625488281,
+              "origin": 1
+            },
+            {
+              "point": 7,
+              "x": 43.11111068725586,
+              "y": 75.94444274902344,
+              "origin": 1
+            },
+            {
+              "point": 8,
+              "x": 220.4444580078125,
+              "y": 194.1666717529297,
+              "origin": 1
+            },
+            {
+              "point": 9,
+              "x": 337.8333435058594,
+              "y": 137.22222900390625,
+              "origin": 1
+            },
+            {
+              "point": 10,
+              "x": 112.61111450195312,
+              "y": 51.333335876464844,
+              "origin": 1
+            },
+            {
+              "point": 11,
+              "x": 555.1111450195312,
+              "y": 238.5,
+              "origin": 1
+            }
+          ]
+        },
+        {
+          "frame": 80,
+          "valid_tracks": 12,
+          "positions": [
+            {
+              "point": 0,
+              "x": 322.5,
+              "y": 148.0,
+              "origin": 0
+            },
+            {
+              "point": 1,
+              "x": 235.0,
+              "y": 86.5,
+              "origin": 0
+            },
+            {
+              "point": 2,
+              "x": 127.5,
+              "y": 164.5,
+              "origin": 0
+            },
+            {
+              "point": 3,
+              "x": 165.0,
+              "y": 127.0,
+              "origin": 0
+            },
+            {
+              "point": 4,
+              "x": 286.5,
+              "y": 94.5,
+              "origin": 0
+            },
+            {
+              "point": 5,
+              "x": 86.0,
+              "y": 189.5,
+              "origin": 0
+            },
+            {
+              "point": 6,
+              "x": 234.0,
+              "y": 90.0,
+              "origin": 1
+            },
+            {
+              "point": 7,
+              "x": 128.0,
+              "y": 166.0,
+              "origin": 1
+            },
+            {
+              "point": 8,
+              "x": 224.0,
+              "y": 200.0,
+              "origin": 1
+            },
+            {
+              "point": 9,
+              "x": 342.0,
+              "y": 138.0,
+              "origin": 1
+            },
+            {
+              "point": 10,
+              "x": 196.0,
+              "y": 116.0,
+              "origin": 1
+            },
+            {
+              "point": 11,
+              "x": 552.0,
+              "y": 238.0,
+              "origin": 1
+            }
+          ]
+        }
+      ],
+      "sheet": "webvid_019_ece4bef6.jpg",
+      "title": "운동기구에서 다리 굽힘·폄",
+      "meaning": "다리를 반복해서 편다는 내용은 송신 설명에 있다. 중간 원본 52 프레임의 펴진 다리와 구간의 수신 궤적을 확인했다.",
+      "limit": "16~80 구간의 양끝 키만으로 중간 자세가 직접 전달되지는 않는다. 동작량은 16/26/36/46만 사용한다. 12개 점·9시점의 궤적이 있어 동작 정보 전부가 없는 상태는 아니다.",
+      "review_status": "AI_SELECTED_SOURCE_PAIRED_REVIEW; not independent or blinded",
+      "main_action_present_in_transmitted_caption": true,
+      "precise_action_fully_encoded": "NOT_ESTABLISHED",
+      "semantic_omission_confirmed": false
+    },
+    {
+      "id": "webvid_017_6db8f5a7",
+      "start": 0,
+      "end": 368,
+      "source_movie": "outputs/bsu_webvid_completed_20261015/inputs/outputs/remote_webvid_full_20261012/webvid/webvid_017_6db8f5a7/normalized.mp4",
+      "segment": {
+        "start": 0,
+        "end": 368,
+        "duration_seconds": 15.333333333333334,
+        "caption": "A broad golden grain field fills the foreground beneath a dark cloudy sky. A few trees sit on the distant horizon ridge. The foreground stalks change their lean and overlap as the view progresses.",
+        "caption_source_indices": [
+          45,
+          137,
+          229,
+          320
+        ],
+        "scalar_flow": 0.12422427535057068,
+        "scalar_flow_source_indices": [
+          0,
+          10,
+          20,
+          30
+        ],
+        "flow_sample_span_fraction": 0.08174386920980926,
+        "later_frames_unobserved_by_flow": 337,
+        "duplicate_flow_pairs": 0,
+        "effective_t5_prompt": "a broad golden grain field fills the foreground beneath a dark cloudy sky. a few trees sit on the distant horizon ridge. the foreground stalks change their lean and overlap as the view progresses. aesthetic score: 6.5. motion score: 0.1.",
+        "trajectory": {
+          "points": 12,
+          "knot_indices": [
+            0,
+            27,
+            45,
+            62,
+            197,
+            325,
+            347,
+            348,
+            368
+          ],
+          "valid_point_frame_ratio": 1.0,
+          "frames_without_any_valid_track": 0,
+          "knot_positions": [
+            [
+              [
+                200.0,
+                101.0
+              ],
+              [
+                245.0,
+                154.0
+              ],
+              [
+                149.0,
+                97.0
+              ],
+              [
+                264.0,
+                80.0
+              ],
+              [
+                46.0,
+                102.0
+              ],
+              [
+                96.0,
+                99.0
+              ],
+              [
+                247.25,
+                135.5
+              ],
+              [
+                7.0,
+                103.0
+              ],
+              [
+                255.0,
+                65.5
+              ],
+              [
+                105.5,
+                110.0
+              ],
+              [
+                182.5,
+                81.5
+              ],
+              [
+                54.5,
+                89.25
+              ]
+            ],
+            [
+              [
+                200.5,
+                101.5
+              ],
+              [
+                240.75,
+                154.5
+              ],
+              [
+                148.75,
+                97.5
+              ],
+              [
+                265.25,
+                79.5
+              ],
+              [
+                46.0,
+                102.0
+              ],
+              [
+                95.5,
+                99.5
+              ],
+              [
+                237.75,
+                138.25
+              ],
+              [
+                7.25,
+                102.75
+              ],
+              [
+                256.75,
+                65.0
+              ],
+              [
+                105.25,
+                109.5
+              ],
+              [
+                184.75,
+                81.5
+              ],
+              [
+                55.0,
+                88.75
+              ]
+            ],
+            [
+              [
+                200.5,
+                101.5
+              ],
+              [
+                246.0,
+                155.5
+              ],
+              [
+                148.5,
+                97.75
+              ],
+              [
+                265.75,
+                79.0
+              ],
+              [
+                45.75,
+                101.75
+              ],
+              [
+                95.0,
+                100.0
+              ],
+              [
+                246.5,
+                135.0
+              ],
+              [
+                6.75,
+                102.25
+              ],
+              [
+                258.0,
+                64.75
+              ],
+              [
+                105.25,
+                109.25
+              ],
+              [
+                184.0,
+                81.0
+              ],
+              [
+                54.5,
+                88.75
+              ]
+            ],
+            [
+              [
+                199.75,
+                102.25
+              ],
+              [
+                240.0,
+                155.75
+              ],
+              [
+                148.5,
+                98.25
+              ],
+              [
+                265.5,
+                79.25
+              ],
+              [
+                46.5,
+                101.75
+              ],
+              [
+                95.0,
+                100.0
+              ],
+              [
+                237.75,
+                138.25
+              ],
+              [
+                7.25,
+                103.25
+              ],
+              [
+                258.0,
+                65.5
+              ],
+              [
+                104.75,
+                108.5
+              ],
+              [
+                183.25,
+                81.5
+              ],
+              [
+                54.75,
+                88.75
+              ]
+            ],
+            [
+              [
+                200.0,
+                107.0
+              ],
+              [
+                235.5,
+                155.75
+              ],
+              [
+                148.0,
+                98.25
+              ],
+              [
+                267.5,
+                79.0
+              ],
+              [
+                44.0,
+                102.5
+              ],
+              [
+                95.25,
+                99.5
+              ],
+              [
+                236.5,
+                140.75
+              ],
+              [
+                5.5,
+                102.75
+              ],
+              [
+                257.75,
+                64.75
+              ],
+              [
+                104.5,
+                102.75
+              ],
+              [
+                182.5,
+                81.75
+              ],
+              [
+                53.0,
+                88.5
+              ]
+            ],
+            [
+              [
+                203.75,
+                106.75
+              ],
+              [
+                246.25,
+                157.25
+              ],
+              [
+                149.75,
+                100.75
+              ],
+              [
+                267.0,
+                79.0
+              ],
+              [
+                46.75,
+                102.5
+              ],
+              [
+                97.0,
+                100.5
+              ],
+              [
+                253.75,
+                143.25
+              ],
+              [
+                8.5,
+                103.5
+              ],
+              [
+                257.0,
+                64.25
+              ],
+              [
+                104.5,
+                101.75
+              ],
+              [
+                184.0,
+                81.0
+              ],
+              [
+                57.25,
+                88.0
+              ]
+            ],
+            [
+              [
+                202.75,
+                107.0
+              ],
+              [
+                240.5,
+                155.75
+              ],
+              [
+                152.5,
+                101.75
+              ],
+              [
+                266.25,
+                78.75
+              ],
+              [
+                46.25,
+                102.5
+              ],
+              [
+                97.5,
+                100.5
+              ],
+              [
+                243.25,
+                139.25
+              ],
+              [
+                8.25,
+                103.25
+              ],
+              [
+                255.5,
+                64.25
+              ],
+              [
+                105.25,
+                101.5
+              ],
+              [
+                183.5,
+                81.0
+              ],
+              [
+                56.5,
+                88.0
+              ]
+            ],
+            [
+              [
+                202.75,
+                107.0
+              ],
+              [
+                238.5,
+                155.25
+              ],
+              [
+                161.5,
+                97.75
+              ],
+              [
+                267.0,
+                78.5
+              ],
+              [
+                46.25,
+                102.5
+              ],
+              [
+                97.5,
+                100.75
+              ],
+              [
+                240.75,
+                138.5
+              ],
+              [
+                8.25,
+                103.5
+              ],
+              [
+                255.75,
+                64.25
+              ],
+              [
+                105.0,
+                101.5
+              ],
+              [
+                183.75,
+                80.75
+              ],
+              [
+                56.5,
+                88.25
+              ]
+            ],
+            [
+              [
+                203.5,
+                107.0
+              ],
+              [
+                242.0,
+                155.5
+              ],
+              [
+                160.0,
+                98.25
+              ],
+              [
+                267.25,
+                78.25
+              ],
+              [
+                44.0,
+                103.5
+              ],
+              [
+                97.5,
+                101.0
+              ],
+              [
+                246.0,
+                138.0
+              ],
+              [
+                6.0,
+                103.0
+              ],
+              [
+                257.0,
+                64.0
+              ],
+              [
+                105.0,
+                101.0
+              ],
+              [
+                184.0,
+                81.0
+              ],
+              [
+                55.0,
+                88.0
+              ]
+            ]
+          ],
+          "knot_valid": [
+            [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true
+            ],
+            [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true
+            ],
+            [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true
+            ],
+            [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true
+            ],
+            [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true
+            ],
+            [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true
+            ],
+            [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true
+            ],
+            [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true
+            ],
+            [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true
+            ]
+          ],
+          "origin_endpoint": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        }
+      },
+      "observations": [
+        {
+          "frame": 0,
+          "valid_tracks": 12,
+          "positions": [
+            {
+              "point": 0,
+              "x": 400.0,
+              "y": 202.0,
+              "origin": 0
+            },
+            {
+              "point": 1,
+              "x": 490.0,
+              "y": 308.0,
+              "origin": 0
+            },
+            {
+              "point": 2,
+              "x": 298.0,
+              "y": 194.0,
+              "origin": 0
+            },
+            {
+              "point": 3,
+              "x": 528.0,
+              "y": 160.0,
+              "origin": 0
+            },
+            {
+              "point": 4,
+              "x": 92.0,
+              "y": 204.0,
+              "origin": 0
+            },
+            {
+              "point": 5,
+              "x": 192.0,
+              "y": 198.0,
+              "origin": 0
+            },
+            {
+              "point": 6,
+              "x": 494.5,
+              "y": 271.0,
+              "origin": 1
+            },
+            {
+              "point": 7,
+              "x": 14.0,
+              "y": 206.0,
+              "origin": 1
+            },
+            {
+              "point": 8,
+              "x": 510.0,
+              "y": 131.0,
+              "origin": 1
+            },
+            {
+              "point": 9,
+              "x": 211.0,
+              "y": 220.0,
+              "origin": 1
+            },
+            {
+              "point": 10,
+              "x": 365.0,
+              "y": 163.0,
+              "origin": 1
+            },
+            {
+              "point": 11,
+              "x": 109.0,
+              "y": 178.5,
+              "origin": 1
+            }
+          ]
+        },
+        {
+          "frame": 45,
+          "valid_tracks": 12,
+          "positions": [
+            {
+              "point": 0,
+              "x": 401.0,
+              "y": 203.0,
+              "origin": 0
+            },
+            {
+              "point": 1,
+              "x": 492.0,
+              "y": 311.0,
+              "origin": 0
+            },
+            {
+              "point": 2,
+              "x": 297.0,
+              "y": 195.5,
+              "origin": 0
+            },
+            {
+              "point": 3,
+              "x": 531.5,
+              "y": 158.0,
+              "origin": 0
+            },
+            {
+              "point": 4,
+              "x": 91.5,
+              "y": 203.5,
+              "origin": 0
+            },
+            {
+              "point": 5,
+              "x": 190.0,
+              "y": 200.0,
+              "origin": 0
+            },
+            {
+              "point": 6,
+              "x": 493.0,
+              "y": 270.0,
+              "origin": 1
+            },
+            {
+              "point": 7,
+              "x": 13.5,
+              "y": 204.5,
+              "origin": 1
+            },
+            {
+              "point": 8,
+              "x": 516.0,
+              "y": 129.5,
+              "origin": 1
+            },
+            {
+              "point": 9,
+              "x": 210.5,
+              "y": 218.5,
+              "origin": 1
+            },
+            {
+              "point": 10,
+              "x": 368.0,
+              "y": 162.0,
+              "origin": 1
+            },
+            {
+              "point": 11,
+              "x": 109.0,
+              "y": 177.5,
+              "origin": 1
+            }
+          ]
+        },
+        {
+          "frame": 137,
+          "valid_tracks": 12,
+          "positions": [
+            {
+              "point": 0,
+              "x": 399.77777099609375,
+              "y": 209.7777862548828,
+              "origin": 0
+            },
+            {
+              "point": 1,
+              "x": 475.0,
+              "y": 311.5,
+              "origin": 0
+            },
+            {
+              "point": 2,
+              "x": 296.4444580078125,
+              "y": 196.5,
+              "origin": 0
+            },
+            {
+              "point": 3,
+              "x": 533.2222290039062,
+              "y": 158.22222900390625,
+              "origin": 0
+            },
+            {
+              "point": 4,
+              "x": 90.22222900390625,
+              "y": 204.33334350585938,
+              "origin": 0
+            },
+            {
+              "point": 5,
+              "x": 190.27777099609375,
+              "y": 199.4444580078125,
+              "origin": 0
+            },
+            {
+              "point": 6,
+              "x": 474.11114501953125,
+              "y": 279.2778015136719,
+              "origin": 1
+            },
+            {
+              "point": 7,
+              "x": 12.555556297302246,
+              "y": 205.9444580078125,
+              "origin": 1
+            },
+            {
+              "point": 8,
+              "x": 515.7222290039062,
+              "y": 130.1666717529297,
+              "origin": 1
+            },
+            {
+              "point": 9,
+              "x": 209.22222900390625,
+              "y": 210.61111450195312,
+              "origin": 1
+            },
+            {
+              "point": 10,
+              "x": 365.66668701171875,
+              "y": 163.27777099609375,
+              "origin": 1
+            },
+            {
+              "point": 11,
+              "x": 107.55555725097656,
+              "y": 177.22222900390625,
+              "origin": 1
+            }
+          ]
+        },
+        {
+          "frame": 229,
+          "valid_tracks": 12,
+          "positions": [
+            {
+              "point": 0,
+              "x": 401.875,
+              "y": 213.875,
+              "origin": 0
+            },
+            {
+              "point": 1,
+              "x": 476.375,
+              "y": 312.25,
+              "origin": 0
+            },
+            {
+              "point": 2,
+              "x": 296.875,
+              "y": 197.75,
+              "origin": 0
+            },
+            {
+              "point": 3,
+              "x": 534.75,
+              "y": 158.0,
+              "origin": 0
+            },
+            {
+              "point": 4,
+              "x": 89.375,
+              "y": 205.0,
+              "origin": 0
+            },
+            {
+              "point": 5,
+              "x": 191.375,
+              "y": 199.5,
+              "origin": 0
+            },
+            {
+              "point": 6,
+              "x": 481.625,
+              "y": 282.75,
+              "origin": 1
+            },
+            {
+              "point": 7,
+              "x": 12.5,
+              "y": 205.875,
+              "origin": 1
+            },
+            {
+              "point": 8,
+              "x": 515.125,
+              "y": 129.25,
+              "origin": 1
+            },
+            {
+              "point": 9,
+              "x": 209.0,
+              "y": 205.0,
+              "origin": 1
+            },
+            {
+              "point": 10,
+              "x": 365.75,
+              "y": 163.125,
+              "origin": 1
+            },
+            {
+              "point": 11,
+              "x": 108.125,
+              "y": 176.75,
+              "origin": 1
+            }
+          ]
+        },
+        {
+          "frame": 320,
+          "valid_tracks": 12,
+          "positions": [
+            {
+              "point": 0,
+              "x": 407.20703125,
+              "y": 213.51953125,
+              "origin": 0
+            },
+            {
+              "point": 1,
+              "x": 491.66015625,
+              "y": 314.3828125,
+              "origin": 0
+            },
+            {
+              "point": 2,
+              "x": 299.36328125,
+              "y": 201.3046875,
+              "origin": 0
+            },
+            {
+              "point": 3,
+              "x": 534.0390625,
+              "y": 158.0,
+              "origin": 0
+            },
+            {
+              "point": 4,
+              "x": 93.28515625,
+              "y": 205.0,
+              "origin": 0
+            },
+            {
+              "point": 5,
+              "x": 193.86328125,
+              "y": 200.921875,
+              "origin": 0
+            },
+            {
+              "point": 6,
+              "x": 506.15234375,
+              "y": 286.3046875,
+              "origin": 1
+            },
+            {
+              "point": 7,
+              "x": 16.765625,
+              "y": 206.94140625,
+              "origin": 1
+            },
+            {
+              "point": 8,
+              "x": 514.05859375,
+              "y": 128.5390625,
+              "origin": 1
+            },
+            {
+              "point": 9,
+              "x": 209.0,
+              "y": 203.578125,
+              "origin": 1
+            },
+            {
+              "point": 10,
+              "x": 367.8828125,
+              "y": 162.05859375,
+              "origin": 1
+            },
+            {
+              "point": 11,
+              "x": 114.16796875,
+              "y": 176.0390625,
+              "origin": 1
+            }
+          ]
+        },
+        {
+          "frame": 368,
+          "valid_tracks": 12,
+          "positions": [
+            {
+              "point": 0,
+              "x": 407.0,
+              "y": 214.0,
+              "origin": 0
+            },
+            {
+              "point": 1,
+              "x": 484.0,
+              "y": 311.0,
+              "origin": 0
+            },
+            {
+              "point": 2,
+              "x": 320.0,
+              "y": 196.5,
+              "origin": 0
+            },
+            {
+              "point": 3,
+              "x": 534.5,
+              "y": 156.5,
+              "origin": 0
+            },
+            {
+              "point": 4,
+              "x": 88.0,
+              "y": 207.0,
+              "origin": 0
+            },
+            {
+              "point": 5,
+              "x": 195.0,
+              "y": 202.0,
+              "origin": 0
+            },
+            {
+              "point": 6,
+              "x": 492.0,
+              "y": 276.0,
+              "origin": 1
+            },
+            {
+              "point": 7,
+              "x": 12.0,
+              "y": 206.0,
+              "origin": 1
+            },
+            {
+              "point": 8,
+              "x": 514.0,
+              "y": 128.0,
+              "origin": 1
+            },
+            {
+              "point": 9,
+              "x": 210.0,
+              "y": 202.0,
+              "origin": 1
+            },
+            {
+              "point": 10,
+              "x": 368.0,
+              "y": 162.0,
+              "origin": 1
+            },
+            {
+              "point": 11,
+              "x": 110.0,
+              "y": 176.0,
+              "origin": 1
+            }
+          ]
+        }
+      ],
+      "sheet": "webvid_017_6db8f5a7.jpg",
+      "title": "곡식의 움직임",
+      "meaning": "줄기가 기울기와 겹침을 바꾼다는 내용은 송신 설명에 있고, 12개 점의 9개 시점 궤적도 전송됐다.",
+      "limit": "15.33초 구간의 동작량은 첫 1.25초만 사용한다. 영상 양끝 두 장만 키프레임이며, 희소 점만으로 전체 곡식의 세밀한 움직임을 표현하지 않는다.",
+      "review_status": "AI_SELECTED_SOURCE_PAIRED_REVIEW; not independent or blinded",
+      "main_action_present_in_transmitted_caption": true,
+      "precise_action_fully_encoded": "NOT_ESTABLISHED",
+      "semantic_omission_confirmed": false
+    },
+    {
+      "id": "webvid_022_f54228f7",
+      "start": 0,
+      "end": 239,
+      "source_movie": "outputs/bsu_webvid_completed_20261015/inputs/outputs/remote_webvid_full_20261012/webvid/webvid_022_f54228f7/normalized.mp4",
+      "segment": {
+        "start": 0,
+        "end": 239,
+        "duration_seconds": 9.958333333333334,
+        "caption": "A small stream flows over moss-covered rocks, with white water and ripples changing among the stones. Green shrubs and grasses border the channel, and a pale rock is visible on the right. The foreground includes a blurred plant stem.",
+        "caption_source_indices": [
+          29,
+          89,
+          148,
+          207
+        ],
+        "scalar_flow": 0.12840066850185394,
+        "scalar_flow_source_indices": [
+          0,
+          10,
+          20,
+          30
+        ],
+        "flow_sample_span_fraction": 0.12605042016806722,
+        "later_frames_unobserved_by_flow": 208,
+        "duplicate_flow_pairs": 0,
+        "effective_t5_prompt": "a small stream flows over moss-covered rocks, with white water and ripples changing among the stones. green shrubs and grasses border the channel, and a pale rock is visible on the right. the foreground includes a blurred plant stem. aesthetic score: 6.5. motion score: 0.1.",
+        "trajectory": {
+          "points": 16,
+          "knot_indices": [
+            0,
+            48,
+            64,
+            87,
+            120,
+            154,
+            181,
+            184,
+            239
+          ],
+          "valid_point_frame_ratio": 1.0,
+          "frames_without_any_valid_track": 0,
+          "knot_positions": [
+            [
+              [
+                169.0,
+                109.0
+              ],
+              [
+                129.0,
+                84.0
+              ],
+              [
+                274.0,
+                156.0
+              ],
+              [
+                85.0,
+                51.0
+              ],
+              [
+                185.0,
+                146.0
+              ],
+              [
+                147.0,
+                109.0
+              ],
+              [
+                27.0,
+                131.0
+              ],
+              [
+                281.0,
+                103.0
+              ],
+              [
+                161.0,
+                109.25
+              ],
+              [
+                274.75,
+                153.5
+              ],
+              [
+                136.25,
+                79.75
+              ],
+              [
+                150.0,
+                108.0
+              ],
+              [
+                83.5,
+                57.0
+              ],
+              [
+                183.5,
+                145.0
+              ],
+              [
+                284.75,
+                94.0
+              ],
+              [
+                19.75,
+                128.25
+              ]
+            ],
+            [
+              [
+                169.75,
+                110.75
+              ],
+              [
+                130.75,
+                84.25
+              ],
+              [
+                274.75,
+                155.25
+              ],
+              [
+                85.0,
+                50.75
+              ],
+              [
+                185.5,
+                145.5
+              ],
+              [
+                149.0,
+                109.75
+              ],
+              [
+                27.25,
+                130.75
+              ],
+              [
+                281.25,
+                102.75
+              ],
+              [
+                163.0,
+                109.75
+              ],
+              [
+                274.75,
+                153.5
+              ],
+              [
+                138.25,
+                79.75
+              ],
+              [
+                149.25,
+                107.75
+              ],
+              [
+                83.25,
+                56.75
+              ],
+              [
+                182.75,
+                145.25
+              ],
+              [
+                284.75,
+                93.75
+              ],
+              [
+                19.75,
+                128.0
+              ]
+            ],
+            [
+              [
+                171.25,
+                111.25
+              ],
+              [
+                131.5,
+                84.0
+              ],
+              [
+                275.25,
+                155.0
+              ],
+              [
+                85.0,
+                50.5
+              ],
+              [
+                185.75,
+                145.0
+              ],
+              [
+                150.5,
+                110.25
+              ],
+              [
+                27.25,
+                130.5
+              ],
+              [
+                281.25,
+                102.5
+              ],
+              [
+                165.75,
+                109.25
+              ],
+              [
+                274.75,
+                153.75
+              ],
+              [
+                139.25,
+                79.25
+              ],
+              [
+                149.75,
+                108.0
+              ],
+              [
+                83.5,
+                56.5
+              ],
+              [
+                183.0,
+                145.25
+              ],
+              [
+                285.0,
+                93.5
+              ],
+              [
+                20.0,
+                127.75
+              ]
+            ],
+            [
+              [
+                172.25,
+                114.25
+              ],
+              [
+                132.5,
+                84.25
+              ],
+              [
+                275.75,
+                155.25
+              ],
+              [
+                85.0,
+                50.5
+              ],
+              [
+                185.5,
+                144.75
+              ],
+              [
+                151.0,
+                111.0
+              ],
+              [
+                27.25,
+                130.5
+              ],
+              [
+                281.25,
+                102.25
+              ],
+              [
+                166.75,
+                111.0
+              ],
+              [
+                275.0,
+                154.0
+              ],
+              [
+                140.0,
+                78.75
+              ],
+              [
+                149.5,
+                108.0
+              ],
+              [
+                83.25,
+                56.5
+              ],
+              [
+                182.25,
+                145.25
+              ],
+              [
+                285.0,
+                93.5
+              ],
+              [
+                20.0,
+                127.75
+              ]
+            ],
+            [
+              [
+                175.5,
+                114.5
+              ],
+              [
+                133.25,
+                84.25
+              ],
+              [
+                276.25,
+                154.75
+              ],
+              [
+                84.75,
+                50.5
+              ],
+              [
+                185.75,
+                144.25
+              ],
+              [
+                153.25,
+                112.25
+              ],
+              [
+                27.0,
+                130.25
+              ],
+              [
+                281.0,
+                102.0
+              ],
+              [
+                170.75,
+                111.5
+              ],
+              [
+                274.5,
+                154.0
+              ],
+              [
+                140.5,
+                78.75
+              ],
+              [
+                148.5,
+                107.5
+              ],
+              [
+                82.75,
+                56.5
+              ],
+              [
+                181.75,
+                145.25
+              ],
+              [
+                284.75,
+                93.25
+              ],
+              [
+                19.75,
+                127.5
+              ]
+            ],
+            [
+              [
+                181.0,
+                115.25
+              ],
+              [
+                135.25,
+                84.75
+              ],
+              [
+                277.5,
+                154.25
+              ],
+              [
+                85.0,
+                50.5
+              ],
+              [
+                186.25,
+                143.75
+              ],
+              [
+                155.5,
+                113.25
+              ],
+              [
+                27.25,
+                130.25
+              ],
+              [
+                281.25,
+                101.75
+              ],
+              [
+                175.0,
+                109.5
+              ],
+              [
+                275.0,
+                154.0
+              ],
+              [
+                142.25,
+                79.0
+              ],
+              [
+                148.75,
+                108.25
+              ],
+              [
+                83.0,
+                56.25
+              ],
+              [
+                181.75,
+                145.5
+              ],
+              [
+                285.0,
+                93.0
+              ],
+              [
+                20.0,
+                127.5
+              ]
+            ],
+            [
+              [
+                179.75,
+                116.75
+              ],
+              [
+                137.25,
+                85.25
+              ],
+              [
+                278.0,
+                153.75
+              ],
+              [
+                85.0,
+                50.5
+              ],
+              [
+                186.5,
+                143.5
+              ],
+              [
+                158.25,
+                114.5
+              ],
+              [
+                27.25,
+                130.25
+              ],
+              [
+                281.25,
+                101.5
+              ],
+              [
+                176.0,
+                108.25
+              ],
+              [
+                275.0,
+                153.75
+              ],
+              [
+                143.5,
+                78.75
+              ],
+              [
+                148.75,
+                108.25
+              ],
+              [
+                83.0,
+                56.5
+              ],
+              [
+                181.25,
+                146.0
+              ],
+              [
+                285.0,
+                92.5
+              ],
+              [
+                20.0,
+                127.5
+              ]
+            ],
+            [
+              [
+                182.0,
+                116.75
+              ],
+              [
+                137.0,
+                85.25
+              ],
+              [
+                278.25,
+                154.0
+              ],
+              [
+                84.75,
+                50.5
+              ],
+              [
+                186.5,
+                143.25
+              ],
+              [
+                158.25,
+                114.25
+              ],
+              [
+                27.25,
+                130.25
+              ],
+              [
+                281.25,
+                101.5
+              ],
+              [
+                176.75,
+                108.25
+              ],
+              [
+                275.0,
+                153.75
+              ],
+              [
+                143.5,
+                78.75
+              ],
+              [
+                148.75,
+                108.25
+              ],
+              [
+                83.0,
+                56.5
+              ],
+              [
+                181.25,
+                146.0
+              ],
+              [
+                285.0,
+                92.5
+              ],
+              [
+                20.0,
+                127.5
+              ]
+            ],
+            [
+              [
+                184.25,
+                118.0
+              ],
+              [
+                139.75,
+                85.5
+              ],
+              [
+                279.5,
+                154.0
+              ],
+              [
+                84.75,
+                50.0
+              ],
+              [
+                187.0,
+                142.25
+              ],
+              [
+                161.0,
+                115.25
+              ],
+              [
+                27.25,
+                129.75
+              ],
+              [
+                281.25,
+                101.0
+              ],
+              [
+                179.0,
+                106.0
+              ],
+              [
+                275.0,
+                154.0
+              ],
+              [
+                145.0,
+                78.0
+              ],
+              [
+                147.0,
+                108.0
+              ],
+              [
+                83.0,
+                56.0
+              ],
+              [
+                181.0,
+                146.0
+              ],
+              [
+                285.0,
+                92.0
+              ],
+              [
+                20.0,
+                127.0
+              ]
+            ]
+          ],
+          "knot_valid": [
+            [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true
+            ],
+            [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true
+            ],
+            [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true
+            ],
+            [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true
+            ],
+            [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true
+            ],
+            [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true
+            ],
+            [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true
+            ],
+            [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true
+            ],
+            [
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true
+            ]
+          ],
+          "origin_endpoint": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        }
+      },
+      "observations": [
+        {
+          "frame": 0,
+          "valid_tracks": 16,
+          "positions": [
+            {
+              "point": 0,
+              "x": 338.0,
+              "y": 218.0,
+              "origin": 0
+            },
+            {
+              "point": 1,
+              "x": 258.0,
+              "y": 168.0,
+              "origin": 0
+            },
+            {
+              "point": 2,
+              "x": 548.0,
+              "y": 312.0,
+              "origin": 0
+            },
+            {
+              "point": 3,
+              "x": 170.0,
+              "y": 102.0,
+              "origin": 0
+            },
+            {
+              "point": 4,
+              "x": 370.0,
+              "y": 292.0,
+              "origin": 0
+            },
+            {
+              "point": 5,
+              "x": 294.0,
+              "y": 218.0,
+              "origin": 0
+            },
+            {
+              "point": 6,
+              "x": 54.0,
+              "y": 262.0,
+              "origin": 0
+            },
+            {
+              "point": 7,
+              "x": 562.0,
+              "y": 206.0,
+              "origin": 0
+            },
+            {
+              "point": 8,
+              "x": 322.0,
+              "y": 218.5,
+              "origin": 1
+            },
+            {
+              "point": 9,
+              "x": 549.5,
+              "y": 307.0,
+              "origin": 1
+            },
+            {
+              "point": 10,
+              "x": 272.5,
+              "y": 159.5,
+              "origin": 1
+            },
+            {
+              "point": 11,
+              "x": 300.0,
+              "y": 216.0,
+              "origin": 1
+            },
+            {
+              "point": 12,
+              "x": 167.0,
+              "y": 114.0,
+              "origin": 1
+            },
+            {
+              "point": 13,
+              "x": 367.0,
+              "y": 290.0,
+              "origin": 1
+            },
+            {
+              "point": 14,
+              "x": 569.5,
+              "y": 188.0,
+              "origin": 1
+            },
+            {
+              "point": 15,
+              "x": 39.5,
+              "y": 256.5,
+              "origin": 1
+            }
+          ]
+        },
+        {
+          "frame": 48,
+          "valid_tracks": 16,
+          "positions": [
+            {
+              "point": 0,
+              "x": 339.5,
+              "y": 221.5,
+              "origin": 0
+            },
+            {
+              "point": 1,
+              "x": 261.5,
+              "y": 168.5,
+              "origin": 0
+            },
+            {
+              "point": 2,
+              "x": 549.5,
+              "y": 310.5,
+              "origin": 0
+            },
+            {
+              "point": 3,
+              "x": 170.0,
+              "y": 101.5,
+              "origin": 0
+            },
+            {
+              "point": 4,
+              "x": 371.0,
+              "y": 291.0,
+              "origin": 0
+            },
+            {
+              "point": 5,
+              "x": 298.0,
+              "y": 219.5,
+              "origin": 0
+            },
+            {
+              "point": 6,
+              "x": 54.5,
+              "y": 261.5,
+              "origin": 0
+            },
+            {
+              "point": 7,
+              "x": 562.5,
+              "y": 205.5,
+              "origin": 0
+            },
+            {
+              "point": 8,
+              "x": 326.0,
+              "y": 219.5,
+              "origin": 1
+            },
+            {
+              "point": 9,
+              "x": 549.5,
+              "y": 307.0,
+              "origin": 1
+            },
+            {
+              "point": 10,
+              "x": 276.5,
+              "y": 159.5,
+              "origin": 1
+            },
+            {
+              "point": 11,
+              "x": 298.5,
+              "y": 215.5,
+              "origin": 1
+            },
+            {
+              "point": 12,
+              "x": 166.5,
+              "y": 113.5,
+              "origin": 1
+            },
+            {
+              "point": 13,
+              "x": 365.5,
+              "y": 290.5,
+              "origin": 1
+            },
+            {
+              "point": 14,
+              "x": 569.5,
+              "y": 187.5,
+              "origin": 1
+            },
+            {
+              "point": 15,
+              "x": 39.5,
+              "y": 256.0,
+              "origin": 1
+            }
+          ]
+        },
+        {
+          "frame": 96,
+          "valid_tracks": 16,
+          "positions": [
+            {
+              "point": 0,
+              "x": 346.2727355957031,
+              "y": 228.63636779785156,
+              "origin": 0
+            },
+            {
+              "point": 1,
+              "x": 265.40911865234375,
+              "y": 168.5,
+              "origin": 0
+            },
+            {
+              "point": 2,
+              "x": 551.772705078125,
+              "y": 310.227294921875,
+              "origin": 0
+            },
+            {
+              "point": 3,
+              "x": 169.8636474609375,
+              "y": 101.0,
+              "origin": 0
+            },
+            {
+              "point": 4,
+              "x": 371.1363525390625,
+              "y": 289.227294921875,
+              "origin": 0
+            },
+            {
+              "point": 5,
+              "x": 303.227294921875,
+              "y": 222.68182373046875,
+              "origin": 0
+            },
+            {
+              "point": 6,
+              "x": 54.3636360168457,
+              "y": 260.8636474609375,
+              "origin": 0
+            },
+            {
+              "point": 7,
+              "x": 562.3636474609375,
+              "y": 204.3636474609375,
+              "origin": 0
+            },
+            {
+              "point": 8,
+              "x": 335.68182373046875,
+              "y": 222.27273559570312,
+              "origin": 1
+            },
+            {
+              "point": 9,
+              "x": 549.727294921875,
+              "y": 308.0,
+              "origin": 1
+            },
+            {
+              "point": 10,
+              "x": 280.2727355957031,
+              "y": 157.5,
+              "origin": 1
+            },
+            {
+              "point": 11,
+              "x": 298.4545593261719,
+              "y": 215.72727966308594,
+              "origin": 1
+            },
+            {
+              "point": 12,
+              "x": 166.22727966308594,
+              "y": 113.00000762939453,
+              "origin": 1
+            },
+            {
+              "point": 13,
+              "x": 364.227294921875,
+              "y": 290.5,
+              "origin": 1
+            },
+            {
+              "point": 14,
+              "x": 569.8636474609375,
+              "y": 186.86363220214844,
+              "origin": 1
+            },
+            {
+              "point": 15,
+              "x": 39.86363983154297,
+              "y": 255.3636474609375,
+              "origin": 1
+            }
+          ]
+        },
+        {
+          "frame": 143,
+          "valid_tracks": 16,
+          "positions": [
+            {
+              "point": 0,
+              "x": 358.4411926269531,
+              "y": 230.01470947265625,
+              "origin": 0
+            },
+            {
+              "point": 1,
+              "x": 269.20587158203125,
+              "y": 169.17648315429688,
+              "origin": 0
+            },
+            {
+              "point": 2,
+              "x": 554.191162109375,
+              "y": 308.82354736328125,
+              "origin": 0
+            },
+            {
+              "point": 3,
+              "x": 169.83824157714844,
+              "y": 101.0,
+              "origin": 0
+            },
+            {
+              "point": 4,
+              "x": 372.17645263671875,
+              "y": 287.82354736328125,
+              "origin": 0
+            },
+            {
+              "point": 5,
+              "x": 309.54412841796875,
+              "y": 225.85293579101562,
+              "origin": 0
+            },
+            {
+              "point": 6,
+              "x": 54.338233947753906,
+              "y": 260.5,
+              "origin": 0
+            },
+            {
+              "point": 7,
+              "x": 562.3382568359375,
+              "y": 203.66175842285156,
+              "origin": 0
+            },
+            {
+              "point": 8,
+              "x": 347.25,
+              "y": 220.2941131591797,
+              "origin": 1
+            },
+            {
+              "point": 9,
+              "x": 549.6764526367188,
+              "y": 308.0,
+              "origin": 1
+            },
+            {
+              "point": 10,
+              "x": 283.3676452636719,
+              "y": 157.83824157714844,
+              "origin": 1
+            },
+            {
+              "point": 11,
+              "x": 297.3382568359375,
+              "y": 216.01470947265625,
+              "origin": 1
+            },
+            {
+              "point": 12,
+              "x": 165.83822631835938,
+              "y": 112.66177368164062,
+              "origin": 1
+            },
+            {
+              "point": 13,
+              "x": 363.5,
+              "y": 290.8382263183594,
+              "origin": 1
+            },
+            {
+              "point": 14,
+              "x": 569.8382568359375,
+              "y": 186.16175842285156,
+              "origin": 1
+            },
+            {
+              "point": 15,
+              "x": 39.838233947753906,
+              "y": 255.0,
+              "origin": 1
+            }
+          ]
+        },
+        {
+          "frame": 191,
+          "valid_tracks": 16,
+          "positions": [
+            {
+              "point": 0,
+              "x": 364.5727233886719,
+              "y": 233.81817626953125,
+              "origin": 0
+            },
+            {
+              "point": 1,
+              "x": 274.70001220703125,
+              "y": 170.5636444091797,
+              "origin": 0
+            },
+            {
+              "point": 2,
+              "x": 556.8181762695312,
+              "y": 308.0,
+              "origin": 0
+            },
+            {
+              "point": 3,
+              "x": 169.5,
+              "y": 100.87272644042969,
+              "origin": 0
+            },
+            {
+              "point": 4,
+              "x": 373.1272888183594,
+              "y": 286.2454528808594,
+              "origin": 0
+            },
+            {
+              "point": 5,
+              "x": 317.1999816894531,
+              "y": 228.75454711914062,
+              "origin": 0
+            },
+            {
+              "point": 6,
+              "x": 54.5,
+              "y": 260.37274169921875,
+              "origin": 0
+            },
+            {
+              "point": 7,
+              "x": 562.5,
+              "y": 202.8727264404297,
+              "origin": 0
+            },
+            {
+              "point": 8,
+              "x": 354.0727233886719,
+              "y": 215.92726135253906,
+              "origin": 1
+            },
+            {
+              "point": 9,
+              "x": 550.0,
+              "y": 307.56365966796875,
+              "origin": 1
+            },
+            {
+              "point": 10,
+              "x": 287.3818359375,
+              "y": 157.30908203125,
+              "origin": 1
+            },
+            {
+              "point": 11,
+              "x": 297.0545349121094,
+              "y": 216.4363555908203,
+              "origin": 1
+            },
+            {
+              "point": 12,
+              "x": 166.0,
+              "y": 112.87272644042969,
+              "origin": 1
+            },
+            {
+              "point": 13,
+              "x": 362.4363708496094,
+              "y": 292.0,
+              "origin": 1
+            },
+            {
+              "point": 14,
+              "x": 570.0,
+              "y": 184.8727264404297,
+              "origin": 1
+            },
+            {
+              "point": 15,
+              "x": 40.0,
+              "y": 254.8727264404297,
+              "origin": 1
+            }
+          ]
+        },
+        {
+          "frame": 239,
+          "valid_tracks": 16,
+          "positions": [
+            {
+              "point": 0,
+              "x": 368.5,
+              "y": 236.0,
+              "origin": 0
+            },
+            {
+              "point": 1,
+              "x": 279.5,
+              "y": 171.0,
+              "origin": 0
+            },
+            {
+              "point": 2,
+              "x": 559.0,
+              "y": 308.0,
+              "origin": 0
+            },
+            {
+              "point": 3,
+              "x": 169.5,
+              "y": 100.0,
+              "origin": 0
+            },
+            {
+              "point": 4,
+              "x": 374.0,
+              "y": 284.5,
+              "origin": 0
+            },
+            {
+              "point": 5,
+              "x": 322.0,
+              "y": 230.5,
+              "origin": 0
+            },
+            {
+              "point": 6,
+              "x": 54.5,
+              "y": 259.5,
+              "origin": 0
+            },
+            {
+              "point": 7,
+              "x": 562.5,
+              "y": 202.0,
+              "origin": 0
+            },
+            {
+              "point": 8,
+              "x": 358.0,
+              "y": 212.0,
+              "origin": 1
+            },
+            {
+              "point": 9,
+              "x": 550.0,
+              "y": 308.0,
+              "origin": 1
+            },
+            {
+              "point": 10,
+              "x": 290.0,
+              "y": 156.0,
+              "origin": 1
+            },
+            {
+              "point": 11,
+              "x": 294.0,
+              "y": 216.0,
+              "origin": 1
+            },
+            {
+              "point": 12,
+              "x": 166.0,
+              "y": 112.0,
+              "origin": 1
+            },
+            {
+              "point": 13,
+              "x": 362.0,
+              "y": 292.0,
+              "origin": 1
+            },
+            {
+              "point": 14,
+              "x": 570.0,
+              "y": 184.0,
+              "origin": 1
+            },
+            {
+              "point": 15,
+              "x": 40.0,
+              "y": 254.0,
+              "origin": 1
+            }
+          ]
+        }
+      ],
+      "sheet": "webvid_022_f54228f7.jpg",
+      "title": "계곡 물의 흐름",
+      "meaning": "물의 흐름과 흰 물결·잔물결 변화가 송신 설명에 있다. 수신 키와 16개 점·9시점 궤적이 존재한다.",
+      "limit": "9.96초 구간의 동작량은 첫 1.25초만 사용한다. 수신된 점 궤적은 물 표면 전체의 세밀한 변화나 물질의 흐름을 그대로 표현하지 않는다.",
+      "review_status": "AI_SELECTED_SOURCE_PAIRED_REVIEW; not independent or blinded",
+      "main_action_present_in_transmitted_caption": true,
+      "precise_action_fully_encoded": "NOT_ESTABLISHED",
+      "semantic_omission_confirmed": false
+    }
+  ],
+  "source_motion": [
+    {
+      "id": "webvid_028_e1800b23",
+      "start": 0,
+      "end": 280,
+      "flow_last_source_frame": 30,
+      "source_motion_mean_in_flow_span": 0.02756652565052112,
+      "source_motion_mean_after_flow_span": 0.02867474156245589,
+      "after_span_transition_count": 250,
+      "metric": "288x160 grayscale Farneback mean magnitude, pixels/frame",
+      "source_metric_file": "outputs/bsu_receiver_improvement_20261015_v1/comparison/webvid_028_e1800b23/snr_10/combined_context/quality.json",
+      "source_metric_sha256": "17aaa56fde698a41ae93928048424650f6f4909fb90014cd021c4baac7bd3827",
+      "caveat": "Diagnostic of actual source movement beyond flow samples, not a re-estimate of UniMatch conditioning or causal quality effect"
+    },
+    {
+      "id": "webvid_030_23cb4cc7",
+      "start": 88,
+      "end": 180,
+      "flow_last_source_frame": 118,
+      "source_motion_mean_in_flow_span": 0.05228751928855976,
+      "source_motion_mean_after_flow_span": 0.08799368533636293,
+      "after_span_transition_count": 62,
+      "metric": "288x160 grayscale Farneback mean magnitude, pixels/frame",
+      "source_metric_file": "outputs/bsu_receiver_improvement_20261015_v1/comparison/webvid_030_23cb4cc7/snr_10/combined_context/quality.json",
+      "source_metric_sha256": "cfcef13cd40585ea6bdff52d8316432ee5aed216d3771a68f5276e3ce687869a",
+      "caveat": "Diagnostic of actual source movement beyond flow samples, not a re-estimate of UniMatch conditioning or causal quality effect"
+    },
+    {
+      "id": "webvid_019_ece4bef6",
+      "start": 16,
+      "end": 80,
+      "flow_last_source_frame": 46,
+      "source_motion_mean_in_flow_span": 0.6476354998846848,
+      "source_motion_mean_after_flow_span": 0.40275468589628444,
+      "after_span_transition_count": 34,
+      "metric": "288x160 grayscale Farneback mean magnitude, pixels/frame",
+      "source_metric_file": "outputs/bsu_receiver_improvement_20261015_v1/comparison/webvid_019_ece4bef6/snr_10/combined_context/quality.json",
+      "source_metric_sha256": "1cd3afc038f07f1d58fd24f5b9360dd08495501f86de9824d6009b55a5ee834e",
+      "caveat": "Diagnostic of actual source movement beyond flow samples, not a re-estimate of UniMatch conditioning or causal quality effect"
+    },
+    {
+      "id": "webvid_017_6db8f5a7",
+      "start": 0,
+      "end": 368,
+      "flow_last_source_frame": 30,
+      "source_motion_mean_in_flow_span": 0.26288455228010815,
+      "source_motion_mean_after_flow_span": 0.30236624824930225,
+      "after_span_transition_count": 338,
+      "metric": "288x160 grayscale Farneback mean magnitude, pixels/frame",
+      "source_metric_file": "outputs/bsu_receiver_improvement_20261015_v1/comparison/webvid_017_6db8f5a7/snr_10/combined_context/quality.json",
+      "source_metric_sha256": "5f710f1ae4cd2aa5c7c8d850bf1dd04d0767d70666e26f25ebed89580d0bee90",
+      "caveat": "Diagnostic of actual source movement beyond flow samples, not a re-estimate of UniMatch conditioning or causal quality effect"
+    },
+    {
+      "id": "webvid_022_f54228f7",
+      "start": 0,
+      "end": 239,
+      "flow_last_source_frame": 30,
+      "source_motion_mean_in_flow_span": 0.07659277394413948,
+      "source_motion_mean_after_flow_span": 0.08132086542733548,
+      "after_span_transition_count": 209,
+      "metric": "288x160 grayscale Farneback mean magnitude, pixels/frame",
+      "source_metric_file": "outputs/bsu_receiver_improvement_20261015_v1/comparison/webvid_022_f54228f7/snr_10/combined_context/quality.json",
+      "source_metric_sha256": "b29130553bb67337b54e2ee0e89e5eeb7e67a845348b7842bb7a656945b57c76",
+      "caveat": "Diagnostic of actual source movement beyond flow samples, not a re-estimate of UniMatch conditioning or causal quality effect"
+    }
+  ],
+  "input_files_sha256_verified": 1693,
+  "source_root": "outputs/bsu_webvid_completed_20261015",
+  "evidence_root": "outputs/bsu_sender_information_audit_20261015",
+  "limitations": [
+    "Original/generated videos and key/track overlays reviewed on five selected failure windows, not exhaustive independent ground truth.",
+    "Scalar-flow temporal coverage excludes later frames, but caption/trajectory/key modalities can carry complementary information.",
+    "No counterfactual sender-enrichment generation experiment; contribution to reconstruction error is not causally quantified.",
+    "No claim that 25 missing trajectory packets mean 25 videos had all motion information missing.",
+    "No visual-channel losslessness claim; key images were inspected at 10dB."
+  ],
+  "production_code_changed": false,
+  "inference_executed": false,
+  "remote_modified": false
+}

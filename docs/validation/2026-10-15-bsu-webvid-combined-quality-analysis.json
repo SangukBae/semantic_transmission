@@ -1,0 +1,1292 @@
+{
+  "date": "2026-10-15",
+  "status": "COMPLETE_COMPLETED_COHORT_QUALITY_DIAGNOSTICS",
+  "host": "sangukcom",
+  "remote_root": "/home/sangukbae/ETRI/Semantic/semantic_transmission/outputs/bsu_webvid_paper",
+  "mode": "combined",
+  "scope": {
+    "completed_conditions": 108,
+    "total_conditions": 159,
+    "source_videos": 36,
+    "full_dataset_source_videos": 53,
+    "snr_db": [
+      6,
+      8,
+      10
+    ],
+    "frames_per_snr": 14776,
+    "frame_instances": 44328,
+    "visual_sample_videos": 12,
+    "visual_sample_snr_db": 10,
+    "local_full_video_pixel_diagnostics": 36,
+    "remote_key_png_instances": 705
+  },
+  "by_snr": {
+    "6": {
+      "videos": 36,
+      "frames": 14776,
+      "base_video_mean": {
+        "psnr_db": 20.549228001904886,
+        "ssim": 0.6379937044701876,
+        "lpips_vgg": 0.33880658050395795,
+        "clip": 0.9427446475130244,
+        "dists": 0.16425365115929702
+      },
+      "combined_video_mean": {
+        "psnr_db": 20.789979957017955,
+        "ssim": 0.646972256513365,
+        "lpips_vgg": 0.33640769728826814,
+        "clip": 0.9431024657994591,
+        "dists": 0.1666387902864002
+      },
+      "false_freeze_video_mean": 0.4035753950059488,
+      "false_freeze_pooled": 0.34188132035871016,
+      "trajectory_packets_present": 24,
+      "extra_channel_uses_percent": 3.503911294209981
+    },
+    "8": {
+      "videos": 36,
+      "frames": 14776,
+      "base_video_mean": {
+        "psnr_db": 20.732259872350237,
+        "ssim": 0.6444813161868101,
+        "lpips_vgg": 0.32982084784744786,
+        "clip": 0.9451482882216811,
+        "dists": 0.16092187833787092
+      },
+      "combined_video_mean": {
+        "psnr_db": 20.96965367466737,
+        "ssim": 0.6532005318536223,
+        "lpips_vgg": 0.32749924810205705,
+        "clip": 0.945408378916678,
+        "dists": 0.1633618694007578
+      },
+      "false_freeze_video_mean": 0.4012585679657653,
+      "false_freeze_pooled": 0.34109084961975633,
+      "trajectory_packets_present": 24,
+      "extra_channel_uses_percent": 3.503911294209981
+    },
+    "10": {
+      "videos": 36,
+      "frames": 14776,
+      "base_video_mean": {
+        "psnr_db": 20.767302389614507,
+        "ssim": 0.6463050182209912,
+        "lpips_vgg": 0.3269609894198381,
+        "clip": 0.9453755044851603,
+        "dists": 0.160662081658668
+      },
+      "combined_video_mean": {
+        "psnr_db": 21.55842500056273,
+        "ssim": 0.6686489544222605,
+        "lpips_vgg": 0.32003178672470645,
+        "clip": 0.9478459674355681,
+        "dists": 0.16139243156361135
+      },
+      "false_freeze_video_mean": 0.3749267790842801,
+      "false_freeze_pooled": 0.31178891705508766,
+      "trajectory_packets_present": 35,
+      "extra_channel_uses_percent": 4.177469947237684
+    }
+  },
+  "findings": [
+    {
+      "kind": "semantic_geometry_and_timing",
+      "finding": "열차·팔다리·파도 등 원본과 다른 크기, 형태, 경로, 동작 시점이 생성되며 기존 combined 보정으로 해결되지 않는다.",
+      "scope": "12 selected source-paired frame reviews at 10dB; non-independent and not blinded"
+    },
+    {
+      "kind": "key_boundary_discontinuity",
+      "finding": "키 직후 생성 자세·위치가 한 프레임 만에 크게 바뀌는 사례가 원본 대비 확인되며 PNG에도 존재한다.",
+      "lossless_examples": [
+        {
+          "id": "webvid_007_48259b0b",
+          "key": 228,
+          "lossless_boundary": [
+            {
+              "frame": 228,
+              "time_seconds": 9.5,
+              "mad": {
+                "source": 7.807421875,
+                "base": 1.3592230902777778,
+                "combined": 1.1560329861111112
+              },
+              "change_error": {
+                "base": 8.380186631944444,
+                "combined": 8.145008680555556
+              }
+            },
+            {
+              "frame": 229,
+              "time_seconds": 9.541666666666666,
+              "mad": {
+                "source": 5.046267361111111,
+                "base": 41.203472222222224,
+                "combined": 35.48285590277778
+              },
+              "change_error": {
+                "base": 40.52981770833333,
+                "combined": 34.75533854166667
+              }
+            }
+          ],
+          "captions": [
+            {
+              "segment": 0,
+              "start": 0,
+              "end_exclusive": 8,
+              "source_indices": [
+                0,
+                2,
+                4,
+                5
+              ],
+              "caption": "A person with a high bun and dark clothing is seen in a close side view among flowering branches. Their head stays lowered and shifts slightly between the images. A blurred person remains in the background.",
+              "removed_claims": [],
+              "uncertainties": []
+            },
+            {
+              "segment": 1,
+              "start": 8,
+              "end_exclusive": 12,
+              "source_indices": [
+                8,
+                9,
+                10,
+                10
+              ],
+              "caption": "A person with a high bun holds a dark camera near branches with pale blossoms. Their head and gaze shift slightly among the branches, with a blurred outdoor background. A strap is visible across their shoulder.",
+              "removed_claims": [],
+              "uncertainties": []
+            },
+            {
+              "segment": 2,
+              "start": 12,
+              "end_exclusive": 32,
+              "source_indices": [
+                14,
+                19,
+                24,
+                28
+              ],
+              "caption": "A person with dark hair holds a black camera in front of flowering branches. Their hands and the camera change position while the background remains blurred. The person stays in a close side view.",
+              "removed_claims": [],
+              "uncertainties": []
+            },
+            {
+              "segment": 3,
+              "start": 32,
+              "end_exclusive": 48,
+              "source_indices": [
+                33,
+                37,
+                41,
+                44
+              ],
+              "caption": "A person in a black top holds a black camera up near their face, viewed from behind. Their hands adjust around the camera and strap while a blurred outdoor area is visible behind them.",
+              "removed_claims": [],
+              "uncertainties": []
+            },
+            {
+              "segment": 4,
+              "start": 48,
+              "end_exclusive": 92,
+              "source_indices": [
+                53,
+                64,
+                75,
+                85
+              ],
+              "caption": "A person with a backpack holds a camera up near their face, seen from behind. Their arms and the camera strap are visible while the face remains hidden. A blurred person appears in the background to the right.",
+              "removed_claims": [],
+              "uncertainties": []
+            },
+            {
+              "segment": 5,
+              "start": 92,
+              "end_exclusive": 120,
+              "source_indices": [
+                95,
+                102,
+                109,
+                115
+              ],
+              "caption": "A person with a backpack is seen from behind, holding a camera up near their face. Their arm and the camera change position slightly, while a blurred person remains behind a branch. The view stays close on the person's back and raised hands.",
+              "removed_claims": [],
+              "uncertainties": []
+            },
+            {
+              "segment": 6,
+              "start": 120,
+              "end_exclusive": 136,
+              "source_indices": [
+                121,
+                125,
+                129,
+                132
+              ],
+              "caption": "A person in a black top is seen from behind, with an arm raised near a flowering tree branch. A woman in a pinkish outfit is visible in the blurred background among the branches. The foreground person remains behind the branch while the background woman stays in the out-of-focus area.",
+              "removed_claims": [],
+              "uncertainties": []
+            },
+            {
+              "segment": 7,
+              "start": 136,
+              "end_exclusive": 144,
+              "source_indices": [
+                136,
+                138,
+                140,
+                141
+              ],
+              "caption": "A person is seen from behind in the foreground, partially blocking the view. A woman in a dark patterned dress stands among pale blossoms, with a branch crossing in front of her. Her head and hand position change slightly between the images.",
+              "removed_claims": [],
+              "uncertainties": []
+            },
+            {
+              "segment": 8,
+              "start": 144,
+              "end_exclusive": 148,
+              "source_indices": [
+                144,
+                145,
+                146,
+                146
+              ],
+              "caption": "A person in a dark top is blurred in the foreground with an arm raised. Behind branches and white blossoms, a woman in a purple patterned dress looks upward, her hand near her face. Her dark hair has a red flower accessory.",
+              "removed_claims": [],
+              "uncertainties": []
+            },
+            {
+              "segment": 9,
+              "start": 148,
+              "end_exclusive": 184,
+              "source_indices": [
+                152,
+                161,
+                170,
+                178
+              ],
+              "caption": "A person in a dark top is seen from behind, with an arm raised in the foreground. A woman in a purple patterned dress stands among pale flowering branches, looking toward the camera. A blurred shoulder is visible at the right edge. The foreground arm and branches partially block the view.",
+              "removed_claims": [],
+              "uncertainties": []
+            },
+            {
+              "segment": 10,
+              "start": 184,
+              "end_exclusive": 228,
+              "source_indices": [
+                189,
+                200,
+                211,
+                221
+              ],
+              "caption": "A woman in a purple patterned dress holds a flowering branch and looks upward beside a red flower in her hair. A blurred person is in the foreground, and a partial shoulder is visible on the right. Branches and white blossoms partly cover the view.",
+              "removed_claims": [],
+              "uncertainties": []
+            },
+            {
+              "segment": 11,
+              "start": 228,
+              "end_exclusive": 244,
+              "source_indices": [
+                229,
+                233,
+                237,
+                240
+              ],
+              "caption": "A person with long dark hair and a red flower in their hair stands among white blossoms, seen partly behind branches. Their face is partly hidden by branches and their raised arm. Another person's arm is visible in the foreground.",
+              "removed_claims": [],
+              "uncertainties": []
+            },
+            {
+              "segment": 12,
+              "start": 244,
+              "end_exclusive": 288,
+              "source_indices": [
+                249,
+                260,
+                271,
+                281
+              ],
+              "caption": "A person with long dark hair and a red flower accessory is seen from behind among white flowering branches. A blurred arm and head occupy the left foreground. The person's red clothing and a patterned bag or sleeve are visible behind branches.",
+              "removed_claims": [],
+              "uncertainties": []
+            },
+            {
+              "segment": 13,
+              "start": 288,
+              "end_exclusive": 300,
+              "source_indices": [
+                289,
+                292,
+                295,
+                297
+              ],
+              "caption": "A person with long dark hair and a red flower in their hair stands among white flowering branches, partially seen through the foreground. Their hands are near the branches in front of them. A blurred person is visible from behind on the left.",
+              "removed_claims": [],
+              "uncertainties": []
+            },
+            {
+              "segment": 14,
+              "start": 300,
+              "end_exclusive": 376,
+              "source_indices": [
+                309,
+                328,
+                347,
+                365
+              ],
+              "caption": "A person in a patterned purple and red garment stands among white flowering branches, looking downward. Their hands are near the branches in front of them. A blurred person is visible from behind on the left.",
+              "removed_claims": [],
+              "uncertainties": []
+            },
+            {
+              "segment": 15,
+              "start": 376,
+              "end_exclusive": 419,
+              "source_indices": [
+                381,
+                391,
+                402,
+                413
+              ],
+              "caption": "A person in a colorful patterned top stands beside flowering branches, with a camera held by someone behind the branches. Their hands are raised near the branches and their gaze is directed toward them. The foreground camera holder remains blurred and partially hidden.",
+              "removed_claims": [],
+              "uncertainties": []
+            }
+          ],
+          "caption_sha256": "2ac3ff152837941012c7067eb3e023a8ebd178c46a01c6feb16716d311c78337"
+        },
+        {
+          "id": "webvid_013_79401da3",
+          "key": 220,
+          "lossless_boundary": [
+            {
+              "frame": 220,
+              "time_seconds": 9.166666666666666,
+              "mad": {
+                "source": 1.3640625,
+                "base": 0.5151041666666667,
+                "combined": 0.7172960069444444
+              },
+              "change_error": {
+                "base": 1.6340711805555554,
+                "combined": 1.7259765625
+              }
+            },
+            {
+              "frame": 221,
+              "time_seconds": 9.208333333333334,
+              "mad": {
+                "source": 1.885134548611111,
+                "base": 28.030512152777778,
+                "combined": 25.331184895833335
+              },
+              "change_error": {
+                "base": 28.266471354166665,
+                "combined": 25.551822916666666
+              }
+            }
+          ],
+          "captions": [
+            {
+              "segment": 0,
+              "start": 0,
+              "end_exclusive": 28,
+              "source_indices": [
+                3,
+                10,
+                17,
+                23
+              ],
+              "caption": "A person in a tall white hat and white jacket is seen from the side, leaning over a counter. Their head is lowered and their arm is extended forward. The background includes a pale wall, a window, and a white partition.",
+              "removed_claims": [],
+              "uncertainties": []
+            },
+            {
+              "segment": 1,
+              "start": 28,
+              "end_exclusive": 64,
+              "source_indices": [
+                32,
+                41,
+                50,
+                58
+              ],
+              "caption": "A person in a white chef's jacket and tall hat is seen from the side, looking downward. Their arm moves into the lower foreground while the white partition and windows remain behind.",
+              "removed_claims": [],
+              "uncertainties": []
+            },
+            {
+              "segment": 2,
+              "start": 64,
+              "end_exclusive": 120,
+              "source_indices": [
+                70,
+                84,
+                98,
+                111
+              ],
+              "caption": "A person in a tall white hat and white jacket is seen from behind, leaning forward over a surface. Their head stays lowered and their arms change position at the lower edge. A pale partition and a window are visible behind them.",
+              "removed_claims": [],
+              "uncertainties": []
+            },
+            {
+              "segment": 3,
+              "start": 120,
+              "end_exclusive": 156,
+              "source_indices": [
+                124,
+                133,
+                142,
+                150
+              ],
+              "caption": "A person in a white chef's jacket and tall hat is seen from the side, looking downward. Their head and hat shift slightly between views, with a white curtain partition behind them.",
+              "removed_claims": [],
+              "uncertainties": []
+            },
+            {
+              "segment": 4,
+              "start": 156,
+              "end_exclusive": 164,
+              "source_indices": [
+                156,
+                158,
+                160,
+                161
+              ],
+              "caption": "A person in a white chef-style jacket and cap stands at a counter, looking down at their hands. Their right arm is extended toward containers, with a pale utensil or sheet visible among them. The background is a light curtain, and the image is blurred from motion.",
+              "removed_claims": [],
+              "uncertainties": []
+            },
+            {
+              "segment": 5,
+              "start": 164,
+              "end_exclusive": 168,
+              "source_indices": [
+                164,
+                165,
+                166,
+                166
+              ],
+              "caption": "A person in a white shirt and dark apron stands behind a counter with food containers. Their right arm is extended toward the containers, with the hand and utensil blurred. A round food item sits on the counter in the foreground.",
+              "removed_claims": [],
+              "uncertainties": []
+            },
+            {
+              "segment": 6,
+              "start": 168,
+              "end_exclusive": 212,
+              "source_indices": [
+                173,
+                184,
+                195,
+                205
+              ],
+              "caption": "A person in a white shirt and black apron stands behind a round cooking surface with a large thin round food item. Their right arm reaches toward containers to the right, and the arm and hand change position between views. A clear glass and other small containers are near the food.",
+              "removed_claims": [],
+              "uncertainties": []
+            },
+            {
+              "segment": 7,
+              "start": 212,
+              "end_exclusive": 220,
+              "source_indices": [
+                212,
+                214,
+                216,
+                217
+              ],
+              "caption": "A person in a white shirt uses a white spatula over a round cooking surface with a thin pancake. The spatula is lowered toward the pancake while the person's hand and arm change position. A round black plate sits in the foreground and ingredient containers are visible behind the cooking surface.",
+              "removed_claims": [],
+              "uncertainties": []
+            },
+            {
+              "segment": 8,
+              "start": 220,
+              "end_exclusive": 232,
+              "source_indices": [
+                221,
+                224,
+                227,
+                229
+              ],
+              "caption": "A person in a white shirt moves a utensil across a round cooking surface holding a thin pancake. Dark pieces are scattered on the pancake. A glass and ingredient containers are beside the pan.",
+              "removed_claims": [],
+              "uncertainties": []
+            },
+            {
+              "segment": 9,
+              "start": 232,
+              "end_exclusive": 260,
+              "source_indices": [
+                235,
+                242,
+                249,
+                255
+              ],
+              "caption": "A person in a white shirt and black apron stands behind a round cooking surface with a thin pancake topped with dark pieces. Their arm reaches toward containers to the right, and a clear cup sits beside the pan. The round cooking surface and pancake remain in the foreground.",
+              "removed_claims": [],
+              "uncertainties": []
+            },
+            {
+              "segment": 10,
+              "start": 260,
+              "end_exclusive": 312,
+              "source_indices": [
+                266,
+                279,
+                292,
+                304
+              ],
+              "caption": "A person in a white shirt and dark apron stands beside a round cooking surface with a large thin pancake. Their arm reaches toward containers behind the pancake, and the view remains cropped behind their torso. A clear glass and black containers are visible to the right.",
+              "removed_claims": [],
+              "uncertainties": []
+            },
+            {
+              "segment": 11,
+              "start": 312,
+              "end_exclusive": 348,
+              "source_indices": [
+                316,
+                325,
+                334,
+                342
+              ],
+              "caption": "A person in a white shirt uses a flat utensil on a round cooking surface. A thin round food layer holds scattered dark pieces, and a clear cup sits beside black containers. The person's arm and utensil change position while the cooking surface and food remain in view.",
+              "removed_claims": [],
+              "uncertainties": []
+            },
+            {
+              "segment": 12,
+              "start": 348,
+              "end_exclusive": 360,
+              "source_indices": [
+                349,
+                352,
+                355,
+                357
+              ],
+              "caption": "A person in a white chef's jacket extends an arm toward a round cooking surface. Their hand is among small dark pieces on the surface, with a clear cup and black containers nearby. A dark round foreground object partially blocks the lower view.",
+              "removed_claims": [],
+              "uncertainties": []
+            },
+            {
+              "segment": 13,
+              "start": 360,
+              "end_exclusive": 400,
+              "source_indices": [
+                364,
+                374,
+                384,
+                393
+              ],
+              "caption": "A person in a white jacket reaches toward containers beside a round cooking surface with a pale spread. Their arm and hand move among the containers while the round surface stays below. The person remains seen from behind with no visible face.",
+              "removed_claims": [],
+              "uncertainties": []
+            },
+            {
+              "segment": 14,
+              "start": 400,
+              "end_exclusive": 408,
+              "source_indices": [
+                400,
+                402,
+                404,
+                405
+              ],
+              "caption": "A person in a white shirt stands behind a counter with open food containers. Their right arm moves over the containers while a round food item sits in the foreground. A small clear container is among the bins.",
+              "removed_claims": [],
+              "uncertainties": []
+            },
+            {
+              "segment": 15,
+              "start": 408,
+              "end_exclusive": 448,
+              "source_indices": [
+                412,
+                422,
+                432,
+                441
+              ],
+              "caption": "A person in a white chef's jacket and tall hat stands at a counter, looking down at their hands. Their arms move near the counter edge while the background remains a pale curtain. The hat and jacket stay in a similar position as the view shifts slightly.",
+              "removed_claims": [],
+              "uncertainties": []
+            },
+            {
+              "segment": 16,
+              "start": 448,
+              "end_exclusive": 512,
+              "source_indices": [
+                455,
+                471,
+                487,
+                502
+              ],
+              "caption": "A person in a white chef's jacket and tall hat is seen from the side, looking downward. Their head and upper body shift slightly while a white curtain partition remains in the background. The image is somewhat blurred.",
+              "removed_claims": [],
+              "uncertainties": []
+            },
+            {
+              "segment": 17,
+              "start": 512,
+              "end_exclusive": 532,
+              "source_indices": [
+                514,
+                519,
+                524,
+                528
+              ],
+              "caption": "A person in a white chef's jacket and tall pleated hat is seen from the chest up, looking downward. Their head tilts further down and the hat becomes more upright in the view. A pale curtain and windows are visible behind them.",
+              "removed_claims": [],
+              "uncertainties": []
+            },
+            {
+              "segment": 18,
+              "start": 532,
+              "end_exclusive": 724,
+              "source_indices": [
+                555,
+                603,
+                651,
+                698
+              ],
+              "caption": "A person in a white chef's jacket and tall hat is seen from the side, looking downward. Their head and upper body shift slightly between the views, with a white curtain and pale wall in the blurred background.",
+              "removed_claims": [],
+              "uncertainties": []
+            },
+            {
+              "segment": 19,
+              "start": 724,
+              "end_exclusive": 744,
+              "source_indices": [
+                726,
+                731,
+                736,
+                740
+              ],
+              "caption": "A person in a white chef's jacket and hat stands beside pale vertical panels. Their head turns slightly and their arm and hand change position. The background includes pale walls and indistinct equipment.",
+              "removed_claims": [],
+              "uncertainties": []
+            },
+            {
+              "segment": 20,
+              "start": 744,
+              "end_exclusive": 772,
+              "source_indices": [
+                747,
+                754,
+                761,
+                767
+              ],
+              "caption": "A person in a white chef's jacket stands at a counter with containers and a long thin utensil. Their hands move near the containers while the background remains blurred. A pale surface is visible in the foreground.",
+              "removed_claims": [],
+              "uncertainties": []
+            },
+            {
+              "segment": 21,
+              "start": 772,
+              "end_exclusive": 792,
+              "source_indices": [
+                774,
+                779,
+                784,
+                788
+              ],
+              "caption": "A person in a white chef's jacket moves a long thin utensil over a round cooking surface. A pale folded sheet sits on the surface, with small bowls and a dark tray nearby. The view stays on the person's torso and hands.",
+              "removed_claims": [],
+              "uncertainties": []
+            },
+            {
+              "segment": 22,
+              "start": 792,
+              "end_exclusive": 804,
+              "source_indices": [
+                793,
+                796,
+                799,
+                801
+              ],
+              "caption": "A person in a white chef's jacket stands beside a round cooking surface with a thin pancake. They move a long wooden spatula across the surface, while a second spatula rests on the pancake. Containers and a pale curtain are visible behind the cooking area.",
+              "removed_claims": [],
+              "uncertainties": []
+            },
+            {
+              "segment": 23,
+              "start": 804,
+              "end_exclusive": 836,
+              "source_indices": [
+                807,
+                815,
+                823,
+                830
+              ],
+              "caption": "A person in a white chef's jacket uses a long wooden spatula over a round cooking surface. A thin pale pancake sits on the surface, while a second folded pancake is visible nearby. The person's hands and the spatula change position between the images.",
+              "removed_claims": [],
+              "uncertainties": []
+            },
+            {
+              "segment": 24,
+              "start": 836,
+              "end_exclusive": 844,
+              "source_indices": [
+                836,
+                838,
+                840,
+                841
+              ],
+              "caption": "A person in a white chef's jacket uses a long wooden utensil over a round griddle. A thin yellow pancake is folded on the right side of the cooking surface. The person's hands and the utensil change position while the pancake remains on the griddle.",
+              "removed_claims": [],
+              "uncertainties": []
+            },
+            {
+              "segment": 25,
+              "start": 844,
+              "end_exclusive": 872,
+              "source_indices": [
+                847,
+                854,
+                861,
+                867
+              ],
+              "caption": "A person in a white chef's jacket uses two long wooden spatulas over a round griddle. A folded yellow pancake rests on the right side of the cooking surface. The person's hands and spatulas change position while the pancake remains on the griddle.",
+              "removed_claims": [],
+              "uncertainties": []
+            },
+            {
+              "segment": 26,
+              "start": 872,
+              "end_exclusive": 892,
+              "source_indices": [
+                874,
+                879,
+                884,
+                888
+              ],
+              "caption": "A person in a white chef's jacket holds a long wooden spatula over a round griddle. Yellow folded pieces of food sit on the right-hand cooking surface. The person shifts the spatula between their hands while it stays above the pan.",
+              "removed_claims": [],
+              "uncertainties": []
+            },
+            {
+              "segment": 27,
+              "start": 892,
+              "end_exclusive": 896,
+              "source_indices": [
+                892,
+                893,
+                894,
+                894
+              ],
+              "caption": "A person in a white chef's jacket uses a long wooden spatula near a round griddle. A thin folded pancake rests on the griddle. A second round cooking surface is in the foreground.",
+              "removed_claims": [],
+              "uncertainties": []
+            },
+            {
+              "segment": 28,
+              "start": 896,
+              "end_exclusive": 904,
+              "source_indices": [
+                896,
+                898,
+                900,
+                901
+              ],
+              "caption": "A person in a white chef's jacket stands beside round cooking surfaces. Their right hand holds a utensil over a folded pale pancake, while their left hand rests at their side. The round cooking surface in the foreground partly blocks the view of the pancake.",
+              "removed_claims": [],
+              "uncertainties": []
+            },
+            {
+              "segment": 29,
+              "start": 904,
+              "end_exclusive": 912,
+              "source_indices": [
+                904,
+                906,
+                908,
+                909
+              ],
+              "caption": "A person in a white chef's jacket holds two long wooden utensils over round cooking surfaces. A folded pale pancake rests on the right surface. Their hands and utensil positions change slightly between the images.",
+              "removed_claims": [],
+              "uncertainties": []
+            },
+            {
+              "segment": 30,
+              "start": 912,
+              "end_exclusive": 960,
+              "source_indices": [
+                917,
+                929,
+                941,
+                952
+              ],
+              "caption": "A person in a white chef's jacket uses a long wooden spatula to manipulate a folded yellow portion on a round cooking surface. Other containers are visible in the background.",
+              "removed_claims": [],
+              "uncertainties": []
+            },
+            {
+              "segment": 31,
+              "start": 960,
+              "end_exclusive": 968,
+              "source_indices": [
+                960,
+                962,
+                964,
+                965
+              ],
+              "caption": "A cook in a white jacket uses two long wooden paddles over a round griddle. One paddle is raised above the cooking surface while the other stays near a folded pancake. The raised paddle changes its angle between the views.",
+              "removed_claims": [],
+              "uncertainties": []
+            },
+            {
+              "segment": 32,
+              "start": 968,
+              "end_exclusive": 984,
+              "source_indices": [
+                969,
+                973,
+                977,
+                980
+              ],
+              "caption": "A person in a white chef's jacket uses two long wooden spatulas over round griddles. One spatula is raised above the cooking surface while the other stays near a folded pancake. The raised tool changes its angle and position between the frames.",
+              "removed_claims": [],
+              "uncertainties": []
+            },
+            {
+              "segment": 33,
+              "start": 984,
+              "end_exclusive": 988,
+              "source_indices": [
+                984,
+                985,
+                986,
+                986
+              ],
+              "caption": "A person in a white chef's jacket holds two long wooden utensils over a round cooking surface. A folded yellow cloth rests on the surface beside the utensils, and a metal container is visible to the right. The person's hands and utensil positions change slightly between the images.",
+              "removed_claims": [],
+              "uncertainties": []
+            },
+            {
+              "segment": 34,
+              "start": 988,
+              "end_exclusive": 996,
+              "source_indices": [
+                988,
+                990,
+                992,
+                993
+              ],
+              "caption": "A person in a white buttoned jacket uses a long wooden spatula over round black cooking surfaces. A folded pale pancake rests on the right surface while the spatula is moved across the cooking area. A small container of filling is visible to the right.",
+              "removed_claims": [],
+              "uncertainties": []
+            },
+            {
+              "segment": 35,
+              "start": 996,
+              "end_exclusive": 1000,
+              "source_indices": [
+                996,
+                997,
+                998,
+                998
+              ],
+              "caption": "A person in a white buttoned jacket uses two long wooden spatulas over a round black cooking surface. One spatula holds a pale folded portion while the other is raised above it. A container with pale pieces is visible to the right.",
+              "removed_claims": [],
+              "uncertainties": []
+            },
+            {
+              "segment": 36,
+              "start": 1000,
+              "end_exclusive": 1002,
+              "source_indices": [
+                1000,
+                1000,
+                1000,
+                1001
+              ],
+              "caption": "A person in a white buttoned jacket uses two long wooden paddles over round black griddles. One griddle holds a folded yellow portion. The paddles change angle slightly while the cooked portion stays in view.",
+              "removed_claims": [],
+              "uncertainties": []
+            }
+          ],
+          "caption_sha256": "93e70a2ef605e6ee6cf149820e0b4769886ca51a95122f7db8fafba7b3647ae7"
+        },
+        {
+          "id": "webvid_031_c225fee8",
+          "key": 72,
+          "lossless_boundary": [
+            {
+              "frame": 72,
+              "time_seconds": 3.0,
+              "mad": {
+                "source": 1.492556423611111,
+                "base": 0.5263237847222222,
+                "combined": 0.31180555555555556
+              },
+              "change_error": {
+                "base": 1.8778211805555556,
+                "combined": 1.7434678819444445
+              }
+            },
+            {
+              "frame": 73,
+              "time_seconds": 3.0416666666666665,
+              "mad": {
+                "source": 1.4864366319444444,
+                "base": 23.80470920138889,
+                "combined": 23.160525173611113
+              },
+              "change_error": {
+                "base": 24.197873263888887,
+                "combined": 23.553038194444444
+              }
+            }
+          ],
+          "captions": [
+            {
+              "segment": 0,
+              "start": 0,
+              "end_exclusive": 72,
+              "source_indices": [
+                8,
+                26,
+                44,
+                61
+              ],
+              "caption": "A close view shows two glossy red cabinet doors with narrow glass panels and horizontal metal handles. A blurred metallic fixture is visible below the cabinets. The framing and door positions remain nearly fixed across the images.",
+              "removed_claims": [],
+              "uncertainties": []
+            },
+            {
+              "segment": 1,
+              "start": 72,
+              "end_exclusive": 80,
+              "source_indices": [
+                72,
+                74,
+                76,
+                77
+              ],
+              "caption": "A hand grips a horizontal metal handle on a red cabinet door. The hand and handle shift slightly while the red doors and their handles remain in a similar arrangement. A second handle is visible on the adjacent red door.",
+              "removed_claims": [],
+              "uncertainties": []
+            },
+            {
+              "segment": 2,
+              "start": 80,
+              "end_exclusive": 84,
+              "source_indices": [
+                80,
+                81,
+                82,
+                82
+              ],
+              "caption": "A hand holds the handle of a red cabinet door that is blurred from motion. The door swings toward the fixed red door on the right, revealing a pale interior with a curved outline. The hand and door remain partly cropped at the left edge.",
+              "removed_claims": [],
+              "uncertainties": []
+            },
+            {
+              "segment": 3,
+              "start": 84,
+              "end_exclusive": 100,
+              "source_indices": [
+                85,
+                89,
+                93,
+                96
+              ],
+              "caption": "A white mug sits on a white shelf next to a red cabinet. A red foreground blur is visible at the start, then becomes clearer. The cabinet handle and shelf edge remain in similar positions.",
+              "removed_claims": [],
+              "uncertainties": []
+            },
+            {
+              "segment": 4,
+              "start": 100,
+              "end_exclusive": 124,
+              "source_indices": [
+                102,
+                108,
+                114,
+                119
+              ],
+              "caption": "A white mug with a right-side handle sits on a white shelf beside a red cabinet. A curved metal bar is partially visible below the shelf. The framing and mug position remain nearly steady.",
+              "removed_claims": [],
+              "uncertainties": []
+            },
+            {
+              "segment": 5,
+              "start": 124,
+              "end_exclusive": 128,
+              "source_indices": [
+                124,
+                125,
+                126,
+                126
+              ],
+              "caption": "A hand is blurred beside a white mug on a shelf, with its fingers near the mug's side. The mug stays in the same position beside a red cabinet panel. The hand's pose changes between the images.",
+              "removed_claims": [],
+              "uncertainties": []
+            },
+            {
+              "segment": 6,
+              "start": 128,
+              "end_exclusive": 140,
+              "source_indices": [
+                129,
+                132,
+                135,
+                137
+              ],
+              "caption": "A hand holds a white mug on a shelf next to a red cabinet. The hand and mug shift slightly while staying near the shelf edge. The red cabinet and a lower metal bar remain in the background.",
+              "removed_claims": [],
+              "uncertainties": []
+            },
+            {
+              "segment": 7,
+              "start": 140,
+              "end_exclusive": 144,
+              "source_indices": [
+                140,
+                141,
+                142,
+                142
+              ],
+              "caption": "A hand holds a white cup beside a red cabinet. The hand and cup are blurred from motion, while the red cabinet and metal handle remain in view. A curved metal bar is visible below the cabinet.",
+              "removed_claims": [],
+              "uncertainties": []
+            },
+            {
+              "segment": 8,
+              "start": 144,
+              "end_exclusive": 156,
+              "source_indices": [
+                145,
+                148,
+                151,
+                153
+              ],
+              "caption": "A blurred pale object is visible on the left. It becomes clearer and moves out of the view, revealing a white cabinet edge and a red cabinet with a metal handle. A curved metal bar is visible below the cabinets.",
+              "removed_claims": [],
+              "uncertainties": []
+            },
+            {
+              "segment": 9,
+              "start": 156,
+              "end_exclusive": 208,
+              "source_indices": [
+                162,
+                175,
+                188,
+                200
+              ],
+              "caption": "A red cabinet door with a metallic handle sits beside a white cabinet section. A curved metal bar is visible below the cabinets. The framing stays close on the cabinet edges with little visible change.",
+              "removed_claims": [],
+              "uncertainties": []
+            },
+            {
+              "segment": 10,
+              "start": 208,
+              "end_exclusive": 216,
+              "source_indices": [
+                208,
+                210,
+                212,
+                213
+              ],
+              "caption": "A hand holds a horizontal metal handle on a red cabinet door. The door is partly open beside a matching red door. The hand and handle remain in a similar position as the door edge stays near the other door.",
+              "removed_claims": [],
+              "uncertainties": []
+            },
+            {
+              "segment": 11,
+              "start": 216,
+              "end_exclusive": 228,
+              "source_indices": [
+                217,
+                220,
+                223,
+                225
+              ],
+              "caption": "A hand is near a horizontal metal handle on a red cabinet door. The hand is partly out of the frame, and the cabinet and handle remain visible.",
+              "removed_claims": [],
+              "uncertainties": []
+            },
+            {
+              "segment": 12,
+              "start": 228,
+              "end_exclusive": 352,
+              "source_indices": [
+                243,
+                274,
+                305,
+                335
+              ],
+              "caption": "A close view shows two red cabinet doors with inset glass panels and horizontal metal handles. The framing stays fixed on the join between the doors, with a blurred metallic fixture below. The red surfaces and handles remain in the same positions across the images.",
+              "removed_claims": [],
+              "uncertainties": []
+            }
+          ],
+          "caption_sha256": "182605f0f16c9df7e6d93f990f1f899d6954cb8a068693248c643e5822862ead"
+        }
+      ]
+    },
+    {
+      "kind": "motion_suppression",
+      "finding": "광류·시간 변화 오차는 줄어도 실제 움직임이 지나치게 줄어든 경우가 남는다.",
+      "temporal_10db": {
+        "false_freeze_rate": {
+          "base": 0.371580591235647,
+          "combined": 0.3749267790842801,
+          "increased_videos": 12
+        },
+        "flow_error_mean": {
+          "base": 0.3416746568443538,
+          "combined": 0.3057645862394754,
+          "increased_videos": 0
+        },
+        "cadence_error_mean": {
+          "base": 0.22472688276548025,
+          "combined": 0.18218876811765236,
+          "increased_videos": 0
+        }
+      }
+    },
+    {
+      "kind": "perceptual_regression",
+      "finding": "PSNR 평균 개선이 지각·구조 보존 개선과 일치하지 않는다. 잔상과 겹침 사례가 있다.",
+      "worse_conditions_out_of_108": {
+        "psnr_db": 0,
+        "ssim": 1,
+        "lpips_vgg": 44,
+        "clip": 52,
+        "dists": 79
+      }
+    },
+    {
+      "kind": "sparse_temporal_constraints",
+      "finding": "36편 중 12편이 양끝 2키만 사용한다. 연속 운동 복원에 충분한 중간 상태가 전달되지 않을 가능성이 있으며, 이번 관찰만으로 키 개수의 단독 인과 효과를 확정하지 않는다.",
+      "two_key_videos": 12,
+      "segments": 199,
+      "max_gap_seconds": 30.0,
+      "median_gap_seconds": 1.1666666666666667
+    },
+    {
+      "kind": "received_key_not_enforced",
+      "finding": "기존 combined의 endpoint 보존은 생성 RGB 보존이며 수신 RGB 보존이 아니다. 단순 비동일 자체를 모든 키의 지각 실패로 판정하지 않는다.",
+      "key_instances": 705,
+      "exact_received_rgb": 0,
+      "generated_rgb_preserved": true,
+      "mean_received_rgb_mae": 8.202384369561827,
+      "key_instances_mae_above_20": 28
+    },
+    {
+      "kind": "budget_fallback",
+      "finding": "combined 설정이어도 예산 내 궤적 패킷을 구성할 수 없는 25개 조건은 궤적 합성을 생략했다. 채널 손상에 의한 실패로 분류하지 않는다.",
+      "conditions_no_packet": 25,
+      "windows_bypassed": 85,
+      "total_windows": 597,
+      "sent_packets": 83,
+      "exact_sent_packets": 83,
+      "trajectory_bit_errors": 0
+    }
+  ],
+  "visual_reviews": {
+    "webvid_028_e1800b23": {
+      "title": "열차의 크기·위치·이동 경로 오류",
+      "observation": "원본에도 실제 노란 열차가 있지만, 1.42·4.33·7.25초의 생성 영상에서는 열차가 훨씬 커지고 항구 앞쪽을 가로지르는 다른 경로를 만든다. combined가 이를 흐리게 혼합해도 위치·크기 오류는 남는다. 캡션 입력 네 프레임과도 대조했으며, 열차가 전혀 없는 원본이라고 판정한 것은 아니다.",
+      "sheet": "train_caption_inputs.jpg"
+    },
+    "webvid_007_48259b0b": {
+      "title": "키 직후 자세가 한 프레임 만에 바뀜",
+      "observation": "9.50→9.54초에 생성 인물의 고개·몸 방향이 갑자기 달라진다. 같은 원본 프레임은 훨씬 연속적이다. 생성 단계에 이미 존재하며 combined 후에도 남는다.",
+      "sheet": "boundary_woman.jpg"
+    },
+    "webvid_013_79401da3": {
+      "title": "요리 동작의 시간·위치 불연속",
+      "observation": "9.17→9.21초에 팔과 상체 위치가 갑자기 바뀌며 원본 동작 시점과 어긋난다. 9.21초의 무손실 인접 프레임 MAD는 원본 1.885, combined 25.331이다.",
+      "sheet": "boundary_chef.jpg"
+    },
+    "webvid_031_c225fee8": {
+      "title": "문 열기 동작이 경계에서 갑자기 진행됨",
+      "observation": "3.00→3.04초에 원본 문은 거의 닫힌 상태인데 생성 문은 갑자기 크게 열리기 시작한다. 무손실 인접 프레임 MAD는 원본 1.486, combined 23.161이다.",
+      "sheet": "boundary_cupboard.jpg"
+    },
+    "webvid_030_23cb4cc7": {
+      "title": "보정이 반투명 잔상을 추가",
+      "observation": "4.62·6.92·9.25초 표본에서 인물과 배경 윤곽이 겹친다. 같은 출력의 PSNR은 17.975→19.281dB로 좋아지지만 LPIPS는 0.24490→0.26780, DISTS는 0.12487→0.13969로 악화된다.",
+      "sheet": "webvid_030_23cb4cc7.jpg"
+    },
+    "webvid_017_6db8f5a7": {
+      "title": "곡식·구름의 움직임 억제",
+      "observation": "15.33초 간격의 양끝 2키만 사용한다. 원본의 잎·이삭 움직임에 비해 복원의 중간 상태가 고정되는 경향이 강하다. 활동 셀의 움직임 과소 추정 비율은 base 76.88%→combined 89.48%다.",
+      "sheet": "webvid_017_6db8f5a7.jpg"
+    },
+    "webvid_022_f54228f7": {
+      "title": "물 흐름·미세 움직임 손실",
+      "observation": "원본의 물 흐름을 복원하지 못하고 바위·식생의 모양도 단순화된다. 활동 셀의 움직임 과소 추정 비율은 base 60.27%→combined 83.61%다.",
+      "sheet": "webvid_022_f54228f7.jpg"
+    },
+    "webvid_020_17fc133a": {
+      "title": "파도와 거품의 형태·시점 불일치",
+      "observation": "29.75초를 양끝 2키로 복원한다. 중간 파도·거품 분포가 원본과 다르고 물 영역이 매끈해진다. 10dB에서도 최종 PSNR 13.29dB로 완료 집단 중 가장 낮다.",
+      "sheet": "webvid_020_17fc133a.jpg"
+    },
+    "webvid_019_ece4bef6": {
+      "title": "다리 형태·운동 시점 오류",
+      "observation": "운동 장면의 다리 굽힘·펴짐 시점과 형태가 원본과 다르며, 궤적 혼합 뒤에는 다리·기구 주위에 겹침이 보인다. 이 문제는 base 생성에도 이미 나타난다.",
+      "sheet": "webvid_019_ece4bef6.jpg"
+    },
+    "webvid_003_1ca01463": {
+      "title": "밝기와 구조 왜곡, 보정 뒤 겹침",
+      "observation": "12초 표본에서 원본과 달리 화면이 어두워지고, combined에서는 타워·주변 구조가 겹친다. 10dB DISTS가 base 0.16762에서 combined 0.20088로 악화된다.",
+      "sheet": "webvid_003_1ca01463.jpg"
+    },
+    "webvid_002_1669a7b1": {
+      "title": "보행 위치·위상 불일치",
+      "observation": "같은 시점의 다리·신발 위치가 원본과 달라지고 일부 구간에는 혼합 잔상이 보인다. 물체 범주가 보존돼도 원본 보행 궤적과 타이밍을 보존한 것은 아니다.",
+      "sheet": "webvid_002_1669a7b1.jpg"
+    },
+    "webvid_004_10d5cd04": {
+      "title": "항구의 세부 구조 변형",
+      "observation": "배·건물·해안선의 세부 모양이 단순화되고 원본 카메라 진행에 대한 공간 배치가 다르다. 20.54초 구간을 양끝 2키로 복원했다.",
+      "sheet": "webvid_004_10d5cd04.jpg"
+    }
+  },
+  "verification": {
+    "previous_integrity_audit_output_hashes_matched": 108,
+    "downloaded_mp4_hashes_checked": 108,
+    "temporal_recomputed_conditions": 3,
+    "temporal_recomputed_max_error": 0,
+    "remote_artifacts_written": false,
+    "models_rerun": false,
+    "receiver_policies_rerun": false
+  },
+  "definitions": {
+    "quality": "delivered MP4, equal-video means; LPIPS-VGG and DISTS lower is better",
+    "false_freeze": "Farneback 288x160 grayscale, 8x5 spatial cells; among source-active (>0.15 pixel/frame) cells, generated motion <25% of source. Diagnostic proxy, not fraction of all frames or human freeze labels.",
+    "boundary": "MAD/change error on 288x160 grayscale; frame t denotes transition t-1 to t; 24fps",
+    "base": "Open-Sora reconstruction before legacy trajectory/cadence receiver",
+    "combined": "legacy trajectory/cadence receiver; combined_context is absent"
+  },
+  "limitations": [
+    "The cohort stopped at 36/53 videos; results are not a complete WebVid benchmark.",
+    "Manual visual notes are AI-assisted, selected, non-independent and non-blinded; no semantic error rate is claimed.",
+    "Near-static webvid_029 has only two active cells; its 100% freeze proxy is excluded from representative failure claims.",
+    "Optical-flow metrics can reflect correspondence errors as well as true motion; global motion ratios on nearly static sources can be misleading.",
+    "SNR comparisons include modulation and available trajectory-detail/budget changes; not a pure channel-noise ablation.",
+    "No combined_context rerun was performed on this cohort; its improvement cannot be inferred as guaranteed for all observed failure types.",
+    "The earlier OOM is a separate execution/memory failure from the quality issues in completed outputs."
+  ],
+  "evidence": {
+    "remote_snapshot.json": "e53a7d67bc9bdce6b2def7d6249d065b68785060ff00a3d314719e6d3b1d6ff1",
+    "key_audit.json": "8bb5559cb9bb92eabc94651efdaa426514e823a319bda60a09e67b832dfae24d",
+    "trajectory_channel.json": "cf69c92a8637a4f642fe986399875a1f01bbac7de253fb4f7d8cc3a9db4e03fd",
+    "details.json": "10d34fa7a960616abd0489a0a1013ea86dd7f14b88a981e612737db29c9ffaaf",
+    "analyze_pixels.py": "67bc9b50ef697b0bb8b2accf29a78cc9c0b4fcc7aadcfae0a4abff15439ba9cf"
+  },
+  "code_sha256": {
+    "src/semantic_transmission/stutter_metrics.py": "7dd30a23e8d171736727626a609ca58f89978d512e0ff9a33e71d6371f98fada",
+    "src/semantic_transmission/trajectory_receiver.py": "98a5b5abf1ecd551ad054a11813f96ec0a44d821f0cc9fe2a977ff38bd5d15a9",
+    "src/semantic_transmission/bsu_sequence_refinement.py": "e7077447c67c43fc7489938f0f761e0c811aaf97511ad8bc34480824a41aa455"
+  }
+}
