@@ -8,6 +8,7 @@
 ## 통합 BSU 구현·학습·복원
 
 [`통합 구조`](MODEL_ARCHITECTURE.md#bsu-unified)는 학습형 수신 어댑터를 포함하는 연구 경로다.
+송신 보완 코덱까지 학습하는 후속 명령은 [송신 학습 확장](#bsu-unified-sender)에 있다.
 기존 Qwen 의미 추출 산출물을 입력으로 재사용한다. `--base-only`는 학습용 수신 영상 준비와
 기본 복호화 비교용이며, 전체 통합 모델의 생성 복원 완료로 표시하지 않는다.
 
@@ -81,6 +82,66 @@ PYTHONPATH=src .local/unified_bsu_env/bin/python -m semantic_transmission.unifie
 reference JSON은 `source_hashes`(0.png부터의 SHA256 매핑), `fps`, `movie`, `movie_sha256`,
 `channel_uses`를 가져야 하며 입력·타임라인·복원 영상이 일치해야 비교를 허용한다.
 화질·동작·전송량의 동시 개선은 이 비교를 완료한 뒤 판정한다.
+
+<a id="bsu-unified-sender"></a>
+## 통합 BSU 송신 보완 코덱의 학습·검증
+
+[`새 프로필`](../configs/bsu_unified_sender.json)은 기존 실행기에 `--profile`로 지정한다.
+학습된 토큰 인코더·디코더와 조건 어댑터가 하나의 export에 들어가며,
+송신부와 수신부가 같은 SHA256의 export를 사용한다. [구조와 논문별 적용 범위](MODEL_ARCHITECTURE.md#bsu-unified-sender)
+
+본학습 명령은 다음과 같다. 데이터 준비 후 최대 7시간 학습이며 이 작업에서는 자동 실행하지 않았다.
+새 root를 사용하며, 아래의 짧은 검증 캐시 3개만을 본학습 데이터로 사용하는 명령이 아니다.
+
+```bash
+bash scripts/train_bsu_unified.sh run \
+  --root outputs/bsu_unified_sender_training_v1 \
+  --profile configs/bsu_unified_sender.json --budget-per-frame 768 \
+  --codec-warmup-steps 200 --seconds 25200
+```
+
+기본 동결 분할의 학습 24원본·검증 8원본을 사용한다. 첫 200회는 새 토큰 코덱을 학습하고,
+이후 조건 어댑터와 공동 학습한다. DCVC·VAE·T5·STDiT는 고정한다.
+수신 어댑터 초기값을 재사용하려면 `--initialize /absolute/path/export.pt`를 지정한다.
+optimizer·scheduler·RNG·데이터 순서·단계 번호와 두 학습 모듈을 원자적으로 저장한다.
+같은 `train` 명령은 누적 시간 예산을 유지해 재개하며 `status`는 읽기 전용이다.
+
+이번 짧은 검증의 재현 명령은 별도 root에서 다음과 같다. 기존 캐시의 원본·프로토콜·바이트 해시를
+검사해 재사용하고 원래 캐시는 수정하지 않는다. `--reuse-prepared`는 새 채널 실험으로 계산하지 않는다.
+
+```bash
+bash scripts/train_bsu_unified.sh prepare \
+  --root outputs/bsu_unified_sender_smoke_20261016_v1 \
+  --profile configs/bsu_unified_sender.json \
+  --reuse-prepared outputs/bsu_unified_smoke_20261016_v2 \
+  --initialize outputs/bsu_unified_smoke_20261016_v2/exports/step_0000003.pt \
+  --codec-warmup-steps 200 --smoke
+bash scripts/train_bsu_unified.sh train \
+  --root outputs/bsu_unified_sender_smoke_20261016_v1 --seconds 1800 --stop-after 202
+# 별도 프로세스로 재개하여 공동 학습 1회를 추가
+bash scripts/train_bsu_unified.sh train \
+  --root outputs/bsu_unified_sender_smoke_20261016_v1 --seconds 1800 --stop-after 1
+```
+
+`--stop-after`는 이번 호출에서 추가할 update 수다. 이미 끝난 root에서 위 `train`을 다시 실행하면
+추가 학습이므로, 상태만 확인하려면 `status`를 사용한다.
+
+```bash
+PYTHONPATH=src PYTHONNOUSERSITE=1 OMP_NUM_THREADS=2 MKL_NUM_THREADS=2 OPENBLAS_NUM_THREADS=1 \
+HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 \
+.local/unified_bsu_env/bin/python -m semantic_transmission.unified_bsu_sender_validation \
+  --root outputs/bsu_unified_sender_validation_20261016_v1 \
+  --checkpoint outputs/bsu_unified_sender_smoke_20261016_v1/exports/step_0000203.pt \
+  --previous-checkpoint outputs/bsu_unified_smoke_20261016_v2/exports/step_0000003.pt
+```
+
+피아노·골프 각 17프레임에 기존 통합·새 송신부·축소 예산의 세 조건을 사전 등록한다.
+각 실행은 실제 패킷·채널·새 수신 프로세스·Open-Sora 복원까지 처리한다.
+전체 압축 후보가 예산을 초과하면 복원 성공으로 세지 않고 `INFEASIBLE_REGISTERED_BUDGET`으로 기록한다.
+완성된 후보 목록·실제 패킷 해시·비용과 정확한 실패 원인을 검사하며, 다른 실행 오류는 계속 실패 처리한다.
+선택된 후보의 `video_stream_bytes`, `innovation_bytes`, `side_bytes`, 전체 채널 사용량을 분리한다.
+최종 MP4의 PSNR·SSIM·LPIPS·DISTS·CLIP와 시간차 RGB 오차를 평가하며,
+이 짧은 비교를 전체 영상·행동·독립 의미 검증 또는 기존 채택 BSU 14편 재검증으로 표시하지 않는다.
 
 <a id="bsu-default"></a>
 ## 기본 BSU 실행

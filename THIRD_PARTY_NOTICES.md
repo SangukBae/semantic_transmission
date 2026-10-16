@@ -31,6 +31,14 @@ authoritative source. Verify before any redistribution or commercial use.
 
 The pinned checkouts' license files were inspected. Source and pretrained assets are obtained separately; neither weights nor these checkouts are redistributed here. Exact inference-weight and RIFE implementation hashes are checked by [DCVC integration](src/semantic_transmission/bsu_dcvc_keys.py) and [RIFE integration](src/semantic_transmission/dense_temporal_receiver.py). Model download terms remain those of their upstream distribution. The new default retains the existing Open-Sora/NTSCC dependencies for its `combined_context` branch and the existing TimeSformer evaluation terms.
 
+The experimental unified BSU sender uses independently implemented learned
+innovation tokens, temporal Golomb-Rice coding and importance-weighted losses.
+Research inspirations and differences from GVC1D, Region-Adaptive Generative
+Compression, UniGVC and GenVC are listed in the
+[sender architecture](docs/MODEL_ARCHITECTURE.md#bsu-unified-sender).
+No code or checkpoints from those four papers are redistributed or loaded by
+this extension. It retains the shared DCVC-RT, RIFE and Open-Sora dependencies above.
+
 ## Datasets
 
 | Dataset | Source | Terms (summary) |

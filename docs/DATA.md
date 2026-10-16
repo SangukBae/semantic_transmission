@@ -1,5 +1,20 @@
 # 데이터와 모델 입력
 
+<a id="bsu-unified-sender-data"></a>
+## 통합 BSU 송신 학습의 짧은 검증 자료
+
+송신 보완 코덱 smoke는 기존 동결 자료의 WebVid `webvid_004_10d5cd04`,
+`webvid_014_11e49905`를 학습에, Kinetics `kinetics_003_5d588509` 피아노를 검증에 사용한다.
+각 17프레임이며 원본 SHA256 기준으로 학습·검증은 겹치지 않는다.
+기존 실제 DCVC·채널·수신 복호화로 만든 특징 캐시를 원본·캐시 해시 확인 후 별도 root로 가져왔다.
+기존 캐시를 새 채널 전송 결과로 계산하지 않는다.
+
+복원 비교는 피아노와 `kinetics_005_11836d73` 골프의 첫 17프레임, 576×320·24fps다.
+골프는 이번 짧은 학습에 사용하지 않았지만 프로젝트에서 이미 검토한 개발 영상이다.
+두 영상을 미사용 최종 테스트나 전체 길이 평가로 부르지 않는다.
+캡션은 기존 Qwen 의미 구간에서 잘라 같은 비교 조건에 재사용한다.
+[구조](MODEL_ARCHITECTURE.md#bsu-unified-sender) · [결과](RESULTS.md#bsu-unified-sender)
+
 <a id="bsu-predictive-data"></a>
 ## 기본 BSU 채택에 사용한 자료 — 2026-10-16
 
