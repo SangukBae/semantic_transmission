@@ -1,0 +1,114 @@
+{
+  "status": "IMPLEMENTED_AND_LOCAL_VALIDATION_PASSED",
+  "production_training_started": false,
+  "check": {
+    "policy": "bsu_native_trajectory_adapter_training_v1",
+    "signature": "705afa8a98c3cf3bb786975db06a4e67720f3fb1e77727ce572aeff9e8eb60a3",
+    "sources": {
+      "train": 24,
+      "validation": 8,
+      "test": 18
+    },
+    "training_sources_with_tracks": 24,
+    "intervals": {
+      "train": 128,
+      "validation": 16
+    },
+    "largest_native_frames": 721,
+    "config": {
+      "version": 1,
+      "seed": 2025,
+      "min_steps": 3000,
+      "max_steps": 20000,
+      "gradient_accumulation": 4,
+      "learning_rate": 0.0001,
+      "min_learning_rate": 1e-06,
+      "weight_decay": 0.01,
+      "warmup_steps": 100,
+      "condition_dropout": 0.1,
+      "save_every": 25,
+      "validate_every": 250,
+      "quality_every": 2000,
+      "loss_patience": 4,
+      "quality_patience": 3,
+      "relative_min_delta": 0.005,
+      "validation_seeds": [
+        1701,
+        2903
+      ],
+      "validation_timesteps": [
+        250.0,
+        750.0
+      ],
+      "cpu_activation_offload": true,
+      "automatic_final_test": true
+    },
+    "sufficient_training_verified": false,
+    "scope": "full existing semantic intervals, native 576x320 and 24fps; no temporal subsampling or frame cap"
+  },
+  "tests": {
+    "tests": 151,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "real_native_forward_backward": {
+    "status": "PASSED",
+    "rows": [
+      {
+        "name": "webvid_001_2255949c_000",
+        "frames": 721,
+        "history_frames": 0,
+        "loss": 0.05941252037882805,
+        "grad_norm": 0.0009939206065610051,
+        "seconds": 74.19399414501095,
+        "peak_cuda_GiB": 13.736389636993408,
+        "max_rss_GiB": 20.35678482055664
+      },
+      {
+        "name": "webvid_023_8d9d4818_001",
+        "frames": 558,
+        "history_frames": 17,
+        "loss": 0.09624291956424713,
+        "grad_norm": 0.006976414937525988,
+        "seconds": 58.179865261001396,
+        "peak_cuda_GiB": 10.633556365966797,
+        "max_rss_GiB": 20.35678482055664
+      }
+    ],
+    "memory": {
+      "attention_calls": 224,
+      "mlp_calls": 224,
+      "preserves_full_sequence": true
+    },
+    "checkpoint_reload_exact": true,
+    "production_training_started": false,
+    "smoke_weights_not_used_for_training": true,
+    "signature": "606564dcdfeb80af02db99fbfb12f4f5023fa3c869bb0e5aa0d8a28b55d2259c"
+  },
+  "post_smoke_change": "Only input preflight was expanded to check receiver CSV against packet and hash full evaluation source frames; model, loss, memory, optimizer and checkpoint code unchanged. Expanded preflight passed.",
+  "code": {
+    "scripts/train_bsu_adapter.sh": "01795a07a097c89b9bcd6339afbe0aff95bb2c124eb93477bb0d45d431034ba3",
+    "configs/bsu_adapter_training.json": "01a374de63a3996687812ed09889ab242670ca2901e2923e0e0bf1325f149336",
+    "src/semantic_transmission/bsu_adapter_training.py": "aeb09ce84503679e35dc7e4fc77ccc464cdc656fa37ae5857a9aac01c29e1fb6",
+    "src/semantic_transmission/adapter_training_data.py": "68646d17d7a356c0816fdd3a8ec4805f88aab6fad0715d5c7350560abb39819c",
+    "src/semantic_transmission/adapter_training_state.py": "6764ccc9fe34e20cf69c68134bdfaade580a51df48529ed26f5236767a6e3d22",
+    "src/semantic_transmission/adapter_training_memory.py": "982ea583522fd7c3d60e8122b3cff7f39228aa89682541f1f756ad83af28cb98",
+    "src/semantic_transmission/adapter_training_evaluation.py": "c1b230e83a91c1506d0649434aadb54c878d025d204f25375012c3492f145dad",
+    "tests/test_adapter_training.py": "eb378150e470778680bf7588e67aca631bd7ce7761dfac709088cab3d97b4560",
+    "docs/RUN_GUIDE.md": "ef177473706aa26444d9610d612df4624dc08ac0edf74f2342a439dc172ec4fd"
+  },
+  "commands": {
+    "check": "bash scripts/train_bsu_adapter.sh check",
+    "train_and_resume": "bash scripts/train_bsu_adapter.sh run",
+    "status": "bash scripts/train_bsu_adapter.sh status"
+  },
+  "output": "outputs/bsu_adapter_training_v1",
+  "validation_only_artifacts": "outputs/bsu_adapter_training_command_validation_20261015",
+  "limits": [
+    "No long training run or final performance claim in this implementation task.",
+    "Full native quality workers reuse the previously executed native BSU evaluation path; the entire 20000-update campaign has not been executed.",
+    "Fixed dataset sizes and operational plateau criteria do not prove sufficient diversity or global convergence.",
+    "GPU numerical kernels may prevent bitwise identical gradients despite restored RNG state."
+  ]
+}

@@ -2,6 +2,7 @@
 import argparse
 import csv
 import io
+import math
 import os
 from pathlib import Path
 import subprocess
@@ -60,8 +61,12 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--display', choices=('auto','live','plain'), default=os.environ.get('BSU_PROGRESS','auto'))
     parser.add_argument('--log-dir', type=Path, default=Path('.local/terminal_logs'))
+    parser.add_argument('--stop-grace-seconds', type=float, default=30.,
+                        help='time before forcing interrupted workers to exit; 0 waits for their checkpoint')
     parser.add_argument('command', nargs=argparse.REMAINDER)
     args = parser.parse_args()
+    if not math.isfinite(args.stop_grace_seconds) or args.stop_grace_seconds < 0:
+        parser.error('--stop-grace-seconds must be finite and nonnegative')
     if args.display not in ('auto','live','plain'):
         parser.error('BSU_PROGRESS must be auto, live, or plain')
     command = args.command[1:] if args.command[:1] == ['--'] else args.command
@@ -75,7 +80,7 @@ def main():
                 return rows[:4] + list(monitor.rows) + rows[4:]
         terminal.Progress = Progress
         try:
-            code = terminal.run(command, args.log_dir, args.display)
+            code = terminal.run(command, args.log_dir, args.display, stop_grace_seconds=args.stop_grace_seconds)
         finally:
             terminal.Progress = old
     raise SystemExit(code)

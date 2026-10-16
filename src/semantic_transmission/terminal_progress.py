@@ -158,7 +158,7 @@ class Display:
         self.height = len(rows)
 
 
-def run(command, log_dir, mode="auto", stream=None):
+def run(command, log_dir, mode="auto", stream=None, stop_grace_seconds=30.):
     stream = sys.stdout if stream is None else stream
     live = mode == "live" or (mode == "auto" and stream.isatty() and os.environ.get("TERM") != "dumb")
     log_dir = Path(log_dir).resolve(); log_dir.mkdir(parents=True, exist_ok=True)
@@ -203,7 +203,8 @@ def run(command, log_dir, mode="auto", stream=None):
                     if not live:
                         stream.write(text); stream.flush()
                 now = time.monotonic()
-                if interrupted and proc.poll() is None and now - interrupted[1] > 30:
+                if (interrupted and proc.poll() is None and stop_grace_seconds > 0
+                        and now - interrupted[1] > stop_grace_seconds):
                     try:
                         os.killpg(proc.pid, signal.SIGKILL)
                     except ProcessLookupError:

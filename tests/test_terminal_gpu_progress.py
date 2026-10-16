@@ -46,3 +46,37 @@ def test_real_tty_gpu_refresh_during_silent_worker_and_failure_log(tmp_path,monk
     assert 'detail for the full log' in next((tmp_path/'logs').glob('*.log')).read_text()
     if exit_code==0:assert 'detail for the full log' not in screen
     else:assert '실패' in screen
+
+
+@pytest.mark.parametrize('grace,expect_saved',[(0,True),(.01,False)])
+def test_interrupt_can_wait_for_a_slow_checkpoint(tmp_path,grace,expect_saved):
+    import signal
+    import time
+    from test_terminal_progress import environment
+    ready=tmp_path/'ready';saved=tmp_path/'saved'
+    code=f'''import signal,time
+from pathlib import Path
+stopping=[]
+signal.signal(signal.SIGINT,lambda *a:stopping.append(True))
+Path({str(ready)!r}).touch()
+while not stopping:time.sleep(.01)
+time.sleep(.7)
+Path({str(saved)!r}).touch()
+raise SystemExit(130)
+'''
+    command=[sys.executable,'-m','semantic_transmission.terminal_gpu_progress',
+        '--log-dir',str(tmp_path/'logs'),'--stop-grace-seconds',str(grace),
+        '--',sys.executable,'-u','-c',code]
+    process=subprocess.Popen(command,env=environment(),stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+    try:
+        deadline=time.monotonic()+5
+        while not ready.exists() and time.monotonic()<deadline:
+            time.sleep(.02)
+        assert ready.exists()
+        process.send_signal(signal.SIGINT)
+        stdout,_=process.communicate(timeout=8)
+        assert process.returncode==130 and '중단됨' in stdout.decode()
+        assert saved.exists()==expect_saved
+    finally:
+        if process.poll() is None:
+            process.terminate();process.communicate(timeout=8)

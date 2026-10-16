@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "seed": 2025,
+  "min_steps": 3000,
+  "max_steps": 20000,
+  "gradient_accumulation": 4,
+  "learning_rate": 0.0001,
+  "min_learning_rate": 0.000001,
+  "weight_decay": 0.01,
+  "warmup_steps": 100,
+  "condition_dropout": 0.1,
+  "save_every": 25,
+  "validate_every": 250,
+  "quality_every": 2000,
+  "loss_patience": 4,
+  "quality_patience": 3,
+  "relative_min_delta": 0.005,
+  "validation_seeds": [1701, 2903],
+  "validation_timesteps": [250.0, 750.0],
+  "cpu_activation_offload": true,
+  "automatic_final_test": true
+}

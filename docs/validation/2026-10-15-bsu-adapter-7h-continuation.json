@@ -1,0 +1,65 @@
+{
+  "status": "STOPPED_CHECKPOINT_VERIFIED_CONTINUATION_READY_NOT_STARTED",
+  "stopped_at_step": 221,
+  "original_checkpoint": {
+    "path": "/home/sangukbae/semantic_transmission/outputs/bsu_adapter_training_v1/checkpoints/step_0000221_73da12dd7b.pt",
+    "sha256": "bc9185a1fb21b697b964061b48bff534f439224e6f4b476d70596e9026b33ff3",
+    "signature": "705afa8a98c3cf3bb786975db06a4e67720f3fb1e77727ce572aeff9e8eb60a3",
+    "step": 221
+  },
+  "original_export": {
+    "path": "/home/sangukbae/semantic_transmission/outputs/bsu_adapter_training_v1/exports/step_0000221.pt",
+    "sha256": "a1b3469f6404303e7cde799a29738624feec61e94e25a0a03c5314c40d754051"
+  },
+  "continuation_root": "/home/sangukbae/semantic_transmission/outputs/bsu_adapter_training_7h_v1",
+  "continuation_signature": "a564a3eb920529d59136ee7bddd89fe6d2e764b825749b39d24d9f3bd6b069b5",
+  "checkpoint": {
+    "path": "/home/sangukbae/semantic_transmission/outputs/bsu_adapter_training_7h_v1/checkpoints/step_0000221_1ac5a1bd8a.pt",
+    "sha256": "3afee66fdd7b5bcdcc63ee381e793561ed4a74215673e8c2956218453d7d78a5",
+    "signature": "705afa8a98c3cf3bb786975db06a4e67720f3fb1e77727ce572aeff9e8eb60a3",
+    "step": 221
+  },
+  "exact_parent_state_preserved": true,
+  "preserved_fields": [
+    "adapter",
+    "cpu_rng",
+    "cuda_rng",
+    "numpy_rng_json",
+    "optimizer",
+    "scheduler",
+    "signature",
+    "step",
+    "training"
+  ],
+  "budget_seconds": 25200,
+  "consumed_seconds": 0,
+  "training_restarted": false,
+  "parent_and_continuation_locks_released": true,
+  "original_code_and_config_changed": false,
+  "commands": {
+    "run": "bash scripts/train_bsu_adapter_7h.sh run",
+    "status": "bash scripts/train_bsu_adapter_7h.sh status"
+  },
+  "expected_final_weights": "/home/sangukbae/semantic_transmission/outputs/bsu_adapter_training_7h_v1/final.pt",
+  "behavior": {
+    "timer_includes": "preflight, model loading, training and loss validation",
+    "deadline": "finish current accumulated optimizer update or validation forward, then save",
+    "resumed_budget": "remaining budget only; stopped time excluded",
+    "full_video_quality_evaluation": "deferred"
+  },
+  "validation": {
+    "real_checkpoint_and_all_parent_state_exact": true,
+    "original_protocol_inputs_models_code_and_latent_hashes": "PASS",
+    "timed_controller_tests": "14 passed",
+    "terminal_gpu_tests": "12 passed",
+    "initial_combined_suite": "47 passed, 1 skipped (CUDA unavailable in sandbox)",
+    "public_docs": "PASS: 8 public Markdown files, 500 local links/anchors",
+    "gpu_training_of_new_controller": "not launched; user will run command"
+  },
+  "code": {
+    "/home/sangukbae/semantic_transmission/src/semantic_transmission/bsu_adapter_timed_training.py": "efb4f78eab843dd426740fa17870e0373f3677b63ac1e11d7d29f21302b1d3f6",
+    "/home/sangukbae/semantic_transmission/scripts/train_bsu_adapter_7h.sh": "5696e8478cb5028cc892bec046170d86dbfb7f890861546f63d179e3dbe690b6",
+    "/home/sangukbae/semantic_transmission/src/semantic_transmission/terminal_progress.py": "6c32445fb01ff6b50c95c321421ba4ace54727660476655db0038a93bd74de2a",
+    "/home/sangukbae/semantic_transmission/src/semantic_transmission/terminal_gpu_progress.py": "9eeebd8744f96a480e1950ad6c828c0044c55838e26dd30427b9dd57da972159"
+  }
+}
