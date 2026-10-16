@@ -1,0 +1,314 @@
+{
+  "status": "COMPLETE_RESEARCH_AND_REMOTE_EXPERIMENTS_NO_FULL_NONINFERIOR_CANDIDATE",
+  "objective": "Reduce total BSU channel uses substantially while preserving delivered-image and temporal/action performance",
+  "execution": {
+    "host": "sangukcom",
+    "ssh_alias": "semantic-pc",
+    "gpu": "NVIDIA GeForce RTX 4080",
+    "local_gpu_used": false,
+    "generation_torch": "2.2.2+cu121",
+    "codec_torch": "2.12.0+cu130",
+    "codec_runtime": "isolated Python 3.10 environment; official C++ entropy coder built; official PyTorch CUDA fallback",
+    "codec_shared_weights_pretrained": true,
+    "codec_trained_in_this_experiment": false
+  },
+  "cohort": {
+    "dataset": "Kinetics-400 historical 14-video development subset",
+    "videos": 14,
+    "keys": 135,
+    "fps": 24,
+    "width": 576,
+    "height": 320,
+    "snr_db": 10,
+    "steps": 30,
+    "generation_seed": 2025,
+    "held_out_source_test": false,
+    "seed_confirmation_executed": false,
+    "why_no_seed_confirmation": "Every first-seed candidate failed at least one preregistered quality/temporal guard"
+  },
+  "baseline": {
+    "total_complex_channel_uses": 4392383,
+    "lgvsc_total_complex_channel_uses": 1407617,
+    "verified_lossless_total_uses": 4141247,
+    "verified_lossless_saving_percent": 5.717534
+  },
+  "methods": {
+    "key_screen": {
+      "variants": 70,
+      "summary": [
+        {
+          "qp": 0,
+          "total_uses": 414720,
+          "baseline_total_uses": 4392383,
+          "saving_percent": 90.5582004119404,
+          "every_key_noninferior_videos": 0,
+          "noninferior_lower_rate_videos": 0,
+          "mean_key_psnr_delta": -10.877906587006922,
+          "mean_key_ssim_delta": -0.21681615995716705
+        },
+        {
+          "qp": 16,
+          "total_uses": 562176,
+          "baseline_total_uses": 4392383,
+          "saving_percent": 87.20111611396365,
+          "every_key_noninferior_videos": 0,
+          "noninferior_lower_rate_videos": 0,
+          "mean_key_psnr_delta": -7.681940277339231,
+          "mean_key_ssim_delta": -0.14311467791651936
+        },
+        {
+          "qp": 32,
+          "total_uses": 960768,
+          "baseline_total_uses": 4392383,
+          "saving_percent": 78.12649762099527,
+          "every_key_noninferior_videos": 0,
+          "noninferior_lower_rate_videos": 0,
+          "mean_key_psnr_delta": -4.290823464091688,
+          "mean_key_ssim_delta": -0.07286070096249347
+        },
+        {
+          "qp": 48,
+          "total_uses": 1944576,
+          "baseline_total_uses": 4392383,
+          "saving_percent": 55.72845082043164,
+          "every_key_noninferior_videos": 1,
+          "noninferior_lower_rate_videos": 1,
+          "mean_key_psnr_delta": -0.9376154846753048,
+          "mean_key_ssim_delta": -0.02322695776484928
+        },
+        {
+          "qp": 63,
+          "total_uses": 3495168,
+          "baseline_total_uses": 4392383,
+          "saving_percent": 20.42661124951991,
+          "every_key_noninferior_videos": 4,
+          "noninferior_lower_rate_videos": 4,
+          "mean_key_psnr_delta": 1.6027700937385292,
+          "mean_key_ssim_delta": 0.0005176554447289024
+        }
+      ]
+    },
+    "full_reconstruction": {
+      "trials": 4,
+      "accepted": 0,
+      "action": {
+        "baseline_2025": {
+          "videos": 4,
+          "top1_correct": 3,
+          "top5_correct": 4
+        },
+        "dcvc_2025": {
+          "videos": 4,
+          "top1_correct": 3,
+          "top5_correct": 4
+        }
+      }
+    },
+    "fixed_boundary_anchors": {
+      "trials": 2,
+      "accepted": 0,
+      "action": {
+        "baseline_2025": {
+          "videos": 2,
+          "top1_correct": 2,
+          "top5_correct": 2
+        },
+        "hybrid_2025": {
+          "videos": 2,
+          "top1_correct": 2,
+          "top5_correct": 2
+        }
+      }
+    },
+    "paid_motion_reallocation": {
+      "trials": 8,
+      "accepted": 0,
+      "levels": [
+        [
+          32,
+          32
+        ],
+        [
+          16,
+          17
+        ]
+      ],
+      "minimum_total_saving_percent": 25
+    }
+  },
+  "closest_candidate": {
+    "id": "kinetics_005_11836d73",
+    "arm": "DCVC-RT QP63 plus 32-point/32-knot paid trajectories",
+    "baseline_uses": 459060,
+    "candidate_uses": 218880,
+    "saving_percent": 52.319958175401915,
+    "verdict": {
+      "passed": false,
+      "checks": {
+        "quality.psnr_db": true,
+        "quality.ssim": true,
+        "quality.clip": true,
+        "quality.lpips_vgg": true,
+        "quality.dists": true,
+        "nonkeys.psnr_db": true,
+        "nonkeys.ssim": true,
+        "nonkeys.clip": true,
+        "nonkeys.lpips_vgg": true,
+        "nonkeys.dists": true,
+        "flow_error_mean": true,
+        "cadence_error_mean": false,
+        "false_freeze_rate": false,
+        "fixed_boundary_error": true,
+        "fewer_total_symbols": true
+      },
+      "failures": [
+        "cadence_error_mean",
+        "false_freeze_rate"
+      ]
+    },
+    "action_noninferior": true,
+    "quality_before": {
+      "psnr_db": 26.465851810988227,
+      "ssim": 0.8624217360325753,
+      "lpips_vgg": 0.19601079771916072,
+      "clip": 0.9669637044270833,
+      "dists": 0.10624852403998375,
+      "frames": 240,
+      "shape": [
+        240,
+        320,
+        576,
+        3
+      ]
+    },
+    "quality_after": {
+      "psnr_db": 27.124198889680397,
+      "ssim": 0.887449592749995,
+      "lpips_vgg": 0.16707968609407545,
+      "clip": 0.9650177001953125,
+      "dists": 0.09300114090243976,
+      "frames": 240,
+      "shape": [
+        240,
+        320,
+        576,
+        3
+      ]
+    },
+    "temporal_before": {
+      "flow_error_mean": 0.14174985425803951,
+      "cadence_error_mean": 0.09608017770229142,
+      "false_freeze_rate": 0.45365053322395404
+    },
+    "temporal_after": {
+      "flow_error_mean": 0.13966204384224934,
+      "cadence_error_mean": 0.1031711356197836,
+      "false_freeze_rate": 0.5242001640689089
+    }
+  },
+  "findings": [
+    "Higher received-key PSNR/SSIM was insufficient to preserve all full-video temporal metrics.",
+    "All tested complete alternatives failed at least one unchanged guard; no production promotion.",
+    "The two-key handwriting clip had no original trajectory because its 2210-symbol cap was below the 2304-symbol minimum LDPC block.",
+    "Reinvesting image savings enabled paid motion transmission, but did not eliminate the false-freeze regression.",
+    "Class-level TimeSformer accuracy can remain unchanged while frame-level temporal fidelity degrades."
+  ],
+  "accounting": {
+    "actual_entropy_bitstreams": true,
+    "ldpc_k": 6144,
+    "ldpc_n": 9216,
+    "bits_per_symbol": 4,
+    "timestamps_headers_crc_padding_parity_counted": true,
+    "original_metadata_and_trajectory_costs_retained": true,
+    "physical_link_overheads_included": false,
+    "preinstalled_model_weights_not_transmitted": true,
+    "cross_device_integer_codec_not_tested": true
+  },
+  "verification": {
+    "exact_source_key_hash_comparisons": 675,
+    "source_movie_hashes_matched": true,
+    "baseline_frozen_code_matched_on_remote": true,
+    "paired_generation_noise_records_exact": true,
+    "digital_channel_seeds": [
+      42,
+      1042,
+      2042
+    ],
+    "new_trajectory_channel_seeds": [
+      43,
+      1043,
+      2043
+    ],
+    "hybrid_original_anchor_channel": "exact previously received frame-seeded AWGN symbols and decoded keys reused",
+    "local_cpu_tests_passed": 11,
+    "local_cuda_disabled_for_tests": true,
+    "remote_final_artifact_integrity": [
+      {
+        "root": "bsu_dcvc_validation_20261015_v2",
+        "verified_artifacts": 2117,
+        "tested_source_archives_used": [
+          "src/semantic_transmission/bsu_dcvc_validation.py"
+        ]
+      },
+      {
+        "root": "bsu_dcvc_hybrid_20261015_v1",
+        "verified_artifacts": 1077,
+        "tested_source_archives_used": []
+      },
+      {
+        "root": "bsu_dcvc_motion_budget_20261015_v1",
+        "verified_artifacts": 2061,
+        "tested_source_archives_used": []
+      }
+    ],
+    "local_remote_code_byte_identical": {
+      "src/semantic_transmission/bsu_dcvc_motion_budget.py": "4e0b33de3940e7e85babbf6d1bce53053bcb10a1ef3e6b0fa8558b35483d565a",
+      "src/semantic_transmission/bsu_dcvc_hybrid.py": "ce32649cbd6d9d01dae675b72117ce975da1c6ec1b77a1e5c93e5641af2d56eb",
+      "src/semantic_transmission/bsu_dcvc_keys.py": "a07b0de1014b7875697a39f91f5c1c42a5fdf5db8e9dc79a39b7b75cd96985ed",
+      "src/semantic_transmission/bsu_dcvc_validation.py": "c95938994adb37d5383879c9690628deb9e36632fba32b141a5937d0a0adca2b",
+      "src/semantic_transmission/bsu_dcvc_recovery.py": "cdebcac446c4b3f68aacd9aee515f9858776b4d16e0e69cc6f60c1e0af701e3d",
+      "scripts/experiment_bsu_dcvc_keys.sh": "7dc3e30fe6b1f7f5e8c709c94aeb8640d9c2d01b4d4e43924184a80d3548055c",
+      "scripts/experiment_bsu_dcvc_validation.sh": "c69d6a4fd43a5ab7c8107f931fc3067c3e50e6e47fc638778ccd8f9832c61a9e"
+    }
+  },
+  "implementation": [
+    "src/semantic_transmission/bsu_dcvc_motion_budget.py",
+    "src/semantic_transmission/bsu_dcvc_hybrid.py",
+    "src/semantic_transmission/bsu_dcvc_keys.py",
+    "src/semantic_transmission/bsu_dcvc_validation.py",
+    "src/semantic_transmission/bsu_dcvc_recovery.py"
+  ],
+  "sources": [
+    {
+      "title": "DCVC-RT, CVPR 2025",
+      "url": "https://arxiv.org/abs/2502.20762"
+    },
+    {
+      "title": "Official Microsoft DCVC source",
+      "url": "https://github.com/microsoft/DCVC",
+      "commit": "cbdae87a5445114cdc7f48816da63ea80bdeac40"
+    },
+    {
+      "title": "Official Microsoft checkpoint mirror",
+      "url": "https://huggingface.co/microsoft/Mage-VL",
+      "revision": "d88b153285f1633a61b2f693c59c8576693af185"
+    }
+  ],
+  "next_unverified_hypothesis": "Compression-aware training with fixed Open-Sora conditioning-latent and temporal losses; requires separate train/validation sources and actual bitstream/full-video tests.",
+  "production_defaults_changed": false,
+  "result_artifacts": {
+    "outputs/bsu_dcvc_screen_20261015_v1/RESULT.json": "1cad841c08082345c4b6d44f3516b7e421534422b319d129be85cba3a11466de",
+    "outputs/bsu_dcvc_validation_20261015_v2/RESULT.json": "872def19dd6d78dd3049b89265879d19ed78d71f7220d5bb6aa7cb560c590d88",
+    "outputs/bsu_dcvc_hybrid_20261015_v1/RESULT.json": "167ad758e988b6fdfa9fd06acf8fc2ceb70ca743299f772e5b34d7eb753cd048",
+    "outputs/bsu_dcvc_motion_budget_20261015_v1/RESULT.json": "4e77ed6c08072b2bfc02729779f7a1c1fd0ac35c13074ea9d78c901985ec1346"
+  },
+  "local_delivery": {
+    "contents": "completed reports, delivered MP4s, key codec packets/decoded keys, review contact sheets; full intermediate generation/refinement frames retained remotely",
+    "outputs": [
+      "outputs/bsu_dcvc_motion_budget_20261015_v1",
+      "outputs/bsu_dcvc_screen_20261015_v1",
+      "outputs/bsu_dcvc_validation_20261015_v2",
+      "outputs/bsu_dcvc_hybrid_20261015_v1"
+    ]
+  }
+}

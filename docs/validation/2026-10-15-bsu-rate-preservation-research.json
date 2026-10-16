@@ -1,0 +1,299 @@
+{
+  "date": "2026-10-15",
+  "objective": "Reduce actual transmitted complex channel uses while preserving the current combined_context BSU reconstruction quality.",
+  "scope": "14 author-subset Kinetics-400 development clips, 3333 frames, 135 keys, 576x320 RGB, 24 fps, AWGN 10 dB. This is not the full Kinetics-400 test set.",
+  "diagnosis": {
+    "previous_key_removal": "No accepted deletions after generation-seed confirmation. Key deletion also merges generation intervals and changes endpoint constraints, captions, flow, trajectory budget and random tensor layout; motion redundancy alone was not a sufficient predictor of generative reconstructability.",
+    "baseline_total_complex_channel_uses": 4392383,
+    "visual_complex_channel_uses": 3860159,
+    "metadata_and_trajectory_complex_channel_uses": 532224,
+    "primary_bottleneck": "Each retained key is encoded independently with the original NTSCC image codec. combined_context joins receiver reconstruction intervals; it does not provide temporal context to the sender's key-image codec.",
+    "first_safe_change": "Lossless compression of digital decoder inputs, retaining all keys, conditions, visual symbols and their channel realization. No new neural training is required.",
+    "larger_change": "Keep the original key timestamps and reconstruct all 135 key images through a temporally predictive codec, or improve the independent image JSCC codec. Keep the BSU segment layout and combined_context receiver fixed during comparison."
+  },
+  "verified_lossless_experiment": {
+    "result": "outputs/bsu_lossless_transport_20261015_v1/RESULT.json",
+    "receipt": "outputs/bsu_lossless_transport_20261015_v1/completion_receipt.json",
+    "command": "bash scripts/experiment_bsu_lossless_transport.sh --output outputs/bsu_lossless_transport_NEW_RUN",
+    "status": "COMPLETE_LOSSLESS_CHANNEL_EQUIVALENCE",
+    "remote_source_check": "94 local source artifacts were SHA256-identical to sangukcom before the experiment.",
+    "changed_code": [
+      "src/semantic_transmission/lossless_transport.py",
+      "src/semantic_transmission/bsu_lossless_validation.py",
+      "scripts/experiment_bsu_lossless_transport.sh",
+      "tests/test_lossless_transport.py"
+    ],
+    "tests": "11 unit tests including legacy wire tests; 575 output artifact hashes and 5 frozen source-file hashes verified.",
+    "protected_baseline_artifacts_unchanged": 327,
+    "channel": {
+      "backend": "Sionna LDPC5G + 16QAM + AWGN on local CPU",
+      "ldpc_k": 6144,
+      "ldpc_n": 9216,
+      "snr_db": 10,
+      "seeds": [
+        42,
+        1042,
+        2042
+      ],
+      "trajectory_seed": "seed + 1 for separately transmitted trajectory; a bundled packet uses the base seed",
+      "video_arm_seed_trials": 168,
+      "actual_packet_transmissions": 276,
+      "observed_bit_errors": 0,
+      "all_original_model_packets_recovered_byte_exact": true
+    },
+    "rates": [
+      {
+        "arm": "legacy",
+        "digital_uses": 532224,
+        "total_uses": 4392383,
+        "saving_percent": 0.0
+      },
+      {
+        "arm": "zlib_separate",
+        "digital_uses": 313344,
+        "total_uses": 4173503,
+        "saving_percent": 4.9831720048092345
+      },
+      {
+        "arm": "xz_separate",
+        "digital_uses": 301824,
+        "total_uses": 4161983,
+        "saving_percent": 5.245444215588668
+      },
+      {
+        "arm": "xz_bundle",
+        "digital_uses": 281088,
+        "total_uses": 4141247,
+        "saving_percent": 5.717534194991648
+      }
+    ],
+    "quality_evidence": "Original metadata and trajectory packets, rate indices, text/flow values, normalization values, key timestamps and decoder configuration are restored byte-for-byte. All original analog visual TX/RX symbols are reused without modification. Thus the downstream model inputs are identical. Final video generation and quality/action inference were not rerun; equivalence is an input-preservation result, not new generated-video measurements.",
+    "quality_condition": "Same decoder implementation, weights, RNG realization and runtime state; successful digital packet decoding. The distribution of stochastic decoder outputs is unchanged by exact input restoration. Independent GPU execution bitwise reproducibility is not claimed.",
+    "generalization": "The representation is content-independent and needs no learned dictionary. A sender-side byte/LDPC-cost check falls back to original packets if compression is not beneficial. Strictly positive savings on every possible video is not guaranteed.",
+    "limits": [
+      "All padding, parity, envelope lengths, CRCs and stream/container bytes are counted; physical framing/pilots are omitted consistently with the baseline.",
+      "Bundle mode waits for both packets and joins their error fate. Separate XZ coding retains independent packet delivery and saves 5.25% here.",
+      "Three channel seeds at 10 dB do not prove equal failure probability at every SNR or under burst/fading channels.",
+      "Production runners/defaults and remote experiment code were not changed. Sender and receiver must both enable the new transport wrapper.",
+      "This does not fix existing hallucinations or motion artifacts; it preserves existing model information and behavior."
+    ]
+  },
+  "ranked_candidates": [
+    {
+      "priority": 1,
+      "method": "Lossless digital packet coding, with optional per-video bundling",
+      "status": "IMPLEMENTED_AND_CHANNEL_VERIFIED",
+      "scope_of_guarantee": "Exact original model input restoration on successful transport; measured total saving 5.25% separate or 5.72% bundled on the existing cohort.",
+      "training": "None",
+      "larger_saving_limit": "Only 12.12% of the current total is digital metadata/trajectory. Substantial further reductions require improving visual-key coding."
+    },
+    {
+      "priority": 2,
+      "method": "Predictive coding of all selected key images, with existing key times and BSU segment layout retained",
+      "status": "CPU_KEY_IMAGE_SCREEN_AND_RESEARCH_CANDIDATE; FULL_BSU_QUALITY_UNVERIFIED",
+      "integration": "Serialize the ordered source key images and original timestamp mapping. Use HEVC/AVC as an immediately reproducible control, then DCVC-RT or DCVC-UF. Transmit actual key-video bitstreams with the same LDPC/QAM channel. Decode exactly one RGB image per original key index before the unchanged BSU generator.",
+      "why": "Temporal prediction can encode recurring background, texture and geometry once while paying for innovations. Original pose/position anchors are retained, avoiding the interval-merging mechanism implicated in the previous experiment.",
+      "references": [
+        "DCVC-RT",
+        "DCVC-UF"
+      ],
+      "training": "Pretrained codec evaluation first; retraining only if sparse, nonuniform key sequences cause distribution mismatch.",
+      "required_checks": "Decoded key PSNR/SSIM/LPIPS, actual coded-symbol rate including timestamps and all headers, 3+ channel seeds, unchanged full-video BSU segmentation, paired generation seeds, final quality/motion/action metrics. Improved key PSNR alone is not final-video evidence.",
+      "risks": "Sparse or scene-changing key sequences reduce temporal gain. Digital decode failures and error propagation must be tested. Better pixel PSNR can still alter diffusion output. No numerical BSU saving is inferred from paper BD-rate."
+    },
+    {
+      "priority": 3,
+      "method": "Upgrade original NTSCC to contextual image JSCC with quality-constrained rate allocation",
+      "status": "RESEARCH_CANDIDATE",
+      "integration": "Keep every key and its timestamp, replace the image codec with NTSCC+ / compatible NTSCC, and select rate points using a predefined key-quality target over independent noise samples. Charge every rate map, hyperprior and adaptive signal. Keep a full-rate fallback with paid mode signaling.",
+      "references": [
+        "NTSCC++"
+      ],
+      "training": "Start with released pretrained checkpoints; pretrained compatibility and adaptation must be verified.",
+      "risks": "The public repository still lists online NTSCC++ inference as TODO and requires a specific NATTEN version. Do not truncate the old model's symbols or change eta arbitrarily and assume quality preservation."
+    },
+    {
+      "priority": 4,
+      "method": "Temporal-context JSCC for the selected key sequence",
+      "status": "RESEARCH_CANDIDATE_REQUIRING_MORE_INTEGRATION",
+      "integration": "Replace independent image encoding with a source/channel model conditioned on decoded temporal features. Train/evaluate across realistic key spacing and channel noise, preserving all key anchors and using reference resets at cuts.",
+      "references": [
+        "PVSC",
+        "CVST"
+      ],
+      "training": "Model and channel adaptation likely required; not a small receiver-only patch.",
+      "risks": "Transmitter and receiver reference buffers differ under noise. CVST's released configuration targets MIMO and eight CUDA devices; this is a default configuration, not proof that eight devices are intrinsically necessary. PVSC code/checkpoints were not confirmed in the checked primary sources."
+    },
+    {
+      "priority": 5,
+      "method": "Codec-reconstruction-conditioned generative refinement",
+      "status": "LONGER_TERM_RESEARCH_CANDIDATE",
+      "integration": "Train a small spatial adapter followed by a temporal adapter on actual decoded lower-rate reconstructions, with source fidelity losses. Preserve codec reference updates and anchor reconstruction instead of relying on unanchored generation.",
+      "references": [
+        "Gen2-VC"
+      ],
+      "training": "Required. The cited Wan2.1 adapters are not drop-in weights for the current Open-Sora/STDiT BSU decoder.",
+      "risks": "A recent preprint, not a validated BSU implementation. Perceptual improvement does not guarantee action fidelity or every-video PSNR preservation. Existing local adapter training is a separate experiment and was not interrupted or treated as sufficient evidence."
+    }
+  ],
+  "primary_sources": [
+    {
+      "id": "DCVC-RT",
+      "title": "Towards Practical Real-Time Neural Video Compression",
+      "date": "CVPR 2025",
+      "paper": "https://openaccess.thecvf.com/content/CVPR2025/papers/Jia_Towards_Practical_Real-Time_Neural_Video_Compression_CVPR_2025_paper.pdf",
+      "official_code": "https://github.com/microsoft/DCVC",
+      "evidence": "Implicit temporal modeling, conditional coding and module-bank rate control; public pretrained implementation. Its reported comparison against VTM is not a comparison against BSU."
+    },
+    {
+      "id": "DCVC-UF",
+      "title": "Ultra-Fast Neural Video Compression",
+      "date": "2026-06-03; CVPR 2026",
+      "paper": "https://arxiv.org/abs/2606.04410",
+      "official_code": "https://github.com/microsoft/DCVC",
+      "evidence": "Jointly encodes multiple frames into a compact latent, with cross-frame interactions and parallel frame reconstruction. Official repository lists training/testing code, pretrained image/video checkpoints and 64 QP levels. Current documented environment is Python 3.12, PyTorch 2.9.1/CUDA 13.0, with compiled extensions; isolate from BSU runtime."
+    },
+    {
+      "id": "NTSCC++",
+      "title": "Improved Nonlinear Transform Source-Channel Coding to Catalyze Semantic Communications",
+      "date": "2023; earlier directly relevant codec upgrade, not presented as a 2026 paper",
+      "paper": "https://arxiv.org/abs/2303.14637",
+      "official_code": "https://github.com/wsxtyrdd/NTSCC_plus",
+      "evidence": "Context entropy/JSCC, compatible rate/channel adaptation, and online latent editing are distinct contributions. Public pretrained models are linked; online inference code remains listed as TODO."
+    },
+    {
+      "id": "PVSC",
+      "title": "Perception-Aware Video Semantic Communication",
+      "date": "2026-05-19 preprint; parts accepted at ICC Workshops 2026",
+      "paper": "https://arxiv.org/abs/2605.19397",
+      "evidence": "Implicit spatiotemporal feature coding with explicit side-information accounting and reference-buffer updates. Reported up-to 75%/87% bandwidth savings concern matched LPIPS/DISTS versus its VTM+LDPC baseline, not preservation of all BSU metrics."
+    },
+    {
+      "id": "CVST",
+      "title": "Context Video Semantic Transmission with Variable Length and Rate Coding over MIMO Channels",
+      "date": "arXiv 2601.06059; submission page records 2025-12-23; official repository describes IEEE TWC acceptance",
+      "paper": "https://arxiv.org/abs/2601.06059",
+      "official_code": "https://github.com/xie233333/CVST",
+      "evidence": "Multi-reference context and channel-aware variable-rate coding. Code and Git-LFS checkpoint entries are public; current example expects MIMO channel data and eight-process evaluation."
+    },
+    {
+      "id": "Gen2-VC",
+      "title": "Gen2-VC: Unlocking Generative Priors for Video Compression",
+      "date": "2026-09-28 preprint",
+      "paper": "https://arxiv.org/abs/2609.34725",
+      "evidence": "Uses frozen codec/VAE/Wan2.1 with staged spatial and temporal LoRA refinement conditioned on codec reconstructions. Reported gains are six-dataset BD-rate comparisons, not guarantees for individual videos or current BSU. Public executable weights were not confirmed in the checked sources."
+    }
+  ],
+  "prohibited_shortcuts": [
+    "Do not call gzip of complex64 replay files a reduction in analog radio symbols.",
+    "Do not omit metadata, FEC padding/parity, mode flags, reference updates or retransmission costs.",
+    "Do not use the actual receiver's noise/output as free transmitter information.",
+    "Do not relax the previous quality thresholds after observing failures or compare different source/seed sets as matched.",
+    "Do not substitute paper LPIPS/DISTS BD-rate claims for BSU full-video/action performance."
+  ],
+  "recommended_order": "Use the verified lossless packet layer as the immediate saving. The conventional AVC/HEVC screen did not establish a universal replacement. Next screen pretrained DCVC-RT/UF and NTSCC+ on the unchanged key set, then run only surviving rate/quality settings through complete paired BSU reconstruction. Temporal JSCC and generative adapter retraining are longer-term candidates.",
+  "production_defaults_changed": false,
+  "local_gpu_training_interrupted": false,
+  "key_codec_screen": {
+    "result": "outputs/bsu_key_codec_probe_20261015_v1/RESULT.json",
+    "comparison": "outputs/bsu_key_codec_probe_20261015_v1/comparison.csv",
+    "receipt": "outputs/bsu_key_codec_probe_20261015_v1/completion_receipt.json",
+    "command": "bash scripts/experiment_bsu_key_codec_probe.sh --output outputs/bsu_key_codec_probe_NEW_RUN",
+    "status": "COMPLETE_KEY_IMAGE_SCREEN_ONLY",
+    "configurations": 84,
+    "keys_preserved": 135,
+    "summary": [
+      {
+        "codec": "libx264rgb",
+        "crf": 18,
+        "saving_percent": -243.52414167890188,
+        "key_gate_pass_videos": 14,
+        "key_gate_and_lower_rate_videos": 0,
+        "mean_key_psnr_delta": 4.81776711677846,
+        "mean_key_ssim_delta": 0.016962176279849243
+      },
+      {
+        "codec": "libx264rgb",
+        "crf": 23,
+        "saving_percent": -102.47414672172259,
+        "key_gate_pass_videos": 2,
+        "key_gate_and_lower_rate_videos": 0,
+        "mean_key_psnr_delta": 1.517177121021032,
+        "mean_key_ssim_delta": 0.001081585124230598
+      },
+      {
+        "codec": "libx264rgb",
+        "crf": 28,
+        "saving_percent": -27.6216577652723,
+        "key_gate_pass_videos": 0,
+        "key_gate_and_lower_rate_videos": 0,
+        "mean_key_psnr_delta": -1.2736343490168465,
+        "mean_key_ssim_delta": -0.022612693665727473
+      },
+      {
+        "codec": "libx265",
+        "crf": 18,
+        "saving_percent": -51.17370229326541,
+        "key_gate_pass_videos": 11,
+        "key_gate_and_lower_rate_videos": 2,
+        "mean_key_psnr_delta": 3.5348234664708262,
+        "mean_key_ssim_delta": 0.010034232825351866
+      },
+      {
+        "codec": "libx265",
+        "crf": 23,
+        "saving_percent": 5.896730772339298,
+        "key_gate_pass_videos": 2,
+        "key_gate_and_lower_rate_videos": 1,
+        "mean_key_psnr_delta": 0.7580431029020817,
+        "mean_key_ssim_delta": -0.004858925677294869
+      },
+      {
+        "codec": "libx265",
+        "crf": 28,
+        "saving_percent": 41.041207016783375,
+        "key_gate_pass_videos": 0,
+        "key_gate_and_lower_rate_videos": 0,
+        "mean_key_psnr_delta": -2.049832111400929,
+        "mean_key_ssim_delta": -0.02944092316173296
+      }
+    ],
+    "promising_video_specific_settings": [
+      {
+        "id": "kinetics_005_11836d73",
+        "codec": "libx265",
+        "crf": "18",
+        "saving_percent": "5.141811527904849",
+        "key_psnr_delta": "4.481462803471267",
+        "key_ssim_delta": "0.014793474548968288"
+      },
+      {
+        "id": "kinetics_006_ecbad330",
+        "codec": "libx265",
+        "crf": "23",
+        "saving_percent": "22.52271357118838",
+        "key_psnr_delta": "1.6025337565582944",
+        "key_ssim_delta": "0.010392213380769455"
+      },
+      {
+        "id": "kinetics_013_64921930",
+        "codec": "libx265",
+        "crf": "18",
+        "saving_percent": "14.014294761603185",
+        "key_psnr_delta": "4.794319792201364",
+        "key_ssim_delta": "0.005617813258572801"
+      }
+    ],
+    "finding": "No tested fixed AVC/HEVC quality setting lowered total cohort rate while retaining every key image PSNR and SSIM across all 14 videos. HEVC CRF28 saved 41.04% but none of the videos passed the every-key quality gate. Three videos had individual passing rate/key-quality settings, not full-BSU proof.",
+    "interpretation": "Simply switching to a conventional video codec is not an established solution. Keep this negative screening result; do not advertise the 41.04% reduction as quality-preserving.",
+    "next_step": "Screen pretrained DCVC-RT/UF and NTSCC+ on the exact sparse keys and account real transport costs before spending hours on diffusion generation.",
+    "final_bsu_quality_preservation_proven": false,
+    "digital_channel_tested": false
+  },
+  "evidence_sha256": {
+    "outputs/bsu_lossless_transport_20261015_v1/RESULT.json": "5532d083326f2dda7aca258f4c09a3e7bedab4149e46dc7e47a3126c22c6fc63",
+    "outputs/bsu_lossless_transport_20261015_v1/completion_receipt.json": "cba8adfbd2dac625366fecbfd40ce1fc48cc69d44d8358b5eb6fa9bfaca61e4b",
+    "outputs/bsu_key_codec_probe_20261015_v1/RESULT.json": "73ae88ab928d39dd109f88b2e663bcff337a89cf3aade0c41f7677e2e14017d4",
+    "outputs/bsu_key_codec_probe_20261015_v1/completion_receipt.json": "1c51361877bd1028146be064baf174bd4b280aa6e9adb68a0768f4f41d3f2383"
+  }
+}
