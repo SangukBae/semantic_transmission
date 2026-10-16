@@ -1,0 +1,195 @@
+{
+  "status": "PASSED_LOCAL_RECEIVER_RECONSTRUCTION_AND_AUDIT",
+  "date": "2026-10-15",
+  "condition": {
+    "id": "webvid_037_143ffe14",
+    "snr_db": 6,
+    "remote_bsu_mode": "combined",
+    "frames": 1201,
+    "keys": [
+      0,
+      900,
+      1200
+    ],
+    "segment_frames_including_overlap": [
+      901,
+      318
+    ],
+    "sampling_steps_per_segment": 30,
+    "generation_seed": 2025
+  },
+  "failure": {
+    "host": "sangukcom",
+    "checkout": "43e6f725308dfc60d2cce2fe933998af1cbeaa71",
+    "batch_completed": 108,
+    "batch_total": 159,
+    "stage": "reconstruct",
+    "source_log": "outputs/bsu_webvid_paper/snr_6/webvid_037_143ffe14/base/reconstruction/event_pairs/run/receiver/reconstruction/00000.log",
+    "exception": "torch.cuda.OutOfMemoryError",
+    "attempted_allocation_gib": 1.64,
+    "location": "Open-Sora spatial Attention Q/K LlamaRMSNorm hidden_states.pow(2)",
+    "cause": "The v1 memory wrapper bypassed all FlashAttention calls. QKV projection and FP32 normalization temporaries remained unbounded even though the attention score matrix was fused.",
+    "spatial_attention_shape": [
+      530,
+      720,
+      1152
+    ],
+    "date": "2026-10-14"
+  },
+  "implementation": {
+    "memory_policy": "independent_attention_batches_and_mlp_tokens_v2",
+    "attention": "Estimate projection/FP32 normalization workspaces and dense score matrices; chunk independent batch entries while retaining the original attention kernel and complete sequence.",
+    "mlp": "Existing token chunking retained.",
+    "allocator": "Export PYTORCH_CUDA_ALLOC_CONF alongside PYTORCH_ALLOC_CONF for the pinned PyTorch 2.2.2 decoder.",
+    "allocator_evidence": "Both local and remote installed c10/cuda/CUDAAllocatorConfig.h read getenv(\"PYTORCH_CUDA_ALLOC_CONF\"). The original launcher only exported PYTORCH_ALLOC_CONF; an externally inherited CUDA-specific setting was not recorded.",
+    "weights_resolution_keys_steps_and_receiver_context_policy_changed": false,
+    "code_sha256": {
+      "src/semantic_transmission/decoder_memory.py": "ac775a5384d2d4810f62bcbe448778476bdbcc90dda030eb76fb12490507e1d7",
+      "scripts/run_bsu_webvid.sh": "3b9437fbaef47cb9b7ae2c1741dd03f7480c693db2b5758051608870ae4a69b5",
+      "tests/test_decoder_memory.py": "67e50bfcab3911ed980f753b9f86526ad32fee1d8f2b8ee4242a884ae6091a42"
+    }
+  },
+  "tests": {
+    "status": "PASSED",
+    "unique_tests": 234,
+    "runs": [
+      {
+        "passed": 114,
+        "seconds": 6.01
+      },
+      {
+        "passed": 128,
+        "deselected": 15,
+        "seconds": 5.51
+      },
+      {
+        "passed": 2,
+        "seconds": 0.1
+      }
+    ],
+    "run_counts_overlap": true,
+    "gpu_coverage": "Actual FlashAttention FP16/BF16, causal/noncausal, both Q/K norm orderings, full sequence lengths, CPU/CUDA RNG preservation; dense attention and MLP parity.",
+    "shell_syntax": "PASSED",
+    "diff_check": "PASSED",
+    "nodeids": ".local/validation/bsu_webvid_037_oom_20261014/test_results.json"
+  },
+  "gpu_operator_probe": {
+    "shape": [
+      530,
+      720,
+      1152
+    ],
+    "device": "NVIDIA GeForce RTX 4080",
+    "dtype": "torch.bfloat16",
+    "probes": [
+      {
+        "name": "original",
+        "seconds": 0.3560782589993323,
+        "peak_allocated_mib": 7612.41064453125,
+        "peak_reserved_mib": 8456.0,
+        "cuda_rng_unchanged": true,
+        "trace": {
+          "policy": "independent_attention_batches_and_mlp_tokens_v1",
+          "limit_bytes": 536870912,
+          "chunk_bytes": 134217728,
+          "attention_calls": 0,
+          "mlp_calls": 0,
+          "max_attention_batch": 0,
+          "max_mlp_tokens": 0
+        }
+      },
+      {
+        "name": "fixed",
+        "seconds": 0.12178108200168936,
+        "peak_allocated_mib": 1799.26025390625,
+        "peak_reserved_mib": 1838.0,
+        "cuda_rng_unchanged": true,
+        "trace": {
+          "policy": "independent_attention_batches_and_mlp_tokens_v2",
+          "limit_bytes": 536870912,
+          "chunk_bytes": 134217728,
+          "attention_calls": 1,
+          "flash_attention_calls": 1,
+          "mlp_calls": 0,
+          "max_attention_batch": 8,
+          "max_mlp_tokens": 0
+        },
+        "max_abs_error": 0,
+        "rms_error": 0.0
+      }
+    ]
+  },
+  "local_integration": {
+    "status": "PASSED",
+    "gpu": "NVIDIA GeForce RTX 4080",
+    "scope": "Base Open-Sora reconstruction and output audit for the failed condition; BSU trajectory refinement and quality evaluation were not rerun.",
+    "seconds": 1244.1453436640004,
+    "allocator_environment": {
+      "PYTORCH_CUDA_ALLOC_CONF": "expandable_segments:True"
+    },
+    "sampled_peak_device_used_mib": 13598.72,
+    "peak_note": "2-second nvidia-smi samples include desktop/other device memory",
+    "source_sha256": "dd1a62cdc5d20420136d94813530c3e19951f7aa6e8acbcba8704ebce67e41ea",
+    "completed_remote_stage_artifacts_verified": 35,
+    "t5_embedding_bytes_reused": true,
+    "t5_model_file_hashes_verified": true,
+    "local_rebinding": "Copied source-video/cache paths and hash-verified local T5 model stat inventory; original remote evidence retained separately.",
+    "remote_completed_noise_scopes_matched": 4,
+    "noise_contract_and_runtime_match": true,
+    "video": ".local/validation/bsu_webvid_037_oom_20261014/fixed/run/receiver/reconstruction/sample_0000.mp4",
+    "video_sha256": "00362ecf3a50f121c012f3e7cfa18d1de41d65fd373380fcc699e84ad2078b58",
+    "time_axis": {
+      "frames": 1201,
+      "fps": 24,
+      "first_pts": 0.0,
+      "last_pts": 50.0,
+      "duration_seconds": 50.041666666666664,
+      "all_pts_checked": true
+    },
+    "all_lossless_frames_decoded": true,
+    "source_frame_mapping_exact": true,
+    "cross_segment_transfers": 1,
+    "schedule": [
+      {
+        "policy": "short_segment_actual_latent_schedule_v1",
+        "loop": 0,
+        "frames": 901,
+        "latent_frames": 265,
+        "repaired": false,
+        "conditions_preserved": true,
+        "generated_update_nonzero": true,
+        "finite_output": true,
+        "sampling_steps": 30
+      },
+      {
+        "policy": "short_segment_actual_latent_schedule_v1",
+        "loop": 1,
+        "frames": 318,
+        "latent_frames": 93,
+        "repaired": false,
+        "conditions_preserved": true,
+        "generated_update_nonzero": true,
+        "finite_output": true,
+        "sampling_steps": 30
+      }
+    ],
+    "memory_execution": {
+      "policy": "independent_attention_batches_and_mlp_tokens_v2",
+      "limit_bytes": 536870912,
+      "chunk_bytes": 134217728,
+      "attention_calls": 3360,
+      "flash_attention_calls": 1680,
+      "mlp_calls": 3360,
+      "max_attention_batch": 69,
+      "max_mlp_tokens": 7281
+    }
+  },
+  "evidence_root": ".local/validation/bsu_webvid_037_oom_20261014",
+  "remote_changes_applied": false,
+  "resume_note": "The remote batch was only read. Before deploying this repair, preserve completed results and archive/rebind the failed condition and frozen code-hash protocols with explicit repair provenance. Copying the changed module alone does not satisfy frozen protocol checks.",
+  "limitations": [
+    "No full 159-condition rerun.",
+    "No BSU refinement or quantitative/independent semantic quality evaluation in this local replay.",
+    "Bitwise equality was observed for the measured attention operator, not asserted for every full-model operation or output video."
+  ]
+}
