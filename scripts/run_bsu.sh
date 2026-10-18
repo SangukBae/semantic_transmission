@@ -6,14 +6,14 @@ unset LD_LIBRARY_PATH PYTHONPATH
 export PYTHONPATH="$repo/src" PYTHONNOUSERSITE=1 PYTHONUNBUFFERED=1 PYTHONDONTWRITEBYTECODE=1
 export OMP_NUM_THREADS=2 MKL_NUM_THREADS=2 OPENBLAS_NUM_THREADS=1
 export HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
-runtime_python="$repo/.local/bsu_codec_eval_env/bin/python"
+runtime_python="${BSU_PREDICT_PYTHON:-$repo/.local/bsu_codec_eval_env/bin/python}"
 case "${1:-}" in
-  profile|status|--help|-h) exec python3 -m semantic_transmission.bsu "$@" ;;
+  profile|status|--help|-h) exec python3 -m semantic_transmission.bsu_predict "$@" ;;
 esac
 if [[ ! -x "$runtime_python" ]]; then
-  printf '%s\n' 'BSU runtime missing: .local/bsu_codec_eval_env/bin/python (see docs/RUN_GUIDE.md)' >&2
+  printf '%s\n' 'BSU-Predict runtime missing: .local/bsu_codec_eval_env/bin/python (see docs/RUN_GUIDE.md)' >&2
   exit 1
 fi
 exec "$runtime_python" -m semantic_transmission.terminal_gpu_progress \
-  --log-dir .local/terminal_logs/bsu -- \
-  "$runtime_python" -m semantic_transmission.bsu "$@"
+  --log-dir .local/terminal_logs/bsu_predict -- \
+  "$runtime_python" -m semantic_transmission.bsu_predict "$@"

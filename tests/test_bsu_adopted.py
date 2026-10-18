@@ -69,9 +69,11 @@ def test_check_is_read_only_and_run_dispatches_fixed_profile(tmp_path, monkeypat
 
 
 def test_entrypoint_and_historical_commands_remain_distinct():
-    shell = (bsu.REPO / 'scripts/run_bsu.sh').read_text()
+    shell = (bsu.REPO / 'scripts/run_bsu_hybrid.sh').read_text()
     assert '-m semantic_transmission.bsu ' in shell
     assert '-m semantic_transmission.terminal_gpu_progress' in shell
     assert 'semantic_transmission.bsu_adaptive_rate' not in shell
+    current = (bsu.REPO / 'scripts/run_bsu.sh').read_text()
+    assert '-m semantic_transmission.bsu_predict ' in current
     for script, module in [('run_bsu_webvid.sh', 'bsu_default'), ('run_bsu_kinetics.sh', 'bsu_kinetics')]:
         assert f'-m semantic_transmission.{module}' in (bsu.REPO / 'scripts' / script).read_text()

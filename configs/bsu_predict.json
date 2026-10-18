@@ -1,0 +1,15 @@
+{
+  "name": "BSU-Predict",
+  "policy": "bsu_predict_v1",
+  "adopted_on": "2026-10-18",
+  "base_commit": "fd37e28a37ac65d198f7f905a3063d07e62ac3f4",
+  "model": "DCVC-RT + Practical-RIFE4.25",
+  "route": "predictive_only",
+  "qp": 32,
+  "temporal_stride": 2,
+  "snr_db": 10,
+  "channel_seed": 42,
+  "adaptive_rate_search": false,
+  "generative_fallback": false,
+  "semantic_input_required": false
+}
