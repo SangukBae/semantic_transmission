@@ -1,6 +1,6 @@
 {
   "date": "2026-10-18",
-  "status": "PREPARED_REMOTE_RUNTIME_READY_MODEL_ACCESS_BLOCKED",
+  "status": "REMOTE_WEIGHTS_VERIFIED_RUNTIME_API_FIXED",
   "branch": "BSU-Gen",
   "parent_commit": "c5d66834782500a061dec1402d037fb716c1ac32",
   "model": "LTX-2.5 22B Distilled",
@@ -15,16 +15,21 @@
     "gpu": "NVIDIA GeForce RTX 4080",
     "vram_mib": 16376,
     "official_pipeline_import_verified": true,
-    "original_environments_modified": false
+    "original_environments_modified": false,
+    "real_weight_pipeline_constructor_verified": true
   },
   "checkpoint_access": {
-    "http_status": 403,
-    "error": "GatedRepo",
     "gated_repo_read_permission": true,
-    "authorization_verified": false,
-    "weight_download_complete": false,
+    "authorization_verified": true,
+    "weight_download_complete": true,
     "selected_weight_files": 5,
-    "selected_weight_gib": 66.23
+    "selected_weight_gib": 66.23,
+    "previous_http_status": 403,
+    "previous_error": "GatedRepo",
+    "remote_account": "qlfekd12",
+    "pinned_weight_metadata_access_verified": true,
+    "weight_download_started": true,
+    "full_weight_hashes_verified": true
   },
   "baseline_audit": {
     "status": "BASELINES_VERIFIED",
@@ -91,10 +96,16 @@
     "scripts/setup_bsu_ltx.sh": "bd6e42f933e7ac78400aa8e830a63ecabc0c4976d53a81c7add18e461cc31c16",
     "scripts/compare_bsu_gen.sh": "23afb80d66cdee9a498a300b7e3962b66b554328bae2f5109bfb31e72e35dfcb",
     "scripts/run_bsu_gen_ltx.sh": "80e83876b3912aee237ca341d3fabe24c55f255d0586bd8c62acafe06535b234",
-    "src/semantic_transmission/ltx_receiver.py": "c259a9675988c24fcfaf6c4aff7b901701b4c50464319dc11d0ef516b775a6cf",
+    "src/semantic_transmission/ltx_receiver.py": "17673b966b88e4a1f23e4da5ea096f7ff70d69694eab34c967453826d90e5cff",
     "src/semantic_transmission/ltx_setup.py": "065cb28be4cc8b90d74d54de259440eb4baa49fb6b47ce64163496a65cbf3427",
-    "src/semantic_transmission/bsu_ltx_comparison.py": "5290bc6a43b51cf177b55c1aeb520f3e52851d793d5eea51d97e0b7f699b9bea",
+    "src/semantic_transmission/bsu_ltx_comparison.py": "0b3df1657ef16fce971073539929135c714d6f922703c6cfc4f82cd2069830d8",
     "tests/test_ltx_receiver.py": "a817b4c89602b8ceb3081e96efec11c4b2bc3b1e304c55079373df892f2bfa42",
     "tests/test_bsu_ltx_comparison.py": "2c25715ba2b4e49c025226363cda44cc9c4bbbfaf399861918b0fad47fe83ab8"
+  },
+  "runtime_api_fix": {
+    "previous_error": "QuantizationPolicy.fp8_cast does not exist in pinned upstream",
+    "api": "QuantizationKind.to_policy(checkpoint_path)",
+    "local_regression_tests_passed": 16,
+    "full_inference_complete": false
   }
 }

@@ -26,6 +26,12 @@ MODULE = 'semantic_transmission.bsu_ltx_comparison'
 KEYS = ('psnr_db', 'ssim', 'lpips_vgg', 'clip', 'dists')
 
 
+def progress(done, total, current, stage, state='실행 중'):
+    print('COMPARE_PROGRESS '+json.dumps(dict(
+        overall=f'{done}/{total} ({100*done/total:.1f}%) 영상 완료',
+        current=current,stage=stage,state=state),ensure_ascii=False),flush=True)
+
+
 def read(path):
     return json.loads(Path(path).read_text())
 
@@ -215,6 +221,7 @@ def run(args):
         (root/'RESULT.json').unlink(missing_ok=True)
         try:
             for row in audit['rows']:
+                progress(len(results),len(audit['rows']),row['id'],'수신 조건 확인 / LTX 복원 준비')
                 dest=root/'videos'/row['id']; dest.mkdir(parents=True,exist_ok=True)
                 stages=Stages(dest,signature)
                 write_json(root/'status.json',dict(status='RUNNING',stage='conditions/generation/refinement/metrics',
@@ -240,6 +247,7 @@ def run(args):
                     video=str(dest/'refined/reconstruction.mp4'),signature=signature,
                     artifacts=snapshot(dest,['conditions','raw','refined']))
                 write_json(dest/'RESULT.json',result);results.append(result)
+                progress(len(results),len(audit['rows']),row['id'],'복원·보정·평가 완료')
                 print(f'VIDEOS {len(results)}/{len(audit["rows"])} ({100*len(results)/len(audit["rows"]):.1f}%) '
                       f'elapsed={time.monotonic()-start:.1f}s ETA=unknown',flush=True)
             verify_files(audit['inputs'])

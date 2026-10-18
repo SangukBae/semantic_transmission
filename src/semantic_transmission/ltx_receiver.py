@@ -99,7 +99,7 @@ def runtime(model_dir, vendor):
 class Generator:
     def __init__(self, assets):
         import torch
-        from ltx_core.quantization import QuantizationPolicy
+        from ltx_pipelines.utils.quantization_factory import QuantizationKind
         from ltx_pipelines.distilled import DistilledPipeline
         from ltx_pipelines.utils.model_paths import ModelPaths
         from ltx_pipelines.utils.types import OffloadMode
@@ -110,7 +110,8 @@ class Generator:
                 text_encoder_path=paths['text_encoder'], video_vae_path=paths['video_vae'],
                 audio_vae_path=paths['audio_vae']),
             spatial_upsampler_path=paths['spatial_upsampler'], loras=[],
-            quantization=QuantizationPolicy.fp8_cast(), offload_mode=OffloadMode.CPU)
+            quantization=QuantizationKind(profile()['quantization']).to_policy(paths['transformer']),
+            offload_mode=OffloadMode.CPU)
 
     def __call__(self, window, value):
         from ltx_pipelines.utils.types import ImageConditioningInput
