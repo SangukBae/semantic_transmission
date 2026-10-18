@@ -65,6 +65,8 @@ bash scripts/compare_bsu_gen.sh run \
 bash scripts/compare_bsu_gen.sh status --output outputs/bsu_ltx_comparison_20261018
 ```
 
+진행 화면에는 완료 영상 수, 현재 영상·단계, 경과 시간과 GPU/VRAM을 표시한다. 완료 수는 복원·보정·평가가 모두 끝난 영상만 세므로 첫 영상 처리 중에는 `0/14`다. 별도 터미널에서 `watch -n 5 cat outputs/bsu_ltx_comparison_20261018/status.json`으로 읽기 전용 상태를 확인할 수 있다. `RUNNING`은 처리 중, `FAILED`는 오류로 중단된 상태이며, 전체 완료 상태는 `COMPLETE_THREE_WAY_RECONSTRUCTION_COMPARISON`이다. tmux에서 실행했다면 `Ctrl+B` 다음 `D`로 화면만 분리한다.
+
 이 명령은 **실제 수신 조건 재생에 의한 생성기 교체 실험**이다. Qwen·NTSCC를 다시 실행하거나 원본 키를 추가하지 않는다. Open-Sora BSU가 실제로 받은 키 PNG·캡션·움직임·궤적과 전송 비용을 고정하고 LTX 생성 및 같은 `combined_context` 보정을 새로 실행한다. 기존 패킷의 Open-Sora 샘플러 설정은 LTX에 적용하지 않으며, 등록한 공통 수신기 프로필을 사용한다. 독립 수신기 명령 `run_bsu_gen_ltx.sh`는 비교 실행기가 만든 `--request .../conditions/request.json --output DIR`를 받는다. 기존 전체 영상 입력의 `run_bsu_gen.sh`는 Open-Sora 기준선으로 보존한다.
 
 전체 14편을 원래 manifest 순서로 평가한다. 입력은 모두 576×320·24FPS·AWGN 10dB이고 기본 생성 seed는 2025다. LTX는 각 키 구간의 길이를 8k+1로 올려 생성한 뒤 원래 FPS에서 여분의 끝부분만 버린다. 마지막 키의 시점은 원본과 동일하며 시간축을 늘이거나 줄이지 않는다. 수신부는 원본을 읽지 않고, 별도 평가 프로세스만 원본에 접근한다.

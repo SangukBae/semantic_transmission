@@ -116,22 +116,25 @@ class Generator:
     def __call__(self, window, value):
         from ltx_pipelines.utils.types import ImageConditioningInput
         p, v = value['profile'], value['video']
-        output = self.pipeline(prompt=window['prompt'], seed=p['generation_seed'],
-            height=v['height'], width=v['width'], frame_rate=v['fps'],
-            images=[ImageConditioningInput(**item, strength=p['image_strength'], crf=p['image_crf'])
-                    for item in window['images']], num_frames=window['generated_frames'],
-            enhance_prompt=False,
-            stage_1_sigmas=self.torch.tensor(p['stage_1_sigmas']),
-            stage_2_sigmas=self.torch.tensor(p['stage_2_sigmas']))
-        if output.num_frames != window['generated_frames']:
-            raise ValueError('LTX silently changed the requested temporal grid')
-        for chunk in output.video:
-            if chunk.ndim != 4 or tuple(chunk.shape[1:]) != (v['height'], v['width'], 3):
-                raise ValueError('unexpected upstream video tensor layout')
-            if not self.torch.isfinite(chunk).all():
-                raise ValueError('LTX produced nonfinite pixels')
-            pixels = (chunk.detach().float().clamp(0, 1)*255).round().to(self.torch.uint8).cpu().numpy()
-            yield from pixels
+        # The upstream CLI enters inference_mode; direct pipeline calls do not.
+        # Include lazy decoding so autograd cannot retain offloaded GPU weights.
+        with self.torch.inference_mode():
+            output = self.pipeline(prompt=window['prompt'], seed=p['generation_seed'],
+                height=v['height'], width=v['width'], frame_rate=v['fps'],
+                images=[ImageConditioningInput(**item, strength=p['image_strength'], crf=p['image_crf'])
+                        for item in window['images']], num_frames=window['generated_frames'],
+                enhance_prompt=False,
+                stage_1_sigmas=self.torch.tensor(p['stage_1_sigmas']),
+                stage_2_sigmas=self.torch.tensor(p['stage_2_sigmas']))
+            if output.num_frames != window['generated_frames']:
+                raise ValueError('LTX silently changed the requested temporal grid')
+            for chunk in output.video:
+                if chunk.ndim != 4 or tuple(chunk.shape[1:]) != (v['height'], v['width'], 3):
+                    raise ValueError('unexpected upstream video tensor layout')
+                if not self.torch.isfinite(chunk).all():
+                    raise ValueError('LTX produced nonfinite pixels')
+                pixels = (chunk.detach().float().clamp(0, 1)*255).round().to(self.torch.uint8).cpu().numpy()
+                yield from pixels
 
 
 def reconstruct(value, assets, output, factory=Generator):
