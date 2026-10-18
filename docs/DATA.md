@@ -1,8 +1,14 @@
 # 데이터와 모델 입력
 
+## BSU-Gen 입력과 데이터 범위 — 2026-10-18
+
+`run_bsu_gen.sh --video FILE --output DIR`는 원본 전체 길이를 576×320·24FPS로 정규화한다. 384프레임·16초 제한이나 반복 연결은 적용하지 않는다. `--prepared FILE`은 같은 규격의 전체 길이 `source_prepared.json`을 검증해 재사용한다. 원본·정규화 영상·모든 PNG 해시를 고정하고 Qwen 선택·캡션·전송·생성은 새 출력에서 수행한다. 과거 실험 프로토콜이나 데이터셋 manifest는 새 실행의 필수 입력이 아니다.
+
+모델·환경은 Git에 포함하지 않는다. Qwen 설치 manifest(`outputs/qwen35_setup/model_manifest.json`)와 고정 캡션 LoRA, `.local/settings.json`, `.local/model_paths.json`, Open-Sora/NTSCC/UniMatch 자산이 필요하다. [준비·검사·실행](RUN_GUIDE.md#bsu-gen)
+
 ## BSU-Predict 입력과 데이터 범위 — 2026-10-18
 
-현재 모델은 영상 또는 정규화 PNG와 FPS를 입력으로 사용한다. 의미 키·캡션·NTSCC 송신 산출물은 필요하지 않다. 새 모델을 위한 추가 학습은 수행하지 않았으며, 아래 10월 16일 코호트는 이전 혼합 모델의 개발·평가 자료다. [현재 실행](RUN_GUIDE.md#bsu-default) · [검증 범위](RESULTS.md#bsu-predict)
+BSU-Predict는 영상 또는 정규화 PNG와 FPS를 입력으로 사용한다. 의미 키·캡션·NTSCC 송신 산출물은 필요하지 않다. 새 모델을 위한 추가 학습은 수행하지 않았으며, 아래 10월 16일 코호트는 이전 혼합 모델의 개발·평가 자료다. [예측 전용 실행](RUN_GUIDE.md#bsu-predict) · [검증 범위](RESULTS.md#bsu-predict)
 
 <a id="bsu-predictive-data"></a>
 ## 이전 혼합 BSU 채택에 사용한 자료 — 2026-10-16

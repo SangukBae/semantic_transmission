@@ -1,0 +1,22 @@
+{
+  "name": "BSU-Gen",
+  "policy": "bsu_gen_v1",
+  "created_on": "2026-10-18",
+  "route": "generative_only",
+  "selector": "Qwen3.5-9B semantic-change selection",
+  "candidate_stride": 4,
+  "caption": "Qwen3.5-9B with pinned rank-32 caption LoRA",
+  "visual_codec": "NTSCC",
+  "generator": "Open-Sora v1.2 / STDiT3-XL/2",
+  "receiver_mode": "combined_context",
+  "width": 576,
+  "height": 320,
+  "fps": 24,
+  "snr_db": 10,
+  "channel_seed": 42,
+  "generation_seed": 2025,
+  "steps": 30,
+  "extra_rate_ratio": 0.05,
+  "predictive_fallback": false,
+  "adaptive_route_selection": false
+}

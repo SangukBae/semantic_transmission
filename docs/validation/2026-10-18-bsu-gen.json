@@ -1,0 +1,90 @@
+{
+  "date": "2026-10-18",
+  "model": "BSU-Gen",
+  "branch": "BSU-Gen",
+  "parent_branch": "BSU-Predict",
+  "parent_commit": "e505deea224d28faab70aa71d9129b455b89d455",
+  "status": "IMPLEMENTED_TARGETED_TESTS_AND_LOCAL_PREFLIGHT_PASSED_GPU_GENERATION_NOT_RUN",
+  "profile": "configs/bsu_gen.json",
+  "route": "generative_only",
+  "entrypoints": {
+    "default": "scripts/run_bsu.sh",
+    "generative": "scripts/run_bsu_gen.sh",
+    "predictive": "scripts/run_bsu_predict.sh",
+    "historical_hybrid": "scripts/run_bsu_hybrid.sh"
+  },
+  "implementation": {
+    "full_source_video": true,
+    "prepared_source_supported": true,
+    "historical_experiment_required": false,
+    "generator": "Open-Sora v1.2 / STDiT3-XL/2",
+    "receiver_mode": "combined_context",
+    "predictive_fallback": false,
+    "adaptive_route_selection": false,
+    "hash_verified_resume": true
+  },
+  "validation": {
+    "targeted_pytest": {
+      "passed": 137,
+      "failed": 0,
+      "seconds": 3.63,
+      "files": [
+        "test_bsu_gen.py",
+        "test_bsu_adopted.py",
+        "test_bsu_default.py",
+        "test_bsu_receiver.py",
+        "test_bsu_webvid.py",
+        "test_bsu_kinetics_base.py",
+        "test_bsu_predict.py",
+        "test_bsu_sequence_refinement.py",
+        "test_qwen35_pairs_video.py",
+        "test_qwen35_semantic_selection.py"
+      ],
+      "model_and_quality_test_doubles": true,
+      "real_normalization_refinement_ffmpeg_and_ledger": true
+    },
+    "planning_smoke": {
+      "status": "PASSED",
+      "model": "BSU-Gen",
+      "route": "generative_only",
+      "frames": 240,
+      "source_duration_seconds": 10.0,
+      "code_files": 86,
+      "model_inference_started": false,
+      "historical_experiment_required": false
+    },
+    "channel_smoke": {
+      "status": "PASSED",
+      "backend": "sionna_ldpc5g_qam_awgn",
+      "bit_errors": 0,
+      "bits_per_symbol": 4,
+      "visual_complex_channel_uses": 32,
+      "digital_complex_channel_uses": 2304,
+      "total_complex_channel_uses": 2336
+    },
+    "channel_smoke_scope": "Synthetic metadata and 32 visual complex symbols; real Sionna LDPC/16QAM/AWGN and frame-seeded visual AWGN; not NTSCC encoding or generated video.",
+    "shell_syntax": "PASSED",
+    "public_documentation": {
+      "status": "PASSED",
+      "markdown_files": 8,
+      "local_links_and_anchors": 553
+    },
+    "git_diff_check": "PASSED"
+  },
+  "not_verified": [
+    "New BSU-Gen end-to-end GPU extraction, NTSCC encoding/decoding and Open-Sora generation",
+    "Matched-budget reconstruction quality or speed improvements",
+    "Independent Added/Missing/Distorted mitigation",
+    "60+ second generalization",
+    "Full Qwen/generator weight-hash re-audit during preflight"
+  ],
+  "code_sha256": {
+    "configs/bsu_gen.json": "dfee244cf46e1dd6b7b863d6aa7ffe5a2f5117ba898d4968c39b80df3fe9c321",
+    "src/semantic_transmission/bsu_gen.py": "4e065e75920476021b4a35482b8935312a91db5932aa98482a837f4a5a37a162",
+    "scripts/run_bsu.sh": "324ec50a1ac4da14129f48c02a319def6b75f5f27b9a9caf4c5630ad268270c2",
+    "scripts/run_bsu_gen.sh": "ae5d8153ce6364b06ace4579d6a5fd45cbe00d75f93ac9989b47754eb18d5d11",
+    "scripts/run_bsu_predict.sh": "02dd10eeeb8e699784ca210366ccbaeddf2df9b916f9a8762b7ff9f25eb3186a",
+    "tests/test_bsu_gen.py": "7a96b5b3695574fe1eefbb16fe6aafe40022399c2c534e01062ab2c095e96153",
+    "tests/test_bsu_adopted.py": "ac0ad25817296a4142623084deaa3cc7645f3ebd0a464cc4045854a4135c2063"
+  }
+}

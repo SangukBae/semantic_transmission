@@ -2,9 +2,49 @@
 
 [프로젝트](../README.md) · [데이터](DATA.md) · [구조](MODEL_ARCHITECTURE.md) · [결과](RESULTS.md)
 
-**2026-10-18 개발 기준:** `BSU-Predict` 브랜치의 `run_bsu.sh`·`run_bsu_predict.sh`는 예측 경로만 실행한다. 통합 전의 혼합 모델은 `run_bsu_hybrid.sh`, 이전 생성 배치는 `run_bsu_webvid.sh`·`run_bsu_kinetics.sh`로 보존한다.
+**2026-10-18 개발 기준:** 이 `BSU-Gen` 브랜치에서 `run_bsu.sh`·`run_bsu_gen.sh`는 생성 경로만 실행한다. 예측 전용은 `run_bsu_predict.sh`, 과거 혼합은 `run_bsu_hybrid.sh`, 과거 생성 배치는 `run_bsu_webvid.sh`·`run_bsu_kinetics.sh`로 보존한다. `BSU-Predict` 브랜치의 기본 명령은 변경하지 않았다.
 
 <a id="bsu-default"></a>
+<a id="bsu-gen"></a>
+## BSU-Gen 실행
+
+```bash
+# 설치·GPU 없이 설정 확인
+bash scripts/run_bsu_gen.sh profile
+
+# 읽기 전용 입력·환경·모델 설치 검사; 출력 생성이나 모델 추론 없음
+bash scripts/run_bsu_gen.sh check \
+  --video /absolute/path/input.mp4 --output outputs/bsu_gen_my_video
+
+# 전체 영상 → Qwen 선택·캡션 → NTSCC/AWGN → Open-Sora → 수신 보정·정량 평가
+bash scripts/run_bsu_gen.sh run \
+  --video /absolute/path/input.mp4 --output outputs/bsu_gen_my_video
+
+# 기존 전체 길이 정규화 입력을 사용하는 대안 (--video와 동시에 사용하지 않음)
+bash scripts/run_bsu_gen.sh check \
+  --prepared /absolute/path/source_prepared.json --output outputs/bsu_gen_prepared_video
+
+bash scripts/run_bsu_gen.sh status --output outputs/bsu_gen_my_video
+```
+
+`run_bsu.sh`도 동일한 생성 전용 명령이다. 원본 전체를 576×320·24FPS로 처리하며 길이 상한이나 반복 연결을 넣지 않는다. `--prepared`의 시작 시점은 0, `duration_limit`은 null이어야 한다. 다른 입력·코드·모델 설치 상태로 기존 출력에 이어 쓰는 것은 거부한다. 과거 생성 실험의 `protocol.json`이나 코호트 manifest를 요구하지 않고 설치된 자산과 공개 설정에서 새 실행 계약을 만든다.
+
+기본 환경은 `.local/settings.json`의 `python`·`channel_python`, `.local/qwen35_env/bin/python`이다. 주 실행기 Python만 `BSU_GEN_PYTHON`으로 지정할 수 있으며 하위 모델 실행 환경은 위 설정을 따른다. Qwen 설치 manifest(`outputs/qwen35_setup/model_manifest.json`), 고정 rank-32 캡션 LoRA·PEFT, `.local/model_paths.json`의 STDiT·VAE·T5·2D VAE, Open-Sora·NTSCC 외부 코드, NTSCC·UniMatch 가중치가 필요하다. [공통 준비](#public-start) · [외부 출처](../THIRD_PARTY_NOTICES.md)
+
+`check`의 `READY_FILES_VERIFIED`는 입력 해시·코드·어댑터/코덱 파일·실행 경로·모델 파일 크기/수정 시각 검사다. Qwen 및 생성기 전체 가중치 해시 재검사, 패키지 import, CUDA 실행, 전체 송수신·복원 성공은 의미하지 않는다. 설치나 대용량 모델 다운로드를 자동으로 시작하지 않는다.
+
+| 출력 | 내용 |
+|---|---|
+| `gen_protocol.json`, `runtime_template.json`, `protocol.json` | 고정 모델 설정·입력·코드·설치 자산·단일 영상 실행 계약 |
+| `source/` | `--video` 사용 시 전체 정규화 영상·PNG·원본 대응 |
+| `benchmark/snr_10/video/base/` | Qwen 선택·캡션·NTSCC 송수신·Open-Sora 출력과 단계별 검증 |
+| `benchmark/snr_10/video/sender`, `received` | 유료 궤적 송신·채널 결과 |
+| `benchmark/snr_10/video/refined/` | 보정 PNG·`reconstruction.mp4`·최종 정량 결과 |
+| `status.json`, `RESULT.json` | 실패/중단/완료 상태, 최종 영상 해시, 총 채널 사용량 |
+
+고정 터미널 화면에 현재 단계·처리량·경과 시간·로그·실시간 GPU/VRAM을 표시한다. 전체 남은 시간을 근거 없이 추정하지 않는다. 같은 명령으로 완료 파일을 해시 검증해 재개하며 중단된 단계의 부분 파일은 보관 후 재실행한다. `COMPLETE_BSU_GEN`은 복원·등록 화질 평가 완료이며 독립 의미 오류 검수는 `PENDING`이다. Qwen·Open-Sora·채널 오류 시 DCVC/RIFE로 전환하지 않는다.
+
+<a id="bsu-predict"></a>
 ## BSU-Predict 실행
 
 영상 파일 또는 `0.png, 1.png, ...`로 연속된 정규화 RGB PNG를 입력으로 받는다. Qwen 의미 추출·NTSCC 전송·궤적·Open-Sora 산출물은 필요하지 않다. QP32·기본 간격2·AWGN 10dB·seed42의 예측 전용 프로필은 [`configs/bsu_predict.json`](../configs/bsu_predict.json)이다.
@@ -44,7 +84,7 @@ bash scripts/run_bsu_predict.sh status --output outputs/bsu_predict_my_video
 | `reconstruction/reconstruction.mp4`, `reconstruction/receiver.json` | RIFE 복원 및 최종 MP4 시간표 검사 |
 | `stages/`, `status.json`, `RESULT.json` | 완료 단계 해시·진행·실패/중단·최종 결과 |
 
-`run_bsu.sh`도 위와 동일하게 실행한다. 고정 터미널 진행 화면에 완료 단계 수·경과 시간·GPU 사용률·사용/전체 VRAM·로그를 표시한다. 단계별 작업량이 다른 동안 전체 남은 시간을 추정하지 않는다. 같은 명령으로 재개하면 완료 단계와 의존 산출물을 해시 검증하며, 변경된 입력·코드·모델은 기존 출력 재사용을 거부한다. 중단된 단계의 부분 파일은 보관 후 다시 실행한다. 화질·행동 평가와 새 학습은 이 복원 명령에 포함하지 않는다.
+이 브랜치에서 예측 모델은 `run_bsu_predict.sh`로 명시해 실행한다. 고정 터미널 진행 화면에 완료 단계 수·경과 시간·GPU 사용률·사용/전체 VRAM·로그를 표시한다. 단계별 작업량이 다른 동안 전체 남은 시간을 추정하지 않는다. 같은 명령으로 재개하면 완료 단계와 의존 산출물을 해시 검증하며, 변경된 입력·코드·모델은 기존 출력 재사용을 거부한다. 중단된 단계의 부분 파일은 보관 후 다시 실행한다. 화질·행동 평가와 새 학습은 이 복원 명령에 포함하지 않는다.
 
 <a id="bsu-hybrid"></a>
 ## 이전 혼합 BSU 실행 — 2026-10-16 프로필

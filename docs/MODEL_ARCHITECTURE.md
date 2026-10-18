@@ -1,9 +1,20 @@
 # 모델 구조
 
-<a id="bsu-predictive-default"></a>
-## BSU-Predict — 예측 경로 전용 메인 개발 모델
+<a id="bsu-gen"></a>
+## BSU-Gen — 생성 경로 전용 모델
 
-**2026-10-18 채택.** 모델·브랜치 이름은 `BSU-Predict`이며 통합 전 `fd37e28`에서 출발한다. [`configs/bsu_predict.json`](../configs/bsu_predict.json)과 [`bsu_predict.py`](../src/semantic_transmission/bsu_predict.py)가 현재 실행 경로를 정의한다. QP32·기본 간격 2·AWGN 10dB·seed42를 고정하고, 적응형 QP/간격 탐색이나 생성 경로 전환은 수행하지 않는다. [실행](RUN_GUIDE.md#bsu-default)
+**2026-10-18 구현.** 이 브랜치의 기본 모델과 이름은 `BSU-Gen`이다. [`bsu_gen.json`](../configs/bsu_gen.json)과 [`bsu_gen.py`](../src/semantic_transmission/bsu_gen.py)가 실행 계약을 정의한다. 입력은 전체 영상 또는 기존 전체 길이의 `source_prepared.json`이며 576×320·24FPS를 사용한다. [실행](RUN_GUIDE.md#bsu-gen) · [검증 범위](RESULTS.md#bsu-gen)
+
+Qwen3.5-9B의 의미 변화 순차 선택(후보 간격 4, 끝점 포함, 고정 키 예산 없음)과 rank-32 캡션 LoRA·원본 재검토를 사용한다. NTSCC로 키를 부호화하고 캡션·UniMatch 움직임·시점 메타데이터를 LDPC(6144,9216)·16QAM으로 보낸다. AWGN 10dB·채널 seed42, Open-Sora v1.2/STDiT3-XL/2·생성 seed2025·30 steps다.
+
+수신 생성기는 기존 시간 조건 충돌·짧은 구간·T5 캐시·tail17·메모리 보정 정책을 유지한다. 생성 후 `combined_context`의 궤적 합성·시간 보정·수신 키 경계 보존을 적용한다. 궤적 예산은 같은 영상의 기본 전송량 대비 최대 5%이며 유효 패킷이 없으면 궤적 합성만 생략한다. DCVC-RT/RIFE로 전환하지 않는다. 수신 키의 픽셀 보존은 최종 MP4 이전 PNG 기준이다.
+
+`bsu_webvid.run_one`의 생성·전송·평가 연산을 재사용하되 새 작업은 독립 프로토콜·코드 해시·출력 아래 실행한다. Qwen 출력 길이 수정은 기존 `bsu_kinetics_base`의 제한적 형식 재시도를 사용한다. 기존 생성 결과를 새 추론 결과로 재명명하지 않는다. LTX 교체·추가 학습·새 오류 검출기는 이번 버전에 포함하지 않는다.
+
+<a id="bsu-predictive-default"></a>
+## BSU-Predict — 별도 예측 전용 모델
+
+**2026-10-18 채택.** 모델·브랜치 이름은 `BSU-Predict`이며 통합 전 `fd37e28`에서 출발한다. [`configs/bsu_predict.json`](../configs/bsu_predict.json)과 [`bsu_predict.py`](../src/semantic_transmission/bsu_predict.py)가 해당 모델의 실행 경로를 정의한다. QP32·기본 간격 2·AWGN 10dB·seed42를 고정하고, 적응형 QP/간격 탐색이나 생성 경로 전환은 수행하지 않는다. 이 브랜치에서는 `run_bsu_predict.sh`로 실행한다. [실행](RUN_GUIDE.md#bsu-predict)
 
 송신부는 영상 또는 `0.png`부터 연속된 정규화 원본을 읽는다. 기존 `dense_temporal_receiver.select_indices`의 격자·끝점·급격한 화면 변화 양쪽 앵커 규칙과 기존 `bsu_dcvc_keys.Codec`에서 추론 연산을 분리한 [`predictive_codec.Codec`](../src/semantic_transmission/predictive_codec.py)의 실제 DCVC-RT 비트스트림을 사용한다. 코덱 연산과 고정 가중치는 통합 전과 동일하며 실험·품질 평가용 import 의존성만 분리했다. 최초 앵커는 I 프레임, 이후 앵커는 예측 참조를 사용하는 P 프레임으로 부호화한다. 원래 의미 키 최소 5개 조건과 비용 라우터를 제거했으며 2프레임 영상도 같은 경로로 처리한다.
 
@@ -30,13 +41,16 @@
 <a id="bsu-lgvsc-blocks"></a>
 ## BSU와 LGVSC 내부 블록다이어그램
 
-현재 BSU-Predict와 과거 LGVSC 비교 경로의 구조다.
+BSU-Gen, BSU-Predict, 과거 LGVSC 비교 경로의 구조다.
 
 ```mermaid
 flowchart LR
     V[정규화 원본] --> C[BSU-Predict · DCVC-RT · QP32 · 간격2]
     C --> P[LDPC·16QAM·AWGN → 독립 DCVC 복호화]
     P --> I[RIFE 보간 → BSU-Predict 출력]
+    V --> G[BSU-Gen · Qwen 의미 키·캡션]
+    G --> N[NTSCC·AWGN·Open-Sora v1.2]
+    N --> R[유료 궤적·시간·수신 키 보정 → BSU-Gen 출력]
     V --> L[LGVSC · InternVL SKEM·PLLaVA]
     L --> T[NTSCC·디지털 AWGN → Open-Sora → LGVSC 출력]
 ```

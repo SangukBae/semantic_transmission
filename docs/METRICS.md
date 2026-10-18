@@ -1,8 +1,14 @@
 # 평가 정의와 절차
 
+## BSU-Gen 평가 범위 — 2026-10-18
+
+생성 전용 명령은 기존 생성부·수신 보정의 전체 프레임 화질 평가를 실행한다. PNG와 최종 MP4의 PSNR·SSIM·LPIPS·CLIP·DISTS 및 최종 영상 시간 지표를 분리 기록한다. 실행 완료 상태 `COMPLETE_BSU_GEN`은 복원·등록 정량 평가 완료이며 독립 Added/Missing/Distorted 평가는 `PENDING`으로 남는다. [실행](RUN_GUIDE.md#bsu-gen)
+
+실제 총전송량은 NTSCC 시각 복소 심벌 + 기본 메타데이터의 LDPC/16QAM 심벌 + 궤적 패킷의 LDPC/16QAM 심벌이다. 궤적은 해당 영상 기본 BSU 전송량의 최대 5%이며 LGVSC 예산을 기준으로 하지 않는다. 보정 자체의 추가 전송은 없고 모델·공통 코드·물리 링크 추가 헤더는 기존 회계 범위를 따른다. 새 실행기의 GPU 성능 결과와 기존 생성·혼합·예측 모델의 결과를 합치지 않는다.
+
 ## BSU-Predict 평가 범위 — 2026-10-18
 
-현재 예측 전용 모델의 전송량은 전체 유료 패킷에 대해 LDPC(6144,9216)·16QAM의 복소 심벌 수로 계산하고 단일 AWGN 10dB·seed42 실제 채널 결과와 대조한다. 최종 MP4 품질·행동 평가는 별도 수행해야 한다. 아래 10월 16일 지표와 허용 기준은 당시 혼합 모델 비교의 기록이다. [현재 실행](RUN_GUIDE.md#bsu-default) · [검증 범위](RESULTS.md#bsu-predict)
+BSU-Predict의 전송량은 전체 유료 패킷에 대해 LDPC(6144,9216)·16QAM의 복소 심벌 수로 계산하고 단일 AWGN 10dB·seed42 실제 채널 결과와 대조한다. 최종 MP4 품질·행동 평가는 별도 수행해야 한다. 아래 10월 16일 지표와 허용 기준은 당시 혼합 모델 비교의 기록이다. [예측 전용 실행](RUN_GUIDE.md#bsu-predict) · [검증 범위](RESULTS.md#bsu-predict)
 
 <a id="bsu-predictive-metrics"></a>
 ## 기본 예측 압축 BSU의 전송량·품질 평가
