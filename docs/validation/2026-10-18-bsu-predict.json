@@ -1,0 +1,85 @@
+{
+  "date": "2026-10-18",
+  "model": "BSU-Predict",
+  "branch": "BSU-Predict",
+  "base_commit": "fd37e28a37ac65d198f7f905a3063d07e62ac3f4",
+  "status": "IMPLEMENTED_CPU_CONTRACTS_AND_REAL_CHANNEL_VERIFIED_GPU_INFERENCE_PENDING",
+  "architecture": {
+    "route": "predictive_only",
+    "codec": "DCVC-RT",
+    "interpolation": "Practical-RIFE4.25",
+    "qp": 32,
+    "temporal_stride": 2,
+    "snr_db": 10,
+    "channel_seed": 42,
+    "generative_fallback": false,
+    "semantic_input_required": false,
+    "new_training_performed": false,
+    "packet_changes": "Only predictive bitstream, timestamps, video dimensions/FPS and model identity are paid; unused captions/semantic metadata/trajectory are omitted."
+  },
+  "validation": {
+    "full_suite": {
+      "passed": 1512,
+      "skipped": 1,
+      "warnings": 1,
+      "seconds": 90.85,
+      "note": "Full regression passed; final dependency isolation and progress changes followed by targeted checks."
+    },
+    "initial_targeted": {
+      "passed": 21
+    },
+    "codec_operations": "AST-equivalent to pre-unification bsu_dcvc_keys.Codec, excluding lazy NumPy import in decode; no codec math or pins changed.",
+    "cpu_model_double_integration": [
+      "2-frame predictive input accepted",
+      "complete 5-frame send/channel/decode/interpolation/real MP4 encoding",
+      "real 7-frame raw-video normalization",
+      "source paths absent from receiver jobs",
+      "no hybrid router dispatch",
+      "failed channel never starts decoder",
+      "verified stage reuse",
+      "interrupted-stage recovery",
+      "modified artifact and input rejection",
+      "invalid timestamp/model/dimension/CRC rejection"
+    ],
+    "real_channel": {
+      "payload": "synthetic entropy payload with valid BSU-Predict/DCVC metadata; not a real neural bitstream",
+      "packet_sha256": "6d1f99197bf760dab405c665431576afc9c9fcaece60ed6d32315ab4098f89f9",
+      "received_sha256": "6d1f99197bf760dab405c665431576afc9c9fcaece60ed6d32315ab4098f89f9",
+      "report": {
+        "packet_bytes": 784,
+        "information_bits": 6272,
+        "ldpc_k": 6144,
+        "ldpc_n": 9216,
+        "bits_per_symbol": 4,
+        "blocks": 2,
+        "padding_bits": 6016,
+        "coded_bits": 18432,
+        "complex_channel_uses": 4608,
+        "snr_db": 10,
+        "snr_definition": "Es/N0 per complex symbol",
+        "seed": 42,
+        "bit_errors": 0,
+        "backend": "sionna_ldpc5g_qam_awgn"
+      },
+      "gpu_codec_inference": false,
+      "environment_note": "Existing TensorFlow/protobuf initialization warnings were emitted; process exited 0 and output was byte-identical."
+    },
+    "final_targeted": {
+      "passed": 59,
+      "seconds": 5.53,
+      "scope": "new pipeline, historical BSU entrypoint, temporal/dense transport, DCVC validation and terminal progress"
+    },
+    "public_docs": {
+      "markdown_files": 8,
+      "local_links_and_anchors": 540
+    },
+    "syntax_and_diff_checks": "passed"
+  },
+  "limits": [
+    "Actual DCVC/RIFE GPU encode/decode has not been run for this new model.",
+    "Dedicated .local/dcvc_rt_env and .local/bsu_codec_eval_env and .local/vendor/DCVC-RT are absent on this host.",
+    "The 2026-10-16 cohort mixes 8 predictive and 6 generative outputs and is not BSU-Predict performance.",
+    "MP4 quality and action evaluation must be rerun under matched conditions.",
+    "check verifies input, executable paths and file hashes, not runtime imports or CUDA inference."
+  ]
+}

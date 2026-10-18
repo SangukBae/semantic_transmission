@@ -2,30 +2,74 @@
 
 [프로젝트](../README.md) · [데이터](DATA.md) · [구조](MODEL_ARCHITECTURE.md) · [결과](RESULTS.md)
 
-**2026-10-16 기본 채택:** `run_bsu.sh`는 DCVC-RT + Practical-RIFE4.25와 `combined_context` 대체 경로를 실행한다. QP32·2프레임 간격·최소 의미 키 5개를 고정한다. 기존 `run_bsu_webvid.sh`·`run_bsu_kinetics.sh`와 모듈명 `bsu_default.py`는 이전 생성 배치의 재현·재개용이다. 적응형 간격·QP 탐색은 기본에 포함하지 않는다.
+**2026-10-18 개발 기준:** `BSU-Predict` 브랜치의 `run_bsu.sh`·`run_bsu_predict.sh`는 예측 경로만 실행한다. 통합 전의 혼합 모델은 `run_bsu_hybrid.sh`, 이전 생성 배치는 `run_bsu_webvid.sh`·`run_bsu_kinetics.sh`로 보존한다.
 
 <a id="bsu-default"></a>
-## 기본 BSU 실행
+## BSU-Predict 실행
 
-현재 명령은 **기존 Qwen 의미 추출·전송 산출물과 정규화 원본 PNG**를 받아 새 송수신·복원을 실행한다. 새 영상 파일에서 의미 추출까지 한 번에 자동 수행하는 명령은 아니다. 원본 PNG는 송신부만 읽으며 수신부는 선택된 패킷을 독립 복호화한다.
+영상 파일 또는 `0.png, 1.png, ...`로 연속된 정규화 RGB PNG를 입력으로 받는다. Qwen 의미 추출·NTSCC 전송·궤적·Open-Sora 산출물은 필요하지 않다. QP32·기본 간격2·AWGN 10dB·seed42의 예측 전용 프로필은 [`configs/bsu_predict.json`](../configs/bsu_predict.json)이다.
+
+```bash
+# 설치·GPU 없이 모델 설정 확인
+bash scripts/run_bsu_predict.sh profile
+
+# 전체 영상의 입력·런타임 경로·고정 모델 파일 검사; 추론하지 않음
+bash scripts/run_bsu_predict.sh check \
+  --video /absolute/path/input.mp4 --output outputs/bsu_predict_my_video
+
+# 전체 영상 정규화 → DCVC 송신 → 실제 채널 → 독립 복호화 → RIFE → MP4
+bash scripts/run_bsu_predict.sh run \
+  --video /absolute/path/input.mp4 --output outputs/bsu_predict_my_video
+
+# 기존 정규화 프레임을 쓸 때 FPS를 실제 원본 시간표에 맞춘다
+bash scripts/run_bsu_predict.sh run \
+  --source-frames /absolute/path/source_frames --fps 24 \
+  --output outputs/bsu_predict_my_frames
+
+bash scripts/run_bsu_predict.sh status --output outputs/bsu_predict_my_video
+```
+
+`--video`는 전체 길이를 기본 576×320·24fps로 정규화한다. `--width`·`--height`·`--fps`로 이를 명시할 수 있다. `--source-frames`는 기존 크기를 유지하고 `--fps`의 시간표를 사용한다. 크기는 양의 짝수, 프레임은 최소 2장이어야 한다. 오디오 전송은 포함하지 않는다. 입력 폴더와 출력은 서로 겹치지 않아야 한다.
+
+필요한 자산은 아래 이전 혼합 모델 표의 **DCVC-RT·RIFE·복원 Python·채널 Python·FFmpeg/ffprobe**다. BSU-Predict에는 Qwen·NTSCC·Open-Sora·T5·생성 어댑터가 필요하지 않다. 기본 Python 경로는 `.local/dcvc_rt_env/bin/python`, `.local/bsu_codec_eval_env/bin/python`, `.local/settings.json`의 `channel_python`이다. 다른 실행 환경은 `--codec-python`·`--receiver-python`·`--channel-python`으로 지정한다. 셸 실행기 자체의 Python은 `BSU_PREDICT_PYTHON=/path/to/python`으로 지정할 수 있다. DCVC 소스는 `.local/vendor/DCVC-RT`에 준비한다.
+
+`check`의 `READY_FILES_VERIFIED`는 입력·파일·해시 검사이며 패키지 import·CUDA 커널·실제 송수신 성공은 검증하지 않는다. 새 장비용 DCVC/RIFE 자동 설치기는 제공하지 않는다. [외부 출처와 고정 버전](../THIRD_PARTY_NOTICES.md#bsu-predictive-dependencies)
+
+| 출력 | 내용 |
+|---|---|
+| `protocol.json`, `source.json` | 설정·원본·코드·모델·정규화·재개 계약 |
+| `sender/packet.bin`, `sender/sender.json` | 예측 스트림·유료 시점·예상 실제 채널 사용량 |
+| `received/packet.bin`, `received/channel.json` | 단일 seed42 채널 전달·실측 심벌·비트 오류 |
+| `decoded/`, `decoded.json` | 받은 패킷만으로 독립 복호화한 앵커 |
+| `reconstruction/reconstruction.mp4`, `reconstruction/receiver.json` | RIFE 복원 및 최종 MP4 시간표 검사 |
+| `stages/`, `status.json`, `RESULT.json` | 완료 단계 해시·진행·실패/중단·최종 결과 |
+
+`run_bsu.sh`도 위와 동일하게 실행한다. 고정 터미널 진행 화면에 완료 단계 수·경과 시간·GPU 사용률·사용/전체 VRAM·로그를 표시한다. 단계별 작업량이 다른 동안 전체 남은 시간을 추정하지 않는다. 같은 명령으로 재개하면 완료 단계와 의존 산출물을 해시 검증하며, 변경된 입력·코드·모델은 기존 출력 재사용을 거부한다. 중단된 단계의 부분 파일은 보관 후 다시 실행한다. 화질·행동 평가와 새 학습은 이 복원 명령에 포함하지 않는다.
+
+<a id="bsu-hybrid"></a>
+## 이전 혼합 BSU 실행 — 2026-10-16 프로필
+
+이 절은 `configs/bsu_default.json`·`bsu.py`를 사용하는 과거 모델의 재현용이다. 의미 키 ≥5개이고 예측 경로 비용이 더 작을 때 예측 경로를 택하고 나머지는 `combined_context`로 생성한다.
+
+이전 혼합 명령은 **기존 Qwen 의미 추출·전송 산출물과 정규화 원본 PNG**를 받아 새 송수신·복원을 실행한다. 새 영상 파일에서 의미 추출까지 한 번에 자동 수행하는 명령은 아니다. 원본 PNG는 송신부만 읽으며 수신부는 선택된 패킷을 독립 복호화한다.
 
 ```bash
 # 설치·GPU 없이 채택 설정 확인
-bash scripts/run_bsu.sh profile
+bash scripts/run_bsu_hybrid.sh profile
 
 # 입력·전송 조건·고정 가중치·실행 환경 검사 (추론하지 않음)
-bash scripts/run_bsu.sh check \
+bash scripts/run_bsu_hybrid.sh check \
   --semantic-run /absolute/path/event_pairs/run \
   --source-frames /absolute/path/source_frames \
   --output outputs/bsu_default_my_video
 
 # 실제 송신·채널·독립 수신·복원; 같은 명령으로 완료 단계 검증 후 재개
-bash scripts/run_bsu.sh \
+bash scripts/run_bsu_hybrid.sh \
   --semantic-run /absolute/path/event_pairs/run \
   --source-frames /absolute/path/source_frames \
   --output outputs/bsu_default_my_video
 
-bash scripts/run_bsu.sh status --output outputs/bsu_default_my_video
+bash scripts/run_bsu_hybrid.sh status --output outputs/bsu_default_my_video
 ```
 
 `semantic-run`에는 `run_config.json`, `transmitter/metadata.bin`, `transmitter/visual.c64`가 필요하다. 원본은 같은 영상·정규화 시간표의 `0.png`, `1.png`, …여야 한다. 현재 구현은 **10dB·프레임 시점별 고정 AWGN** 입력을 요구한다. 궤적은 원래 배치의 `sender/trajectory.bin`을 찾으며 다른 배치 구조에서는 `--trajectory PATH`로 명시한다. 입력 폴더 안이나 기존 산출물 위에 출력을 만들지 않는다. 다른 SNR을 이 설정으로 조용히 덮어쓰지 않는다.
@@ -50,7 +94,7 @@ bash scripts/run_bsu.sh status --output outputs/bsu_default_my_video
 | `delivery/refined/reconstruction.mp4` | 최종 전달 영상 |
 | `RESULT.json` | 완료 상태·선택 경로·전송량·영상 SHA256 |
 
-이 기본 명령은 복원까지 수행하며, 원본 대비 화질·TimeSformer 평가를 자동 실행하지 않는다. 고정 진행 화면·GPU/VRAM·상세 로그는 `.local/terminal_logs/bsu/`에 표시한다. 기존 완료 단계를 해시로 검증하고 입력·코드·모델이 달라지면 재사용을 거부한다. 기존 실험 결과를 새 기본 모델 결과로 재명명하지 않는다.
+이 이전 명령은 복원까지 수행하며, 원본 대비 화질·TimeSformer 평가를 자동 실행하지 않는다. 고정 진행 화면·GPU/VRAM·상세 로그는 `.local/terminal_logs/bsu/`에 표시한다. 기존 완료 단계를 해시로 검증하고 입력·코드·모델이 달라지면 재사용을 거부한다. 기존 실험 결과를 다른 모델 결과로 재명명하지 않는다.
 
 **연구 옵션:** `run_bsu_adaptive_dense.sh`는 간격·QP 등을 명시해 바꾸는 기존 실험용 인터페이스다. 이름의 `adaptive_dense`는 비용에 따른 두 경로 선택이며 구간별 간격+QP 탐색과 다르다. 그 탐색은 별도 `experiment_bsu_adaptive_rate.sh`에만 남긴다. [미채택 근거](RESULTS.md#bsu-adaptive-rate)
 
@@ -135,7 +179,7 @@ GPU 메모리 : GPU 0 13.20/15.99 GiB (82.6%)
 <a id="bsu-kinetics-benchmark"></a>
 ## 이전 combined_context BSU의 Kinetics-400 배치 재현·행동 평가
 
-아래 명령은 **이전 `combined_context` 모델**의 준비부터 최종 평가까지 수행한다. 현재 기본 하이브리드는 [기본 BSU 실행](#bsu-default)을 사용한다. 중단 후에도 같은 명령을 사용한다.
+아래 명령은 **이전 `combined_context` 모델**의 준비부터 최종 평가까지 수행한다. 현재 예측 전용 모델은 [기본 BSU 실행](#bsu-default)을 사용한다. 중단 후에도 같은 명령을 사용한다.
 
 ```bash
 bash scripts/run_bsu_kinetics.sh
@@ -179,7 +223,7 @@ bash scripts/run_bsu_kinetics.sh prepare
 bash scripts/run_bsu_kinetics.sh status
 ```
 
-**구현 검증(2026-10-13):** 저자 원본 14편, 새로 정규화한 **3,333프레임·138.875초**, 공식 가중치 엄격 로딩, 원본 1편의 실제 CUDA 3크롭 추론을 확인했다. 이 준비본은 앞서 시간 추정에 사용한 기존 `processed/`의 3,346프레임과 별개이며 원본 시작부터 EOF까지 사용한다. **당시에는 14편 복원 전이었다. 이후 이전 BSU·LGVSC·새 기본 BSU의 비교가 완료됐으며 [현재 결과](RESULTS.md#bsu-predictive-default)에 별도로 기록한다.** 테스트와 재개 검증은 [검증 기록](validation/2026-10-13-bsu-kinetics-command.json)에 남긴다. 논문과 맞춘 범위는 원본 목록·10dB·행동 평가 설정이다. BSU의 선택·복원·전송 정책 및 원본 정규화를 포함한 논문 전체 수치의 정확한 재현이나 신규 LGVSC/코덱 대조 실험으로 표시하지 않는다.
+**구현 검증(2026-10-13):** 저자 원본 14편, 새로 정규화한 **3,333프레임·138.875초**, 공식 가중치 엄격 로딩, 원본 1편의 실제 CUDA 3크롭 추론을 확인했다. 이 준비본은 앞서 시간 추정에 사용한 기존 `processed/`의 3,346프레임과 별개이며 원본 시작부터 EOF까지 사용한다. **당시에는 14편 복원 전이었다. 이후 이전 BSU·LGVSC·당시 혼합 BSU의 비교가 완료됐으며 [당시 결과](RESULTS.md#bsu-predictive-default)에 별도로 기록한다.** 테스트와 재개 검증은 [검증 기록](validation/2026-10-13-bsu-kinetics-command.json)에 남긴다. 논문과 맞춘 범위는 원본 목록·10dB·행동 평가 설정이다. BSU의 선택·복원·전송 정책 및 원본 정규화를 포함한 논문 전체 수치의 정확한 재현이나 신규 LGVSC/코덱 대조 실험으로 표시하지 않는다.
 
 <a id="bsu-webvid-benchmark"></a>
 ## 이전 combined_context BSU의 WebVid 전체 영상 복원·평가

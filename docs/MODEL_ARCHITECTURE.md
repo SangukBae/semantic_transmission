@@ -1,22 +1,27 @@
 # 모델 구조
 
 <a id="bsu-predictive-default"></a>
-## 기본 BSU — DCVC-RT + RIFE와 생성 경로의 비용 선택
+## BSU-Predict — 예측 경로 전용 메인 개발 모델
 
-**2026-10-16 채택.** [`configs/bsu_default.json`](../configs/bsu_default.json)과 [`bsu.py`](../src/semantic_transmission/bsu.py)가 현재 기본을 정의한다. QP 32·시간 간격 2·원래 의미 키 최소 5개·의미 키 강제 앵커 추가 없음·AWGN 10dB이며, 적응형 간격/QP 탐색은 꺼져 있다. [실행](RUN_GUIDE.md#bsu-default) · [14편 비교](RESULTS.md#bsu-predictive-default)
+**2026-10-18 채택.** 모델·브랜치 이름은 `BSU-Predict`이며 통합 전 `fd37e28`에서 출발한다. [`configs/bsu_predict.json`](../configs/bsu_predict.json)과 [`bsu_predict.py`](../src/semantic_transmission/bsu_predict.py)가 현재 실행 경로를 정의한다. QP32·기본 간격 2·AWGN 10dB·seed42를 고정하고, 적응형 QP/간격 탐색이나 생성 경로 전환은 수행하지 않는다. [실행](RUN_GUIDE.md#bsu-default)
 
-송신부는 Qwen 의미 선택·캡션 결과와 정규화 원본을 사용한다. DCVC-RT는 최초 참조 영상 하나와 이후 예측 특성을 순차 부호화하고, 기본 2프레임 격자에 마지막 프레임과 급격한 화면 변화 양쪽을 추가한다. 이는 원래 의미 키를 2프레임마다 선택한다는 뜻이 아니다. 캡션·의미 구간·전송 시점·모델 식별자·경로 구분·헤더·CRC·LDPC 패딩/패리티를 모두 실제 비용에 포함한다.
+송신부는 영상 또는 `0.png`부터 연속된 정규화 원본을 읽는다. 기존 `dense_temporal_receiver.select_indices`의 격자·끝점·급격한 화면 변화 양쪽 앵커 규칙과 기존 `bsu_dcvc_keys.Codec`에서 추론 연산을 분리한 [`predictive_codec.Codec`](../src/semantic_transmission/predictive_codec.py)의 실제 DCVC-RT 비트스트림을 사용한다. 코덱 연산과 고정 가중치는 통합 전과 동일하며 실험·품질 평가용 import 의존성만 분리했다. 최초 앵커는 I 프레임, 이후 앵커는 예측 참조를 사용하는 P 프레임으로 부호화한다. 원래 의미 키 최소 5개 조건과 비용 라우터를 제거했으며 2프레임 영상도 같은 경로로 처리한다.
 
-[`bsu_dense_router.choose`](../src/semantic_transmission/bsu_dense_router.py)는 의미 키가 5개 이상이고 예측 경로의 총 비용이 더 작을 때만 그 경로를 택한다. 그 외에는 기존 NTSCC 키와 무손실로 묶은 메타데이터·궤적을 보내 `combined_context`로 복원한다. 화질·행동 라벨은 경로 선택에 사용하지 않는다. 키 5개 기준은 이번 개발 프로필의 선택이며 범용 품질 보장 조건은 아니다.
+새 패킷은 DCVC 비트스트림과 시간 인덱스, 프레임 수, 크기, FPS, 고정 DCVC/RIFE 모델 식별자를 포함한다. 예측 수신기에 사용되지 않는 캡션·의미 구간·궤적은 포함하지 않는다. 따라서 기존 혼합 BSU와 전송 패킷·비용이 같다고 주장하지 않는다. 전체 패킷·CRC·LDPC 패딩/패리티·16QAM의 실제 복소 심벌 수를 계상한다.
 
-수신부는 받은 패킷의 모드에 따라 독립 DCVC 복호화와 Practical-RIFE4.25 보간, 또는 NTSCC/Open-Sora와 기존 보정을 실행한다. 원본 PNG는 수신 작업에 전달하지 않는다. **DCVC/RIFE는 텍스트를 생성 조건으로 사용하지 않으며 Open-Sora를 호출하지 않는다.** 캡션은 패킷에 보존되고 생성 경로에서 사용된다. 기존 생성기의 단일 모듈 개선이 아닌 혼합 전송·복원 구조다. 모델은 공개 사전 학습 가중치이며 이번 채택을 위한 새 학습은 없다.
+수신부는 독립 프로세스에서 받은 패킷만으로 DCVC를 복호화하고 RIFE4.25로 사이 프레임을 보간한다. 원본 경로는 수신 작업에 전달하지 않는다. 수신 앵커의 보존은 MP4 인코딩 전 PNG에서 검사하며 최종 MP4는 프레임 수·FPS·크기를 검사한다. MP4의 손실 압축 후 픽셀 동일성을 주장하지 않는다. 패킷 오류는 실패로 종료하고 다른 모델로 전환하지 않는다.
 
-기본 실행은 기존 의미 추출 산출물을 입력으로 사용한다. 새 원본의 Qwen 추출부터 이 모델의 행동 평가까지 자동 연결한 새 데이터셋 배치 명령은 아직 없으며, 아래 기존 배치 명령은 재현용으로 유지한다.
+기존 공개 사전 학습 가중치를 그대로 사용하며 새 모델 학습은 수행하지 않았다. 예측 전용 전체 코호트의 품질·행동·전송량은 새 검증이 필요하다. [검증 범위](RESULTS.md#bsu-predict)
+
+<a id="bsu-hybrid-default"></a>
+## 이전 혼합 BSU — 2026-10-16 프로필 보존
+
+[`configs/bsu_default.json`](../configs/bsu_default.json)·[`bsu.py`](../src/semantic_transmission/bsu.py)는 당시 동결 프로필을 유지한다. 의미 키 ≥5개이고 예측 패킷 비용이 더 작을 때 DCVC/RIFE를 택하며, 그 외에는 NTSCC/Open-Sora와 `combined_context`를 실행한다. 현재는 [`run_bsu_hybrid.sh`](../scripts/run_bsu_hybrid.sh)로 명시적으로 실행한다. [당시 14편 결과](RESULTS.md#bsu-predictive-default)
 
 <a id="bsu-webvid-default"></a>
-## 이전 WebVid 배치와 기본 모델의 combined_context 경로
+## 이전 WebVid 배치의 combined_context 경로
 
-아래는 2026-10-13에 채택한 생성 경로다. 10월 16일 이후 전체 모델의 기본은 위 하이브리드이며, 기존 배치에서 [`bsu_default.py`](../src/semantic_transmission/bsu_default.py)가 정식 배치 명령의 실행기이며, [`bsu_receiver.py`](../src/semantic_transmission/bsu_receiver.py)의 **궤적·수신 키 합성 → 시간 보정 → 새 구간 연결**을 기본 `combined_context`로 사용한다. 새 연결은 검증한 [`receiver_key_context.py`](../src/semantic_transmission/receiver_key_context.py)의 연산을 그대로 호출한다. 수신 키와 주변 생성 프레임을 양방향 광류로 연결하며 8~24프레임 범위 규칙을 사용하고 짧은 구간·장면 전환에서는 줄인다. 후속 잔차·경로·게이트는 추가하지 않는다.
+아래는 2026-10-13에 채택한 생성 경로다. 10월 16일에는 혼합 모델, 10월 18일부터는 위 예측 전용 모델을 개발 기준으로 사용한다. 기존 배치에서 [`bsu_default.py`](../src/semantic_transmission/bsu_default.py)가 정식 배치 명령의 실행기이며, [`bsu_receiver.py`](../src/semantic_transmission/bsu_receiver.py)의 **궤적·수신 키 합성 → 시간 보정 → 새 구간 연결**을 기본 `combined_context`로 사용한다. 새 연결은 검증한 [`receiver_key_context.py`](../src/semantic_transmission/receiver_key_context.py)의 연산을 그대로 호출한다. 수신 키와 주변 생성 프레임을 양방향 광류로 연결하며 8~24프레임 범위 규칙을 사용하고 짧은 구간·장면 전환에서는 줄인다. 후속 잔차·경로·게이트는 추가하지 않는다.
 
 모든 인접 키 구간을 처리하며 공유 키 프레임은 한 번만 기록한다. 새 기본값은 **수신된 키의 RGB**와 전체 길이·FPS를 보존한다. 손실 MP4의 픽셀 일치를 뜻하지 않는다. `combined`는 이전 궤적·시간 보정만 수행하는 비교 옵션이며, `cadence`·`none`도 유지한다. [`bsu_webvid.py`](../src/semantic_transmission/bsu_webvid.py)와 [`bsu_sequence_refinement.py`](../src/semantic_transmission/bsu_sequence_refinement.py)는 과거 동결 코드로 보존한다. 새 실행기의 모드·연결 코드·파라미터는 새 프로토콜에 포함하고, 기존 프로토콜은 저장된 방식으로 재개한다.
 
@@ -25,27 +30,18 @@
 <a id="bsu-lgvsc-blocks"></a>
 ## BSU와 LGVSC 내부 블록다이어그램
 
-현재 기본 BSU와 로컬 LGVSC 비교의 전송·수신 구조다. 과거 FC-LGVSC·고정 개수 Qwen 결과는 해당 조건명으로 보존한다.
+현재 BSU-Predict와 과거 LGVSC 비교 경로의 구조다.
 
 ```mermaid
 flowchart LR
-    V[정규화 원본] --> Q[BSU · Qwen 의미 키·캡션]
-    V --> C[DCVC-RT · QP32 · 2프레임 간격]
-    Q --> N[NTSCC 키·궤적·메타데이터]
-    Q --> C
-    C --> R[키 개수·실제 총전송 비용으로 경로 선택]
-    N --> R
-    R -->|예측 경로| P[LDPC·16QAM·AWGN → DCVC 복호화]
-    P --> I[RIFE 보간 → BSU 출력]
-    R -->|생성 경로| B[NTSCC·디지털 AWGN → Open-Sora]
-    B --> K[combined_context → BSU 출력]
+    V[정규화 원본] --> C[BSU-Predict · DCVC-RT · QP32 · 간격2]
+    C --> P[LDPC·16QAM·AWGN → 독립 DCVC 복호화]
+    P --> I[RIFE 보간 → BSU-Predict 출력]
     V --> L[LGVSC · InternVL SKEM·PLLaVA]
     L --> T[NTSCC·디지털 AWGN → Open-Sora → LGVSC 출력]
 ```
 
-- **DSA:** 생성 경로에서 구간 길이·latent·참조·마스크를 구성하는 로직이며 별도 학습 신경망이 아니다. 예측 압축 경로에는 DSA가 없다.
-- **Qwen:** 의미 선택·시각 재검토는 본체, 캡션 초안만 기존 LoRA를 사용한다.
-- **범위:** 14편 중 예측 경로 8편·생성 경로 6편이었다. 경로별 수신 입력 일치·실제 채널·영상 해시 검증과 품질 평가를 구분해 기록한다. [검증 근거](validation/2026-10-16-bsu-predictive-final.json)
+BSU-Predict에는 DSA·Qwen·Open-Sora 실행 단계가 없다. 아래 절은 과거 생성 모델 및 구성 요소 실험의 기록이며 현재 예측 전용 모델의 실행 경로에 포함되지 않는다.
 
 <a id="bsu-adaptive-receiver"></a>
 ## BSU 수신 보정 후보 — 적응형 시간 간격과 가림 합성
@@ -86,7 +82,7 @@ flowchart LR
 
 기본 4프레임 후보 간격은 Qwen의 관찰 빈도다. 키 간격의 상한이나 하한이 아니다. 같은 내용이 유지되면 긴 구간이 가능하고, 의미 변화가 자주 확인되면 키가 늘어난다. 누적 변화는 직전 후보가 아닌 직전 채택 키와 비교한다. 직접 JSON 판정을 쓰므로 InternVL PSSS의 확률값·0.35 임계값을 재현한 것은 아니다. 표본 사이의 짧은 사건이나 Qwen 오판을 모두 해결했다고 주장하지 않는다.
 
-의미 추출은 채택 캡션 LoRA 초안과 본체 재검토를 사용한다. 아래 10월 9일 검증의 NTSCC/AWGN·T5·Open-Sora 경로는 현재 하이브리드의 생성 분기와 이전 비교용으로 보존한다. `fixed_budget`은 명시한 대조 옵션으로만 남긴다. 새 키 개수로 기존 캡션·복원 영상을 재명명하지 않는다. 저동작 2키·보행 4키 선택과 16초 항구 2키의 실제 복원을 완료했다. 항구의 단일 긴 구간에서는 조건 충돌·짧은 입력 시간표 보정이 모두 발동하지 않았다. [선택 검증과 남은 오판](RESULTS.md#qwen-semantic-selection) · [복원 비교](RESULTS.md#bsu-zea-three-way) · [실행·출처·재개](RUN_GUIDE.md#qwen35-fc)
+의미 추출은 채택 캡션 LoRA 초안과 본체 재검토를 사용한다. 아래 10월 9일 검증의 NTSCC/AWGN·T5·Open-Sora 경로는 이전 하이브리드의 생성 분기와 비교용으로 보존한다. `fixed_budget`은 명시한 대조 옵션으로만 남긴다. 새 키 개수로 기존 캡션·복원 영상을 재명명하지 않는다. 저동작 2키·보행 4키 선택과 16초 항구 2키의 실제 복원을 완료했다. 항구의 단일 긴 구간에서는 조건 충돌·짧은 입력 시간표 보정이 모두 발동하지 않았다. [선택 검증과 남은 오판](RESULTS.md#qwen-semantic-selection) · [복원 비교](RESULTS.md#bsu-zea-three-way) · [실행·출처·재개](RUN_GUIDE.md#qwen35-fc)
 
 ## 이전 개발 경로 — InternVL 혼합 선택과 Qwen 캡션
 

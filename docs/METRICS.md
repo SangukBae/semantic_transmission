@@ -1,5 +1,9 @@
 # 평가 정의와 절차
 
+## BSU-Predict 평가 범위 — 2026-10-18
+
+현재 예측 전용 모델의 전송량은 전체 유료 패킷에 대해 LDPC(6144,9216)·16QAM의 복소 심벌 수로 계산하고 단일 AWGN 10dB·seed42 실제 채널 결과와 대조한다. 최종 MP4 품질·행동 평가는 별도 수행해야 한다. 아래 10월 16일 지표와 허용 기준은 당시 혼합 모델 비교의 기록이다. [현재 실행](RUN_GUIDE.md#bsu-default) · [검증 범위](RESULTS.md#bsu-predict)
+
 <a id="bsu-predictive-metrics"></a>
 ## 기본 예측 압축 BSU의 전송량·품질 평가
 

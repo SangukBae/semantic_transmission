@@ -62,6 +62,7 @@ __pycache__/
 .env.*
 !.env.example
 outputs/
+output/
 data/
 /data
 .pytest_cache/

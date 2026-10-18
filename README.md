@@ -1,42 +1,37 @@
-# BSU: LGVSC 기반 의미 영상 전송 모델
+# BSU-Predict: 예측 경로 전용 영상 전송 모델
 
-LGVSC에서 출발해 **의미 키·캡션과 예측 압축 정보를 이용해 영상을 전송·복원**하는 연구 구현입니다. 현재 기본 BSU는 **DCVC-RT + Practical-RIFE4.25와 `combined_context` 대체 경로를 결합한 모델**입니다. 원본 LGVSC 구현과 이 저장소에서 수정한 부분을 구분합니다.
-
-2026-10-16 사용자 요청으로 아래 검증 프로필을 기본 채택했습니다. 과거 `FC-LGVSC`·`combined_context` 실험명과 동결 산출물은 그대로 유지합니다.
+**BSU-Predict**는 통합 전 BSU의 DCVC-RT + Practical-RIFE4.25 예측 경로를 독립시킨 메인 개발 모델입니다. 모델명과 개발 브랜치명은 모두 `BSU-Predict`입니다. 통합 전 커밋 `fd37e28`에서 분기했으며, 통합 BSU의 학습·송수신 모듈은 이 브랜치에 포함하지 않습니다.
 
 ## 현재 기본 구조
 
-기본 명령은 [`bash scripts/run_bsu.sh`](docs/RUN_GUIDE.md#bsu-default)입니다. 기존 Qwen 의미 선택·캡션 산출물과 정규화 원본 PNG를 입력으로 사용합니다. **QP 32·2프레임 간격·의미 키 최소 5개**를 고정하며, 추가로 시험한 적응형 간격·QP 탐색은 기본에 포함하지 않습니다.
+[`bash scripts/run_bsu.sh`](docs/RUN_GUIDE.md#bsu-default)와 [`bash scripts/run_bsu_predict.sh`](scripts/run_bsu_predict.sh)는 같은 예측 전용 실행기입니다. 영상 파일 또는 정규화 PNG를 입력으로 받습니다. **QP 32·기본 2프레임 간격·AWGN 10dB·seed 42**를 고정합니다.
 
 ```mermaid
 flowchart LR
-    V[원본 영상] --> S[Qwen 의미 키·캡션·구간 정보]
-    V --> N[DCVC-RT · QP 32 · 기본 2프레임 간격]
-    S --> B[NTSCC 키·메타데이터·궤적 후보]
-    S --> N
-    N --> R[송신부 · 실제 총 채널 비용 비교]
-    B --> R
-    R -->|의미 키 5개 이상이며 더 저렴| T[유료 예측 패킷 → LDPC·16QAM·AWGN]
-    T --> D[DCVC 독립 복호화 → RIFE 시간 보간]
-    R -->|그 외| G[NTSCC·디지털 전송 → Open-Sora → combined_context]
-    D --> O[복원 영상]
-    G --> O
+    V[원본 영상 또는 정규화 PNG] --> A[2프레임 격자·끝점·화면 변화 앵커]
+    A --> C[DCVC-RT · 최초 I 프레임 + 이후 P 프레임]
+    C --> T[시점·크기·FPS·모델 식별자를 포함한 패킷]
+    T --> W[LDPC · 16QAM · AWGN]
+    W --> D[독립 DCVC 복호화]
+    D --> R[RIFE 4.25 시간 보간]
+    R --> O[복원 영상]
 ```
 
-- 처음·끝·급격한 화면 변화 양쪽 프레임을 보존합니다. Qwen 의미 키와 DCVC 전송 시점은 서로 다른 역할입니다.
-- 경로 선택은 키 개수와 직렬화·오류정정까지 포함한 실제 비용으로 결정합니다. 화질 정답이나 행동 라벨로 경로를 고르지 않습니다.
-- 신경 압축 경로는 최초 참조 영상과 이후 예측 특성을 전송하며, 수신부는 받은 패킷과 고정 가중치만 사용합니다. 캡션·구간 정보도 유료 패킷에 포함하지만 DCVC/RIFE 자체는 텍스트 조건을 사용하지 않습니다.
-- `combined_context` 경로는 Qwen 의미 선택·고정 캡션 LoRA, NTSCC 키, Open-Sora와 궤적·시간·구간 연결 보정을 유지합니다. 새 생성 어댑터 학습은 기본 모델에 포함하지 않습니다.
-- 이전 [`run_bsu_webvid.sh`](docs/RUN_GUIDE.md#bsu-webvid-benchmark)와 [`run_bsu_kinetics.sh`](docs/RUN_GUIDE.md#bsu-kinetics-benchmark)는 기존 `combined_context` 배치의 생성·재개 명령입니다. 기본 하이브리드 모델 명령과 구분합니다.
-- LGVSC 대조는 [`run_lgvsc_kinetics.sh`](docs/RUN_GUIDE.md#lgvsc-kinetics-matched)로 보존합니다. 공통 실행 보정이 포함된 로컬 비교이며 논문 원본 수치의 정확한 재현으로 표시하지 않습니다.
+- 의미 키 개수나 다른 경로와의 비용 비교 없이 항상 예측 경로를 실행합니다.
+- Qwen 캡션, NTSCC, 궤적, Open-Sora, 생성 어댑터가 실행 입력이나 수신 조건에 필요하지 않습니다.
+- 수신 작업에는 받은 패킷·고정 가중치만 전달합니다. 실제 패킷의 헤더·CRC·LDPC 패딩과 패리티까지 전송량에 포함합니다.
+- 채널 무결성 또는 복호화 실패는 해당 단계의 실패로 기록됩니다. 같은 명령으로 완료 단계를 해시 검증해 재사용하고 실패 단계부터 재개합니다.
+- 통합 전 혼합 BSU는 [`run_bsu_hybrid.sh`](docs/RUN_GUIDE.md#bsu-hybrid)로, 과거 생성 배치는 `run_bsu_webvid.sh`·`run_bsu_kinetics.sh`로 보존합니다. LGVSC 대조 명령은 `run_lgvsc_kinetics.sh`입니다.
 
 <a id="status"></a>
 <a id="scope"></a>
 ## 검증 범위와 한계
 
-현황 정리: **2026-10-16**. 동일 Kinetics-400 개발 영상 **14편·3,333프레임·576×320·24fps·AWGN 10dB**에서 기본 BSU는 **2,470,155 복소 채널 사용량**으로 이전 BSU보다 **43.76% 절감**했습니다. LGVSC의 1,407,617 대비 **1.75배**이며 PSNR 26.305dB, LPIPS 0.23462, 행동 Top-1 12/14·Top-5 14/14입니다. 영상별 화질·동작 허용 기준은 14/14 통과했습니다. [세 모델 비교와 증거](docs/RESULTS.md#bsu-predictive-default)
+현황 정리: **2026-10-18**. 예측 전용 실행기·패킷 검증·실패 중단·재개와 영상 입출력을 구현했습니다. 새 모델의 실제 GPU 송수신·품질·행동 비교는 아직 수행하지 않았습니다. [구현 검증 기록](docs/validation/2026-10-18-bsu-predict.json)
 
-적응형 간격+QP 후보는 이 기본 모델에서 추가 1.12%를 줄였지만 시험 인코딩·복원 비용에 비해 이득이 작아 **연구 옵션으로 유지**합니다. 위 결과는 이미 관찰한 개발 자료의 비교이며 전체 Kinetics-400·미사용 영상·연속 60초·독립 의미 오류 평가를 입증하지 않습니다. 아래 표는 이전 구성 요소의 검증 이력입니다.
+10월 16일의 14편·3,333프레임 비교는 **예측 8편 + 생성 6편의 혼합 BSU** 결과입니다. 전송 2,470,155·PSNR 26.305dB·LPIPS 0.23462를 예측 전용 모델의 수치로 사용할 수 없습니다. 적응형 간격+QP의 추가 1.12% 절감도 당시 혼합 모델 기준입니다. [이전 모델의 결과와 증거](docs/RESULTS.md#bsu-predictive-default)
+
+아래 표는 이전 구성 요소의 검증 이력입니다.
 
 | 확인한 범위 | 현재 근거 |
 |---|---|
@@ -77,7 +72,7 @@ bash scripts/run_qwen35_caption.sh caption \
   --output outputs/my_caption.json
 ```
 
-위 단독 점검은 LoRA·InternVL·수신단 전체 실행이 아닙니다. 기본 하이브리드 실행은 [BSU 기본 명령](docs/RUN_GUIDE.md#bsu-default), 의미 입력 준비는 [설치·데이터·어댑터 준비 및 실행](docs/RUN_GUIDE.md#public-start)을 따릅니다.
+위 단독 점검은 LoRA·InternVL·수신단 전체 실행이 아닙니다. BSU-Predict 실행은 [BSU 기본 명령](docs/RUN_GUIDE.md#bsu-default), 과거 의미 경로의 입력 준비는 [설치·데이터·어댑터 준비 및 실행](docs/RUN_GUIDE.md#public-start)을 따릅니다.
 
 **코드만 clone하면 기존 실험 전체를 바로 재현할 수 있는 상태는 아닙니다.** 데이터·고정 주석·가중치·prepared inventory는 Git에 포함하지 않습니다. 기본 LoRA의 해시·검증 명령과 전달 패키지 절차를 제공하지만 공개 다운로드 URL은 아직 없습니다. 새 장비에서는 경로를 설정하고 새 실행 폴더에서 준비해야 하며 기존 동결 기록의 경로·해시를 덮어쓰지 않습니다.
 
