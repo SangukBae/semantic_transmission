@@ -9,7 +9,9 @@ Qwen3.5-9B의 의미 변화 순차 선택(후보 간격 4, 끝점 포함, 고정
 
 수신 생성기는 기존 시간 조건 충돌·짧은 구간·T5 캐시·tail17·메모리 보정 정책을 유지한다. 생성 후 `combined_context`의 궤적 합성·시간 보정·수신 키 경계 보존을 적용한다. 궤적 예산은 같은 영상의 기본 전송량 대비 최대 5%이며 유효 패킷이 없으면 궤적 합성만 생략한다. DCVC-RT/RIFE로 전환하지 않는다. 수신 키의 픽셀 보존은 최종 MP4 이전 PNG 기준이다.
 
-`bsu_webvid.run_one`의 생성·전송·평가 연산을 재사용하되 새 작업은 독립 프로토콜·코드 해시·출력 아래 실행한다. Qwen 출력 길이 수정은 기존 `bsu_kinetics_base`의 제한적 형식 재시도를 사용한다. 기존 생성 결과를 새 추론 결과로 재명명하지 않는다. LTX 교체·추가 학습·새 오류 검출기는 이번 버전에 포함하지 않는다.
+`bsu_webvid.run_one`의 생성·전송·평가 연산을 재사용하되 새 작업은 독립 프로토콜·코드 해시·출력 아래 실행한다. Qwen 출력 길이 수정은 기존 `bsu_kinetics_base`의 제한적 형식 재시도를 사용한다. 기존 생성 결과를 새 추론 결과로 재명명하지 않는다. 위 기본 실행기는 Open-Sora 기준선으로 보존한다.
+
+후속 LTX 교체 실험은 [`ltx_receiver.py`](../src/semantic_transmission/ltx_receiver.py)의 수신기에서 Open-Sora 연산을 LTX-2.5 22B Distilled로 대체한다. 기존 BSU 수신 키 두 장을 구간의 정확한 양끝 시점에 조건으로 주고, 수신 캡션과 움직임 scalar를 프롬프트로 사용한다. prompt enhancer는 사용하지 않는다. 2단계 distilled 생성(8+3 steps) 후 동일한 궤적·시간·수신 키 보정을 적용한다. NTSCC/채널 결과를 동일하게 재생하는 비교이며 새 송신 정책이나 추가 원본 조건은 사용하지 않는다. [프로필](../configs/bsu_gen_ltx25.json) · [비교 실행](RUN_GUIDE.md#bsu-ltx)
 
 <a id="bsu-predictive-default"></a>
 ## BSU-Predict — 별도 예측 전용 모델

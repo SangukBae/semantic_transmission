@@ -14,6 +14,7 @@ authoritative source. Verify before any redistribution or commercial use.
 |---|---|---|---|
 | InternVL | https://github.com/OpenGVLab/InternVL | MIT | InternVL2-8B weights carry their own model-card terms. |
 | Open-Sora | https://github.com/hpcaitech/Open-Sora | Apache-2.0 | Decoder world model (pinned commit `bf4d6673`). |
+| LTX-2.5 22B Distilled | [Lightricks/LTX-2](https://github.com/Lightricks/LTX-2/tree/be6d6d0a69d11a0a399c462ed92606692e5f8697) · [weights](https://huggingface.co/Lightricks/LTX-2.5) | [LTX-2.x Community License](https://github.com/Lightricks/LTX-2/blob/be6d6d0a69d11a0a399c462ed92606692e5f8697/LICENSE-2_x) | Experimental BSU receiver replacement; official gated weights are downloaded separately. |
 | NTSCC_JSAC22 | https://github.com/wsxtyrdd/NTSCC_JSAC22 | **No LICENSE file** | Research code with no explicit license — contact the authors before reuse/redistribution. |
 | Sionna | https://github.com/NVlabs/sionna | Apache-2.0 | LDPC / channel simulation. |
 | PLLaVA | https://github.com/magic-research/PLLaVA | See upstream repo | Captioning model; check the repo + model card. |

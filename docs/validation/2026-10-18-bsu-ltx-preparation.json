@@ -1,0 +1,100 @@
+{
+  "date": "2026-10-18",
+  "status": "PREPARED_REMOTE_RUNTIME_READY_MODEL_ACCESS_BLOCKED",
+  "branch": "BSU-Gen",
+  "parent_commit": "c5d66834782500a061dec1402d037fb716c1ac32",
+  "model": "LTX-2.5 22B Distilled",
+  "model_revision": "49b093a39c19169a8a81721dcc541e07e945232f",
+  "upstream_revision": "be6d6d0a69d11a0a399c462ed92606692e5f8697",
+  "remote_host": "sangukcom",
+  "remote_workspace": "/home/sangukbae/ETRI/Semantic/semantic_transmission_bsu_ltx",
+  "remote_output": "outputs/bsu_ltx_comparison_20261018",
+  "runtime": {
+    "torch": "2.10.0+cu128",
+    "transformers": "5.14.1",
+    "gpu": "NVIDIA GeForce RTX 4080",
+    "vram_mib": 16376,
+    "official_pipeline_import_verified": true,
+    "original_environments_modified": false
+  },
+  "checkpoint_access": {
+    "http_status": 403,
+    "error": "GatedRepo",
+    "gated_repo_read_permission": true,
+    "authorization_verified": false,
+    "weight_download_complete": false,
+    "selected_weight_files": 5,
+    "selected_weight_gib": 66.23
+  },
+  "baseline_audit": {
+    "status": "BASELINES_VERIFIED",
+    "videos": 14,
+    "frames": 3333,
+    "files": 14705,
+    "source_and_output_hashes_verified": true,
+    "conditions": {
+      "width": 576,
+      "height": 320,
+      "fps": 24,
+      "snr_db": 10,
+      "channel_seed": 42,
+      "generation_seed": 2025
+    },
+    "results": {
+      "LGVSC": {
+        "total_channel_uses": 1407617,
+        "delivered_mp4_video_mean": {
+          "psnr_db": 17.375533869749923,
+          "ssim": 0.6119546422588745,
+          "lpips_vgg": 0.3765435674055689,
+          "clip": 0.9588074938072445,
+          "dists": 0.15337547464514842
+        }
+      },
+      "BSU-Gen/Open-Sora": {
+        "total_channel_uses": 4392383,
+        "delivered_mp4_video_mean": {
+          "psnr_db": 20.476578513141042,
+          "ssim": 0.7046635190542156,
+          "lpips_vgg": 0.3028025325848068,
+          "clip": 0.9618007514078614,
+          "dists": 0.13746968098384554
+        }
+      }
+    },
+    "lgvsc_exact_paper_reproduction": false,
+    "lgvsc_equal_rate_comparison": false
+  },
+  "tests": {
+    "distinct_passed": 36,
+    "remote_initial_suite": {
+      "passed": 34,
+      "seconds": 3.42
+    },
+    "remote_final_comparison_suite": {
+      "passed": 6,
+      "seconds": 0.05
+    },
+    "local_distinct_passed": 36,
+    "model_test_doubles": true,
+    "real_ffmpeg_and_receiver_refinement": true,
+    "progress_forwarding_and_failure_exit_verified": true,
+    "public_documentation_local_links": 559,
+    "shell_syntax": "PASSED"
+  },
+  "ltx_gpu_generation_executed": false,
+  "three_way_quality_comparison_complete": false,
+  "independent_semantic_evaluation_complete": false,
+  "existing_opensora_default_preserved": true,
+  "code_sha256": {
+    "configs/bsu_gen_ltx25.json": "f81a3763c3f65e4c545b11bfe1a0f690e565cd114d311404a523d3c98d234b95",
+    "scripts/setup_bsu_ltx.sh": "bd6e42f933e7ac78400aa8e830a63ecabc0c4976d53a81c7add18e461cc31c16",
+    "scripts/compare_bsu_gen.sh": "23afb80d66cdee9a498a300b7e3962b66b554328bae2f5109bfb31e72e35dfcb",
+    "scripts/run_bsu_gen_ltx.sh": "80e83876b3912aee237ca341d3fabe24c55f255d0586bd8c62acafe06535b234",
+    "src/semantic_transmission/ltx_receiver.py": "c259a9675988c24fcfaf6c4aff7b901701b4c50464319dc11d0ef516b775a6cf",
+    "src/semantic_transmission/ltx_setup.py": "065cb28be4cc8b90d74d54de259440eb4baa49fb6b47ce64163496a65cbf3427",
+    "src/semantic_transmission/bsu_ltx_comparison.py": "5290bc6a43b51cf177b55c1aeb520f3e52851d793d5eea51d97e0b7f699b9bea",
+    "tests/test_ltx_receiver.py": "a817b4c89602b8ceb3081e96efec11c4b2bc3b1e304c55079373df892f2bfa42",
+    "tests/test_bsu_ltx_comparison.py": "2c25715ba2b4e49c025226363cda44cc9c4bbbfaf399861918b0fad47fe83ab8"
+  }
+}

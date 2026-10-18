@@ -1,0 +1,28 @@
+{
+  "name": "BSU-Gen-LTX",
+  "policy": "bsu_gen_ltx25_received_replay_v1",
+  "generator": "Lightricks/LTX-2.5 / 22B Distilled",
+  "model_revision": "49b093a39c19169a8a81721dcc541e07e945232f",
+  "upstream_revision": "be6d6d0a69d11a0a399c462ed92606692e5f8697",
+  "pipeline": "ltx_pipelines.distilled.DistilledPipeline",
+  "quantization": "fp8-cast",
+  "offload": "cpu",
+  "generation_seed": 2025,
+  "stage_1_sigmas": [1.0, 0.99375, 0.9875, 0.98125, 0.975, 0.909375, 0.725, 0.421875, 0.0],
+  "stage_2_sigmas": [0.909375, 0.725, 0.421875, 0.0],
+  "enhance_prompt": false,
+  "image_strength": 1.0,
+  "image_crf": 0,
+  "temporal_policy": "pad_each_interval_to_8k_plus_1_then_trim_tail_at_original_fps",
+  "shared_boundary": "next_interval_first_frame",
+  "receiver_mode": "combined_context",
+  "decoder_selection": "preagreed_receiver_profile; historical packet decoder settings are not used",
+  "predictive_fallback": false,
+  "weights": {
+    "transformer": "diffusion_models/ltx-2.5-22b-distilled-transformer-bf16.safetensors",
+    "text_encoder": "text_encoders/gemma4-12b-with-proj-ltx-2.5-bf16.safetensors",
+    "video_vae": "vae/ltx-2.5-video-vae-bf16.safetensors",
+    "audio_vae": "vae/ltx-2.5-audio-vae-bf16.safetensors",
+    "spatial_upsampler": "latent_upscale_models/ltx-2.5-latent-spatial-upscaler-x2-bf16-1.0.safetensors"
+  }
+}

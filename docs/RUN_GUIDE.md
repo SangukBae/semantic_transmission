@@ -44,6 +44,33 @@ bash scripts/run_bsu_gen.sh status --output outputs/bsu_gen_my_video
 
 고정 터미널 화면에 현재 단계·처리량·경과 시간·로그·실시간 GPU/VRAM을 표시한다. 전체 남은 시간을 근거 없이 추정하지 않는다. 같은 명령으로 완료 파일을 해시 검증해 재개하며 중단된 단계의 부분 파일은 보관 후 재실행한다. `COMPLETE_BSU_GEN`은 복원·등록 화질 평가 완료이며 독립 의미 오류 검수는 `PENDING`이다. Qwen·Open-Sora·채널 오류 시 DCVC/RIFE로 전환하지 않는다.
 
+<a id="bsu-ltx"></a>
+## LTX-2.5 생성기 교체 비교
+
+`configs/bsu_gen_ltx25.json`에 공식 LTX-2.5 22B Distilled 가중치·소스 리비전, FP8 cast·CPU offload, 8+3단계 sigma schedule을 고정한다. 모델 다운로드는 해당 Hugging Face 계정의 접근 승인이 필요하다. 기존 모델 환경과 분리된 `.local/envs/bsu-ltx25`에 설치한다.
+
+```bash
+bash scripts/setup_bsu_ltx.sh
+
+bash scripts/compare_bsu_gen.sh prepare \
+  --bsu-root /absolute/path/outputs/bsu_kinetics_context \
+  --lgvsc-root /absolute/path/outputs/lgvsc_kinetics_matched \
+  --output outputs/bsu_ltx_comparison_20261018
+
+bash scripts/compare_bsu_gen.sh run \
+  --bsu-root /absolute/path/outputs/bsu_kinetics_context \
+  --lgvsc-root /absolute/path/outputs/lgvsc_kinetics_matched \
+  --output outputs/bsu_ltx_comparison_20261018
+
+bash scripts/compare_bsu_gen.sh status --output outputs/bsu_ltx_comparison_20261018
+```
+
+이 명령은 **실제 수신 조건 재생에 의한 생성기 교체 실험**이다. Qwen·NTSCC를 다시 실행하거나 원본 키를 추가하지 않는다. Open-Sora BSU가 실제로 받은 키 PNG·캡션·움직임·궤적과 전송 비용을 고정하고 LTX 생성 및 같은 `combined_context` 보정을 새로 실행한다. 기존 패킷의 Open-Sora 샘플러 설정은 LTX에 적용하지 않으며, 등록한 공통 수신기 프로필을 사용한다. 독립 수신기 명령 `run_bsu_gen_ltx.sh`는 비교 실행기가 만든 `--request .../conditions/request.json --output DIR`를 받는다. 기존 전체 영상 입력의 `run_bsu_gen.sh`는 Open-Sora 기준선으로 보존한다.
+
+전체 14편을 원래 manifest 순서로 평가한다. 입력은 모두 576×320·24FPS·AWGN 10dB이고 기본 생성 seed는 2025다. LTX는 각 키 구간의 길이를 8k+1로 올려 생성한 뒤 원래 FPS에서 여분의 끝부분만 버린다. 마지막 키의 시점은 원본과 동일하며 시간축을 늘이거나 줄이지 않는다. 수신부는 원본을 읽지 않고, 별도 평가 프로세스만 원본에 접근한다.
+
+`raw/`에는 LTX 생성 결과, `refined/`에는 수신 보정 결과와 PNG/MP4별 PSNR·SSIM·LPIPS·CLIP·DISTS·시간 지표를 기록한다. 구간별 완료 파일을 해시 검증하여 재개한다. 최종 `COMPLETE_THREE_WAY_RECONSTRUCTION_COMPARISON`은 14편 전체의 비교 완료만 의미하며 독립 의미 오류 평가와 60초 이상 일반화는 포함하지 않는다. LGVSC는 자체 키 선택·캡션과 전송량을 유지하므로 LGVSC 대비 동일 비트율 성능 비교가 아니다.
+
 <a id="bsu-predict"></a>
 ## BSU-Predict 실행
 

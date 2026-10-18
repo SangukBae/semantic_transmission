@@ -45,6 +45,13 @@
 
 목표인 **LGVSC 수준의 총전송량과 고정 22키 수준의 원본 재현력 동시 달성은 미완료**다. 후속 실험은 [동일 전송 예산 비교 기준](METRICS.md#bsu-reconstruction-evaluation)에 따라 판단한다. 위 복원 후보의 AI 표본 검토는 독립 Added/Missing/Distorted 정답 평가가 아니며, 독립 의미 오류율·다양한 원본·여러 seed/SNR 검증이 남아 있다.
 
+<a id="bsu-ltx"></a>
+## LTX-2.5 교체 비교 준비 — 2026-10-18
+
+원격 Linux PC `sangukcom`의 RTX 4080 16GB에서 LTX 비교를 준비했다. 기존 Open-Sora BSU와 LGVSC의 14편·3,333프레임, 14,705개 파일을 실제 해시와 비교하고 입력 픽셀·채널·평가 조건·전송 회계를 검증했다. 완료된 기준선 결과는 보존하며 재추론했다고 표시하지 않는다. LTX 수신기 연결·시간축·실패/재개 및 비교 완료 조건 시험은 로컬과 원격에서 통과했다.
+
+LTX GPU 복원과 3자 품질 비교는 아직 완료하지 않았다. 원격 전용 환경(PyTorch 2.10.0+cu128, Transformers 5.14.1)의 공식 pipeline import·GPU 인식은 통과했으나 공식 가중치 접근 확인은 HTTP 403으로 거부됐다. 36개 테스트는 모델 추론 대역을 사용한 연결 검증이며 실제 LTX 품질 근거가 아니다. 완료 전에는 기존 기준선 수치와 미실행 LTX를 동일한 완료 표에 넣지 않는다. [실행](RUN_GUIDE.md#bsu-ltx) · [검증 기록](validation/2026-10-18-bsu-ltx-preparation.json)
+
 <a id="bsu-gen"></a>
 ## BSU-Gen 생성 전용 구현 — 2026-10-18
 
