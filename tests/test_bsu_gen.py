@@ -200,7 +200,7 @@ def test_refinement_receives_no_source_paths(pipeline, monkeypatch):
 
 
 def test_model_entrypoints_are_independent():
-    for script, name in [('run_bsu.sh', 'BSU-Gen'), ('run_bsu_gen.sh', 'BSU-Gen'),
+    for script, name in [('run_bsu.sh', 'SPARC'), ('run_sparc.sh', 'SPARC'), ('run_bsu_gen.sh', 'BSU-Gen'),
                          ('run_bsu_predict.sh', 'BSU-Predict')]:
         value = json.loads(subprocess.check_output(['bash', str(model.REPO / 'scripts' / script), 'profile'], text=True))
         assert value['name'] == name
