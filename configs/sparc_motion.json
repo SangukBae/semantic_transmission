@@ -1,0 +1,15 @@
+{
+  "policy": "sparc_sparse_motion_pilot_v1",
+  "maximum_key_gap": 64,
+  "side_information_ratio_cap": 0.10,
+  "trajectory_levels": [[16, 9], [12, 7], [8, 5], [8, 3]],
+  "auxiliary_control_candidates": 4,
+  "qp": 32,
+  "snr_db": 10,
+  "channel_seed": 42,
+  "trajectory_channel_seed": 43,
+  "reference_strength": 0.65,
+  "scene_policy": "require_no_detected_cuts",
+  "new_training": false,
+  "selection_uses_reconstruction_quality": false
+}
