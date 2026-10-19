@@ -81,6 +81,32 @@ def test_replay_rejects_different_pixels_or_stride(tmp_path,qwen_stub):
         semantics.validate_manifest(out/'semantic.json',frames,dict(model.profile(),candidate_stride=2))
 
 
+def test_length_failure_repair_preserves_raw_calls_and_replays(tmp_path,monkeypatch):
+    calls=[]
+    class Model:
+        runtime=dict(model_id=semantics.MODEL_ID,revision=semantics.REVISION,quantization='nf4')
+        def __init__(self,_):pass
+        def generate(self,images,labels,prompt,tokens):
+            calls.append(prompt)
+            concise='at most 16 words EACH' in prompt
+            value=dict(decision='same',kind='none',reference_state='Person standing' if concise else 'visible '*30,
+                candidate_state='Person standing' if concise else 'visible '*30,evidence_frames=[0,4])
+            return dict(raw_text=json.dumps(value),model_runtime=self.runtime,truncated=False,seconds=.01)
+    original=semantics.Session
+    class Session(original):
+        def __init__(self,*args,**kwargs):
+            kwargs.setdefault('factory',Model);super().__init__(*args,**kwargs)
+    monkeypatch.setattr(semantics,'Session',Session)
+    frames=source(tmp_path/'frames',5);one=tmp_path/'one';one.mkdir()
+    first=semantics.select(frames,model.profile(),one)
+    assert first['keys']==[0,4] and len(calls)==7
+    assert len(list((one/'semantic_cache/failed_attempts').rglob('*.json')))==6
+    assert first['calls'][0]['role']=='semantic_select_concise'
+    two=tmp_path/'two';two.mkdir()
+    second=semantics.select(frames,model.profile(),two,one/'semantic.json')
+    assert second['new_model_calls']==0 and len(calls)==7
+
+
 @pytest.fixture
 def codecs(monkeypatch):
     class Codec:
