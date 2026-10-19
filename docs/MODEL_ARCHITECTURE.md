@@ -1,9 +1,26 @@
 # 모델 구조
 
+<a id="sparc"></a>
+## SPARC — 의미 키와 적응적 참조 프레임의 예측 압축
+
+현재 `SPARC` 브랜치의 기본 모델이다. [프로필](../configs/sparc.json) · [실행기](../src/semantic_transmission/sparc.py) · [실행](RUN_GUIDE.md#sparc).
+
+송신기는 BSU-Gen과 동일한 `qwen35_sequential_semantic_v1`을 사용한다. Qwen3.5-9B NF4가 가장 최근에 채택한 원본과 다음 후보를 비교한다. 후보 간격은 4이며 고정 의미 키 예산은 없다. 불확실한 판정은 재검토하고, 여전히 불확실하면 중단한다. 캡션 LoRA·LTX·Open-Sora는 호출하지 않는다. 실제 모델 응답과 검증 기록을 저장하며 재개 시 소스 해시·프롬프트·모델 출처가 일치하는 호출만 재사용한다. 설명 길이 제한을 반복 위반하면 실제 검증 오류와 각 설명 16단어 제한을 전달해 한 번의 제한된 재시도 묶음을 수행한다. 원문·실패는 보존하고 의미 판정을 임의로 고치지 않는다.
+
+[`sparc_selection.py`](../src/semantic_transmission/sparc_selection.py)는 의미 키와 양끝, 검출한 장면 전환 양쪽을 보존한다. 구간이 4프레임보다 길면 분할하고, 64×36 RGB 원본을 양끝의 선형 보간과 비교한 MAE가 6/255를 넘으면 오차가 큰 시점을 추가한다. 수신 출력이나 평가 점수는 사용하지 않는다. 인접 원본 RGB의 평균 절대 차이가 40/255를 넘으면 장면 전환 후보로 취급한다. 두 임계값은 초기 고정 휴리스틱이며 학습되거나 보편적 안전성이 검증된 기준은 아니다.
+
+선택한 프레임을 장면별로 시간순 DCVC-RT 부호화한다. 각 장면의 첫 프레임은 I, 나머지는 P이며 양쪽에서 이전 복원 특징을 참조한다. 의미 키라는 이유만으로 모두 I 프레임으로 바꾸지 않는다. 외부 DCVC 연산·가중치는 기존 `predictive_codec.Codec`와 동일하다. 장면별로 참조 상태를 초기화해 이전 장면에 의존하지 않는다.
+
+[`sparc_transport.py`](../src/semantic_transmission/sparc_transport.py)의 단일 패킷은 영상 시간표·크기·FPS·고정 모델 식별자·앵커 시점·장면별 스트림 경계와 DCVC 비트스트림을 담는다. 헤더 부분만 zlib 무손실 압축하며 DCVC 바이트는 그대로 둔다. 전체 패킷을 실제 LDPC(6144,9216)·16QAM·AWGN 10dB로 보내고 CRC/비트 오류를 확인한다. 캡션, 선택기 사유, 원본 특징은 수신 조건에 포함하지 않는다.
+
+독립 수신 프로세스가 받은 패킷으로 DCVC 앵커를 복호화한다. RIFE4.25는 전달된 시점으로 `(현재 시점-왼쪽 앵커)/(오른쪽 앵커-왼쪽 앵커)`의 비율을 사용해 간격 2~4의 중간 프레임을 복원한다. 장면 전환 양쪽은 인접한 앵커이므로 전환을 가로질러 보간하지 않는다. PNG 단계의 앵커 보존과 최종 MP4의 전체 프레임 수·FPS·크기를 검사한다. MP4 재압축 뒤의 픽셀 동일성을 주장하지 않는다.
+
+`uniform-matched`는 동일한 검출 장면 전환과 최대 간격을 지키며 적응 선택과 정확히 같은 개수를 시간적으로 배분한다. 의미 키 보존을 강제하지 않아 선택 위치의 효과를 비교할 수 있다. `fixed-stride2`는 기존 2프레임 간격 앵커 정책의 대조이며 SPARC의 동일 장면 초기화·메타데이터 형식을 사용한다. 세 조건은 같은 QP·모델·채널·RIFE 실행 설정을 사용하지만 실제 전송량은 다를 수 있다.
+
 <a id="bsu-gen"></a>
 ## BSU-Gen — 생성 경로 전용 모델
 
-**2026-10-18 구현.** 이 브랜치의 기본 모델과 이름은 `BSU-Gen`이다. [`bsu_gen.json`](../configs/bsu_gen.json)과 [`bsu_gen.py`](../src/semantic_transmission/bsu_gen.py)가 실행 계약을 정의한다. 입력은 전체 영상 또는 기존 전체 길이의 `source_prepared.json`이며 576×320·24FPS를 사용한다. [실행](RUN_GUIDE.md#bsu-gen) · [검증 범위](RESULTS.md#bsu-gen)
+**2026-10-18 보존 경로.** `run_bsu_gen.sh`의 모델은 `BSU-Gen`이다. [`bsu_gen.json`](../configs/bsu_gen.json)과 [`bsu_gen.py`](../src/semantic_transmission/bsu_gen.py)가 실행 계약을 정의한다. 입력은 전체 영상 또는 기존 전체 길이의 `source_prepared.json`이며 576×320·24FPS를 사용한다. [실행](RUN_GUIDE.md#bsu-gen) · [검증 범위](RESULTS.md#bsu-gen)
 
 Qwen3.5-9B의 의미 변화 순차 선택(후보 간격 4, 끝점 포함, 고정 키 예산 없음)과 rank-32 캡션 LoRA·원본 재검토를 사용한다. NTSCC로 키를 부호화하고 캡션·UniMatch 움직임·시점 메타데이터를 LDPC(6144,9216)·16QAM으로 보낸다. AWGN 10dB·채널 seed42, Open-Sora v1.2/STDiT3-XL/2·생성 seed2025·30 steps다.
 

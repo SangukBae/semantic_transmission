@@ -2,9 +2,53 @@
 
 [프로젝트](../README.md) · [데이터](DATA.md) · [구조](MODEL_ARCHITECTURE.md) · [결과](RESULTS.md)
 
-**2026-10-18 개발 기준:** 이 `BSU-Gen` 브랜치에서 `run_bsu.sh`·`run_bsu_gen.sh`는 생성 경로만 실행한다. 예측 전용은 `run_bsu_predict.sh`, 과거 혼합은 `run_bsu_hybrid.sh`, 과거 생성 배치는 `run_bsu_webvid.sh`·`run_bsu_kinetics.sh`로 보존한다. `BSU-Predict` 브랜치의 기본 명령은 변경하지 않았다.
+**2026-10-19 SPARC 브랜치:** `run_bsu.sh`와 `run_sparc.sh`는 SPARC를 실행한다. 기존 생성·예측·혼합 모델은 각각 `run_bsu_gen.sh`, `run_bsu_predict.sh`, `run_bsu_hybrid.sh`로 유지한다.
 
 <a id="bsu-default"></a>
+<a id="sparc"></a>
+## SPARC 실행·재개·대조 실험
+
+Qwen 의미 키 선택 → 원본 움직임 기반 보조 프레임 → 장면별 DCVC → 메타데이터 무손실 압축 → LDPC/16QAM/AWGN → 독립 복호화 → RIFE → 최종 MP4의 순서다. 새 학습·캡션 생성·생성형 보충 경로는 없다. [설정](../configs/sparc.json) · [구조](MODEL_ARCHITECTURE.md#sparc)
+
+```bash
+bash scripts/run_sparc.sh profile
+bash scripts/run_sparc.sh check --video /absolute/path/input.mp4 --output outputs/sparc_video
+bash scripts/run_sparc.sh run --video /absolute/path/input.mp4 --output outputs/sparc_video
+bash scripts/run_sparc.sh status --output outputs/sparc_video
+
+# 정규화된 연속 0.png, 1.png, ... 입력; 실제 FPS를 지정
+bash scripts/run_sparc.sh run --source-frames /absolute/path/frames --fps 24 --output outputs/sparc_adaptive
+
+# 같은 실제 Qwen 응답을 검증·재사용하여 새 모델 호출 없이 대조
+bash scripts/run_sparc.sh run --source-frames /absolute/path/frames --fps 24 --semantic-replay outputs/sparc_adaptive/semantic.json --anchor-policy uniform-matched --output outputs/sparc_uniform
+bash scripts/run_sparc.sh run --source-frames /absolute/path/frames --fps 24 --semantic-replay outputs/sparc_adaptive/semantic.json --anchor-policy fixed-stride2 --output outputs/sparc_fixed
+
+# 실제 최종 MP4를 원본 PNG와 비교; 새 출력 폴더 사용
+PYTHONPATH=src .local/bsu_codec_eval_env/bin/python scripts/compare_sparc.py --adaptive outputs/sparc_adaptive --uniform outputs/sparc_uniform --fixed outputs/sparc_fixed --output outputs/sparc_comparison
+```
+
+`--video`는 전체 길이를 576×320·24FPS로 정규화한다. `--width`, `--height`, `--fps`로 변경할 수 있다. PNG 입력은 기존 크기를 유지하며 최소 2장, 양의 짝수 크기를 요구한다. 길이 자르기·반복 연결·오디오 전송은 없다. 출력과 입력·재생 자료는 겹칠 수 없다.
+
+Qwen3.5-9B NF4 고정 snapshot, DCVC-RT I/P 가중치·소스, RIFE4.25 가중치·소스, Sionna 채널 환경, FFmpeg/ffprobe가 필요하다. [Qwen 준비](#public-start) · [DCVC/RIFE 출처](../THIRD_PARTY_NOTICES.md#bsu-predictive-dependencies). 새 장비용 DCVC/RIFE 자동 설치기는 제공하지 않는다. SPARC는 캡션 LoRA·Open-Sora·NTSCC·LTX를 요구하지 않는다.
+
+기본 런타임은 `.local/qwen35_env/bin/python`, `.local/dcvc_rt_env/bin/python`, `.local/bsu_codec_eval_env/bin/python`, `.local/settings.json`의 `channel_python`이다. `--selector-python`, `--codec-python`, `--receiver-python`, `--channel-python`으로 바꿀 수 있다. 셸 실행기 Python은 `SPARC_PYTHON`으로 지정한다. 비교 환경에는 기존 공식 평가용 LPIPS-VGG·CLIP·DISTS 가중치도 필요하다.
+
+`check`는 입력·설정·실행 경로·코드·DCVC/RIFE 가중치 해시와 새 선택에 사용할 Qwen snapshot 파일을 검사한다. CUDA 실행·패키지 import·최종 품질을 의미하지 않으며 설치나 다운로드를 시작하지 않는다. `--semantic-replay`에는 완료된 `semantic.json`과 같은 위치의 `semantic_cache/`가 함께 필요하다. 원본 해시·선택 설정·모델 출처·응답 캐시를 검증하며, 캐시만으로 같은 선택을 재생할 수 없으면 실패한다.
+
+진행 화면에는 단계, 완료 수/전체 수, 비율, 경과 시간, 로그, 실시간 GPU/VRAM이 고정 행으로 표시된다. 전체 ETA는 근거 없이 표시하지 않는다. `Ctrl+C`는 작업 프로세스 그룹을 중단하고 `INTERRUPTED`를 기록한다. **같은 명령**으로 입력·코드·모델과 완료 단계 해시를 검사해 재개한다. 중단 단계의 부분 산출물은 보관하고 다시 실행하며 Qwen 정상 호출 캐시는 재사용한다. 코드가 바뀌면 새 출력 폴더가 필요하다. 학습을 수행하지 않으므로 optimizer checkpoint는 없다.
+
+| 출력 | 내용 |
+|---|---|
+| `protocol.json`, `source.json` | 설정·코드·모델 해시·입력·재개 계약 |
+| `semantic.json`, `semantic_cache/` | 실제 Qwen 선택·원문·실패 응답·재사용 근거 |
+| `selection.json` | 의미 키·보조 키·장면 전환·선택 지표 |
+| `sender/`, `received/` | 압축 전후 패킷, 실제 전송량·비트 오류·바이트 일치 |
+| `decoded/`, `reconstruction/` | 수신 앵커, 전체 복원 PNG와 MP4 |
+| `stages/`, `status.json`, `RESULT.json` | 단계별 해시 검사·중단/실패/복원 완료 |
+| 비교 폴더의 `COMPARISON.json`, `*_per_frame.csv` | 최종 MP4의 PSNR·SSIM·LPIPS·CLIP·DISTS |
+
+`COMPLETE_SPARC`는 전체 송수신·복원 완료다. 화질 평가 완료는 별도 `COMPLETE_SPARC_MATCHED_COMPARISON`이며 독립 행동·의미 검수 완료를 뜻하지 않는다. `uniform-matched`는 적응 선택과 같은 프레임 수·장면 전환 조건을 유지하지만 의미 키 보존을 강제하지 않는 대조군이다. `fixed-stride2`도 SPARC의 장면 초기화·패킷 형식을 사용하므로 과거 BSU 패킷과 바이트 단위로 같은 조건은 아니다. 같은 QP·키 수를 같은 실제 전송량으로 해석하지 않는다.
+
 <a id="bsu-gen"></a>
 ## BSU-Gen 실행
 
@@ -27,7 +71,7 @@ bash scripts/run_bsu_gen.sh check \
 bash scripts/run_bsu_gen.sh status --output outputs/bsu_gen_my_video
 ```
 
-`run_bsu.sh`도 동일한 생성 전용 명령이다. 원본 전체를 576×320·24FPS로 처리하며 길이 상한이나 반복 연결을 넣지 않는다. `--prepared`의 시작 시점은 0, `duration_limit`은 null이어야 한다. 다른 입력·코드·모델 설치 상태로 기존 출력에 이어 쓰는 것은 거부한다. 과거 생성 실험의 `protocol.json`이나 코호트 manifest를 요구하지 않고 설치된 자산과 공개 설정에서 새 실행 계약을 만든다.
+`run_bsu_gen.sh`는 기존 생성 전용 명령이다. 원본 전체를 576×320·24FPS로 처리하며 길이 상한이나 반복 연결을 넣지 않는다. `--prepared`의 시작 시점은 0, `duration_limit`은 null이어야 한다. 다른 입력·코드·모델 설치 상태로 기존 출력에 이어 쓰는 것은 거부한다. 과거 생성 실험의 `protocol.json`이나 코호트 manifest를 요구하지 않고 설치된 자산과 공개 설정에서 새 실행 계약을 만든다.
 
 기본 환경은 `.local/settings.json`의 `python`·`channel_python`, `.local/qwen35_env/bin/python`이다. 주 실행기 Python만 `BSU_GEN_PYTHON`으로 지정할 수 있으며 하위 모델 실행 환경은 위 설정을 따른다. Qwen 설치 manifest(`outputs/qwen35_setup/model_manifest.json`), 고정 rank-32 캡션 LoRA·PEFT, `.local/model_paths.json`의 STDiT·VAE·T5·2D VAE, Open-Sora·NTSCC 외부 코드, NTSCC·UniMatch 가중치가 필요하다. [공통 준비](#public-start) · [외부 출처](../THIRD_PARTY_NOTICES.md)
 
