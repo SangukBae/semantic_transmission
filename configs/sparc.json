@@ -1,0 +1,19 @@
+{
+  "name": "SPARC",
+  "expanded_name": "Semantic Predictive Adaptive Reference Codec",
+  "policy": "sparc_semantic_predictive_v1",
+  "semantic_selector": "qwen35_sequential_semantic_v1",
+  "candidate_stride": 4,
+  "max_gap": 4,
+  "proxy_mae_threshold": 6.0,
+  "scene_cut_mad_threshold": 40.0,
+  "proxy_size": [64, 36],
+  "codec": "DCVC-RT",
+  "qp": 32,
+  "interpolator": "Practical-RIFE4.25",
+  "snr_db": 10,
+  "channel_seed": 42,
+  "metadata_compression": "auto",
+  "generative_fallback": false,
+  "new_training_required": false
+}
