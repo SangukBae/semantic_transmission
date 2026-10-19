@@ -49,6 +49,26 @@ Qwen3.5-9B NF4 고정 snapshot, DCVC-RT I/P 가중치·소스, RIFE4.25 가중�
 
 `COMPLETE_SPARC`는 전체 송수신·복원 완료다. 화질 평가 완료는 별도 `COMPLETE_SPARC_MATCHED_COMPARISON`이며 독립 행동·의미 검수 완료를 뜻하지 않는다. `uniform-matched`는 적응 선택과 같은 프레임 수·장면 전환 조건을 유지하지만 의미 키 보존을 강제하지 않는 대조군이다. `fixed-stride2`도 SPARC의 장면 초기화·패킷 형식을 사용하므로 과거 BSU 패킷과 바이트 단위로 같은 조건은 아니다. 같은 QP·키 수를 같은 실제 전송량으로 해석하지 않는다.
 
+<a id="sparc-motion"></a>
+### SPARC 희소 궤적·가시성 실험
+
+`run_sparc_motion.sh`는 완료된 SPARC 의미 선택과 기존 BSU 궤적을 검증·재사용하는 별도 실험이다. 기본 `run_sparc.sh`의 보조 프레임 정책은 바꾸지 않는다. [실험 설정](../configs/sparc_motion.json) · [구조](MODEL_ARCHITECTURE.md#sparc-motion) · [결과](RESULTS.md#sparc-motion)
+
+```bash
+bash scripts/run_sparc_motion.sh profile
+bash scripts/run_sparc_motion.sh run \
+  --reference outputs/kinetics_001_adaptive_v2_20261019 \
+  --trajectory-run /absolute/path/bsu_kinetics_context/benchmark/snr_10/kinetics_001_a393e9d3 \
+  --trajectory-source /absolute/path/bsu_kinetics_context/inputs/kinetics/kinetics_001_a393e9d3/source_prepared.json \
+  --historical-comparison outputs/kinetics_001_comparison_20261019/COMPARISON.json \
+  --output outputs/kinetics_001_sparse_motion_20261019
+bash scripts/run_sparc_motion.sh status --output outputs/kinetics_001_sparse_motion_20261019
+```
+
+`run`을 `check`로 바꾸면 읽기 전용 사전 검사를 수행한다. 기존 완료 단계·원본 파일 해시·시간표·키 시점·궤적 바인딩을 검사하며 PNG 인코딩이 달라도 모든 디코딩 RGB가 같으면 재사용한다. `--historical-comparison`은 선택 사항이며 기존 간격2/적응 선택의 완료 영상·공식 지표를 해시 검증 후 비교에 추가한다. 궤적 예산은 새 키 패킷의 실제 채널 사용량 대비 최대 10%다. 등록된 표현 중 예산에 맞는 것이 없거나 장면 전환·64프레임 초과 키 간격이 있으면 실행하지 않는다.
+
+`prepare → encode → channel → decode → restore → evaluate`의 여섯 단계가 완료되면 `COMPLETE_SPARC_MOTION_PILOT`를 기록한다. `reuse.json`은 재사용 근거, `sender/sender.json`은 궤적 예산·보조 프레임 후보별 비용, `received/channel.json`은 실제 전송, `comparison.json`은 네 조건의 최종 MP4 지표를 담는다. 영상은 `reconstruction/{keys,motion,motion_no_visibility,auxiliary}/reconstruction.mp4`에 저장한다. 중단 후 같은 명령으로 완료 단계 해시를 검사해 재개한다. 코드·설정을 바꾸면 새 출력 폴더를 사용한다. 가림 정보는 추적점의 유효성 비트이며 별도 가림 영역 분할 모델을 실행하지 않는다.
+
 <a id="bsu-gen"></a>
 ## BSU-Gen 실행
 
