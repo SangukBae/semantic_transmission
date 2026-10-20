@@ -7,7 +7,9 @@ from urllib.parse import unquote
 ROOT = Path(__file__).resolve().parents[1]
 EXPECTED = {"README.md", "THIRD_PARTY_NOTICES.md", "docs/MODEL_ARCHITECTURE.md",
     "docs/RUN_GUIDE.md", "docs/DATA.md", "docs/METRICS.md", "docs/RESULTS.md",
-    "docs/research/BSU_RATE_QUALITY_IDEAS_2026-10-11.md"}
+    "docs/research/BSU_RATE_QUALITY_IDEAS_2026-10-11.md",
+    "docs/research/BSU_GEN_IMPROVEMENT_IDEAS_2026-10-19.md",
+    "docs/research/BSU_JOINT_ALLOCATION_PREDICTOR.md"}
 
 
 def release_files():

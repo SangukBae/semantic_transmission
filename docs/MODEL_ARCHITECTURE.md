@@ -3,20 +3,39 @@
 <a id="bsu-gen"></a>
 ## BSU-Gen — 생성 경로 전용 모델
 
-**2026-10-18 구현.** 이 브랜치의 기본 모델과 이름은 `BSU-Gen`이다. [`bsu_gen.json`](../configs/bsu_gen.json)과 [`bsu_gen.py`](../src/semantic_transmission/bsu_gen.py)가 실행 계약을 정의한다. 입력은 전체 영상 또는 기존 전체 길이의 `source_prepared.json`이며 576×320·24FPS를 사용한다. [실행](RUN_GUIDE.md#bsu-gen) · [검증 범위](RESULTS.md#bsu-gen)
+**2026-10-19 기본 생성기 LTX 전환.** 이 브랜치의 기본 모델과 이름은 `BSU-Gen`이다. [`bsu_gen.json`](../configs/bsu_gen.json)과 [`bsu_gen.py`](../src/semantic_transmission/bsu_gen.py)가 실행 계약을 정의한다. 입력은 전체 영상 또는 기존 전체 길이의 `source_prepared.json`이며 576×320·24FPS를 사용한다. [실행](RUN_GUIDE.md#bsu-gen) · [검증 범위](RESULTS.md#bsu-gen)
 
-Qwen3.5-9B의 의미 변화 순차 선택(후보 간격 4, 끝점 포함, 고정 키 예산 없음)과 rank-32 캡션 LoRA·원본 재검토를 사용한다. NTSCC로 키를 부호화하고 캡션·UniMatch 움직임·시점 메타데이터를 LDPC(6144,9216)·16QAM으로 보낸다. AWGN 10dB·채널 seed42, Open-Sora v1.2/STDiT3-XL/2·생성 seed2025·30 steps다.
+Qwen3.5-9B의 의미 변화 순차 선택(후보 간격 4, 끝점 포함, 고정 키 예산 없음)과 rank-32 캡션 LoRA·원본 재검토를 사용한다. 2026-10-19부터 **NTSCC+**로 키를 부호화하고 캡션·UniMatch 움직임·시점 메타데이터를 LDPC(6144,9216)·16QAM으로 보낸다. AWGN 10dB·채널 seed42, LTX-2.5 22B Distilled·생성 seed2025·2단계 8+3 steps다.
 
-수신 생성기는 기존 시간 조건 충돌·짧은 구간·T5 캐시·tail17·메모리 보정 정책을 유지한다. 생성 후 `combined_context`의 궤적 합성·시간 보정·수신 키 경계 보존을 적용한다. 궤적 예산은 같은 영상의 기본 전송량 대비 최대 5%이며 유효 패킷이 없으면 궤적 합성만 생략한다. DCVC-RT/RIFE로 전환하지 않는다. 수신 키의 픽셀 보존은 최종 MP4 이전 PNG 기준이다.
+키 코덱은 공식 `ckbd2_lmbd_0.18.pth.tar`·eta 0.2·NATTEN 0.14.6을 사용한다. Neighborhood Attention 분석 변환 후 checkerboard anchor/non-anchor 특징을 문맥 기반 JSCC로 전송하며, 수신기는 복소 심볼·전송률 인덱스·정규화 전력만으로 키 PNG를 복원한다. 여기서 checkerboard anchor는 키프레임 안의 특징 위치 그룹이다. 송신 hyperlatent는 전송률 계산에만 사용한다. 576×320은 중앙에 0을 패딩해 576×384로 처리하고 수신 후 잘라낸다. 패딩 영역의 심볼도 전송량에 포함한다. 26개 전송률은 uint8 인덱스로 실제 디지털 채널을 통과하며, 공식 코드의 rate-1 마스크 동작도 그대로 보존한다. [코덱 구현](../src/semantic_transmission/ntscc_plus_codec.py) · [검증](RESULTS.md#bsu-ntscc-plus)
 
-`bsu_webvid.run_one`의 생성·전송·평가 연산을 재사용하되 새 작업은 독립 프로토콜·코드 해시·출력 아래 실행한다. Qwen 출력 길이 수정은 기존 `bsu_kinetics_base`의 제한적 형식 재시도를 사용한다. 기존 생성 결과를 새 추론 결과로 재명명하지 않는다. 위 기본 실행기는 Open-Sora 기준선으로 보존한다.
+수신 생성기는 LTX의 두 단계 sigma schedule과 FP8 cast·CPU offload를 사용한다. 구간 길이를 8k+1로 패딩하고 끝부분만 잘라 원래 FPS·전체 프레임 수를 유지한다. 공유 경계에서는 다음 구간의 첫 프레임을 사용한다. Open-Sora 전용 T5 캐시·tail17·조건 충돌 단계는 기본 경로에서 호출하지 않는다. 생성 후 `combined_context`의 궤적 합성·시간 보정·수신 키 경계 보존을 적용한다. 궤적 예산은 같은 영상의 기본 전송량 대비 최대 5%이며 유효 패킷이 없으면 궤적 합성만 생략한다. DCVC-RT/RIFE로 전환하지 않는다. 수신 키의 픽셀 보존은 최종 MP4 이전 PNG 기준이다.
 
-후속 LTX 교체 실험은 [`ltx_receiver.py`](../src/semantic_transmission/ltx_receiver.py)의 수신기에서 Open-Sora 연산을 LTX-2.5 22B Distilled로 대체한다. 기존 BSU 수신 키 두 장을 구간의 정확한 양끝 시점에 조건으로 주고, 수신 캡션과 움직임 scalar를 프롬프트로 사용한다. prompt enhancer는 사용하지 않는다. 2단계 distilled 생성(8+3 steps) 후 동일한 궤적·시간·수신 키 보정을 적용한다. NTSCC/채널 결과를 동일하게 재생하는 비교이며 새 송신 정책이나 추가 원본 조건은 사용하지 않는다. [프로필](../configs/bsu_gen_ltx25.json) · [비교 실행](RUN_GUIDE.md#bsu-ltx)
+`bsu_webvid.run_one`의 생성·전송·평가 연산을 재사용하되 새 작업은 독립 프로토콜·코드 해시·출력 아래 실행한다. Qwen 출력 길이 수정은 기존 `bsu_kinetics_base`의 제한적 형식 재시도를 사용한다. 기존 생성 결과를 새 추론 결과로 재명명하지 않는다. 새 정책은 `bsu_gen_ltx_multikey_ntscc_plus_v4`이다. [`bsu_ltx_pipeline.py`](../src/semantic_transmission/bsu_ltx_pipeline.py)가 수신 패킷의 LTX 프로필을 확인하고 생성·출력 검사를 연결한다. Open-Sora 배치 실행기는 과거 비교용으로 남는다.
+
+기본 실행은 [`ltx_conditioning.py`](../src/semantic_transmission/ltx_conditioning.py)의 검증된 `context` 조건을 사용한다. 인접 두 구간의 합친 길이가 4초 이하이고 두 구간 모두 장면 전환이 의심되지 않으면 수신 키 3장을 정확한 시간 인덱스로 함께 제공한다. 장면 전환 의심은 수신 키 RGB 평균 절대 차이 >45와 히스토그램 거리 >0.55를 동시에 만족할 때이며 실제 장면 전환 정답을 뜻하지 않는다. 조건을 만족하지 않거나 다음 구간이 없으면 기존 양끝 두 키로 생성한다. 구간별 수신 캡션에는 합친 창 안의 시간을 붙이고 기존 움직임 scalar를 유지한다. 생성 창을 고를 때 원본·평가 점수·궤적 보조 영상을 읽지 않는다.
+
+[`ltx_receiver.py`](../src/semantic_transmission/ltx_receiver.py)의 2단계 생성(8+3 steps)과 기존 `combined_context` 보정을 사용한다. 새 움직임 제한 후처리·궤적 생성 조건·캡션 정리는 기본값에 포함하지 않으며 prompt enhancer도 사용하지 않는다. `bounded_multikey_v1` 규칙은 기존 64자리 생성 프로필 해시에 포함해 추가 메타데이터 필드 없이 수신기와 합의한다. 기본 실행은 NTSCC+로 새로 송수신한다. 과거 두 키 NTSCC 패킷 재생과 LTX+NTSCC+ 비교 실행기는 이전 조건을 유지한다. [생성기 프로필](../configs/bsu_gen_ltx25.json) · [비교 실행](RUN_GUIDE.md#bsu-ltx) · [다중 키 검증](RESULTS.md#bsu-ltx-multikey-default)
+
+<a id="bsu-event-selection"></a>
+### 전체 프레임 사건 후보 검사 — 선택적 실험 기능
+
+`--selection-policy events`는 [`qwen35_event_selection.py`](../src/semantic_transmission/qwen35_event_selection.py)의 `qwen35_all_frame_events_v1`을 사용한다. 모든 인접 프레임을 검사하고, 축소 영상의 양방향 LK·RANSAC affine으로 카메라 이동을 추정한다. 원래 크기에서 정렬 후 남는 **16×16 영역의 밝기·윤곽 변화**, 보정 후 특징점 움직임, 전체 밝기 히스토그램, 새로 드러난 영역과 4프레임 누적 변화를 검사한다. 현재 국소 검사는 밝기 기반이므로 같은 밝기의 색 변화만 있는 사건은 놓칠 수 있다.
+
+영상별 과거 변화량의 중앙값·MAD와 고정 하한을 함께 사용한다. 기본 하한은 영역 밝기 차이 12/255, 강한 변화 32/255, 보정 후 특징점 이동 1.5/5 축소 픽셀이다. 장면 전환 보조 기준은 정규화 밝기 히스토그램 차이 0.35다. 강한 한 프레임 사건도 후보가 될 수 있고, 의심 전환의 전후를 포함해 최대 8프레임 간격의 구간으로 묶는다. 후보 구간 밖은 기존 4프레임 검사 정책을 유지한다. 이 값은 실험 전 고정한 공학적 초기값이며 의미 사건 누락 방지를 보장하지 않는다.
+
+Qwen은 마지막으로 선택한 기준 프레임, 구간의 모든 프레임, 변화가 큰 영역의 전후 확대 이미지를 함께 보고 **구간 내부의 실제 프레임 번호**를 선택한다. 양끝이 같은 상태여도 중간 사건을 선택할 수 있다. 후보가 모두 전송되는 것은 아니며, 선택한 키만 후속 캡션·전송 경로로 전달한다. 해소되지 않은 `uncertain`은 기록을 남기고 중단한다. 기본 `semantic` 정책과 과거 실험 결과는 별도로 보존한다. [실행](RUN_GUIDE.md#bsu-event-selection)
 
 <a id="bsu-predictive-default"></a>
 ## BSU-Predict — 별도 예측 전용 모델
 
-**2026-10-18 채택.** 모델·브랜치 이름은 `BSU-Predict`이며 통합 전 `fd37e28`에서 출발한다. [`configs/bsu_predict.json`](../configs/bsu_predict.json)과 [`bsu_predict.py`](../src/semantic_transmission/bsu_predict.py)가 해당 모델의 실행 경로를 정의한다. QP32·기본 간격 2·AWGN 10dB·seed42를 고정하고, 적응형 QP/간격 탐색이나 생성 경로 전환은 수행하지 않는다. 이 브랜치에서는 `run_bsu_predict.sh`로 실행한다. [실행](RUN_GUIDE.md#bsu-predict)
+**2026-10-19 구조 변경.** 이 작업 트리의 `run_bsu_predict.sh`는 [`configs/bsu_predict_jscc.json`](../configs/bsu_predict_jscc.json)과 [`bsu_predict_jscc.py`](../src/semantic_transmission/bsu_predict_jscc.py)의 **NTSCC+ 기준 프레임 전송 + RIFE4.25 중간 프레임 복원**을 실행한다. BSU-Gen과 동일한 NTSCC+ 가중치·송수신 함수를 재사용하며 추가 학습은 하지 않는다. 기본 간격 2·끝점·급격한 화면 변화 양쪽 앵커 규칙, AWGN 10dB·채널 seed42를 유지한다. [실행](RUN_GUIDE.md#bsu-predict)
+
+각 기준 프레임을 독립적인 이미지로 NTSCC+ 인코딩한다. 영상 latent는 복소 채널 심벌로 변환되어 LDPC 없이 AWGN을 통과한다. 시점·크기·FPS·모델 식별자·전송률 인덱스·전력 정규화 값은 무손실 압축 후 LDPC/16QAM으로 전송한다. 수신기는 받은 심벌과 메타데이터만으로 기준 프레임을 복호화하고 RIFE로 사이 프레임을 보간한다. 비용은 영상 복소 심벌 수와 메타데이터의 실제 LDPC/16QAM 심벌 수를 합산한다. `.c64` 파일 바이트는 저장 표현이며 무선 전송 비트가 아니다.
+
+**시간 예측 latent/잔차를 부호화하는 모델은 아니다.** DCVC의 프레임 간 압축을 제거했으므로 같은 앵커 수에서도 전송량이 증가할 수 있다. 이 변경은 사용자 지정 구조의 구현이며 압축 성능 향상을 뜻하지 않는다. Qwen·LTX·Open-Sora·생성 보정·생성 경로 전환은 사용하지 않는다.
+
+**2026-10-18 DCVC 경로 보존.** 이전 [`configs/bsu_predict.json`](../configs/bsu_predict.json)과 [`bsu_predict.py`](../src/semantic_transmission/bsu_predict.py)는 수정하지 않았으며 [`run_bsu_predict_dcvc.sh`](../scripts/run_bsu_predict_dcvc.sh)로 실행한다. 별도 `BSU-Predict` Git 브랜치를 전환하거나 병합하지 않았다. 아래 DCVC 설명과 당시 검증은 이 보존 경로에 해당한다.
 
 송신부는 영상 또는 `0.png`부터 연속된 정규화 원본을 읽는다. 기존 `dense_temporal_receiver.select_indices`의 격자·끝점·급격한 화면 변화 양쪽 앵커 규칙과 기존 `bsu_dcvc_keys.Codec`에서 추론 연산을 분리한 [`predictive_codec.Codec`](../src/semantic_transmission/predictive_codec.py)의 실제 DCVC-RT 비트스트림을 사용한다. 코덱 연산과 고정 가중치는 통합 전과 동일하며 실험·품질 평가용 import 의존성만 분리했다. 최초 앵커는 I 프레임, 이후 앵커는 예측 참조를 사용하는 P 프레임으로 부호화한다. 원래 의미 키 최소 5개 조건과 비용 라우터를 제거했으며 2프레임 영상도 같은 경로로 처리한다.
 
@@ -47,11 +66,11 @@ BSU-Gen, BSU-Predict, 과거 LGVSC 비교 경로의 구조다.
 
 ```mermaid
 flowchart LR
-    V[정규화 원본] --> C[BSU-Predict · DCVC-RT · QP32 · 간격2]
-    C --> P[LDPC·16QAM·AWGN → 독립 DCVC 복호화]
+    V[정규화 원본] --> C[BSU-Predict · NTSCC+ · 간격2]
+    C --> P[영상 심벌 AWGN → NTSCC+ 복호화]
     P --> I[RIFE 보간 → BSU-Predict 출력]
     V --> G[BSU-Gen · Qwen 의미 키·캡션]
-    G --> N[NTSCC·AWGN·Open-Sora v1.2]
+    G --> N[NTSCC+·AWGN·LTX-2.5]
     N --> R[유료 궤적·시간·수신 키 보정 → BSU-Gen 출력]
     V --> L[LGVSC · InternVL SKEM·PLLaVA]
     L --> T[NTSCC·디지털 AWGN → Open-Sora → LGVSC 출력]

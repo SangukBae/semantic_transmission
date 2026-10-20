@@ -2,11 +2,13 @@
 
 [프로젝트](../README.md) · [데이터](DATA.md) · [구조](MODEL_ARCHITECTURE.md) · [결과](RESULTS.md)
 
-**2026-10-18 개발 기준:** 이 `BSU-Gen` 브랜치에서 `run_bsu.sh`·`run_bsu_gen.sh`는 생성 경로만 실행한다. 예측 전용은 `run_bsu_predict.sh`, 과거 혼합은 `run_bsu_hybrid.sh`, 과거 생성 배치는 `run_bsu_webvid.sh`·`run_bsu_kinetics.sh`로 보존한다. `BSU-Predict` 브랜치의 기본 명령은 변경하지 않았다.
+**2026-10-19 개발 기준:** 이 `BSU-Gen` 브랜치에서 `run_bsu.sh`·`run_bsu_gen.sh`는 생성 경로만 실행한다. 예측 전용은 `run_bsu_predict.sh`, 과거 혼합은 `run_bsu_hybrid.sh`, 과거 생성 배치는 `run_bsu_webvid.sh`·`run_bsu_kinetics.sh`로 보존한다. `BSU-Predict` 브랜치의 기본 명령은 변경하지 않았다.
 
 <a id="bsu-default"></a>
 <a id="bsu-gen"></a>
 ## BSU-Gen 실행
+
+기본 키 선택은 `semantic`이다. 전체 프레임 변화 검사와 Qwen 사건 구간 선택을 사용하려면 기존 영상 실행 명령에 `--selection-policy events`를 추가하고 새 `--output`을 지정한다. 예: `bash scripts/run_bsu_gen.sh run --video INPUT.mp4 --output outputs/my_bsu_events --selection-policy events`. [선택기 구조와 한계](MODEL_ARCHITECTURE.md#bsu-event-selection)
 
 ```bash
 # 설치·GPU 없이 설정 확인
@@ -16,7 +18,7 @@ bash scripts/run_bsu_gen.sh profile
 bash scripts/run_bsu_gen.sh check \
   --video /absolute/path/input.mp4 --output outputs/bsu_gen_my_video
 
-# 전체 영상 → Qwen 선택·캡션 → NTSCC/AWGN → Open-Sora → 수신 보정·정량 평가
+# 전체 영상 → Qwen 선택·캡션 → NTSCC+/AWGN → LTX-2.5 → 수신 보정·정량 평가
 bash scripts/run_bsu_gen.sh run \
   --video /absolute/path/input.mp4 --output outputs/bsu_gen_my_video
 
@@ -29,7 +31,20 @@ bash scripts/run_bsu_gen.sh status --output outputs/bsu_gen_my_video
 
 `run_bsu.sh`도 동일한 생성 전용 명령이다. 원본 전체를 576×320·24FPS로 처리하며 길이 상한이나 반복 연결을 넣지 않는다. `--prepared`의 시작 시점은 0, `duration_limit`은 null이어야 한다. 다른 입력·코드·모델 설치 상태로 기존 출력에 이어 쓰는 것은 거부한다. 과거 생성 실험의 `protocol.json`이나 코호트 manifest를 요구하지 않고 설치된 자산과 공개 설정에서 새 실행 계약을 만든다.
 
-기본 환경은 `.local/settings.json`의 `python`·`channel_python`, `.local/qwen35_env/bin/python`이다. 주 실행기 Python만 `BSU_GEN_PYTHON`으로 지정할 수 있으며 하위 모델 실행 환경은 위 설정을 따른다. Qwen 설치 manifest(`outputs/qwen35_setup/model_manifest.json`), 고정 rank-32 캡션 LoRA·PEFT, `.local/model_paths.json`의 STDiT·VAE·T5·2D VAE, Open-Sora·NTSCC 외부 코드, NTSCC·UniMatch 가중치가 필요하다. [공통 준비](#public-start) · [외부 출처](../THIRD_PARTY_NOTICES.md)
+기본 환경은 `.local/settings.json`의 `python`·`channel_python`, `.local/qwen35_env/bin/python`이다. NTSCC+ 송수신은 `.local/ntscc_plus_env/bin/python`, LTX 생성은 `.local/envs/bsu-ltx25/bin/python`을 사용한다. LTX Python은 설정 파일의 `ltx_python`으로 지정할 수도 있다. 주 실행기 Python만 `BSU_GEN_PYTHON`으로 지정할 수 있으며 하위 모델 실행 환경은 위 설정을 따른다. Qwen 설치 manifest(`outputs/qwen35_setup/model_manifest.json`), 고정 rank-32 캡션 LoRA·PEFT, LTX 가중치·manifest(`.local/checkpoints/ltx25`), LTX·NTSCC+ 외부 코드, NTSCC+·UniMatch 가중치가 필요하다. UniMatch 모듈은 기존 Open-Sora 소스에서 가져오지만 Open-Sora 생성기 가중치는 요구하지 않는다. [공통 준비](#public-start) · [외부 출처](../THIRD_PARTY_NOTICES.md)
+
+NTSCC+ 설치는 `bash scripts/setup_ntscc_plus.sh`로 실행한다. Python 3.10·Torch 2.0.0+cu118·NATTEN 0.14.6·공식 lambda 0.18 체크포인트를 별도 설치하고 가중치 SHA-256을 확인한다. 기존 생성기 환경을 변경하지 않는다. LTX 설치는 `bash scripts/setup_bsu_ltx.sh`를 사용한다. 새 기본 정책은 `bsu_gen_ltx_multikey_ntscc_plus_v4`이며 **새 출력 폴더**를 사용한다. 기존 NTSCC 결과와 원격 LTX 수신 재생 비교는 이전 정책의 결과로 남는다.
+
+다중 키는 별도 옵션 없이 기본 적용된다. 수신 키만으로 장면 전환을 검사하고, 인접 두 구간을 최대 4초까지 묶어 키 3장을 정확한 시점에 조건으로 넣는다. 합칠 수 없으면 기존 두 키 생성으로 처리한다. `receiver_policy.json`의 `conditioning`과 `generation_windows`, `receiver/ltx_request.json`에서 실제 선택을 확인할 수 있다. 새 후처리·궤적 생성 조건·캡션 정리는 포함하지 않는다. 과거 실행은 해당 코드·프로토콜로 재현하며, 새 기본 코드가 이전 결과를 자동으로 업그레이드하거나 재사용하지 않는다. [통합 검증과 한계](RESULTS.md#bsu-ltx-multikey-default)
+
+```bash
+# 원본의 첫·중간·마지막 3키만 사용하는 실제 로컬 코덱 검증
+bash scripts/validate_bsu_ntscc_plus.sh \
+  --prepared /absolute/path/source_prepared.json \
+  --output outputs/my_ntscc_plus_validation
+```
+
+이 검증은 공식 무잡음 출력과의 일치, AWGN 10dB·LDPC/16QAM, 수신 파일만 제공한 별도 프로세스 복호화, 기존 NTSCC 대조를 실행한다. Qwen과 전체 영상 생성은 실행하지 않는다. 검증 로그·프레임·회계·설정은 출력 폴더, 환경 목록은 `.local/ntscc_plus_environment.txt`에 남긴다. [검증 결과](RESULTS.md#bsu-ntscc-plus)
 
 `check`의 `READY_FILES_VERIFIED`는 입력 해시·코드·어댑터/코덱 파일·실행 경로·모델 파일 크기/수정 시각 검사다. Qwen 및 생성기 전체 가중치 해시 재검사, 패키지 import, CUDA 실행, 전체 송수신·복원 성공은 의미하지 않는다. 설치나 대용량 모델 다운로드를 자동으로 시작하지 않는다.
 
@@ -37,12 +52,25 @@ bash scripts/run_bsu_gen.sh status --output outputs/bsu_gen_my_video
 |---|---|
 | `gen_protocol.json`, `runtime_template.json`, `protocol.json` | 고정 모델 설정·입력·코드·설치 자산·단일 영상 실행 계약 |
 | `source/` | `--video` 사용 시 전체 정규화 영상·PNG·원본 대응 |
-| `benchmark/snr_10/video/base/` | Qwen 선택·캡션·NTSCC 송수신·Open-Sora 출력과 단계별 검증 |
+| `benchmark/snr_10/video/base/` | Qwen 선택·캡션·NTSCC+ 송수신·LTX 출력과 단계별 검증 |
 | `benchmark/snr_10/video/sender`, `received` | 유료 궤적 송신·채널 결과 |
 | `benchmark/snr_10/video/refined/` | 보정 PNG·`reconstruction.mp4`·최종 정량 결과 |
 | `status.json`, `RESULT.json` | 실패/중단/완료 상태, 최종 영상 해시, 총 채널 사용량 |
 
-고정 터미널 화면에 현재 단계·처리량·경과 시간·로그·실시간 GPU/VRAM을 표시한다. 전체 남은 시간을 근거 없이 추정하지 않는다. 같은 명령으로 완료 파일을 해시 검증해 재개하며 중단된 단계의 부분 파일은 보관 후 재실행한다. `COMPLETE_BSU_GEN`은 복원·등록 화질 평가 완료이며 독립 의미 오류 검수는 `PENDING`이다. Qwen·Open-Sora·채널 오류 시 DCVC/RIFE로 전환하지 않는다.
+고정 터미널 화면에 현재 단계·처리량·경과 시간·로그·실시간 GPU/VRAM을 표시한다. 전체 남은 시간을 근거 없이 추정하지 않는다. 같은 명령으로 완료 파일을 해시 검증해 재개하며 중단된 단계의 부분 파일은 보관 후 재실행한다. LTX는 완료된 구간의 해시를 검증해 재사용하고 실패한 구간부터 생성한다. `COMPLETE_BSU_GEN`은 복원·등록 화질 평가 완료이며 독립 의미 오류 검수는 `PENDING`이다. Qwen·LTX·채널 오류 시 DCVC/RIFE로 전환하지 않는다.
+
+<a id="bsu-event-selection"></a>
+### 로컬 키프레임 선택 비교
+
+2026-10-19 비교는 Kinetics 목록 앞 4편의 전체 구간(960프레임)을 사용한다. LGVSC와 기존 BSU 선택 결과는 입력 픽셀·출처를 검사한 뒤 재사용하고, 개선 선택기만 로컬 Qwen으로 실행한다. GPT6-Astra 기준은 다른 선택 결과를 보지 않은 원본 검토로 별도 고정한다. 기존 원격 LTX 생성 실험과 출력·GPU 작업을 공유하지 않는다.
+
+```bash
+# 이미 준비된 로컬 입력·기준·baseline_lgvsc_import.json 필요
+bash scripts/run_bsu_event_selection.sh run
+bash scripts/run_bsu_event_selection.sh report
+```
+
+출력은 `outputs/bsu_event_selection_20261019_v2`의 `status.json`, `RESULT.json`, `comparison.html`이다. 같은 실행 명령은 소스·코드·응답 해시를 확인하고 완료된 검사와 유효 Qwen 응답을 재사용한다. 스크립트는 터미널 진행률·GPU 사용률·VRAM·로그 경로를 표시한다. 코드나 입력을 바꾼 경우 새 비교 디렉터리를 준비해야 하며, 기존 프로토콜을 덮어쓰지 않는다. 이 명령은 키 선택만 검증하며 생성·전송·복원 품질 평가는 실행하지 않는다.
 
 <a id="bsu-ltx"></a>
 ## LTX-2.5 생성기 교체 비교
@@ -73,10 +101,143 @@ bash scripts/compare_bsu_gen.sh status --output outputs/bsu_ltx_comparison_20261
 
 `raw/`에는 LTX 생성 결과, `refined/`에는 수신 보정 결과와 PNG/MP4별 PSNR·SSIM·LPIPS·CLIP·DISTS·시간 지표를 기록한다. 구간별 완료 파일을 해시 검증하여 재개한다. 최종 `COMPLETE_THREE_WAY_RECONSTRUCTION_COMPARISON`은 14편 전체의 비교 완료만 의미하며 독립 의미 오류 평가와 60초 이상 일반화는 포함하지 않는다. LGVSC는 자체 키 선택·캡션과 전송량을 유지하므로 LGVSC 대비 동일 비트율 성능 비교가 아니다.
 
+<a id="bsu-ltx-improvements"></a>
+## LTX 무학습 수신기 네 기능 비교
+
+[`run_bsu_ltx_improvements.sh`](../scripts/run_bsu_ltx_improvements.sh)는 이미 수신한 메타데이터·RGB 키·선택적 궤적 패킷을 읽는 별도 실행기다. 기존 BSU-Gen 기본값을 변경하지 않는다. [`bsu_ltx_receiver_v2.json`](../configs/bsu_ltx_receiver_v2.json)의 공통 정책을 모든 영상에 그대로 적용하며 영상 ID, 원본 점수, 정답 라벨로 조건을 선택하지 않는다. 원본은 별도 평가기에만 제공한다.
+
+| `--variant` | 변경 |
+|---|---|
+| `baseline` | 기존 양끝 키·캡션·motion score와 `combined_context` |
+| `postprocess` | 키 주변 보정 범위를 제한하고 생성 움직임 변화가 크면 혼합 강도를 감소 |
+| `trajectory` | 수신 궤적으로 양끝 키를 이동시킨 보조 RGB를 LTX 이미지 조건에 추가 |
+| `context` | 같은 장면으로 판단한 인접 두 구간을 최대 4초 범위에서 함께 생성하고 수신 중간 키 유지 |
+| `prompt` | 수신 캡션의 공백 정리 및 수신기가 추가하던 숫자 motion score 생략; 원문 사실·부정문 유지 |
+| `all` | 네 기능 함께 적용 |
+
+궤적 보조 RGB는 실제 전송된 중간 프레임이나 학습된 궤적 임베딩이 아니다. 양끝 각각 3개 이상의 가시 궤적, 양방향 영상 일치도와 공간 커버리지를 확인하며 불확실하면 생략한다. 장면 전환 검사는 수신 키만 사용하는 보수적 추정으로 모든 전환 검출을 보장하지 않는다. 실제 키·시점을 변경하거나 원본으로 누락 구간을 채우지 않는다. 추가 송신 바이트는 없지만 생성 계산량은 달라질 수 있다.
+
+```bash
+received_dir=.local/validation/bsu_ltx_improvements_20261019/received_replay/kinetics_001_a393e9d3/conditions
+bash scripts/run_bsu_ltx_improvements.sh check \
+  --packet "$received_dir/metadata.bin" --keys "$received_dir/keys" \
+  --trajectory "$received_dir/trajectory/trajectory.bin" \
+  --variant all --output outputs/my_ltx_receiver_all
+
+# 같은 인자로 check를 run으로 바꾸면 실제 생성 및 보정을 실행한다.
+# 궤적 패킷을 수신하지 않은 영상은 --trajectory 인자를 생략한다.
+```
+
+`prepare`는 모델 추론 없이 입력 해시·보조 이미지·구간·캡션 요청을 고정한다. `run`은 별도 LTX Python에서 실제 생성한 뒤 보정과 전체 프레임/FPS 검사를 수행한다. 새 비교 실행기는 RAM 사용을 제한하는 `--offload disk`가 기본이며, 충분한 RAM이 있는 호스트에서는 `--offload cpu`를 지정할 수 있다. 실제 오프로딩 방식은 runtime과 생성 영수증에 기록하며 기존 수신기 프로필의 기본 CPU 설정을 변경하지 않는다. `--variant postprocess --raw <완료된_LTX_raw_폴더>`는 수신 조건·seed·출력 단계 해시가 일치하는 실제 생성 결과만 재사용한다. 실행 중단 후 같은 명령은 완료된 구간과 단계의 해시를 확인해 재개하며, 입력·정책·구현이 변경되면 기존 출력 재사용을 거부한다. 로그와 GPU/VRAM 표시에는 공통 터미널 실행기를 사용한다.
+
+검증 실행기는 [`validate_bsu_ltx_improvements.sh`](../scripts/validate_bsu_ltx_improvements.sh)다. `prepare`는 전체 비교 조건 구성, `postprocess`는 기존 전체 영상 재사용 비교, `pilot`은 명시한 영상의 첫 두 키 구간에 대한 실제 LTX 생성 비교다. 파일 manifest의 `cases`에는 `id`, `packet`, `keys`, 선택적 `trajectory`, 완료된 `raw`, 평가용 `source`, `channel_uses`를 기록한다. 경로는 manifest 기준이다. `postprocess`는 같은 영상의 `legacy/quality.json`과 `legacy/reconstruction.mp4`를 해시 검증해 기존 기준선으로 사용한다.
+
+```bash
+bash scripts/validate_bsu_ltx_improvements.sh pilot \
+  --manifest .local/validation/bsu_ltx_improvements_20261019/received_replay/PILOT_MANIFEST.json \
+  --case kinetics_001_ntscc_plus --case kinetics_005_11836d73 \
+  --seeds 2025 42 --output outputs/my_ltx_four_factor_pilot
+```
+
+파일럿은 전체 수신 패킷에서 고정한 짧은 구간을 재생하는 진단이다. 해당 구간만의 독립 송신률이나 장시간·다중 SNR·미사용 데이터 일반화 결과로 해석하지 않는다. 평가 결과와 기본 채택 여부는 별도로 기록한다.
+
+<a id="bsu-key-budget-pilot"></a>
+## BSU-Gen 키 수·전송 예산 배분 예비 검증
+
+[`run_bsu_budget_pilot.sh`](../scripts/run_bsu_budget_pilot.sh)는 두 개발 영상의 첫 두 의미 키 구간을 독립적으로 새 송수신한다. 기본 manifest는 기존 파일럿의 미식축구 37프레임·골프 25프레임이며, 이번에는 **두 영상 모두 NTSCC+**를 사용한다. 현재 3키·키 1장 추가/장당 저율·양끝 2키/장당 고율의 세 조건을 비교한다. 추가 키는 송신 원본의 축소 RGB 선형 보간 잔차가 가장 큰 시점이며 키 간격 하한은 4프레임이다. 최종 LTX 기여도를 학습하거나 원본 평가 점수로 후보를 고르는 방법은 아니다.
+
+기반 가중치와 다중 키 `context`·`combined_context` 보정은 고정한다. 캡션은 기존 사실을 시간 겹침에 따라 분할·결합하고 flow는 겹친 길이로 평균한다. Qwen을 새로 호출하지 않으며, 키 수 변화에 따른 캡션 구획·생성 창 변화도 포함한 공동 정책 비교다. 새 정책·eta를 선언한 패킷으로 실제 AWGN 10dB·seed42·LDPC/16QAM을 통과시킨다. 수신 복호화와 생성에는 수신 파일만 제공한다.
+
+기준선 eta 0.2의 실제 시각 심벌·메타데이터 비용을 기준으로 후보의 eta를 최대 14회 이분 탐색한다. 선택 기준은 품질 점수가 아닌 실제 채널 사용량이다. 궤적은 기준선 기본 전송량의 5% 이내에서 만든 뒤 기준선의 실제 궤적 비용을 후보의 공통 상한으로 사용한다. 후보의 총 사용량은 기준선 이하이어야 하며, **같은 예산 상한과 같은 실사용량은 구분**한다. 결과에 실제 사용량, 차이 비율과 1% 이내 일치 여부를 기록한다. 조건별 최종 영상 전체, 각 조건의 비키 프레임, 모든 조건에서 공통으로 비키인 프레임을 따로 비교한다.
+
+```bash
+bash scripts/run_bsu_budget_pilot.sh check
+bash scripts/run_bsu_budget_pilot.sh run
+
+# 별도 터미널: 고정 행으로 단계·구간·평가·경과 시간·GPU/VRAM·실패 확인
+bash scripts/run_bsu_budget_pilot.sh watch
+
+# 한 번만 확인
+bash scripts/run_bsu_budget_pilot.sh status
+```
+
+기본 출력은 `outputs/bsu_key_budget_pilot_20261019`, 기본 생성 seed는 2025다. 새 출력에 `--seeds 2025 42`를 주면 두 seed로 실행한다. disk offload로 한 LTX 인스턴스를 순차 재사용한다. 생성 6회와 raw/보정 후 평가 12회를 계획하며 실제 생성 구간 수는 수신 조건 구성 후 확정한다. `watch`에서 Ctrl+C를 누르면 모니터만 종료한다. 실험 중단 후 동일한 `run` 명령은 완료 단계·구간 해시를 검사해 재개하고, 코드·입력·설정 변경을 거부한다. `run`은 전체 실행 로그를 출력의 `run.log`에 자동 보존한다. 단계별 로그는 `logs/`, 최종 결과는 `RESULT.json`이다. `COMPLETE_BSU_KEY_BUDGET_PILOT`이 완료 상태이며, 기본 모델 채택·장시간 일반화·독립 의미 정확도 입증을 뜻하지 않는다.
+
+<a id="bsu-metadata-compression"></a>
+## BSU-Gen 무손실 메타데이터 압축 검증
+
+[`validate_bsu_metadata_compression.sh`](../scripts/validate_bsu_metadata_compression.sh)는 기존 NTSCC+ 패킷의 원본·5비트 인덱스 포장·전체 zlib 압축·5비트 후 zlib 압축을 비교한다. `auto`는 원본을 포함한 후보 중 전송 바이트 수가 가장 작은 것을 선택한다. 새 포맷의 버전·방식·길이·CRC를 포함한 16바이트 헤더와 LDPC 패딩·오류정정 비용을 모두 집계한다. 수신 후 원래 `LGV1` 패킷을 바이트 단위로 복원한 다음 기존 디코더에 전달하는 별도 검증이며, BSU-Gen 기본 송수신 경로에는 아직 적용하지 않았다.
+
+입력은 완료된 원격 14편에서 해시를 확인해 가져온 로컬 `remote_packets.json`과 로컬 키·예산 파일럿의 6개 패킷이다. 캐시는 `.local/validation/bsu_metadata_compression_20261019/remote_packets.json`, 파일럿은 `outputs/bsu_key_budget_pilot_20261019`에 있어야 한다. 데이터 캐시와 완료 출력은 Git 배포물에 없으므로 다른 컴퓨터에서는 해당 파일·출처를 먼저 인계해야 한다.
+
+```bash
+# 실제 패킷·후보 포맷·코드·채널 조건을 동결하고 비용 계산
+bash scripts/validate_bsu_metadata_compression.sh plan
+
+# CPU Sionna 환경에서 실제 채널 전송; 동일 명령으로 검증 후 재개
+bash scripts/validate_bsu_metadata_compression.sh run
+
+# 진행 상황: watch는 Ctrl+C로 모니터만 종료
+bash scripts/validate_bsu_metadata_compression.sh watch
+bash scripts/validate_bsu_metadata_compression.sh status
+```
+
+출력은 `outputs/bsu_metadata_compression_20261019`이며 `--output DIR`로 바꿀 수 있다. 20개 패킷에 대해 10dB·seed42에서 네 방식, 10dB·seed2025와 진단용 8dB·두 seed에서 원본/auto를 비교해 총 200회를 수행한다. `RATE_REPORT.json`은 실제 패킷 크기 기반 비용, `channel/`은 실제 수신 바이트·비트 오류·복원 검증 기록, `RESULT.json`은 완료 결과다. 프로토콜·코드·패킷과 완료 수신 파일의 해시를 검사한 뒤 재개하며, 완료 실행 재호출은 결과를 검증해 재사용한다.
+
+완료 상태는 `COMPLETE_BSU_METADATA_COMPRESSION_VALIDATION`이다. 10dB의 복원 실패 또는 오류를 발견하지 못하고 잘못된 원본을 반환하면 완료로 표시하지 않는다. 8dB에서 무결성 검사로 거부된 패킷은 진단 결과로 별도 집계한다. 영상 심볼·궤적의 기존 비용과 디코더 입력을 유지하며 새 신경망 추론이나 화질 재평가는 수행하지 않는다. [결과와 해석](RESULTS.md#bsu-metadata-compression)
+
+<a id="bsu-metadata-e2e"></a>
+### 원격 영상 생성·화질 평가
+
+[`run_bsu_metadata_e2e.sh`](../scripts/run_bsu_metadata_e2e.sh)는 원격의 완료된 LTX+NTSCC+ 기준선 코드와 모델을 별도 작업 폴더에 보존해 실행한다. **14편의 비압축 대조군과 압축군을 모두 새로 복호화·생성·평가**한다. 총 28개 조건, 6,666개 생성 프레임, 242개 생성 구간, 생성 직후·보정 후 평가 56회를 수행한다. 저장된 송신 영상 심볼은 재사용하고 메타데이터·궤적의 실제 LDPC/16QAM/AWGN 전송과 영상 심볼의 AWGN을 다시 실행한다.
+
+원격 `sangukcom` 터미널에서:
+
+```bash
+cd /home/sangukbae/ETRI/Semantic/semantic_transmission_bsu_metadata_e2e
+bash scripts/run_bsu_metadata_e2e.sh watch
+
+# 한 번만 확인
+bash scripts/run_bsu_metadata_e2e.sh status
+```
+
+로컬 WSL에서:
+
+```bash
+ssh -t semantic-pc 'cd /home/sangukbae/ETRI/Semantic/semantic_transmission_bsu_metadata_e2e && bash scripts/run_bsu_metadata_e2e.sh watch'
+```
+
+`watch`의 Ctrl+C는 모니터만 종료한다. 실행은 원격 tmux 세션 `bsu-metadata-e2e-v2-20261019`에서 계속된다. 출력은 원격 작업 폴더의 `outputs/bsu_metadata_e2e_20261019_v2`, 로그는 `run.log`, 결과는 `RESULT.json`이다. `COMPLETE_BSU_METADATA_E2E_QUALITY`가 완료 상태다. 중단 후 같은 폴더에서 `bash scripts/run_bsu_metadata_e2e.sh run`으로 코드·입력·완료 단계·구간 해시를 확인해 재개한다. 진행 화면은 단계·조건·구간·평가 수, 경과 시간, GPU/VRAM, 실패를 표시하며 ETA는 아직 추정하지 않는다.
+
+AWGN 10dB·채널 seed42·궤적 seed43·생성 seed2025, 기존 양끝 두 키 조건과 생성·보정·평가 코드를 고정했다. 기존 NTSCC+ 복호화를 반복하면 일부 RGB 값이 1만큼 달라지는 현상이 있어, 두 새 조건에 동일한 결정적 연산 설정을 적용한다. 첫 영상의 독립 복호화 두 번에서 31개 키의 일치를 확인했다. 압축군은 새 대조군과 키 이미지·유효 LTX 조건이 일치해야 생성으로 진행한다. 주 비교는 **새 대조군 대 새 압축군**이며, 과거 출력과의 차이는 별도 진단이다. 현재 다중 키 기본 경로로 바꾸거나 절감분을 재투자하는 실험이 아니다.
+
+이 실행기는 원격에 보존한 기준선 코드와 입력에 의존한다. 기본 `--reference`는 형제 폴더 `semantic_transmission_bsu_ltx_plus/outputs/bsu_ltx_plus_20261019`이고 `.local`의 환경·모델도 필요하다. 코드만 다른 PC로 복사한 상태의 실행을 보장하지 않는다. [실행 조건·검증 기록](validation/2026-10-19-bsu-metadata-e2e.json)
+
+<a id="bsu-ltx-plus"></a>
+## LTX + NTSCC+ 조합 검증
+
+[`compare_bsu_ltx_plus.sh`](../scripts/compare_bsu_ltx_plus.sh)는 완료된 14편 비교를 입력으로 받는다. 키 위치·캡션·flow·궤적 좌표를 고정하고 **NTSCC+ 부호화 → 실제 AWGN/LDPC 전송 → 키 복호화 → LTX 생성 → 수신 보정 → 평가**를 새로 실행한다. 궤적은 새 기본 패킷 해시에 연결해 다시 전송하며 비용을 전부 집계한다. 궤적 표현은 기존 실험과 같게 유지하므로 새 기본 전송량의 5%로 다시 제한하지 않는다. LGVSC·Open-Sora/NTSCC·LTX/NTSCC의 완료 결과와 비교하되 동일 전송량 비교로 표시하지 않는다.
+
+```bash
+bash scripts/compare_bsu_ltx_plus.sh check \
+  --reference /absolute/path/bsu_ltx_comparison_20261018 \
+  --output outputs/bsu_ltx_plus_20261019
+
+bash scripts/compare_bsu_ltx_plus.sh run \
+  --reference /absolute/path/bsu_ltx_comparison_20261018 \
+  --output outputs/bsu_ltx_plus_20261019
+
+bash scripts/compare_bsu_ltx_plus.sh status --output outputs/bsu_ltx_plus_20261019
+```
+
+새 검증은 원격의 별도 작업 폴더 `~/ETRI/Semantic/semantic_transmission_bsu_ltx_plus`에서 실행한다. 원격 PC 터미널에서는 `tmux attach -r -t bsu-ltx-plus-20261019`로 진행 화면을 보고 `Ctrl+B` 다음 `D`로 분리한다. 로컬 WSL에서는 `ssh -t semantic-pc 'tmux attach -r -t bsu-ltx-plus-20261019'`를 사용한다. `semantic-pc`는 로컬 SSH 별칭이므로 원격 PC 안에서 다시 사용하지 않는다.
+
+진행 화면은 완료 영상 수·현재 단계·구간 진행·GPU 사용률·VRAM·로그 경로를 표시한다. `status`는 현재 영상의 완료 구간 수도 읽는다. 완료 표시는 `COMPLETE_LTX_NTSCC_PLUS_COMPARISON`, 실패 표시는 `FAILED`다. 중단 후에는 같은 코드·설정으로 동일한 `run` 명령을 실행하면 해시 검증된 단계와 생성 구간을 재사용한다. 시작 확인은 최종 복원 품질 검증 완료를 의미하지 않는다.
+
 <a id="bsu-predict"></a>
 ## BSU-Predict 실행
 
-영상 파일 또는 `0.png, 1.png, ...`로 연속된 정규화 RGB PNG를 입력으로 받는다. Qwen 의미 추출·NTSCC 전송·궤적·Open-Sora 산출물은 필요하지 않다. QP32·기본 간격2·AWGN 10dB·seed42의 예측 전용 프로필은 [`configs/bsu_predict.json`](../configs/bsu_predict.json)이다.
+영상 파일 또는 `0.png, 1.png, ...`로 연속된 정규화 RGB PNG를 입력으로 받는다. **2026-10-19부터 이 작업 트리의 기본 명령은 NTSCC+ 기준 프레임 JSCC + RIFE4.25 복원**이다. 기본 간격2·AWGN 10dB·채널 seed42·인코더 seed2025의 프로필은 [`configs/bsu_predict_jscc.json`](../configs/bsu_predict_jscc.json)이다. BSU-Gen의 NTSCC+ 가중치를 재사용하며 추가 학습은 없다. 시각 심벌에는 LDPC를 사용하지 않으며, 압축한 메타데이터에만 적용한다. 프레임별 독립 JSCC이므로 DCVC보다 전송량이 작다는 보장은 없다.
 
 ```bash
 # 설치·GPU 없이 모델 설정 확인
@@ -86,7 +247,7 @@ bash scripts/run_bsu_predict.sh profile
 bash scripts/run_bsu_predict.sh check \
   --video /absolute/path/input.mp4 --output outputs/bsu_predict_my_video
 
-# 전체 영상 정규화 → DCVC 송신 → 실제 채널 → 독립 복호화 → RIFE → MP4
+# 전체 영상 정규화 → NTSCC+ 심벌 → AWGN → 독립 복호화 → RIFE → MP4
 bash scripts/run_bsu_predict.sh run \
   --video /absolute/path/input.mp4 --output outputs/bsu_predict_my_video
 
@@ -96,19 +257,22 @@ bash scripts/run_bsu_predict.sh run \
   --output outputs/bsu_predict_my_frames
 
 bash scripts/run_bsu_predict.sh status --output outputs/bsu_predict_my_video
+
+# 이전 DCVC-RT/RIFE 경로와 기존 출력 재개는 이 명령으로 보존
+bash scripts/run_bsu_predict_dcvc.sh profile
 ```
 
 `--video`는 전체 길이를 기본 576×320·24fps로 정규화한다. `--width`·`--height`·`--fps`로 이를 명시할 수 있다. `--source-frames`는 기존 크기를 유지하고 `--fps`의 시간표를 사용한다. 크기는 양의 짝수, 프레임은 최소 2장이어야 한다. 오디오 전송은 포함하지 않는다. 입력 폴더와 출력은 서로 겹치지 않아야 한다.
 
-필요한 자산은 아래 이전 혼합 모델 표의 **DCVC-RT·RIFE·복원 Python·채널 Python·FFmpeg/ffprobe**다. BSU-Predict에는 Qwen·NTSCC·Open-Sora·T5·생성 어댑터가 필요하지 않다. 기본 Python 경로는 `.local/dcvc_rt_env/bin/python`, `.local/bsu_codec_eval_env/bin/python`, `.local/settings.json`의 `channel_python`이다. 다른 실행 환경은 `--codec-python`·`--receiver-python`·`--channel-python`으로 지정한다. 셸 실행기 자체의 Python은 `BSU_PREDICT_PYTHON=/path/to/python`으로 지정할 수 있다. DCVC 소스는 `.local/vendor/DCVC-RT`에 준비한다.
+필요한 자산은 **NTSCC+·RIFE·복원 Python·채널 Python·FFmpeg/ffprobe**다. Qwen·DCVC·LTX·Open-Sora·T5·생성 어댑터는 필요하지 않다. NTSCC+는 `scripts/setup_ntscc_plus.sh`의 고정 환경·체크포인트를 사용한다. 기본 Python 경로는 `.local/ntscc_plus_env/bin/python`, `.local/bsu_codec_eval_env/bin/python`, `.local/settings.json`의 `channel_python`이다. 다른 실행 환경은 `--codec-python`·`--receiver-python`·`--channel-python`으로 지정한다. 셸 실행기 자체의 Python은 `BSU_PREDICT_PYTHON=/path/to/python`으로 지정할 수 있다. NTSCC+ 소스는 `.local/vendor/NTSCC_plus`에 준비한다. 기존 DCVC 경로는 `.local/dcvc_rt_env/bin/python`과 `.local/vendor/DCVC-RT`를 계속 사용한다.
 
-`check`의 `READY_FILES_VERIFIED`는 입력·파일·해시 검사이며 패키지 import·CUDA 커널·실제 송수신 성공은 검증하지 않는다. 새 장비용 DCVC/RIFE 자동 설치기는 제공하지 않는다. [외부 출처와 고정 버전](../THIRD_PARTY_NOTICES.md#bsu-predictive-dependencies)
+`check`의 `READY_FILES_VERIFIED`는 입력·파일·해시·코덱 패키지 버전 검사이며 CUDA 커널·실제 송수신 성공은 검증하지 않는다. 새 장비용 RIFE 자동 설치기는 제공하지 않는다. [외부 출처와 고정 버전](../THIRD_PARTY_NOTICES.md#bsu-predictive-dependencies)
 
 | 출력 | 내용 |
 |---|---|
 | `protocol.json`, `source.json` | 설정·원본·코드·모델·정규화·재개 계약 |
-| `sender/packet.bin`, `sender/sender.json` | 예측 스트림·유료 시점·예상 실제 채널 사용량 |
-| `received/packet.bin`, `received/channel.json` | 단일 seed42 채널 전달·실측 심벌·비트 오류 |
+| `sender/visual.c64`, `sender/metadata_wire.bin`, `sender/sender.json` | JSCC 심벌·압축 메타데이터·유료 시점·예상 실제 채널 사용량 |
+| `received/visual.c64`, `received/metadata.bin`, `received/channel.json` | seed42 잡음 심벌·복원 메타데이터·실측 사용량·메타데이터 비트 오류 |
 | `decoded/`, `decoded.json` | 받은 패킷만으로 독립 복호화한 앵커 |
 | `reconstruction/reconstruction.mp4`, `reconstruction/receiver.json` | RIFE 복원 및 최종 MP4 시간표 검사 |
 | `stages/`, `status.json`, `RESULT.json` | 완료 단계 해시·진행·실패/중단·최종 결과 |

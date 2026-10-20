@@ -1,19 +1,19 @@
 # BSU-Gen: 생성 경로 전용 영상 전송 모델
 
-**BSU-Gen**은 기존 BSU의 Qwen 의미 선택·캡션, NTSCC 전송, Open-Sora v1.2 생성, `combined_context` 수신 보정을 독립시킨 생성 전용 모델입니다. 모델명과 브랜치명은 `BSU-Gen`입니다. `BSU-Predict` 브랜치에서 분기했으며 예측 모델도 별도 실행 명령으로 보존합니다. 이 기준 구현은 새 학습이나 할루시네이션 완화 효과 입증을 포함하지 않습니다.
+**BSU-Gen**은 Qwen 의미 선택·캡션, NTSCC+ 전송, LTX-2.5 22B Distilled 생성, `combined_context` 수신 보정을 사용하는 생성 전용 모델입니다. 모델명과 브랜치명은 `BSU-Gen`입니다. 2026-10-19부터 기본 실행을 NTSCC+ 송수신과 LTX-2.5 복원으로 변경했습니다. 새 기본 경로는 장면 전환이 의심되지 않는 인접 두 구간을 최대 4초까지 묶어 수신 키 3장을 생성 조건으로 사용합니다. [다중 키 통합과 검증 범위](docs/RESULTS.md#bsu-ltx-multikey-default) · [실제 송수신 검증](docs/RESULTS.md#bsu-ntscc-plus). `BSU-Predict` 브랜치에서 분기했으며 예측 모델도 별도 실행 명령으로 보존합니다. 새 학습이나 전체 영상 품질 향상은 입증하지 않았습니다.
 
-**LTX 교체 실험:** `LTX-2.5 22B Distilled` 수신기와 LGVSC·Open-Sora BSU·LTX BSU의 3자 비교 실행기를 추가했습니다. 실제 수신 키·캡션·궤적을 재사용해 생성기 교체 효과를 비교합니다. 원격 PC의 14편·3,333프레임 기준 결과를 해시 검증했으며, LTX의 실제 GPU 복원·품질 비교 완료는 아직 확인하지 않았습니다. [실행과 검증 범위](docs/RUN_GUIDE.md#bsu-ltx)
+**기본 생성기:** LTX의 2단계 distilled 생성(8+3 steps), FP8 cast·CPU offload를 사용합니다. 기본 실행기의 연결 검증과 별도로, 원격 LTX+NTSCC+ 조합의 전체 영상 품질 비교를 진행합니다. [기본 실행](docs/RUN_GUIDE.md#bsu-gen) · [조합 비교](docs/RUN_GUIDE.md#bsu-ltx-plus)
 
 ## 현재 기본 구조
 
-이 브랜치의 [`bash scripts/run_bsu.sh`](docs/RUN_GUIDE.md#bsu-gen)와 [`bash scripts/run_bsu_gen.sh`](scripts/run_bsu_gen.sh)는 같은 생성 전용 실행기입니다. 영상 파일 또는 기존 `source_prepared.json`을 받아 전체 길이를 576×320·24FPS로 처리합니다. **AWGN 10dB·채널 seed42·생성 seed2025·30 steps**를 고정합니다.
+이 브랜치의 [`bash scripts/run_bsu.sh`](docs/RUN_GUIDE.md#bsu-gen)와 [`bash scripts/run_bsu_gen.sh`](scripts/run_bsu_gen.sh)는 같은 생성 전용 실행기입니다. 영상 파일 또는 기존 `source_prepared.json`을 받아 전체 길이를 576×320·24FPS로 처리합니다. **AWGN 10dB·채널 seed42·생성 seed2025·8+3 steps**를 고정합니다.
 
 ```mermaid
 flowchart LR
     V[전체 원본 영상] --> A[Qwen 의미 키 선택·보강 캡션·UniMatch 움직임]
-    A --> T[NTSCC 키프레임·유료 메타데이터]
+    A --> T[NTSCC+ 키프레임·유료 메타데이터]
     T --> W[AWGN · 메타데이터 LDPC·16QAM]
-    W --> D[수신 키·캡션·움직임 → Open-Sora v1.2]
+    W --> D[수신 키·캡션·움직임 → LTX-2.5]
     V --> P[예산 내 희소 궤적·별도 채널 전송]
     D --> R[궤적·시간 보정·수신 키 경계 보존]
     P --> R
@@ -25,13 +25,13 @@ flowchart LR
 - 수신 보정은 생성 RGB·수신 키·수신 궤적을 사용합니다. 원본 비교는 별도 평가 단계이며 PSNR/LPIPS 개선을 의미 오류 감소로 간주하지 않습니다.
 - 궤적의 추가 예산은 해당 영상의 실제 기본 BSU 전송량 대비 최대 5%입니다. LGVSC 대비 5%라는 뜻이 아닙니다. 모든 디지털 헤더·CRC·LDPC 패딩·패리티도 비용에 포함합니다.
 - 같은 명령으로 완료 단계를 해시 검증해 재개합니다. 실패 시 예측 모델로 전환하지 않습니다.
-- 예측 전용은 [`run_bsu_predict.sh`](docs/RUN_GUIDE.md#bsu-predict), 과거 혼합은 [`run_bsu_hybrid.sh`](docs/RUN_GUIDE.md#bsu-hybrid), 과거 생성 배치는 `run_bsu_webvid.sh`·`run_bsu_kinetics.sh`로 보존합니다.
+- 예측 전용 [`run_bsu_predict.sh`](docs/RUN_GUIDE.md#bsu-predict)는 2026-10-19부터 **NTSCC+ 기준 프레임 JSCC + RIFE**를 실행합니다. 영상 심벌에는 LDPC를 사용하지 않으며, 추가 학습 없이 BSU-Gen의 이미지 코덱을 재사용합니다. 시간 예측 잔차 코덱은 아니며 전송량 감소를 보장하지 않습니다. 이전 DCVC 경로는 `run_bsu_predict_dcvc.sh`, 과거 혼합은 [`run_bsu_hybrid.sh`](docs/RUN_GUIDE.md#bsu-hybrid), 과거 생성 배치는 `run_bsu_webvid.sh`·`run_bsu_kinetics.sh`로 보존합니다.
 
 <a id="status"></a>
 <a id="scope"></a>
 ## 검증 범위와 한계
 
-현황 정리: **2026-10-18**. 생성 전용 실행기·전체 영상 준비·독립 프로토콜·실제 비용 집계·실패 중단·재개를 구현했습니다. 새 실행기의 전체 GPU 생성·성능 비교와 독립 의미 오류 평가는 미실행입니다. [BSU-Gen 구현 검증](docs/validation/2026-10-18-bsu-gen.json) · [BSU-Predict 검증 이력](docs/validation/2026-10-18-bsu-predict.json)
+현황 정리: **2026-10-19**. 생성 전용 실행기·전체 영상 준비·독립 프로토콜·실제 비용 집계·실패 중단·재개를 구현했습니다. 실제 LTX 두 영상의 짧은 구간·두 seed 비교에서 다중 키의 PSNR·LPIPS가 네 조건 모두 개선돼 다중 키만 기본 경로에 통합했습니다. 모델 대역 연결 시험과 실제 파일럿 조건의 일치도 확인했습니다. 새 생성 기본 경로의 전체 GPU 생성과 독립 의미 오류 평가는 미실행입니다. 별도 BSU-Predict의 NTSCC+/RIFE는 원격 Kinetics 001 전체 복원과 화질 평가를 완료했으며, 기존 DCVC 대비 화질 개선과 함께 전송량이 7.75배 증가했습니다. [다중 키 검증](docs/RESULTS.md#bsu-ltx-multikey-default) · [BSU-Predict 실측 결과](docs/RESULTS.md#bsu-predict)
 
 10월 16일의 14편·3,333프레임 비교는 **예측 8편 + 생성 6편의 혼합 BSU** 결과입니다. 전송 2,470,155·PSNR 26.305dB·LPIPS 0.23462를 예측 전용 모델의 수치로 사용할 수 없습니다. 적응형 간격+QP의 추가 1.12% 절감도 당시 혼합 모델 기준입니다. [이전 모델의 결과와 증거](docs/RESULTS.md#bsu-predictive-default)
 
