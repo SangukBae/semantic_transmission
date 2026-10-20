@@ -1,0 +1,142 @@
+{
+  "status": "COMPLETE_REMOTE_BSU_PREDICT_COMPRESSION_001",
+  "verified_at": "2026-10-19T11:05:09.406771+00:00",
+  "remote_host": "sangukcom",
+  "remote_workdir": "/home/sangukbae/ETRI/Semantic/semantic_transmission_bsu_predict_compressed",
+  "implementation": {
+    "entrypoint": "scripts/run_bsu_predict_compressed.sh",
+    "compression": "zlib of original nested packet headers; DCVC bitstream verbatim",
+    "existing_default_changed": false,
+    "new_training": false,
+    "raw_fallback_if_wire_bytes_do_not_shrink": true,
+    "decoder_original_packet_exact": true,
+    "deterministic_rife_comparison": true
+  },
+  "comparison": {
+    "status": "COMPLETE_BSU_PREDICT_COMPRESSION_PAIR",
+    "model": "BSU-Predict",
+    "metadata_transport": {
+      "policy": "bsu_predict_lossless_headers_v1",
+      "dcvc_stream_unchanged": true,
+      "original_packet_restored_before_decode": true,
+      "restore_numerics": {
+        "seed": 0,
+        "deterministic_algorithms": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "matmul_tf32": false,
+        "cudnn_tf32": false,
+        "cublas_workspace_config": ":4096:8"
+      }
+    },
+    "source": {
+      "video": "/home/sangukbae/ETRI/Semantic/semantic_transmission/outputs/bsu_kinetics_context/inputs/kinetics/kinetics_001_a393e9d3/normalized.mp4",
+      "sha256": "a8fe0001ae1e86c80fc7671b77e6c8bde04d8463192130d95d042b71264f5382",
+      "fps": 24,
+      "width": 576,
+      "height": 320
+    },
+    "video": {
+      "frames": 240,
+      "width": 576,
+      "height": 320,
+      "fps": 24
+    },
+    "original_encoded_packets_identical": true,
+    "decoded_and_restored_frames": [
+      {
+        "boundary": "prepared",
+        "files": 240,
+        "all_sha256_identical": true
+      },
+      {
+        "boundary": "decoded",
+        "files": 121,
+        "all_sha256_identical": true
+      },
+      {
+        "boundary": "reconstruction/frames",
+        "files": 240,
+        "all_sha256_identical": true
+      }
+    ],
+    "final_mp4_identical": true,
+    "checked_artifact_hashes": 1222,
+    "original_metadata_prefix_bytes": 1154,
+    "dcvc_stream_bytes": 188056,
+    "packet_bytes_before": 189210,
+    "packet_bytes_after": 188811,
+    "bytes_saved": 399,
+    "channel_uses_before": 569088,
+    "channel_uses_after": 566784,
+    "channel_saving_percent": 0.4048582995951455,
+    "ldpc_blocks_before": 247,
+    "ldpc_blocks_after": 246,
+    "bit_errors": [
+      0,
+      0
+    ],
+    "compressed_video": "/home/sangukbae/ETRI/Semantic/semantic_transmission_bsu_predict_compressed/outputs/kinetics_001_20261019_deterministic/compressed/reconstruction/reconstruction.mp4",
+    "compressed_video_sha256": "68ef32d795973a4ca54ea324ea1e952720321ea66c0e98058dd3b9ec3824fc15",
+    "results": [
+      {
+        "path": "/home/sangukbae/ETRI/Semantic/semantic_transmission_bsu_predict_compressed/outputs/kinetics_001_20261019_deterministic/control/RESULT.json",
+        "sha256": "05760c066deccf9b8962e7505a41f3a1235ff4e30ed24346e0bf0f68296d345d"
+      },
+      {
+        "path": "/home/sangukbae/ETRI/Semantic/semantic_transmission_bsu_predict_compressed/outputs/kinetics_001_20261019_deterministic/compressed/RESULT.json",
+        "sha256": "2a5a75240b2983e1b70875a73938fdb2623bb060e4cdfc3a95ef2b78e3a48180"
+      }
+    ],
+    "quality_metrics_recomputed": false,
+    "full_cohort_validated": false
+  },
+  "local_video": "/home/sangukbae/semantic_transmission/outputs/bsu_predict_compressed_remote_001_20261019/kinetics_001_compressed.mp4",
+  "local_probe": {
+    "width": 576,
+    "height": 320,
+    "avg_frame_rate": "24/1",
+    "nb_read_frames": "240"
+  },
+  "validation": {
+    "local_tests_passed": 53,
+    "remote_tests_passed": 29,
+    "remote_test_warnings": 1,
+    "deployed_files_verified": 269,
+    "original_model_tests_included": true,
+    "source_frames_unchanged": true,
+    "original_and_compressed_real_gpu_inference": true,
+    "actual_ldpc_qam_awgn_executed": true,
+    "all_240_frames_and_mp4_byte_identical": true
+  },
+  "initial_diagnosis": {
+    "original_packets_identical": true,
+    "decoded": {
+      "frames": 121,
+      "exact_frames": 121,
+      "different_pixels": 0,
+      "max_rgb_difference": 0,
+      "absolute_rgb_sum": 0
+    },
+    "restored": {
+      "frames": 240,
+      "exact_frames": 121,
+      "different_pixels": 113354,
+      "max_rgb_difference": 4,
+      "absolute_rgb_sum": 119540
+    },
+    "same_raw_input_repeat": {
+      "frames": 240,
+      "exact_frames": 121,
+      "different_pixels": 112094,
+      "max_rgb_difference": 4,
+      "absolute_rgb_sum": 117975
+    }
+  },
+  "numerical_note": "Initial identical packets/121 anchors yielded RIFE repeated-run differences up to 4 RGB levels, also reproduced with the same raw input. Both fresh controls use the recorded deterministic RIFE settings; initial outputs and original code snapshot were preserved.",
+  "limitations": [
+    "Only Kinetics 001 was evaluated for this predictive compression path.",
+    "No PSNR/SSIM/LPIPS/action metrics were recomputed.",
+    "The measured total channel reduction is 0.405%; it is not the NTSCC+ rate-index compression gain."
+  ]
+}
