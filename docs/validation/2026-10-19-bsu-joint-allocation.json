@@ -1,0 +1,124 @@
+{
+  "status": "IMPLEMENTED_AND_BOUNDED_VALIDATION_PASSED",
+  "date": "2026-10-19",
+  "implementation": {
+    "src/semantic_transmission/bsu_allocation.py": "cfbcb8ee6d05d944247d0bb525d6f09267c8982757916824fe2263819bfdfeb0",
+    "src/semantic_transmission/bsu_allocation_data.py": "6f7b69ef1b09d676460ce861e577f9b714026366fa9957bf5513f6c4d40d4aea",
+    "src/semantic_transmission/bsu_allocation_transport.py": "3a7959f289cac51c5564df763b5b7d486cb4e3ca1cca318f4e6b9ca16d17457f",
+    "src/semantic_transmission/bsu_allocation_training.py": "e7674a97018cb1f00aea6e07d491fa9906fc8d1230fdac07e3f502483e49ecaa",
+    "configs/bsu_allocation.json": "186d31bdc917716cdac3dbae41de0d35b9d779eaffb5db042f3d7fcd0d8ccd6e",
+    "scripts/run_bsu_allocation.sh": "203cfedbaa99b21533e73163f7b7d0bebc1b79396f5c61f4332a02895028ec1b",
+    "tests/test_bsu_allocation.py": "77c3015eec7a3eb1657c96f185f7f8d0919098c6b7bf1d2be1157014398a70a6"
+  },
+  "tests": {
+    "passed": 56,
+    "command": "env -u PYTHONPATH -u LD_LIBRARY_PATH PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 /home/sangukbae/anaconda3/envs/lgvsc/bin/python -m pytest -q tests/test_bsu_allocation.py tests/test_bsu_budget_pilot.py tests/test_bsu_metadata_compression.py"
+  },
+  "model_parameters": 4575008,
+  "development_training_steps": 30,
+  "development_sources": 2,
+  "measured_candidates": 6,
+  "development_only": true,
+  "independent_test": false,
+  "selections": [
+    {
+      "id": "kinetics_001_ntscc_plus_seed_2025",
+      "candidate_id": "more_keys",
+      "keys": [
+        0,
+        13,
+        32,
+        36
+      ],
+      "etas": [
+        0.14077637,
+        0.14077637,
+        0.14077637,
+        0.14077637
+      ],
+      "actual_channel_uses": 120920,
+      "budget": 120924
+    },
+    {
+      "id": "kinetics_005_11836d73_seed_2025",
+      "candidate_id": "baseline",
+      "keys": [
+        0,
+        8,
+        24
+      ],
+      "etas": [
+        0.2,
+        0.2,
+        0.2
+      ],
+      "actual_channel_uses": 75392,
+      "budget": 75392
+    }
+  ],
+  "real_codec_probe": {
+    "status": "PASSED_REAL_NTSCC_PLUS_NONUNIFORM_ENCODE_DECODE",
+    "candidate": {
+      "id": "nonuniform_codec_probe",
+      "keys": [
+        0,
+        36
+      ],
+      "etas": [
+        0.1,
+        0.3
+      ]
+    },
+    "ledger": {
+      "visual_uses": 68404,
+      "digital_uses": 11520,
+      "total_uses": 79924,
+      "packets": [
+        {
+          "packet_bytes": 3463,
+          "information_bits": 27704,
+          "ldpc_k": 6144,
+          "ldpc_n": 9216,
+          "bits_per_symbol": 4,
+          "blocks": 5,
+          "padding_bits": 3016,
+          "coded_bits": 46080,
+          "complex_channel_uses": 11520
+        }
+      ],
+      "physical_link_overhead_included": false
+    },
+    "decoded": {
+      "source_pixels_read": false,
+      "keys": [
+        0,
+        36
+      ],
+      "received_metadata_sha256": "54429c55ee6e784bf44cfd40d2114afab71c785305fbf550ad6b565caa67f889"
+    },
+    "channel_simulated": false,
+    "ltx_generation_run": false,
+    "quality_improvement_proven": false
+  },
+  "ltx_condition_request_validated": true,
+  "initial_feature_extractor": "71 sender-only RGB, temporal difference, optical-flow and texture statistics; cached learned features supported, pretrained backbone not installed",
+  "actual_new_ltx_generation": false,
+  "new_channel_noise_validation": false,
+  "quality_improvement_proven": false,
+  "default_adopted": false,
+  "artifacts": {
+    "/home/sangukbae/semantic_transmission/outputs/bsu_allocation_20261019/development_data/dataset.json": "736497e3a99ef30ad03585b7501eacbbeb12f457f487e828fcbb815fb8af3873",
+    "/home/sangukbae/semantic_transmission/outputs/bsu_allocation_20261019/development_smoke/RESULT.json": "76f10fb491ca1500ad49449b7d3e0003487fc96cc79261204e192f5d6429450f",
+    "/home/sangukbae/semantic_transmission/outputs/bsu_allocation_20261019/development_smoke/best.json": "36fa127b2a6a26de692ef66bb263796b638bbf213988a3e62b769f402e666af4",
+    "/home/sangukbae/semantic_transmission/outputs/bsu_allocation_20261019/development_selection.json": "185c19a1fa4d649be17db3801bf4856979f077f6c31b6e7fd7c17608b7861f98",
+    "/home/sangukbae/semantic_transmission/outputs/bsu_allocation_20261019/real_codec_probe/RESULT.json": "085673c98ef732aa05a0b3e688be8b8919e666d1a3671389013e47eaad7b3c4d",
+    "/home/sangukbae/semantic_transmission/outputs/bsu_allocation_20261019/real_codec_probe/ltx_request.json": "dca2729aafc25fc4cf3c456fe28b557ad85b7bd6137dbcf7aa0844f2c2dc1ab2"
+  },
+  "limitations": [
+    "Two development sources are reused for optimization and execution checks, not held-out validation.",
+    "Selection quality is relative to a finite measured candidate pool and predeclared multi-metric utility.",
+    "All actual auxiliary packets must be listed in the transport bundle; physical-link overhead is outside the accounting model.",
+    "Formal source-disjoint training and new generated-video evaluation have not been run.",
+    "The new predictor and codec worker APIs are opt-in; the default BSU route and running remote experiments were not changed."
+  ]
+}
