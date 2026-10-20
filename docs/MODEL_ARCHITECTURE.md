@@ -28,6 +28,13 @@
 
 대조 조건은 키만 전송, 같은 키+궤적, 같은 유료 궤적에서 유효성 비트 무시, 보조 프레임 추가다. 마지막 조건은 긴 구간의 중점을 순서대로 0~4장 추가해 각각 재압축하고, 궤적 조건 총예산 안에 드는 최대 개수를 고른다. 키/궤적 대조는 정확히 같은 수신 키와 RIFE 출력을 사용한다. 모든 조건의 수신 작업에는 원본 경로를 전달하지 않는다. [실행](RUN_GUIDE.md#sparc-motion) · [평가](METRICS.md#sparc-motion)
 
+<a id="sparc-auxiliary-search"></a>
+### 보조 프레임 제거·이동 탐색
+
+[`sparc_auxiliary_search.py`](../src/semantic_transmission/sparc_auxiliary_search.py)는 완료된 기본 SPARC 구성을 출발점으로 `제거 → 이동 → 제거`를 수행하는 별도 송신 측 실험이다. 의미 키·양끝·장면 전환 양쪽과 최대 간격 4를 유지한다. 새 선택기를 학습하지 않으며, 원본 광류의 방향 변화·양쪽 앵커에 보이지 않는 영역과 유효한 기존 궤적을 후보 순위에 사용한다. 광류 신호는 물체 라벨이나 실제 가림 정답이 아니다.
+
+각 후보는 DCVC 참조 관계 전체를 다시 압축하고 실제 채널·수신 복호화·RIFE·최종 MP4를 평가한다. 전체 채널 사용량이 감소하고, 최초 기준 영상에 대한 PSNR·LPIPS·12프레임 구간 오차·움직임 영역·시간 변화 오차의 등록 허용치를 통과해야 채택한다. 수신기는 원본을 읽지 않는다. 송신 측 탐색이 같은 개발 영상의 실제 복원 품질을 사용하므로 독립 평가나 학습된 선택기의 일반화 성능으로 해석하지 않는다. 동일 의미 키와 최종 프레임 수를 유지하는 균등 대조도 평가한다. [설정](../configs/sparc_auxiliary_search.json) · [실행](RUN_GUIDE.md#sparc-auxiliary-search) · [결과](RESULTS.md#sparc-auxiliary-search)
+
 <a id="bsu-gen"></a>
 ## BSU-Gen — 생성 경로 전용 모델
 

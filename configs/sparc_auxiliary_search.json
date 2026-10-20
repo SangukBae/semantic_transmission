@@ -1,0 +1,17 @@
+{
+  "policy": "sparc_auxiliary_search_v1",
+  "max_gap": 4,
+  "phase_trial_limits": [16, 8, 8],
+  "remove_batch_sizes": [8, 4, 2, 1],
+  "relocation_radius": 2,
+  "psnr_drop_db": 0.2,
+  "lpips_increase": 0.005,
+  "window_frames": 12,
+  "window_psnr_drop_db": 1.0,
+  "window_lpips_increase": 0.015,
+  "roi_error_ratio": 1.03,
+  "temporal_error_ratio": 1.03,
+  "ranking_resolution": [144, 80],
+  "new_training": false,
+  "independent_action_validation": false
+}

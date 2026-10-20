@@ -42,6 +42,8 @@ bash scripts/run_sparc.sh status --output outputs/sparc_video
 
 **희소 궤적 후속 실험:** 같은 001 영상의 31키·30구간 궤적을 재사용해 보조 프레임을 궤적 정보로 대체했습니다. 키만 전송하면 214,272 uses·19.003dB, 궤적을 추가하면 232,704 uses·19.323dB였습니다. 정확히 같은 전송량에서 보조 프레임 4장 추가는 20.037dB로 더 좋았습니다. 기존 160장보다 전송은 줄지만 품질 손실이 커 기본값으로 채택하지 않았습니다. [실험 결과·한계](docs/RESULTS.md#sparc-motion) · [별도 실행](docs/RUN_GUIDE.md#sparc-motion)
 
+**보조 프레임 선택 후속 실험:** 원래 160장 구성에서 제거·이동 후보를 실제 재압축·복원해 평가했습니다. 001의 의미 키 31장을 유지하며 보조 프레임 3장을 제거해 전송량 1.26%를 줄였고, PSNR은 26.783→26.693dB였습니다. 한 영상에서 사전 품질 허용 범위를 통과한 제한된 탐색 결과입니다. [결과](docs/RESULTS.md#sparc-auxiliary-search) · [실행](docs/RUN_GUIDE.md#sparc-auxiliary-search)
+
 아래는 이전 BSU/LGVSC 연구 이력입니다. SPARC의 새 결과로 인용하지 않습니다.
 
 10월 16일의 14편·3,333프레임 비교는 **예측 8편 + 생성 6편의 혼합 BSU** 결과입니다. 전송 2,470,155·PSNR 26.305dB·LPIPS 0.23462를 예측 전용 모델의 수치로 사용할 수 없습니다. 적응형 간격+QP의 추가 1.12% 절감도 당시 혼합 모델 기준입니다. [이전 모델의 결과와 증거](docs/RESULTS.md#bsu-predictive-default)

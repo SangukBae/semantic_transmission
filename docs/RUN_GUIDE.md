@@ -69,6 +69,22 @@ bash scripts/run_sparc_motion.sh status --output outputs/kinetics_001_sparse_mot
 
 `prepare → encode → channel → decode → restore → evaluate`의 여섯 단계가 완료되면 `COMPLETE_SPARC_MOTION_PILOT`를 기록한다. `reuse.json`은 재사용 근거, `sender/sender.json`은 궤적 예산·보조 프레임 후보별 비용, `received/channel.json`은 실제 전송, `comparison.json`은 네 조건의 최종 MP4 지표를 담는다. 영상은 `reconstruction/{keys,motion,motion_no_visibility,auxiliary}/reconstruction.mp4`에 저장한다. 중단 후 같은 명령으로 완료 단계 해시를 검사해 재개한다. 코드·설정을 바꾸면 새 출력 폴더를 사용한다. 가림 정보는 추적점의 유효성 비트이며 별도 가림 영역 분할 모델을 실행하지 않는다.
 
+<a id="sparc-auxiliary-search"></a>
+### SPARC 보조 프레임 선택 개선 실험
+
+완료된 SPARC 기준 영상·의미 선택·모델·채널 환경과 선택적으로 기존 궤적 캐시가 필요하다. [설정](../configs/sparc_auxiliary_search.json)의 최대 32회 제거·이동 탐색과 동일 개수 균등 대조 1회를 수행한다. 기본 프로필을 바꾸는 명령이 아니다.
+
+```bash
+bash scripts/run_sparc_auxiliary_search.sh check \
+  --reference outputs/kinetics_001_adaptive_v2_20261019 \
+  --motion-reference outputs/kinetics_001_sparse_motion_20261019 \
+  --output outputs/kinetics_001_auxiliary_search_20261020
+bash scripts/run_sparc_auxiliary_search.sh run
+bash scripts/run_sparc_auxiliary_search.sh watch --interval 1
+```
+
+위 `run`·`watch`는 `check`에 표시된 기본 경로를 사용한다. 다른 경로를 검사했다면 실행·재개에도 같은 인수를 지정한다. 중단 뒤 같은 `run` 명령으로 기록된 단계·측정값을 해시 검증해 재사용한다. `history.json`, `best.json`, `trials/`, `*_official.json`, `RESULT.json`에 후보·채택·실제 비용·최종 MP4 품질을 남긴다. 총 후보 수가 적응적으로 바뀌므로 진행 표시는 평가 횟수와 사전 상한을 구분하고 ETA를 추정하지 않는다. [결과와 허용치](RESULTS.md#sparc-auxiliary-search)
+
 <a id="bsu-gen"></a>
 ## BSU-Gen 실행
 
