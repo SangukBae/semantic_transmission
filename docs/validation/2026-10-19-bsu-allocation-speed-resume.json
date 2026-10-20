@@ -1,0 +1,127 @@
+{
+  "status": "OPTIMIZED_AND_RESUMED_NEW_GENERATION_VERIFIED",
+  "verified_at": "2026-10-19T10:37:52.271442+00:00",
+  "root": "/home/sangukbae/semantic_transmission/outputs/bsu_allocation_labels_600_20261019",
+  "audit": "/home/sangukbae/semantic_transmission/.local/validation/bsu_allocation_speed_20261019T101511Z",
+  "original_protocol_signature": "bc7ee7819cc471bee2969676e68a4bb8c5f01c50661f545dcda910fbc1e728e5",
+  "execution_signature": "7b1c44d8809c67212347cb03645b445ea3c04c55e3da56ad05d4e1e489343924",
+  "safe_stop": {
+    "parent_pid": 58908,
+    "signal": "SIGTERM",
+    "predictor_training_started": false,
+    "predictor_checkpoint_existed": false,
+    "preserved_generation_candidates": 23,
+    "preserved_labels": 6,
+    "preserved_receipts": 80,
+    "preserved_stage_artifacts": 2331
+  },
+  "optimization": {
+    "actual_generation_batch": 1,
+    "gpu_weight_cache_gib": 4,
+    "free_gpu_reserve_gib": 3,
+    "prompt_cpu_cache_mib": 256,
+    "original_code_config_model_weights_unchanged": true,
+    "original_completed_stage_reuse": true
+  },
+  "performance_validation": {
+    "status": "PASSED_EXACT_FASTER_REPLAY",
+    "cache_config": {
+      "gpu_cache_bytes": 4294967296,
+      "reserve_bytes": 3221225472,
+      "prompt_cache_bytes": 268435456
+    },
+    "comparisons": [
+      {
+        "arm": "baseline",
+        "frames_identical": true,
+        "mp4_identical": true,
+        "request_match": true,
+        "historic_output_identical": true,
+        "frame_count": 49,
+        "baseline_seconds": 261.7478832140041,
+        "cached_seconds": 181.387754839001,
+        "baseline_disk_read_bytes": 438396502016,
+        "cached_disk_read_bytes": 365607247872
+      },
+      {
+        "arm": "unequal_rates",
+        "frames_identical": true,
+        "mp4_identical": true,
+        "request_match": true,
+        "historic_output_identical": true,
+        "frame_count": 49,
+        "baseline_seconds": 212.34247081400827,
+        "cached_seconds": 190.3356795689906,
+        "baseline_disk_read_bytes": 438043815936,
+        "cached_disk_read_bytes": 368468848640
+      }
+    ],
+    "baseline_seconds": 474.09035402801237,
+    "cached_seconds": 371.7234344079916,
+    "speedup": 1.2753846277758916,
+    "reduction_percent": 21.59228061703451,
+    "benchmark_receipts": [
+      {
+        "path": "/home/sangukbae/semantic_transmission/outputs/bsu_allocation_labels_600_20261019/execution_profiles/cache_v1/benchmark_baseline.json",
+        "sha256": "96125db4edbdd7caafb8d434b5430890d63f82918a9547da722d324090203c54"
+      },
+      {
+        "path": "/home/sangukbae/semantic_transmission/outputs/bsu_allocation_labels_600_20261019/execution_profiles/cache_v1/benchmark_cached.json",
+        "sha256": "b50e7c7ec87ce8dc11f436d649be0d880efe4cfb738c6325de692f3daf947e10"
+      }
+    ],
+    "gpu_telemetry": {
+      "samples": 172,
+      "gpu_utilization_mean": 21.75,
+      "gpu_utilization_max": 100.0,
+      "used_mib_max": 12461.0
+    },
+    "limits": [
+      "Two received-input candidates, sequential baseline then cached; not a full 600-candidate throughput guarantee.",
+      "The measured candidates had no prompt-cache hits; this speed evidence concerns the GPU weight cache."
+    ]
+  },
+  "tests": {
+    "project_suites": "47 passed",
+    "ltx_cache_suite": "2 passed",
+    "shell_syntax": "PASSED",
+    "git_diff_check": "PASSED"
+  },
+  "resumed_state": {
+    "status": "RUNNING",
+    "stage": "batch 2/26 generate",
+    "started_epoch": 1792398533.2408576,
+    "pid": 94406,
+    "process_start_ticks": "15283197"
+  },
+  "tmux_session": "bsu-allocation-fast-20261019",
+  "progress_command": "bash /home/sangukbae/semantic_transmission/scripts/run_bsu_allocation_fast.sh watch --interval 1",
+  "resume_command": "bash /home/sangukbae/semantic_transmission/scripts/run_bsu_allocation_fast.sh run",
+  "training_behavior": "Continue measured-label generation; automatically fit the predictor after 600 labels. Existing atomic training-resume behavior is unchanged.",
+  "limitations": [
+    "Exact outputs validated for two representative replay candidates, not all 600.",
+    "Two-candidate total runtime decreased 21.6%; average sampled GPU compute utilization remained about 22%.",
+    "No previously trained allocation-predictor checkpoint existed at interruption."
+  ],
+  "current_counts": {
+    "generation": 24,
+    "labels": 6
+  },
+  "new_generation": {
+    "path": "/home/sangukbae/semantic_transmission/outputs/bsu_allocation_labels_600_20261019/labels/640/random_valid/generation.json",
+    "sha256": "dda23a9532a09a4601ae8ef3a158393d86847c851a9f017140244c722c880dba",
+    "stages": [
+      {
+        "path": "/home/sangukbae/semantic_transmission/outputs/bsu_allocation_labels_600_20261019/labels/640/random_valid/raw/stages/assemble.json",
+        "sha256": "7eb00f5aee9f64b83adfb5f7a26d2e9b04d8727b23449a8cad43931473db2440",
+        "seconds": 0.4397176170023158
+      },
+      {
+        "path": "/home/sangukbae/semantic_transmission/outputs/bsu_allocation_labels_600_20261019/labels/640/random_valid/raw/stages/interval_00000.json",
+        "sha256": "5f783ed6783d80b100649212ebd87282bd87ffc0ca7fda86a8939a4c66a10340",
+        "seconds": 197.2880473510013
+      }
+    ]
+  },
+  "protected_receipts_still_unchanged": 80
+}
