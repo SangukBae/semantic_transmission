@@ -1,0 +1,23 @@
+{
+  "policy": "bsu_ltx_key_budget_pilot_v1",
+  "arms": ["baseline", "more_keys", "key_quality"],
+  "baseline_eta": 0.2,
+  "eta_min": 0.005,
+  "eta_max": 1.0,
+  "rate_search_steps": 14,
+  "added_keys": 1,
+  "minimum_key_spacing": 4,
+  "selection_proxy_size": [144, 80],
+  "trajectory_ratio": 0.05,
+  "rate_match_tolerance": 0.01,
+  "snr_db": 10,
+  "channel_seed": 42,
+  "trajectory_channel_seed": 43,
+  "encoder_seed": 2025,
+  "generation_seeds": [2025],
+  "receiver_variant": "context",
+  "execution_offload": "disk",
+  "max_frames": 97,
+  "training": false,
+  "adopt_as_default": false
+}

@@ -1,0 +1,1060 @@
+{
+  "status": "COMPLETE_BSU_KEY_BUDGET_PILOT",
+  "policy": {
+    "policy": "bsu_ltx_key_budget_pilot_v1",
+    "arms": [
+      "baseline",
+      "more_keys",
+      "key_quality"
+    ],
+    "baseline_eta": 0.2,
+    "eta_min": 0.005,
+    "eta_max": 1.0,
+    "rate_search_steps": 14,
+    "added_keys": 1,
+    "minimum_key_spacing": 4,
+    "selection_proxy_size": [
+      144,
+      80
+    ],
+    "trajectory_ratio": 0.05,
+    "rate_match_tolerance": 0.01,
+    "snr_db": 10,
+    "channel_seed": 42,
+    "trajectory_channel_seed": 43,
+    "encoder_seed": 2025,
+    "generation_seeds": [
+      2025
+    ],
+    "receiver_variant": "context",
+    "execution_offload": "disk",
+    "max_frames": 97,
+    "training": false,
+    "adopt_as_default": false
+  },
+  "default_adopted": false,
+  "training_executed": false,
+  "generalization_proven": false,
+  "quality_results_complete": true,
+  "tests": {
+    "passed": 63,
+    "seconds": 8.91
+  },
+  "actual_codec_smoke": {
+    "status": "PASSED",
+    "sources": 2,
+    "rates": [
+      0.005,
+      0.2,
+      0.6
+    ],
+    "encoding_and_received_only_decoding": true,
+    "channel": "noiseless"
+  },
+  "execution_environments_checked": [
+    "general",
+    "codec",
+    "channel",
+    "ltx"
+  ],
+  "transport_planned_costs": [
+    {
+      "id": "kinetics_001_ntscc_plus",
+      "arm": "baseline",
+      "transport": "/home/sangukbae/semantic_transmission/outputs/bsu_key_budget_pilot_20261019/transport/kinetics_001_ntscc_plus/baseline",
+      "source": "/home/sangukbae/semantic_transmission/.local/validation/bsu_ltx_improvements_20261019/received_replay/kinetics_001_a393e9d3/source.mp4",
+      "frames": 37,
+      "keys": [
+        0,
+        32,
+        36
+      ],
+      "eta": 0.2,
+      "base_uses": 116316,
+      "trajectory_uses": 4608,
+      "total_uses": 120924,
+      "budget": 120924
+    },
+    {
+      "id": "kinetics_001_ntscc_plus",
+      "arm": "more_keys",
+      "transport": "/home/sangukbae/semantic_transmission/outputs/bsu_key_budget_pilot_20261019/transport/kinetics_001_ntscc_plus/more_keys",
+      "source": "/home/sangukbae/semantic_transmission/.local/validation/bsu_ltx_improvements_20261019/received_replay/kinetics_001_a393e9d3/source.mp4",
+      "frames": 37,
+      "keys": [
+        0,
+        13,
+        32,
+        36
+      ],
+      "eta": 0.14077637,
+      "base_uses": 116312,
+      "trajectory_uses": 4608,
+      "total_uses": 120920,
+      "budget": 120924
+    },
+    {
+      "id": "kinetics_001_ntscc_plus",
+      "arm": "key_quality",
+      "transport": "/home/sangukbae/semantic_transmission/outputs/bsu_key_budget_pilot_20261019/transport/kinetics_001_ntscc_plus/key_quality",
+      "source": "/home/sangukbae/semantic_transmission/.local/validation/bsu_ltx_improvements_20261019/received_replay/kinetics_001_a393e9d3/source.mp4",
+      "frames": 37,
+      "keys": [
+        0,
+        36
+      ],
+      "eta": 0.30932617,
+      "base_uses": 116306,
+      "trajectory_uses": 4608,
+      "total_uses": 120914,
+      "budget": 120924
+    },
+    {
+      "id": "kinetics_005_11836d73",
+      "arm": "baseline",
+      "transport": "/home/sangukbae/semantic_transmission/outputs/bsu_key_budget_pilot_20261019/transport/kinetics_005_11836d73/baseline",
+      "source": "/home/sangukbae/semantic_transmission/.local/validation/bsu_ltx_improvements_20261019/received_replay/kinetics_005_11836d73/source.mp4",
+      "frames": 25,
+      "keys": [
+        0,
+        8,
+        24
+      ],
+      "eta": 0.2,
+      "base_uses": 73088,
+      "trajectory_uses": 2304,
+      "total_uses": 75392,
+      "budget": 75392
+    },
+    {
+      "id": "kinetics_005_11836d73",
+      "arm": "more_keys",
+      "transport": "/home/sangukbae/semantic_transmission/outputs/bsu_key_budget_pilot_20261019/transport/kinetics_005_11836d73/more_keys",
+      "source": "/home/sangukbae/semantic_transmission/.local/validation/bsu_ltx_improvements_20261019/received_replay/kinetics_005_11836d73/source.mp4",
+      "frames": 25,
+      "keys": [
+        0,
+        8,
+        17,
+        24
+      ],
+      "eta": 0.13505157,
+      "base_uses": 73088,
+      "trajectory_uses": 2304,
+      "total_uses": 75392,
+      "budget": 75392
+    },
+    {
+      "id": "kinetics_005_11836d73",
+      "arm": "key_quality",
+      "transport": "/home/sangukbae/semantic_transmission/outputs/bsu_key_budget_pilot_20261019/transport/kinetics_005_11836d73/key_quality",
+      "source": "/home/sangukbae/semantic_transmission/.local/validation/bsu_ltx_improvements_20261019/received_replay/kinetics_005_11836d73/source.mp4",
+      "frames": 25,
+      "keys": [
+        0,
+        24
+      ],
+      "eta": 0.32358398,
+      "base_uses": 73080,
+      "trajectory_uses": 2304,
+      "total_uses": 75384,
+      "budget": 75392
+    }
+  ],
+  "expected_generation_jobs": 6,
+  "expected_quality_evaluations": 12,
+  "scope": [
+    "known development prefixes, not unseen or full-video validation",
+    "key changes also change generation windows and caption segmentation",
+    "sender residual is a contribution proxy, not measured LTX contribution",
+    "same budget cap; actual utilization and rate mismatch reported",
+    "eta changes use frozen NTSCC+ weights; no online adaptation or new training"
+  ],
+  "source_frames": [
+    37,
+    25
+  ],
+  "launch": {
+    "tmux": "bsu-key-budget-20261019",
+    "command": "bash scripts/run_bsu_budget_pilot.sh run",
+    "watch": "bash scripts/run_bsu_budget_pilot.sh watch",
+    "output": "/home/sangukbae/semantic_transmission/outputs/bsu_key_budget_pilot_20261019"
+  },
+  "startup_failure": {
+    "path": "outputs/bsu_key_budget_pilot_20261019_startup_failure",
+    "reason": "worker contract verification imported cv2 in isolated codec environment",
+    "resolution": "verify signed frozen file hashes directly without importing optional model/metric libraries",
+    "neural_generation_started_before_fix": false,
+    "failed_code_and_logs_preserved": true
+  },
+  "evidence_sha256": {
+    "outputs/bsu_key_budget_pilot_20261019/protocol.json": "6f9be9d1858df773e76756fdafd8d9cd22097cc5fa4ebb67d2c2afb7e72e8f64",
+    "outputs/bsu_key_budget_pilot_20261019/code_snapshot/MANIFEST.json": "09bb37cf65f4f4a5518ff56b00b68ec3cb536c6e7ffc17f9809cdb6b81fc519c",
+    "outputs/bsu_key_budget_pilot_20261019/transport_plan.json": "0e7891c689530967c1ea6a97470f608cd3379efb1ab06758b8838daa554f6f5e",
+    ".local/validation/bsu_key_budget_pilot_20261019/tests.log": "ab6693dfd99062554b5d33ee96b69c6da2f89c6f36dabc4f59e3dafe536886c7",
+    ".local/validation/bsu_key_budget_pilot_20261019/preflight.json": "4b24288cdd6f0a202e1d79562b9df32ad5358bdeb07e0b53a70ebef8dddb17bc",
+    ".local/validation/bsu_key_budget_pilot_20261019/codec_smoke/RESULT.json": "eae1dc2a78598644bef472031c72534b354fb0eb3999af66d4c06ce2686ec7b1",
+    ".local/validation/bsu_key_budget_pilot_20261019/runtime_check/protocol.json": "6f9be9d1858df773e76756fdafd8d9cd22097cc5fa4ebb67d2c2afb7e72e8f64",
+    ".local/validation/bsu_key_budget_pilot_20261019/monitor_check.json": "dccd4379efb3fdbbbec415db7849bc66ff8b89e5977bfae3e6c584cac776f163",
+    "outputs/bsu_key_budget_pilot_20261019/RESULT.json": "60ef17c7606da6f994531880355ee375aa85fe706cec2452d8abc513347c7b23",
+    "outputs/bsu_key_budget_pilot_20261019/status.json": "da0e7d0b666d6479aba29824ad3645e85e74aa5555711cbbfb707e2acf8c1e2c",
+    "outputs/bsu_key_budget_pilot_20261019/generation_plan.json": "42ae87bd05fa8f33784e3d36226747e086bf9a8ee6dac0b8753f735ec6a311ed"
+  },
+  "independent_semantic_review": "PENDING",
+  "launch_status_at_recording": {
+    "status": "RUNNING",
+    "stage": "LTX generation",
+    "started_epoch": 1792385571.5212698,
+    "pid": 9516,
+    "process_start_ticks": "13436924",
+    "jobs": 6,
+    "evaluations": 12,
+    "log": "/home/sangukbae/semantic_transmission/outputs/bsu_key_budget_pilot_20261019/run.log"
+  },
+  "completion": {
+    "audit": {
+      "status": "PASSED",
+      "protocol_signature": "ab09c4481428628fb5c8cde14eac9e98aaf1ccbfd2b1d9ddd7866f1294d931fc",
+      "sha256_unique_files": 1008,
+      "stage_receipts": 59,
+      "jobs": 6,
+      "intervals": 8,
+      "evaluations": 12,
+      "received_keys_exact": 18,
+      "frozen_code_inputs_and_archived_code_verified": true,
+      "stage_artifacts_and_dependency_fingerprints_verified": true,
+      "actual_packet_and_complex_symbol_cost_recomputed": true,
+      "metadata_and_trajectory_received_byte_exact": true,
+      "common_nonkey_and_allframe_csv_means_recomputed": true,
+      "per_key_psnr_recomputed": true,
+      "completed_video_hashes_verified": true,
+      "model_weights_rehashed_in_this_audit": false,
+      "new_inference_executed": false,
+      "elapsed_seconds": 2152.7430374622345,
+      "max_absolute_rate_difference_percent": 0.010611205432942139
+    },
+    "records": [
+      {
+        "id": "kinetics_001_ntscc_plus",
+        "arm": "baseline",
+        "seed": 2025,
+        "frames": 37,
+        "keys": [
+          0,
+          32,
+          36
+        ],
+        "eta": 0.2,
+        "total_uses": 120924,
+        "budget": 120924,
+        "generation_windows": 1,
+        "mean_received_key_psnr_db": 32.69735151680183,
+        "common_nonkey": {
+          "raw": {
+            "psnr_db": 18.700538499764388,
+            "ssim": 0.48730756251076873,
+            "lpips_vgg": 0.3214551910306468,
+            "dists": 0.10323131987542818,
+            "clip": 0.9723677201704546
+          },
+          "refined": {
+            "psnr_db": 20.98614051632297,
+            "ssim": 0.6401132459275252,
+            "lpips_vgg": 0.26983001602418494,
+            "dists": 0.1259511293786945,
+            "clip": 0.9679361979166666
+          }
+        },
+        "raw_quality": {
+          "psnr_db": 19.047324619332585,
+          "ssim": 0.5040045426790609,
+          "lpips_vgg": 0.31503249302103714,
+          "clip": 0.9727948163006757,
+          "dists": 0.10237480337555344,
+          "frames": 37,
+          "shape": [
+            37,
+            320,
+            576,
+            3
+          ]
+        },
+        "raw_temporal": {
+          "flow_error_mean": 0.4058307483792305,
+          "cadence_error_mean": 0.2211208381823131,
+          "source_motion_mean": 0.7661284804344177,
+          "generated_motion_mean": 0.6865361332893372,
+          "motion_retention_ratio": 0.896111011505127,
+          "active_motion_cells": 1338,
+          "false_freeze_cells": 51,
+          "false_freeze_rate": 0.03811659192825112,
+          "stall_jump_cells": 0,
+          "stall_jump_eligible_cells": 1300,
+          "stall_jump_rate": 0.0,
+          "exact_duplicate_transitions": 0,
+          "max_luma_impulse": 0.3974609375,
+          "mean_luma_impulse": 0.11290085565476074,
+          "mad_p95": 8.745442708333332,
+          "mad_max": 8.945746527777779,
+          "definition": "288x160 grayscale Farneback, 8x5 spatial cells; source active >0.15 px/frame, false freeze <25% of source; stall then jump >180% next source speed",
+          "limitation": "diagnostic proxies, not human perceptual stutter labels; lower cadence error alone can reward freezing"
+        },
+        "refined_quality": {
+          "psnr_db": 21.837151902517302,
+          "ssim": 0.6635535060446748,
+          "lpips_vgg": 0.25884111245741714,
+          "clip": 0.9697727512668919,
+          "dists": 0.11985653155558817,
+          "frames": 37,
+          "shape": [
+            37,
+            320,
+            576,
+            3
+          ]
+        },
+        "refined_temporal": {
+          "flow_error_mean": 0.32694705948233604,
+          "cadence_error_mean": 0.21989318643297467,
+          "source_motion_mean": 0.7661284804344177,
+          "generated_motion_mean": 0.7094137668609619,
+          "motion_retention_ratio": 0.9259723424911499,
+          "active_motion_cells": 1338,
+          "false_freeze_cells": 8,
+          "false_freeze_rate": 0.005979073243647235,
+          "stall_jump_cells": 0,
+          "stall_jump_eligible_cells": 1300,
+          "stall_jump_rate": 0.0,
+          "exact_duplicate_transitions": 0,
+          "max_luma_impulse": 0.6409722222222314,
+          "mean_luma_impulse": 0.18989893353174767,
+          "mad_p95": 9.882790798611111,
+          "mad_max": 12.1232421875,
+          "definition": "288x160 grayscale Farneback, 8x5 spatial cells; source active >0.15 px/frame, false freeze <25% of source; stall then jump >180% next source speed",
+          "limitation": "diagnostic proxies, not human perceptual stutter labels; lower cadence error alone can reward freezing"
+        },
+        "common_nonkey_frames": 33,
+        "visual_uses": 102492,
+        "base_digital_uses": 13824,
+        "trajectory_uses": 4608
+      },
+      {
+        "id": "kinetics_001_ntscc_plus",
+        "arm": "more_keys",
+        "seed": 2025,
+        "frames": 37,
+        "keys": [
+          0,
+          13,
+          32,
+          36
+        ],
+        "eta": 0.14077637,
+        "total_uses": 120920,
+        "budget": 120924,
+        "generation_windows": 2,
+        "mean_received_key_psnr_db": 30.99290548972865,
+        "common_nonkey": {
+          "raw": {
+            "psnr_db": 19.73520779974475,
+            "ssim": 0.5254896942716881,
+            "lpips_vgg": 0.3114238562005939,
+            "dists": 0.10642389095190799,
+            "clip": 0.9728190104166666
+          },
+          "refined": {
+            "psnr_db": 22.353537219897934,
+            "ssim": 0.6674737755424398,
+            "lpips_vgg": 0.25854323849533545,
+            "dists": 0.11652883977601022,
+            "clip": 0.9777906013257576
+          }
+        },
+        "raw_quality": {
+          "psnr_db": 20.28841706311065,
+          "ssim": 0.5512240286805942,
+          "lpips_vgg": 0.3028377987243034,
+          "clip": 0.9734678526182432,
+          "dists": 0.10465170886065508,
+          "frames": 37,
+          "shape": [
+            37,
+            320,
+            576,
+            3
+          ]
+        },
+        "raw_temporal": {
+          "flow_error_mean": 0.6180976774129603,
+          "cadence_error_mean": 0.2919660924800805,
+          "source_motion_mean": 0.7661284804344177,
+          "generated_motion_mean": 0.8754587769508362,
+          "motion_retention_ratio": 1.142704963684082,
+          "active_motion_cells": 1338,
+          "false_freeze_cells": 6,
+          "false_freeze_rate": 0.004484304932735426,
+          "stall_jump_cells": 0,
+          "stall_jump_eligible_cells": 1300,
+          "stall_jump_rate": 0.0,
+          "exact_duplicate_transitions": 0,
+          "max_luma_impulse": 0.7884223090277658,
+          "mean_luma_impulse": 0.14671968005952424,
+          "mad_p95": 10.857709418402777,
+          "mad_max": 12.0265625,
+          "definition": "288x160 grayscale Farneback, 8x5 spatial cells; source active >0.15 px/frame, false freeze <25% of source; stall then jump >180% next source speed",
+          "limitation": "diagnostic proxies, not human perceptual stutter labels; lower cadence error alone can reward freezing"
+        },
+        "refined_quality": {
+          "psnr_db": 23.228459298143672,
+          "ssim": 0.694112677555636,
+          "lpips_vgg": 0.24827078790278048,
+          "clip": 0.9788521431587838,
+          "dists": 0.11138693706409351,
+          "frames": 37,
+          "shape": [
+            37,
+            320,
+            576,
+            3
+          ]
+        },
+        "refined_temporal": {
+          "flow_error_mean": 0.3991408323248227,
+          "cadence_error_mean": 0.2574927808982985,
+          "source_motion_mean": 0.7661284804344177,
+          "generated_motion_mean": 0.786029577255249,
+          "motion_retention_ratio": 1.0259761810302734,
+          "active_motion_cells": 1338,
+          "false_freeze_cells": 8,
+          "false_freeze_rate": 0.005979073243647235,
+          "stall_jump_cells": 0,
+          "stall_jump_eligible_cells": 1300,
+          "stall_jump_rate": 0.0,
+          "exact_duplicate_transitions": 0,
+          "max_luma_impulse": 0.5836697048611086,
+          "mean_luma_impulse": 0.16565569196428628,
+          "mad_p95": 9.92526584201389,
+          "mad_max": 12.540733506944445,
+          "definition": "288x160 grayscale Farneback, 8x5 spatial cells; source active >0.15 px/frame, false freeze <25% of source; stall then jump >180% next source speed",
+          "limitation": "diagnostic proxies, not human perceptual stutter labels; lower cadence error alone can reward freezing"
+        },
+        "common_nonkey_frames": 33,
+        "visual_uses": 97880,
+        "base_digital_uses": 18432,
+        "trajectory_uses": 4608
+      },
+      {
+        "id": "kinetics_001_ntscc_plus",
+        "arm": "key_quality",
+        "seed": 2025,
+        "frames": 37,
+        "keys": [
+          0,
+          36
+        ],
+        "eta": 0.30932617,
+        "total_uses": 120914,
+        "budget": 120924,
+        "generation_windows": 1,
+        "mean_received_key_psnr_db": 32.12872784559367,
+        "common_nonkey": {
+          "raw": {
+            "psnr_db": 17.04368560791685,
+            "ssim": 0.41669543331348197,
+            "lpips_vgg": 0.3781949904831973,
+            "dists": 0.11452420010711208,
+            "clip": 0.9678622159090909
+          },
+          "refined": {
+            "psnr_db": 19.1406095522511,
+            "ssim": 0.5354500468449549,
+            "lpips_vgg": 0.3303975128766262,
+            "dists": 0.13885380824406943,
+            "clip": 0.9632901278409091
+          }
+        },
+        "raw_quality": {
+          "psnr_db": 17.463578282676202,
+          "ssim": 0.43667659162740796,
+          "lpips_vgg": 0.36729383871362015,
+          "clip": 0.9687104096283784,
+          "dists": 0.11252590772267934,
+          "frames": 37,
+          "shape": [
+            37,
+            320,
+            576,
+            3
+          ]
+        },
+        "raw_temporal": {
+          "flow_error_mean": 0.949862769494454,
+          "cadence_error_mean": 0.27941771362509044,
+          "source_motion_mean": 0.7661284804344177,
+          "generated_motion_mean": 1.0643142461776733,
+          "motion_retention_ratio": 1.3892112970352173,
+          "active_motion_cells": 1338,
+          "false_freeze_cells": 51,
+          "false_freeze_rate": 0.03811659192825112,
+          "stall_jump_cells": 0,
+          "stall_jump_eligible_cells": 1300,
+          "stall_jump_rate": 0.0,
+          "exact_duplicate_transitions": 0,
+          "max_luma_impulse": 0.41540798611110574,
+          "mean_luma_impulse": 0.1068374875992053,
+          "mad_p95": 11.228304036458333,
+          "mad_max": 11.810525173611111,
+          "definition": "288x160 grayscale Farneback, 8x5 spatial cells; source active >0.15 px/frame, false freeze <25% of source; stall then jump >180% next source speed",
+          "limitation": "diagnostic proxies, not human perceptual stutter labels; lower cadence error alone can reward freezing"
+        },
+        "refined_quality": {
+          "psnr_db": 19.79816134500337,
+          "ssim": 0.5564316116389936,
+          "lpips_vgg": 0.3182993517131419,
+          "clip": 0.9653716216216216,
+          "dists": 0.13378614831615138,
+          "frames": 37,
+          "shape": [
+            37,
+            320,
+            576,
+            3
+          ]
+        },
+        "refined_temporal": {
+          "flow_error_mean": 0.6633933815691206,
+          "cadence_error_mean": 0.22990113337125098,
+          "source_motion_mean": 0.7661284804344177,
+          "generated_motion_mean": 0.898102343082428,
+          "motion_retention_ratio": 1.1722607612609863,
+          "active_motion_cells": 1338,
+          "false_freeze_cells": 3,
+          "false_freeze_rate": 0.002242152466367713,
+          "stall_jump_cells": 0,
+          "stall_jump_eligible_cells": 1300,
+          "stall_jump_rate": 0.0,
+          "exact_duplicate_transitions": 0,
+          "max_luma_impulse": 0.38554687500000284,
+          "mean_luma_impulse": 0.1715327380952366,
+          "mad_p95": 8.139127604166667,
+          "mad_max": 9.654188368055555,
+          "definition": "288x160 grayscale Farneback, 8x5 spatial cells; source active >0.15 px/frame, false freeze <25% of source; stall then jump >180% next source speed",
+          "limitation": "diagnostic proxies, not human perceptual stutter labels; lower cadence error alone can reward freezing"
+        },
+        "common_nonkey_frames": 33,
+        "visual_uses": 104786,
+        "base_digital_uses": 11520,
+        "trajectory_uses": 4608
+      },
+      {
+        "id": "kinetics_005_11836d73",
+        "arm": "baseline",
+        "seed": 2025,
+        "frames": 25,
+        "keys": [
+          0,
+          8,
+          24
+        ],
+        "eta": 0.2,
+        "total_uses": 75392,
+        "budget": 75392,
+        "generation_windows": 1,
+        "mean_received_key_psnr_db": 35.842075966191096,
+        "common_nonkey": {
+          "raw": {
+            "psnr_db": 27.90375142526432,
+            "ssim": 0.9033750526235474,
+            "lpips_vgg": 0.16365652283032736,
+            "dists": 0.08847716592607044,
+            "clip": 0.9705171130952381
+          },
+          "refined": {
+            "psnr_db": 28.7170470910689,
+            "ssim": 0.8972936407545569,
+            "lpips_vgg": 0.16108747571706772,
+            "dists": 0.08088412171318418,
+            "clip": 0.9769461495535714
+          }
+        },
+        "raw_quality": {
+          "psnr_db": 28.083419296521473,
+          "ssim": 0.9048854173365788,
+          "lpips_vgg": 0.1628057622909546,
+          "clip": 0.971005859375,
+          "dists": 0.0876755666732788,
+          "frames": 25,
+          "shape": [
+            25,
+            320,
+            576,
+            3
+          ]
+        },
+        "raw_temporal": {
+          "flow_error_mean": 0.16123629050950208,
+          "cadence_error_mean": 0.17029661644736063,
+          "source_motion_mean": 0.1992788463830948,
+          "generated_motion_mean": 0.19194267690181732,
+          "motion_retention_ratio": 0.9631863832473755,
+          "active_motion_cells": 261,
+          "false_freeze_cells": 23,
+          "false_freeze_rate": 0.08812260536398467,
+          "stall_jump_cells": 0,
+          "stall_jump_eligible_cells": 174,
+          "stall_jump_rate": 0.0,
+          "exact_duplicate_transitions": 0,
+          "max_luma_impulse": 0.4039605034722129,
+          "mean_luma_impulse": 0.1427375830314005,
+          "mad_p95": 1.5909505208333332,
+          "mad_max": 1.6953993055555556,
+          "definition": "288x160 grayscale Farneback, 8x5 spatial cells; source active >0.15 px/frame, false freeze <25% of source; stall then jump >180% next source speed",
+          "limitation": "diagnostic proxies, not human perceptual stutter labels; lower cadence error alone can reward freezing"
+        },
+        "refined_quality": {
+          "psnr_db": 29.424361312544306,
+          "ssim": 0.9030643696856184,
+          "lpips_vgg": 0.1569938465952873,
+          "clip": 0.97787109375,
+          "dists": 0.07843027353286743,
+          "frames": 25,
+          "shape": [
+            25,
+            320,
+            576,
+            3
+          ]
+        },
+        "refined_temporal": {
+          "flow_error_mean": 0.21393548604100943,
+          "cadence_error_mean": 0.17044296463870484,
+          "source_motion_mean": 0.1992788463830948,
+          "generated_motion_mean": 0.24651286005973816,
+          "motion_retention_ratio": 1.2370246648788452,
+          "active_motion_cells": 261,
+          "false_freeze_cells": 22,
+          "false_freeze_rate": 0.0842911877394636,
+          "stall_jump_cells": 0,
+          "stall_jump_eligible_cells": 174,
+          "stall_jump_rate": 0.0,
+          "exact_duplicate_transitions": 0,
+          "max_luma_impulse": 0.4709201388888786,
+          "mean_luma_impulse": 0.1844273663949262,
+          "mad_p95": 2.4069574652777774,
+          "mad_max": 2.8555772569444446,
+          "definition": "288x160 grayscale Farneback, 8x5 spatial cells; source active >0.15 px/frame, false freeze <25% of source; stall then jump >180% next source speed",
+          "limitation": "diagnostic proxies, not human perceptual stutter labels; lower cadence error alone can reward freezing"
+        },
+        "common_nonkey_frames": 21,
+        "visual_uses": 59264,
+        "base_digital_uses": 13824,
+        "trajectory_uses": 2304
+      },
+      {
+        "id": "kinetics_005_11836d73",
+        "arm": "more_keys",
+        "seed": 2025,
+        "frames": 25,
+        "keys": [
+          0,
+          8,
+          17,
+          24
+        ],
+        "eta": 0.13505157,
+        "total_uses": 75392,
+        "budget": 75392,
+        "generation_windows": 2,
+        "mean_received_key_psnr_db": 33.519526924146774,
+        "common_nonkey": {
+          "raw": {
+            "psnr_db": 28.230798620663872,
+            "ssim": 0.8909010457357714,
+            "lpips_vgg": 0.20062919032006038,
+            "dists": 0.09903760183425177,
+            "clip": 0.9608793712797619
+          },
+          "refined": {
+            "psnr_db": 29.42253688635799,
+            "ssim": 0.900357889942154,
+            "lpips_vgg": 0.19244785039197831,
+            "dists": 0.09343141033535912,
+            "clip": 0.9689476376488095
+          }
+        },
+        "raw_quality": {
+          "psnr_db": 28.380576186995924,
+          "ssim": 0.8923810680615734,
+          "lpips_vgg": 0.20004908323287965,
+          "clip": 0.9612890625,
+          "dists": 0.09767229795455933,
+          "frames": 25,
+          "shape": [
+            25,
+            320,
+            576,
+            3
+          ]
+        },
+        "raw_temporal": {
+          "flow_error_mean": 0.15995025665809712,
+          "cadence_error_mean": 0.18326033149724422,
+          "source_motion_mean": 0.1992788463830948,
+          "generated_motion_mean": 0.19117778539657593,
+          "motion_retention_ratio": 0.9593480825424194,
+          "active_motion_cells": 261,
+          "false_freeze_cells": 10,
+          "false_freeze_rate": 0.038314176245210725,
+          "stall_jump_cells": 0,
+          "stall_jump_eligible_cells": 174,
+          "stall_jump_rate": 0.0,
+          "exact_duplicate_transitions": 0,
+          "max_luma_impulse": 0.5520507812499957,
+          "mean_luma_impulse": 0.20940566500603747,
+          "mad_p95": 2.5600976562499977,
+          "mad_max": 3.6996527777777777,
+          "definition": "288x160 grayscale Farneback, 8x5 spatial cells; source active >0.15 px/frame, false freeze <25% of source; stall then jump >180% next source speed",
+          "limitation": "diagnostic proxies, not human perceptual stutter labels; lower cadence error alone can reward freezing"
+        },
+        "refined_quality": {
+          "psnr_db": 30.006596650445257,
+          "ssim": 0.9043471977336708,
+          "lpips_vgg": 0.1899014312028885,
+          "clip": 0.970673828125,
+          "dists": 0.09150177001953125,
+          "frames": 25,
+          "shape": [
+            25,
+            320,
+            576,
+            3
+          ]
+        },
+        "refined_temporal": {
+          "flow_error_mean": 0.17475101041297117,
+          "cadence_error_mean": 0.16490226101292216,
+          "source_motion_mean": 0.1992788463830948,
+          "generated_motion_mean": 0.20023436844348907,
+          "motion_retention_ratio": 1.0047948360443115,
+          "active_motion_cells": 261,
+          "false_freeze_cells": 14,
+          "false_freeze_rate": 0.05363984674329502,
+          "stall_jump_cells": 0,
+          "stall_jump_eligible_cells": 174,
+          "stall_jump_rate": 0.0,
+          "exact_duplicate_transitions": 0,
+          "max_luma_impulse": 0.57928602430556,
+          "mean_luma_impulse": 0.16193340504226847,
+          "mad_p95": 3.071022135416666,
+          "mad_max": 3.1534288194444446,
+          "definition": "288x160 grayscale Farneback, 8x5 spatial cells; source active >0.15 px/frame, false freeze <25% of source; stall then jump >180% next source speed",
+          "limitation": "diagnostic proxies, not human perceptual stutter labels; lower cadence error alone can reward freezing"
+        },
+        "common_nonkey_frames": 21,
+        "visual_uses": 54656,
+        "base_digital_uses": 18432,
+        "trajectory_uses": 2304
+      },
+      {
+        "id": "kinetics_005_11836d73",
+        "arm": "key_quality",
+        "seed": 2025,
+        "frames": 25,
+        "keys": [
+          0,
+          24
+        ],
+        "eta": 0.32358398,
+        "total_uses": 75384,
+        "budget": 75392,
+        "generation_windows": 1,
+        "mean_received_key_psnr_db": 37.090153445437764,
+        "common_nonkey": {
+          "raw": {
+            "psnr_db": 27.111626643688087,
+            "ssim": 0.8952535626309787,
+            "lpips_vgg": 0.16128441904272353,
+            "dists": 0.09087014198303223,
+            "clip": 0.9675641741071429
+          },
+          "refined": {
+            "psnr_db": 27.02427663071642,
+            "ssim": 0.877764646343012,
+            "lpips_vgg": 0.17177187793311618,
+            "dists": 0.08813157819566272,
+            "clip": 0.974853515625
+          }
+        },
+        "raw_quality": {
+          "psnr_db": 27.308404843561078,
+          "ssim": 0.896933838633028,
+          "lpips_vgg": 0.16004411339759828,
+          "clip": 0.967626953125,
+          "dists": 0.08990128755569458,
+          "frames": 25,
+          "shape": [
+            25,
+            320,
+            576,
+            3
+          ]
+        },
+        "raw_temporal": {
+          "flow_error_mean": 0.18308912217617035,
+          "cadence_error_mean": 0.17407538385494895,
+          "source_motion_mean": 0.1992788463830948,
+          "generated_motion_mean": 0.2096601277589798,
+          "motion_retention_ratio": 1.0520942211151123,
+          "active_motion_cells": 261,
+          "false_freeze_cells": 27,
+          "false_freeze_rate": 0.10344827586206896,
+          "stall_jump_cells": 0,
+          "stall_jump_eligible_cells": 174,
+          "stall_jump_rate": 0.0,
+          "exact_duplicate_transitions": 0,
+          "max_luma_impulse": 0.30419921875,
+          "mean_luma_impulse": 0.11480412137681414,
+          "mad_p95": 1.830691189236111,
+          "mad_max": 1.9189453125,
+          "definition": "288x160 grayscale Farneback, 8x5 spatial cells; source active >0.15 px/frame, false freeze <25% of source; stall then jump >180% next source speed",
+          "limitation": "diagnostic proxies, not human perceptual stutter labels; lower cadence error alone can reward freezing"
+        },
+        "refined_quality": {
+          "psnr_db": 27.70593848376939,
+          "ssim": 0.8829306664042715,
+          "lpips_vgg": 0.16729169428348542,
+          "clip": 0.975693359375,
+          "dists": 0.08514886617660522,
+          "frames": 25,
+          "shape": [
+            25,
+            320,
+            576,
+            3
+          ]
+        },
+        "refined_temporal": {
+          "flow_error_mean": 0.21998086074988046,
+          "cadence_error_mean": 0.16709337286327197,
+          "source_motion_mean": 0.1992788463830948,
+          "generated_motion_mean": 0.23550482094287872,
+          "motion_retention_ratio": 1.1817853450775146,
+          "active_motion_cells": 261,
+          "false_freeze_cells": 21,
+          "false_freeze_rate": 0.08045977011494253,
+          "stall_jump_cells": 0,
+          "stall_jump_eligible_cells": 174,
+          "stall_jump_rate": 0.0,
+          "exact_duplicate_transitions": 0,
+          "max_luma_impulse": 0.46609157986110006,
+          "mean_luma_impulse": 0.1164647493961325,
+          "mad_p95": 2.274595269097222,
+          "mad_max": 2.567165798611111,
+          "definition": "288x160 grayscale Farneback, 8x5 spatial cells; source active >0.15 px/frame, false freeze <25% of source; stall then jump >180% next source speed",
+          "limitation": "diagnostic proxies, not human perceptual stutter labels; lower cadence error alone can reward freezing"
+        },
+        "common_nonkey_frames": 21,
+        "visual_uses": 61560,
+        "base_digital_uses": 11520,
+        "trajectory_uses": 2304
+      }
+    ],
+    "comparisons": [
+      {
+        "id": "kinetics_001_ntscc_plus",
+        "seed": 2025,
+        "arm": "baseline",
+        "total_channel_uses": 120924,
+        "budget": 120924,
+        "rate_difference_fraction": 0.0,
+        "rate_matched_within_one_percent": true,
+        "refined_delta": {
+          "psnr_db": 0.0,
+          "ssim": 0.0,
+          "lpips_vgg": 0.0,
+          "dists": 0.0,
+          "clip": 0.0
+        },
+        "common_nonkey_delta": {
+          "psnr_db": 0.0,
+          "ssim": 0.0,
+          "lpips_vgg": 0.0,
+          "dists": 0.0,
+          "clip": 0.0
+        }
+      },
+      {
+        "id": "kinetics_001_ntscc_plus",
+        "seed": 2025,
+        "arm": "more_keys",
+        "total_channel_uses": 120920,
+        "budget": 120924,
+        "rate_difference_fraction": -3.3078627898475155e-05,
+        "rate_matched_within_one_percent": true,
+        "refined_delta": {
+          "psnr_db": 1.3913073956263702,
+          "ssim": 0.030559171510961214,
+          "lpips_vgg": -0.010570324554636662,
+          "dists": -0.008469594491494661,
+          "clip": 0.009079391891891886
+        },
+        "common_nonkey_delta": {
+          "psnr_db": 1.3673967035749648,
+          "ssim": 0.02736052961491464,
+          "lpips_vgg": -0.01128677752884949,
+          "dists": -0.009422289602684264,
+          "clip": 0.00985440340909094
+        }
+      },
+      {
+        "id": "kinetics_001_ntscc_plus",
+        "seed": 2025,
+        "arm": "key_quality",
+        "total_channel_uses": 120914,
+        "budget": 120924,
+        "rate_difference_fraction": -8.26965697462434e-05,
+        "rate_matched_within_one_percent": true,
+        "refined_delta": {
+          "psnr_db": -2.0389905575139338,
+          "ssim": -0.1071218944056812,
+          "lpips_vgg": 0.05945823925572474,
+          "dists": 0.013929616760563202,
+          "clip": -0.004401129645270285
+        },
+        "common_nonkey_delta": {
+          "psnr_db": -1.8455309640718696,
+          "ssim": -0.10466319908257027,
+          "lpips_vgg": 0.06056749685244128,
+          "dists": 0.012902678865374939,
+          "clip": -0.004646070075757569
+        }
+      },
+      {
+        "id": "kinetics_005_11836d73",
+        "seed": 2025,
+        "arm": "baseline",
+        "total_channel_uses": 75392,
+        "budget": 75392,
+        "rate_difference_fraction": 0.0,
+        "rate_matched_within_one_percent": true,
+        "refined_delta": {
+          "psnr_db": 0.0,
+          "ssim": 0.0,
+          "lpips_vgg": 0.0,
+          "dists": 0.0,
+          "clip": 0.0
+        },
+        "common_nonkey_delta": {
+          "psnr_db": 0.0,
+          "ssim": 0.0,
+          "lpips_vgg": 0.0,
+          "dists": 0.0,
+          "clip": 0.0
+        }
+      },
+      {
+        "id": "kinetics_005_11836d73",
+        "seed": 2025,
+        "arm": "more_keys",
+        "total_channel_uses": 75392,
+        "budget": 75392,
+        "rate_difference_fraction": 0.0,
+        "rate_matched_within_one_percent": true,
+        "refined_delta": {
+          "psnr_db": 0.5822353379009506,
+          "ssim": 0.0012828280480523535,
+          "lpips_vgg": 0.03290758460760118,
+          "dists": 0.013071496486663822,
+          "clip": -0.0071972656250000044
+        },
+        "common_nonkey_delta": {
+          "psnr_db": 0.7054897952890897,
+          "ssim": 0.003064249187597179,
+          "lpips_vgg": 0.031360374674910596,
+          "dists": 0.01254728862217494,
+          "clip": -0.007998511904761862
+        }
+      },
+      {
+        "id": "kinetics_005_11836d73",
+        "seed": 2025,
+        "arm": "key_quality",
+        "total_channel_uses": 75384,
+        "budget": 75392,
+        "rate_difference_fraction": -0.00010611205432942139,
+        "rate_matched_within_one_percent": true,
+        "refined_delta": {
+          "psnr_db": -1.7184228287749157,
+          "ssim": -0.020133703281346893,
+          "lpips_vgg": 0.010297847688198108,
+          "dists": 0.006718592643737795,
+          "clip": -0.0021777343750000178
+        },
+        "common_nonkey_delta": {
+          "psnr_db": -1.6927704603524774,
+          "ssim": -0.019528994411544875,
+          "lpips_vgg": 0.010684402216048466,
+          "dists": 0.007247456482478543,
+          "clip": -0.002092633928571397
+        }
+      }
+    ],
+    "protocol": {
+      "policy": {
+        "policy": "bsu_ltx_key_budget_pilot_v1",
+        "arms": [
+          "baseline",
+          "more_keys",
+          "key_quality"
+        ],
+        "baseline_eta": 0.2,
+        "eta_min": 0.005,
+        "eta_max": 1.0,
+        "rate_search_steps": 14,
+        "added_keys": 1,
+        "minimum_key_spacing": 4,
+        "selection_proxy_size": [
+          144,
+          80
+        ],
+        "trajectory_ratio": 0.05,
+        "rate_match_tolerance": 0.01,
+        "snr_db": 10,
+        "channel_seed": 42,
+        "trajectory_channel_seed": 43,
+        "encoder_seed": 2025,
+        "generation_seeds": [
+          2025
+        ],
+        "receiver_variant": "context",
+        "execution_offload": "disk",
+        "max_frames": 97,
+        "training": false,
+        "adopt_as_default": false
+      },
+      "limits": [
+        "known development prefixes, not unseen or full-video validation",
+        "key changes also change generation windows and caption segmentation",
+        "sender residual is a contribution proxy, not measured LTX contribution",
+        "same budget cap; actual utilization and rate mismatch reported",
+        "eta changes use frozen NTSCC+ weights; no online adaptation or new training"
+      ],
+      "generation_conditioning": "bounded_multikey",
+      "training": false,
+      "default_adopted": false,
+      "generalization_proven": false,
+      "independent_semantic_review": "PENDING"
+    },
+    "source_analysis": {
+      "path": ".local/validation/bsu_key_budget_pilot_20261019/ANALYSIS.json",
+      "sha256": "b305fac1b3d50e3fae5676b051c7ae6da8235a15731dfcb486e34a2803f7987f"
+    }
+  },
+  "interpretation": {
+    "more_keys": "Both development clips improve final and common-nonkey PSNR, but golf LPIPS/DISTS and football flow error worsen.",
+    "two_key_budget_concentration": "Both clips worsen final PSNR/LPIPS/DISTS. Golf received-key PSNR improves while final video quality worsens; football mean received-key PSNR does not improve.",
+    "adoption": "No universal four-key or two-key policy adopted. Mixed objectives and independent validation needed.",
+    "causal_limit": "Key count changes also alter captions, trajectories, refinement intervals and generation windows; this is a combined allocation policy comparison.",
+    "relationship_to_remote": "These known development prefixes overlap the remote 14-video cohort; do not add them as independent new videos. Local uses multikey while remote uses endpoint pairs."
+  }
+}
