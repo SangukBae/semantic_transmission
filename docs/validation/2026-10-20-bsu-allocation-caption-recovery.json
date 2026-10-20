@@ -1,0 +1,48 @@
+{
+  "status": "CAPTION_FAILURE_FIXED_AND_RUN_RESUMED",
+  "verified_at": "2026-10-19T15:49:18.170641+00:00",
+  "root": "/home/sangukbae/semantic_transmission/outputs/bsu_allocation_labels_600_20261019",
+  "audit": "/home/sangukbae/semantic_transmission/.local/validation/bsu_allocation_recovery_20261019T154728Z",
+  "failure": {
+    "source_id": "564",
+    "error": "invalid uncertainties",
+    "malformed_field": "uncertains",
+    "required_field": "uncertainties",
+    "original_attempts": 3
+  },
+  "fix": {
+    "policy": "strict_validator_error_feedback_v1",
+    "recovery_signature": "640e104a46ce1d6fc1201ee8eff941a84b4fc6353c96bf6ec435b5f6250a1823",
+    "strict_original_validator": true,
+    "successful_recovery_attempt": 1,
+    "base_protocol_unchanged": true,
+    "gpu_cache_unchanged": true
+  },
+  "preserved_artifacts": 649,
+  "changed_protected_artifacts": [],
+  "tests": "24 passed",
+  "shell_syntax": "PASSED",
+  "diff_check": "PASSED",
+  "state": {
+    "status": "RUNNING",
+    "stage": "batch 4/26 channel",
+    "started_epoch": 1792398533.2408576,
+    "pid": 6420,
+    "process_start_ticks": "17132187"
+  },
+  "counts": {
+    "captions": 13,
+    "encoding": 78,
+    "generation": 54,
+    "labels": 54
+  },
+  "predictor_training_started": false,
+  "tmux_session": "bsu-allocation-recovery-20261020",
+  "watch_command": "bash /home/sangukbae/semantic_transmission/scripts/run_bsu_allocation_recovery.sh watch --interval 1",
+  "original_watch_command_still_works": true,
+  "resume_command": "bash /home/sangukbae/semantic_transmission/scripts/run_bsu_allocation_recovery.sh run",
+  "limitations": [
+    "Measured label generation is still in progress; predictor training begins after 600 labels.",
+    "Specific schema feedback changes only failed-request retry prompts and is separately recorded."
+  ]
+}
