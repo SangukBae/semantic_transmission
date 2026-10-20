@@ -16,6 +16,7 @@ authoritative source. Verify before any redistribution or commercial use.
 | Open-Sora | https://github.com/hpcaitech/Open-Sora | Apache-2.0 | Decoder world model (pinned commit `bf4d6673`). |
 | LTX-2.5 22B Distilled | [Lightricks/LTX-2](https://github.com/Lightricks/LTX-2/tree/be6d6d0a69d11a0a399c462ed92606692e5f8697) · [weights](https://huggingface.co/Lightricks/LTX-2.5) | [LTX-2.x Community License](https://github.com/Lightricks/LTX-2/blob/be6d6d0a69d11a0a399c462ed92606692e5f8697/LICENSE-2_x) | Experimental BSU receiver replacement; official gated weights are downloaded separately. |
 | NTSCC_JSAC22 | https://github.com/wsxtyrdd/NTSCC_JSAC22 | **No LICENSE file** | Research code with no explicit license — contact the authors before reuse/redistribution. |
+| NTSCC+ | [official repository](https://github.com/wsxtyrdd/NTSCC_plus/tree/765c6f6c11cf3bbe249a26b624dbaf47a4f0676d) · [paper](https://arxiv.org/abs/2303.14637) | No repository LICENSE; retain file-level notices | Separately downloaded source and official lambda-0.18 weights; NATTEN 0.14.6 required. Not NTSCC++ online optimization. |
 | Sionna | https://github.com/NVlabs/sionna | Apache-2.0 | LDPC / channel simulation. |
 | PLLaVA | https://github.com/magic-research/PLLaVA | See upstream repo | Captioning model; check the repo + model card. |
 | UniMatch | https://github.com/autonomousvision/unimatch | See upstream repo | Optical flow; bundled inside Open-Sora `tools/scoring`. |
