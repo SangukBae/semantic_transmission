@@ -1,0 +1,1703 @@
+{
+  "status": "COMPLETE_BSU_METADATA_COMPRESSION_VALIDATION",
+  "signature": "f4681d09f2a3149c7e9d9b8779b59be8bc20e01f54783136eef31074cc0759f5",
+  "rate": {
+    "remote14": {
+      "packets": 14,
+      "rate_indices": 116640,
+      "methods": {
+        "raw": {
+          "packet_bytes": 184619,
+          "digital_uses": 569088,
+          "total_uses": 3943660,
+          "blocks": 247,
+          "total_saving_percent": 0.0,
+          "packets_with_reduced_channel_uses": 0
+        },
+        "pack5": {
+          "packet_bytes": 141103,
+          "digital_uses": 442368,
+          "total_uses": 3816940,
+          "blocks": 192,
+          "total_saving_percent": 3.213258749486514,
+          "packets_with_reduced_channel_uses": 12
+        },
+        "zlib": {
+          "packet_bytes": 72789,
+          "digital_uses": 232704,
+          "total_uses": 3607276,
+          "blocks": 101,
+          "total_saving_percent": 8.529741407727842,
+          "packets_with_reduced_channel_uses": 14
+        },
+        "pack5_zlib": {
+          "packet_bytes": 80279,
+          "digital_uses": 255744,
+          "total_uses": 3630316,
+          "blocks": 111,
+          "total_saving_percent": 7.94551254418484,
+          "packets_with_reduced_channel_uses": 14
+        },
+        "auto": {
+          "packet_bytes": 72789,
+          "digital_uses": 232704,
+          "total_uses": 3607276,
+          "blocks": 101,
+          "total_saving_percent": 8.529741407727842,
+          "packets_with_reduced_channel_uses": 14
+        }
+      },
+      "per_packet": [
+        {
+          "id": "kinetics_001_a393e9d3",
+          "methods": {
+            "raw": {
+              "path": "packets/remote14/kinetics_001_a393e9d3/raw.bin",
+              "sha256": "02b720f9bbbe6ae0bfbd782c5ef613821d4ec824c1b6c7e8268be2599e0637e8",
+              "packet_bytes": 41629,
+              "digital_uses": 126720,
+              "blocks": 55,
+              "padding_bits": 4888,
+              "total_uses": 1256022,
+              "selected": "raw"
+            },
+            "pack5": {
+              "path": "packets/remote14/kinetics_001_a393e9d3/pack5.bin",
+              "sha256": "d2280656f46aa2eb25f445b788251e211751099351efc44cbdc09bafb38b4cec",
+              "packet_bytes": 31601,
+              "digital_uses": 96768,
+              "blocks": 42,
+              "padding_bits": 5240,
+              "total_uses": 1226070,
+              "selected": "pack5"
+            },
+            "zlib": {
+              "path": "packets/remote14/kinetics_001_a393e9d3/zlib.bin",
+              "sha256": "031240b04bcfe97a016ab0ca74e88334dd2b087a63c22e2915f3476b4273d462",
+              "packet_bytes": 15731,
+              "digital_uses": 48384,
+              "blocks": 21,
+              "padding_bits": 3176,
+              "total_uses": 1177686,
+              "selected": "zlib"
+            },
+            "pack5_zlib": {
+              "path": "packets/remote14/kinetics_001_a393e9d3/pack5_zlib.bin",
+              "sha256": "7b1f124c28d4488ed5953311c423610cdb9cb1a89eddf32d6b7ebb3208da6ec5",
+              "packet_bytes": 17982,
+              "digital_uses": 55296,
+              "blocks": 24,
+              "padding_bits": 3600,
+              "total_uses": 1184598,
+              "selected": "pack5_zlib"
+            },
+            "auto": {
+              "path": "packets/remote14/kinetics_001_a393e9d3/auto.bin",
+              "sha256": "031240b04bcfe97a016ab0ca74e88334dd2b087a63c22e2915f3476b4273d462",
+              "packet_bytes": 15731,
+              "digital_uses": 48384,
+              "blocks": 21,
+              "padding_bits": 3176,
+              "total_uses": 1177686,
+              "selected": "zlib"
+            }
+          }
+        },
+        {
+          "id": "kinetics_002_5e11db4c",
+          "methods": {
+            "raw": {
+              "path": "packets/remote14/kinetics_002_5e11db4c/raw.bin",
+              "sha256": "7e6227a2c3d2bc7ebaf0d62dd491f49bcc8aa223a639cc8b4ca064bea1daa305",
+              "packet_bytes": 7097,
+              "digital_uses": 23040,
+              "blocks": 10,
+              "padding_bits": 4664,
+              "total_uses": 101350,
+              "selected": "raw"
+            },
+            "pack5": {
+              "path": "packets/remote14/kinetics_002_5e11db4c/pack5.bin",
+              "sha256": "e34d4765cd719d3a1ddbaeaaf9fa7c1b312092bb369e950546d74929bb2307c6",
+              "packet_bytes": 5493,
+              "digital_uses": 18432,
+              "blocks": 8,
+              "padding_bits": 5208,
+              "total_uses": 96742,
+              "selected": "pack5"
+            },
+            "zlib": {
+              "path": "packets/remote14/kinetics_002_5e11db4c/zlib.bin",
+              "sha256": "f0fd6b97c0647f9ac484e70dc49aafea3b3dc416a64916501351b34e7b2a0cc1",
+              "packet_bytes": 3056,
+              "digital_uses": 9216,
+              "blocks": 4,
+              "padding_bits": 128,
+              "total_uses": 87526,
+              "selected": "zlib"
+            },
+            "pack5_zlib": {
+              "path": "packets/remote14/kinetics_002_5e11db4c/pack5_zlib.bin",
+              "sha256": "df33549a3d1bb2a2be2e21a2378ca9af47ac981f9ecde906b990e4126ca31fbd",
+              "packet_bytes": 3377,
+              "digital_uses": 11520,
+              "blocks": 5,
+              "padding_bits": 3704,
+              "total_uses": 89830,
+              "selected": "pack5_zlib"
+            },
+            "auto": {
+              "path": "packets/remote14/kinetics_002_5e11db4c/auto.bin",
+              "sha256": "f0fd6b97c0647f9ac484e70dc49aafea3b3dc416a64916501351b34e7b2a0cc1",
+              "packet_bytes": 3056,
+              "digital_uses": 9216,
+              "blocks": 4,
+              "padding_bits": 128,
+              "total_uses": 87526,
+              "selected": "zlib"
+            }
+          }
+        },
+        {
+          "id": "kinetics_003_5d588509",
+          "methods": {
+            "raw": {
+              "path": "packets/remote14/kinetics_003_5d588509/raw.bin",
+              "sha256": "1ecc507a9cd522380fba976d0ec27c61837a4bbe3cef9dbce9bcf8b5bd1b28ab",
+              "packet_bytes": 4262,
+              "digital_uses": 13824,
+              "blocks": 6,
+              "padding_bits": 2768,
+              "total_uses": 70460,
+              "selected": "raw"
+            },
+            "pack5": {
+              "path": "packets/remote14/kinetics_003_5d588509/pack5.bin",
+              "sha256": "a1228d79c57fa68b833d1ca197d1275ee540af07219b3d3f17a8c11f75693f2c",
+              "packet_bytes": 3306,
+              "digital_uses": 11520,
+              "blocks": 5,
+              "padding_bits": 4272,
+              "total_uses": 68156,
+              "selected": "pack5"
+            },
+            "zlib": {
+              "path": "packets/remote14/kinetics_003_5d588509/zlib.bin",
+              "sha256": "4fddba99eeb36d20d8d137a7a2b5dccfa43a38b672bf613b98f01bae5357383b",
+              "packet_bytes": 2181,
+              "digital_uses": 6912,
+              "blocks": 3,
+              "padding_bits": 984,
+              "total_uses": 63548,
+              "selected": "zlib"
+            },
+            "pack5_zlib": {
+              "path": "packets/remote14/kinetics_003_5d588509/pack5_zlib.bin",
+              "sha256": "800af5380fc9b98c282341f838c4cf1009eb0ed1a29389cdb5b4ee3b3dddb49d",
+              "packet_bytes": 2388,
+              "digital_uses": 9216,
+              "blocks": 4,
+              "padding_bits": 5472,
+              "total_uses": 65852,
+              "selected": "pack5_zlib"
+            },
+            "auto": {
+              "path": "packets/remote14/kinetics_003_5d588509/auto.bin",
+              "sha256": "4fddba99eeb36d20d8d137a7a2b5dccfa43a38b672bf613b98f01bae5357383b",
+              "packet_bytes": 2181,
+              "digital_uses": 6912,
+              "blocks": 3,
+              "padding_bits": 984,
+              "total_uses": 63548,
+              "selected": "zlib"
+            }
+          }
+        },
+        {
+          "id": "kinetics_004_afa8dee0",
+          "methods": {
+            "raw": {
+              "path": "packets/remote14/kinetics_004_afa8dee0/raw.bin",
+              "sha256": "e841493d2b5b57ce75ec00b0bb1b639253e99f33a55299020578e2acc2cfbd8c",
+              "packet_bytes": 21509,
+              "digital_uses": 66816,
+              "blocks": 29,
+              "padding_bits": 6104,
+              "total_uses": 278628,
+              "selected": "raw"
+            },
+            "pack5": {
+              "path": "packets/remote14/kinetics_004_afa8dee0/pack5.bin",
+              "sha256": "b4ebe025958bc7f1c055c13881b98571b61db04ddfdfed0fa9126491f672fac1",
+              "packet_bytes": 16341,
+              "digital_uses": 50688,
+              "blocks": 22,
+              "padding_bits": 4440,
+              "total_uses": 262500,
+              "selected": "pack5"
+            },
+            "zlib": {
+              "path": "packets/remote14/kinetics_004_afa8dee0/zlib.bin",
+              "sha256": "a0a8d72769afabac5e78cbc7a38d1ae15bf00584810fd708dcb9cc5fe76b4b75",
+              "packet_bytes": 8065,
+              "digital_uses": 25344,
+              "blocks": 11,
+              "padding_bits": 3064,
+              "total_uses": 237156,
+              "selected": "zlib"
+            },
+            "pack5_zlib": {
+              "path": "packets/remote14/kinetics_004_afa8dee0/pack5_zlib.bin",
+              "sha256": "f40cbea767f247849678135abb510832d493970ad88dfe7584d1a5e3d4fa4b78",
+              "packet_bytes": 9165,
+              "digital_uses": 27648,
+              "blocks": 12,
+              "padding_bits": 408,
+              "total_uses": 239460,
+              "selected": "pack5_zlib"
+            },
+            "auto": {
+              "path": "packets/remote14/kinetics_004_afa8dee0/auto.bin",
+              "sha256": "a0a8d72769afabac5e78cbc7a38d1ae15bf00584810fd708dcb9cc5fe76b4b75",
+              "packet_bytes": 8065,
+              "digital_uses": 25344,
+              "blocks": 11,
+              "padding_bits": 3064,
+              "total_uses": 237156,
+              "selected": "zlib"
+            }
+          }
+        },
+        {
+          "id": "kinetics_005_11836d73",
+          "methods": {
+            "raw": {
+              "path": "packets/remote14/kinetics_005_11836d73/raw.bin",
+              "sha256": "f3839085dee05103320f58d42df9989c6ff3ab876de8a8d2bf97606e5201b2b1",
+              "packet_bytes": 20358,
+              "digital_uses": 62208,
+              "blocks": 27,
+              "padding_bits": 3024,
+              "total_uses": 391878,
+              "selected": "raw"
+            },
+            "pack5": {
+              "path": "packets/remote14/kinetics_005_11836d73/pack5.bin",
+              "sha256": "2aa2e3342620bef3194c1a07c7d0ac857f5aa928374c13623257d06a254739a8",
+              "packet_bytes": 15514,
+              "digital_uses": 48384,
+              "blocks": 21,
+              "padding_bits": 4912,
+              "total_uses": 378054,
+              "selected": "pack5"
+            },
+            "zlib": {
+              "path": "packets/remote14/kinetics_005_11836d73/zlib.bin",
+              "sha256": "7e1834e2e1629df931f4f1817f5edfbae114f6308db648c6515f04afebdc4e63",
+              "packet_bytes": 6188,
+              "digital_uses": 20736,
+              "blocks": 9,
+              "padding_bits": 5792,
+              "total_uses": 350406,
+              "selected": "zlib"
+            },
+            "pack5_zlib": {
+              "path": "packets/remote14/kinetics_005_11836d73/pack5_zlib.bin",
+              "sha256": "c99f926c899917a27d1bdaa35f0d6b896af85b9ce780b0bbcc812252e5fabd82",
+              "packet_bytes": 6691,
+              "digital_uses": 20736,
+              "blocks": 9,
+              "padding_bits": 1768,
+              "total_uses": 350406,
+              "selected": "pack5_zlib"
+            },
+            "auto": {
+              "path": "packets/remote14/kinetics_005_11836d73/auto.bin",
+              "sha256": "7e1834e2e1629df931f4f1817f5edfbae114f6308db648c6515f04afebdc4e63",
+              "packet_bytes": 6188,
+              "digital_uses": 20736,
+              "blocks": 9,
+              "padding_bits": 5792,
+              "total_uses": 350406,
+              "selected": "zlib"
+            }
+          }
+        },
+        {
+          "id": "kinetics_006_ecbad330",
+          "methods": {
+            "raw": {
+              "path": "packets/remote14/kinetics_006_ecbad330/raw.bin",
+              "sha256": "1537e0662961a58a1c3e1e8af7826762df99e859901254c7e89d8fa7a9acd2e1",
+              "packet_bytes": 9570,
+              "digital_uses": 29952,
+              "blocks": 13,
+              "padding_bits": 3312,
+              "total_uses": 304638,
+              "selected": "raw"
+            },
+            "pack5": {
+              "path": "packets/remote14/kinetics_006_ecbad330/pack5.bin",
+              "sha256": "2b3b28f206ab14347588b5029a18e54b0e5e3b7b1fc8c809f9dee30c61c7457d",
+              "packet_bytes": 7318,
+              "digital_uses": 23040,
+              "blocks": 10,
+              "padding_bits": 2896,
+              "total_uses": 297726,
+              "selected": "pack5"
+            },
+            "zlib": {
+              "path": "packets/remote14/kinetics_006_ecbad330/zlib.bin",
+              "sha256": "9846d65007a059085943e6479e6bc6263316f6facb8e583d5653f073ae817363",
+              "packet_bytes": 4032,
+              "digital_uses": 13824,
+              "blocks": 6,
+              "padding_bits": 4608,
+              "total_uses": 288510,
+              "selected": "zlib"
+            },
+            "pack5_zlib": {
+              "path": "packets/remote14/kinetics_006_ecbad330/pack5_zlib.bin",
+              "sha256": "817c9f4bdd43f63029b1a6cf41e144933fe38c96474256071636befa730e0454",
+              "packet_bytes": 4550,
+              "digital_uses": 13824,
+              "blocks": 6,
+              "padding_bits": 464,
+              "total_uses": 288510,
+              "selected": "pack5_zlib"
+            },
+            "auto": {
+              "path": "packets/remote14/kinetics_006_ecbad330/auto.bin",
+              "sha256": "9846d65007a059085943e6479e6bc6263316f6facb8e583d5653f073ae817363",
+              "packet_bytes": 4032,
+              "digital_uses": 13824,
+              "blocks": 6,
+              "padding_bits": 4608,
+              "total_uses": 288510,
+              "selected": "zlib"
+            }
+          }
+        },
+        {
+          "id": "kinetics_007_91361599",
+          "methods": {
+            "raw": {
+              "path": "packets/remote14/kinetics_007_91361599/raw.bin",
+              "sha256": "7d19805a92baa56ea71de34462e84d97bf039b51cfcb52e990df7385a838afd9",
+              "packet_bytes": 12084,
+              "digital_uses": 36864,
+              "blocks": 16,
+              "padding_bits": 1632,
+              "total_uses": 155248,
+              "selected": "raw"
+            },
+            "pack5": {
+              "path": "packets/remote14/kinetics_007_91361599/pack5.bin",
+              "sha256": "abdacef7b83ef1441ce97dee72ea49e6bb11d1d5435bdc6ccf1447a880f3d2f7",
+              "packet_bytes": 9184,
+              "digital_uses": 27648,
+              "blocks": 12,
+              "padding_bits": 256,
+              "total_uses": 146032,
+              "selected": "pack5"
+            },
+            "zlib": {
+              "path": "packets/remote14/kinetics_007_91361599/zlib.bin",
+              "sha256": "9b4ce213f2acef2eae8a78390bde4b46a61c12c9edc18c71b23b8a74074269bc",
+              "packet_bytes": 4632,
+              "digital_uses": 16128,
+              "blocks": 7,
+              "padding_bits": 5952,
+              "total_uses": 134512,
+              "selected": "zlib"
+            },
+            "pack5_zlib": {
+              "path": "packets/remote14/kinetics_007_91361599/pack5_zlib.bin",
+              "sha256": "98ca9802f54038bfb5ce31682da9b396c4c47d34b835f08d3191a1e6f0724e74",
+              "packet_bytes": 5029,
+              "digital_uses": 16128,
+              "blocks": 7,
+              "padding_bits": 2776,
+              "total_uses": 134512,
+              "selected": "pack5_zlib"
+            },
+            "auto": {
+              "path": "packets/remote14/kinetics_007_91361599/auto.bin",
+              "sha256": "9b4ce213f2acef2eae8a78390bde4b46a61c12c9edc18c71b23b8a74074269bc",
+              "packet_bytes": 4632,
+              "digital_uses": 16128,
+              "blocks": 7,
+              "padding_bits": 5952,
+              "total_uses": 134512,
+              "selected": "zlib"
+            }
+          }
+        },
+        {
+          "id": "kinetics_008_278ecb48",
+          "methods": {
+            "raw": {
+              "path": "packets/remote14/kinetics_008_278ecb48/raw.bin",
+              "sha256": "a34cc3c6611d93970a803172162e777cfac2c1e007e4979e2f5f1a475eb7d9fe",
+              "packet_bytes": 5608,
+              "digital_uses": 18432,
+              "blocks": 8,
+              "padding_bits": 4288,
+              "total_uses": 96598,
+              "selected": "raw"
+            },
+            "pack5": {
+              "path": "packets/remote14/kinetics_008_278ecb48/pack5.bin",
+              "sha256": "23e0bba988dcc7b42d5eee6eedaf3de10160269e5d2fbb7f5d4ad9f20e801c62",
+              "packet_bytes": 4328,
+              "digital_uses": 13824,
+              "blocks": 6,
+              "padding_bits": 2240,
+              "total_uses": 91990,
+              "selected": "pack5"
+            },
+            "zlib": {
+              "path": "packets/remote14/kinetics_008_278ecb48/zlib.bin",
+              "sha256": "010f6d79cf538a666bb4b57bbd8367d7796fc7031b62a28d742bf68bc8bdcbe1",
+              "packet_bytes": 2758,
+              "digital_uses": 9216,
+              "blocks": 4,
+              "padding_bits": 2512,
+              "total_uses": 87382,
+              "selected": "zlib"
+            },
+            "pack5_zlib": {
+              "path": "packets/remote14/kinetics_008_278ecb48/pack5_zlib.bin",
+              "sha256": "9cc053402780037ad33fb8791b1dd4626cf47f45d0724da6c1bfa4e1984ade26",
+              "packet_bytes": 3040,
+              "digital_uses": 9216,
+              "blocks": 4,
+              "padding_bits": 256,
+              "total_uses": 87382,
+              "selected": "pack5_zlib"
+            },
+            "auto": {
+              "path": "packets/remote14/kinetics_008_278ecb48/auto.bin",
+              "sha256": "010f6d79cf538a666bb4b57bbd8367d7796fc7031b62a28d742bf68bc8bdcbe1",
+              "packet_bytes": 2758,
+              "digital_uses": 9216,
+              "blocks": 4,
+              "padding_bits": 2512,
+              "total_uses": 87382,
+              "selected": "zlib"
+            }
+          }
+        },
+        {
+          "id": "kinetics_009_eb51ffae",
+          "methods": {
+            "raw": {
+              "path": "packets/remote14/kinetics_009_eb51ffae/raw.bin",
+              "sha256": "4d2338bce120af699c02ddf9f8e6a2bf204b94dede23abc7b08dee9940ea10ae",
+              "packet_bytes": 4393,
+              "digital_uses": 13824,
+              "blocks": 6,
+              "padding_bits": 1720,
+              "total_uses": 91166,
+              "selected": "raw"
+            },
+            "pack5": {
+              "path": "packets/remote14/kinetics_009_eb51ffae/pack5.bin",
+              "sha256": "db08723d1477d9bb06c2ea476dcbcc59c67ab04f65960d67f2ad9a44c2394ada",
+              "packet_bytes": 3437,
+              "digital_uses": 11520,
+              "blocks": 5,
+              "padding_bits": 3224,
+              "total_uses": 88862,
+              "selected": "pack5"
+            },
+            "zlib": {
+              "path": "packets/remote14/kinetics_009_eb51ffae/zlib.bin",
+              "sha256": "a8c8b9f8de9c04d4a34a85141497676e77c8ebf80ce0b2f18d94df6c20b64c62",
+              "packet_bytes": 2301,
+              "digital_uses": 6912,
+              "blocks": 3,
+              "padding_bits": 24,
+              "total_uses": 84254,
+              "selected": "zlib"
+            },
+            "pack5_zlib": {
+              "path": "packets/remote14/kinetics_009_eb51ffae/pack5_zlib.bin",
+              "sha256": "eaaba2dfd37382077e83efc40f21f0ab8b4b3d5371e1f6da8cf4a374ab77fd8a",
+              "packet_bytes": 2536,
+              "digital_uses": 9216,
+              "blocks": 4,
+              "padding_bits": 4288,
+              "total_uses": 86558,
+              "selected": "pack5_zlib"
+            },
+            "auto": {
+              "path": "packets/remote14/kinetics_009_eb51ffae/auto.bin",
+              "sha256": "a8c8b9f8de9c04d4a34a85141497676e77c8ebf80ce0b2f18d94df6c20b64c62",
+              "packet_bytes": 2301,
+              "digital_uses": 6912,
+              "blocks": 3,
+              "padding_bits": 24,
+              "total_uses": 84254,
+              "selected": "zlib"
+            }
+          }
+        },
+        {
+          "id": "kinetics_010_2b3cec91",
+          "methods": {
+            "raw": {
+              "path": "packets/remote14/kinetics_010_2b3cec91/raw.bin",
+              "sha256": "c720574841c6d4d46bf4f501ca96ec2ce68632a885bd4181f6a663f43a923c41",
+              "packet_bytes": 12106,
+              "digital_uses": 36864,
+              "blocks": 16,
+              "padding_bits": 1456,
+              "total_uses": 288488,
+              "selected": "raw"
+            },
+            "pack5": {
+              "path": "packets/remote14/kinetics_010_2b3cec91/pack5.bin",
+              "sha256": "2f572cb85ba634eb26aa6268301987455e146a3fbc232d173e200e26bee99f8b",
+              "packet_bytes": 9206,
+              "digital_uses": 27648,
+              "blocks": 12,
+              "padding_bits": 80,
+              "total_uses": 279272,
+              "selected": "pack5"
+            },
+            "zlib": {
+              "path": "packets/remote14/kinetics_010_2b3cec91/zlib.bin",
+              "sha256": "f14663e60d4c15b025372a5d91d86a89a0099737b680b304630958c315510131",
+              "packet_bytes": 5551,
+              "digital_uses": 18432,
+              "blocks": 8,
+              "padding_bits": 4744,
+              "total_uses": 270056,
+              "selected": "zlib"
+            },
+            "pack5_zlib": {
+              "path": "packets/remote14/kinetics_010_2b3cec91/pack5_zlib.bin",
+              "sha256": "b3452159c4e37912a06adfd89002f03586786ddf1557bff9baa06c87d949a4be",
+              "packet_bytes": 6012,
+              "digital_uses": 18432,
+              "blocks": 8,
+              "padding_bits": 1056,
+              "total_uses": 270056,
+              "selected": "pack5_zlib"
+            },
+            "auto": {
+              "path": "packets/remote14/kinetics_010_2b3cec91/auto.bin",
+              "sha256": "f14663e60d4c15b025372a5d91d86a89a0099737b680b304630958c315510131",
+              "packet_bytes": 5551,
+              "digital_uses": 18432,
+              "blocks": 8,
+              "padding_bits": 4744,
+              "total_uses": 270056,
+              "selected": "zlib"
+            }
+          }
+        },
+        {
+          "id": "kinetics_011_e0339900",
+          "methods": {
+            "raw": {
+              "path": "packets/remote14/kinetics_011_e0339900/raw.bin",
+              "sha256": "03b5f23023ea5e26025874292ecd72157d1f946ef3cfe36ba74cea4f062249fd",
+              "packet_bytes": 2967,
+              "digital_uses": 9216,
+              "blocks": 4,
+              "padding_bits": 840,
+              "total_uses": 31200,
+              "selected": "raw"
+            },
+            "pack5": {
+              "path": "packets/remote14/kinetics_011_e0339900/pack5.bin",
+              "sha256": "64c2edec86bc20fb0ec87b9a459eab89597251265b53a74dee39e633368054a7",
+              "packet_bytes": 2335,
+              "digital_uses": 9216,
+              "blocks": 4,
+              "padding_bits": 5896,
+              "total_uses": 31200,
+              "selected": "pack5"
+            },
+            "zlib": {
+              "path": "packets/remote14/kinetics_011_e0339900/zlib.bin",
+              "sha256": "aecedad06a0ecad7d598e8886a382a497f98da32bbb3ac6e9058c953d2ba69bf",
+              "packet_bytes": 1474,
+              "digital_uses": 4608,
+              "blocks": 2,
+              "padding_bits": 496,
+              "total_uses": 26592,
+              "selected": "zlib"
+            },
+            "pack5_zlib": {
+              "path": "packets/remote14/kinetics_011_e0339900/pack5_zlib.bin",
+              "sha256": "3852e1cfd9eaa46c3486cb85db59a5955e92bdd6f730cb92e08159d4fa93ac0a",
+              "packet_bytes": 1676,
+              "digital_uses": 6912,
+              "blocks": 3,
+              "padding_bits": 5024,
+              "total_uses": 28896,
+              "selected": "pack5_zlib"
+            },
+            "auto": {
+              "path": "packets/remote14/kinetics_011_e0339900/auto.bin",
+              "sha256": "aecedad06a0ecad7d598e8886a382a497f98da32bbb3ac6e9058c953d2ba69bf",
+              "packet_bytes": 1474,
+              "digital_uses": 4608,
+              "blocks": 2,
+              "padding_bits": 496,
+              "total_uses": 26592,
+              "selected": "zlib"
+            }
+          }
+        },
+        {
+          "id": "kinetics_012_ebbc951a",
+          "methods": {
+            "raw": {
+              "path": "packets/remote14/kinetics_012_ebbc951a/raw.bin",
+              "sha256": "633fc9c7b547128e1826ea147fcc8c5c57eb2912e655516529d4f6119d11833f",
+              "packet_bytes": 30422,
+              "digital_uses": 92160,
+              "blocks": 40,
+              "padding_bits": 2384,
+              "total_uses": 692864,
+              "selected": "raw"
+            },
+            "pack5": {
+              "path": "packets/remote14/kinetics_012_ebbc951a/pack5.bin",
+              "sha256": "2878205e2445a8a28df99d86bf39a72654e21b735fc1ffccc1e4e589ad7bcc1f",
+              "packet_bytes": 23310,
+              "digital_uses": 71424,
+              "blocks": 31,
+              "padding_bits": 3984,
+              "total_uses": 672128,
+              "selected": "pack5"
+            },
+            "zlib": {
+              "path": "packets/remote14/kinetics_012_ebbc951a/zlib.bin",
+              "sha256": "d33352e0c88838a119787bbccbb208e2bb5f9b7928d071830eea553262119550",
+              "packet_bytes": 11630,
+              "digital_uses": 36864,
+              "blocks": 16,
+              "padding_bits": 5264,
+              "total_uses": 637568,
+              "selected": "zlib"
+            },
+            "pack5_zlib": {
+              "path": "packets/remote14/kinetics_012_ebbc951a/pack5_zlib.bin",
+              "sha256": "4521a5c09cb8894e948cb1df46cb79beb7170e1a1972044e1c6080953077a004",
+              "packet_bytes": 12287,
+              "digital_uses": 36864,
+              "blocks": 16,
+              "padding_bits": 8,
+              "total_uses": 637568,
+              "selected": "pack5_zlib"
+            },
+            "auto": {
+              "path": "packets/remote14/kinetics_012_ebbc951a/auto.bin",
+              "sha256": "d33352e0c88838a119787bbccbb208e2bb5f9b7928d071830eea553262119550",
+              "packet_bytes": 11630,
+              "digital_uses": 36864,
+              "blocks": 16,
+              "padding_bits": 5264,
+              "total_uses": 637568,
+              "selected": "zlib"
+            }
+          }
+        },
+        {
+          "id": "kinetics_013_64921930",
+          "methods": {
+            "raw": {
+              "path": "packets/remote14/kinetics_013_64921930/raw.bin",
+              "sha256": "2729a03b249ca6d30dbf1af0e9dd83a215efb50fb4729e7059b386ac59a752ab",
+              "packet_bytes": 9635,
+              "digital_uses": 29952,
+              "blocks": 13,
+              "padding_bits": 2792,
+              "total_uses": 148928,
+              "selected": "raw"
+            },
+            "pack5": {
+              "path": "packets/remote14/kinetics_013_64921930/pack5.bin",
+              "sha256": "ad217cc219307e33e5daec547da36e2fd073f5260c982fa7988252ea384a8620",
+              "packet_bytes": 7383,
+              "digital_uses": 23040,
+              "blocks": 10,
+              "padding_bits": 2376,
+              "total_uses": 142016,
+              "selected": "pack5"
+            },
+            "zlib": {
+              "path": "packets/remote14/kinetics_013_64921930/zlib.bin",
+              "sha256": "e02984e040f73a7d3d18a39aaf6ac8ae4e9c60aa34f86521e6f0ed2682616d33",
+              "packet_bytes": 3765,
+              "digital_uses": 11520,
+              "blocks": 5,
+              "padding_bits": 600,
+              "total_uses": 130496,
+              "selected": "zlib"
+            },
+            "pack5_zlib": {
+              "path": "packets/remote14/kinetics_013_64921930/pack5_zlib.bin",
+              "sha256": "c671760cedb63479f28916588f300dfbcd4b7d7f1f498ef634711a1e18afbe9c",
+              "packet_bytes": 3948,
+              "digital_uses": 13824,
+              "blocks": 6,
+              "padding_bits": 5280,
+              "total_uses": 132800,
+              "selected": "pack5_zlib"
+            },
+            "auto": {
+              "path": "packets/remote14/kinetics_013_64921930/auto.bin",
+              "sha256": "e02984e040f73a7d3d18a39aaf6ac8ae4e9c60aa34f86521e6f0ed2682616d33",
+              "packet_bytes": 3765,
+              "digital_uses": 11520,
+              "blocks": 5,
+              "padding_bits": 600,
+              "total_uses": 130496,
+              "selected": "zlib"
+            }
+          }
+        },
+        {
+          "id": "kinetics_014_524c5c3f",
+          "methods": {
+            "raw": {
+              "path": "packets/remote14/kinetics_014_524c5c3f/raw.bin",
+              "sha256": "3dddf16391a5fc6d700182d9364bf27a7360d9ed5302b041743b77e17aa8b478",
+              "packet_bytes": 2979,
+              "digital_uses": 9216,
+              "blocks": 4,
+              "padding_bits": 744,
+              "total_uses": 36192,
+              "selected": "raw"
+            },
+            "pack5": {
+              "path": "packets/remote14/kinetics_014_524c5c3f/pack5.bin",
+              "sha256": "f5e3e65f2980bc0e86006b2d84eaaeb7d7c0abf1a8f64e2a1141cd627e049f08",
+              "packet_bytes": 2347,
+              "digital_uses": 9216,
+              "blocks": 4,
+              "padding_bits": 5800,
+              "total_uses": 36192,
+              "selected": "pack5"
+            },
+            "zlib": {
+              "path": "packets/remote14/kinetics_014_524c5c3f/zlib.bin",
+              "sha256": "8df6e182d3508df84e8360ba5a9e4e73b0549937b7050bc1d224029ed7ec0b70",
+              "packet_bytes": 1425,
+              "digital_uses": 4608,
+              "blocks": 2,
+              "padding_bits": 888,
+              "total_uses": 31584,
+              "selected": "zlib"
+            },
+            "pack5_zlib": {
+              "path": "packets/remote14/kinetics_014_524c5c3f/pack5_zlib.bin",
+              "sha256": "e32507e66339fdf5d6a3c09d622d0782bf2366bb8a9fae7ad7930c835c633a0b",
+              "packet_bytes": 1598,
+              "digital_uses": 6912,
+              "blocks": 3,
+              "padding_bits": 5648,
+              "total_uses": 33888,
+              "selected": "pack5_zlib"
+            },
+            "auto": {
+              "path": "packets/remote14/kinetics_014_524c5c3f/auto.bin",
+              "sha256": "8df6e182d3508df84e8360ba5a9e4e73b0549937b7050bc1d224029ed7ec0b70",
+              "packet_bytes": 1425,
+              "digital_uses": 4608,
+              "blocks": 2,
+              "padding_bits": 888,
+              "total_uses": 31584,
+              "selected": "zlib"
+            }
+          }
+        }
+      ]
+    },
+    "local6": {
+      "packets": 6,
+      "rate_indices": 15552,
+      "methods": {
+        "raw": {
+          "packet_bytes": 27421,
+          "digital_uses": 87552,
+          "total_uses": 588926,
+          "blocks": 38,
+          "total_saving_percent": 0.0,
+          "packets_with_reduced_channel_uses": 0
+        },
+        "pack5": {
+          "packet_bytes": 21685,
+          "digital_uses": 69120,
+          "total_uses": 570494,
+          "blocks": 30,
+          "total_saving_percent": 3.1297650299018875,
+          "packets_with_reduced_channel_uses": 6
+        },
+        "zlib": {
+          "packet_bytes": 13054,
+          "digital_uses": 46080,
+          "total_uses": 547454,
+          "blocks": 20,
+          "total_saving_percent": 7.04197131727925,
+          "packets_with_reduced_channel_uses": 6
+        },
+        "pack5_zlib": {
+          "packet_bytes": 14462,
+          "digital_uses": 48384,
+          "total_uses": 549758,
+          "blocks": 21,
+          "total_saving_percent": 6.6507506885415175,
+          "packets_with_reduced_channel_uses": 6
+        },
+        "auto": {
+          "packet_bytes": 13054,
+          "digital_uses": 46080,
+          "total_uses": 547454,
+          "blocks": 20,
+          "total_saving_percent": 7.04197131727925,
+          "packets_with_reduced_channel_uses": 6
+        }
+      },
+      "per_packet": [
+        {
+          "id": "kinetics_001_ntscc_plus_baseline",
+          "methods": {
+            "raw": {
+              "path": "packets/local6/kinetics_001_ntscc_plus_baseline/raw.bin",
+              "sha256": "3ee8954f3f02d13bb507cdb3256daa5945caab9403097240fe84bb12f66e0a85",
+              "packet_bytes": 4494,
+              "digital_uses": 13824,
+              "blocks": 6,
+              "padding_bits": 912,
+              "total_uses": 120924,
+              "selected": "raw"
+            },
+            "pack5": {
+              "path": "packets/local6/kinetics_001_ntscc_plus_baseline/pack5.bin",
+              "sha256": "0db9d462501f368ef2aa1e8002c2cfa7a4f1a9256e04feab8d8d927b3d53eace",
+              "packet_bytes": 3538,
+              "digital_uses": 11520,
+              "blocks": 5,
+              "padding_bits": 2416,
+              "total_uses": 118620,
+              "selected": "pack5"
+            },
+            "zlib": {
+              "path": "packets/local6/kinetics_001_ntscc_plus_baseline/zlib.bin",
+              "sha256": "add1e1b0301b0580c26db9a8364fe2578923d630170e2ce94971adf6d66f7b0d",
+              "packet_bytes": 2329,
+              "digital_uses": 9216,
+              "blocks": 4,
+              "padding_bits": 5944,
+              "total_uses": 116316,
+              "selected": "zlib"
+            },
+            "pack5_zlib": {
+              "path": "packets/local6/kinetics_001_ntscc_plus_baseline/pack5_zlib.bin",
+              "sha256": "2e0d68b9f5b29a962bba78b557cccad3271edbff335d86e64748f5384c1f6f93",
+              "packet_bytes": 2608,
+              "digital_uses": 9216,
+              "blocks": 4,
+              "padding_bits": 3712,
+              "total_uses": 116316,
+              "selected": "pack5_zlib"
+            },
+            "auto": {
+              "path": "packets/local6/kinetics_001_ntscc_plus_baseline/auto.bin",
+              "sha256": "add1e1b0301b0580c26db9a8364fe2578923d630170e2ce94971adf6d66f7b0d",
+              "packet_bytes": 2329,
+              "digital_uses": 9216,
+              "blocks": 4,
+              "padding_bits": 5944,
+              "total_uses": 116316,
+              "selected": "zlib"
+            }
+          }
+        },
+        {
+          "id": "kinetics_001_ntscc_plus_more_keys",
+          "methods": {
+            "raw": {
+              "path": "packets/local6/kinetics_001_ntscc_plus_more_keys/raw.bin",
+              "sha256": "c91127fc92a89eefdbd236cb373d1dd3c6c0d8a2a2e2620acfedf958c2994f14",
+              "packet_bytes": 5845,
+              "digital_uses": 18432,
+              "blocks": 8,
+              "padding_bits": 2392,
+              "total_uses": 120920,
+              "selected": "raw"
+            },
+            "pack5": {
+              "path": "packets/local6/kinetics_001_ntscc_plus_more_keys/pack5.bin",
+              "sha256": "a3b109965bc0d0b40071765ce2335bf849f1d285a859bb9c1651685499a29c98",
+              "packet_bytes": 4565,
+              "digital_uses": 13824,
+              "blocks": 6,
+              "padding_bits": 344,
+              "total_uses": 116312,
+              "selected": "pack5"
+            },
+            "zlib": {
+              "path": "packets/local6/kinetics_001_ntscc_plus_more_keys/zlib.bin",
+              "sha256": "0a12d4a437ad1a744c103d2b6bed353dd2da498631fa9c5f2a1c5ead5c82f73c",
+              "packet_bytes": 2589,
+              "digital_uses": 9216,
+              "blocks": 4,
+              "padding_bits": 3864,
+              "total_uses": 111704,
+              "selected": "zlib"
+            },
+            "pack5_zlib": {
+              "path": "packets/local6/kinetics_001_ntscc_plus_more_keys/pack5_zlib.bin",
+              "sha256": "a3fa6f2cae8896faf8249392380cbd1e2e30145a8ce1f1b078ea86363f720d72",
+              "packet_bytes": 2943,
+              "digital_uses": 9216,
+              "blocks": 4,
+              "padding_bits": 1032,
+              "total_uses": 111704,
+              "selected": "pack5_zlib"
+            },
+            "auto": {
+              "path": "packets/local6/kinetics_001_ntscc_plus_more_keys/auto.bin",
+              "sha256": "0a12d4a437ad1a744c103d2b6bed353dd2da498631fa9c5f2a1c5ead5c82f73c",
+              "packet_bytes": 2589,
+              "digital_uses": 9216,
+              "blocks": 4,
+              "padding_bits": 3864,
+              "total_uses": 111704,
+              "selected": "zlib"
+            }
+          }
+        },
+        {
+          "id": "kinetics_001_ntscc_plus_key_quality",
+          "methods": {
+            "raw": {
+              "path": "packets/local6/kinetics_001_ntscc_plus_key_quality/raw.bin",
+              "sha256": "2b51dca6552e5bc5b5b93c3b50bd0cc61db9b23417bf0a686301ebd3c1c9445c",
+              "packet_bytes": 3428,
+              "digital_uses": 11520,
+              "blocks": 5,
+              "padding_bits": 3296,
+              "total_uses": 120914,
+              "selected": "raw"
+            },
+            "pack5": {
+              "path": "packets/local6/kinetics_001_ntscc_plus_key_quality/pack5.bin",
+              "sha256": "ea9c2facf650b0ebb5f84c078288b733fd81eba1ad84d53eae8cb7bc8f4da106",
+              "packet_bytes": 2796,
+              "digital_uses": 9216,
+              "blocks": 4,
+              "padding_bits": 2208,
+              "total_uses": 118610,
+              "selected": "pack5"
+            },
+            "zlib": {
+              "path": "packets/local6/kinetics_001_ntscc_plus_key_quality/zlib.bin",
+              "sha256": "5eafae3f24909f251591643113d59ed5ea0dd47dabb8f602136818e95d88749d",
+              "packet_bytes": 2007,
+              "digital_uses": 6912,
+              "blocks": 3,
+              "padding_bits": 2376,
+              "total_uses": 116306,
+              "selected": "zlib"
+            },
+            "pack5_zlib": {
+              "path": "packets/local6/kinetics_001_ntscc_plus_key_quality/pack5_zlib.bin",
+              "sha256": "83574a7a396391296772aa83a8eb6f49f4ff359d6951845f48ed626faf0bd1cf",
+              "packet_bytes": 2125,
+              "digital_uses": 6912,
+              "blocks": 3,
+              "padding_bits": 1432,
+              "total_uses": 116306,
+              "selected": "pack5_zlib"
+            },
+            "auto": {
+              "path": "packets/local6/kinetics_001_ntscc_plus_key_quality/auto.bin",
+              "sha256": "5eafae3f24909f251591643113d59ed5ea0dd47dabb8f602136818e95d88749d",
+              "packet_bytes": 2007,
+              "digital_uses": 6912,
+              "blocks": 3,
+              "padding_bits": 2376,
+              "total_uses": 116306,
+              "selected": "zlib"
+            }
+          }
+        },
+        {
+          "id": "kinetics_005_11836d73_baseline",
+          "methods": {
+            "raw": {
+              "path": "packets/local6/kinetics_005_11836d73_baseline/raw.bin",
+              "sha256": "28488080ca8963068dd22588152e6ed05675ed14ee14b5b9b96829a5b9a12ed0",
+              "packet_bytes": 4474,
+              "digital_uses": 13824,
+              "blocks": 6,
+              "padding_bits": 1072,
+              "total_uses": 75392,
+              "selected": "raw"
+            },
+            "pack5": {
+              "path": "packets/local6/kinetics_005_11836d73_baseline/pack5.bin",
+              "sha256": "7ec03fdab1e8dfb1b7ffcac0c8322ac9bd2b2139425730e36d5497f13cacf095",
+              "packet_bytes": 3518,
+              "digital_uses": 11520,
+              "blocks": 5,
+              "padding_bits": 2576,
+              "total_uses": 73088,
+              "selected": "pack5"
+            },
+            "zlib": {
+              "path": "packets/local6/kinetics_005_11836d73_baseline/zlib.bin",
+              "sha256": "8527d7bbc98b0e3fe610a89f89f07cb0786ff40bd87e40f20d7c8a1352251eb4",
+              "packet_bytes": 2071,
+              "digital_uses": 6912,
+              "blocks": 3,
+              "padding_bits": 1864,
+              "total_uses": 68480,
+              "selected": "zlib"
+            },
+            "pack5_zlib": {
+              "path": "packets/local6/kinetics_005_11836d73_baseline/pack5_zlib.bin",
+              "sha256": "9619a5fe8eade1f3c9ecdfd6e62a2921dbe2775f0e20a3a8f96730caea7a30a9",
+              "packet_bytes": 2302,
+              "digital_uses": 6912,
+              "blocks": 3,
+              "padding_bits": 16,
+              "total_uses": 68480,
+              "selected": "pack5_zlib"
+            },
+            "auto": {
+              "path": "packets/local6/kinetics_005_11836d73_baseline/auto.bin",
+              "sha256": "8527d7bbc98b0e3fe610a89f89f07cb0786ff40bd87e40f20d7c8a1352251eb4",
+              "packet_bytes": 2071,
+              "digital_uses": 6912,
+              "blocks": 3,
+              "padding_bits": 1864,
+              "total_uses": 68480,
+              "selected": "zlib"
+            }
+          }
+        },
+        {
+          "id": "kinetics_005_11836d73_more_keys",
+          "methods": {
+            "raw": {
+              "path": "packets/local6/kinetics_005_11836d73_more_keys/raw.bin",
+              "sha256": "9b8362667d0373c783b0e503e20599a66566b01db230196d5cce2c6b4703bfe9",
+              "packet_bytes": 5772,
+              "digital_uses": 18432,
+              "blocks": 8,
+              "padding_bits": 2976,
+              "total_uses": 75392,
+              "selected": "raw"
+            },
+            "pack5": {
+              "path": "packets/local6/kinetics_005_11836d73_more_keys/pack5.bin",
+              "sha256": "9c78377b1da8b25312be266ffec8aefee2ef777a2c2c0178a62f3ee8524b8661",
+              "packet_bytes": 4492,
+              "digital_uses": 13824,
+              "blocks": 6,
+              "padding_bits": 928,
+              "total_uses": 70784,
+              "selected": "pack5"
+            },
+            "zlib": {
+              "path": "packets/local6/kinetics_005_11836d73_more_keys/zlib.bin",
+              "sha256": "216cefeb5b226afcf515290e3dcf22e6bfc50385e51a2fa0ea520ebc4edb0ca6",
+              "packet_bytes": 2290,
+              "digital_uses": 6912,
+              "blocks": 3,
+              "padding_bits": 112,
+              "total_uses": 63872,
+              "selected": "zlib"
+            },
+            "pack5_zlib": {
+              "path": "packets/local6/kinetics_005_11836d73_more_keys/pack5_zlib.bin",
+              "sha256": "e718531707fc656b2d3d98d537eed55879384807e141f7b3dc74d63ff5530f95",
+              "packet_bytes": 2525,
+              "digital_uses": 9216,
+              "blocks": 4,
+              "padding_bits": 4376,
+              "total_uses": 66176,
+              "selected": "pack5_zlib"
+            },
+            "auto": {
+              "path": "packets/local6/kinetics_005_11836d73_more_keys/auto.bin",
+              "sha256": "216cefeb5b226afcf515290e3dcf22e6bfc50385e51a2fa0ea520ebc4edb0ca6",
+              "packet_bytes": 2290,
+              "digital_uses": 6912,
+              "blocks": 3,
+              "padding_bits": 112,
+              "total_uses": 63872,
+              "selected": "zlib"
+            }
+          }
+        },
+        {
+          "id": "kinetics_005_11836d73_key_quality",
+          "methods": {
+            "raw": {
+              "path": "packets/local6/kinetics_005_11836d73_key_quality/raw.bin",
+              "sha256": "7615251d16815f16c95af04366a07000d27f6dd9df8bd26698c1c1d1dae689dc",
+              "packet_bytes": 3408,
+              "digital_uses": 11520,
+              "blocks": 5,
+              "padding_bits": 3456,
+              "total_uses": 75384,
+              "selected": "raw"
+            },
+            "pack5": {
+              "path": "packets/local6/kinetics_005_11836d73_key_quality/pack5.bin",
+              "sha256": "3ad190f656f3de3c4ae881a0fa452eb647de0bdf2ab959a5ceb17ddf99911f28",
+              "packet_bytes": 2776,
+              "digital_uses": 9216,
+              "blocks": 4,
+              "padding_bits": 2368,
+              "total_uses": 73080,
+              "selected": "pack5"
+            },
+            "zlib": {
+              "path": "packets/local6/kinetics_005_11836d73_key_quality/zlib.bin",
+              "sha256": "344b7bb0165e314804f59fa58aa60777b6d2d6c0e6f46a0fe3c6514020e3c8f7",
+              "packet_bytes": 1768,
+              "digital_uses": 6912,
+              "blocks": 3,
+              "padding_bits": 4288,
+              "total_uses": 70776,
+              "selected": "zlib"
+            },
+            "pack5_zlib": {
+              "path": "packets/local6/kinetics_005_11836d73_key_quality/pack5_zlib.bin",
+              "sha256": "e1ae1987b0d2f79191705517706c468970c6c8e48ce1563165eed3c0d46a65b1",
+              "packet_bytes": 1959,
+              "digital_uses": 6912,
+              "blocks": 3,
+              "padding_bits": 2760,
+              "total_uses": 70776,
+              "selected": "pack5_zlib"
+            },
+            "auto": {
+              "path": "packets/local6/kinetics_005_11836d73_key_quality/auto.bin",
+              "sha256": "344b7bb0165e314804f59fa58aa60777b6d2d6c0e6f46a0fe3c6514020e3c8f7",
+              "packet_bytes": 1768,
+              "digital_uses": 6912,
+              "blocks": 3,
+              "padding_bits": 4288,
+              "total_uses": 70776,
+              "selected": "zlib"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "channel": [
+    {
+      "cohort": "remote14",
+      "snr_db": 10,
+      "method": "raw",
+      "cases": 28,
+      "restored_exact": 28,
+      "rejected": 0,
+      "undetected_errors": 0,
+      "bit_errors": 0
+    },
+    {
+      "cohort": "remote14",
+      "snr_db": 10,
+      "method": "pack5",
+      "cases": 14,
+      "restored_exact": 14,
+      "rejected": 0,
+      "undetected_errors": 0,
+      "bit_errors": 0
+    },
+    {
+      "cohort": "remote14",
+      "snr_db": 10,
+      "method": "zlib",
+      "cases": 14,
+      "restored_exact": 14,
+      "rejected": 0,
+      "undetected_errors": 0,
+      "bit_errors": 0
+    },
+    {
+      "cohort": "remote14",
+      "snr_db": 10,
+      "method": "pack5_zlib",
+      "cases": 14,
+      "restored_exact": 14,
+      "rejected": 0,
+      "undetected_errors": 0,
+      "bit_errors": 0
+    },
+    {
+      "cohort": "remote14",
+      "snr_db": 10,
+      "method": "auto",
+      "cases": 14,
+      "restored_exact": 14,
+      "rejected": 0,
+      "undetected_errors": 0,
+      "bit_errors": 0
+    },
+    {
+      "cohort": "remote14",
+      "snr_db": 8,
+      "method": "raw",
+      "cases": 28,
+      "restored_exact": 0,
+      "rejected": 28,
+      "undetected_errors": 0,
+      "bit_errors": 299650
+    },
+    {
+      "cohort": "remote14",
+      "snr_db": 8,
+      "method": "auto",
+      "cases": 28,
+      "restored_exact": 0,
+      "rejected": 28,
+      "undetected_errors": 0,
+      "bit_errors": 96540
+    },
+    {
+      "cohort": "local6",
+      "snr_db": 10,
+      "method": "raw",
+      "cases": 12,
+      "restored_exact": 12,
+      "rejected": 0,
+      "undetected_errors": 0,
+      "bit_errors": 0
+    },
+    {
+      "cohort": "local6",
+      "snr_db": 10,
+      "method": "pack5",
+      "cases": 6,
+      "restored_exact": 6,
+      "rejected": 0,
+      "undetected_errors": 0,
+      "bit_errors": 0
+    },
+    {
+      "cohort": "local6",
+      "snr_db": 10,
+      "method": "zlib",
+      "cases": 6,
+      "restored_exact": 6,
+      "rejected": 0,
+      "undetected_errors": 0,
+      "bit_errors": 0
+    },
+    {
+      "cohort": "local6",
+      "snr_db": 10,
+      "method": "pack5_zlib",
+      "cases": 6,
+      "restored_exact": 6,
+      "rejected": 0,
+      "undetected_errors": 0,
+      "bit_errors": 0
+    },
+    {
+      "cohort": "local6",
+      "snr_db": 10,
+      "method": "auto",
+      "cases": 6,
+      "restored_exact": 6,
+      "rejected": 0,
+      "undetected_errors": 0,
+      "bit_errors": 0
+    },
+    {
+      "cohort": "local6",
+      "snr_db": 8,
+      "method": "raw",
+      "cases": 12,
+      "restored_exact": 0,
+      "rejected": 12,
+      "undetected_errors": 0,
+      "bit_errors": 43666
+    },
+    {
+      "cohort": "local6",
+      "snr_db": 8,
+      "method": "auto",
+      "cases": 12,
+      "restored_exact": 0,
+      "rejected": 12,
+      "undetected_errors": 0,
+      "bit_errors": 16624
+    }
+  ],
+  "channel_cases": 200,
+  "elapsed_seconds": 122.78581833839417,
+  "original_metadata_restored_before_decoder": true,
+  "trajectory_binding_unchanged": true,
+  "neural_inference_executed": false,
+  "quality_remeasured": false,
+  "default_adopted": false,
+  "physical_link_overhead_included": false,
+  "scope": [
+    "20 packets from 14 remote videos and six local short-clip policies; overlapping sources",
+    "visual symbols and trajectory transport are retained at their existing measured costs",
+    "compression restores existing packet bytes before decoder and trajectory checks",
+    "no neural inference, new video quality evaluation or default adoption",
+    "8dB is a small reliability diagnostic, not a packet-error-rate benchmark"
+  ],
+  "date": "2026-10-19",
+  "audit": {
+    "status": "PASSED",
+    "artifact_files": 542,
+    "packets": 20,
+    "variants_exact": 100,
+    "key_descriptors_preserved": 153,
+    "channel_cases": 200,
+    "primary_10db_cases": 120,
+    "primary_10db_exact": 120,
+    "diagnostic_8db_cases": 80,
+    "diagnostic_8db_exact": 0,
+    "diagnostic_8db_rejected": 80,
+    "undetected_errors": 0,
+    "actual_received_bit_errors_recounted": true,
+    "actual_packet_ldpc_cost_recomputed": true,
+    "original_packet_crc_and_trajectory_binding_preserved": true,
+    "independent_bit_string_pack5_reference_verified": true,
+    "input_code_and_result_artifact_hashes_verified": true,
+    "original_neural_decoder_input_bytes_exact": true,
+    "new_neural_inference": false
+  },
+  "environment": {
+    "tensorflow": "2.15.1",
+    "sionna": "0.19.2",
+    "numpy": "1.26.4",
+    "protobuf": "6.33.0"
+  },
+  "tests": {
+    "passed": 30,
+    "seconds": 0.09,
+    "files": [
+      "tests/test_bsu_metadata_compression.py",
+      "tests/test_bsu_metadata_validation.py",
+      "tests/test_wire.py"
+    ]
+  },
+  "protocol": {
+    "primary_snr_db": 10,
+    "diagnostic_snr_db": 8,
+    "seeds": [
+      42,
+      2025
+    ],
+    "channel": {
+      "k": 6144,
+      "n": 9216,
+      "bits_per_symbol": 4
+    },
+    "envelope_bytes": 16,
+    "zlib_level": 9
+  },
+  "selected_methods": {
+    "zlib": 20
+  },
+  "source_provenance": [
+    {
+      "cohort": "remote14",
+      "id": "kinetics_001_a393e9d3",
+      "provenance": {
+        "remote_root": "/home/sangukbae/ETRI/Semantic/semantic_transmission_bsu_ltx_plus/outputs/bsu_ltx_plus_20261019/videos/kinetics_001_a393e9d3",
+        "result_sha256": "d29e83114ac9ebb292ebb473d640fe28eaa06a9ead1b4825ae33005552ebd15a"
+      },
+      "original_sha256": "02b720f9bbbe6ae0bfbd782c5ef613821d4ec824c1b6c7e8268be2599e0637e8",
+      "rate_indices": 26784,
+      "keys": 31,
+      "visual_uses": 1074006,
+      "trajectory_uses": 55296
+    },
+    {
+      "cohort": "remote14",
+      "id": "kinetics_002_5e11db4c",
+      "provenance": {
+        "remote_root": "/home/sangukbae/ETRI/Semantic/semantic_transmission_bsu_ltx_plus/outputs/bsu_ltx_plus_20261019/videos/kinetics_002_5e11db4c",
+        "result_sha256": "8ce18c8f4605e89ee3492e07f91bf7fefc164a2b1bd5dae9b8e3832e5f9bcd0f"
+      },
+      "original_sha256": "7e6227a2c3d2bc7ebaf0d62dd491f49bcc8aa223a639cc8b4ca064bea1daa305",
+      "rate_indices": 4320,
+      "keys": 5,
+      "visual_uses": 73702,
+      "trajectory_uses": 4608
+    },
+    {
+      "cohort": "remote14",
+      "id": "kinetics_003_5d588509",
+      "provenance": {
+        "remote_root": "/home/sangukbae/ETRI/Semantic/semantic_transmission_bsu_ltx_plus/outputs/bsu_ltx_plus_20261019/videos/kinetics_003_5d588509",
+        "result_sha256": "6e033da5d034a47384b018b28eff61a4ad6d967a3016c1e75deb5ef6524876e3"
+      },
+      "original_sha256": "1ecc507a9cd522380fba976d0ec27c61837a4bbe3cef9dbce9bcf8b5bd1b28ab",
+      "rate_indices": 2592,
+      "keys": 3,
+      "visual_uses": 54332,
+      "trajectory_uses": 2304
+    },
+    {
+      "cohort": "remote14",
+      "id": "kinetics_004_afa8dee0",
+      "provenance": {
+        "remote_root": "/home/sangukbae/ETRI/Semantic/semantic_transmission_bsu_ltx_plus/outputs/bsu_ltx_plus_20261019/videos/kinetics_004_afa8dee0",
+        "result_sha256": "0950ae1f56ed96ebf07a480483dfef65d4b6773f79e629e5ea9dcb0883eb68e9"
+      },
+      "original_sha256": "e841493d2b5b57ce75ec00b0bb1b639253e99f33a55299020578e2acc2cfbd8c",
+      "rate_indices": 13824,
+      "keys": 16,
+      "visual_uses": 197988,
+      "trajectory_uses": 13824
+    },
+    {
+      "cohort": "remote14",
+      "id": "kinetics_005_11836d73",
+      "provenance": {
+        "remote_root": "/home/sangukbae/ETRI/Semantic/semantic_transmission_bsu_ltx_plus/outputs/bsu_ltx_plus_20261019/videos/kinetics_005_11836d73",
+        "result_sha256": "ed104b15c20f38cf6c415d0842a0a52e0d6f490eb7457269b930b618caf77d11"
+      },
+      "original_sha256": "f3839085dee05103320f58d42df9989c6ff3ab876de8a8d2bf97606e5201b2b1",
+      "rate_indices": 12960,
+      "keys": 15,
+      "visual_uses": 311238,
+      "trajectory_uses": 18432
+    },
+    {
+      "cohort": "remote14",
+      "id": "kinetics_006_ecbad330",
+      "provenance": {
+        "remote_root": "/home/sangukbae/ETRI/Semantic/semantic_transmission_bsu_ltx_plus/outputs/bsu_ltx_plus_20261019/videos/kinetics_006_ecbad330",
+        "result_sha256": "5ba0cb17f4afe08434a575de057c88eca7d9ff2ccfdcd9883e983af7f9aa63ca"
+      },
+      "original_sha256": "1537e0662961a58a1c3e1e8af7826762df99e859901254c7e89d8fa7a9acd2e1",
+      "rate_indices": 6048,
+      "keys": 7,
+      "visual_uses": 260862,
+      "trajectory_uses": 13824
+    },
+    {
+      "cohort": "remote14",
+      "id": "kinetics_007_91361599",
+      "provenance": {
+        "remote_root": "/home/sangukbae/ETRI/Semantic/semantic_transmission_bsu_ltx_plus/outputs/bsu_ltx_plus_20261019/videos/kinetics_007_91361599",
+        "result_sha256": "9c8819d867317ae81031fc8c40e57541c5db1b06560292cf249676cceaa4b0b0"
+      },
+      "original_sha256": "7d19805a92baa56ea71de34462e84d97bf039b51cfcb52e990df7385a838afd9",
+      "rate_indices": 7776,
+      "keys": 9,
+      "visual_uses": 111472,
+      "trajectory_uses": 6912
+    },
+    {
+      "cohort": "remote14",
+      "id": "kinetics_008_278ecb48",
+      "provenance": {
+        "remote_root": "/home/sangukbae/ETRI/Semantic/semantic_transmission_bsu_ltx_plus/outputs/bsu_ltx_plus_20261019/videos/kinetics_008_278ecb48",
+        "result_sha256": "a92acabb4afda9e448df128c464944d1b36d0a97e64b9e8265877175c0887567"
+      },
+      "original_sha256": "a34cc3c6611d93970a803172162e777cfac2c1e007e4979e2f5f1a475eb7d9fe",
+      "rate_indices": 3456,
+      "keys": 4,
+      "visual_uses": 73558,
+      "trajectory_uses": 4608
+    },
+    {
+      "cohort": "remote14",
+      "id": "kinetics_009_eb51ffae",
+      "provenance": {
+        "remote_root": "/home/sangukbae/ETRI/Semantic/semantic_transmission_bsu_ltx_plus/outputs/bsu_ltx_plus_20261019/videos/kinetics_009_eb51ffae",
+        "result_sha256": "bda00da1bb27476e1721d75e0e5e6a7680a81b007ac981357ce27388331ec4ac"
+      },
+      "original_sha256": "4d2338bce120af699c02ddf9f8e6a2bf204b94dede23abc7b08dee9940ea10ae",
+      "rate_indices": 2592,
+      "keys": 3,
+      "visual_uses": 72734,
+      "trajectory_uses": 4608
+    },
+    {
+      "cohort": "remote14",
+      "id": "kinetics_010_2b3cec91",
+      "provenance": {
+        "remote_root": "/home/sangukbae/ETRI/Semantic/semantic_transmission_bsu_ltx_plus/outputs/bsu_ltx_plus_20261019/videos/kinetics_010_2b3cec91",
+        "result_sha256": "97040b429da8d658932622069242d821d38e11cc1becd07182b3a8ae533fa7ea"
+      },
+      "original_sha256": "c720574841c6d4d46bf4f501ca96ec2ce68632a885bd4181f6a663f43a923c41",
+      "rate_indices": 7776,
+      "keys": 9,
+      "visual_uses": 237800,
+      "trajectory_uses": 13824
+    },
+    {
+      "cohort": "remote14",
+      "id": "kinetics_011_e0339900",
+      "provenance": {
+        "remote_root": "/home/sangukbae/ETRI/Semantic/semantic_transmission_bsu_ltx_plus/outputs/bsu_ltx_plus_20261019/videos/kinetics_011_e0339900",
+        "result_sha256": "b9f67a56521d6c6cb29bcc67386fb209d13bb4271c6d0da7f701f46f0159c2ef"
+      },
+      "original_sha256": "03b5f23023ea5e26025874292ecd72157d1f946ef3cfe36ba74cea4f062249fd",
+      "rate_indices": 1728,
+      "keys": 2,
+      "visual_uses": 21984,
+      "trajectory_uses": 0
+    },
+    {
+      "cohort": "remote14",
+      "id": "kinetics_012_ebbc951a",
+      "provenance": {
+        "remote_root": "/home/sangukbae/ETRI/Semantic/semantic_transmission_bsu_ltx_plus/outputs/bsu_ltx_plus_20261019/videos/kinetics_012_ebbc951a",
+        "result_sha256": "230123a91bf04c453c266656a01d39139936a9766889a51bd533956091200dcf"
+      },
+      "original_sha256": "633fc9c7b547128e1826ea147fcc8c5c57eb2912e655516529d4f6119d11833f",
+      "rate_indices": 19008,
+      "keys": 22,
+      "visual_uses": 570752,
+      "trajectory_uses": 29952
+    },
+    {
+      "cohort": "remote14",
+      "id": "kinetics_013_64921930",
+      "provenance": {
+        "remote_root": "/home/sangukbae/ETRI/Semantic/semantic_transmission_bsu_ltx_plus/outputs/bsu_ltx_plus_20261019/videos/kinetics_013_64921930",
+        "result_sha256": "777cc649083ada06784f40d756f778a6df7ae7bf075053e358bf25700968cb92"
+      },
+      "original_sha256": "2729a03b249ca6d30dbf1af0e9dd83a215efb50fb4729e7059b386ac59a752ab",
+      "rate_indices": 6048,
+      "keys": 7,
+      "visual_uses": 112064,
+      "trajectory_uses": 6912
+    },
+    {
+      "cohort": "remote14",
+      "id": "kinetics_014_524c5c3f",
+      "provenance": {
+        "remote_root": "/home/sangukbae/ETRI/Semantic/semantic_transmission_bsu_ltx_plus/outputs/bsu_ltx_plus_20261019/videos/kinetics_014_524c5c3f",
+        "result_sha256": "5fef2ee19d9dd6498fcaf6e3f16fcc3c0006d48438546f2f5984935973c809de"
+      },
+      "original_sha256": "3dddf16391a5fc6d700182d9364bf27a7360d9ed5302b041743b77e17aa8b478",
+      "rate_indices": 1728,
+      "keys": 2,
+      "visual_uses": 26976,
+      "trajectory_uses": 0
+    },
+    {
+      "cohort": "local6",
+      "id": "kinetics_001_ntscc_plus_baseline",
+      "provenance": {
+        "run": "/home/sangukbae/semantic_transmission/outputs/bsu_key_budget_pilot_20261019/transport/kinetics_001_ntscc_plus/baseline/run",
+        "arm": "baseline"
+      },
+      "original_sha256": "3ee8954f3f02d13bb507cdb3256daa5945caab9403097240fe84bb12f66e0a85",
+      "rate_indices": 2592,
+      "keys": 3,
+      "visual_uses": 102492,
+      "trajectory_uses": 4608
+    },
+    {
+      "cohort": "local6",
+      "id": "kinetics_001_ntscc_plus_more_keys",
+      "provenance": {
+        "run": "/home/sangukbae/semantic_transmission/outputs/bsu_key_budget_pilot_20261019/transport/kinetics_001_ntscc_plus/more_keys/run",
+        "arm": "more_keys"
+      },
+      "original_sha256": "c91127fc92a89eefdbd236cb373d1dd3c6c0d8a2a2e2620acfedf958c2994f14",
+      "rate_indices": 3456,
+      "keys": 4,
+      "visual_uses": 97880,
+      "trajectory_uses": 4608
+    },
+    {
+      "cohort": "local6",
+      "id": "kinetics_001_ntscc_plus_key_quality",
+      "provenance": {
+        "run": "/home/sangukbae/semantic_transmission/outputs/bsu_key_budget_pilot_20261019/transport/kinetics_001_ntscc_plus/key_quality/run",
+        "arm": "key_quality"
+      },
+      "original_sha256": "2b51dca6552e5bc5b5b93c3b50bd0cc61db9b23417bf0a686301ebd3c1c9445c",
+      "rate_indices": 1728,
+      "keys": 2,
+      "visual_uses": 104786,
+      "trajectory_uses": 4608
+    },
+    {
+      "cohort": "local6",
+      "id": "kinetics_005_11836d73_baseline",
+      "provenance": {
+        "run": "/home/sangukbae/semantic_transmission/outputs/bsu_key_budget_pilot_20261019/transport/kinetics_005_11836d73/baseline/run",
+        "arm": "baseline"
+      },
+      "original_sha256": "28488080ca8963068dd22588152e6ed05675ed14ee14b5b9b96829a5b9a12ed0",
+      "rate_indices": 2592,
+      "keys": 3,
+      "visual_uses": 59264,
+      "trajectory_uses": 2304
+    },
+    {
+      "cohort": "local6",
+      "id": "kinetics_005_11836d73_more_keys",
+      "provenance": {
+        "run": "/home/sangukbae/semantic_transmission/outputs/bsu_key_budget_pilot_20261019/transport/kinetics_005_11836d73/more_keys/run",
+        "arm": "more_keys"
+      },
+      "original_sha256": "9b8362667d0373c783b0e503e20599a66566b01db230196d5cce2c6b4703bfe9",
+      "rate_indices": 3456,
+      "keys": 4,
+      "visual_uses": 54656,
+      "trajectory_uses": 2304
+    },
+    {
+      "cohort": "local6",
+      "id": "kinetics_005_11836d73_key_quality",
+      "provenance": {
+        "run": "/home/sangukbae/semantic_transmission/outputs/bsu_key_budget_pilot_20261019/transport/kinetics_005_11836d73/key_quality/run",
+        "arm": "key_quality"
+      },
+      "original_sha256": "7615251d16815f16c95af04366a07000d27f6dd9df8bd26698c1c1d1dae689dc",
+      "rate_indices": 1728,
+      "keys": 2,
+      "visual_uses": 61560,
+      "trajectory_uses": 2304
+    }
+  ],
+  "code_hashes": {
+    "/home/sangukbae/semantic_transmission/src/semantic_transmission/bsu_metadata_validation.py": "b1f12927204cbc6df16d14074f203e6d7020ac01d0d27511bcf99b1ea35c1425",
+    "/home/sangukbae/semantic_transmission/src/semantic_transmission/bsu_metadata_compression.py": "96a7f99917419b4ca9bdbac9529325c705bed527acc0c17cb0db3c9edad36437",
+    "/home/sangukbae/semantic_transmission/src/semantic_transmission/wire.py": "6066ec2706cc253be561ee71e147da6f9a52fedb95c633c40cfd94a5920e0259",
+    "/home/sangukbae/semantic_transmission/src/semantic_transmission/packets.py": "7c828b262b4e2eec7eea4e979a3e9fb5ca09760900208e4f930d217670ac4e5b",
+    "/home/sangukbae/semantic_transmission/src/semantic_transmission/metadata_channel.py": "6c7ded68b4ff5d63e64148fe9d7112be786c4ed8078138f3ae975dcd4dd8edd8",
+    "/home/sangukbae/semantic_transmission/scripts/validate_bsu_metadata_compression.sh": "14c2aeadb958ac181cb44e64849e48b31d69a2aa18d2461000d291fe0632460e"
+  },
+  "code_archive": ".local/validation/bsu_metadata_compression_20261019/code_snapshot",
+  "result_reuse_verified_without_retransmission": true,
+  "evidence_sha256": {
+    "outputs/bsu_metadata_compression_20261019/RESULT.json": "40f6332f91b568fbec7642bc15252f7d7772e93479d73a58a4b0399671ada65e",
+    "outputs/bsu_metadata_compression_20261019/protocol.json": "65df40fed4a62fa19a93120f797390ac9cabf69c50dee1ced5094bae037fa662",
+    "outputs/bsu_metadata_compression_20261019/RATE_REPORT.json": "333d1cb9da69ae8fb6d753676ac8c547257b22dc4c13d731d630225b48bbf752",
+    ".local/validation/bsu_metadata_compression_20261019/AUDIT.json": "90ef070adf6a9aade6c105b15feee6a6f33288f403ca79ab598002fb319be278",
+    ".local/validation/bsu_metadata_compression_20261019/remote_packets.json": "080f6abe601ae17bed8aa5edc9f39924b011a62bc4ed181d71f20456120cabec",
+    ".local/validation/bsu_metadata_compression_20261019/environment.json": "1a84a8b11ac73b5b4bc317324b4543de9b291edf6ee9125969ca3e9d668793bd"
+  },
+  "conclusions": {
+    "remote_total_reduction_percent": 8.529741407727842,
+    "local_total_reduction_percent": 7.04197131727925,
+    "comparison": "Additional savings relative to each completed NTSCC+ run, retaining visual symbols and original trajectory cost.",
+    "quality": "Original bytes at decoder entry are identical in successful transmissions; neural decoding and video generation were not repeated.",
+    "low_snr": "At 8dB all 40 original and 40 compressed transmissions failed integrity; no low-SNR reliability improvement demonstrated.",
+    "implementation": "Opt-in envelope and validator implemented; default BSU transport unchanged.",
+    "priority": "Full-packet zlib outperformed 5-bit packing and combined packing plus zlib on this corpus; use lossless length-based selection including raw fallback."
+  }
+}
