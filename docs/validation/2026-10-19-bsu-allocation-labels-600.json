@@ -1,0 +1,182 @@
+{
+  "status": "FIRST_REAL_END_TO_END_LABEL_VERIFIED_FULL_600_RUN_IN_PROGRESS",
+  "run_directory": "/home/sangukbae/semantic_transmission/outputs/bsu_allocation_labels_600_20261019",
+  "protocol_signature": "bc7ee7819cc471bee2969676e68a4bb8c5f01c50661f545dcda910fbc1e728e5",
+  "tests": {
+    "passed": 66,
+    "command": "PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 /home/sangukbae/anaconda3/envs/lgvsc/bin/python -m pytest -q tests/test_bsu_allocation_labels.py tests/test_bsu_allocation.py tests/test_bsu_budget_pilot.py tests/test_bsu_metadata_compression.py",
+    "additional_best_checkpoint_validation_test": "1 passed; tests/test_bsu_allocation.py::test_label_builder_validates_best_checkpoint_without_claiming_independent_test",
+    "total_distinct_passed": 67
+  },
+  "corpus": {
+    "clips": 100,
+    "train_sources": 80,
+    "validation_sources": 20,
+    "unique_original_sha256": 100,
+    "download_revision": "5188fdc892565c692c8e05e71cbef920e5fa5e5a",
+    "normalized_geometry": [
+      49,
+      320,
+      576
+    ],
+    "fps": 24,
+    "original_filming_session_identity_available": false
+  },
+  "required_labels": 600,
+  "scope": {
+    "snr_db": 10,
+    "generation_seed": 2025,
+    "model": "NTSCC+ / LTX-2.5",
+    "metrics": "final MP4 PSNR LPIPS flow error, plus SSIM DISTS CLIP diagnostics"
+  },
+  "default_adopted": false,
+  "generalization_proven": false,
+  "commands": {
+    "watch": "bash scripts/run_bsu_allocation_labels.sh watch",
+    "resume": "bash scripts/run_bsu_allocation_labels.sh run",
+    "audit": "bash scripts/run_bsu_allocation_labels.sh audit"
+  },
+  "completion_requires": "600 actual labels, 80/20 split and packet/evidence audit, completed predictor fit and best checkpoint validation",
+  "evidence_result_path": "/home/sangukbae/semantic_transmission/outputs/bsu_allocation_labels_600_20261019/RESULT.json",
+  "first_source_real_transport_validation": {
+    "source": "inter4k:892",
+    "candidates": [
+      {
+        "candidate": "baseline",
+        "keys": [
+          0,
+          24,
+          48
+        ],
+        "etas": [
+          0.2,
+          0.2,
+          0.2
+        ],
+        "actual_channel_uses": 151656,
+        "budget": 151656,
+        "received_metadata_exact": true,
+        "received_only_decode": true,
+        "ltx_windows": 1
+      },
+      {
+        "candidate": "different_times",
+        "keys": [
+          0,
+          20,
+          48
+        ],
+        "etas": [
+          0.19933594,
+          0.19933594,
+          0.19933594
+        ],
+        "actual_channel_uses": 151578,
+        "budget": 151656,
+        "received_metadata_exact": true,
+        "received_only_decode": true,
+        "ltx_windows": 1
+      },
+      {
+        "candidate": "key_quality",
+        "keys": [
+          0,
+          48
+        ],
+        "etas": [
+          0.31690918,
+          0.31690918
+        ],
+        "actual_channel_uses": 149110,
+        "budget": 151656,
+        "received_metadata_exact": true,
+        "received_only_decode": true,
+        "ltx_windows": 1
+      },
+      {
+        "candidate": "more_keys",
+        "keys": [
+          0,
+          11,
+          24,
+          48
+        ],
+        "etas": [
+          0.14297852,
+          0.14297852,
+          0.14297852,
+          0.14297852
+        ],
+        "actual_channel_uses": 151584,
+        "budget": 151656,
+        "received_metadata_exact": true,
+        "received_only_decode": true,
+        "ltx_windows": 2
+      },
+      {
+        "candidate": "random_valid",
+        "keys": [
+          0,
+          4,
+          48
+        ],
+        "etas": [
+          0.23503645,
+          0.17277499,
+          0.16331975
+        ],
+        "actual_channel_uses": 148826,
+        "budget": 151656,
+        "received_metadata_exact": true,
+        "received_only_decode": true,
+        "ltx_windows": 1
+      },
+      {
+        "candidate": "unequal_rates",
+        "keys": [
+          0,
+          24,
+          48
+        ],
+        "etas": [
+          0.15988281,
+          0.27979492,
+          0.15988281
+        ],
+        "actual_channel_uses": 151254,
+        "budget": 151656,
+        "received_metadata_exact": true,
+        "received_only_decode": true,
+        "ltx_windows": 1
+      }
+    ],
+    "generation_and_quality": "BASELINE_COMPLETE_OTHER_FIVE_IN_PROGRESS"
+  },
+  "first_measured_label": {
+    "source": "inter4k:892",
+    "candidate": "baseline",
+    "frames": 49,
+    "metrics": {
+      "psnr_db": 16.097111851800108,
+      "lpips_vgg": 0.3543134352990559,
+      "flow_error_mean": 0.6613752789174517
+    },
+    "evidence": {
+      "path": "/home/sangukbae/semantic_transmission/outputs/bsu_allocation_labels_600_20261019/labels/892/baseline/evaluation/quality.json",
+      "sha256": "16f5008b0474cbe29bf789cf537456e4ee68acbd9adffd145ab1003cb4ddd941"
+    },
+    "final_movie": {
+      "path": "/home/sangukbae/semantic_transmission/outputs/bsu_allocation_labels_600_20261019/labels/892/baseline/refined/reconstruction.mp4",
+      "sha256": "42f5322cef0fb1985af05229e6197102f38a985cad6be18dfbbeb1bd3606b75d"
+    },
+    "timeline": {
+      "frames": 49,
+      "fps": 24.0,
+      "first_pts": 0.0,
+      "last_pts": 2.0,
+      "duration_seconds": 2.0416666666666665,
+      "all_pts_checked": true
+    },
+    "quality_improvement_claimed": false
+  }
+}
