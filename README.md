@@ -1,33 +1,34 @@
-# BSU-Predict: 예측 경로 전용 영상 전송 모델
+# BSU-Predict: 기준 프레임 JSCC 전송과 시간 보간
 
-**BSU-Predict**는 통합 전 BSU의 DCVC-RT + Practical-RIFE4.25 예측 경로를 독립시킨 메인 개발 모델입니다. 모델명과 개발 브랜치명은 모두 `BSU-Predict`입니다. 통합 전 커밋 `fd37e28`에서 분기했으며, 통합 BSU의 학습·송수신 모듈은 이 브랜치에 포함하지 않습니다.
+**BSU-Predict** 브랜치는 통합 전 BSU의 예측 경로에서 분기한 개발 모델입니다. 현재 기본 실행은 **NTSCC+로 기준 프레임을 전송하고 Practical-RIFE4.25로 중간 프레임을 복원**합니다. BSU-Gen과 같은 이미지 코덱 가중치를 재사용하며 생성 모델 실행이나 새 학습은 필요하지 않습니다.
 
 ## 현재 기본 구조
 
-[`bash scripts/run_bsu.sh`](docs/RUN_GUIDE.md#bsu-default)와 [`bash scripts/run_bsu_predict.sh`](scripts/run_bsu_predict.sh)는 같은 예측 전용 실행기입니다. 영상 파일 또는 정규화 PNG를 입력으로 받습니다. **QP 32·기본 2프레임 간격·AWGN 10dB·seed 42**를 고정합니다.
+[`bash scripts/run_bsu.sh`](docs/RUN_GUIDE.md#bsu-default)와 [`bash scripts/run_bsu_predict.sh`](scripts/run_bsu_predict.sh)는 같은 JSCC 실행기입니다. 영상 파일 또는 정규화 PNG를 받아 **기본 2프레임 간격·AWGN 10dB·채널 seed42·인코더 seed2025**로 실행합니다.
 
 ```mermaid
 flowchart LR
-    V[원본 영상 또는 정규화 PNG] --> A[2프레임 격자·끝점·화면 변화 앵커]
-    A --> C[DCVC-RT · 최초 I 프레임 + 이후 P 프레임]
-    C --> T[시점·크기·FPS·모델 식별자를 포함한 패킷]
-    T --> W[LDPC · 16QAM · AWGN]
-    W --> D[독립 DCVC 복호화]
+    V[원본 영상 또는 정규화 PNG] --> A[격자·끝점·화면 변화 앵커]
+    A --> C[NTSCC+ 앵커별 독립 부호화]
+    C --> W[복소 영상 심벌 → AWGN]
+    C --> M[전송률·전력·시점 등 메타데이터 → 무손실 압축·LDPC]
+    W --> D[NTSCC+ 독립 복호화]
+    M --> D
     D --> R[RIFE 4.25 시간 보간]
     R --> O[복원 영상]
 ```
 
-- 의미 키 개수나 다른 경로와의 비용 비교 없이 항상 예측 경로를 실행합니다.
-- Qwen 캡션, NTSCC, 궤적, Open-Sora, 생성 어댑터가 실행 입력이나 수신 조건에 필요하지 않습니다.
-- 수신 작업에는 받은 패킷·고정 가중치만 전달합니다. 실제 패킷의 헤더·CRC·LDPC 패딩과 패리티까지 전송량에 포함합니다.
-- 채널 무결성 또는 복호화 실패는 해당 단계의 실패로 기록됩니다. 같은 명령으로 완료 단계를 해시 검증해 재사용하고 실패 단계부터 재개합니다.
-- 통합 전 혼합 BSU는 [`run_bsu_hybrid.sh`](docs/RUN_GUIDE.md#bsu-hybrid)로, 과거 생성 배치는 `run_bsu_webvid.sh`·`run_bsu_kinetics.sh`로 보존합니다. LGVSC 대조 명령은 `run_lgvsc_kinetics.sh`입니다.
+- 영상 심벌은 직접 전송하며 메타데이터에만 LDPC를 적용합니다. 프레임별 독립 이미지 JSCC이므로 시간 예측 latent 압축과는 다릅니다.
+- 수신 작업은 받은 심벌·메타데이터·고정 가중치만 사용합니다. 전송량은 영상 심벌과 메타데이터의 패딩·패리티를 포함합니다.
+- 채널 무결성 또는 복호화 실패는 해당 단계의 실패로 기록합니다. 같은 명령으로 완료 단계의 해시를 확인하고 실패 단계부터 재개합니다.
+- 기존 DCVC-RT/RIFE는 [`run_bsu_predict_dcvc.sh`](scripts/run_bsu_predict_dcvc.sh), 그 메타데이터 압축 대조는 [`run_bsu_predict_compressed.sh`](scripts/run_bsu_predict_compressed.sh)로 보존합니다.
+- 이전 혼합 BSU는 [`run_bsu_hybrid.sh`](docs/RUN_GUIDE.md#bsu-hybrid), 과거 생성 배치는 `run_bsu_webvid.sh`·`run_bsu_kinetics.sh`로 유지합니다.
 
 <a id="status"></a>
 <a id="scope"></a>
 ## 검증 범위와 한계
 
-현황 정리: **2026-10-18**. 예측 전용 실행기·패킷 검증·실패 중단·재개와 영상 입출력을 구현했습니다. 새 모델의 실제 GPU 송수신·품질·행동 비교는 아직 수행하지 않았습니다. [구현 검증 기록](docs/validation/2026-10-18-bsu-predict.json)
+현황 정리: **2026-10-20**. 원격 Kinetics 001의 240프레임 복원·품질 평가를 완료한 기록을 포함합니다. 같은 앵커 121장의 DCVC 대조 대비 PSNR은 25.7317→28.2866dB, 채널 사용량은 566,784→4,394,010으로 증가했습니다. 한 영상·한 SNR·한 seed의 결과이며 전송량 절감이나 전체 데이터셋 우수성을 입증하지 않습니다. [실측과 비교 조건](docs/RESULTS.md#bsu-predict) · [원격 검증 기록](docs/validation/2026-10-19-bsu-predict-jscc.json)
 
 10월 16일의 14편·3,333프레임 비교는 **예측 8편 + 생성 6편의 혼합 BSU** 결과입니다. 전송 2,470,155·PSNR 26.305dB·LPIPS 0.23462를 예측 전용 모델의 수치로 사용할 수 없습니다. 적응형 간격+QP의 추가 1.12% 절감도 당시 혼합 모델 기준입니다. [이전 모델의 결과와 증거](docs/RESULTS.md#bsu-predictive-default)
 

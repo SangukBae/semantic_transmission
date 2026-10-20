@@ -2,12 +2,13 @@
 
 [프로젝트](../README.md) · [데이터](DATA.md) · [구조](MODEL_ARCHITECTURE.md) · [결과](RESULTS.md)
 
-**2026-10-18 개발 기준:** `BSU-Predict` 브랜치의 `run_bsu.sh`·`run_bsu_predict.sh`는 예측 경로만 실행한다. 통합 전의 혼합 모델은 `run_bsu_hybrid.sh`, 이전 생성 배치는 `run_bsu_webvid.sh`·`run_bsu_kinetics.sh`로 보존한다.
+**2026-10-20 개발 기준:** `BSU-Predict` 브랜치의 `run_bsu.sh`·`run_bsu_predict.sh`는 NTSCC+ 기준 프레임 전송과 RIFE 복원을 실행한다. 이전 DCVC 실행은 `run_bsu_predict_dcvc.sh`로 보존한다. 통합 전의 혼합 모델은 `run_bsu_hybrid.sh`, 이전 생성 배치는 `run_bsu_webvid.sh`·`run_bsu_kinetics.sh`로 보존한다.
 
 <a id="bsu-default"></a>
+<a id="bsu-predict"></a>
 ## BSU-Predict 실행
 
-영상 파일 또는 `0.png, 1.png, ...`로 연속된 정규화 RGB PNG를 입력으로 받는다. Qwen 의미 추출·NTSCC 전송·궤적·Open-Sora 산출물은 필요하지 않다. QP32·기본 간격2·AWGN 10dB·seed42의 예측 전용 프로필은 [`configs/bsu_predict.json`](../configs/bsu_predict.json)이다.
+영상 파일 또는 `0.png, 1.png, ...`로 연속된 정규화 RGB PNG를 입력으로 받는다. **2026-10-19부터 이 작업 트리의 기본 명령은 NTSCC+ 기준 프레임 JSCC + RIFE4.25 복원**이다. 기본 간격2·AWGN 10dB·채널 seed42·인코더 seed2025의 프로필은 [`configs/bsu_predict_jscc.json`](../configs/bsu_predict_jscc.json)이다. BSU-Gen의 NTSCC+ 가중치를 재사용하며 추가 학습은 없다. 시각 심벌에는 LDPC를 사용하지 않으며, 압축한 메타데이터에만 적용한다. 프레임별 독립 JSCC이므로 DCVC보다 전송량이 작다는 보장은 없다.
 
 ```bash
 # 설치·GPU 없이 모델 설정 확인
@@ -17,7 +18,7 @@ bash scripts/run_bsu_predict.sh profile
 bash scripts/run_bsu_predict.sh check \
   --video /absolute/path/input.mp4 --output outputs/bsu_predict_my_video
 
-# 전체 영상 정규화 → DCVC 송신 → 실제 채널 → 독립 복호화 → RIFE → MP4
+# 전체 영상 정규화 → NTSCC+ 심벌 → AWGN → 독립 복호화 → RIFE → MP4
 bash scripts/run_bsu_predict.sh run \
   --video /absolute/path/input.mp4 --output outputs/bsu_predict_my_video
 
@@ -27,24 +28,29 @@ bash scripts/run_bsu_predict.sh run \
   --output outputs/bsu_predict_my_frames
 
 bash scripts/run_bsu_predict.sh status --output outputs/bsu_predict_my_video
+
+# 이전 DCVC-RT/RIFE 경로와 기존 출력 재개는 이 명령으로 보존
+bash scripts/run_bsu_predict_dcvc.sh profile
 ```
 
 `--video`는 전체 길이를 기본 576×320·24fps로 정규화한다. `--width`·`--height`·`--fps`로 이를 명시할 수 있다. `--source-frames`는 기존 크기를 유지하고 `--fps`의 시간표를 사용한다. 크기는 양의 짝수, 프레임은 최소 2장이어야 한다. 오디오 전송은 포함하지 않는다. 입력 폴더와 출력은 서로 겹치지 않아야 한다.
 
-필요한 자산은 아래 이전 혼합 모델 표의 **DCVC-RT·RIFE·복원 Python·채널 Python·FFmpeg/ffprobe**다. BSU-Predict에는 Qwen·NTSCC·Open-Sora·T5·생성 어댑터가 필요하지 않다. 기본 Python 경로는 `.local/dcvc_rt_env/bin/python`, `.local/bsu_codec_eval_env/bin/python`, `.local/settings.json`의 `channel_python`이다. 다른 실행 환경은 `--codec-python`·`--receiver-python`·`--channel-python`으로 지정한다. 셸 실행기 자체의 Python은 `BSU_PREDICT_PYTHON=/path/to/python`으로 지정할 수 있다. DCVC 소스는 `.local/vendor/DCVC-RT`에 준비한다.
+필요한 자산은 **NTSCC+·RIFE·복원 Python·채널 Python·FFmpeg/ffprobe**다. Qwen·DCVC·LTX·Open-Sora·T5·생성 어댑터는 필요하지 않다. NTSCC+는 `scripts/setup_ntscc_plus.sh`의 고정 환경·체크포인트를 사용한다. 기본 Python 경로는 `.local/ntscc_plus_env/bin/python`, `.local/bsu_codec_eval_env/bin/python`, `.local/settings.json`의 `channel_python`이다. 다른 실행 환경은 `--codec-python`·`--receiver-python`·`--channel-python`으로 지정한다. 셸 실행기 자체의 Python은 `BSU_PREDICT_PYTHON=/path/to/python`으로 지정할 수 있다. NTSCC+ 소스는 `.local/vendor/NTSCC_plus`에 준비한다. 기존 DCVC 경로는 `.local/dcvc_rt_env/bin/python`과 `.local/vendor/DCVC-RT`를 계속 사용한다.
 
-`check`의 `READY_FILES_VERIFIED`는 입력·파일·해시 검사이며 패키지 import·CUDA 커널·실제 송수신 성공은 검증하지 않는다. 새 장비용 DCVC/RIFE 자동 설치기는 제공하지 않는다. [외부 출처와 고정 버전](../THIRD_PARTY_NOTICES.md#bsu-predictive-dependencies)
+`check`의 `READY_FILES_VERIFIED`는 입력·파일·해시·코덱 패키지 버전 검사이며 CUDA 커널·실제 송수신 성공은 검증하지 않는다. 새 장비용 RIFE 자동 설치기는 제공하지 않는다. [외부 출처와 고정 버전](../THIRD_PARTY_NOTICES.md#bsu-predictive-dependencies)
 
 | 출력 | 내용 |
 |---|---|
 | `protocol.json`, `source.json` | 설정·원본·코드·모델·정규화·재개 계약 |
-| `sender/packet.bin`, `sender/sender.json` | 예측 스트림·유료 시점·예상 실제 채널 사용량 |
-| `received/packet.bin`, `received/channel.json` | 단일 seed42 채널 전달·실측 심벌·비트 오류 |
+| `sender/visual.c64`, `sender/metadata_wire.bin`, `sender/sender.json` | JSCC 심벌·압축 메타데이터·유료 시점·예상 실제 채널 사용량 |
+| `received/visual.c64`, `received/metadata.bin`, `received/channel.json` | seed42 잡음 심벌·복원 메타데이터·실측 사용량·메타데이터 비트 오류 |
 | `decoded/`, `decoded.json` | 받은 패킷만으로 독립 복호화한 앵커 |
 | `reconstruction/reconstruction.mp4`, `reconstruction/receiver.json` | RIFE 복원 및 최종 MP4 시간표 검사 |
 | `stages/`, `status.json`, `RESULT.json` | 완료 단계 해시·진행·실패/중단·최종 결과 |
 
-`run_bsu.sh`도 위와 동일하게 실행한다. 고정 터미널 진행 화면에 완료 단계 수·경과 시간·GPU 사용률·사용/전체 VRAM·로그를 표시한다. 단계별 작업량이 다른 동안 전체 남은 시간을 추정하지 않는다. 같은 명령으로 재개하면 완료 단계와 의존 산출물을 해시 검증하며, 변경된 입력·코드·모델은 기존 출력 재사용을 거부한다. 중단된 단계의 부분 파일은 보관 후 다시 실행한다. 화질·행동 평가와 새 학습은 이 복원 명령에 포함하지 않는다.
+이 브랜치에서는 `run_bsu.sh`도 `run_bsu_predict.sh`와 같은 JSCC 실행기를 호출한다. 고정 터미널 진행 화면에 완료 단계 수·경과 시간·GPU 사용률·사용/전체 VRAM·로그를 표시한다. 단계별 작업량이 다른 동안 전체 남은 시간을 추정하지 않는다. 같은 명령으로 재개하면 완료 단계와 의존 산출물을 해시 검증하며, 변경된 입력·코드·모델은 기존 출력 재사용을 거부한다. 중단된 단계의 부분 파일은 보관 후 다시 실행한다. 화질·행동 평가와 새 학습은 이 복원 명령에 포함하지 않는다.
+
+기존 DCVC 패킷의 메타데이터 압축 대조는 [`run_bsu_predict_compressed.sh`](../scripts/run_bsu_predict_compressed.sh)를 사용한다. `--metadata-compression raw|auto`로 전송 형식을 정하며 두 조건에 서로 다른 새 출력 폴더를 사용한다. 완성된 원래 패킷을 복원한 뒤 같은 DCVC/RIFE 수신기를 호출한다. [001 영상의 정확 복원 기록](validation/2026-10-19-bsu-predict-compression.json)
 
 <a id="bsu-hybrid"></a>
 ## 이전 혼합 BSU 실행 — 2026-10-16 프로필

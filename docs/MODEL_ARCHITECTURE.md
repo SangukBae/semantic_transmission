@@ -1,17 +1,17 @@
 # 모델 구조
 
 <a id="bsu-predictive-default"></a>
-## BSU-Predict — 예측 경로 전용 메인 개발 모델
+## BSU-Predict — NTSCC+ 기준 프레임 전송과 RIFE 복원
 
-**2026-10-18 채택.** 모델·브랜치 이름은 `BSU-Predict`이며 통합 전 `fd37e28`에서 출발한다. [`configs/bsu_predict.json`](../configs/bsu_predict.json)과 [`bsu_predict.py`](../src/semantic_transmission/bsu_predict.py)가 현재 실행 경로를 정의한다. QP32·기본 간격 2·AWGN 10dB·seed42를 고정하고, 적응형 QP/간격 탐색이나 생성 경로 전환은 수행하지 않는다. [실행](RUN_GUIDE.md#bsu-default)
+**2026-10-20 브랜치 기준.** `BSU-Predict`는 통합 전 `fd37e28`에서 분기했다. 현재 기본 실행은 [`configs/bsu_predict_jscc.json`](../configs/bsu_predict_jscc.json)과 [`bsu_predict_jscc.py`](../src/semantic_transmission/bsu_predict_jscc.py)가 정의한다. 기본 간격2·AWGN 10dB·채널 seed42·인코더 seed2025를 사용한다. 기존 BSU-Gen의 NTSCC+ 이미지 코덱 가중치를 재사용하며 새 학습은 없다. [실행](RUN_GUIDE.md#bsu-default)
 
-송신부는 영상 또는 `0.png`부터 연속된 정규화 원본을 읽는다. 기존 `dense_temporal_receiver.select_indices`의 격자·끝점·급격한 화면 변화 양쪽 앵커 규칙과 기존 `bsu_dcvc_keys.Codec`에서 추론 연산을 분리한 [`predictive_codec.Codec`](../src/semantic_transmission/predictive_codec.py)의 실제 DCVC-RT 비트스트림을 사용한다. 코덱 연산과 고정 가중치는 통합 전과 동일하며 실험·품질 평가용 import 의존성만 분리했다. 최초 앵커는 I 프레임, 이후 앵커는 예측 참조를 사용하는 P 프레임으로 부호화한다. 원래 의미 키 최소 5개 조건과 비용 라우터를 제거했으며 2프레임 영상도 같은 경로로 처리한다.
+송신부는 정규화 원본에서 2프레임 격자·양끝·급격한 화면 변화 양쪽 앵커를 선택한다. 각 앵커는 NTSCC+로 독립 부호화하며, 정규화한 복소 심벌을 AWGN에 직접 전달한다. 이전 프레임을 참조하는 DCVC 시간 예측이나 예측 latent 압축은 아니다. 전송률 인덱스·전력·시간 인덱스·크기·FPS·고정 코덱/RIFE 식별자를 담은 메타데이터는 무손실 압축 후 LDPC/16QAM/AWGN으로 보낸다. 전체 사용량은 영상 심벌 수와 메타데이터의 패딩·패리티를 포함한 실제 복소 심벌 수의 합이다.
 
-새 패킷은 DCVC 비트스트림과 시간 인덱스, 프레임 수, 크기, FPS, 고정 DCVC/RIFE 모델 식별자를 포함한다. 예측 수신기에 사용되지 않는 캡션·의미 구간·궤적은 포함하지 않는다. 따라서 기존 혼합 BSU와 전송 패킷·비용이 같다고 주장하지 않는다. 전체 패킷·CRC·LDPC 패딩/패리티·16QAM의 실제 복소 심벌 수를 계상한다.
+수신부는 받은 심벌과 복원한 메타데이터만으로 앵커를 복호화하고 RIFE4.25로 사이 프레임을 보간한다. 원본 경로는 수신 작업에 전달하지 않는다. 수신 앵커 보존은 MP4 인코딩 전 PNG에서 검사하며 최종 MP4는 프레임 수·FPS·크기를 검사한다. 패킷 무결성 또는 복호화 실패는 실패로 종료한다. Qwen 캡션·궤적·LTX·Open-Sora 실행은 필요하지 않다.
 
-수신부는 독립 프로세스에서 받은 패킷만으로 DCVC를 복호화하고 RIFE4.25로 사이 프레임을 보간한다. 원본 경로는 수신 작업에 전달하지 않는다. 수신 앵커의 보존은 MP4 인코딩 전 PNG에서 검사하며 최종 MP4는 프레임 수·FPS·크기를 검사한다. MP4의 손실 압축 후 픽셀 동일성을 주장하지 않는다. 패킷 오류는 실패로 종료하고 다른 모델로 전환하지 않는다.
+이전 [`bsu_predict.py`](../src/semantic_transmission/bsu_predict.py)의 QP32 DCVC-RT/RIFE 경로는 [`run_bsu_predict_dcvc.sh`](../scripts/run_bsu_predict_dcvc.sh)로 유지한다. 최초 앵커는 I 프레임, 이후는 이전 복호화 특징을 참조하는 P 프레임이다. 별도 [`bsu_predict_compressed.py`](../src/semantic_transmission/bsu_predict_compressed.py)는 DCVC 비트스트림을 보존하면서 패킷 헤더만 압축한다. 이 두 경로는 영상 데이터에도 LDPC를 사용한다.
 
-기존 공개 사전 학습 가중치를 그대로 사용하며 새 모델 학습은 수행하지 않았다. 예측 전용 전체 코호트의 품질·행동·전송량은 새 검증이 필요하다. [검증 범위](RESULTS.md#bsu-predict)
+001 영상의 JSCC 실행은 완료됐지만, 기존 DCVC보다 채널 사용량이 7.75배 컸다. 같은 전송률의 우수성이나 전체 데이터셋 일반화는 입증하지 않았다. [실측과 한계](RESULTS.md#bsu-predict)
 
 <a id="bsu-hybrid-default"></a>
 ## 이전 혼합 BSU — 2026-10-16 프로필 보존
@@ -34,8 +34,8 @@
 
 ```mermaid
 flowchart LR
-    V[정규화 원본] --> C[BSU-Predict · DCVC-RT · QP32 · 간격2]
-    C --> P[LDPC·16QAM·AWGN → 독립 DCVC 복호화]
+    V[정규화 원본] --> C[BSU-Predict · NTSCC+ 독립 앵커 · 간격2]
+    C --> P[영상 심벌 AWGN · 압축 메타데이터 LDPC → NTSCC+ 복호화]
     P --> I[RIFE 보간 → BSU-Predict 출력]
     V --> L[LGVSC · InternVL SKEM·PLLaVA]
     L --> T[NTSCC·디지털 AWGN → Open-Sora → LGVSC 출력]
