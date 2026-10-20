@@ -75,6 +75,7 @@ def test_entrypoint_and_historical_commands_remain_distinct():
     assert 'semantic_transmission.bsu_adaptive_rate' not in shell
     current = (bsu.REPO / 'scripts/run_bsu.sh').read_text()
     assert 'scripts/run_bsu_gen.sh' in current
-    assert '-m semantic_transmission.bsu_predict ' in (bsu.REPO / 'scripts/run_bsu_predict.sh').read_text()
+    assert '-m semantic_transmission.bsu_predict_jscc ' in (bsu.REPO / 'scripts/run_bsu_predict.sh').read_text()
+    assert '-m semantic_transmission.bsu_predict ' in (bsu.REPO / 'scripts/run_bsu_predict_dcvc.sh').read_text()
     for script, module in [('run_bsu_webvid.sh', 'bsu_default'), ('run_bsu_kinetics.sh', 'bsu_kinetics')]:
         assert f'-m semantic_transmission.{module}' in (bsu.REPO / 'scripts' / script).read_text()

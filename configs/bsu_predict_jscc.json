@@ -1,0 +1,16 @@
+{
+  "name": "BSU-Predict-JSCC",
+  "policy": "bsu_predict_ntscc_plus_rife_v2",
+  "model": "NTSCC+ + Practical-RIFE4.25",
+  "route": "jscc_anchors_rife",
+  "temporal_stride": 2,
+  "snr_db": 10,
+  "channel_seed": 42,
+  "encoder_seed": 2025,
+  "metadata_compression": "auto",
+  "visual_ldpc": false,
+  "metadata_ldpc": true,
+  "temporal_latent_prediction": false,
+  "generative_fallback": false,
+  "semantic_input_required": false
+}
