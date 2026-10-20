@@ -32,6 +32,16 @@ authoritative source. Verify before any redistribution or commercial use.
 
 The pinned checkouts' license files were inspected. Source and pretrained assets are obtained separately; neither weights nor these checkouts are redistributed here. Exact inference-weight and RIFE implementation hashes are checked by [DCVC integration](src/semantic_transmission/bsu_dcvc_keys.py) and [RIFE integration](src/semantic_transmission/dense_temporal_receiver.py). Model download terms remain those of their upstream distribution. The historical mixed BSU model retains Open-Sora/NTSCC dependencies for its `combined_context` branch and the existing TimeSformer evaluation terms. The SPARC branch uses the Qwen3.5 selector, DCVC-RT, Practical-RIFE and Sionna; it does not invoke Open-Sora, NTSCC or a caption LoRA. All pretrained assets are obtained separately.
 
+<a id="sparc-framer-dependencies"></a>
+## Experimental Framer receiver — 2026-10-20
+
+| Component | Pinned source / assets | Terms | Role |
+|---|---|---|---|
+| Framer | [aim-uofa/Framer at d0ba81f](https://github.com/aim-uofa/Framer/tree/d0ba81f1f23a639396d4c6a801c53a5b21412b06) · [weights at 023bd84](https://huggingface.co/wwen1997/framer_512x320/tree/023bd84da79faada5f27f3bafe7d8e5c8120a61f) | [Upstream LICENSE](https://github.com/aim-uofa/Framer/blob/d0ba81f1f23a639396d4c6a801c53a5b21412b06/LICENSE) and model distribution terms | Trajectory-conditioned interpolation using the public UNet and ControlNet |
+| Stable Video Diffusion XT | [stabilityai model at 9e43909](https://huggingface.co/stabilityai/stable-video-diffusion-img2vid-xt/tree/9e43909513c6714f1bc78bcb44d96e733cd242aa) | See upstream model card and license files | Image encoder, temporal VAE, preprocessing and scheduler |
+
+The [setup script](scripts/setup_sparc_framer.sh) downloads these assets separately into ignored local directories and records their hashes. The repository does not redistribute their source checkouts or weights. The [compatibility helper](src/semantic_transmission/framer_compat.py) corrects the input feed-forward layer used by diffusers 0.24 temporal chunking in process; installed dependencies, upstream checkout files and public checkpoint tensors remain unchanged. The [numerical check](scripts/check_framer_chunking.py) compares chunked and unchunked outputs and input gradients.
+
 ## Datasets
 
 | Dataset | Source | Terms (summary) |
