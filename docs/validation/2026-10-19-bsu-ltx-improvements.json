@@ -1,0 +1,319 @@
+{
+  "date": "2026-10-19",
+  "status": "COMPLETE_IMPLEMENTATION_AND_DEVELOPMENT_VALIDATION_NOT_ADOPTED",
+  "policy": "bsu_ltx_received_only_v2",
+  "training": false,
+  "default_adopted": false,
+  "implemented": [
+    "received-only adaptive postprocessing",
+    "confidence-gated trajectory-derived image conditions",
+    "bounded multi-key context",
+    "fact-preserving prompt normalization"
+  ],
+  "unit_and_regression_tests_passed": 83,
+  "received_request_validation": {
+    "videos": 14,
+    "variants": 6,
+    "guide_enabled_videos": 3
+  },
+  "full_video_postprocess": {
+    "videos": 14,
+    "frames": 3333,
+    "codec": "NTSCC",
+    "generation_reused": true,
+    "summary": {
+      "adaptive": {
+        "videos": 14,
+        "quality": {
+          "clip": 0.9739002353148841,
+          "dists": 0.10720597686836937,
+          "frames": 238.07142857142858,
+          "lpips_vgg": 0.27766911946255823,
+          "psnr_db": 21.0236094355946,
+          "ssim": 0.7115545399195994
+        },
+        "temporal": {
+          "active_motion_cells": 4808.571428571428,
+          "cadence_error_mean": 0.3751087245215838,
+          "exact_duplicate_transitions": 0,
+          "false_freeze_cells": 781.4285714285714,
+          "false_freeze_rate": 0.19335610260069958,
+          "flow_error_mean": 0.6454475123639151,
+          "generated_motion_mean": 0.589220744956817,
+          "mad_max": 13.357102554563491,
+          "mad_p95": 6.928700474330355,
+          "max_luma_impulse": 4.833803788442457,
+          "mean_luma_impulse": 0.30391373429555485,
+          "motion_retention_ratio": 0.9162344208785466,
+          "source_motion_mean": 0.6777745219213622,
+          "stall_jump_cells": 4.857142857142857,
+          "stall_jump_eligible_cells": 4249.357142857143,
+          "stall_jump_rate": 0.001031546690740708
+        }
+      },
+      "legacy": {
+        "videos": 14,
+        "quality": {
+          "clip": 0.9723999064373219,
+          "dists": 0.11297251006786972,
+          "frames": 238.07142857142858,
+          "lpips_vgg": 0.2726283218458015,
+          "psnr_db": 21.702790945939743,
+          "ssim": 0.7309678032012801
+        },
+        "temporal": {
+          "active_motion_cells": 4808.571428571428,
+          "cadence_error_mean": 0.3370694867375103,
+          "exact_duplicate_transitions": 0,
+          "false_freeze_cells": 933.0714285714286,
+          "false_freeze_rate": 0.21218774911060295,
+          "flow_error_mean": 0.6071422977778664,
+          "generated_motion_mean": 0.5043323074600526,
+          "mad_max": 10.880087425595239,
+          "mad_p95": 5.701952427455356,
+          "max_luma_impulse": 4.407886129712302,
+          "mean_luma_impulse": 0.2549236184032265,
+          "motion_retention_ratio": 0.7811542664255414,
+          "source_motion_mean": 0.6777745219213622,
+          "stall_jump_cells": 3.7857142857142856,
+          "stall_jump_eligible_cells": 4249.357142857143,
+          "stall_jump_rate": 0.0006428267431365242
+        }
+      },
+      "raw": {
+        "videos": 14,
+        "quality": {
+          "clip": 0.9729562863017951,
+          "dists": 0.10858319555899587,
+          "frames": 238.07142857142858,
+          "lpips_vgg": 0.2803491580842211,
+          "psnr_db": 20.7850614536597,
+          "ssim": 0.7083377003352525
+        },
+        "temporal": {
+          "active_motion_cells": 4808.571428571428,
+          "cadence_error_mean": 0.3739891258585312,
+          "exact_duplicate_transitions": 0,
+          "false_freeze_cells": 813.7857142857143,
+          "false_freeze_rate": 0.19939768033907637,
+          "flow_error_mean": 0.6429541404233107,
+          "generated_motion_mean": 0.5845255572348833,
+          "mad_max": 12.752122085813493,
+          "mad_p95": 6.440857902405752,
+          "max_luma_impulse": 4.529915364583334,
+          "mean_luma_impulse": 0.27581996354093086,
+          "motion_retention_ratio": 0.8934399059840611,
+          "source_motion_mean": 0.6777745219213622,
+          "stall_jump_cells": 4.571428571428571,
+          "stall_jump_eligible_cells": 4249.357142857143,
+          "stall_jump_rate": 0.0007208937286139008
+        }
+      }
+    },
+    "baseline_metric_recalculation": "one complete video; all five quality and selected temporal metrics matched exactly"
+  },
+  "neural_pilot": {
+    "status": "COMPLETE_REAL_LTX_FOUR_FACTOR_PILOT",
+    "cases": [
+      {
+        "id": "kinetics_001_ntscc_plus",
+        "frames": 37,
+        "codec": "NTSCC+"
+      },
+      {
+        "id": "kinetics_005_11836d73",
+        "frames": 25,
+        "codec": "NTSCC"
+      }
+    ],
+    "seeds": [
+      2025,
+      42
+    ],
+    "execution_offload": "disk",
+    "neural_jobs": 20,
+    "neural_intervals": 32,
+    "evaluated_outputs": 24,
+    "distinct_source_videos": 2,
+    "paired_observations_per_arm": 4,
+    "delivered_frames_evaluated": 744,
+    "exact_received_key_pngs_verified": 72,
+    "artifact_audit": "ALL_24_PAIRED_OUTPUTS_VERIFIED",
+    "received_input_hashes_match_within_pairs": true,
+    "additional_transmitted_bytes": 0,
+    "runtime": {
+      "execution_offload": "disk",
+      "generation_stage_seconds": 6849.406141550993,
+      "generation_and_evaluation_wall_seconds": 7861.408485,
+      "started_utc": "2026-10-19T01:37:30.312422+00:00",
+      "last_evaluation_finished_utc": "2026-10-19T03:48:31.720907+00:00"
+    },
+    "summary": {
+      "all": {
+        "paired_observations": 4,
+        "quality": {
+          "psnr_db": 24.25924872898638,
+          "ssim": 0.7443700897460438,
+          "lpips_vgg": 0.21462072347668376,
+          "dists": 0.0912680166315388,
+          "clip": 0.9785977750211149
+        },
+        "temporal": {
+          "false_freeze_rate": 0.029272546088689583,
+          "flow_error_mean": 0.3960481043646319,
+          "motion_retention_ratio": 1.2391447126865387,
+          "cadence_error_mean": 0.2517674956557497
+        },
+        "psnr_improved_pairs": 0,
+        "lpips_improved_pairs": 2,
+        "mean_recorded_generation_seconds": 212.0425494680021
+      },
+      "baseline": {
+        "paired_observations": 4,
+        "quality": {
+          "psnr_db": 24.875965566025826,
+          "ssim": 0.7594479849496916,
+          "lpips_vgg": 0.2246121356414782,
+          "dists": 0.10502978632578978,
+          "clip": 0.9756711227829392
+        },
+        "temporal": {
+          "false_freeze_rate": 0.050828565537858875,
+          "flow_error_mean": 0.341104792844918,
+          "motion_retention_ratio": 1.052129089832306,
+          "cadence_error_mean": 0.2084844334768305
+        },
+        "psnr_improved_pairs": 0,
+        "lpips_improved_pairs": 0,
+        "mean_recorded_generation_seconds": 385.3235757005059
+      },
+      "context": {
+        "paired_observations": 4,
+        "quality": {
+          "psnr_db": 25.30712149358127,
+          "ssim": 0.7720481620714256,
+          "lpips_vgg": 0.21412139160004823,
+          "dists": 0.1032030821974213,
+          "clip": 0.9761110377956081
+        },
+        "temporal": {
+          "false_freeze_rate": 0.04407848392694535,
+          "flow_error_mean": 0.319068292207602,
+          "motion_retention_ratio": 1.0568190515041351,
+          "cadence_error_mean": 0.20664433417089792
+        },
+        "psnr_improved_pairs": 4,
+        "lpips_improved_pairs": 4,
+        "mean_recorded_generation_seconds": 250.75373955824762
+      },
+      "postprocess": {
+        "paired_observations": 4,
+        "quality": {
+          "psnr_db": 23.323038668590158,
+          "ssim": 0.6852992056141791,
+          "lpips_vgg": 0.2576761325932032,
+          "dists": 0.09131488492359986,
+          "clip": 0.9763514833192568
+        },
+        "temporal": {
+          "false_freeze_rate": 0.1091975499544697,
+          "flow_error_mean": 0.4052498914922277,
+          "motion_retention_ratio": 1.0902665853500366,
+          "cadence_error_mean": 0.22492963285272166
+        },
+        "psnr_improved_pairs": 0,
+        "lpips_improved_pairs": 0,
+        "mean_recorded_generation_seconds": 385.3235757005059
+      },
+      "prompt": {
+        "paired_observations": 4,
+        "quality": {
+          "psnr_db": 24.926793890446,
+          "ssim": 0.7629596066001779,
+          "lpips_vgg": 0.22227542370356418,
+          "dists": 0.10498063069743079,
+          "clip": 0.9764416833826013
+        },
+        "temporal": {
+          "false_freeze_rate": 0.04085485284263698,
+          "flow_error_mean": 0.3330674182313184,
+          "motion_retention_ratio": 1.0560801923274994,
+          "cadence_error_mean": 0.20680252640444485
+        },
+        "psnr_improved_pairs": 3,
+        "lpips_improved_pairs": 2,
+        "mean_recorded_generation_seconds": 408.23894448624924
+      },
+      "trajectory": {
+        "paired_observations": 4,
+        "quality": {
+          "psnr_db": 25.288990874462826,
+          "ssim": 0.8048282634832095,
+          "lpips_vgg": 0.1945601557980518,
+          "dists": 0.09650272918714059,
+          "clip": 0.9789089553420609
+        },
+        "temporal": {
+          "false_freeze_rate": 0.026585828909162758,
+          "flow_error_mean": 0.3229339461670154,
+          "motion_retention_ratio": 1.1531677395105362,
+          "cadence_error_mean": 0.2107486789699019
+        },
+        "psnr_improved_pairs": 2,
+        "lpips_improved_pairs": 2,
+        "mean_recorded_generation_seconds": 452.30491358049403
+      }
+    },
+    "recommendation": {
+      "default_adopted": false,
+      "next_validation_priority": "context",
+      "trajectory": "case-dependent; conservative confidence gate did not ensure improvement",
+      "postprocess": "do not adopt: worse PSNR, LPIPS and false-freeze rate in all four pairs",
+      "prompt": "small mixed quality changes; reduced false-freeze proxy in all four pairs",
+      "all": "do not adopt: lower PSNR in all four pairs; larger average flow error"
+    }
+  },
+  "generalization_proven": false,
+  "independent_semantic_review": "PENDING",
+  "limitations": [
+    "known development cohort; no unseen-video evaluation",
+    "full-video postprocessing only at AWGN 10 dB and the recorded seed",
+    "neural pilot prefixes do not establish long-video or multi-SNR quality",
+    "trajectory RGB guides are derived hypotheses, not received middle-frame ground truth",
+    "two source videos with two seeds are four paired observations, not four independent videos",
+    "one codec per source: differences across cases cannot isolate codec effects",
+    "same seed does not produce identical noise tensors when context changes window shapes",
+    "guides and context were exercised on selected development prefixes; no generalization claim",
+    "generation time is a single sequential disk-offload run with shared model loading; no throughput benchmark"
+  ],
+  "evidence": {
+    "postprocess": "outputs/bsu_ltx_improvements_20261019/postprocess/RESULT.json",
+    "requests": "outputs/bsu_ltx_improvements_20261019/requests/RESULT.json",
+    "pilot_protocol": "outputs/bsu_ltx_improvements_20261019/pilot/pilot.json",
+    "pilot_result": "outputs/bsu_ltx_improvements_20261019/pilot/RESULT.json",
+    "pilot_audit": "outputs/bsu_ltx_improvements_20261019/pilot/artifact_audit.json",
+    "pilot_analysis": "outputs/bsu_ltx_improvements_20261019/pilot/ANALYSIS.json",
+    "sample_review": "outputs/bsu_ltx_improvements_20261019/pilot/AI_SAMPLE_REVIEW.json",
+    "pilot_code_snapshot": "outputs/bsu_ltx_improvements_20261019/pilot/code_snapshot/MANIFEST.json",
+    "postprocess_code_snapshot": "outputs/bsu_ltx_improvements_20261019/postprocess/code_snapshot/MANIFEST.json"
+  },
+  "sample_review": {
+    "status": "COMPLETE_NONINDEPENDENT_AI_SAMPLE_REVIEW",
+    "independent": false,
+    "blinded": false,
+    "full_video_action_annotation": false,
+    "candidate_frame_panels": 96,
+    "distinct_source_timepoints": 8
+  },
+  "evidence_sha256": {
+    "postprocess": "91f2d96d6de0ee9368e8370c6d534c65969ebcf17085f5cea8136cc5456ca241",
+    "requests": "70a30409a811ccec2bedfb7ccb4cc372bac67e421826d36dd0402515ff0fac93",
+    "pilot_protocol": "46657718ab2ed0da75e17c1b70c06a358a3f482cf35c6365050643de42150942",
+    "pilot_result": "d75fa05c10d74f2a4a25681c50bb7b65b37244b1e6af5612b7f849e3578abde0",
+    "pilot_audit": "2b711186992625236d15cf57521963986c680974b859a8c0f5919bedd30cd058",
+    "pilot_analysis": "723266775c9e3b55dc350b6d5befbb7df78c7ba30b4e8a57c984259d83575662",
+    "sample_review": "9a217975ed16319e6b04354b2671992543c3c458bcc4e25b7587a1ed41771a98",
+    "pilot_code_snapshot": "201d77078f0e70c0aa1f95830b96b1a36c4f919a0727815d6f9c87fbf91d7fce",
+    "postprocess_code_snapshot": "3135d8a9677cfdd560b5dfef550742b7f660701bd455974bf0af21cbf9f3d6bf"
+  }
+}

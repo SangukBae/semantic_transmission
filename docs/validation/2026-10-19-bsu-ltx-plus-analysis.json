@@ -1,0 +1,541 @@
+{
+  "date": "2026-10-19",
+  "status": "COMPLETE_REMOTE_COMPARISON_AND_READ_ONLY_RESULT_AUDIT",
+  "analysis_source": {
+    "path": ".local/validation/bsu_ltx_plus_analysis_20261019/ANALYSIS.json",
+    "sha256": "881e0bae64925b3e2bfda5585712053dbf739bd00266a5ff97378aba42fad835",
+    "remote_audit_path": ".local/validation/bsu_ltx_plus_analysis_20261019/remote_audit.json",
+    "remote_audit_sha256": "f184eb43fcab645c396ff4e82be624fe83835cfa19d41fab38231aa1460a1751"
+  },
+  "remote_root": "/home/sangukbae/ETRI/Semantic/semantic_transmission_bsu_ltx_plus/outputs/bsu_ltx_plus_20261019",
+  "verification": {
+    "status": "PASSED",
+    "frozen_files": 37473,
+    "hash_errors": [],
+    "stage_receipts": 154,
+    "generation_intervals": 121,
+    "exact_received_keys": 135,
+    "total_received_keys": 135,
+    "matched_source_keys_captions_flow_trajectories": true,
+    "actual_channel_cost_recomputed": true,
+    "source_pixels_used_by_generator": false,
+    "generation_conditioning": "endpoint_pair",
+    "hash_check_seconds": 1.5040881969034672,
+    "model_weights_rehashed_in_this_audit": false
+  },
+  "protocol": {
+    "policy": "bsu_ltx_ntscc_plus_codec_ablation_v1",
+    "snr_db": 10,
+    "channel_seed": 42,
+    "trajectory_channel_seed": 43,
+    "encoder_seed": 2025,
+    "generation_seed": 2025,
+    "selection": "reuse_exact_baseline_keys_captions_flow",
+    "trajectory_budget": "frozen_baseline_allocation; not recomputed as 5 percent of new codec cost",
+    "ltx_profile": {
+      "name": "BSU-Gen-LTX",
+      "policy": "bsu_gen_ltx25_received_replay_v1",
+      "generator": "Lightricks/LTX-2.5 / 22B Distilled",
+      "model_revision": "49b093a39c19169a8a81721dcc541e07e945232f",
+      "upstream_revision": "be6d6d0a69d11a0a399c462ed92606692e5f8697",
+      "pipeline": "ltx_pipelines.distilled.DistilledPipeline",
+      "quantization": "fp8-cast",
+      "offload": "cpu",
+      "generation_seed": 2025,
+      "stage_1_sigmas": [
+        1.0,
+        0.99375,
+        0.9875,
+        0.98125,
+        0.975,
+        0.909375,
+        0.725,
+        0.421875,
+        0.0
+      ],
+      "stage_2_sigmas": [
+        0.909375,
+        0.725,
+        0.421875,
+        0.0
+      ],
+      "enhance_prompt": false,
+      "image_strength": 1.0,
+      "image_crf": 0,
+      "temporal_policy": "pad_each_interval_to_8k_plus_1_then_trim_tail_at_original_fps",
+      "shared_boundary": "next_interval_first_frame",
+      "receiver_mode": "combined_context",
+      "decoder_selection": "preagreed_receiver_profile; historical packet decoder settings are not used",
+      "predictive_fallback": false,
+      "weights": {
+        "transformer": "diffusion_models/ltx-2.5-22b-distilled-transformer-bf16.safetensors",
+        "text_encoder": "text_encoders/gemma4-12b-with-proj-ltx-2.5-bf16.safetensors",
+        "video_vae": "vae/ltx-2.5-video-vae-bf16.safetensors",
+        "audio_vae": "vae/ltx-2.5-audio-vae-bf16.safetensors",
+        "spatial_upsampler": "latent_upscale_models/ltx-2.5-latent-spatial-upscaler-x2-bf16-1.0.safetensors"
+      }
+    },
+    "codec": {
+      "versions": {
+        "torch": "2.0.0+cu118",
+        "torchvision": "0.15.1+cu118",
+        "natten": "0.14.6+torch200cu118",
+        "compressai": "1.2.4",
+        "timm": "0.6.13"
+      },
+      "spec": {
+        "name": "NTSCC+",
+        "checkpoint": "ckbd2_lmbd_0.18",
+        "eta": 0.2,
+        "rate_index_encoding": "uint8",
+        "checkerboard_order": "anchor_then_non_anchor",
+        "padding": "center_zero_height128_width64",
+        "real_value_padding": "one_zero_if_odd",
+        "rate_one_mask": "zero_as_released",
+        "upstream_revision": "765c6f6c11cf3bbe249a26b624dbaf47a4f0676d"
+      },
+      "checkpoint_sha256": "85181c01a7faab33f4c08fb6a0946032ad68bf581c8fe954f4484914dd2e36e8"
+    }
+  },
+  "videos": 14,
+  "frames": 3333,
+  "aggregation": "quality and temporal: equal-weight video mean; cost: cohort sum",
+  "arms": {
+    "LGVSC/NTSCC": {
+      "total_channel_uses": 1407617,
+      "delivered_mp4_video_mean": {
+        "psnr_db": 17.375533869749923,
+        "ssim": 0.6119546422588745,
+        "lpips_vgg": 0.3765435674055689,
+        "clip": 0.9588074938072445,
+        "dists": 0.15337547464514842
+      }
+    },
+    "BSU/Open-Sora/NTSCC": {
+      "total_channel_uses": 4392383,
+      "delivered_mp4_video_mean": {
+        "psnr_db": 20.476578513141042,
+        "ssim": 0.7046635190542156,
+        "lpips_vgg": 0.3028025325848068,
+        "clip": 0.9618007514078614,
+        "dists": 0.13746968098384554
+      }
+    },
+    "BSU/LTX/NTSCC": {
+      "total_channel_uses": 4392383,
+      "delivered_mp4_video_mean": {
+        "psnr_db": 21.702790945939746,
+        "ssim": 0.7309678032012802,
+        "lpips_vgg": 0.2726283218458015,
+        "clip": 0.9723999064373218,
+        "dists": 0.11297251006786975
+      }
+    },
+    "BSU/LTX/NTSCC+": {
+      "total_channel_uses": 3943660,
+      "delivered_mp4_video_mean": {
+        "psnr_db": 21.696488360606484,
+        "ssim": 0.7302927627426051,
+        "lpips_vgg": 0.2788749071275647,
+        "clip": 0.9716196163799201,
+        "dists": 0.11450473442348875
+      }
+    }
+  },
+  "rates": {
+    "old": 4392383,
+    "new": 3943660,
+    "old_visual": 3860159,
+    "new_visual": 3199468,
+    "old_digital": 357120,
+    "new_digital": 569088,
+    "trajectory": 175104
+  },
+  "metrics": {
+    "lgvsc": {
+      "delivered_mp4_video_mean": {
+        "psnr_db": 17.375533869749923,
+        "ssim": 0.6119546422588745,
+        "lpips_vgg": 0.3765435674055689,
+        "clip": 0.9588074938072445,
+        "dists": 0.15337547464514842
+      },
+      "temporal_video_mean": {}
+    },
+    "opensora": {
+      "delivered_mp4_video_mean": {
+        "psnr_db": 20.476578513141042,
+        "ssim": 0.7046635190542155,
+        "lpips_vgg": 0.3028025325848068,
+        "clip": 0.9618007514078613,
+        "dists": 0.13746968098384554
+      },
+      "temporal_video_mean": {
+        "flow_error_mean": 0.782086058270893,
+        "cadence_error_mean": 0.4607982001675141,
+        "motion_retention_ratio": 0.7726791075297764,
+        "false_freeze_rate": 0.3388383829156099
+      }
+    },
+    "ltx_ntscc": {
+      "delivered_mp4_video_mean": {
+        "psnr_db": 21.702790945939743,
+        "ssim": 0.7309678032012801,
+        "lpips_vgg": 0.2726283218458015,
+        "clip": 0.9723999064373219,
+        "dists": 0.11297251006786972
+      },
+      "temporal_video_mean": {
+        "flow_error_mean": 0.6071422977778664,
+        "cadence_error_mean": 0.3370694867375103,
+        "motion_retention_ratio": 0.7811542664255414,
+        "false_freeze_rate": 0.21218774911060295
+      }
+    },
+    "ltx_plus": {
+      "delivered_mp4_video_mean": {
+        "psnr_db": 21.69648836060649,
+        "ssim": 0.730292762742605,
+        "lpips_vgg": 0.2788749071275647,
+        "clip": 0.9716196163799201,
+        "dists": 0.11450473442348875
+      },
+      "temporal_video_mean": {
+        "flow_error_mean": 0.6133629847955331,
+        "cadence_error_mean": 0.3392744166913418,
+        "motion_retention_ratio": 0.7726294291870934,
+        "false_freeze_rate": 0.22397340448721037
+      }
+    },
+    "ltx_ntscc_raw": {
+      "delivered_mp4_video_mean": {
+        "psnr_db": 20.7850614536597,
+        "ssim": 0.7083377003352525,
+        "lpips_vgg": 0.2803491580842211,
+        "clip": 0.9729562863017951,
+        "dists": 0.10858319555899587
+      },
+      "temporal_video_mean": {
+        "flow_error_mean": 0.6429541404233107,
+        "cadence_error_mean": 0.3739891258585312,
+        "motion_retention_ratio": 0.8934399059840611,
+        "false_freeze_rate": 0.19939768033907637
+      }
+    },
+    "ltx_plus_raw": {
+      "delivered_mp4_video_mean": {
+        "psnr_db": 20.820107863463058,
+        "ssim": 0.7085333962158921,
+        "lpips_vgg": 0.2871858091608919,
+        "clip": 0.9716710776950112,
+        "dists": 0.11042069720490358
+      },
+      "temporal_video_mean": {
+        "flow_error_mean": 0.6342124193684796,
+        "cadence_error_mean": 0.3686343408763051,
+        "motion_retention_ratio": 0.8685984036752156,
+        "false_freeze_rate": 0.20927349782128127
+      }
+    }
+  },
+  "vs_ltx_ntscc": {
+    "psnr_db": {
+      "delta": -0.006302585333251898,
+      "relative_percent": -0.0290404370062447,
+      "improved_videos": 7
+    },
+    "ssim": {
+      "delta": -0.000675040458675058,
+      "relative_percent": -0.09234886348190585,
+      "improved_videos": 5
+    },
+    "lpips_vgg": {
+      "delta": 0.006246585281763195,
+      "relative_percent": 2.2912459129232676,
+      "improved_videos": 2
+    },
+    "clip": {
+      "delta": -0.0007802900574017668,
+      "relative_percent": -0.08024374048539729,
+      "improved_videos": 5
+    },
+    "dists": {
+      "delta": 0.001532224355619033,
+      "relative_percent": 1.35628070465863,
+      "improved_videos": 5
+    }
+  },
+  "received_key_psnr_mean": {
+    "NTSCC": 35.32611317434731,
+    "NTSCC+": 34.88126195045843
+  },
+  "digital_components_bytes": {
+    "old": {
+      "caption_json_values": 30301,
+      "flow_json_values": 2169,
+      "normalization_json_values": 2351,
+      "keyframe_index_json_values": 341,
+      "rate_and_stream_descriptor_json_values": 2667,
+      "video_configuration_json": 672,
+      "decoder_configuration_json": 1288,
+      "other_header_json": 23300,
+      "rate_index_payload": 48600,
+      "framing_without_crc": 168,
+      "crc32": 56
+    },
+    "new": {
+      "caption_json_values": 30301,
+      "flow_json_values": 2169,
+      "normalization_json_values": 2343,
+      "keyframe_index_json_values": 341,
+      "rate_and_stream_descriptor_json_values": 2693,
+      "video_configuration_json": 672,
+      "decoder_configuration_json": 1288,
+      "other_header_json": 27948,
+      "rate_index_payload": 116640,
+      "framing_without_crc": 168,
+      "crc32": 56
+    }
+  },
+  "limitations": [
+    "Not rate-matched: fixed deployed codec operating points.",
+    "Endpoint-pair generation; newer bounded multikey default is not included.",
+    "14 development clips, one generation seed (2025), AWGN 10 dB.",
+    "Trajectory allocation fixed to baseline, not recomputed under new 5-percent cap.",
+    "Temporal metrics are motion proxies, not independent action or hallucination evaluation.",
+    "No new subjective visual review or model-weight rehash during this audit."
+  ],
+  "new_experiment_executed_for_document_update": false,
+  "research_candidates_validated_by_this_comparison": false,
+  "rate_saving_percent": 10.215935176873236,
+  "visual_saving_percent": 17.11564212769474,
+  "digital_cost_increase_percent": 59.354838709677416,
+  "visual_savings_consumed_by_digital_increase_percent": 32.082773944249276,
+  "rate_reduced_videos": 14,
+  "per_video": [
+    {
+      "id": "kinetics_001_a393e9d3",
+      "frames": 240,
+      "keys": 31,
+      "rates": {
+        "old": 1318616,
+        "new": 1256022,
+        "old_visual": 1184984,
+        "new_visual": 1074006,
+        "old_digital": 78336,
+        "new_digital": 126720,
+        "trajectory": 55296
+      },
+      "psnr_delta": -0.07047964151230701,
+      "lpips_delta": 0.0048340301339825364
+    },
+    {
+      "id": "kinetics_002_5e11db4c",
+      "frames": 240,
+      "keys": 5,
+      "rates": {
+        "old": 121867,
+        "new": 101350,
+        "old_visual": 103435,
+        "new_visual": 73702,
+        "old_digital": 13824,
+        "new_digital": 23040,
+        "trajectory": 4608
+      },
+      "psnr_delta": 0.4101683740155444,
+      "lpips_delta": -0.005695597113420547
+    },
+    {
+      "id": "kinetics_003_5d588509",
+      "frames": 240,
+      "keys": 3,
+      "rates": {
+        "old": 86334,
+        "new": 70460,
+        "old_visual": 74814,
+        "new_visual": 54332,
+        "old_digital": 9216,
+        "new_digital": 13824,
+        "trajectory": 2304
+      },
+      "psnr_delta": 0.12771395757325266,
+      "lpips_delta": 0.0052580293888847
+    },
+    {
+      "id": "kinetics_004_afa8dee0",
+      "frames": 240,
+      "keys": 16,
+      "rates": {
+        "old": 325846,
+        "new": 278628,
+        "old_visual": 270550,
+        "new_visual": 197988,
+        "old_digital": 41472,
+        "new_digital": 66816,
+        "trajectory": 13824
+      },
+      "psnr_delta": -0.364400775881478,
+      "lpips_delta": 0.017878179314235854
+    },
+    {
+      "id": "kinetics_005_11836d73",
+      "frames": 240,
+      "keys": 15,
+      "rates": {
+        "old": 459060,
+        "new": 391878,
+        "old_visual": 401460,
+        "new_visual": 311238,
+        "old_digital": 39168,
+        "new_digital": 62208,
+        "trajectory": 18432
+      },
+      "psnr_delta": -0.07660315856549715,
+      "lpips_delta": 0.010163203130165721
+    },
+    {
+      "id": "kinetics_006_ecbad330",
+      "frames": 240,
+      "keys": 7,
+      "rates": {
+        "old": 330089,
+        "new": 304638,
+        "old_visual": 297833,
+        "new_visual": 260862,
+        "old_digital": 18432,
+        "new_digital": 29952,
+        "trajectory": 13824
+      },
+      "psnr_delta": 0.5657571825864558,
+      "lpips_delta": 0.004034357642134001
+    },
+    {
+      "id": "kinetics_007_91361599",
+      "frames": 240,
+      "keys": 9,
+      "rates": {
+        "old": 190765,
+        "new": 155248,
+        "old_visual": 160813,
+        "new_visual": 111472,
+        "old_digital": 23040,
+        "new_digital": 36864,
+        "trajectory": 6912
+      },
+      "psnr_delta": 0.08963766482393609,
+      "lpips_delta": 0.006408139877021324
+    },
+    {
+      "id": "kinetics_008_278ecb48",
+      "frames": 240,
+      "keys": 4,
+      "rates": {
+        "old": 111297,
+        "new": 96598,
+        "old_visual": 95169,
+        "new_visual": 73558,
+        "old_digital": 11520,
+        "new_digital": 18432,
+        "trajectory": 4608
+      },
+      "psnr_delta": -0.8003085865040518,
+      "lpips_delta": 0.02691184735546509
+    },
+    {
+      "id": "kinetics_009_eb51ffae",
+      "frames": 240,
+      "keys": 3,
+      "rates": {
+        "old": 103123,
+        "new": 91166,
+        "old_visual": 89299,
+        "new_visual": 72734,
+        "old_digital": 9216,
+        "new_digital": 13824,
+        "trajectory": 4608
+      },
+      "psnr_delta": 0.11873041002807305,
+      "lpips_delta": 0.0003941952871779897
+    },
+    {
+      "id": "kinetics_010_2b3cec91",
+      "frames": 213,
+      "keys": 9,
+      "rates": {
+        "old": 327183,
+        "new": 288488,
+        "old_visual": 290319,
+        "new_visual": 237800,
+        "old_digital": 23040,
+        "new_digital": 36864,
+        "trajectory": 13824
+      },
+      "psnr_delta": -0.11625717286177562,
+      "lpips_delta": 0.008425606668275298
+    },
+    {
+      "id": "kinetics_011_e0339900",
+      "frames": 240,
+      "keys": 2,
+      "rates": {
+        "old": 35718,
+        "new": 31200,
+        "old_visual": 28806,
+        "new_visual": 21984,
+        "old_digital": 6912,
+        "new_digital": 9216,
+        "trajectory": 0
+      },
+      "psnr_delta": -0.0803256277809723,
+      "lpips_delta": 0.0031335371856888172
+    },
+    {
+      "id": "kinetics_012_ebbc951a",
+      "frames": 240,
+      "keys": 22,
+      "rates": {
+        "old": 761437,
+        "new": 692864,
+        "old_visual": 673885,
+        "new_visual": 570752,
+        "old_digital": 57600,
+        "new_digital": 92160,
+        "trajectory": 29952
+      },
+      "psnr_delta": 0.13026623197106346,
+      "lpips_delta": -0.0022906354318062427
+    },
+    {
+      "id": "kinetics_013_64921930",
+      "frames": 240,
+      "keys": 7,
+      "rates": {
+        "old": 176848,
+        "new": 148928,
+        "old_visual": 151504,
+        "new_visual": 112064,
+        "old_digital": 18432,
+        "new_digital": 29952,
+        "trajectory": 6912
+      },
+      "psnr_delta": 0.10818297469377924,
+      "lpips_delta": 0.0038057277289529623
+    },
+    {
+      "id": "kinetics_014_524c5c3f",
+      "frames": 240,
+      "keys": 2,
+      "rates": {
+        "old": 44200,
+        "new": 36192,
+        "old_visual": 37288,
+        "new_visual": 26976,
+        "old_digital": 6912,
+        "new_digital": 9216,
+        "trajectory": 0
+      },
+      "psnr_delta": -0.13031802725156894,
+      "lpips_delta": 0.004191572777926922
+    }
+  ]
+}
