@@ -1,0 +1,141 @@
+{
+  "date": "2026-10-19",
+  "recorded_at_utc": "2026-10-19T06:42:57.645016+00:00",
+  "status": "IMPLEMENTED_TESTED_AND_REMOTE_LTX_GENERATION_STARTED",
+  "remote_host": "sangukcom",
+  "ssh_alias": "semantic-pc",
+  "remote_workdir": "/home/sangukbae/ETRI/Semantic/semantic_transmission_bsu_metadata_e2e",
+  "output": "/home/sangukbae/ETRI/Semantic/semantic_transmission_bsu_metadata_e2e/outputs/bsu_metadata_e2e_20261019_v2",
+  "tmux_session": "bsu-metadata-e2e-v2-20261019",
+  "policy": "bsu_metadata_lossless_paired_e2e_v2",
+  "protocol_signature": "d3f5873bf142b1d9d5e50fb60ff6d78ccbb766e2bdb6610b2033bd19706aa7f6",
+  "scope": {
+    "source_videos": 14,
+    "variants": 28,
+    "source_frames": 3333,
+    "generated_frames": 6666,
+    "ltx_intervals": 242,
+    "quality_evaluations": 56
+  },
+  "comparison": {
+    "primary": "Fresh uncompressed control versus fresh compressed variant",
+    "historical": "Diagnostic only; deterministic decoder settings differ from historical settings",
+    "wire_representation": "raw versus auto smallest actual wire bytes including raw fallback",
+    "sender_encoding_reused": true,
+    "metadata_channel_reexecuted": true,
+    "visual_awgn_reexecuted": true,
+    "visual_awgn_required_exact_to_history": true,
+    "neural_key_decode_reexecuted": true,
+    "compressed_keys_and_ltx_inputs_required_exact_to_fresh_control": true,
+    "ltx_generation_reexecuted": true,
+    "refinement_reexecuted": true,
+    "raw_and_refined_quality_reexecuted": true,
+    "source_reference": "Same frozen source video; only evaluation reads original pixels",
+    "conditioning": "Historical endpoint pair",
+    "receiver": "combined_context",
+    "default_adopted": false
+  },
+  "channel": {
+    "model": "AWGN",
+    "snr_db": 10,
+    "seed": 42,
+    "trajectory_seed": 43,
+    "ldpc_k": 6144,
+    "ldpc_n": 9216,
+    "bits_per_symbol": 4
+  },
+  "generation": {
+    "model": "LTX-2.5 22B Distilled",
+    "seed": 2025,
+    "steps": [
+      8,
+      3
+    ]
+  },
+  "decoder_numerics": {
+    "seed": 2025,
+    "deterministic_algorithms": true,
+    "cudnn_benchmark": false,
+    "cudnn_deterministic": true,
+    "matmul_tf32": false,
+    "cudnn_tf32": false,
+    "cublas_workspace_config": ":4096:8"
+  },
+  "tests": {
+    "local_passed": 41,
+    "remote_passed": 41,
+    "files": [
+      "tests/test_bsu_metadata_e2e.py",
+      "tests/test_bsu_metadata_compression.py",
+      "tests/test_ltx_receiver.py"
+    ]
+  },
+  "deployment": {
+    "status": "BYTE_IDENTICAL",
+    "added_files": {
+      "src/semantic_transmission/bsu_metadata_compression.py": "96a7f99917419b4ca9bdbac9529325c705bed527acc0c17cb0db3c9edad36437",
+      "src/semantic_transmission/bsu_metadata_e2e.py": "ea82a1308d970407e2c8b19eddb67295ebb00bb705852912076b72d4bfccac96",
+      "scripts/run_bsu_metadata_e2e.sh": "70a303204a067462abc0be17c97a686b6198feee00264b95054af202bc356180",
+      "tests/test_bsu_metadata_compression.py": "3dde7bb495835bf9882c51a5de042298a829a98298a561073007f388fdba83a5",
+      "tests/test_bsu_metadata_e2e.py": "a518119c9f0cdf98e98ee1724eb0fce6f59b87cfb827a484630e030a6e251315"
+    },
+    "baseline_code_files_verified": 520,
+    "isolated_copy_manifest": "/home/sangukbae/ETRI/Semantic/semantic_transmission_bsu_metadata_e2e/BASELINE_CODE_COPY.json",
+    "local_record": ".local/validation/bsu_metadata_e2e_20261019/deployment_v2.json"
+  },
+  "startup": {
+    "state": {
+      "status": "RUNNING",
+      "stage": "generate",
+      "completed": 0,
+      "total": 28,
+      "started_epoch": 1792392075.9565432,
+      "pid": 1143224,
+      "process_start_ticks": "103959342",
+      "video": "kinetics_001_a393e9d3__control"
+    },
+    "stages": {
+      "receive.json": "PASSED",
+      "generate.json": "RUNNING",
+      "prepare.json": "PASSED",
+      "conditions.json": "PASSED",
+      "channel.json": "PASSED"
+    },
+    "gpu_processes": "1143548, /home/sangukbae/ETRI/Semantic/semantic_transmission_bsu_metadata_e2e/.local/envs/bsu-ltx25/bin/python, 960 MiB\n",
+    "ltx_sampling_observed": true,
+    "observed_first_stage_progress": "7/8",
+    "local_evidence": ".local/validation/bsu_metadata_e2e_20261019/launch_v2.json"
+  },
+  "diagnosis": {
+    "initial_run": "/home/sangukbae/ETRI/Semantic/semantic_transmission_bsu_metadata_e2e/outputs/bsu_metadata_e2e_20261019",
+    "initial_state": {
+      "status": "FAILED",
+      "stage": "conditions",
+      "completed": 0,
+      "total": 14,
+      "started_epoch": 1792391495.7205164,
+      "pid": 1128473,
+      "process_start_ticks": "103901319",
+      "video": "kinetics_001_a393e9d3",
+      "error": "ValueError: neural key decode changed: 36",
+      "ended_epoch": 1792391504.6110744
+    },
+    "initial_received_packet_and_visual_symbols_byte_exact": true,
+    "original_command_repeat": "/home/sangukbae/ETRI/Semantic/semantic_transmission_bsu_metadata_e2e/outputs/bsu_metadata_decode_control_20261019/COMPARISON.json",
+    "original_numerics_repeat_difference": "A few RGB values differed by one despite byte-identical decoder input",
+    "deterministic_independent_runs": {
+      "keys": 31,
+      "different": []
+    },
+    "deterministic_comparison": "/home/sangukbae/ETRI/Semantic/semantic_transmission_bsu_metadata_e2e/outputs/bsu_metadata_deterministic_decode_2_20261019/COMPARISON.json",
+    "historical_vs_deterministic_note": "All 31 first-video keys changed by at most one RGB level with the new numeric settings; historical comparisons are not the primary compression comparison",
+    "failure_outputs_preserved": true
+  },
+  "progress_command": "cd /home/sangukbae/ETRI/Semantic/semantic_transmission_bsu_metadata_e2e && bash scripts/run_bsu_metadata_e2e.sh watch",
+  "resume_command": "cd /home/sangukbae/ETRI/Semantic/semantic_transmission_bsu_metadata_e2e && bash scripts/run_bsu_metadata_e2e.sh run",
+  "completion_status": "COMPLETE_BSU_METADATA_E2E_QUALITY",
+  "quality_results_complete": false,
+  "independent_semantic_review": "PENDING",
+  "estimated_completion": "unknown",
+  "prior_packet_only_validation": "docs/validation/2026-10-19-bsu-metadata-compression.json"
+}
