@@ -1,0 +1,119 @@
+{
+  "status": "COMPLETE_MULTIKEY_DEFAULT_INTEGRATION",
+  "date": "2026-10-19",
+  "profile": {
+    "name": "BSU-Gen",
+    "policy": "bsu_gen_ltx_multikey_ntscc_plus_v4",
+    "created_on": "2026-10-18",
+    "route": "generative_only",
+    "selector": "Qwen3.5-9B semantic-change selection",
+    "candidate_stride": 4,
+    "caption": "Qwen3.5-9B with pinned rank-32 caption LoRA",
+    "visual_codec": "NTSCC+",
+    "generator": "Lightricks/LTX-2.5 / 22B Distilled",
+    "receiver_mode": "combined_context",
+    "width": 576,
+    "height": 320,
+    "fps": 24,
+    "snr_db": 10,
+    "channel_seed": 42,
+    "generation_seed": 2025,
+    "steps": 11,
+    "extra_rate_ratio": 0.05,
+    "predictive_fallback": false,
+    "adaptive_route_selection": false,
+    "generator_backend": "ltx25",
+    "generation_conditioning": "bounded_multikey_v1",
+    "sampling_steps": [
+      8,
+      3
+    ]
+  },
+  "conditioning": {
+    "mode": "bounded_multikey_v1",
+    "context_intervals": 2,
+    "context_max_seconds": 4.0,
+    "scene_cut_mad": 45.0,
+    "scene_cut_histogram": 0.55
+  },
+  "implemented": true,
+  "enabled_by_default": true,
+  "adopted_variant": "context",
+  "other_experimental_variants_enabled": false,
+  "training_executed": false,
+  "neural_inference_executed_for_this_integration": false,
+  "generalization_proven": false,
+  "tests": {
+    "passed": 130,
+    "seconds": 14.44,
+    "command": "PYTHONPATH=src /home/sangukbae/anaconda3/envs/lgvsc/bin/python -m pytest -q tests/test_ltx_improvements.py tests/test_ltx_receiver.py tests/test_bsu_ltx_pipeline.py tests/test_bsu_ltx_comparison.py tests/test_bsu_ltx_plus.py tests/test_bsu_gen.py tests/test_bsu_receiver.py tests/test_ntscc_plus_codec.py tests/test_qwen35_pairs_video.py tests/test_bsu_webvid.py tests/test_bsu_event_validation.py",
+    "coverage": [
+      "legacy pair generation",
+      "multikey grouping",
+      "received-only inputs",
+      "scene-cut pair fallback",
+      "4-second inclusive-frame boundary",
+      "all key timestamps",
+      "multigroup failure/resume and frame publication",
+      "packet policy downgrade rejection",
+      "received key tampering",
+      "no metadata byte increase"
+    ]
+  },
+  "conditions": {
+    "full_received_replays": 14,
+    "completed_neural_pilot_prefixes": 2,
+    "seed": 2025,
+    "source_images_read_by_conditioning": false,
+    "model_conditions_identical": true,
+    "general_and_ltx_python_requests_identical": 16,
+    "pilot_implementation_unchanged": true,
+    "comparison": "image bytes, timestamps, strength, CRF, prompt, seed, frame count, padding and base generator profile",
+    "offload": "existing default CPU unchanged; historical pilot used disk; no new speed or bit-identical output claim"
+  },
+  "quality_basis": {
+    "independent_videos": 2,
+    "seeds": [
+      2025,
+      42
+    ],
+    "paired_observations": 4,
+    "psnr_and_lpips_improved_pairs": 4,
+    "mean_psnr_delta_db": 0.4311559275554444,
+    "scope": "known development prefixes: football/NTSCC+ 37 frames, golf/NTSCC 25 frames; AWGN 10 dB",
+    "limitations": [
+      "no unseen-video generalization",
+      "no long-video neural validation",
+      "no multi-SNR study",
+      "no independent semantic accuracy ground truth",
+      "temporal proxies did not improve in every pair"
+    ]
+  },
+  "previous_protocol": "bsu_gen_ltx_ntscc_plus_v3",
+  "previous_code_snapshot_files": 82,
+  "current_code_snapshot_files": 84,
+  "old_outputs_preserved": true,
+  "same_command_new_output_required": true,
+  "evidence_sha256": {
+    "outputs/bsu_ltx_multikey_default_20261019/condition_equivalence.json": "a4963a5be4a84b56c053e31cd8ed8ed4d32cc98f32a6bc3cdd70c446eb08e68a",
+    "outputs/bsu_ltx_multikey_default_20261019/check_conditions.py": "92b9b0788d03a40fee33888c056bff270517638ac070f1c5ff8316c5e371d7fb",
+    "outputs/bsu_ltx_multikey_default_20261019/tests.log": "3c9a8894b821288e75e3f8e10195403c109c020adee6e0b9b4667000f112e8b9",
+    "outputs/bsu_ltx_multikey_default_20261019/preflight.log": "ac491daf34b4c1be39cc27cb2d8a1f8f3cb7dfd2198d58c2e94b49f4e7232c12",
+    "outputs/bsu_ltx_multikey_default_20261019/ltx_runtime_requests.log": "768501254fc52f3a4cd4542bc5a0a7765edcaaa2190308b7e9bf1f686cf9457e",
+    "outputs/bsu_ltx_multikey_default_20261019/codec_runtime_profile.log": "94b0f41682a3906b929c367e95fe1b1476b0f60283849a573d99093e5066c03a",
+    "outputs/bsu_ltx_multikey_default_20261019/runtime_wiring.json": "9335d2862c532bb4e27146ba2c3daa860cba1cd927f760e74735e3d584bae731",
+    "outputs/bsu_ltx_multikey_default_20261019/before/MANIFEST.json": "74f6bc98d254c642cdee5183d1148c1b3ac1f97c55fc89628b01ff0660a32a2b",
+    "outputs/bsu_ltx_multikey_default_20261019/after/MANIFEST.json": "1422c7f8ec6786ff9298fa4e8c784ff338c5d1ed1c25c13f037530a789af3cf9",
+    "outputs/bsu_ltx_improvements_20261019/pilot/RESULT.json": "d75fa05c10d74f2a4a25681c50bb7b65b37244b1e6af5612b7f849e3578abde0",
+    "outputs/bsu_ltx_improvements_20261019/pilot/ANALYSIS.json": "723266775c9e3b55dc350b6d5befbb7df78c7ba30b4e8a57c984259d83575662",
+    "outputs/bsu_ltx_improvements_20261019/pilot/artifact_audit.json": "2b711186992625236d15cf57521963986c680974b859a8c0f5919bedd30cd058",
+    "outputs/bsu_ltx_improvements_20261019/pilot/code_snapshot/MANIFEST.json": "201d77078f0e70c0aa1f95830b96b1a36c4f919a0727815d6f9c87fbf91d7fce"
+  },
+  "independent_semantic_review": "PENDING",
+  "public_document_checks": {
+    "status": "PASSED",
+    "markdown_files": 8,
+    "local_links": 587,
+    "git_diff_check": "PASSED"
+  }
+}

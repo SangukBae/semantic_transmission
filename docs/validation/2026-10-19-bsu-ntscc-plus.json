@@ -1,0 +1,159 @@
+{
+  "status": "PASSED_KEY_CODEC_INTEGRATION",
+  "date": "2026-10-19",
+  "default_policy": "bsu_gen_ntscc_plus_v2",
+  "profile": "configs/bsu_gen.json",
+  "codec": {
+    "name": "NTSCC+",
+    "checkpoint": "ckbd2_lmbd_0.18",
+    "eta": 0.2,
+    "rate_index_encoding": "uint8",
+    "checkerboard_order": "anchor_then_non_anchor",
+    "padding": "center_zero_height128_width64",
+    "real_value_padding": "one_zero_if_odd",
+    "rate_one_mask": "zero_as_released",
+    "upstream_revision": "765c6f6c11cf3bbe249a26b624dbaf47a4f0676d"
+  },
+  "checkpoint_sha256": "85181c01a7faab33f4c08fb6a0946032ad68bf581c8fe954f4484914dd2e36e8",
+  "upstream": "https://github.com/wsxtyrdd/NTSCC_plus",
+  "official_weights_folder": "https://drive.google.com/drive/folders/1t3A_sBHCaf24L8pJZehdtmAHjEEGvPq1",
+  "validation_output": "outputs/bsu_ntscc_plus_20261019_v2",
+  "result_sha256": "d07d2fe596b82cbbb4f455e756abcd21bb7f3b9a1a51d517255e29642699e3f7",
+  "source_prepared_sha256": "83ec609c7b35ce34103cd267d5613c00e6463e77105592ae429fc7e300f47210",
+  "source_key_hashes": {
+    "0": "0fdfd6603fb52e6c3ba0ba552cf47f6d0383b4ec0bd180fe3b16b9472900c703",
+    "120": "83b077848a6497354d10192c2b1fff027419532e0cbfe5b8328bc6237c4d9080",
+    "239": "b99d7c983f82493c10b4c69b900bbb48d874cb1640564947e6e126a9733828f5"
+  },
+  "official_reference": {
+    "status": "PASSED",
+    "frames": [
+      {
+        "index": 0,
+        "max_abs_error": 1.1920928955078125e-07,
+        "complex_uses": 35310,
+        "psnr_db": 34.988487243652344
+      },
+      {
+        "index": 120,
+        "max_abs_error": 1.7881393432617188e-07,
+        "complex_uses": 40894,
+        "psnr_db": 35.325984954833984
+      },
+      {
+        "index": 239,
+        "max_abs_error": 1.7881393432617188e-07,
+        "complex_uses": 26578,
+        "psnr_db": 35.440670013427734
+      }
+    ],
+    "peak_cuda_allocated_mib": 662.4326171875
+  },
+  "conditions": {
+    "snr_db": 10,
+    "channel_seed": 42,
+    "encoder_seed": 2025,
+    "width": 576,
+    "height": 320,
+    "key_indices": [
+      0,
+      120,
+      239
+    ],
+    "receiver_input": "received metadata.bin and visual.c64 only; empty local CLI config"
+  },
+  "results": [
+    {
+      "codec": "NTSCC+",
+      "key_psnr_db": [
+        {
+          "index": 0,
+          "psnr_db": 32.53084949333507
+        },
+        {
+          "index": 120,
+          "psnr_db": 32.0080292219465
+        },
+        {
+          "index": 239,
+          "psnr_db": 32.77981054418183
+        }
+      ],
+      "mean_key_psnr_db": 32.4395630864878,
+      "visual_complex_channel_uses": 102766,
+      "digital_complex_channel_uses": 13824,
+      "total_complex_channel_uses": 116590,
+      "metadata_exact_match": true,
+      "metadata_bit_errors": 0,
+      "sender_resources": {
+        "elapsed_seconds": 1.512683692999417,
+        "peak_cuda_allocated_mib": 630.99853515625,
+        "gpu": "NVIDIA GeForce RTX 4080",
+        "torch": "2.0.0+cu118"
+      },
+      "receiver_resources": {
+        "elapsed_seconds": 1.7953883669979405,
+        "peak_cuda_allocated_mib": 617.5400390625,
+        "gpu": "NVIDIA GeForce RTX 4080",
+        "torch": "2.0.0+cu118"
+      }
+    },
+    {
+      "codec": "NTSCC",
+      "key_psnr_db": [
+        {
+          "index": 0,
+          "psnr_db": 32.81095848592723
+        },
+        {
+          "index": 120,
+          "psnr_db": 32.21506006652278
+        },
+        {
+          "index": 239,
+          "psnr_db": 33.87757323826093
+        }
+      ],
+      "mean_key_psnr_db": 32.96786393023698,
+      "visual_complex_channel_uses": 112283,
+      "digital_complex_channel_uses": 6912,
+      "total_complex_channel_uses": 119195,
+      "metadata_exact_match": true,
+      "metadata_bit_errors": 0,
+      "sender_resources": {
+        "elapsed_seconds": 3.063527933001751,
+        "peak_cuda_allocated_mib": 780.47998046875,
+        "gpu": "NVIDIA GeForce RTX 4080",
+        "torch": "2.2.2+cu121"
+      },
+      "receiver_resources": {
+        "elapsed_seconds": 2.2679368300014175,
+        "peak_cuda_allocated_mib": 772.08447265625,
+        "gpu": "NVIDIA GeForce RTX 4080",
+        "torch": "2.2.2+cu121"
+      }
+    }
+  ],
+  "tests": {
+    "passed": 100,
+    "files": [
+      "test_ntscc_plus_codec.py",
+      "test_wire.py",
+      "test_bsu_gen.py",
+      "test_qwen35_pairs_video.py",
+      "test_qwen35_pairs_comparison.py",
+      "test_bsu_webvid.py",
+      "test_bsu_receiver.py",
+      "test_bsu_event_validation.py",
+      "test_qwen35_event_selection.py"
+    ]
+  },
+  "preflight": "READY_FILES_VERIFIED",
+  "full_bsu_video_generation_tested": false,
+  "equal_rate_comparison": false,
+  "limitations": [
+    "three fixed keys from one video, no Qwen selection/caption or generator inference",
+    "different checkpoints/rates; key PSNR is not a rate-matched superiority claim",
+    "times include loading weights; VRAM is PyTorch allocated peak, not total device use"
+  ]
+}

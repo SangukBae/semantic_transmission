@@ -1,0 +1,51 @@
+{
+  "date": "2026-10-19",
+  "policy": "bsu_gen_ltx_ntscc_plus_v3",
+  "status": "DEFAULT_LTX_ROUTING_IMPLEMENTED_MODEL_DOUBLE_VALIDATED",
+  "route": [
+    "Qwen3.5 semantic selection and captions",
+    "NTSCC+ actual channel transport",
+    "LTX-2.5 22B Distilled",
+    "combined_context refinement"
+  ],
+  "sampling_steps": [
+    8,
+    3
+  ],
+  "channel": {
+    "snr_db": 10,
+    "seed": 42
+  },
+  "generation_seed": 2025,
+  "validation": {
+    "test_modules": [
+      "test_bsu_ltx_pipeline",
+      "test_bsu_gen",
+      "test_qwen35_pairs_video",
+      "test_qwen35_pairs_comparison",
+      "test_bsu_webvid",
+      "test_ltx_receiver",
+      "test_bsu_ltx_plus",
+      "test_ntscc_plus_codec"
+    ],
+    "passed": 97,
+    "scope": [
+      "backend dispatch and isolated interpreters",
+      "received packet profile and input hash enforcement",
+      "real PNG publication and FFmpeg timeline audit with generator double",
+      "outer-stage interruption preserves completed LTX intervals",
+      "completed artifact corruption rejection",
+      "legacy generator branch regression tests"
+    ]
+  },
+  "local_preflight": "LTX interpreter missing; .local/envs/bsu-ltx25/bin/python",
+  "local_gpu_generation_executed": false,
+  "local_ltx_weights_installed": false,
+  "remote_running_experiment_modified": false,
+  "performance_improvement_claimed": false,
+  "limitations": [
+    "Model double is not real neural inference evidence",
+    "No new complete-video quality metrics in this change",
+    "Remote comparison uses a separate frozen worktree and is not polled here"
+  ]
+}

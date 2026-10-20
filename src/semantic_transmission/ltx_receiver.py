@@ -105,13 +105,16 @@ class Generator:
         from ltx_pipelines.utils.types import OffloadMode
         paths = assets['paths']
         self.torch = torch
+        offload = assets.get('execution_offload', profile()['offload'])
+        if offload not in ('cpu', 'disk'):
+            raise ValueError('registered LTX execution requires CPU or disk offloading')
         self.pipeline = DistilledPipeline(
             model_paths=ModelPaths.from_split(transformer_path=paths['transformer'],
                 text_encoder_path=paths['text_encoder'], video_vae_path=paths['video_vae'],
                 audio_vae_path=paths['audio_vae']),
             spatial_upsampler_path=paths['spatial_upsampler'], loras=[],
             quantization=QuantizationKind(profile()['quantization']).to_policy(paths['transformer']),
-            offload_mode=OffloadMode.CPU)
+            offload_mode=OffloadMode(offload))
 
     def __call__(self, window, value):
         from ltx_pipelines.utils.types import ImageConditioningInput
@@ -119,9 +122,9 @@ class Generator:
         # The upstream CLI enters inference_mode; direct pipeline calls do not.
         # Include lazy decoding so autograd cannot retain offloaded GPU weights.
         with self.torch.inference_mode():
-            output = self.pipeline(prompt=window['prompt'], seed=p['generation_seed'],
+            output = self.pipeline(prompt=window['prompt'], seed=window.get('seed', p['generation_seed']),
                 height=v['height'], width=v['width'], frame_rate=v['fps'],
-                images=[ImageConditioningInput(**item, strength=p['image_strength'], crf=p['image_crf'])
+                images=[ImageConditioningInput(**{'strength': p['image_strength'], 'crf': p['image_crf'], **item})
                         for item in window['images']], num_frames=window['generated_frames'],
                 enhance_prompt=False,
                 stage_1_sigmas=self.torch.tensor(p['stage_1_sigmas']),
@@ -181,6 +184,7 @@ def reconstruct(value, assets, output, factory=Generator):
         timeline = encode_frames(frames, output/'reconstruction.mp4', v['frames'], v['fps'])
         write_json(output/'generation.json', dict(status='COMPLETE_LTX_GENERATION',
             source_frames_read=False, timeline=timeline, profile=value['profile'],
+            execution_offload=assets.get('execution_offload', value['profile']['offload']),
             received_input_signature=value['signature'], video_sha256=sha256(output/'reconstruction.mp4')))
     products = ['frames', 'reconstruction.mp4', 'generation.json']
     stages.step('assemble', products, products, assemble)

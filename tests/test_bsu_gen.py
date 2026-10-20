@@ -19,6 +19,9 @@ def test_profile_status_and_help_need_no_models(tmp_path, monkeypatch, capsys):
     model.main(['profile'])
     p = json.loads(capsys.readouterr().out)
     assert p['name'] == 'BSU-Gen' and p['route'] == 'generative_only'
+    assert p['visual_codec'] == 'NTSCC+' and p['policy'] == 'bsu_gen_ltx_multikey_ntscc_plus_v4'
+    assert p['generation_conditioning'] == 'bounded_multikey_v1'
+    assert p['generator_backend'] == 'ltx25' and p['sampling_steps'] == [8, 3]
     assert not p['predictive_fallback'] and not p['adaptive_route_selection']
     model.main(['status', '--output', str(tmp_path / 'absent')])
     assert json.loads(capsys.readouterr().out)['status'] == 'NOT_STARTED'
@@ -26,7 +29,8 @@ def test_profile_status_and_help_need_no_models(tmp_path, monkeypatch, capsys):
 
 
 @pytest.mark.parametrize('field,value', [('predictive_fallback', True), ('candidate_stride', 2),
-    ('generator', 'LTX'), ('receiver_mode', 'none'), ('snr_db', 8)])
+    ('generator', 'LTX'), ('receiver_mode', 'none'), ('snr_db', 8),
+    ('generation_conditioning', 'endpoint_pair_v1')])
 def test_fixed_profile_rejects_undeclared_model_changes(tmp_path, monkeypatch, field, value):
     p = model.profile(); p[field] = value
     path = tmp_path / 'profile.json'; write_json(path, p)
@@ -201,6 +205,7 @@ def test_refinement_receives_no_source_paths(pipeline, monkeypatch):
 
 def test_model_entrypoints_are_independent():
     for script, name in [('run_bsu.sh', 'BSU-Gen'), ('run_bsu_gen.sh', 'BSU-Gen'),
-                         ('run_bsu_predict.sh', 'BSU-Predict')]:
+                         ('run_bsu_predict.sh', 'BSU-Predict-JSCC'),
+                         ('run_bsu_predict_dcvc.sh', 'BSU-Predict')]:
         value = json.loads(subprocess.check_output(['bash', str(model.REPO / 'scripts' / script), 'profile'], text=True))
         assert value['name'] == name

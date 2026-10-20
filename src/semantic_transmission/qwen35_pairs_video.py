@@ -63,6 +63,14 @@ def validate_source_window(source, duration_limit=None):
 
 def selection_settings(frames, selection_policy="semantic", budget=None, stride=4):
     semantic.candidates(frames, stride)
+    if selection_policy == 'events':
+        from .qwen35_event_selection import POLICY, PROMPT, DetectorConfig
+        from dataclasses import asdict
+        if budget is not None or stride != 4:
+            raise ValueError('event policy v1 requires stride 4 and no fixed key budget')
+        return dict(selection_policy='events', selector=POLICY, key_budget=None,
+                    key_budget_policy='qwen_event_states', max_gap=None, candidate_stride=stride,
+                    selection_prompt=PROMPT, selection_tokens=640, detector=asdict(DetectorConfig()))
     if selection_policy == "semantic":
         if budget is not None:
             raise ValueError("semantic selection has no key budget; use fixed_budget only for an explicit ablation")
@@ -96,6 +104,9 @@ def plan(prepared, root, budget=None, *, duration_limit=None, selection_policy="
     for module in (sd, ep, semantic):
         p = Path(module.__file__).resolve()
         code[str(p.relative_to(REPO))] = sha256(p)
+    if selection_policy == 'events':
+        relative = 'src/semantic_transmission/qwen35_event_selection.py'
+        code[relative] = sha256(REPO / relative)
     for relative in ("src/semantic_transmission/qwen35_feedback.py",
                      "src/semantic_transmission/qwen35_pairs_video.py",
                      "scripts/run_qwen35_pairs_video.sh"):
@@ -105,7 +116,9 @@ def plan(prepared, root, budget=None, *, duration_limit=None, selection_policy="
             raise ValueError(f"adopted implementation changed: {relative}")
     caption = template["caption"]
     pc.verify_adapter(caption["caption_adapter"])
-    value = dict(policy="qwen35_semantic_video_v2" if selection_policy == "semantic" else "qwen35_fixed_budget_ablation_v2", source=source,
+    policy = {'semantic':'qwen35_semantic_video_v2', 'events':'qwen35_event_video_v1',
+              'fixed_budget':'qwen35_fixed_budget_ablation_v2'}[selection_policy]
+    value = dict(policy=policy, source=source,
         source_metadata=str(prepared), source_metadata_sha256=sha256(prepared),
         caption=caption, **selection, observation_stride=4, observation_window=48, max_images=16,
         observation_prompt=sd.OBSERVE, observation_tokens=768,
@@ -167,6 +180,26 @@ def select_keys(root, p):
                                if k not in {"caption_adapter", "prompts"}},
                     signature=p["signature"], max_images=16)
     session = sd.Session(root, obs_plan)
+    if p.get('selection_policy') == 'events':
+        from . import qwen35_event_selection as events
+        scan_path = root / 'change_scan.json'
+        if scan_path.exists():
+            scan = ae.unseal(scan_path)
+            if scan['signature'] != p['signature']:
+                raise ValueError('detector cache belongs to a different selection plan')
+        else:
+            scan = events.detect([Path(source['source_frames'])/f'{i}.png' for i in range(source['frames'])],
+                                 events.DetectorConfig(**p['detector']))
+            freeze(scan_path, ae.seal(dict(scan, signature=p['signature'])))
+        session = events.make_session(root, obs_plan)
+        keys, decisions = events.select(source['frames'],session,scan,
+            progress=lambda n,t,s: progress('Qwen 사건 구간 판정',n,t,s))
+        calls = [{k:v for k,v in c.items() if k != 'reused'} for c in session.calls]
+        freeze(root/'ledger.json',ae.seal(dict(signature=p['signature'],decisions=decisions,calls=calls)))
+        freeze(root/'selection.json',ae.seal(dict(signature=p['signature'],keys=keys,selector=events.POLICY,
+            key_budget=None,max_gap=None,candidate_stride=4,endpoint_keys=[0,source['frames']-1],
+            decisions=decisions,calls=calls,detector_sha256=sha256(scan_path))))
+        return keys,session
     if p.get("selection_policy") == "semantic":
         keys, decisions = semantic.select(source["frames"], session,
             stride=p["candidate_stride"], prompt=p["selection_prompt"], tokens=p["selection_tokens"],
@@ -216,15 +249,21 @@ def select_only(root, p):
         print(json.dumps(result, ensure_ascii=False, indent=2), flush=True)
 
 
+def caption_backbone(session, config):
+    """Drop the selection-only crop wrapper before enabling caption task/LoRA roles."""
+    from .qwen35_backend import LocalQwen35
+    vlm = getattr(session.model, 'base', session.model) or LocalQwen35(config)
+    vlm.config = config
+    return vlm
+
+
 def extract(root):
     from PIL import Image
-    from .qwen35_backend import LocalQwen35
     p = load_plan(root)
     source = p["source"]
     keys, session = select_keys(root, p)
     protocol = make_protocol(root, p, keys)
-    vlm = session.model or LocalQwen35(p["caption"])
-    vlm.config = p["caption"]  # Same backbone; LoRA is enabled only for draft calls.
+    vlm = caption_backbone(session, p['caption'])
     rows, started = [], time.monotonic()
     for n, (a, b) in enumerate(zip(keys, keys[1:])):
         ids = pc.sample_indices(a, b)
@@ -323,6 +362,7 @@ def worker(root, stage):
         return extract(root)
     p = pc.load_protocol(root)
     run = root / f"reconstruction/{ARM}/run"
+    from . import bsu_ltx_pipeline as ltx
     if stage == "caption":
         pc.import_captions(root, ARM)
         path = run / "caption_provenance.json"
@@ -333,10 +373,14 @@ def worker(root, stage):
         pc.paired_channel(run)
     elif stage == "prepare-text":
         prepare_text(run)
+    elif stage == "prepare-generator":
+        if not ltx.enabled(p['receiver']):
+            raise ValueError('LTX preparation requested for another generator')
+        ltx.prepare(run)
     elif stage == "reconstruct":
-        pc.fc.reconstruct(run)
+        (ltx.reconstruct if ltx.enabled(p['receiver']) else pc.fc.reconstruct)(run)
     elif stage == "output-audit":
-        pc.fc.audit(run)
+        (ltx.audit if ltx.enabled(p['receiver']) else pc.fc.audit)(run)
         path = run / "output_audit.json"
         value = ae.read(path)
         value.update(selector=p["receiver"]["selector"], automatic_keyframe_insertion=False,
@@ -363,15 +407,17 @@ def execute(root, p):
         pc.validate_bundle(root, ARM, protocol)
         dest = root / f"reconstruction/{ARM}"
         cfg, keys = protocol["receiver"], protocol["keys"][ARM]
+        from . import bsu_ltx_pipeline as ltx
         freeze(dest / "execution_protocol.json", dict(signature=protocol["signature"], config=cfg,
-            condition_plan=pc.collision.preview(keys, pc.collision.upstream_functions(REPO))))
+            condition_plan=ltx.condition_plan(keys, cfg) if ltx.enabled(cfg) else
+                pc.collision.preview(keys, pc.collision.upstream_functions(REPO))))
         stages = pc.Stages(dest, protocol["signature"])
         stages.step("initialize", ["run"], pc.initialization_products(p["source"]["frames"]),
             lambda _: pc.initialize(dest, p["source"], dict(indices=keys, selector=cfg["selector"]), cfg))
-        jobs = list(pc.reconstruction_jobs())
+        jobs = list(ltx.jobs(cfg) if ltx.enabled(cfg) else pc.reconstruction_jobs())
         for n, (stage, module, products) in enumerate(jobs):
             print(f"수신·복원 단계: {n}/{len(jobs)} 완료 ({100*n/len(jobs):.1f}%, 단계 수 기준) | {stage}", flush=True)
-            python = protocol["interpreters"]["channel_python" if stage == "channel" else "python"]
+            python = stage_interpreter(protocol, stage)
             if module == pc.MODULE:
                 module = MODULE
                 args = ["--worker", stage, "--root", str(root)]
@@ -381,12 +427,25 @@ def execute(root, p):
                 args = [stage, str(dest / "run")]
             required = [*[f"run/{v}" for v in products], f"resources/{stage}.json"]
             worker_env = dict(env, ETRI_RUN_SIGNATURE=protocol["signature"])
+            if stage in ('send', 'receive') and cfg.get('visual_codec') == 'NTSCC+':
+                from .ntscc_plus_codec import runtime_environment
+                worker_env = runtime_environment(python, worker_env)
             if stage == "channel":
                 worker_env["CUDA_VISIBLE_DEVICES"] = "-1"
-            stages.step(stage, required, required,
+            owned = ltx.owned_products(stage, required) if ltx.enabled(cfg) else required
+            stages.step(stage, owned, required,
                 lambda log, cmd=[python, "-m", module, *args], e=worker_env, s=stage:
                     launch(cmd, log, e, dest / f"resources/{s}.json"))
         finalize(root, protocol, stages)
+
+
+def stage_interpreter(protocol, stage):
+    interpreters = protocol['interpreters']
+    if stage == 'reconstruct' and protocol['receiver'].get('generator_backend') == 'ltx25':
+        return interpreters['ltx_python']
+    if stage in ('send', 'receive') and protocol['receiver'].get('visual_codec') == 'NTSCC+':
+        return interpreters['codec_python']
+    return interpreters['channel_python' if stage == 'channel' else 'python']
 
 
 def finalize(root, p, stages):
@@ -414,6 +473,11 @@ def finalize(root, p, stages):
         independent_semantic_review="PENDING", signature=p["signature"],
         source_window=p["source"]["recipe"],
         stage_seconds={name: value["seconds"] for name, value in stages.completed.items()})
+    if p['receiver'].get('generator_backend') == 'ltx25':
+        from .bsu_ltx_pipeline import conditioning
+        result.update(generator_backend='ltx25', sampling_steps=p['receiver']['sampling_steps'],
+                      generation_conditioning=conditioning(p['receiver'])['mode'],
+                      visual_codec=p['receiver']['visual_codec'])
     write_json(root / "RESULT.json", result)
     print("전체 작업 100% 완료", flush=True)
     print(json.dumps(result, ensure_ascii=False, indent=2), flush=True)
@@ -426,12 +490,12 @@ def main():
     parser.add_argument("--template", type=Path, default=TEMPLATE,
                         help="receiver/caption template for this deployment; frozen in the new plan")
     parser.add_argument("--key-budget", type=int)
-    parser.add_argument("--selection-policy", choices=("semantic", "fixed_budget"), default="semantic")
+    parser.add_argument("--selection-policy", choices=("semantic", "events", "fixed_budget"), default="semantic")
     parser.add_argument("--candidate-stride", type=int, default=4)
     parser.add_argument("--duration-limit", type=float)
     parser.add_argument("--select-only", action="store_true")
     parser.add_argument("--check", action="store_true")
-    parser.add_argument("--worker", choices=("extract", "caption", "channel", "prepare-text", "reconstruct", "output-audit"))
+    parser.add_argument("--worker", choices=("extract", "caption", "channel", "prepare-text", "prepare-generator", "reconstruct", "output-audit"))
     args = parser.parse_args()
     signal.signal(signal.SIGTERM, lambda *_: (_ for _ in ()).throw(KeyboardInterrupt("SIGTERM")))
     root = args.root.resolve()

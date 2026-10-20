@@ -18,7 +18,12 @@ from .transmission_accounting import packet_breakdown, channel_breakdown
 from .validation_progress import emit as validation_progress
 
 
-def load_codec(repo):
+def load_codec(repo, codec='NTSCC'):
+    if codec == 'NTSCC+':
+        from .ntscc_plus_codec import load_codec as load_plus
+        return load_plus(repo)
+    if codec != 'NTSCC':
+        raise ValueError(f'unknown visual codec: {codec}')
     import logging
     import torch
     sys.path.insert(0, str(repo / ".local/vendor/NTSCC_JSAC22"))
@@ -40,6 +45,9 @@ def load_codec(repo):
 
 
 def encode_symbols(model, tensor):
+    if getattr(model, 'transport_codec', None) == 'NTSCC+':
+        from .ntscc_plus_codec import encode_symbols as encode_plus
+        return encode_plus(model, tensor)
     import torch
     model.update_resolution(*tensor.shape[-2:])
     result = model.forward_NTC(tensor, require_probs=True)
@@ -58,6 +66,9 @@ def encode_symbols(model, tensor):
 
 
 def decode_symbols(model, complex_values, indices, power, height, width):
+    if getattr(model, 'transport_codec', None) == 'NTSCC+':
+        from .ntscc_plus_codec import decode_symbols as decode_plus
+        return decode_plus(model, complex_values, indices, power, height, width)
     import torch
     model.update_resolution(height, width)
     h, w = height // 16, width // 16
@@ -81,7 +92,9 @@ def send(cfg, repo, run):
     from torchvision.transforms.functional import pil_to_tensor
     from .workers import source_images
     torch.manual_seed(cfg["seed"])
-    model, checkpoint = load_codec(repo)
+    codec = cfg.get('visual_codec', 'NTSCC')
+    model, checkpoint = load_codec(repo, codec)
+    pack_rates = pack_indices
     indices = json.loads((run / "keyframes.json").read_text())["indices"]
     segments = json.loads((run / "metadata_tx.json").read_text())
     if len(segments) != len(indices) - 1 or indices[0] != 0 or indices[-1] != cfg["frames"] - 1:
@@ -90,7 +103,13 @@ def send(cfg, repo, run):
               "decoder": {k: cfg[k] for k in ("seed", "steps")},
               "checkpoint_sha256": sha256(checkpoint), "segments": segments,
               "complex_dtype": "little_endian_complex64", "keyframes": []}
+    if codec == 'NTSCC+':
+        from .ntscc_plus_codec import SCHEMA, SPEC, pack_rates
+        header.update(schema=SCHEMA, visual_codec=dict(SPEC))
     header["decoder"]["policy"] = cfg.get("decoder_policy", "endpoint_exact")
+    if cfg.get('generator_backend') == 'ltx25':
+        from .bsu_ltx_pipeline import decoder_fields
+        header['decoder'].update(decoder_fields(cfg))
     if "concatenation_policy" in cfg:
         header["decoder"]["concatenation_policy"] = resolve_concatenation_policy(
             header["decoder"]["policy"], cfg["concatenation_policy"])
@@ -102,7 +121,7 @@ def send(cfg, repo, run):
         for index, image in zip(indices, source_images(run, indices)):
             tensor = pil_to_tensor(image).float().unsqueeze(0).cuda() / 255
             values, rates, power = encode_symbols(model, tensor)
-            raw_rates = pack_indices(rates.cpu().tolist())
+            raw_rates = pack_rates(rates.cpu().tolist())
             header["keyframes"].append({"index": index, "complex_offset": offset,
                 "complex_count": values.numel(), "average_power": power,
                 "rate_offset": len(payload), "rate_bytes": len(raw_rates), "rate_count": rates.numel()})
@@ -200,9 +219,10 @@ def receive(cfg, repo, run):
     # No source frames, captions.json, keyframes.json or encoder tensors are read here.
     header, payload = unpack((run / "received/metadata.bin").read_bytes())
     values = np.fromfile(run / "received/visual.c64", dtype="<c8")
-    if header["schema"] != "lgvsc_model_inputs_v1" or not np.isfinite(values).all():
+    codec, unpack_rates = received_codec(header)
+    if not np.isfinite(values).all():
         raise ValueError("invalid receiver input")
-    model, checkpoint = load_codec(repo)
+    model, checkpoint = load_codec(repo, codec)
     if sha256(checkpoint) != header["checkpoint_sha256"]:
         raise ValueError("receiver checkpoint does not match negotiated codec")
     output = run / "receiver"
@@ -214,7 +234,7 @@ def receive(cfg, repo, run):
             if item["complex_offset"] != offset or item["rate_offset"] != rate_offset:
                 raise ValueError("noncontiguous receiver payload")
             count = item["complex_count"]
-            rates = unpack_indices(payload[rate_offset:rate_offset + item["rate_bytes"]], item["rate_count"])
+            rates = unpack_rates(payload[rate_offset:rate_offset + item["rate_bytes"]], item["rate_count"])
             restored = decode_symbols(model, torch.from_numpy(values[offset:offset + count].copy()).cuda(),
                                       torch.tensor(rates, device="cuda"), item["average_power"],
                                       header["video"]["height"], header["video"]["width"])
@@ -227,10 +247,21 @@ def receive(cfg, repo, run):
     write_json(output / "decoder_inputs.json", {"video": header["video"], "decoder": header["decoder"],
                                                "indices": [k["index"] for k in header["keyframes"]]})
     write_json(run / "receiver_accounting.json", {"status": "PASSED", "source_pixels_read": False,
+        "visual_codec": codec, "checkpoint_sha256": sha256(checkpoint),
         "received_keyframes": len(header["keyframes"]),
         "keyframe_png_bytes": sum(p.stat().st_size for p in frames.glob("*.png")),
         "caption_flow_csv_bytes": (output / "metadata.csv").stat().st_size,
         "note": "decoded conditioning files are receiver products, not transmitter traffic"})
+
+
+def received_codec(header):
+    """Dispatch exclusively from the received, integrity-checked packet."""
+    from .ntscc_plus_codec import SCHEMA, SPEC, unpack_rates
+    if header.get('schema') == SCHEMA and header.get('visual_codec') == SPEC:
+        return 'NTSCC+', unpack_rates
+    if header.get('schema') == 'lgvsc_model_inputs_v1' and 'visual_codec' not in header:
+        return 'NTSCC', unpack_indices
+    raise ValueError('unknown or inconsistent received visual codec protocol')
 
 
 def decoder_config_text(cfg, repo, inputs):

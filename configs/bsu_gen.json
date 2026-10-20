@@ -1,13 +1,13 @@
 {
   "name": "BSU-Gen",
-  "policy": "bsu_gen_v1",
+  "policy": "bsu_gen_ltx_multikey_ntscc_plus_v4",
   "created_on": "2026-10-18",
   "route": "generative_only",
   "selector": "Qwen3.5-9B semantic-change selection",
   "candidate_stride": 4,
   "caption": "Qwen3.5-9B with pinned rank-32 caption LoRA",
-  "visual_codec": "NTSCC",
-  "generator": "Open-Sora v1.2 / STDiT3-XL/2",
+  "visual_codec": "NTSCC+",
+  "generator": "Lightricks/LTX-2.5 / 22B Distilled",
   "receiver_mode": "combined_context",
   "width": 576,
   "height": 320,
@@ -15,8 +15,14 @@
   "snr_db": 10,
   "channel_seed": 42,
   "generation_seed": 2025,
-  "steps": 30,
+  "steps": 11,
   "extra_rate_ratio": 0.05,
   "predictive_fallback": false,
-  "adaptive_route_selection": false
+  "adaptive_route_selection": false,
+  "generator_backend": "ltx25",
+  "generation_conditioning": "bounded_multikey_v1",
+  "sampling_steps": [
+    8,
+    3
+  ]
 }

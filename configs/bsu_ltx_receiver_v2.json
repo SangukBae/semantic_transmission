@@ -1,0 +1,20 @@
+{
+  "policy": "bsu_ltx_received_only_v2",
+  "training": false,
+  "default_adopted": false,
+  "context_intervals": 2,
+  "context_max_seconds": 4.0,
+  "scene_cut_mad": 45.0,
+  "scene_cut_histogram": 0.55,
+  "guide_count_per_interval": 2,
+  "guide_min_spacing": 4,
+  "guide_min_coverage": 0.65,
+  "guide_min_confidence": 0.55,
+  "guide_max_strength": 0.35,
+  "guide_min_motion": 0.5,
+  "guide_agreement_scale": 18.0,
+  "postprocess_max_seconds": 0.25,
+  "postprocess_motion_tolerance": 0.1,
+  "postprocess_max_new_freeze_fraction": 0.02,
+  "postprocess_blends": [1.0, 0.5, 0.25, 0.0]
+}

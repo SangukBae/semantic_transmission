@@ -144,11 +144,14 @@ def verify_base(base, video, snr, plan):
     p = pc.load_protocol(base)
     r = read(base / "RESULT.json")
     template = read(plan["template"])
+    expected_selector = current.selection_settings(video['frames'],
+        plan.get('profile',{}).get('selection_policy','semantic'))['selector']
     if (not r["status"].startswith("COMPLETE_RECONSTRUCTION") or r["frames"]!=video["frames"]
             or p["source"]["source_sha256"]!=video["source_sha256"] or r["snr_db"]!=snr
-            or p["receiver"]["selector"]!=current.SELECTOR or p["caption"]!=template["caption"]):
+            or p["receiver"]["selector"]!=expected_selector or p["caption"]!=template["caption"]):
         raise ValueError("completed base run is not the requested full-source BSU condition")
-    for key in ("seed", "channel_seed", "steps", "models", "evaluation_profile", "concatenation_policy"):
+    for key in ("seed", "channel_seed", "steps", "models", "evaluation_profile", "concatenation_policy",
+                "generator_backend", "generator_runtime", "generation_conditioning", "visual_codec"):
         if p["receiver"].get(key) != template["receiver"].get(key):
             raise ValueError(f"base receiver differs from template: {key}")
     # Compare prepared bytes, not just the name of the underlying original.

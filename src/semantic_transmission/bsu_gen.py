@@ -1,4 +1,4 @@
-"""BSU-Gen: source video -> Qwen -> NTSCC/AWGN -> Open-Sora -> BSU refinement.
+"""BSU-Gen: source video -> Qwen -> NTSCC+/AWGN -> LTX-2.5 -> BSU refinement.
 
 No cost router, DCVC or RIFE is dispatched. This registers a new standalone
 protocol using the existing generative algorithms, without relabeling old runs.
@@ -19,35 +19,41 @@ from .webvid5 import fingerprint
 REPO = Path(__file__).resolve().parents[2]
 CONFIG = REPO / 'configs/bsu_gen.json'
 MODULE = 'semantic_transmission.bsu_gen'
-POLICY = 'bsu_gen_v1'
+POLICY = 'bsu_gen_ltx_multikey_ntscc_plus_v4'
 
 
 def read(path):
     return json.loads(Path(path).read_text())
 
 
-def profile():
+def profile(selection_policy='semantic'):
     value = read(CONFIG)
     expected = dict(name='BSU-Gen', policy=POLICY, route='generative_only',
-        candidate_stride=4, visual_codec='NTSCC', generator='Open-Sora v1.2 / STDiT3-XL/2',
+        candidate_stride=4, visual_codec='NTSCC+', generator='Lightricks/LTX-2.5 / 22B Distilled',
+        generator_backend='ltx25', generation_conditioning='bounded_multikey_v1', sampling_steps=[8, 3],
         receiver_mode='combined_context', width=576, height=320, fps=24,
-        snr_db=10, channel_seed=42, generation_seed=2025, steps=30,
+        snr_db=10, channel_seed=42, generation_seed=2025, steps=11,
         extra_rate_ratio=.05, predictive_fallback=False, adaptive_route_selection=False)
     if any(value.get(k) != v for k, v in expected.items()):
         raise ValueError('BSU-Gen fixed profile changed; register a new policy')
+    if selection_policy == 'events':
+        value.update(selection_policy='events', selector='Qwen3.5-9B all-frame event-window selection',
+                     selection_revision='qwen35_all_frame_events_v1')
+    elif selection_policy != 'semantic':
+        raise ValueError('unknown BSU-Gen selection policy')
     return value
 
 
 def code_identity():
     from . import tail_reference, precision_text_cache, bsu_webvid
-    names = ('bsu_gen', 'bsu_receiver', 'receiver_key_context', 'bsu_kinetics_base',
-        'qwen35_pairs_video', 'qwen35_pairs_comparison', 'qwen35_semantic_selection',
+    names = ('bsu_gen', 'bsu_ltx_pipeline', 'ltx_receiver', 'ltx_conditioning', 'bsu_receiver', 'receiver_key_context', 'bsu_kinetics_base',
+        'qwen35_pairs_video', 'qwen35_pairs_comparison', 'qwen35_semantic_selection', 'qwen35_event_selection',
         'qwen35_feedback', 'qwen35_state_delta', 'qwen35_event_pairs',
         'qwen35_feedback_eval', 'qwen35_backend', 'qwen35_caption_adapter',
         'auto_extraction', 'assisted_captions', 'fc_lgvsc_qwen35', 'hybrid_reconstruction',
         'condition_collision', 'short_schedule', 'decoder_memory', 'generation_noise',
         'trajectory_receiver', 'webvid_ablation', 'artifacts',
-        'codec_transport', 'workers', 'etri_60s', 'etri_60s_check', 'research_quality',
+        'codec_transport', 'ntscc_plus_codec', 'workers', 'etri_60s', 'etri_60s_check', 'research_quality',
         'semantic_clips', 'temporal', 'decoder_runner', 'video_io', 'webvid5')
     files = set(tail_reference.CODE) | set(precision_text_cache.CODE)
     files.update('src/semantic_transmission/' + n + '.py' for n in names)
@@ -55,8 +61,9 @@ def code_identity():
     files.update('scripts/' + n for n in ('run_bsu_gen.sh', 'qwen35_caption.py',
         'qwen35_advanced_caption.py', 'etri_schedule_fix_decoder.py',
         'etri_condition_fix_decoder.py', 'etri_precision_decoder.py'))
-    files.update(('configs/bsu_gen.json', 'configs/lgvsc_variable.json'))
-    for vendor in ('NTSCC_JSAC22',):
+    files.update(('configs/bsu_gen.json', 'configs/bsu_gen_ltx25.json',
+                  'configs/bsu_ltx_receiver_v2.json', 'configs/lgvsc_variable.json'))
+    for vendor in ('NTSCC_plus',):
         root = REPO / '.local/vendor' / vendor
         if not root.is_dir():
             raise FileNotFoundError(root)
@@ -70,23 +77,23 @@ def runtime_template(value):
     from .cli import settings
     from .qwen35_backend import MODEL_ID, REVISION, SNAPSHOT
     from .qwen35_caption_adapter import default_adapter
+    from . import ntscc_plus_codec, ltx_receiver
     local = settings(REPO)
     interpreters = dict(qwen=str(REPO / '.local/qwen35_env/bin/python'),
+                        codec_python=str(REPO / '.local/ntscc_plus_env/bin/python'),
+                        ltx_python=local.get('ltx_python', str(REPO / '.local/envs/bsu-ltx25/bin/python')),
                         **{k: local[k] for k in ('python', 'channel_python')})
     for path in interpreters.values():
         if not Path(path).is_file() or not os.access(path, os.X_OK):
-            raise FileNotFoundError(f'required interpreter: {path}')
-    models = read(REPO / '.local/model_paths.json')
-    installed = {}
-    for name in ('stdit', 'vae', 't5', 'vae2d'):
-        directory = Path(models[name])
-        files = [p for p in directory.rglob('*') if p.is_file()]
-        if not files or not any(p.suffix in ('.bin', '.safetensors', '.pt', '.pth') for p in files):
-            raise FileNotFoundError(f'model weights missing: {name}: {directory}')
-        # Existing generation workers validate these files against this frozen
-        # installation identity. This stat inventory is not a weight-hash audit.
-        installed.update({str(p): dict(size=p.stat().st_size, mtime_ns=p.stat().st_mtime_ns)
-                          for p in files})
+            hint = '; install with bash scripts/setup_bsu_ltx.sh' if path == interpreters['ltx_python'] else ''
+            raise FileNotFoundError(f'required interpreter: {path}{hint}')
+    codec_installation = ntscc_plus_codec.installation(REPO)
+    model_dir, vendor = REPO / '.local/checkpoints/ltx25', REPO / '.local/vendor/LTX-2'
+    generator_runtime = ltx_receiver.runtime(model_dir, vendor)
+    # The LTX setup manifest records weight hashes; preflight checks file stats
+    # and manifest/vendor identity, not a fresh scan of every model byte.
+    installed = {p: dict(size=Path(p).stat().st_size, mtime_ns=Path(p).stat().st_mtime_ns)
+                 for p in generator_runtime['paths'].values()}
     manifest_path = REPO / 'outputs/qwen35_setup/model_manifest.json'
     manifest = read(manifest_path)
     if (manifest['model_id'], manifest['revision']) != (MODEL_ID, REVISION):
@@ -98,19 +105,28 @@ def runtime_template(value):
             raise ValueError(f'incomplete Qwen file: {path}')
         base_files[str(path)] = dict(size=stat.st_size, mtime_ns=stat.st_mtime_ns, sha256=item['sha256'])
     assets = {}
-    for name in ('ntscc_hyperprior_quality_4_psnr.pth', 'unimatch.pth'):
+    for name in ('ntscc_plus_ckbd2_lmbd_0.18.pth.tar', 'unimatch.pth'):
         path = REPO / '.local/checkpoints' / name
         assets[str(path)] = sha256(path)
+    if assets[str(REPO / ntscc_plus_codec.CHECKPOINT)] != ntscc_plus_codec.CHECKPOINT_SHA256:
+        raise ValueError('NTSCC+ checkpoint differs from the registered codec')
+    assets[str(model_dir / 'manifest.json')] = generator_runtime['manifest_sha256']
+    environment_manifest = Path(interpreters['ltx_python']).parent.parent / 'bsu-environment.txt'
+    assets[str(environment_manifest)] = sha256(environment_manifest)
     if not (REPO / '.local/qwen35_training_probe_deps/peft/__init__.py').is_file():
         raise FileNotFoundError('pinned caption adapter requires local PEFT')
     cfg = read(REPO / 'configs/lgvsc_variable.json')
-    cfg.update(profile=POLICY, seed=value['generation_seed'], channel_seed=value['channel_seed'],
+    cfg.update(profile=POLICY, visual_codec=value['visual_codec'],
+        generator_backend=value['generator_backend'], generation_conditioning=value['generation_conditioning'],
+        generator_runtime=generator_runtime,
+        ltx_model_dir=str(model_dir), ltx_vendor=str(vendor), sampling_steps=value['sampling_steps'],
+        seed=value['generation_seed'], channel_seed=value['channel_seed'],
         snr_db=value['snr_db'], steps=value['steps'],
         visual_channel='source_frame_seeded_numpy_awgn_v1',
-        benchmark_digital_bits_per_symbol=4, concatenation_policy='endpoint_exact',
+        benchmark_digital_bits_per_symbol=4, decoder_policy='endpoint_exact', concatenation_policy='endpoint_exact',
         cpu_video_storage=True, semantic_clip_policy='frame_exact',
-        caption_provider='local_qwen35_caption_repair', models=models)
-    return dict(policy=POLICY, receiver=cfg, interpreters=interpreters,
+        caption_provider='local_qwen35_caption_repair', models={})
+    return dict(policy=POLICY, receiver=cfg, interpreters=interpreters, codec_runtime=codec_installation,
         caption=dict(backend='qwen35', model_id=MODEL_ID, model_revision=REVISION,
             model_path=str(SNAPSHOT), quantization='nf4', max_pixels=262144,
             caption_max_words=79, caption_adapter=default_adapter(),
@@ -140,7 +156,7 @@ def validate_prepared(path):
 def preflight(args):
     from .qwen35_pairs_comparison import forbid_overlap
     from .video_io import probe
-    value = profile(); output = args.output.resolve()
+    value = profile(getattr(args,'selection_policy','semantic')); output = args.output.resolve()
     source_path = (args.video or args.prepared).resolve(strict=True)
     protected = [source_path, REPO / '.local', REPO / 'src', REPO / 'configs',
                  REPO / 'outputs/qwen35_evidence_repair_v3']
@@ -203,7 +219,8 @@ def make_plan(record, prepared):
     from .qwen35_pairs_video import plan as selection_plan
     source = validate_prepared(prepared); root = Path(record['output'])
     template = root / 'runtime_template.json'
-    selection_plan(prepared, root / 'benchmark/snr_10/video/base', template_path=template)
+    selection_plan(prepared, root / 'benchmark/snr_10/video/base', template_path=template,
+                   selection_policy=record['profile'].get('selection_policy','semantic'))
     value = record['profile']
     p = dict(policy=POLICY, model='BSU-Gen', route='generative_only', root=str(root),
         profile=value, gen_protocol_sha256=sha256(root / 'gen_protocol.json'),
@@ -220,7 +237,7 @@ def make_plan(record, prepared):
 
 def verify_plan(plan):
     if (plan.get('policy') != POLICY or plan.get('route') != 'generative_only'
-            or plan.get('profile') != profile()
+            or plan.get('profile') != profile(plan.get('profile',{}).get('selection_policy','semantic'))
             or fingerprint({k:v for k,v in plan.items() if k != 'signature'}) != plan['signature']):
         raise ValueError('BSU-Gen protocol changed or uses a different route')
     root = Path(plan['root'])
@@ -231,6 +248,13 @@ def verify_plan(plan):
             or sha256(plan['template']) != plan['template_sha256']):
         raise ValueError('BSU-Gen runtime contract changed')
     template = read(plan['template'])
+    if template['receiver'].get('generator_backend') == 'ltx25':
+        from .bsu_ltx_pipeline import assets
+        assets(template['receiver'])
+    if 'codec_runtime' in template:
+        from .ntscc_plus_codec import installation
+        if installation(REPO) != template['codec_runtime']:
+            raise ValueError('frozen NTSCC+ runtime changed')
     for path, expected in {**template.get('installed_model_files', {}),
                            **template.get('base_model_files', {})}.items():
         stat = Path(path).stat()
@@ -245,7 +269,7 @@ def verify_plan(plan):
 
 
 @contextmanager
-def generative_pipeline():
+def generative_pipeline(selection_policy='semantic'):
     """Reuse the generative batch implementation with explicit new worker identity."""
     from . import bsu_webvid as legacy
     original_verify, original_command = legacy.verify_plan, legacy.command
@@ -253,6 +277,8 @@ def generative_pipeline():
         cmd = list(cmd)
         if cmd[1:3] == ['-m', 'semantic_transmission.bsu_webvid_base']:
             cmd[2] = 'semantic_transmission.bsu_kinetics_base'
+            if '--prepared' in cmd:
+                cmd += ['--selection-policy', selection_policy]
         elif cmd[1:3] == ['-m', 'semantic_transmission.bsu_sequence_refinement']:
             cmd[2] = MODULE
             cmd.insert(3, '_worker')
@@ -306,7 +332,7 @@ def execute(record):
             plan = make_plan(record, prepared); freeze(root / 'protocol.json', plan)
             verify_plan(plan)
             write_json(root / 'status.json', dict(status='RUNNING', model='BSU-Gen', stage='generation_and_refinement', completed=1, total=3))
-            with generative_pipeline():
+            with generative_pipeline(record['profile'].get('selection_policy','semantic')):
                 condition = root / 'benchmark/snr_10/video'
                 result = legacy.load_result(condition, plan)
                 if result is None:
@@ -315,6 +341,8 @@ def execute(record):
             output = dict(result, status='COMPLETE_BSU_GEN', model='BSU-Gen', route='generative_only',
                 predictive_fallback=False, adaptive_route_selection=False,
                 generator=record['profile']['generator'], video_sha256=sha256(movie),
+                generation_conditioning=record['profile']['generation_conditioning'],
+                visual_codec=record['profile']['visual_codec'], sampling_steps=record['profile']['sampling_steps'],
                 independent_semantic_review='PENDING', training_executed=False,
                 gen_protocol_sha256=sha256(root / 'gen_protocol.json'))
             write_json(root / 'RESULT.json', output)
@@ -336,6 +364,8 @@ def parser():
     source.add_argument('--video', type=Path, help='entire video; normalized to 576x320 at 24 FPS')
     source.add_argument('--prepared', type=Path, help='existing full-duration source_prepared.json')
     p.add_argument('--output', type=Path)
+    p.add_argument('--selection-policy', choices=('semantic','events'), default='semantic',
+                   help='events enables the experimental all-frame detector and Qwen window selector')
     return p
 
 
@@ -349,7 +379,7 @@ def main(argv=None):
         args = p.parse_args(argv[1:]); return worker(args.stage, args.job.resolve())
     p = parser(); args = p.parse_args(argv)
     if args.action == 'profile':
-        print(json.dumps(profile(), ensure_ascii=False, indent=2)); return
+        print(json.dumps(profile(args.selection_policy), ensure_ascii=False, indent=2)); return
     if not args.output:
         p.error('--output is required')
     if args.action == 'status':
