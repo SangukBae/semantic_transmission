@@ -85,6 +85,26 @@ bash scripts/run_sparc_auxiliary_search.sh watch --interval 1
 
 위 `run`·`watch`는 `check`에 표시된 기본 경로를 사용한다. 다른 경로를 검사했다면 실행·재개에도 같은 인수를 지정한다. 중단 뒤 같은 `run` 명령으로 기록된 단계·측정값을 해시 검증해 재사용한다. `history.json`, `best.json`, `trials/`, `*_official.json`, `RESULT.json`에 후보·채택·실제 비용·최종 MP4 품질을 남긴다. 총 후보 수가 적응적으로 바뀌므로 진행 표시는 평가 횟수와 사전 상한을 구분하고 ETA를 추정하지 않는다. [결과와 허용치](RESULTS.md#sparc-auxiliary-search)
 
+<a id="sparc-framer"></a>
+### Framer 공개 가중치 평가
+
+완료된 `kinetics_001_sparse_motion_20261019`의 프로토콜·수신 패킷·복호화 키·비교 영상과 원본 평가 PNG가 필요하다. 설치기는 기존 `.local/bsu_codec_eval_env`의 의존성을 읽는 별도 `.local/framer_env`를 만들고 diffusers 0.24와 고정 revision의 Framer·SVD 자산을 준비한다. 기존 평가 환경을 새 장비에 설치하는 범용 설치기는 아니다. [소스·가중치 출처](../THIRD_PARTY_NOTICES.md#sparc-framer-dependencies)
+
+```bash
+bash scripts/setup_sparc_framer.sh
+PYTHONPATH=src .local/framer_env/bin/python scripts/check_framer_chunking.py
+bash scripts/run_sparc_framer.sh run \
+  --reference outputs/kinetics_001_sparse_motion_20261019 \
+  --output outputs/kinetics_001_framer_20261020
+bash scripts/run_sparc_framer.sh watch --interval 1
+PYTHONPATH=src .local/bsu_codec_eval_env/bin/python scripts/audit_sparc_framer.py \
+  outputs/kinetics_001_framer_20261020
+```
+
+검증 환경은 RTX 4080 16GiB, torch 2.2.2+cu121, transformers 4.39.3, accelerate 0.29.2, xformers 0.0.25.post1이다. 설치 환경이 달라지면 `runtime.json`과 실제 추론을 다시 검증해야 한다. 코드·입력·프로필을 바꾸지 않은 재개는 같은 `run` 명령을 사용한다. 변경된 실험은 새 출력 폴더를 지정하고 `watch`에도 같은 `--output`을 준다.
+
+`protocol.json`·`receiver.json`은 입력·코드·가중치 해시와 수신 조건, `segments/`는 검증 가능한 완료 구간, `runtime.json`은 환경·호환 수정, `restore.json`은 추론 시간·메모리를 기록한다. 최종 `reconstruction/reconstruction.mp4`, `quality_per_frame.csv`, `RESULT.json`을 생성한 뒤 감사 명령으로 `AUDIT.json`을 만든다. 평가 완료 상태는 `COMPLETE_FRAMER_PUBLIC_WEIGHT_PILOT`이며 독립 의미·행동 검증이나 기본값 채택을 뜻하지 않는다. [측정 결과](RESULTS.md#sparc-framer)
+
 <a id="bsu-gen"></a>
 ## BSU-Gen 실행
 

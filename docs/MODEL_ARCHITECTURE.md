@@ -35,6 +35,13 @@
 
 각 후보는 DCVC 참조 관계 전체를 다시 압축하고 실제 채널·수신 복호화·RIFE·최종 MP4를 평가한다. 전체 채널 사용량이 감소하고, 최초 기준 영상에 대한 PSNR·LPIPS·12프레임 구간 오차·움직임 영역·시간 변화 오차의 등록 허용치를 통과해야 채택한다. 수신기는 원본을 읽지 않는다. 송신 측 탐색이 같은 개발 영상의 실제 복원 품질을 사용하므로 독립 평가나 학습된 선택기의 일반화 성능으로 해석하지 않는다. 동일 의미 키와 최종 프레임 수를 유지하는 균등 대조도 평가한다. [설정](../configs/sparc_auxiliary_search.json) · [실행](RUN_GUIDE.md#sparc-auxiliary-search) · [결과](RESULTS.md#sparc-auxiliary-search)
 
+<a id="sparc-framer"></a>
+### Framer 공개 가중치 수신기 실험
+
+[`sparc_framer.py`](../src/semantic_transmission/sparc_framer.py)는 완료된 희소 궤적 실험의 수신 키·궤적 패킷과 복호화된 키프레임을 해시 검증해 재사용한다. 원본 경로는 수신 작업에 전달하지 않으며, 추가 전송·키 선택·추적·학습을 수행하지 않는다. 각 구간에서 모든 시점에 유효한 수신 궤적을 선택하고 288×160 좌표를 출력 해상도로 변환해 공개 Framer UNet·ControlNet에 양끝 수신 이미지와 함께 제공한다. 유효한 궤적이 없는 구간은 거절한다.
+
+구간의 실제 프레임 수·576×320 해상도로 30단계 생성 후 수신 앵커를 보존하고 24fps MP4를 만든다. 공개 데모의 512×320·14프레임을 그대로 재현한 조건은 아니다. 중단 시 완료 구간의 해시·프로토콜을 확인해 재사용한다. 16GiB GPU용 연산 분할에는 diffusers 0.24의 잘못된 `ff` 호출을 `ff_in`으로 바로잡는 실행 중 호환 처리를 적용하며 원래 연산과 출력·입력 기울기 일치를 검사한다. 가림 영역 전용 모델이나 보정 latent 전송 경로는 없다. [실행](RUN_GUIDE.md#sparc-framer) · [가중치·소스](../THIRD_PARTY_NOTICES.md#sparc-framer-dependencies) · [결과](RESULTS.md#sparc-framer)
+
 <a id="bsu-gen"></a>
 ## BSU-Gen — 생성 경로 전용 모델
 

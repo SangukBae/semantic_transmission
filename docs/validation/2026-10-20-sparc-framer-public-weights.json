@@ -1,0 +1,216 @@
+{
+  "status": "COMPLETE_FRAMER_PUBLIC_WEIGHT_PILOT",
+  "date": "2026-10-20",
+  "host": "semantic-pc / sangukcom",
+  "profile": {
+    "video": "Kinetics-400 001",
+    "frames": 240,
+    "fps": 24,
+    "width": 576,
+    "height": 320,
+    "snr_db": 10,
+    "semantic_keys": 31,
+    "reused_received_keys_and_motion": true,
+    "additional_training": false,
+    "residual_stream": false,
+    "public_demo_geometry": "512x320 / 14 frames",
+    "measured_geometry": "576x320 / actual variable interval lengths"
+  },
+  "framer": {
+    "channel_uses": 232704,
+    "quality": {
+      "psnr_db": 19.770984638627212,
+      "ssim": 0.5942607904958941,
+      "lpips_vgg": 0.4091060433536768,
+      "clip": 0.9396199544270833,
+      "dists": 0.19849853490789732,
+      "frames": 240,
+      "shape": [
+        240,
+        320,
+        576,
+        3
+      ]
+    },
+    "restoration_seconds": 2246.4873452186584,
+    "peak_allocated_GiB": 12.454253196716309
+  },
+  "baselines": {
+    "keys": {
+      "channel_uses": 214272,
+      "anchor_count": 31,
+      "quality": {
+        "psnr_db": 19.002983794215584,
+        "ssim": 0.5423094230089514,
+        "lpips_vgg": 0.4215486225982507,
+        "clip": 0.9503367106119792,
+        "dists": 0.1888169415295124,
+        "frames": 240,
+        "shape": [
+          240,
+          320,
+          576,
+          3
+        ]
+      },
+      "movie_sha256": "d1777dd09c3a51d4b810f4de1283b7928d9a7e209b9b53b0fff35adc7ca9bc5e"
+    },
+    "motion": {
+      "channel_uses": 232704,
+      "anchor_count": 31,
+      "quality": {
+        "psnr_db": 19.32296887145529,
+        "ssim": 0.5578848844784706,
+        "lpips_vgg": 0.41775528254608313,
+        "clip": 0.9498931884765625,
+        "dists": 0.19056358958284061,
+        "frames": 240,
+        "shape": [
+          240,
+          320,
+          576,
+          3
+        ]
+      },
+      "movie_sha256": "55c6770dc22a29d7d30d1e621a2608c3c0e17fb173b4cbd337686f10edbbf5c3"
+    },
+    "motion_no_visibility": {
+      "channel_uses": 232704,
+      "anchor_count": 31,
+      "quality": {
+        "psnr_db": 19.32296887145529,
+        "ssim": 0.5578848844784706,
+        "lpips_vgg": 0.41775528254608313,
+        "clip": 0.9498931884765625,
+        "dists": 0.19056358958284061,
+        "frames": 240,
+        "shape": [
+          240,
+          320,
+          576,
+          3
+        ]
+      },
+      "movie_sha256": "55c6770dc22a29d7d30d1e621a2608c3c0e17fb173b4cbd337686f10edbbf5c3"
+    },
+    "auxiliary": {
+      "channel_uses": 232704,
+      "anchor_count": 35,
+      "quality": {
+        "psnr_db": 20.036633162623755,
+        "ssim": 0.5871530805966916,
+        "lpips_vgg": 0.40391056233396133,
+        "clip": 0.9501993815104167,
+        "dists": 0.18709225977460545,
+        "frames": 240,
+        "shape": [
+          240,
+          320,
+          576,
+          3
+        ]
+      },
+      "movie_sha256": "209374beca978afa1200d7b0eb2274fd904f0bce5885240f56f073ea81d13cef"
+    },
+    "fixed": {
+      "anchor_count": 121,
+      "channel_uses": 566784,
+      "quality": {
+        "psnr_db": 25.73167929614925,
+        "ssim": 0.7903894280844628,
+        "lpips_vgg": 0.27983104108522333,
+        "clip": 0.9694437662760417,
+        "dists": 0.13853529517849286,
+        "frames": 240,
+        "shape": [
+          240,
+          320,
+          576,
+          3
+        ]
+      },
+      "movie_sha256": "68ef32d795973a4ca54ea324ea1e952720321ea66c0e98058dd3b9ec3824fc15"
+    },
+    "adaptive": {
+      "anchor_count": 160,
+      "channel_uses": 730368,
+      "quality": {
+        "psnr_db": 26.78265070314607,
+        "ssim": 0.8256222546349894,
+        "lpips_vgg": 0.2687307761361202,
+        "clip": 0.9714253743489584,
+        "dists": 0.13498336151242257,
+        "frames": 240,
+        "shape": [
+          240,
+          320,
+          576,
+          3
+        ]
+      },
+      "movie_sha256": "cdd69959db8f03124dba949c1e4068ec09a967eec72bc675fcd8ec28e44c9eb4"
+    }
+  },
+  "changes_vs_previous_motion": {
+    "psnr_db": 0.4480157671719205,
+    "lpips_vgg": -0.008649239192406344,
+    "clip": -0.010273234049479107,
+    "dists": 0.007934945325056703
+  },
+  "transmission_reduction_vs_160_anchor_baseline_percent": 68.13880126182966,
+  "audit": {
+    "status": "PASSED",
+    "source_hashes_verified": 240,
+    "received_anchors_verified": 31,
+    "completed_segments_verified": 30,
+    "exported_frames_equal_segments": 240,
+    "quality_csv_means_verified": true,
+    "public_checkpoint_hashes_verified": true,
+    "pinned_vendor_with_verified_ff_in_fix": true,
+    "baseline_movie_hashes_verified": 6,
+    "protocol_and_inference_code_verified": true,
+    "received_channel_cost_verified": 232704,
+    "receiver_source_pixels_used": false,
+    "result_sha256": "f1834ddde35173c32d9cb9c13487cb0e56c53eee7597762266b58d213dcc0cc9"
+  },
+  "runtime": {
+    "python": "3.10.21 (main, Aug 27 2026, 14:42:07) [GCC 14.3.0]",
+    "gpu": "NVIDIA GeForce RTX 4080",
+    "packages": {
+      "torch": "2.2.2+cu121",
+      "torchvision": "0.17.2+cu121",
+      "diffusers": "0.24.0",
+      "transformers": "4.39.3",
+      "accelerate": "0.29.2",
+      "xformers": "0.0.25.post1"
+    },
+    "forward_chunk_size": 1,
+    "controlnet_forward_chunk_size": 1,
+    "xformers": true,
+    "cpu_offload": false,
+    "compatibility": {
+      "fix": "TemporalBasicTransformerBlock chunked input uses ff_in, matching the unchunked path",
+      "original_sha256": "42f2143609da14523d70d9be04c2fefcc4c74e14492327627ff77743c269d5c8",
+      "corrected_sha256": "a0d13117c5a9fc512b540b80e3c9a3ecf995cc963b55fc4aa07655dcba7f60dd"
+    }
+  },
+  "numerical_compatibility_check": {
+    "status": "PASSED",
+    "max_output_difference": 4.76837158203125e-07,
+    "max_gradient_difference": 3.4924596548080444e-10
+  },
+  "protocol_signature": "1cf223bd16e4127dcf4f3df0acb29a3f9267e16787eb5cb50aa54d7855589726",
+  "movie_sha256": "43df1102f8d8d8bd206755dcbe0257e7e8d5ce01404325ef82ec8b376cd96b50",
+  "local_result": "outputs/kinetics_001_framer_20261020/RESULT.json",
+  "local_movie": "outputs/kinetics_001_framer_20261020/reconstruction/reconstruction.mp4",
+  "correction": "Runtime-only diffusers 0.24 temporal feed-forward chunking fix: ff_in instead of ff. Vendor and checkpoint files unmodified.",
+  "excluded_trial": "outputs/kinetics_001_framer_20261020_invalid_chunk_path: invalid outputs from the upstream chunking bug, excluded from comparison",
+  "conclusion": "Small PSNR and LPIPS gains over the prior untrained motion receiver, but CLIP and DISTS worsen. PSNR and LPIPS are worse than 4 auxiliary frames at equal channel use. Does not preserve 160-anchor baseline quality.",
+  "limitations": [
+    "One video, one channel condition and one diffusion seed policy",
+    "Native 576x320 and variable interval length; public demo is 512x320 and 14 frames",
+    "Uses existing 8-point/5-knot packets; no learned residual correction",
+    "No independent action or semantic evaluation",
+    "Physical link overhead excluded, matching historical accounting"
+  ]
+}
