@@ -2,7 +2,7 @@
 
 [프로젝트](../../README.md) · [구조](../MODEL_ARCHITECTURE.md#bsu-next-design) · [결과](../RESULTS.md#bsu-progress) · [평가 기준](../METRICS.md#bsu-reconstruction-evaluation)
 
-**2026-10-18 갱신:** 메인 개발 모델은 [BSU-Predict 예측 전용 모델](../MODEL_ARCHITECTURE.md#bsu-predictive-default)이며 통합 전 코드에서 분기했다. 예측 전용 성능 수치는 아직 새로 평가하지 않았다.
+**2026-10-22 현재 브랜치:** 기본은 BSU-Predict의 NTSCC+ 기준 프레임 JSCC·RIFE 경로다. Kinetics 001 한 영상에서 DCVC 대조보다 화질이 높고 전송량은 7.7525배였다. 동일 전송량 우위나 전체 데이터셋 성능으로 확대하지 않는다. [실측 결과](../RESULTS.md#bsu-predict) · [평가 정의](../METRICS.md). 아래 혼합 모델의 제안·채택 기록과 구분한다.
 
 **2026-10-16 이력:** 당시 기본은 [DCVC-RT + RIFE 혼합 BSU](../MODEL_ARCHITECTURE.md#bsu-predictive-default)다. Kinetics 개발 14편에서 이전 BSU 대비 전송 43.76% 감소·등록 화질/동작 기준 14/14 통과를 근거로 사용자 요청에 따라 채택했다. LGVSC 대비 1.75배로 전송 목표는 남아 있다. 추가 간격+QP 탐색은 기본 대비 1.12% 절감에 그쳐 연구 옵션으로 보존한다. [두 실험의 측정값](../RESULTS.md#bsu-predictive-default)
 

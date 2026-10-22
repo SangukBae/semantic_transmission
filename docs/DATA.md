@@ -1,8 +1,8 @@
 # 데이터와 모델 입력
 
-## BSU-Predict 입력과 데이터 범위 — 2026-10-18
+## BSU-Predict 입력과 데이터 범위 — 2026-10-22 확인
 
-현재 모델은 영상 또는 정규화 PNG와 FPS를 입력으로 사용한다. 의미 키·캡션·NTSCC 송신 산출물은 필요하지 않다. 새 모델을 위한 추가 학습은 수행하지 않았으며, 아래 10월 16일 코호트는 이전 혼합 모델의 개발·평가 자료다. [현재 실행](RUN_GUIDE.md#bsu-default) · [검증 범위](RESULTS.md#bsu-predict)
+현재 NTSCC+·RIFE 모델은 영상 또는 정규화 PNG와 FPS를 입력으로 사용한다. Qwen 의미 키·캡션이나 사전에 만든 NTSCC 송신 산출물은 필요하지 않지만, NTSCC+와 RIFE 고정 가중치·실행 환경은 필요하다. 송신기는 입력에서 앵커와 JSCC 심벌을 새로 만든다. 새 모델을 위한 추가 학습은 수행하지 않았으며, 아래 10월 16일 코호트는 이전 혼합 모델의 개발·평가 자료다. [현재 실행](RUN_GUIDE.md#bsu-default) · [검증 범위](RESULTS.md#bsu-predict)
 
 <a id="bsu-predictive-data"></a>
 ## 이전 혼합 BSU 채택에 사용한 자료 — 2026-10-16
