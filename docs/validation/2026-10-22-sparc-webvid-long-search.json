@@ -1,0 +1,42 @@
+{
+  "date": "2026-10-22",
+  "status": "INTEGRATION_VERIFIED_FULL_SEARCH_NOT_COMPLETE",
+  "unit_tests_passed": 41,
+  "new_tests_passed": 7,
+  "train_only": true,
+  "source_parents": 30,
+  "windows": 60,
+  "nominal_window_seconds": [
+    8,
+    12
+  ],
+  "budgets": [
+    0.0005,
+    0.00065,
+    0.0008,
+    0.001
+  ],
+  "max_new_candidates_per_clip": 64,
+  "maximum_rounds": 10,
+  "per_round": 6,
+  "actual_preflight_windows": 1,
+  "actual_preflight_frames": 191,
+  "actual_preflight_new_candidates": 2,
+  "actual_preflight_reused_states": 20,
+  "actual_preflight_exported_states": 22,
+  "actual_candidate_journal_resume": true,
+  "actual_preflight_target_met_clips": 0,
+  "automatic_training_import": false,
+  "heldout_sources_used": false,
+  "full_search_quality_improvement_proven": false,
+  "code": {
+    "sparc_selector_webvid_search": "23a94060ee6b4241b18d96eb4edce13c29a8398010d27979d829be49f5d2c0a4",
+    "sparc_selector_budget": "49c6836bb764df4b247ebbd5662eca5686c2fb84b25e0851098f6607e026004c",
+    "sparc_selector_v3_data": "71ecf1d08156d4055feebb05c7b19eca2d9824b902dfe87bb466ef50ab3fe7fe",
+    "sparc_selector_cnn": "e0066a0dd0c1e4bf8521858a4a0948ddf6b96f7e5b7f672c64c20f02300d93ee",
+    "sparc_selector_distributed": "4f6a7b00f54665f96e6060bc3678c46336a3644dab595ae5f7acfe7f05a35102"
+  },
+  "config_sha256": "1367f076ffe7600399cef6eb175b6ce013cc64e25a27234fbcd8c39ff9cf6708",
+  "evidence": "outputs/sparc_webvid_long_preflight_20261022/RESULT.json",
+  "scope": "one real eight-second training window; execution/export validation only"
+}

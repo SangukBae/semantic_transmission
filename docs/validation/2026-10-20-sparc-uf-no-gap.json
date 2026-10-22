@@ -1,0 +1,95 @@
+{
+  "date": "2026-10-20",
+  "status": "PASSED_MATCHED_NO_GAP_COMPARISON",
+  "reference": "outputs/zea_uf_q30_20261020/reference",
+  "output": "outputs/zea_uf_q30_no_gap_20261020",
+  "source_frames": 381,
+  "fps": 24,
+  "resolution": [
+    576,
+    320
+  ],
+  "semantic_keys": [
+    0,
+    380
+  ],
+  "qp": 30,
+  "snr_db": 10,
+  "channel_seed": 42,
+  "new_training": false,
+  "only_selection_profile_change": {
+    "max_gap": [
+      4,
+      null
+    ]
+  },
+  "conditions": {
+    "lgvsc": {
+      "channel_uses": 92475,
+      "quality": {
+        "psnr_db": 16.619027415279362,
+        "ssim": 0.504657533645849,
+        "lpips_vgg": 0.36035907792607,
+        "clip": 0.9209503414124016,
+        "dists": 0.16771187212836397,
+        "roi_mae": 11.9292433099171,
+        "temporal_mae": 1.8761749267578125
+      }
+    },
+    "bounded": {
+      "channel_uses": 198144,
+      "quality": {
+        "psnr_db": 29.388553457036906,
+        "ssim": 0.950918429319892,
+        "lpips_vgg": 0.13720191858728414,
+        "clip": 0.9905099142880578,
+        "dists": 0.07839601418477657,
+        "roi_mae": 1.8507135477591687,
+        "temporal_mae": 1.0611737966537476
+      }
+    },
+    "unbounded": {
+      "channel_uses": 62208,
+      "quality": {
+        "psnr_db": 22.900425124150246,
+        "ssim": 0.7918533110264568,
+        "lpips_vgg": 0.2863699444948532,
+        "clip": 0.9459033074967191,
+        "dists": 0.16873930836599957,
+        "roi_mae": 3.245545527127784,
+        "temporal_mae": 1.103621006011963
+      }
+    }
+  },
+  "auxiliary_frames": [
+    116,
+    7
+  ],
+  "observed_unbounded_max_gap": 63,
+  "selection_reason_counts": {
+    "source_motion_proxy": 7
+  },
+  "delta": {
+    "channel_percent": -68.6046511627907,
+    "channel_percent_vs_lgvsc": -32.729927007299274,
+    "psnr_db": -6.48812833288666,
+    "psnr_db_vs_lgvsc": 6.281397708870884
+  },
+  "verification": {
+    "tests_passed": 96,
+    "source_hashes_verified": 381,
+    "stage_receipts_verified": 5,
+    "packet_exact": true,
+    "legacy_packet_still_decodes": true,
+    "local_movie_hash_verified": true
+  },
+  "quality_preserved": false,
+  "default_replaced": false,
+  "protocol_sha256": "e0e4a682772b0f5b1db279067743fd260467936fc4a696adcf8d04a51320bcc5",
+  "movie_sha256": "a4eb2bf40b5a402457eb19750d15ef96a1d5a63ca915a130a7d893824b4ea331",
+  "limits": [
+    "one development clip, one SNR and seed",
+    "source proxy error is not decoded RIFE reconstruction error",
+    "no independent semantic or action evaluation"
+  ]
+}

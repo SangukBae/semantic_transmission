@@ -1,0 +1,467 @@
+{
+  "status": "COMPLETE_SPARC_UF_PILOT",
+  "baseline_quality": {
+    "psnr_db": 26.78265070314607,
+    "ssim": 0.8256222546349894,
+    "lpips_vgg": 0.2687307761361202,
+    "clip": 0.9714253743489584,
+    "dists": 0.13498336151242257,
+    "frames": 240,
+    "shape": [
+      240,
+      320,
+      576,
+      3
+    ],
+    "roi_mae": 4.642245295643806,
+    "temporal_mae": 4.672595024108887
+  },
+  "baseline_channel_uses": 730368,
+  "quality_tolerance": {
+    "policy": "sparc_auxiliary_search_v1",
+    "max_gap": 4,
+    "phase_trial_limits": [
+      16,
+      8,
+      8
+    ],
+    "remove_batch_sizes": [
+      8,
+      4,
+      2,
+      1
+    ],
+    "relocation_radius": 2,
+    "psnr_drop_db": 0.2,
+    "lpips_increase": 0.005,
+    "window_frames": 12,
+    "window_psnr_drop_db": 1.0,
+    "window_lpips_increase": 0.015,
+    "roi_error_ratio": 1.03,
+    "temporal_error_ratio": 1.03,
+    "ranking_resolution": [
+      144,
+      80
+    ],
+    "new_training": false,
+    "independent_action_validation": false
+  },
+  "new_training_performed": false,
+  "selected_frames_unchanged": true,
+  "source_pixels_at_receiver": false,
+  "limits": [
+    "single development video",
+    "no independent semantic review",
+    "UF HT-S uses causal 8-frame chunks, not a custom two-endpoint codec",
+    "interval mode repeats each short group tail to 8; all coded bytes are paid",
+    "physical link overhead outside existing LDPC/QAM accounting is excluded"
+  ],
+  "date": "2026-10-20",
+  "host": "semantic-pc / sangukcom",
+  "source_video": "Kinetics-400 001",
+  "video": {
+    "frames": 240,
+    "width": 576,
+    "height": 320,
+    "fps": 24
+  },
+  "selected_frames": 160,
+  "semantic_keys": 31,
+  "auxiliary_frames": 129,
+  "snr_db": 10,
+  "seed": 42,
+  "channel": "LDPC(6144,9216),16QAM,AWGN",
+  "best_observed": null,
+  "adopted_as_default": false,
+  "trials": [
+    {
+      "name": "scene_q00",
+      "mode": "scene",
+      "qp": 0,
+      "quality": {
+        "psnr_db": 20.569527579946264,
+        "ssim": 0.5320305412387901,
+        "lpips_vgg": 0.5324285380542279,
+        "clip": 0.8825083414713542,
+        "dists": 0.3209817384680112,
+        "frames": 240,
+        "shape": [
+          240,
+          320,
+          576,
+          3
+        ],
+        "roi_mae": 12.994556898872057,
+        "temporal_mae": 11.594475746154785
+      },
+      "gate": {
+        "passed": false,
+        "reasons": [
+          "psnr",
+          "lpips",
+          "roi_mae",
+          "temporal_mae",
+          "window_psnr_db",
+          "window_lpips_vgg"
+        ]
+      },
+      "channel_uses": 43776,
+      "reduction_percent": 94.00630914826499,
+      "packet_bytes": 14360,
+      "entropy_bytes": 13346,
+      "padded_frames": 1,
+      "intra_frames": 1
+    },
+    {
+      "name": "scene_q16",
+      "mode": "scene",
+      "qp": 16,
+      "quality": {
+        "psnr_db": 22.448889898225254,
+        "ssim": 0.6158499695109867,
+        "lpips_vgg": 0.4453250906119744,
+        "clip": 0.9247406005859375,
+        "dists": 0.24809545949101447,
+        "frames": 240,
+        "shape": [
+          240,
+          320,
+          576,
+          3
+        ],
+        "roi_mae": 8.961471647024155,
+        "temporal_mae": 9.13227653503418
+      },
+      "gate": {
+        "passed": false,
+        "reasons": [
+          "psnr",
+          "lpips",
+          "roi_mae",
+          "temporal_mae",
+          "window_psnr_db",
+          "window_lpips_vgg"
+        ]
+      },
+      "channel_uses": 135936,
+      "reduction_percent": 81.38801261829653,
+      "packet_bytes": 45094,
+      "entropy_bytes": 44077,
+      "padded_frames": 1,
+      "intra_frames": 1
+    },
+    {
+      "name": "scene_q32",
+      "mode": "scene",
+      "qp": 32,
+      "quality": {
+        "psnr_db": 24.300249927555917,
+        "ssim": 0.7154089319225005,
+        "lpips_vgg": 0.346132732120653,
+        "clip": 0.9608408610026041,
+        "dists": 0.18102145766218503,
+        "frames": 240,
+        "shape": [
+          240,
+          320,
+          576,
+          3
+        ],
+        "roi_mae": 6.391662415862084,
+        "temporal_mae": 6.856642246246338
+      },
+      "gate": {
+        "passed": false,
+        "reasons": [
+          "psnr",
+          "lpips",
+          "roi_mae",
+          "temporal_mae",
+          "window_psnr_db",
+          "window_lpips_vgg"
+        ]
+      },
+      "channel_uses": 458496,
+      "reduction_percent": 37.22397476340694,
+      "packet_bytes": 152266,
+      "entropy_bytes": 151248,
+      "padded_frames": 1,
+      "intra_frames": 1
+    },
+    {
+      "name": "scene_q48",
+      "mode": "scene",
+      "qp": 48,
+      "quality": {
+        "psnr_db": 25.741066449842574,
+        "ssim": 0.7934850616445049,
+        "lpips_vgg": 0.2587175511444608,
+        "clip": 0.9753499348958333,
+        "dists": 0.13424482941627502,
+        "frames": 240,
+        "shape": [
+          240,
+          320,
+          576,
+          3
+        ],
+        "roi_mae": 5.105818963050842,
+        "temporal_mae": 5.469292640686035
+      },
+      "gate": {
+        "passed": false,
+        "reasons": [
+          "psnr",
+          "roi_mae",
+          "temporal_mae",
+          "window_psnr_db",
+          "window_lpips_vgg"
+        ]
+      },
+      "channel_uses": 1237248,
+      "reduction_percent": -69.4006309148265,
+      "packet_bytes": 412269,
+      "entropy_bytes": 411213,
+      "padded_frames": 1,
+      "intra_frames": 1
+    },
+    {
+      "name": "scene_q63",
+      "mode": "scene",
+      "qp": 63,
+      "quality": {
+        "psnr_db": 26.225693226887564,
+        "ssim": 0.8199185678350596,
+        "lpips_vgg": 0.22242462234571575,
+        "clip": 0.9818929036458334,
+        "dists": 0.11921629880865416,
+        "frames": 240,
+        "shape": [
+          240,
+          320,
+          576,
+          3
+        ],
+        "roi_mae": 4.698743358254433,
+        "temporal_mae": 4.998677730560303
+      },
+      "gate": {
+        "passed": false,
+        "reasons": [
+          "psnr",
+          "temporal_mae",
+          "window_psnr_db"
+        ]
+      },
+      "channel_uses": 2126592,
+      "reduction_percent": -191.1671924290221,
+      "packet_bytes": 708164,
+      "entropy_bytes": 707101,
+      "padded_frames": 1,
+      "intra_frames": 1
+    },
+    {
+      "name": "interval_q00",
+      "mode": "interval",
+      "qp": 0,
+      "quality": {
+        "psnr_db": 21.518336410313232,
+        "ssim": 0.5746329724965229,
+        "lpips_vgg": 0.4771004973600308,
+        "clip": 0.9119181315104167,
+        "dists": 0.2708280608057976,
+        "frames": 240,
+        "shape": [
+          240,
+          320,
+          576,
+          3
+        ],
+        "roi_mae": 10.400015822052955,
+        "temporal_mae": 10.591814041137695
+      },
+      "gate": {
+        "passed": false,
+        "reasons": [
+          "psnr",
+          "lpips",
+          "roi_mae",
+          "temporal_mae",
+          "window_psnr_db",
+          "window_lpips_vgg"
+        ]
+      },
+      "channel_uses": 202752,
+      "reduction_percent": 72.2397476340694,
+      "packet_bytes": 67367,
+      "entropy_bytes": 65621,
+      "padded_frames": 151,
+      "intra_frames": 31
+    },
+    {
+      "name": "interval_q16",
+      "mode": "interval",
+      "qp": 16,
+      "quality": {
+        "psnr_db": 23.493167840375765,
+        "ssim": 0.6725103618643986,
+        "lpips_vgg": 0.37747350583473843,
+        "clip": 0.9458628336588542,
+        "dists": 0.2009866694609324,
+        "frames": 240,
+        "shape": [
+          240,
+          320,
+          576,
+          3
+        ],
+        "roi_mae": 7.4158582637707395,
+        "temporal_mae": 8.102975845336914
+      },
+      "gate": {
+        "passed": false,
+        "reasons": [
+          "psnr",
+          "lpips",
+          "roi_mae",
+          "temporal_mae",
+          "window_psnr_db",
+          "window_lpips_vgg"
+        ]
+      },
+      "channel_uses": 582912,
+      "reduction_percent": 20.189274447949522,
+      "packet_bytes": 193539,
+      "entropy_bytes": 191768,
+      "padded_frames": 151,
+      "intra_frames": 31
+    },
+    {
+      "name": "interval_q32",
+      "mode": "interval",
+      "qp": 32,
+      "quality": {
+        "psnr_db": 25.447411655389804,
+        "ssim": 0.7629316191180292,
+        "lpips_vgg": 0.28579145421584445,
+        "clip": 0.9684234619140625,
+        "dists": 0.14716922640800476,
+        "frames": 240,
+        "shape": [
+          240,
+          320,
+          576,
+          3
+        ],
+        "roi_mae": 5.568428472181162,
+        "temporal_mae": 6.206574440002441
+      },
+      "gate": {
+        "passed": false,
+        "reasons": [
+          "psnr",
+          "lpips",
+          "roi_mae",
+          "temporal_mae",
+          "window_psnr_db",
+          "window_lpips_vgg"
+        ]
+      },
+      "channel_uses": 1543680,
+      "reduction_percent": -111.35646687697162,
+      "packet_bytes": 514250,
+      "entropy_bytes": 512463,
+      "padded_frames": 151,
+      "intra_frames": 31
+    },
+    {
+      "name": "interval_q48",
+      "mode": "interval",
+      "qp": 48,
+      "quality": {
+        "psnr_db": 26.95463265428001,
+        "ssim": 0.8219373931289239,
+        "lpips_vgg": 0.2147368806724747,
+        "clip": 0.9797454833984375,
+        "dists": 0.10906288127104441,
+        "frames": 240,
+        "shape": [
+          240,
+          320,
+          576,
+          3
+        ],
+        "roi_mae": 4.638090981046359,
+        "temporal_mae": 5.11458683013916
+      },
+      "gate": {
+        "passed": false,
+        "reasons": [
+          "temporal_mae",
+          "window_psnr_db",
+          "window_lpips_vgg"
+        ]
+      },
+      "channel_uses": 3297024,
+      "reduction_percent": -351.4195583596215,
+      "packet_bytes": 1098757,
+      "entropy_bytes": 1096894,
+      "padded_frames": 151,
+      "intra_frames": 31
+    },
+    {
+      "name": "interval_q63",
+      "mode": "interval",
+      "qp": 63,
+      "quality": {
+        "psnr_db": 27.559968932942926,
+        "ssim": 0.8409517923680163,
+        "lpips_vgg": 0.1850514193531126,
+        "clip": 0.9849232991536458,
+        "dists": 0.09604135925571124,
+        "frames": 240,
+        "shape": [
+          240,
+          320,
+          576,
+          3
+        ],
+        "roi_mae": 4.309332233170668,
+        "temporal_mae": 4.766327857971191
+      },
+      "gate": {
+        "passed": false,
+        "reasons": [
+          "window_psnr_db"
+        ]
+      },
+      "channel_uses": 5407488,
+      "reduction_percent": -640.378548895899,
+      "packet_bytes": 1802309,
+      "entropy_bytes": 1800372,
+      "padded_frames": 151,
+      "intra_frames": 31
+    }
+  ],
+  "verification": {
+    "status": "PASSED",
+    "verified_stage_receipts": 51,
+    "verified_channel_packets": 10,
+    "all_selected_indices_equal": true,
+    "receiver_job_has_no_source": true,
+    "baseline_artifacts_unchanged": true,
+    "result_sha256": "3995a25411bfb20b980f7edb050e3607b96b4f5f6ce006fdbd0f55ae673dad4f"
+  },
+  "upstream_parity": {
+    "status": "PASSED",
+    "official_script_sha256": "6597af5cb9a86b6be1d8d3ed8534b88e45c9ef882cc2de14d11ed07dee892d7b",
+    "groups": 32,
+    "frames": 320
+  },
+  "artifact_hashes": {
+    "protocol.json": "896f1a343a1bd34390e49c3bcd360745621cd2d8ffc449290569f5abcf98806a",
+    "RESULT.json": "3995a25411bfb20b980f7edb050e3607b96b4f5f6ce006fdbd0f55ae673dad4f",
+    "upstream_parity.json": "ac918b379758b186a33bf52f3c2b90e6188893e683a4f4c43c102fa80afe8c57",
+    "verification.json": "40397d9a4e965c0f8effc2ef2d0aa559458ba5b0dfd978fefd82447d82a95336"
+  }
+}

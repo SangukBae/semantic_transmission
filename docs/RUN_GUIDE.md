@@ -1,8 +1,116 @@
 # 설치·실행·학습·평가
 
+<a id="sparc-webvid-long-search"></a>
+## 로컬 WebVid 긴 구간 조합 탐색 — 2026-10-22
+
+로컬 WSL의 SPARC 저장소에서 관리한다. `start`는 백그라운드 작업을 시작하고 로컬 분산 정답 작업의 `LABELS_COMPLETE`와 전체 완료 표식을 확인한 다음 공용 GPU 잠금을 얻어 탐색한다. 부모 작업이 중단되면 완료로 간주하지 않고 기다린다. 원격 정답·학습 작업과 로컬 결과 동기화는 별도로 계속된다.
+
+```bash
+cd /home/sangukbae/semantic_transmission_sparc
+bash scripts/run_sparc_webvid_search.sh start
+bash scripts/run_sparc_webvid_search.sh watch
+bash scripts/run_sparc_webvid_search.sh status
+bash scripts/run_sparc_webvid_search.sh stop
+bash scripts/run_sparc_webvid_search.sh resume
+```
+
+`watch`는 대기 원인, 부모 완료 수, 처리 구간 수/60과 비율, 현재 후보 수/64 상한, 탐색 라운드, 경과 시간, 로그, 오류, 실제 GPU 사용률과 VRAM을 고정 행으로 표시한다. 전체 ETA는 아직 측정 근거가 없어 표시하지 않는다. Ctrl-C는 화면만 닫는다. `stop`은 현재 후보를 저장한 뒤 중단하고, `resume`은 동결 프로토콜·산출물 해시와 후보별 탐색 기록을 확인해 이어간다.
+
+출력은 `outputs/sparc_selector_webvid_long_20261022`이며, `status.json`·`run.log`는 진행 상태, 구간별 `search_result.json`은 예산별 실측 판정, 마지막 `dataset.json`·`RESULT.json`은 완성 자료와 집계다. `DATASET_COMPLETE`는 탐색/정답 생성 완료이며 모든 영상의 화질 목표 달성을 뜻하지 않는다. 현재 원격 v3 학습으로 자동 병합하지 않으며, 후속 학습에서 이 자료를 포함하는 새 프로토콜을 만들어야 한다.
+
+[설정](../configs/sparc_selector_webvid_search.json) · [자료 구성](DATA.md#sparc-webvid-long-data) · [검증 기록](RESULTS.md#sparc-webvid-long-result)
+
+<a id="sparc-selector-v3"></a>
+## SPARC 예산 조건부 선택기 자동학습 v3 — 2026-10-22
+
+로컬 WSL `/home/sangukbae/semantic_transmission_sparc`에서 다음 명령으로 두 장비와 자동학습을 관리한다.
+
+```bash
+bash scripts/run_sparc_selector_v3.sh watch
+bash scripts/run_sparc_selector_v3.sh status
+bash scripts/run_sparc_selector_v3.sh stop
+bash scripts/run_sparc_selector_v3.sh resume
+```
+
+기존 분산 명령도 같은 작업을 관리한다. 원격은 기존 `outputs/sparc_selector_cnn_attention_v2_20261020`에서 남은 정답 생성/병합을 마친 뒤, 검증된 `training_route.json`에 따라 `outputs/sparc_selector_budget_v3_20261022`에 자동학습한다. 경로가 활성화되기 전에는 `waiting_for_v3_release`로 기다리며 v2 optimizer를 시작하지 않는다. 기존 v1/v2 출력은 삭제하지 않는다.
+
+순서: 기존 정답 완료 → `prepare_v3_evidence`(해시 검사·고정 ResNet50 특징) → `teacher_search`(48개 학습 원본) → `train_v3`와 `rd_val` → 고정 최종 모델의 `rd_test`. 학습은 AdamW 0.0001, 최대 40 epoch, warmup 3 epoch이며 실제 검증은 첫 epoch와 매 5 epoch에 수행한다. 검증 개선이 3회 없으면 종료한다. 예산은 CBR 0.00065, 초기 화질 목표는 기준 QP30 대비 평균 PSNR 하락 0.5dB/LPIPS 증가 0.01 이내다. 달성을 보장하는 값은 아니다.
+
+`training/last.pt`는 모델·optimizer·scheduler·CPU/CUDA RNG·표본/예산 순서와 위치를 원자적으로 저장한다. `best.pt`는 실제 예산 충족과 품질 목표 위반량/복원 비용으로 고른다. `RESULT.json`의 `target_met`가 결과 판정이며, 학습 완료만으로 개선을 주장하지 않는다. 기본 SPARC 경로는 자동 교체하지 않는다. 모니터의 Ctrl-C는 화면만 닫고 `stop`은 측정/학습 경계에서 저장 후 중단한다. 혼합 영상 길이의 전체 ETA는 측정 근거가 없으면 표시하지 않는다.
+
+[구조](MODEL_ARCHITECTURE.md#sparc-selector-v3) · [자료 역할](DATA.md#sparc-selector-v3-data) · [검증 결과](RESULTS.md#sparc-selector-v3-result)
+
+
 [프로젝트](../README.md) · [데이터](DATA.md) · [구조](MODEL_ARCHITECTURE.md) · [결과](RESULTS.md)
 
 **2026-10-19 SPARC 브랜치:** `run_bsu.sh`와 `run_sparc.sh`는 SPARC를 실행한다. 기존 생성·예측·혼합 모델은 각각 `run_bsu_gen.sh`, `run_bsu_predict.sh`, `run_bsu_hybrid.sh`로 유지한다.
+
+<a id="sparc-learned-selector-v2"></a>
+## SPARC CNN + 시간 Attention 선택기 v2 — 2026-10-20
+
+아래는 v2의 원래 구성이다. 2026-10-22부터 현재 분산 실행의 남은 정답 생성 뒤에는 위의 v3 경로가 적용되며 v2 optimizer를 시작하지 않는다.
+
+기존 v1은 의미 키 준비 148/2260에서 정상 중단했다. 아직 MLP optimizer 학습 전이었으므로 이식할 학습 가중치는 없으며, 원본과 완료된 키·프레임은 보존한다. 새 출력은 `outputs/sparc_selector_cnn_attention_v2_20261020`이다. 기존 148개 준비 프레임은 검증 후 하드링크로 재사용하고, 이후의 정답·학습 산출물은 새 출력에 기록한다. 원본 MP4는 v1 출력의 `data`도 참조하므로 **v1 폴더를 삭제하면 안 된다.**
+
+```bash
+cd /home/sangukbae/ETRI/Semantic/semantic_transmission_sparc
+bash scripts/run_sparc_selector_v2.sh watch
+bash scripts/run_sparc_selector_v2.sh status
+bash scripts/run_sparc_selector_v2.sh stop
+bash scripts/run_sparc_selector_v2.sh resume
+```
+
+`start`/`resume`은 검증·준비 재사용 → 남은 의미 키 준비 → 실제 UF QP30/LDPC/16QAM/AWGN10dB/RIFE 정답 측정 → CNN 입력 캐시 → CNN/Attention 학습을 자동 실행한다. `prepare_semantic_keys`·`measure_labels`·`prepare_cnn_inputs` 단계에서는 본 학습 optimizer가 아직 시작되지 않았다. `Stage=train`과 `optimizer step`에서 실제 갱신을 확인한다. Ctrl-C는 모니터만 닫는다.
+
+CNN/Attention 410,429개 파라미터를 처음부터 함께 학습한다. CUDA FP32, AdamW 0.0003, weight decay 0.0001, warmup 3 epoch와 cosine 감소, 최대 100 epoch, 검증 개선이 12 epoch 없으면 조기 종료한다. 한 번에 한 영상의 16개 변경 후보를 평가하고 4회 누적해 optimizer를 갱신한다. LAVIB/WebVid 동등 비율, 각 데이터셋 안에서는 원본 동등 비율을 유지한다. 긴 영상도 전체 시간축을 입력하며 선택 간격 상한은 없다. 정규화는 학습 분할의 정답 크기로만 계산하며 시험 정답은 열지 않는다.
+
+`training/last.pt`는 모델·optimizer·scheduler·CPU/CUDA RNG·샘플 순서·위치를 저장한다. 같은 장치와 동일 코드·원본·정답에서 정확한 재개를 검사했다. `training/best.pt`는 검증 손실로 선택한다. 최종 `TRAINED_NOT_YET_RD_VALIDATED`는 학습 완료이며 같은 전송량에서 화질이 개선됐다는 판정이 아니다. 기본 SPARC 경로는 별도 평가 전 자동 교체하지 않는다.
+
+### 두 컴퓨터에서 정답 생성 분담 — 2026-10-21
+
+원격의 완료 173클립은 보존하고, 남은 2,082클립을 원격 Linux PC와 로컬 WSL에 1,041개씩 배정했다. 원본 프레임 수는 원격 38,442장, 로컬 38,424장이다. 고정 원본·의미 키·코드·모델·QP30·10dB·seed42를 공유하며 기존 정답 계산 함수를 그대로 실행한다. 로컬 비교 영상 1편의 19개 선택안에서 패킷·최종 MP4와 32개 정답이 원격과 정확히 일치했다. 전체 데이터의 두 장비 중복 실험이나 속도 2배 보장은 아니다.
+
+로컬 `/home/sangukbae/semantic_transmission_sparc`에서 다음 명령을 사용한다.
+
+```bash
+bash scripts/run_sparc_selector_distributed.sh watch
+bash scripts/run_sparc_selector_distributed.sh status
+bash scripts/run_sparc_selector_distributed.sh stop
+bash scripts/run_sparc_selector_distributed.sh resume
+```
+
+`watch`는 두 장비의 처리 수·정상 정답 수·채널 실패 수·GPU·VRAM·병합 상태를 고정 행으로 표시한다. Ctrl-C는 화면만 닫는다. `stop`은 두 작업과 동기화에 안전 중단을 요청하고, `resume`은 고정 배정표와 완료 결과를 검증해 재개한다. 분담 실행 중에는 이전 `run_sparc_selector_v2.sh resume` 대신 위 명령을 사용한다. 로컬 프로세스와 동기화는 WSL이 실행 중이어야 계속 동작한다.
+
+로컬 결과는 임시 수신 폴더에 전송하고 원본 ID·프로토콜·정답 배열·실제 송수신 패킷·최종 MP4 해시 검증 후 원격에 게시한다. `labels.json`이 마지막 완료 표식이다. 전송 중단이나 중복 재전송이 기존 정상 정답을 덮어쓰지 않는다. 원격의 분담 완료와 로컬 결과의 검증·병합이 모두 끝나면 원격에서 기존 CNN 입력 준비와 학습을 이어간다.
+
+분담 전 기존 실행은 `lavib_8270_shot0_1_1_0`의 한 패킷에서 채널 복호 1비트 오류로 중단됐다. 같은 조건의 3회 재측정에서도 재현됐다. 분담 실행기는 이 오류만 별도로 재확인해 `label_failure.json`과 실제 실패 패킷을 보존하고 해당 클립을 학습 정답에서 제외한다. 시드 변경·원본 패킷 대체·성공할 때까지 재전송하지 않는다. 다른 오류는 실패로 중단한다. 채널 실패 비율이 1%를 넘으면 전체 정답 생성 결과는 보존하되 자동 학습은 시작하지 않는다. 따라서 최종 학습 데이터 수와 실패 수는 `label_summary.json`에서 확인해야 하며, 정상 수신 조건의 데이터라는 한계를 평가에 함께 기록한다.
+
+배정·수신 원장은 원격 기존 출력의 `.distributed/`에, 로컬 출력은 `outputs/sparc_selector_distributed_20261021/local`에 있다. 로컬 실행 설정은 `.local/selector_distributed_20261021/config.json`이다. 원본 프레임과 완료 측정을 삭제하지 않는다.
+
+[분담 실행 검증 기록](validation/2026-10-21-sparc-selector-distributed.json)은 실행 시작 시점의 상태, 장비 간 정답 일치 검사, 중단·재개, 실제 병합 및 터미널 모니터 검증을 담는다. 실시간 진행률은 위 `status` 명령으로 확인한다.
+
+<a id="sparc-learned-selector"></a>
+## SPARC-UF 보조 프레임 선택기 학습 — 2026-10-20
+
+다음은 중단·보존된 MLP v1 실행 기록이다. 현재 새 학습은 위 v2 명령을 사용한다.
+
+원격 `semantic-pc`의 SPARC 배포 폴더에서 실행한다. 원본 확보 → 기존 Qwen 의미 키 고정 → 실제 UF QP30/채널/RIFE 정답 측정 → 경량 선택기 학습의 순서다. `start`는 이 전체 작업을 시작하며, `Stage=prepare_semantic_keys` 또는 `measure_labels`일 때는 아직 본 학습의 optimizer step이 시작되지 않았다.
+
+```bash
+cd /home/sangukbae/ETRI/Semantic/semantic_transmission_sparc
+bash scripts/run_sparc_selector.sh watch   # 고정 행, 1초 GPU 갱신; Ctrl-C는 화면만 종료
+bash scripts/run_sparc_selector.sh status  # 한 번 조회
+bash scripts/run_sparc_selector.sh resume  # 중단 후 동일 프로토콜로 재개
+bash scripts/run_sparc_selector.sh stop    # 현재 작업 경계에서 안전하게 중단
+```
+
+출력은 `outputs/sparc_selector_v1_20261020`이다. `sources.json`에 원본 해시·원본 ID·구간·분할을, `clips/*/semantic_cache`에 실제 Qwen 호출을, `clips/*/observations`에 선택 목록별 실제 송수신 패킷·최종 MP4·프레임별 오차를 보존한다. `labels.npz`는 선택 상태와 변경 후보의 특징/효과 정답이다. `training/last.pt`에는 모델·optimizer·scheduler·Python/NumPy/Torch RNG·샘플링 순서와 진행 위치가 포함된다. `training/best.pt`는 검증 손실로 선택한다. 원본/코드/모델/라벨 해시가 달라지면 재개를 거절한다.
+
+LAVIB 2,048개와 기존 WebVid 원본 53개의 2/4/8/12초 구간 212개(원본보다 길면 제한)를 사용한다. 576×320·24fps이며 항구와 Kinetics 001~004는 학습에 포함하지 않는다. 같은 원본 ID의 시간·공간 변형은 같은 분할에 둔다. LAVIB의 공식 train/val/test를 그대로 사용한 벤치마크가 아니라, 공식 원본 ID로 새로 나눈 분할이다. 공식 압축 아카이브의 제한된 앞부분에서 원본당 최대 2개 시간 구간을 확보했으며 전체 LAVIB의 균등 무작위 표본은 아니다. 원본 ID보다 상위의 촬영 출처가 다른 ID에 중복됐는지는 별도 미검증이다.
+
+6개 선택 상태에서 최대 4개 추가·제거·교체 후보를 측정하고 역방향 정답도 저장한다. 실제 유효 정답 수는 `label_summary.json`에서 확인한다. LAVIB와 WebVid를 동등한 확률로, 각 데이터셋 안에서는 원본을 동등한 확률로 학습한다. 작은 128→128 MLP, batch 256, AdamW 0.001, 최대 200 epoch, 검증 개선이 20 epoch 없으면 조기 종료한다. UF·RIFE는 학습하지 않는다. 시험 정답은 정규화·조기 종료에 읽지 않는다.
+
+모호한 Qwen 판정은 원문과 함께 격리하고 학습에서 제외한다. 20%를 초과하면 학습을 시작하지 않고 실패로 표시한다. `TRAINED_NOT_YET_RD_VALIDATED`는 예측기 학습 완료이며 실제 영상에서의 화질/전송량 개선 입증을 뜻하지 않는다. 검증 영상에서 공통 rate multiplier를 정한 뒤 미사용 시험 영상에서 종단 비교해야 한다. 기존 SPARC 기본 선택기를 자동 교체하지 않는다.
 
 <a id="bsu-default"></a>
 <a id="sparc"></a>
@@ -48,6 +156,83 @@ Qwen3.5-9B NF4 고정 snapshot, DCVC-RT I/P 가중치·소스, RIFE4.25 가중�
 | 비교 폴더의 `COMPARISON.json`, `*_per_frame.csv` | 최종 MP4의 PSNR·SSIM·LPIPS·CLIP·DISTS |
 
 `COMPLETE_SPARC`는 전체 송수신·복원 완료다. 화질 평가 완료는 별도 `COMPLETE_SPARC_MATCHED_COMPARISON`이며 독립 행동·의미 검수 완료를 뜻하지 않는다. `uniform-matched`는 적응 선택과 같은 프레임 수·장면 전환 조건을 유지하지만 의미 키 보존을 강제하지 않는 대조군이다. `fixed-stride2`도 SPARC의 장면 초기화·패킷 형식을 사용하므로 과거 BSU 패킷과 바이트 단위로 같은 조건은 아니다. 같은 QP·키 수를 같은 실제 전송량으로 해석하지 않는다.
+
+<a id="sparc-uf"></a>
+### SPARC의 DCVC-UF 무학습 비교
+
+`run_sparc_uf.sh`는 완료된 SPARC의 원본·키·보조 프레임을 검증해서 재사용한다. 기본 SPARC를 교체하지 않는다. 기본 비교는 장면 전체를 연속 압축하는 `scene`과 의미 키에서 압축 상태를 초기화하는 `interval`, 각각 QP 0/16/32/48/63이다. 두 코덱의 같은 QP가 같은 화질이라는 가정은 하지 않는다.
+
+```bash
+# 원격 semantic-pc의 SPARC 배포 폴더에서 실행
+bash scripts/run_sparc_uf.sh check
+bash scripts/run_sparc_uf.sh run
+# 중단 시 같은 명령: 완료 단계의 입력·산출물 해시를 검증하고 재개
+```
+
+UF 전용 `.local/dcvc_uf_runtime` Python 3.12.15·PyTorch 2.9.1+cu130 환경, `.local/dcvc_uf_vendor`의 Microsoft/DCVC 고정 revision `cbdae87a5445114cdc7f48816da63ea80bdeac40`, CUTLASS v4.4.1로 빌드한 C++/CUDA 확장을 사용한다. 기존 RT·RIFE·채널 환경은 별도로 유지한다. 빌드 시 CUDA nvcc/nvvm/crt를 모두 13.0.88로 맞춰야 하며, 원격에 설치된 패키지는 `.local/dcvc_uf_py312`에서 전용 런타임이 읽는다.
+
+가중치는 [공식 저장소](https://github.com/microsoft/DCVC)의 공개 OneDrive 폴더에서 로그인 없이 브라우저 Download로 받았다. `.local/dcvc_uf_weights/source.json`에 출처·크기·SHA256, 코드에는 `cvpr2026_image.pth.tar`와 `cvpr2026_video_hts.pth.tar`의 고정 해시를 기록한다. 직접 OneDrive API의 401 응답만으로 공개 파일이 없다고 판단하지 않는다.
+
+출력은 `outputs/kinetics_001_dcvc_uf_20261020`이다. 각 조건은 `sender → channel → decode → restore → quality`를 별도 프로세스로 실행한다. 패킷에는 실제 코덱 스트림, 프레임 번호·영상 시간표, 모델 식별자, 패딩 수가 포함되며 LDPC 블록 패딩·16QAM까지 비용에 포함된다. `interval`은 오른쪽 키를 다음 구간 시작에 배정해 중복 전송하지 않는다. UF의 마지막 8프레임 묶음이 짧으면 끝 프레임을 반복 부호화하고 실제 프레임만 복원에 사용한다.
+
+기준 영상도 같은 실행에서 다시 평가한다. 최종 MP4의 PSNR·SSIM·LPIPS·CLIP·DISTS와 움직임 영역·시간 변화 오차를 저장하며, 기존 보조 프레임 탐색의 품질 허용 한계로 판정한다. 평균 PSNR −0.2dB, LPIPS +0.005, 12프레임 구간 PSNR −1dB·LPIPS +0.015, 움직임 영역·시간 오차 +3%를 모두 만족해야 통과한다. 이는 수치 허용 범위 안의 유지이며 동일 화질·의미 보존의 증명은 아니다. `RESULT.json`의 완료 상태는 `COMPLETE_SPARC_UF_PILOT`이다.
+
+<a id="sparc-uf-rate"></a>
+### Kinetics-400 001~004: QP 미세 조정·묶음별 배분
+
+`run_sparc_uf_rate.sh`는 영상마다 동일한 SPARC 선택 결과로 UF 연속 압축을 비교한다. 001은 완료된 선택을 재사용하고 002~004는 기존 SPARC 정책으로 참조 실행을 한 번 만든다. QP30·31·32 고정 3조건과, 중심 QP30·31·32 × 최대 변화 폭 ±2·±4의 가변 배분 6조건, 총 **4영상×9조건=36조건**이다. 추가 학습은 없다.
+
+```bash
+# semantic-pc의 /home/sangukbae/ETRI/Semantic/semantic_transmission_sparc
+bash scripts/run_sparc_uf_rate.sh check
+bash scripts/run_sparc_uf_rate.sh run
+
+# 읽기 전용 모니터. Ctrl+C는 모니터만 종료한다.
+bash scripts/watch_sparc_uf_rate.sh
+bash scripts/watch_sparc_uf_rate.sh --once
+```
+
+QP31 최종 복원의 묶음별 `normalized MSE + 0.01 × LPIPS`를 송신 측 배분 지표로 쓴다. 오차가 큰 P 묶음에는 높은 QP, 작은 묶음에는 낮은 QP를 배정하고 I 프레임 QP는 중심값을 유지한다. 엔트로피 바이트를 가중치로 QP 변화량을 중심화하는 휴리스틱이며, 비트 수 보존이나 최적 배분을 보장하지 않는다. 모든 후보를 전체 재압축·실제 채널·독립 복호화·동일 RIFE·최종 MP4로 측정하므로 참조 상태 의존성을 무시한 비트 수 합산을 결과로 쓰지 않는다. 프레임 위치·개수와 참조 특징 초기화 주기는 이 실험에서 바꾸지 않는다.
+
+출력은 `outputs/kinetics_001_004_uf_rate_20261020`이다. 영상별 LGVSC 예산은 각각 **429,614 / 74,388 / 57,219 / 138,566 복소 채널 사용량**이다. QP 목록·시간표·헤더와 LDPC 패딩·패리티까지 포함해 계상한다. 실제 LGVSC 예산 이내의 고정/가변 후보, QP32 예산 이내의 가변 후보를 따로 집계한다. 후보 순위 목적함수는 `10**(-mean_PSNR/10) + 0.01*mean_LPIPS`이며 다른 화질·시간 오차 지표도 함께 보존한다. 예산을 만족하는 후보가 없으면 결과를 `null`로 남긴다. 독립 의미·행동 검수나 여러 SNR/seed 일반화 평가는 포함하지 않는다.
+
+모니터에는 단계별 완료 수·전체 조건 수·경과 시간·GPU/VRAM·로그·실패 코드·재개 명령이 표시된다. 전체 ETA는 추정하지 않는다. 실행을 중단했다면 **같은 `run` 명령**으로 코드·입력·완료 산출물 해시를 검증해서 재개한다. 실패 단계의 부분 산출물은 보관한다. 전체 완료 표시는 `COMPLETE_SPARC_UF_RATE_001_004`이며 영상별·조건별 결과와 전체 `RESULT.json`을 기록한다.
+
+### SPARC-UF: 보조 프레임 간격 제한 없는 실행
+
+`run_sparc_uf_no_gap.sh`는 완료된 SPARC 참조 실행의 원본과 Qwen 키 선택 근거를 검증한 뒤 키 위치를 재사용한다. 보조 프레임의 최대 간격은 `null`로 보내며, 원본의 64×36 선형 보간 오차가 기존 기준 6/255를 초과할 때만 추가한다. 장면 전환 양쪽 프레임은 계속 전송한다. 이 오차는 실제 RIFE 복원 오차가 아니므로 화질 유지 여부는 최종 MP4로 별도 확인해야 한다.
+
+```bash
+# semantic-pc의 SPARC 배포 폴더. 기존 결과를 덮어쓰지 않는 새 출력 경로 사용.
+bash scripts/run_sparc_uf_no_gap.sh run \
+  --reference outputs/zea_uf_q30_20261020/reference \
+  --output outputs/zea_uf_q30_no_gap_20261020 \
+  --qp 30
+```
+
+UF HT-S의 첫 I프레임·이후 8장 묶음 구조와 공개 가중치는 그대로 사용한다. 간격 제한 해제는 전송 헤더의 `max_gap=null` 및 `sparc_variable_gap_rife425_v1` 수신 정책으로 명시하며, 수신단은 전달받은 프레임 번호만으로 전체 시간축을 보간한다. 타임스탬프·장면 전환·모델·패킷 검사와 실제 LDPC/16QAM/AWGN 전송 비용은 유지한다. 추가 학습과 새 Qwen 추론은 없다.
+
+완료 상태는 `COMPLETE_SPARC_UF_NO_GAP`이다. `selection.json`에 선택 위치, `RESULT.json`에 실제 최대 간격·전송량·최종 화질을 기록한다. 같은 명령의 재실행은 완료 단계의 산출물 해시를 확인한다. 기존 `run_sparc.sh` 및 Kinetics 고정 조건 실행의 기본 간격 4는 보존한다. DCVC-RT 경로에서도 명시적으로 `run_sparc.sh ... --no-max-gap`을 사용할 수 있다. 간격 제한 해제의 일반적인 화질 유지나 우월성은 보장하지 않는다.
+
+**항구 381프레임 실측:** 같은 QP30에서 보조 프레임 116→7장, 채널 사용량 198,144→62,208(−68.60%), PSNR 29.389→22.900dB, LPIPS 0.13720→0.28637이었다. 실제 최대 간격은 63프레임이다. 전송량은 감소했지만 기존 화질 유지에는 실패했으므로 별도 실험 모드로 둔다. [조건·결과·검증 기록](validation/2026-10-20-sparc-uf-no-gap.json)
+
+<a id="sparc-detail-selection"></a>
+#### 원본 세부 변화에 따른 보조 프레임 선택
+
+`--selector detail`은 간격 상한 없이 원본만 분석한다. 288×160 RGB와 부호 있는 윤곽 미분을 만들고, 구간 양끝 원본의 시간 가중 선형 표현과 각 중간 원본을 비교한다. 전체 색상 오차, 16×16 영역 중 오차가 큰 상위 10%의 평균, 윤곽 오차를 함께 사용해 작은 변화가 전체 평균에 묻히는 것을 줄인다. 기본 기준은 각각 6/12/4이며 0~255 영상 값 기준이다. 신경망 보간이나 압축 복원을 시험하는 과정은 없다.
+
+기준을 초과하는 구간의 대표 프레임을 추가한 뒤, 이웃 구간을 합쳐도 기준을 만족하는 보조 프레임을 제거한다. 의미 키·처음/끝·장면 전환 양쪽 프레임은 보호한다. 선택 프레임 수·시간 간격을 목표값으로 지정하지 않으며, 원본 변화가 없으면 긴 구간도 두 끝점만 유지할 수 있다. 이 지표는 수신 화질 보장이 아니다.
+
+```bash
+bash scripts/run_sparc_uf_no_gap.sh run \
+  --reference outputs/zea_uf_q30_20261020/reference \
+  --output outputs/zea_uf_detail_new \
+  --qp 30 --selector detail --detail-scale 1
+```
+
+`--detail-scale`은 세 기준에 공통으로 곱하는 허용 오차 배율이다. 작은 값은 더 엄격한 원본 기준이며, 실제 전송량·화질의 단조 개선이나 특정 예산 충족을 보장하지 않는다. `selection.json`에는 선택/제거 이유, 최종 구간별 원본 오차, 선택 시간, `codec_calls_during_selection=0`, `neural_interpolation_calls_during_selection=0`을 남긴다. 선택 완료 후에만 UF 송신·채널·독립 수신·최종 화질 평가를 실행하며, 평가값을 선택기에 되먹이지 않는다. `--selector coarse`는 앞선 64×36 변화 지표 대조군이다. UF의 8장 입출력 구조와 QP30은 유지한다.
+
+항구 3개 허용치와 Kinetics-400 001~004의 기본 허용치, 총 7조건의 복원·평가를 완료했다. 선택에 1.56~3.93초가 걸렸으며 신경망 시험 복원은 0회다. 항구에서는 전송량을 줄일 수 있었지만 Kinetics 4편의 합계 전송량은 17.19% 증가하고 평균 PSNR은 0.095dB 증가했다. 일반적인 효율 개선은 입증되지 않아 실험 옵션으로 유지한다. [전체 결과와 한계](RESULTS.md#sparc-detail-selection)
 
 <a id="sparc-motion"></a>
 ### SPARC 희소 궤적·가시성 실험

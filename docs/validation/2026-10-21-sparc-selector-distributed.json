@@ -1,0 +1,157 @@
+{
+  "status": "RUNNING_TWO_HOSTS",
+  "recorded_unix": 1792545928.8887093,
+  "plan_sha256": "61cdcd5ded8cf11108253c3e6d4f8a3136203cee3d9baeebb1d1833ae3584986",
+  "plan_signature": "4c17c713b0ceaf3eced8912a6032a48efbc46e2626f435f6e4a2c942eabadca2",
+  "preserved_completed_clips": 173,
+  "assignments": {
+    "local": 1041,
+    "remote": 1041
+  },
+  "source_frame_work": {
+    "local": 38424,
+    "remote": 38442
+  },
+  "local": {
+    "status": "RUNNING",
+    "role": "local",
+    "pid": 15155,
+    "start_ticks": "243752",
+    "started_unix": 1792545804.1413233,
+    "updated_unix": 1792545888.4266403,
+    "plan": "4c17c713b0ceaf3eced8912a6032a48efbc46e2626f435f6e4a2c942eabadca2",
+    "stage": "measure_labels",
+    "done": 3,
+    "total": 1041,
+    "clip": "lavib_13678_shot0_3_0_1",
+    "pair": 6,
+    "pairs_this_clip": 21,
+    "samples": 96,
+    "resume": "whole-selection UF/channel/RIFE results cached by input and protocol hash",
+    "alive": true,
+    "observed_unix": 1792545890.946568,
+    "valid": 3,
+    "rejected": 0,
+    "gpu": "4, 5893, 16376"
+  },
+  "remote": {
+    "status": "RUNNING",
+    "role": "remote",
+    "pid": 516764,
+    "start_ticks": "119320488",
+    "started_unix": 1792545686.6014585,
+    "updated_unix": 1792545891.7679284,
+    "plan": "4c17c713b0ceaf3eced8912a6032a48efbc46e2626f435f6e4a2c942eabadca2",
+    "stage": "measure_labels",
+    "done": 4,
+    "total": 1041,
+    "clip": "lavib_15051_shot0_6_1_0",
+    "pair": 13,
+    "pairs_this_clip": 17,
+    "samples": 124,
+    "resume": "whole-selection UF/channel/RIFE results cached by input and protocol hash",
+    "alive": true,
+    "observed_unix": 1792545892.3772533,
+    "valid": 3,
+    "rejected": 1,
+    "gpu": "95, 7372, 16376",
+    "global_valid": 179,
+    "global_rejected": 1,
+    "global_done": 180,
+    "global_total": 2255,
+    "imported": 3,
+    "training": {
+      "status": "RUNNING",
+      "stage": "measure_labels",
+      "done": 3,
+      "total": 1040,
+      "started_unix": 1792503817.8484986,
+      "stage_started_unix": 1792538333.0881894,
+      "updated_unix": 1792545891.7671263,
+      "pid": 516764,
+      "clip": "lavib_15051_shot0_6_1_0",
+      "pair": 13,
+      "pairs_this_clip": 17,
+      "samples": 124,
+      "resume": "whole-selection UF/channel/RIFE results cached by input and protocol hash"
+    }
+  },
+  "parity": {
+    "clip": "lavib_2493_shot0_4_1_1",
+    "samples": 32,
+    "records_identical": true,
+    "arrays": {
+      "x": {
+        "shape": [
+          32,
+          263
+        ],
+        "exact": true,
+        "max_abs_delta": 0.0
+      },
+      "y": {
+        "shape": [
+          32,
+          5
+        ],
+        "exact": true,
+        "max_abs_delta": 0.0
+      }
+    },
+    "observations": 19,
+    "artifact_matches": {
+      "sent.bin": 19,
+      "received.bin": 19,
+      "delivered.mp4": 19
+    },
+    "quality_max_abs_delta": {
+      "mse": 0,
+      "lpips_vgg": 0,
+      "temporal_mse": 0,
+      "local_mae95": 0,
+      "psnr_db": 0
+    },
+    "status": "PASSED"
+  },
+  "resume": {
+    "status": "PASSED",
+    "old_pid": 14087,
+    "old_start_ticks": "232435",
+    "preserved_completed_receipts": {
+      "lavib_14959_shot0_7_0_0": "238eae4f6a1d87b0d676d1295f8045f3990978febe706485791a3b05eaf27dcb",
+      "lavib_9849_shot0_6_0_0": "8f60c6669476b841caf4d19a507810ae66af1c90b9abe0e5080cd14ce96b8380"
+    },
+    "preserved_observation_receipts": {
+      "clips/lavib_1683_shot1_3_1_1/observations/d5440a5806cb53b596778a5b/result.json": "42e3e5d1ac57aba3c0aa5b053d52e1a10a0d1417c9f0b4fc2be15769f846aa25"
+    },
+    "stopped_status": "INTERRUPTED",
+    "checked_unix": 1792545891.2975488,
+    "new_pid": 15155,
+    "resumed_done": 3
+  },
+  "monitor": {
+    "exit_code": 0,
+    "alternate_screen_enter": true,
+    "alternate_screen_restored": true,
+    "full_screen_clear_absent": true,
+    "fixed_rows": true,
+    "gpu_telemetry": true,
+    "local_worker_unchanged": true,
+    "remote_worker_unchanged": true,
+    "bytes_captured": 1792
+  },
+  "tests": {
+    "local_selector_tests": 24,
+    "remote_distributed_tests": 11,
+    "public_docs": "8 files, 633 links/anchors"
+  },
+  "code_sha256": {
+    "src/semantic_transmission/sparc_selector_distributed.py": "4f6a7b00f54665f96e6060bc3678c46336a3644dab595ae5f7acfe7f05a35102",
+    "scripts/run_sparc_selector_distributed.sh": "c9337d61d8806c6417cf7d10906b42e386ad793950f95cbceb7d4722c912e563",
+    "scripts/watch_sparc_selector_distributed.py": "545cd26a78bd568b4a5fbec36e887d42871720b3cff6f5448cf61b9b06b8ce69",
+    "tests/test_sparc_selector_distributed.py": "f218882c2ee8cabf84264c1c35768a61f39e01c137586295b64efa3cb4081c59"
+  },
+  "training_completed": false,
+  "full_label_generation_completed": false,
+  "quality_improvement_proven": false
+}

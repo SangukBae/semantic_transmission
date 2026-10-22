@@ -16,6 +16,7 @@ authoritative source. Verify before any redistribution or commercial use.
 | Open-Sora | https://github.com/hpcaitech/Open-Sora | Apache-2.0 | Decoder world model (pinned commit `bf4d6673`). |
 | LTX-2.5 22B Distilled | [Lightricks/LTX-2](https://github.com/Lightricks/LTX-2/tree/be6d6d0a69d11a0a399c462ed92606692e5f8697) · [weights](https://huggingface.co/Lightricks/LTX-2.5) | [LTX-2.x Community License](https://github.com/Lightricks/LTX-2/blob/be6d6d0a69d11a0a399c462ed92606692e5f8697/LICENSE-2_x) | Experimental BSU receiver replacement; official gated weights are downloaded separately. |
 | NTSCC_JSAC22 | https://github.com/wsxtyrdd/NTSCC_JSAC22 | **No LICENSE file** | Research code with no explicit license — contact the authors before reuse/redistribution. |
+| Torchvision ResNet50 V2 | [pytorch/vision v0.17.2](https://github.com/pytorch/vision/tree/v0.17.2) | See upstream LICENSE and pretrained weight terms | Frozen ImageNet feature extractor for experimental SPARC selector v3; official `resnet50-11ad3fa6.pth` is downloaded separately and SHA256 recorded. |
 | Sionna | https://github.com/NVlabs/sionna | Apache-2.0 | LDPC / channel simulation. |
 | PLLaVA | https://github.com/magic-research/PLLaVA | See upstream repo | Captioning model; check the repo + model card. |
 | UniMatch | https://github.com/autonomousvision/unimatch | See upstream repo | Optical flow; bundled inside Open-Sora `tools/scoring`. |
@@ -28,6 +29,7 @@ authoritative source. Verify before any redistribution or commercial use.
 | Component | Pinned upstream source | Observed code license | Role |
 |---|---|---|---|
 | DCVC-RT | [Microsoft DCVC at cbdae87](https://github.com/microsoft/DCVC/tree/cbdae87a5445114cdc7f48816da63ea80bdeac40) · [license](https://github.com/microsoft/DCVC/blob/cbdae87a5445114cdc7f48816da63ea80bdeac40/LICENSE.txt) | MIT | Initial image and predictive neural entropy coding |
+| DCVC-UF HT-S (experimental) | [Microsoft DCVC at cbdae87](https://github.com/microsoft/DCVC/tree/cbdae87a5445114cdc7f48816da63ea80bdeac40) · [license](https://github.com/microsoft/DCVC/blob/cbdae87a5445114cdc7f48816da63ea80bdeac40/LICENSE.txt) | MIT | Training-free 8-frame chunk comparison; official image/HT-S weights are downloaded separately and SHA256-pinned in `sparc_uf.py` |
 | Practical-RIFE 4.25 | [Practical-RIFE at bbfd2ea](https://github.com/hzwer/Practical-RIFE/tree/bbfd2ea90910789a860ea3e2b32a240cd577b75e) · [license](https://github.com/hzwer/Practical-RIFE/blob/bbfd2ea90910789a860ea3e2b32a240cd577b75e/LICENSE) | MIT | Interpolation between decoded anchors |
 
 The pinned checkouts' license files were inspected. Source and pretrained assets are obtained separately; neither weights nor these checkouts are redistributed here. Exact inference-weight and RIFE implementation hashes are checked by [DCVC integration](src/semantic_transmission/bsu_dcvc_keys.py) and [RIFE integration](src/semantic_transmission/dense_temporal_receiver.py). Model download terms remain those of their upstream distribution. The historical mixed BSU model retains Open-Sora/NTSCC dependencies for its `combined_context` branch and the existing TimeSformer evaluation terms. The SPARC branch uses the Qwen3.5 selector, DCVC-RT, Practical-RIFE and Sionna; it does not invoke Open-Sora, NTSCC or a caption LoRA. All pretrained assets are obtained separately.
@@ -47,6 +49,7 @@ The [setup script](scripts/setup_sparc_framer.sh) downloads these assets separat
 | Dataset | Source | Terms (summary) |
 |---|---|---|
 | WebVid | https://github.com/m-bain/webvid | Research-only; clips link to third-party content under the dataset's stated terms. |
+| LAVIB | [Official repository](https://github.com/alexandrosstergiou/LAVIB) · [official dataset](https://huggingface.co/datasets/astergiou/LAVIB) | CC BY-NC-SA 4.0. Downloaded separately; pinned upstream revision, original member names and media hashes retained in the training run. Custom source-grouped subset, not the official benchmark split. |
 | Kinetics-400 | https://github.com/cvdfoundation/kinetics-dataset | Annotations under CC BY 4.0 (DeepMind); the underlying videos belong to their original uploaders. |
 | OpenImages | https://storage.googleapis.com/openimages/web/index.html | Annotations under CC BY 4.0; images under their individual (mostly CC BY 2.0) licenses. |
 

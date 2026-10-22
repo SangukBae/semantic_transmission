@@ -1,0 +1,57 @@
+{
+  "date": "2026-10-22",
+  "status": "IMPLEMENTED_INTEGRATION_VERIFIED_QUALITY_UNPROVEN",
+  "target_cbr": 0.00065,
+  "architecture_parameters": 5154090,
+  "config_sha256": "bcd95c594b8decca476fb0d1fab71160888a0b078fa0eaf0eb162bc2941c6e8f",
+  "release_code": {
+    "src/semantic_transmission/sparc_selector_budget.py": "49c6836bb764df4b247ebbd5662eca5686c2fb84b25e0851098f6607e026004c",
+    "src/semantic_transmission/sparc_selector_v3_data.py": "71ecf1d08156d4055feebb05c7b19eca2d9824b902dfe87bb466ef50ab3fe7fe",
+    "src/semantic_transmission/sparc_selector_train_v3.py": "3425823f932af5b6e948e2086f00b9de0cf7f60ab209bba0d02f735017c4e57f",
+    "src/semantic_transmission/sparc_selector_dispatch.py": "d7b24492ce57d44f7721018c98fc4d26373ccf4f202ced64b30b5a48d7ff56c5"
+  },
+  "gpu_preflight_code": {
+    "src/semantic_transmission/sparc_selector_budget.py": "49c6836bb764df4b247ebbd5662eca5686c2fb84b25e0851098f6607e026004c",
+    "src/semantic_transmission/sparc_selector_v3_data.py": "71ecf1d08156d4055feebb05c7b19eca2d9824b902dfe87bb466ef50ab3fe7fe",
+    "src/semantic_transmission/sparc_selector_train_v3.py": "0d73ab5fe82844de86ecdfe2522d48634e5500354bb7b50149a9cc3b0d67263e",
+    "src/semantic_transmission/sparc_selector_dispatch.py": "d7b24492ce57d44f7721018c98fc4d26373ccf4f202ced64b30b5a48d7ff56c5"
+  },
+  "cuda_exact_resume": true,
+  "model_profile": {
+    "frames": 288,
+    "states": 8,
+    "step_seconds": 0.0834575600019889,
+    "peak_allocated_bytes": 219134976
+  },
+  "actual_feature_codec_channel_rife_validation": true,
+  "integration_train_parents": 1,
+  "integration_validation_parents": 1,
+  "integration_updates": 2,
+  "integration_target_met": false,
+  "actual_reallocation": {
+    "feasible": false,
+    "status": "NO_FEASIBLE_COHORT_FOUND",
+    "budget_uses": 8626,
+    "minimum_observed_uses": 39168,
+    "excess_fraction": 3.5406909343844193,
+    "observed_clips": 1
+  },
+  "heldout_test_used": false,
+  "full_training_complete": false,
+  "performance_improvement_proven": false,
+  "automatic_default_replacement": false,
+  "scope": "bounded integration test; not WebVid or Kinetics benchmark",
+  "post_preflight_changes": [
+    "infeasible cohort budget diagnostics and graded score",
+    "mark own output interrupted when safe training stop returns"
+  ],
+  "local_evidence": {
+    "gpu_preflight": "outputs/sparc_selector_v3_preflight_20261022/RESULT.json",
+    "post_preflight": "outputs/sparc_selector_v3_preflight_20261022/post_preflight.json"
+  },
+  "local_selector_tests_passed": 34,
+  "remote_selector_tests_passed": 34,
+  "local_public_document_links_checked": 646,
+  "remote_public_document_links_checked": 642,
+  "remote_code_identity_verified": true
+}

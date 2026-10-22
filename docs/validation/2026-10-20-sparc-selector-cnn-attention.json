@@ -1,0 +1,106 @@
+{
+  "launch_status": {
+    "status": "RUNNING",
+    "stage": "prepare_semantic_keys",
+    "done": 161,
+    "total": 2260,
+    "started_unix": 1792503817.8484986,
+    "stage_started_unix": 1792503819.543957,
+    "updated_unix": 1792503971.8974116,
+    "pid": 3854509,
+    "clip": "lavib_13057_shot0_8_0_0",
+    "log": "/home/sangukbae/ETRI/Semantic/semantic_transmission_sparc/outputs/sparc_selector_cnn_attention_v2_20261020/semantic.log",
+    "resume": "verified source hashes and cached Qwen calls"
+  },
+  "reuse": {
+    "parent": "/home/sangukbae/ETRI/Semantic/semantic_transmission_sparc/outputs/sparc_selector_v1_20261020",
+    "completed_clips_reused": 148,
+    "immutable_frames_hardlinked": true,
+    "parent_modified": false,
+    "old_optimizer_reused": false
+  },
+  "old_status": {
+    "status": "INTERRUPTED",
+    "stage": "prepare_semantic_keys",
+    "done": 148,
+    "total": 2260,
+    "started_unix": 1792500853.5848582,
+    "stage_started_unix": 1792501442.3800077,
+    "updated_unix": 1792503097.7577217,
+    "pid": 3806505,
+    "clip": "lavib_16329_shot0_8_0_0",
+    "error": "InterruptedError('stop requested; completed clips/steps retained')",
+    "exit_code": 130
+  },
+  "protocol_sha256": "3a08d19aeee39515b9c48ef9a3b9f90b310f9556eed3beb930696253ffaa8ccc",
+  "actual_verification": {
+    "cached_label_origin": "/home/sangukbae/ETRI/Semantic/semantic_transmission_sparc/outputs/sparc_selector_smoke_20261020",
+    "cached_label_protocol": "13623dd72550471f5b82a70d5de0c678eefd727c6dad54019d04402cd1f3063f",
+    "cuda_resume_bit_identical": true,
+    "actual_training_steps": 6,
+    "parameters": 410429,
+    "validation_history": [
+      {
+        "epoch": 1,
+        "steps": 4,
+        "val_loss": 1.5837278366088867,
+        "best": 1.5837278366088867,
+        "improved": true
+      }
+    ],
+    "long_clip_frames": 287,
+    "long_clip_peak_allocated_bytes": 660944384,
+    "cnn_gradient_norm": 5.957211354281753,
+    "attention_gradient_norm": 7.452133842278272,
+    "source_only_selection": {
+      "indices": [
+        0,
+        23
+      ],
+      "semantic_keys": [
+        0,
+        23
+      ],
+      "cuts": [],
+      "max_gap": null,
+      "selector": "learned_cnn_attention_v2_experimental",
+      "rate_lambda": 0.01,
+      "receiver_quality_used": false,
+      "selection_reads_source_only": true
+    },
+    "roundtrip": {
+      "channel_uses": 50688,
+      "bit_errors": 0,
+      "psnr": 26.486435905390096,
+      "source_pixels_at_receiver": false,
+      "packet_exact": true
+    },
+    "quality_improvement_proven": false,
+    "finished_unix": 1792503714.305987
+  },
+  "old_process_exited": true,
+  "exact_process_args": "/home/sangukbae/ETRI/Semantic/semantic_transmission_sparc/.local/bsu_codec_eval_env/bin/python -m semantic_transmission.sparc_selector_train_v2 --output /home/sangukbae/ETRI/Semantic/semantic_transmission_sparc/outputs/sparc_selector_cnn_attention_v2_20261020 --parent /home/sangukbae/ETRI/Semantic/semantic_transmission_sparc/outputs/sparc_selector_v1_20261020 ",
+  "code": {
+    "src/semantic_transmission/sparc_selector_cnn.py": "e0066a0dd0c1e4bf8521858a4a0948ddf6b96f7e5b7f672c64c20f02300d93ee",
+    "src/semantic_transmission/sparc_selector_train_v2.py": "c441ea0571ca6ac2dd31932bebd1149bb8f8b416e06793b75980761416cb5ff4",
+    "scripts/run_sparc_selector_v2.sh": "49848a00448556354e26bc582c37970d60aa14dc08f46a5967252b2bae1dbc99",
+    "scripts/watch_sparc_selector.py": "bdc8208f0eeb38a4fb8b8774db87ab456b1b63724bf2836eeda455992d4a645d",
+    "tests/test_sparc_selector_cnn.py": "c470a089d57d6c31e155ce05a8ff215dddd6a133b5977442e47092296a05db47"
+  },
+  "recorded_utc": "2026-10-20T13:46:16.052947+00:00",
+  "host": "sangukcom",
+  "local_sparc_tests": 109,
+  "remote_unit_tests": 6,
+  "monitor_verification": {
+    "exit_code": 0,
+    "fixed_row_cursor": true,
+    "no_full_screen_clear": true,
+    "alternate_screen_restored": true,
+    "gpu_telemetry": true,
+    "v2_title": true,
+    "v2_resume": true
+  },
+  "full_training_completed": false,
+  "rd_improvement_proven": false,
+  "default_enabled": false
+}

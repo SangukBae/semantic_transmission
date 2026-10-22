@@ -1,0 +1,86 @@
+{
+  "recorded_utc": "2026-10-20T13:07:46.135689+00:00",
+  "host": "sangukcom",
+  "output": "/home/sangukbae/ETRI/Semantic/semantic_transmission_sparc/outputs/sparc_selector_v1_20261020",
+  "source_clips": 2260,
+  "source_parent_ids": 1999,
+  "split_counts": {
+    "train": {
+      "clips": 1558,
+      "parents": 1387
+    },
+    "val": {
+      "clips": 380,
+      "parents": 322
+    },
+    "test": {
+      "clips": 322,
+      "parents": 290
+    }
+  },
+  "lavib_revision": "10b1be6f40d0b00f3817ee965d23950a206d3e42",
+  "lavib_sampling": "archive-order, at most two temporal crops per parent, one spatial crop",
+  "lavib_sampling_limit": "bounded archive prefix; not a uniform sample of the full benchmark",
+  "cleanup": {
+    "removed_files": 5012,
+    "removed_bytes": 1077365398,
+    "protected_unchanged": true
+  },
+  "smoke": {
+    "summary": {
+      "clips": 2,
+      "samples": 16,
+      "simulated_channel": true,
+      "actual_entropy_coding": true
+    },
+    "training": {
+      "status": "TRAINED_NOT_YET_RD_VALIDATED",
+      "epochs": 22,
+      "steps": 22,
+      "best_val": 1.467541217803955,
+      "checkpoint": "/home/sangukbae/ETRI/Semantic/semantic_transmission_sparc/outputs/sparc_selector_smoke_20261020/training/best.pt",
+      "checkpoint_sha256": "a5e93120693ffed6174ac599a9de0716129378c44fdd6ab10d55cc4ba2a11e57",
+      "automatic_default_replacement": false,
+      "performance_improvement_proven": false
+    },
+    "observations": 12,
+    "all_channel_exact": true,
+    "all_receiver_source_free": true
+  },
+  "launch_status": {
+    "status": "RUNNING",
+    "stage": "prepare_semantic_keys",
+    "done": 20,
+    "total": 2260,
+    "started_unix": 1792500853.5848582,
+    "stage_started_unix": 1792501442.3800077,
+    "updated_unix": 1792501658.6193333,
+    "pid": 3806505,
+    "clip": "lavib_599_shot1_1_1_0",
+    "log": "/home/sangukbae/ETRI/Semantic/semantic_transmission_sparc/outputs/sparc_selector_v1_20261020/semantic.log",
+    "resume": "verified source hashes and cached Qwen calls"
+  },
+  "new_tests_local": 7,
+  "new_tests_remote": 7,
+  "mid_batch_resume_identical": true,
+  "full_training_completed": false,
+  "rd_improvement_proven": false,
+  "default_enabled": false,
+  "code": {
+    "src/semantic_transmission/sparc_selector_data.py": "b4afe457a3afe4d46924a5b0fe6cddee5ca3e7d4f34a9a0726a6c5c210612c0c",
+    "src/semantic_transmission/sparc_selector_train.py": "4b2bdba4d12aee7fb07d3c37d4a92eb007ffec4ef39524f5dfb05ef650bad264",
+    "src/semantic_transmission/sparc_selector_workers.py": "536834d8f2bf0755b41daf9d0db6d7bc53ee1f8bddeef42db4483ddc5bc7aad3"
+  },
+  "sparc_regression_tests_local": 103,
+  "monitor_verification": {
+    "exit_code": 0,
+    "no_screen_clear": true,
+    "fixed_row_cursor": true,
+    "alternate_screen_restored": true,
+    "gpu_telemetry": true
+  },
+  "public_document_check": {
+    "local": "PASS: 8 files, 619 links/anchors",
+    "remote": "PASS: 8 files, 615 links/anchors"
+  }
+}
