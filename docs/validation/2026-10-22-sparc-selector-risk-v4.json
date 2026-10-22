@@ -1,0 +1,63 @@
+{
+  "date": "2026-10-22",
+  "status": "IMPLEMENTED_AND_CUDA_SMOKE_VERIFIED",
+  "architecture": "sparc_risk_selector_v4",
+  "full_retraining_started": false,
+  "performance_improvement_proven": false,
+  "default_replaced": false,
+  "local_sparc_tests_passed": 168,
+  "new_v4_tests_passed": 10,
+  "remote_real_cuda": {
+    "status": "REAL_TRAINING_CLIP_CUDA_CHECK_PASSED",
+    "clip": "lavib_11113_shot0_10_1_0",
+    "frames": 24,
+    "candidates": 36,
+    "spatial_shape": [
+      36,
+      24,
+      15
+    ],
+    "losses": [
+      9.902377581894171,
+      9.818997221959306,
+      9.719025558458215
+    ],
+    "new_head_gradients": {
+      "delta": 8.142623990774155,
+      "spatial": 50.253240870311856,
+      "violation": 1.8472983865067363
+    },
+    "cuda_resume_bit_identical": true,
+    "parent_checkpoint_sha256": "1e622f956013c0e6e13744340225245473c466eec7d9a254ca509e13f442c957",
+    "torch": "2.2.2+cu121",
+    "gpu": "NVIDIA GeForce RTX 4080",
+    "full_retraining": false,
+    "quality_improvement_proven": false
+  },
+  "quality_constraints": {
+    "maximum_psnr_drop_db": 0.5,
+    "maximum_lpips_increase": 0.01,
+    "scope": "per video against immutable adaptive baseline"
+  },
+  "measurement_budget": "source-derived seeds + 12 attempts per video in aggregate; failed attempts counted",
+  "calibration": "32 distinct validation parents; 8 other validation parents select checkpoint; 8 test parents evaluated afterward",
+  "limitations": [
+    "No full v4 retraining or matched v3/v4 quality experiment completed.",
+    "Initial risk thresholds require validation; shifted-domain coverage is not guaranteed.",
+    "Selection includes actual codec/receiver trials and original-reference quality measurements.",
+    "Safe budget feasibility is checked over the observed candidate pool, not the global optimum.",
+    "Training-resume checks pass despite PyTorch scheduler first-step bookkeeping warnings after restored validation interruption."
+  ],
+  "code_sha256": {
+    "configs/sparc_selector_v4.json": "9957f21f8a1a9836f3305049cd225be2082a8ae0e37d0adac027ade21822fc70",
+    "scripts/check_sparc_selector_v4.py": "5cebe05afe523d82713a7faa7a336c5c1c8bdb8ed77086afd61c3d6ac5a0ecee",
+    "scripts/run_sparc_selector_v4.sh": "71a6dea3f7b694033e59630c452c58d8c83d0438926b5f95024b2bec36811fd3",
+    "src/semantic_transmission/sparc_selector_compare_v4.py": "b4a5d784bc66debcab7386d49657034cca6c056a05d8d45ce7883f83e1bed01b",
+    "src/semantic_transmission/sparc_selector_risk.py": "a351c97d852ffa9ed737efb96455c582d988fdb72a6410fbcc605f9ed79dc619",
+    "src/semantic_transmission/sparc_selector_search_v4.py": "c564a96ab285ac0881f9577468adbe20bfdbf8e86cec2d146d92b81cbfb27cd5",
+    "src/semantic_transmission/sparc_selector_train_v4.py": "86887eaf8db19686045ea5bedc1d3ca989b624d3670ad5ac38c8c089b16542a5",
+    "src/semantic_transmission/sparc_selector_v4.py": "b9790fdfe0a0cf891ad4ddba47393974f4a3cab0762c9a6b9b71ff2e6ae321cf",
+    "src/semantic_transmission/sparc_selector_v4_data.py": "c285e6bc09701d6fd1aee8adc7d1ff2cd3c7731e43a392d40fcf9b289a08f073",
+    "tests/test_sparc_selector_v4.py": "3311f6239dd90c3413df6a7274c9ef881799a1d5d4010df852655f32fb1f913c"
+  }
+}

@@ -1,5 +1,47 @@
 # 설치·실행·학습·평가
 
+<a id="sparc-selector-v4"></a>
+## SPARC 위험 기반 선택기 v4 — 2026-10-22
+
+원격 `semantic-pc`의 SPARC 저장소에는 완료된 v3와 원본 정답이 있다. 해당 저장소에서:
+
+```bash
+bash scripts/run_sparc_selector_v4.sh check
+bash scripts/run_sparc_selector_v4.sh start
+bash scripts/run_sparc_selector_v4.sh watch
+bash scripts/run_sparc_selector_v4.sh status
+bash scripts/run_sparc_selector_v4.sh stop
+bash scripts/run_sparc_selector_v4.sh resume
+```
+
+`check`는 준비 상태 검사만 수행한다. `start`는 공간 정답 생성 → 추가 교사 탐색 → v3 공유 가중치로
+초기화한 v4 학습 → 독립 보정 → 실제 검증/최종 시험을 시작한다. 실행기는 공용 GPU 잠금을 지키며
+진행 단계·처리 수·배치·손실·GPU·메모리·로그를 고정 행 모니터로 표시한다.
+`stop`은 현재 측정 또는 optimizer update 경계에서 저장하고, `resume`은 모델·optimizer·scheduler·
+CPU/CUDA RNG·표본 및 예산 순서·위치를 함께 복원한다. 새 구조이므로 v3 optimizer를 재개하지 않는다.
+
+기본 출력은 `outputs/sparc_selector_risk_v4_20261022`, 부모는
+`outputs/sparc_selector_budget_v3_20261022`다. 다른 호스트에서는 `--parent V3_RUN --source-root V2_RUN`
+및 필요시 `--runtimes JSON`을 지정한다. 부모의 전체 학습/보정 특징·측정 파일과 로컬 원본 PNG가 필요하다.
+부분적으로 가져온 v3 체크포인트만으로 전체 학습을 시작하지 않는다. 사용자 지정 실행 경로는
+`run_options.json`에 저장되므로 이후 `resume --root PATH`로 복원된다.
+
+학습 완료 뒤 준비된 Kinetics 또는 WebVid 입력으로 비교할 때:
+
+```bash
+PYTHONPATH=src PYTHONNOUSERSITE=1 CUBLAS_WORKSPACE_CONFIG=:4096:8 \
+  .local/bsu_codec_eval_env/bin/python -m semantic_transmission.sparc_selector_compare_v4 \
+  --trained outputs/sparc_selector_risk_v4_20261022 \
+  --source outputs/sparc_kinetics14_qp30_v3_20261022 \
+  --output outputs/sparc_kinetics14_v3_v4_comparison
+```
+
+비교는 같은 원본·adaptive 기준·CBR·총 후보 측정 상한에서 v3와 v4를 실행하고 실제 측정 횟수,
+평균 및 최악 품질 변화, 영상별 위반, 예산 충족, 실행시간을 기록한다. 벽시계 시간에는 캐시 재사용이
+반영되므로 시간 비교에는 새 출력 폴더를 사용한다. v4가 조건을 충족하지 못하면 실패 후보를 최종 선택으로
+표시하지 않는다. 미충족 비율도 결과에 포함해 비교해야 한다.
+본 배포는 전체 재학습 완료나 성능 개선 인증을 뜻하지 않는다. [검증](RESULTS.md#sparc-selector-v4-result)
+
 <a id="sparc-webvid-long-search"></a>
 ## 로컬 WebVid 긴 구간 조합 탐색 — 2026-10-22
 
