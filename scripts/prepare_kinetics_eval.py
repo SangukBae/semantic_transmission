@@ -281,7 +281,7 @@ def build(root, workers):
     save(root/'environment.json',dict(ffmpeg=subprocess.check_output(['ffmpeg','-version'],text=True).splitlines()[0],
         builder_sha256=sha(__file__)))
     with (root/'videos.csv').open('w',newline='') as stream:
-        writer=csv.DictWriter(stream,fieldnames=['id','path','label_id','label','sha256','raw_sha256'])
+        writer=csv.DictWriter(stream,fieldnames=['id','path','label_id','label','sha256','raw_sha256'],lineterminator='\n')
         writer.writeheader();writer.writerows({k:r[k] for k in writer.fieldnames} for r in chosen)
     result=verify(root)
     save(root/'verification.json',result)

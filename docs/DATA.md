@@ -30,6 +30,13 @@ LGVSC 저자 전처리와 바이트 단위 동일성을 주장하지 않는다. 
 - [구축·무결성 검사](../scripts/prepare_kinetics_eval.py): `plan`, `build`, `verify`, `status`.
 - [배포 출처](https://github.com/cvdfoundation/kinetics-dataset). 영상과 다운로드 캐시는 Git에 넣지 않는다.
 
+2026-10-22 구축 완료: 400개 행동·각 3편, 총 1,200편·277,273프레임이다. 각 호스트의
+원본 1,200개와 전처리 영상 1,200개를 SHA256으로 검증했고 목록·계획 해시도 일치했다.
+선정 과정에서 2초 미만 3편과 원본 누락 1편을 사전 고정 순서의 다음 후보로 대체했다.
+원본+전처리본은 호스트당 약 3.14 GiB다. 등록 키는 `.local/datasets.json`의
+`kinetics400_eval1200`이다. [고정 목록](../configs/kinetics400_eval1200_manifest.csv) ·
+[양쪽 검증 기록](validation/2026-10-22-kinetics400-eval1200.json).
+
 <a id="sparc-selector-v4-data"></a>
 ## 선택기 v4 정답·보정 분리 — 2026-10-22
 

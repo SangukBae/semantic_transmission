@@ -38,6 +38,7 @@ pretrained_models/
 # ...but the fixed evaluation manifests are part of the release:
 !docs/eval_manifest_webvid.csv
 !docs/eval_manifest_kinetics.csv
+!configs/kinetics400_eval1200_manifest.csv
 *.log
 log*.txt
 timelog.txt

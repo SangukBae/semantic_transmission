@@ -1,0 +1,80 @@
+{
+  "date": "2026-10-22",
+  "status": "COMPLETE_TWO_HOST_HASH_VERIFIED",
+  "videos": 1200,
+  "classes": 400,
+  "per_class": 3,
+  "total_frames": 277273,
+  "raw_bytes": 1921263885,
+  "processed_bytes": 1446868489,
+  "manifest_sha256": "371c223934b83414f1a9b9a14dd7c75bab7c9d85bbd3df97008fd82c85b6e232",
+  "plan_sha256": "c2a97aced83ad0d0c7db85c214a91daf4389ca9a1412aa9dccdf625b77bea385",
+  "local_root": "/home/sangukbae/datasets/semantic_transmission/kinetics400_eval1200_v1",
+  "remote_host": "semantic-pc",
+  "remote_root": "/legend/semantic_transmission/datasets/kinetics400_eval1200_v1",
+  "upstream_split": "validation",
+  "project_role": "evaluation_only",
+  "seed": 20261022,
+  "selection": "SHA256(seed:filename) order within each class; first technically valid distinct sources",
+  "all_400_classes_have_exactly_3_videos": true,
+  "distinct_youtube_ids": 1200,
+  "duplicate_raw_hashes": 0,
+  "existing_14_youtube_overlap": 0,
+  "known_selector_source_hash_overlap": 0,
+  "all_1200_local_processed_videos_fully_decoded": true,
+  "all_2400_video_hashes_verified_on_each_host": true,
+  "local_and_remote_verification_identical": true,
+  "full_kinetics_benchmark": false,
+  "source_metadata_sha256": {
+    "val.csv": "358eaf47e7f80ebf9b17d49eb0635ad5e0fdab98a9cbd75ffdd2ee5d5e5b6944",
+    "archives.txt": "7c75bab47da18ba747e8bdd826bec9139672336fd3431caa71ff563473080e77",
+    "existing_kinetics14.csv": "8c10e3bc1ff80a083472d4b5ea9dbeaecd7a52a973f0b111a47fce0cf83e5f0e",
+    "selector_v3_sources.json": "843d2e31def32c0d9b030334c6a9a72e2f7950cf2f68a000a3404f3da58d7836"
+  },
+  "preprocessing": {
+    "width": 576,
+    "height": 320,
+    "fps": 24,
+    "filter": "fps=24,scale=576:320:flags=lanczos,setsar=1",
+    "codec": "libx264",
+    "crf": 18,
+    "preset": "medium",
+    "audio": false,
+    "min_duration_seconds": 2,
+    "max_duration_seconds": 16
+  },
+  "technical_rejections": [
+    {
+      "filename": "CjMcGn6C3h0_000003_000013.mp4",
+      "label": "archery",
+      "error": "duration outside registered technical bounds"
+    },
+    {
+      "filename": "zELH5RxB3M0_000004_000014.mp4",
+      "label": "cracking neck",
+      "error": "duration outside registered technical bounds"
+    },
+    {
+      "filename": "vI8Vp2-gfiU_000014_000024.mp4",
+      "label": "drop kicking",
+      "error": "not present in CVDF validation archives"
+    },
+    {
+      "filename": "ODsFDvcEXh0_000002_000012.mp4",
+      "label": "zumba",
+      "error": "duration outside registered technical bounds"
+    }
+  ],
+  "local_build_seconds": 1328.314632177353,
+  "local_tests_passed": 3,
+  "remote_tests_passed": 3,
+  "manifest_csv_sha256": "1cbc50845af46ab9e18f64fd3d7fb255168aa2b951aa9f3d56ec1a153f8fc22c",
+  "limitations": [
+    "Not the full Kinetics benchmark or the LGVSC author 14-video cohort.",
+    "Excludes exact raw hashes and known YouTube IDs; cross-dataset scene/near-duplicate overlap is not proven absent.",
+    "LAVIB parent IDs do not supply a verified mapping to all original YouTube sources.",
+    "Class balance is not a guarantee of crowd, occlusion, motion or camera diversity within each class.",
+    "Pretrained backbone/metric model training overlap is not audited."
+  ],
+  "model_evaluation_started": false
+}
