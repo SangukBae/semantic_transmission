@@ -1,5 +1,23 @@
 # 설치·실행·학습·평가
 
+<a id="kinetics400-eval1200"></a>
+## Kinetics-400 추가 시험 입력 확인
+
+[1,200편 시험 세트](DATA.md#kinetics400-eval1200)는 `raw/`와 `processed/` 및 공통 상대 경로
+목록 `videos.csv`·`manifest.json`을 제공한다. `videos.csv`의 경로는 데이터셋 루트 기준으로 해석한다.
+로컬과 원격의 `verify` 결과에서 `manifest_sha256`과 `plan_sha256`이 같아야 한다.
+
+```bash
+python3 scripts/prepare_kinetics_eval.py verify
+ssh semantic-pc 'cd /home/sangukbae/ETRI/Semantic/semantic_transmission_sparc && python3 scripts/prepare_kinetics_eval.py verify --root /legend/semantic_transmission/datasets/kinetics400_eval1200_v1'
+```
+
+구축 중에는 `python3 scripts/prepare_kinetics_eval.py status`를 사용한다.
+중단한 구축은 `build --workers 6`으로 재개한다. 다운로드는 HTTP Range, 완료한 원본 추출·전처리는
+해시 검증 후 재사용한다. 다른 선정 수량/seed는 새 루트와 `plan`으로 고정한다.
+새 구축의 `metadata/`에는 제외 기준인 `existing_kinetics14.csv`와 `selector_v3_sources.json`이 필요하다.
+이 명령은 입력 구축·검증이며 선택기 학습이나 복원 평가를 시작하지 않는다.
+
 <a id="sparc-selector-v4"></a>
 ## SPARC 위험 기반 선택기 v4 — 2026-10-22
 

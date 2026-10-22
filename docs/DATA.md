@@ -1,5 +1,35 @@
 # 데이터와 모델 입력
 
+<a id="kinetics400-eval1200"></a>
+## Kinetics-400 추가 시험 세트 — 1,200편
+
+`kinetics400_eval1200_v1`은 CVDF가 배포하는 Kinetics-400 **공식 validation 분할**에서
+400개 행동마다 3편씩 선정한 프로젝트 시험용 세트다. 공식 test 분할 전체나 LGVSC 저자의
+기존 14편과 구분한다. seed `20261022`와 원본 파일명 SHA256으로 클래스별 후보 순서를
+고정하며, 재생 가능 여부·2~16초 길이·중복 검사만으로 후보를 대체한다. 모델의 복원 성능은
+선정에 사용하지 않는다. 최종 완료 여부와 정확한 목록은 각 호스트의 `verification.json`과
+`manifest.json`으로 확인한다.
+
+기존 14편의 YouTube ID와 기존 선택기 원본 목록의 알려진 ID·원본 파일 해시를 제외한다.
+이는 정확한 파일/식별자 중복 검사이며, 서로 다른 데이터셋의 동일 장면·재인코딩 중복을
+전부 제거했다는 뜻은 아니다. 특히 LAVIB ID의 원 YouTube 출처 대응은 확인되지 않았다.
+이 세트는 선택기 학습·오차 보정·체크포인트 선택에 넣지 않는다. 향후 이 영상의 결과를 보고
+설계를 수정하면 개발 자료가 되므로 독립 시험 성능과 구분해야 한다.
+
+원본은 `raw/`, 공통 입력은 `processed/`에 둔다. 공통 입력은 전체 클립을 576×320·24fps,
+H.264 CRF18로 변환하고 음성을 제거한다. 종횡비 변경을 포함하는 별도 공통 전처리이며,
+LGVSC 저자 전처리와 바이트 단위 동일성을 주장하지 않는다. 400종류의 행동을 포함하지만
+각 클래스의 군중 수·가림·카메라 움직임까지 균등하게 분포하도록 주석한 세트는 아니다.
+
+`manifest.json`·`videos.csv`는 상대 경로와 원본/공통 입력 SHA256, 행동명/번호, YouTube ID,
+공식 구간·분할, 실제 프레임 수를 보존한다. 로컬에서 한 번 변환한 동일 파일을 원격에 복사한다.
+`plan.json`·`metadata/`는 후보 순서와 제외 자료를, `technical_rejections.json`은 기술적 탈락을 기록한다.
+
+- 로컬: `/home/sangukbae/datasets/semantic_transmission/kinetics400_eval1200_v1`
+- 원격 `semantic-pc`: `/legend/semantic_transmission/datasets/kinetics400_eval1200_v1`
+- [구축·무결성 검사](../scripts/prepare_kinetics_eval.py): `plan`, `build`, `verify`, `status`.
+- [배포 출처](https://github.com/cvdfoundation/kinetics-dataset). 영상과 다운로드 캐시는 Git에 넣지 않는다.
+
 <a id="sparc-selector-v4-data"></a>
 ## 선택기 v4 정답·보정 분리 — 2026-10-22
 
