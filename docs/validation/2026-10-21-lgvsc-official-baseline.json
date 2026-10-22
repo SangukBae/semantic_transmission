@@ -1,0 +1,71 @@
+{
+  "status": "PASSED_BOUNDED_CPU_VALIDATION",
+  "checked_at": "2026-10-21T12:03:36.621791+00:00",
+  "upstream_commit": "50c9ff98fb1aaa8136aef2e41e02bbb0d1a2d1c3",
+  "test_results": {
+    "passed": 41,
+    "skipped": 14,
+    "failures": 0,
+    "errors": 0,
+    "skip_reason": "GPU-only parity tests; CUDA hidden"
+  },
+  "preflight": {
+    "status": "PREFLIGHT_ONLY",
+    "videos": 14,
+    "output": "/home/sangukbae/semantic_transmission/outputs/lgvsc_official_minimal_10db",
+    "upstream_commit": "50c9ff98fb1aaa8136aef2e41e02bbb0d1a2d1c3",
+    "scope": {
+      "paper_reproduction": false,
+      "upstream_code_baseline": true,
+      "metadata": "CSV UTF-8 serialization adapter, LDPC(6144,9216)/16-QAM/AWGN 10 dB; no CRC or extra headers",
+      "cbr": "author NTSCC visual plus idealized rate-index cost; measured caption/flow LDPC cost separate",
+      "evaluation": "official metric definitions with explicit source-index alignment",
+      "resume": "hash-verified completed stages; interrupted stage restarts; no per-frame/model-step resume",
+      "checkpoint_identity": "local public checkpoint pinned; identity to author paper training unverified"
+    }
+  },
+  "entrypoints": [
+    {
+      "entrypoint": "MLM-keyframe-internvl.py",
+      "returncode": 0
+    },
+    {
+      "entrypoint": "mydemo_new_align_sh.py",
+      "returncode": 0
+    }
+  ],
+  "preprocessing": {
+    "source": "__lt03EF4ao_000010_000020",
+    "source_sha256": "a393e9d3a428d9169ff680bf5d207a4f8ec40ef2928805cec5ac67dab5954036",
+    "frames": 241,
+    "candidate_count": 61,
+    "last_candidate": 240,
+    "actual_eof_added": false,
+    "normalized_sha256": "28b722369bc3311be3126c2cbe9cd056431c658c7e86187e019827392b917613",
+    "executed": "pinned author MoviePy and FFmpeg scripts",
+    "pixel_identity_to_authors_original_processed_files": "unverified",
+    "previous_replay_note": "Earlier audit used two encoding threads; all 241 decoded frames differ from default-thread author-script execution. Same procedure is not byte identity across environments."
+  },
+  "channel": {
+    "backend": "sionna_ldpc5g_qam_awgn",
+    "information_bits": 616,
+    "bits_per_symbol": 4,
+    "ldpc_k": 6144,
+    "ldpc_n": 9216,
+    "complex_channel_uses": 2304,
+    "bit_errors": 0,
+    "byte_identical": true
+  },
+  "resume": {
+    "verified": true,
+    "stages": [
+      "initialize",
+      "prepare"
+    ],
+    "root": "outputs/lgvsc_official_validation_20261021_v2",
+    "protocol_signature": "9eaa50e3ccdb383ecee9a6432bd0c0bb8871a76e564ce9f06276f3e147edc39e"
+  },
+  "full_gpu_inference_executed": false,
+  "full_paper_reproduction_verified": false,
+  "existing_tracked_code_modified": false
+}

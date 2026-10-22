@@ -1,0 +1,116 @@
+{
+  "status": "PASSED_CODE_ALIGNMENT_BOUNDED_VALIDATION",
+  "checked_at": "2026-10-21T14:41:04.222988+00:00",
+  "profile": "lgvsc_official_table_10db_v2",
+  "upstream_commit": "50c9ff98fb1aaa8136aef2e41e02bbb0d1a2d1c3",
+  "changes": [
+    "same-index delivered MP4 evaluation",
+    "reference first/last-100 windows",
+    "equal video means and author CSV schema",
+    "default WebVid55 with manifest hashes and explicit incomplete cohorts",
+    "separate public/measured/estimated CBR scopes and model/SNR table"
+  ],
+  "tests": {
+    "passed": 49,
+    "skipped": 1,
+    "failures": 0,
+    "skipped_reason": "existing GPU-only metric parity test",
+    "command": "CUDA_VISIBLE_DEVICES=-1 PYTHONPATH=src python -m pytest -q tests/test_lgvsc_official.py tests/test_official_reporting.py tests/test_lgvsc_alignment.py tests/test_official_profile.py"
+  },
+  "real_cpu_metric_parity": {
+    "status": "PASSED_ACTUAL_FIVE_METRIC_CPU_PARITY",
+    "pairs": 2,
+    "device": "cpu",
+    "max_absolute_errors": {
+      "lpips_vgg": 0.0,
+      "clip": 0.0,
+      "dists": 0.0,
+      "psnr_db": 0.0,
+      "ssim": 0.0
+    },
+    "full_video_model_inference": false
+  },
+  "preprocessing": {
+    "input": "WebVid hands-of-girl-fall-out-sweets",
+    "video": {
+      "width": 576,
+      "height": 320,
+      "frames": 153,
+      "fps": 24.0,
+      "duration": 6.375
+    },
+    "source_sha256": "efae75c745a48738e4c8c19d1e1777eea2ecb18e1fe22463fd255ce99d698078",
+    "normalized_sha256": "0aca7e13c517102321fc16e9b0fe36d07c070a26ad9a0af32c845846eb4fd007",
+    "actual_eof_added": false
+  },
+  "resume": {
+    "verified": true,
+    "unchanged_hashes_and_mtimes": true,
+    "root": "outputs/lgvsc_official_table_v2_prepare_20261021"
+  },
+  "webvid_cohort": {
+    "name": "webvid55",
+    "expected_videos": 55,
+    "available_videos": 53,
+    "complete": false,
+    "missing_files": [
+      "stock-footage-norway-pulpit-rock-falls.mp4",
+      "stock-footage-in-a-park-a-small-white-dog-is-waiting-on-a-leash-next-to-its-owner-who-is-sitting-on-a-bench-it.mp4"
+    ],
+    "manifest": "/home/sangukbae/semantic_transmission/.local/vendor/LGVSC-official/50c9ff98fb1aaa8136aef2e41e02bbb0d1a2d1c3/docs/eval_manifest_webvid.csv",
+    "manifest_sha256": "6afe2ca53ac9162036a5485cd450f868a8e16182e0c034447da7f3b56ea2f579",
+    "identity": "WebVid main quality cohort",
+    "source_hashes_verified": true
+  },
+  "kinetics_cohort": {
+    "name": "kinetics14",
+    "expected_videos": 14,
+    "available_videos": 14,
+    "complete": true,
+    "missing_files": [],
+    "manifest": "/home/sangukbae/semantic_transmission/.local/vendor/LGVSC-official/50c9ff98fb1aaa8136aef2e41e02bbb0d1a2d1c3/docs/eval_manifest_kinetics.csv",
+    "manifest_sha256": "8c10e3bc1ff80a083472d4b5ea9dbeaecd7a52a973f0b111a47fce0cf83e5f0e",
+    "identity": "Kinetics action cohort; quality only here",
+    "source_hashes_verified": true
+  },
+  "strict_webvid_check": {
+    "exit_code": 2,
+    "reason": "two unavailable originals; no silent partial-cohort run"
+  },
+  "missing_source_checks": [
+    {
+      "filename": "stock-footage-norway-pulpit-rock-falls.mp4",
+      "status": "UNAVAILABLE",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "filename": "stock-footage-in-a-park-a-small-white-dog-is-waiting-on-a-leash-next-to-its-owner-who-is-sitting-on-a-bench-it.mp4",
+      "status": "UNAVAILABLE",
+      "error": "HTTP Error 403: Forbidden"
+    }
+  ],
+  "checks": {
+    "public_docs": "PASS: 10 Markdown files, 636 local links/anchors",
+    "shell_syntax": "PASS",
+    "diff_whitespace": "PASS"
+  },
+  "remaining_limits": [
+    "paper checkpoint byte identity unverified",
+    "SNR 0-8 author weights unavailable",
+    "caption/flow serialization not published",
+    "NTSCC rate-index physically unsimulated; only capacity estimate",
+    "memory/hardware numerical equivalence not fully verified",
+    "downstream tasks outside this video-quality runner"
+  ],
+  "full_video_model_inference": false,
+  "paper_reproduction_verified": false,
+  "code_sha256": {
+    "configs/lgvsc_official_baseline.json": "92084bb0aac6fa84b61da4dbbb4a5d6c7f3db7c3cdf3087b37d032cd669f313e",
+    "configs/lgvsc_official_sources.json": "5d3eaf69ca6c3a68a8e4c08e62ab7a33838a68cb60f2e5f3ac8797ecfa89de4a",
+    "src/semantic_transmission/lgvsc_official.py": "82e0fdbe8caf30d747869fcd8674b2ec83de16bc3e8aa445ab536510359ef87e",
+    "src/semantic_transmission/official_baseline_workers.py": "b3f3acd25d3e2981320e23f92abc5307fa792c244ea5e5419551e5345bb2a12f",
+    "src/semantic_transmission/official_reporting.py": "5b303f4c216c25337a8d50e5fb053a6e5e98c67e5e4eeba9bef56a75852c8151",
+    "tests/test_lgvsc_official.py": "052703933104034f7c6ecd3a54a896c32298612db21dde216879ee843440c96d",
+    "tests/test_official_reporting.py": "bd319393ad8b0791c895d3334d88c72688cf73f8f8223c6362a343782eec0c80"
+  }
+}

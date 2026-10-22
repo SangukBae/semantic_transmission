@@ -1,0 +1,125 @@
+LGVSC 공개 구현 기준선 v2 — 공식 프레임 평가·WebVid 주평가 설정
+
+목적
+SPARC 비교에 사용한 수정 LGVSC와 별도로, 저자 공개 코드의 동작을 유지하는 기준선이다.
+기존 LGVSC/BSU/SPARC 실행 코드와 결과 폴더를 수정하지 않는다.
+공식 upstream commit: 50c9ff98fb1aaa8136aef2e41e02bbb0d1a2d1c3
+설정: configs/lgvsc_official_baseline.json
+원본 파일 URL/SHA256: configs/lgvsc_official_sources.json
+
+실행 (저장소 루트에서)
+  bash scripts/run_lgvsc_official.sh fetch
+  bash scripts/run_lgvsc_official.sh check
+  bash scripts/run_lgvsc_official.sh start
+  bash scripts/run_lgvsc_official.sh watch
+  bash scripts/run_lgvsc_official.sh status
+
+fetch는 작은 공식 스크립트만 내려받고 해시를 확인한다. 모델/패키지 설치나 학습을 하지 않는다.
+check는 사전검사다. start는 tmux에서 전체 추론을 시작한다.
+기본 입력은 .local/datasets.json에 등록된 저자 WebVid 원본 55편이며 manifest SHA256을 확인한다.
+기본 출력은 outputs/lgvsc_official_webvid55_10db_v2/ 이다.
+누락 원본이 있으면 check/start가 실패하고 누락 목록을 표시한다. 잘못된 해시는 항상 거부한다.
+확보된 원본만 명시적으로 실행하려면 다음 옵션을 사용한다:
+  bash scripts/run_lgvsc_official.sh check --allow-incomplete-cohort
+  bash scripts/run_lgvsc_official.sh start --allow-incomplete-cohort
+이 경우 protocol/결과/CBR 표에 complete=false, 실제 편수, 기대 편수, 누락 목록이 남는다.
+53편 결과를 55편 전체 재현이라고 표시하지 않는다. 2026-10-21 확인 당시 로컬/원격 모두
+원본 2편이 없었고 공개 다운로드 URL은 HTTP 403이었다. 나머지 53편은 저자 해시와 일치했다.
+Kinetics 선택은 --cohort kinetics14이며 출력은 outputs/lgvsc_official_kinetics14_10db_v2/이다.
+Kinetics14는 동작 인식 평가 코호트이며, 이 명령은 해당 영상의 화질만 평가한다.
+TimeSformer/캡션/깊이의 downstream 과제는 이 실행 경로에 포함되지 않는다.
+
+단일 영상/별도 출력
+  bash scripts/run_lgvsc_official.sh check --input /absolute/path/raw.mp4 --root outputs/lgvsc_official_video1
+  bash scripts/run_lgvsc_official.sh run --input /absolute/path/raw.mp4 --root outputs/lgvsc_official_video1
+--input은 여러 번 지정할 수 있다. 입력 파일 stem은 서로 달라야 한다.
+기존 전처리 영상이 아니라 원본 MP4를 지정해야 한다.
+--input은 custom 코호트로 기록하며, 논문 전체 데이터셋 일치를 주장하지 않는다.
+--input과 --cohort/--allow-incomplete-cohort는 함께 지정할 수 없다.
+--input-dir는 선택 코호트의 원본 폴더를 바꾼다. 기본은 WebVid55이며
+--cohort kinetics14 --input-dir /path/to/raw 는 저자 Kinetics 원본을 검사한다.
+코호트 명시 없이 --input을 사용하면 기본 출력은 outputs/lgvsc_official_custom_10db_v2/이다.
+
+부분 실행과 중단/재개
+  bash scripts/run_lgvsc_official.sh prepare
+  bash scripts/run_lgvsc_official.sh rate
+  bash scripts/run_lgvsc_official.sh stop
+  bash scripts/run_lgvsc_official.sh run
+prepare는 공식 전처리까지 수행한다. rate는 선택·캡션·광류·NTSCC·메타데이터 채널까지 수행한다.
+같은 출력으로 run을 다시 실행하면 완료 단계의 파일 해시를 확인하고 재사용한다.
+중단된 단계의 부분 결과는 failed_attempts/로 이동한 뒤 그 단계를 처음부터 실행한다.
+SKEM의 중간 프레임이나 Open-Sora의 중간 sampling step에서 이어가는 기능은 제공하지 않는다.
+입력, 모델 inventory, 체크포인트, 실행 코드가 바뀌면 기존 출력 재개를 거부한다.
+v1 결과는 보존하며 v2 평가/입력 규칙으로 이어 쓰지 않는다. 새 출력 폴더를 사용한다.
+stop은 LGVSC_OFFICIAL_SESSION(기본 lgvsc_official)에만 Ctrl+C를 전달한다.
+종료된 tmux 화면이 남아 있으면 새 세션 이름을 사용할 수 있다:
+  LGVSC_OFFICIAL_SESSION=lgvsc_official_resume bash scripts/run_lgvsc_official.sh start
+  LGVSC_OFFICIAL_SESSION=lgvsc_official_resume bash scripts/run_lgvsc_official.sh watch
+전경 run은 Ctrl+C로 중단한다. watch는 읽기 전용이다.
+진행 화면은 현재 단계, 관측된 진행률, 경과 시간, 로그, GPU 사용률/VRAM을 표시한다.
+충분한 실측이 없는 전체 ETA는 미확정으로 표시한다.
+
+유지하는 공식 동작
+- 저자 edit_movie.py로 최대 16초/24fps H.264 저장 후 resize_videoframe.sh로 576x320 재인코딩.
+- get_frame.py의 interval=0.2, 24fps에서 4프레임 간격 후보. 실제 마지막 프레임을 추가하지 않음.
+- 원본 SKEM 스크립트의 InternVL2-8B, BF16, PSSS 0.35, 프롬프트/토큰/확률 계산 유지.
+- 공식 MoviePy stream-copy 구간 절단, PLLaVA 4프레임 캡션, UniMatch 광류 설정 유지.
+- 원본 main_save.py의 test()를 실행. NTSCC quality_4, AWGN 10 dB, seed 1024.
+- Open-Sora 원본 생성 스크립트: 이전 생성 구간 전체를 VAE에 넣고 마지막 latent 참조 사용.
+- align=5, 원래 RFLOW 시간표, 구간별 모델 재생성, seed 42, 30단계, 공식 경계 중복 결합 유지.
+- tail17, 짧은 구간 패딩, 조건 충돌 수정, 짧은 시간표 수정, endpoint_exact, 모델 재사용을 적용하지 않음.
+실행 오류가 나면 로그/부분 결과를 보존하고 실패한다. 자동으로 연구용 수정에 전환하지 않는다.
+
+허용한 실행 변경
+- InternVL BF16 계층을 CPU에서 GPU로 이동; 가중치 양자화 없음.
+- T5는 FP32 CPU에서 계산한 결과를 dtype을 유지해 GPU로 전달.
+- 생성 구간은 CPU 보관, 다음 참조 시 전체 구간을 GPU로 복사.
+- 이전 생성 모델을 해제한 뒤 다음 모델 생성. 공식 모델 생성 횟수/난수 소비 유지.
+- 기존 검증된 attention/MLP 독립 배치·토큰 분할로 임시 VRAM 제한. 문맥 길이/해상도/단계 수 유지.
+- 로컬 모델 경로, CSV 안전 파싱, 진행·참조 trace, lossless PNG 관측 기록.
+각 영상의 run/release/*.patch와 patches.json에 공식 스크립트 대비 실제 수정이 남는다.
+이 변경들이 모든 하드웨어에서 비트 단위 같은 출력을 보장한다는 뜻은 아니다.
+외부 모델 라이브러리의 로컬 경로/API 호환 패치와 실행 파일도 protocol.json에 해시를 기록한다.
+
+공개 구현만으로 고정되지 않는 항목과 명시적 연결 처리
+- 저자 공개 자료는 캡션/광류의 비트 직렬화 포맷을 확정하지 않는다.
+  이 기준선은 path,text,flow CSV UTF-8 바이트에 LDPC(6144,9216), 16-QAM, AWGN 10dB를 적용한다.
+  로컬 직렬화 어댑터임을 protocol.json과 metadata_channel.json에 명시한다. 추가 CRC/JSON 헤더는 없다.
+- 원본 NTSCC CBR은 visual JSCC + 이상적인 채널 부호를 가정한 rate-index 비용이다.
+  원본 함수 결과와 관측한 visual 및 rate-index 근사 비용의 합을 교차 검증한다.
+  official_reference_cbr: 공개 함수 원래 분모(마지막 후보+1)와 비용 경계를 유지한다.
+  measured_simulation_cbr: 실제 시뮬레이션한 visual+캡션/광류 LDPC 비용 / 전체 입력 RGB 원소 수.
+  estimated_semantic_total_cbr: 위 비용에 rate-index 이론 근사 비용을 추가 / 전체 입력 RGB 원소 수.
+  마지막 값은 전체 의미정보 전송 비용의 추정값이다. 실제 전체 전송량이라고 부르지 않는다.
+  rate-index 자체의 실제 디지털 송수신과 물리 링크 오버헤드는 구현되지 않았으므로
+  actual_complete_transmission_cbr는 null을 유지한다. 논문 표 집계와 동일성도 미확인이다.
+- 공식 후보가 원본 마지막 프레임에 못 미치거나 경계가 중복되는 경우 그대로 보존한다.
+  v2 기본 평가는 공개 final_score_calc_100.py처럼 원본[i]와 복원 MP4[i]의 공통 프레임만 비교한다.
+  중복 경계를 원본 번호로 재대응시키거나 제거하지 않는다. PNG 관측 영상은 주 평가에 쓰지 않는다.
+  PSNR/SSIM/LPIPS-VGG/CLIP/DISTS 및 원본 기준 앞/뒤 100프레임 PSNR/SSIM을 기록한다.
+  짧은 복원으로 원본 마지막 100프레임 구간에 대응 프레임이 없으면 공개 함수처럼 0을 기록한다.
+  comparison_scores.csv는 영상별 지표와 영상마다 같은 가중치의 Average 행을 기록한다.
+  모델 결과/가중치/환경까지 논문과 동일하다는 뜻은 아니다.
+- 공개 가중치를 사용해도 저자의 실제 논문 학습 결과와 바이트 동일성은 별도 확인 사항이다.
+- 현재 버전은 공개 quality_4가 있는 10dB만 지원한다. 다른 SNR을 같은 가중치로 공식 재현이라고 표시하지 않는다.
+- 실행 환경에 따라 전처리 픽셀·선택 결과가 달라질 수 있다. 원본 입력/정규화 영상/코드 해시와 환경을 보존한다.
+
+주요 산출물
+protocol.json: 입력 SHA256, 공개 코드 버전, 실행 코드/체크포인트 해시, 모델 inventory, 조건과 한계.
+environment.json: 패키지/벤더 버전, FFmpeg/MoviePy 환경, GPU 정보.
+videos/<id>/stages/: 완료 단계별 필수 파일/의존성 해시.
+videos/<id>/run/prepare.json: 실제 프레임 수, 원본/1차/최종 영상 해시, 공식 후보 목록.
+videos/<id>/run/ntscc.json: 공개 함수 CBR, 실제 visual 심볼 수, 사용 체크포인트와 처리 순서.
+videos/<id>/run/metadata_channel.json: 캡션/광류 LDPC 비용·비트 오류·바이트 동일성.
+videos/<id>/run/receiver/: 실제 생성 영상, lossless PNG, 참조·메모리 trace.
+RATE_RESULT.json: 공개 코드식 CBR, 실제 시뮬레이션 CBR, rate-index 포함 추정 CBR; 영상 평균/분모 가중 평균.
+CBR_TABLE.csv: 모델/SNR/코호트/실제·기대 편수/완전성 및 세 종류의 평균 CBR.
+videos/<id>/run/quality.json: 같은 번호 MP4 평가, 앞/뒤100 집계, 비교/제외 프레임 수.
+videos/<id>/run/quality_delivered_mp4.csv: 프레임별 다섯 지표.
+comparison_scores.csv: 공개 평가 열 이름·순서 및 영상별 동일 가중 평균.
+RESULT.json: 전체 복원·품질 평가 완료 시 생성. 사전검사나 전처리만으로 만들지 않는다.
+
+이번 구현 검증의 범위
+CPU 회귀 테스트, 공식 스크립트 실제 --help 진입, 실제 원본 한 편의 두 단계 전처리,
+실제 CPU Sionna LDPC 왕복과 완료 단계 재개를 검증한다.
+전체 InternVL/PLLaVA/NTSCC/Open-Sora GPU 추론 및 논문 수치 재현은 별도 실행으로 검증해야 한다.

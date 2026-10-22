@@ -4,6 +4,24 @@
 
 **2026-10-19 개발 기준:** 이 `BSU-Gen` 브랜치에서 `run_bsu.sh`·`run_bsu_gen.sh`는 생성 경로만 실행한다. 예측 전용은 `run_bsu_predict.sh`, 과거 혼합은 `run_bsu_hybrid.sh`, 과거 생성 배치는 `run_bsu_webvid.sh`·`run_bsu_kinetics.sh`로 보존한다. `BSU-Predict` 브랜치의 기본 명령은 변경하지 않았다.
 
+<a id="lgvsc-official-baseline"></a>
+## LGVSC 공개 구현 기준선
+
+[별도 실행기](../scripts/run_lgvsc_official.sh)는 고정된 저자 코드의 두 단계 전처리·SKEM·DSA를 사용한다. v2 기본 입력은 **WebVid 55편·AWGN 10 dB**이며 저자 원본 manifest의 SHA256을 확인한다. 화질은 공개 평가 코드처럼 **같은 번호의 원본·복원 MP4 프레임**으로 계산한다. 앞/뒤 100프레임 PSNR/SSIM과 영상별 동일 가중 평균도 기록한다.
+
+```bash
+bash scripts/run_lgvsc_official.sh fetch
+bash scripts/run_lgvsc_official.sh check
+# 55편 원본이 모두 확인된 뒤 전체 추론 시작
+bash scripts/run_lgvsc_official.sh start
+bash scripts/run_lgvsc_official.sh watch
+bash scripts/run_lgvsc_official.sh status
+```
+
+원본 누락 시 기본 실행은 중단한다. 확보된 부분 집합을 명시적으로 선택하려면 `check`와 `start`에 `--allow-incomplete-cohort`를 붙인다. 결과에는 실제/기대 편수와 `complete=false`가 남는다. Kinetics 14편의 화질 실행은 `--cohort kinetics14`로 선택하며, TimeSformer 동작 분류는 이 명령에 포함되지 않는다.
+
+기본 결과는 `outputs/lgvsc_official_webvid55_10db_v2/`에 저장한다. `comparison_scores.csv`는 공개 화질 평가 형식이며, `CBR_TABLE.csv`는 공개 코드식 CBR·실제 시뮬레이션 CBR·rate-index의 이론 비용을 더한 추정 CBR을 구분한다. 마지막 항목은 실제 전체 패킷 전송량으로 해석하지 않는다. 캡션/광류 CSV 전송 형식, 논문 당시 가중치 동일성, 미공개 저SNR 가중치는 여전히 재현 한계다. [설정](../configs/lgvsc_official_baseline.json) · [재개·회계·한계 상세](LGVSC_OFFICIAL_BASELINE.txt)
+
 <a id="bsu-default"></a>
 <a id="bsu-gen"></a>
 ## BSU-Gen 실행
