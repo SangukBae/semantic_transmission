@@ -31,6 +31,8 @@ flowchart LR
 <a id="scope"></a>
 ## 검증 범위와 한계
 
+**후속 연구 갱신 — 2026-10-22:** 공동 키 선택·전송률 예측기는 별도 연구 경로다. 600개 실측 정답 구축은 최종 완료 보고서가 없고, 확인 시점에 실행 프로세스도 없었다. 기본 정책으로 적용하거나 본학습·품질 개선 완료로 표시하지 않는다. 새 LGVSC 공개 구현 기준선은 제한된 코드·전처리·평가 정합 검증을 마쳤으며 전체 GPU 복원·논문 재현 완료는 아니다. [예측기 상태](docs/RESULTS.md#bsu-joint-allocation-status) · [공식 기준선 검증 범위](docs/RESULTS.md#lgvsc-official-baseline-result)
+
 현황 정리: **2026-10-19**. 생성 전용 실행기·전체 영상 준비·독립 프로토콜·실제 비용 집계·실패 중단·재개를 구현했습니다. 실제 LTX 두 영상의 짧은 구간·두 seed 비교에서 다중 키의 PSNR·LPIPS가 네 조건 모두 개선돼 다중 키만 기본 경로에 통합했습니다. 모델 대역 연결 시험과 실제 파일럿 조건의 일치도 확인했습니다. 새 생성 기본 경로의 전체 GPU 생성과 독립 의미 오류 평가는 미실행입니다. 별도 BSU-Predict의 NTSCC+/RIFE는 원격 Kinetics 001 전체 복원과 화질 평가를 완료했으며, 기존 DCVC 대비 화질 개선과 함께 전송량이 7.75배 증가했습니다. [다중 키 검증](docs/RESULTS.md#bsu-ltx-multikey-default) · [BSU-Predict 실측 결과](docs/RESULTS.md#bsu-predict)
 
 10월 16일의 14편·3,333프레임 비교는 **예측 8편 + 생성 6편의 혼합 BSU** 결과입니다. 전송 2,470,155·PSNR 26.305dB·LPIPS 0.23462를 예측 전용 모델의 수치로 사용할 수 없습니다. 적응형 간격+QP의 추가 1.12% 절감도 당시 혼합 모델 기준입니다. [이전 모델의 결과와 증거](docs/RESULTS.md#bsu-predictive-default)
@@ -91,6 +93,8 @@ bash scripts/run_qwen35_caption.sh caption \
 | [평가 지표](docs/METRICS.md) | 계산식, 평가 절차, 집계·판정 한계 |
 | [실험 결과](docs/RESULTS.md) | 기준선·ablation·실패 사례·재현 정보 |
 | [BSU 전송량·품질 연구안](docs/research/BSU_RATE_QUALITY_IDEAS_2026-10-11.md) | 통합 아이디어, 검증 이력, 남은 연구 후보 |
+| [BSU-Gen 개선 후보](docs/research/BSU_GEN_IMPROVEMENT_IDEAS_2026-10-19.md) | 생성·전송 후보의 근거, 실측과 미검증 제안 구분 |
+| [공동 키 선택·전송률 예측기](docs/research/BSU_JOINT_ALLOCATION_PREDICTOR.md) | 별도 예측기 설계·데이터 계약; 최신 실행 상태는 RESULTS 참고 |
 | [외부 저작물](THIRD_PARTY_NOTICES.md) | LGVSC·외부 모델 출처와 기존 고지 |
 
 ## 코드와 인용

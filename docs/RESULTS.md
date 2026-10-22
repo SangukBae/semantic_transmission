@@ -1,5 +1,19 @@
 # 실험 결과와 재현 범위
 
+<a id="bsu-joint-allocation-status"></a>
+## 공동 키 선택·전송률 예측기 — 2026-10-22 상태 확인
+
+모델·실제 비용 제약·정답 구축·학습 실행기는 구현했지만 **600개 정답 구축은 미완료이며 확인 시점에 실행 프로세스가 없다.** `outputs/bsu_allocation_labels_600_20261019/status.json`에는 `RUNNING / batch 11/26 evaluate`가 남아 있으나 기록된 PID 6420과 해당 구축·학습 프로세스는 존재하지 않았다. `RESULT.json`, `DATASET_AUDIT.json`, `dataset.json`, `PREDICTOR_VALIDATION.json`도 없다. 남은 상태 파일만으로 작업이 실행 중이라고 판단하지 않는다. 중단 원인이나 완료 후보 수는 이 확인만으로 확정하지 않는다.
+
+초기 49프레임 후보의 생성·평가, 구현 테스트와 완료 구간 재사용 검증은 [기존 기록](validation/2026-10-19-bsu-allocation-labels-600.json)으로 보존한다. 이 근거를 600개 전체 완료·예측기 본학습·일반화 성능으로 확대하지 않는다. 모델은 기본 BSU 정책에 적용하지 않았다. [상태 확인 근거](validation/2026-10-22-research-status-reconciliation.json) · [구조](MODEL_ARCHITECTURE.md#bsu-joint-allocation) · [자료](DATA.md#bsu-joint-allocation-data) · [확인·재개 명령](RUN_GUIDE.md#bsu-joint-allocation)
+
+<a id="lgvsc-official-baseline-result"></a>
+## LGVSC 공개 구현 기준선 v2 — 제한 검증 완료
+
+고정 저자 commit `50c9ff98fb1aaa8136aef2e41e02bbb0d1a2d1c3`을 사용하는 별도 실행기와 공식 MP4 프레임 평가·CBR 보고 경로를 추가했다. 기존 [로컬 수정 LGVSC 대조](#bsu-predictive-default)와 구분한다. 2026-10-21 기록은 `PASSED_CODE_ALIGNMENT_BOUNDED_VALIDATION`: 관련 검사 49개 통과·GPU 전용 검사 1개 제외, 실제 CPU 평가 정합·전처리·단계 재개 검사다. **전체 영상 모델 추론과 논문 재현은 미완료**다.
+
+당시 WebVid 저자 목록 55편 중 53편의 원본 해시가 일치했고 2편은 누락됐다. 부분 집합 실행은 명시적 옵션과 누락 목록을 요구한다. 실제 전체 전송량 지표 `actual_complete_transmission_cbr`는 미구현 비용 때문에 null이다. 이 실행기를 기존 14편 성능표나 동일 전송량 우위의 새 근거로 사용하지 않는다. [공개 검증 기록](validation/2026-10-21-lgvsc-official-table-v2.json) · [구조](MODEL_ARCHITECTURE.md#lgvsc-official-baseline) · [자료](DATA.md#lgvsc-official-baseline-data) · [평가 경계](METRICS.md#lgvsc-official-baseline-metrics) · [실행](RUN_GUIDE.md#lgvsc-official-baseline)
+
 [프로젝트](../README.md) · [구조](MODEL_ARCHITECTURE.md) · [실행](RUN_GUIDE.md) · [평가 정의](METRICS.md)
 
 [공개 코드 검증 요약](validation/2026-10-07-public-release.json) · [캡션·연결 검증 요약](validation/2026-10-07-caption-adapter-release.json)
@@ -14,7 +28,7 @@
 
 **2026-10-08 산출물 정리:** 사용자 요청으로 성능·채택 기준 미달 후보의 가중치·학습 상태, 생성 영상·프레임, 과거 지표 캐시·생성 사례를 선별 삭제했다(22개 실행 폴더, 약 115.6GiB). 현재 캡션 LoRA·부모 체크포인트·공유 자료·실행 중 LGVSC/Qwen 비교는 보존했다. 아래 수치와 채택 판정은 역사적 기록이며, 삭제된 상세 영상·가중치가 지금도 존재한다는 뜻은 아니다. 해당 실행의 `ARTIFACT_CLEANUP.json`과 [정리 범위](validation/2026-10-08-rejected-artifact-cleanup.json)를 확인해야 하며, 삭제된 산출물의 재현에는 추출·학습·생성을 다시 수행해야 한다.
 
-실험·준비 현황 기준: **2026-10-16** · [과제 현황](../README.md) · [다음 작업](../README.md#scope)
+이하 혼합 BSU 진행표의 역사적 기준: **2026-10-16**. 최신 별도 연구 상태는 위 2026-10-22 절을 따른다. [과제 현황](../README.md) · [다음 작업](../README.md#scope)
 
 <a id="bsu-progress"></a>
 ## 최근 BSU 진행 상태
@@ -139,7 +153,7 @@
 
 별도 포장/복원 모듈·검증 실행기를 구현했고 관련 시험 30개를 통과했다. 완료 실행 재호출이 해시 검증만 하고 결과를 재사용하는 것도 확인했다. **기본 BSU-Gen 송수신 경로에는 아직 활성화하지 않았다.** [실행·진행 명령](RUN_GUIDE.md#bsu-metadata-compression) · [완료 수치·조건·해시](validation/2026-10-19-bsu-metadata-compression.json)
 
-후속으로 원격에서 **14편 × 비압축/압축의 새 복호화·LTX 생성·화질 평가**를 시작했다. 28개 조건·242개 생성 구간·원시/보정 후 평가 56회이며 **화질 결과는 아직 미완료**다. 기존 복호화 반복에서 나타난 최대 1의 RGB 값 차이를 압축 효과로 오인하지 않도록 두 조건에 동일한 결정적 복호화 설정을 적용했다. 별도 복호화 두 번에서 첫 영상의 키 31장이 일치했고, 압축군은 새 대조군과 수신 키·LTX 조건의 일치를 확인한다. 기존 8.53%는 위 패킷·채널 검증의 절감률이며, 후속 영상 품질 보존의 완료 수치로 해석하지 않는다. [진행 명령](RUN_GUIDE.md#bsu-metadata-e2e) · [실행 기록](validation/2026-10-19-bsu-metadata-e2e.json)
+**2026-10-22 확인:** 후속 원격 실행은 `INTERRUPTED / generate`, 완료 조건 표시는 10/28이며 최종 코호트 `RESULT.json`은 없다. [현재 상태 근거](validation/2026-10-22-research-status-reconciliation.json). 시작 당시에는 **14편 × 비압축/압축의 새 복호화·LTX 생성·화질 평가**를 계획했다. 28개 조건·242개 생성 구간·원시/보정 후 평가 56회이며 **화질 결과는 아직 미완료**다. 기존 복호화 반복에서 나타난 최대 1의 RGB 값 차이를 압축 효과로 오인하지 않도록 두 조건에 동일한 결정적 복호화 설정을 적용했다. 별도 복호화 두 번에서 첫 영상의 키 31장이 일치했고, 압축군은 새 대조군과 수신 키·LTX 조건의 일치를 확인한다. 기존 8.53%는 위 패킷·채널 검증의 절감률이며, 후속 영상 품질 보존의 완료 수치로 해석하지 않는다. [진행 명령](RUN_GUIDE.md#bsu-metadata-e2e) · [실행 기록](validation/2026-10-19-bsu-metadata-e2e.json)
 
 ### 2026-10-19 기본 생성기를 LTX로 변경
 

@@ -17,6 +17,20 @@ Qwen3.5-9B의 의미 변화 순차 선택(후보 간격 4, 끝점 포함, 고정
 
 [`ltx_receiver.py`](../src/semantic_transmission/ltx_receiver.py)의 2단계 생성(8+3 steps)과 기존 `combined_context` 보정을 사용한다. 새 움직임 제한 후처리·궤적 생성 조건·캡션 정리는 기본값에 포함하지 않으며 prompt enhancer도 사용하지 않는다. `bounded_multikey_v1` 규칙은 기존 64자리 생성 프로필 해시에 포함해 추가 메타데이터 필드 없이 수신기와 합의한다. 기본 실행은 NTSCC+로 새로 송수신한다. 과거 두 키 NTSCC 패킷 재생과 LTX+NTSCC+ 비교 실행기는 이전 조건을 유지한다. [생성기 프로필](../configs/bsu_gen_ltx25.json) · [비교 실행](RUN_GUIDE.md#bsu-ltx) · [다중 키 검증](RESULTS.md#bsu-ltx-multikey-default)
 
+<a id="bsu-joint-allocation"></a>
+## 공동 키 선택·전송률 예측기 — 별도 연구 경로
+
+[`bsu_allocation.py`](../src/semantic_transmission/bsu_allocation.py)의 4,575,008개 파라미터 모델은 송신 원본의 71차원 특징·실제 시간·키별 eta·예산·SNR로 전체 키 배분 후보를 평가한다. Gated Attention 시간 인코더와 후보 self/cross-attention을 학습하며 NTSCC+·LTX 본체는 동결한다. 실제 시각 심벌과 메타데이터·궤적 등 모든 등록 패킷의 비용을 합산한 뒤 예산 안의 후보만 선택한다.
+
+현재는 후보의 실제 인코딩 비용이 남으며 무비용 배분이나 전역 최적을 보장하지 않는다. 기본 BSU 정책에 연결하지 않았고 600개 정답·본학습 완료 및 품질 개선도 미입증이다. BSU-Predict에 적용하려면 별도 연결과 해당 수신 방식의 정답·평가가 필요하다. [상세 설계](research/BSU_JOINT_ALLOCATION_PREDICTOR.md) · [자료](DATA.md#bsu-joint-allocation-data) · [상태](RESULTS.md#bsu-joint-allocation-status) · [명령](RUN_GUIDE.md#bsu-joint-allocation)
+
+<a id="lgvsc-official-baseline"></a>
+## 저자 공개 코드 동작을 유지하는 LGVSC 기준선
+
+[`lgvsc_official.py`](../src/semantic_transmission/lgvsc_official.py)는 고정 저자 release의 전처리·InternVL SKEM·PLLaVA·UniMatch·NTSCC quality_4·Open-Sora를 별도 프로토콜로 실행한다. 저자 후보 시점·전체 이전 구간 VAE 참조·align=5·30 steps·중복 경계를 보존한다. 연구용 tail17·endpoint_exact·짧은 구간 시간표 보정을 적용한 기존 LGVSC 대조와 구분한다.
+
+CPU offload·메모리 분할·경로/API 연결 등 실제 실행 변경은 패치와 해시로 남긴다. 캡션/광류 CSV의 디지털 전송 형식은 로컬 어댑터이며 모든 논문 조건의 정확 재현을 뜻하지 않는다. [실행·수정 상세](LGVSC_OFFICIAL_BASELINE.txt) · [검증 범위](RESULTS.md#lgvsc-official-baseline-result)
+
 <a id="bsu-event-selection"></a>
 ### 전체 프레임 사건 후보 검사 — 선택적 실험 기능
 

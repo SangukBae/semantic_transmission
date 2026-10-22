@@ -1,14 +1,37 @@
 # 평가 정의와 절차
 
-## BSU-Gen 평가 범위 — 2026-10-18
+<a id="bsu-joint-allocation-metrics"></a>
+## 공동 배분 예측기의 학습·선택 평가
+
+예측 정답은 기준 후보 대비 PSNR·LPIPS·광류 오차 변화이며, 정규화와 가중치는 [설계 문서](research/BSU_JOINT_ALLOCATION_PREDICTOR.md)에 고정한다. 예측 오차와 실제 선택 regret·개별 화질 지표·예산 위반을 별도로 평가한다. 비용은 시각 복소 심벌과 실제 직렬화된 메타데이터·보조 패킷의 헤더/CRC/LDPC 패딩·패리티를 모두 포함한다. 예산 이내인 후보끼리도 정확히 같은 전송량은 아니다.
+
+600개 구축의 20원본 검증은 최선 체크포인트 선택에도 쓰므로 독립 최종 시험이 아니다. `DATASET_AUDIT.json`·`PREDICTOR_VALIDATION.json`이 없는 현재 상태에서 원본 수나 초기 smoke 결과를 전체 성능으로 표시하지 않는다. [상태](RESULTS.md#bsu-joint-allocation-status)
+
+<a id="lgvsc-official-baseline-metrics"></a>
+## LGVSC 공개 구현 기준선 v2의 지표 경계
+
+주 화질은 공개 평가 코드처럼 원본 MP4와 복원 MP4의 같은 번호·공통 프레임으로 계산하고 영상별 동일 가중 평균을 보고한다. 중복 경계를 제거하거나 원본 시점으로 재대응한 BSU 평가와 혼합하지 않는다.
+
+- `official_reference_cbr`: 저자 함수의 비용 경계와 마지막 후보 기준 분모를 보존한다.
+- `measured_simulation_cbr`: 실제 시뮬레이션한 visual+캡션/광류 LDPC 비용을 전체 입력 RGB 원소 수로 나눈다.
+- `estimated_semantic_total_cbr`: 위 비용에 rate-index의 이론 근사 비용을 더한 추정값이다.
+- `actual_complete_transmission_cbr`: rate-index 실제 송수신·물리 링크 비용이 완성되지 않아 null이다.
+
+위 값들을 모두 실제 전체 무선 전송량으로 부르지 않는다. [상세 정의](LGVSC_OFFICIAL_BASELINE.txt) · [검증 범위](RESULTS.md#lgvsc-official-baseline-result)
+
+## BSU-Gen 평가 범위 — 2026-10-22 확인
 
 생성 전용 명령은 기존 생성부·수신 보정의 전체 프레임 화질 평가를 실행한다. PNG와 최종 MP4의 PSNR·SSIM·LPIPS·CLIP·DISTS 및 최종 영상 시간 지표를 분리 기록한다. 실행 완료 상태 `COMPLETE_BSU_GEN`은 복원·등록 정량 평가 완료이며 독립 Added/Missing/Distorted 평가는 `PENDING`으로 남는다. [실행](RUN_GUIDE.md#bsu-gen)
 
-실제 총전송량은 NTSCC 시각 복소 심벌 + 기본 메타데이터의 LDPC/16QAM 심벌 + 궤적 패킷의 LDPC/16QAM 심벌이다. 궤적은 해당 영상 기본 BSU 전송량의 최대 5%이며 LGVSC 예산을 기준으로 하지 않는다. 보정 자체의 추가 전송은 없고 모델·공통 코드·물리 링크 추가 헤더는 기존 회계 범위를 따른다. 새 실행기의 GPU 성능 결과와 기존 생성·혼합·예측 모델의 결과를 합치지 않는다.
+실제 총전송량은 NTSCC+ 시각 복소 심벌 + 기본 메타데이터의 LDPC/16QAM 심벌 + 궤적 패킷의 LDPC/16QAM 심벌이다. 궤적은 해당 영상 기본 BSU 전송량의 최대 5%이며 LGVSC 예산을 기준으로 하지 않는다. 보정 자체의 추가 전송은 없고 모델·공통 코드·물리 링크 추가 헤더는 기존 회계 범위를 따른다. 새 실행기의 GPU 성능 결과와 기존 생성·혼합·예측 모델의 결과를 합치지 않는다.
 
-## BSU-Predict 평가 범위 — 2026-10-18
+## BSU-Predict JSCC 평가 범위 — 2026-10-22 확인
 
-BSU-Predict의 전송량은 전체 유료 패킷에 대해 LDPC(6144,9216)·16QAM의 복소 심벌 수로 계산하고 단일 AWGN 10dB·seed42 실제 채널 결과와 대조한다. 최종 MP4 품질·행동 평가는 별도 수행해야 한다. 아래 10월 16일 지표와 허용 기준은 당시 혼합 모델 비교의 기록이다. [예측 전용 실행](RUN_GUIDE.md#bsu-predict) · [검증 범위](RESULTS.md#bsu-predict)
+현재 NTSCC+·RIFE 경로의 총전송량은 **영상 복소 심벌 + 압축 메타데이터의 LDPC/16QAM 복소 심벌**이다. 영상 심벌에는 LDPC를 적용하지 않는다. 메타데이터 헤더·패딩·패리티를 포함하고, complex64 저장 바이트를 무선 전송 비트로 바꾸지 않는다. 기존 DCVC 실행기의 전체 디지털 패킷 회계와 구분한다.
+
+Kinetics 001의 전체 240프레임·같은 121앵커·AWGN 10dB·seed42에서 최종 MP4 화질 평가를 완료했다. NTSCC+는 영상 4,253,466 + 메타데이터 140,544 = **4,394,010 uses**, DCVC 대조는 **566,784 uses**다. 전송량이 7.7525배 다르므로 화질 개선을 동일 전송량 우위나 압축 효율 개선으로 표시하지 않는다. 독립 행동/의미 평가는 미완료다. [실측·조건](RESULTS.md#bsu-predict)
+
+아래 10월 16일 지표와 허용 기준은 당시 혼합 모델 비교의 기록이다.
 
 <a id="bsu-predictive-metrics"></a>
 ## 기본 예측 압축 BSU의 전송량·품질 평가

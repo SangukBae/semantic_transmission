@@ -1,0 +1,50 @@
+{
+  "schema": "research_documentation_reconciliation_v1",
+  "checked_at": "2026-10-22T22:54:24.489377+09:00",
+  "branch": "BSU-Gen",
+  "allocation": {
+    "checked_at": "2026-10-22T22:54:24.489377+09:00",
+    "status": "INCOMPLETE_NO_ACTIVE_PROCESS_OBSERVED",
+    "run": "/home/sangukbae/semantic_transmission/outputs/bsu_allocation_labels_600_20261019",
+    "stored_status": {
+      "status": "RUNNING",
+      "stage": "batch 11/26 evaluate",
+      "started_epoch": 1792398533.2408576,
+      "pid": 6420,
+      "process_start_ticks": "17132187"
+    },
+    "status_sha256": "add22c608c8d997bd2a330b13189b24111d364ffcf9400b9938c36433831573f",
+    "recorded_pid_exists": false,
+    "matching_processes": [],
+    "final_files": {
+      "RESULT.json": false,
+      "DATASET_AUDIT.json": false,
+      "dataset.json": false,
+      "PREDICTOR_VALIDATION.json": false
+    },
+    "scope": "Read-only snapshot; no resume or training started"
+  },
+  "metadata_e2e": {
+    "run": "/home/sangukbae/ETRI/Semantic/semantic_transmission_bsu_metadata_e2e/outputs/bsu_metadata_e2e_20261019_v2",
+    "status_path": "/home/sangukbae/ETRI/Semantic/semantic_transmission_bsu_metadata_e2e/outputs/bsu_metadata_e2e_20261019_v2/status.json",
+    "status_sha256": "cb0d5fa084210cfe33f9a433b1470fd8adf32f06e49d0a0bf4d3963313411cdf",
+    "record": {
+      "status": "INTERRUPTED",
+      "stage": "generate",
+      "completed": 10,
+      "total": 28,
+      "started_epoch": 1792392075.9565432,
+      "pid": 1143224,
+      "process_start_ticks": "103959342",
+      "video": "kinetics_006_ecbad330__control",
+      "error": "KeyboardInterrupt: termination requested",
+      "ended_epoch": 1792406931.9003077
+    },
+    "final_result_exists": false
+  },
+  "limitations": [
+    "Read-only status and artifact audit; no training or inference restarted.",
+    "No final allocation dataset audit or predictor validation exists.",
+    "Partial E2E progress is not a complete 14-video quality-preservation result."
+  ]
+}

@@ -1,14 +1,28 @@
 # 데이터와 모델 입력
 
-## BSU-Gen 입력과 데이터 범위 — 2026-10-18
+<a id="bsu-joint-allocation-data"></a>
+## 공동 배분 예측기의 실측 정답 자료
+
+Inter4K 고정 revision에서 100원본을 선택해 원본별 49프레임·24fps·576×320 구간과 6후보, 총 600개 실측 정답을 만드는 별도 연구다. 계획 분할은 학습 80원본·검증 20원본이며 촬영 세션 수준의 완전한 독립성은 보장하지 않는다. 후보들은 같은 원본·캡션·채널 조건을 사용하며 키 시점·개수·키별 eta를 바꾼다. NTSCC+·실제 채널·수신 키·LTX·후처리·최종 MP4 평가를 거친 정답만 채택한다.
+
+**2026-10-22 확인:** 최종 `dataset.json`·`DATASET_AUDIT.json`이 없어 600개 구축 완료로 계산하지 않는다. 원본 확보·후보 폴더 수와 유효 실측 정답 수는 다르다. `corpus/corpus.json`, `protocol.json`, `code_snapshot/`, 완료 후보와 실패 기록을 보존하고 재개 시 검증한다. [상세 계약](research/BSU_JOINT_ALLOCATION_PREDICTOR.md) · [현재 상태](RESULTS.md#bsu-joint-allocation-status) · [명령](RUN_GUIDE.md#bsu-joint-allocation)
+
+<a id="lgvsc-official-baseline-data"></a>
+## LGVSC 공개 구현 기준선의 입력
+
+v2 기본 입력은 저자 WebVid 원본 목록 55편이다. 2026-10-21 검증에서는 53편의 원본 SHA256이 일치하고 2편이 누락됐다. 전체 입력 충족과 부분 집합 실행을 구분한다. 별도 `--cohort kinetics14`는 저자 Kinetics 14편의 화질 평가 입력이며 행동 분류는 실행하지 않는다. 사용자가 지정한 `--input`은 custom 코호트다.
+
+기존 BSU 정규화 PNG를 대신 넣지 않고 원본 MP4에 저자 두 단계 전처리와 4프레임 간격 후보 추출을 적용한다. 최대 16초·마지막 후보 처리·중복 경계 정책이 BSU 전체 길이 입력과 다르므로 입력/시간표를 확인하지 않은 직접 비교를 하지 않는다. [기록](validation/2026-10-21-lgvsc-official-table-v2.json) · [실행](RUN_GUIDE.md#lgvsc-official-baseline)
+
+## BSU-Gen 입력과 데이터 범위 — 2026-10-22 확인
 
 `run_bsu_gen.sh --video FILE --output DIR`는 원본 전체 길이를 576×320·24FPS로 정규화한다. 384프레임·16초 제한이나 반복 연결은 적용하지 않는다. `--prepared FILE`은 같은 규격의 전체 길이 `source_prepared.json`을 검증해 재사용한다. 원본·정규화 영상·모든 PNG 해시를 고정하고 Qwen 선택·캡션·전송·생성은 새 출력에서 수행한다. 과거 실험 프로토콜이나 데이터셋 manifest는 새 실행의 필수 입력이 아니다.
 
-모델·환경은 Git에 포함하지 않는다. Qwen 설치 manifest(`outputs/qwen35_setup/model_manifest.json`)와 고정 캡션 LoRA, `.local/settings.json`, `.local/model_paths.json`, Open-Sora/NTSCC/UniMatch 자산이 필요하다. [준비·검사·실행](RUN_GUIDE.md#bsu-gen)
+모델·환경은 Git에 포함하지 않는다. 현재 기본 경로에는 Qwen 설치 manifest(`outputs/qwen35_setup/model_manifest.json`)와 고정 캡션 LoRA, `.local/settings.json`, `.local/model_paths.json`, NTSCC+·LTX-2.5·UniMatch 자산 및 각 전용 환경이 필요하다. Open-Sora/기존 NTSCC는 과거 실행 경로의 의존성이다. [준비·검사·실행](RUN_GUIDE.md#bsu-gen)
 
-## BSU-Predict 입력과 데이터 범위 — 2026-10-18
+## BSU-Predict 입력과 데이터 범위 — 2026-10-22 확인
 
-BSU-Predict는 영상 또는 정규화 PNG와 FPS를 입력으로 사용한다. 의미 키·캡션·NTSCC 송신 산출물은 필요하지 않다. 새 모델을 위한 추가 학습은 수행하지 않았으며, 아래 10월 16일 코호트는 이전 혼합 모델의 개발·평가 자료다. [예측 전용 실행](RUN_GUIDE.md#bsu-predict) · [검증 범위](RESULTS.md#bsu-predict)
+이 브랜치의 BSU-Predict 명령은 NTSCC+·RIFE다. 영상 또는 정규화 PNG와 FPS를 받아 앵커 심벌을 새로 만든다. Qwen 의미 키·캡션이나 사전 NTSCC 송신 산출물은 필요하지 않지만 NTSCC+·RIFE 가중치와 전용 환경은 필요하다. 새 모델을 위한 추가 학습은 수행하지 않았으며, 아래 10월 16일 코호트는 이전 혼합 모델의 개발·평가 자료다. [예측 전용 실행](RUN_GUIDE.md#bsu-predict) · [검증 범위](RESULTS.md#bsu-predict)
 
 <a id="bsu-predictive-data"></a>
 ## 이전 혼합 BSU 채택에 사용한 자료 — 2026-10-16

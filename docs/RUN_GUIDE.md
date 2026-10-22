@@ -4,6 +4,29 @@
 
 **2026-10-19 개발 기준:** 이 `BSU-Gen` 브랜치에서 `run_bsu.sh`·`run_bsu_gen.sh`는 생성 경로만 실행한다. 예측 전용은 `run_bsu_predict.sh`, 과거 혼합은 `run_bsu_hybrid.sh`, 과거 생성 배치는 `run_bsu_webvid.sh`·`run_bsu_kinetics.sh`로 보존한다. `BSU-Predict` 브랜치의 기본 명령은 변경하지 않았다.
 
+<a id="bsu-joint-allocation"></a>
+## 공동 배분 예측기의 정답 구축·확인·재개
+
+2026-10-22 확인 시 600개 정답 구축은 미완료이며 실행 프로세스가 없다. `status.json`의 과거 `RUNNING`만으로 실행 중이라 판단하지 않는다. 현재 기록은 다음 읽기 전용 명령으로 확인한다.
+
+```bash
+bash scripts/watch_bsu_allocation_labels.sh --once
+```
+
+같은 출력·동결 코드·설정·모델을 갖춘 환경에서 중단된 구축을 재개할 때:
+
+```bash
+bash scripts/run_bsu_allocation_labels.sh run
+```
+
+이 명령은 완료 후보/생성 구간을 해시 검사해 재사용하며 남은 실제 송수신·생성·평가를 수행한다. 600개 정답이 완성되면 예측기 학습·검증까지 이어지는 장시간 실행이다. 결과/프로토콜을 지우거나 해시만 갱신해 강제 재개하지 않는다. 완료 뒤 다음 검사와 `RESULT.json`의 `COMPLETE_BSU_ALLOCATION_600_LABELS`, 데이터 검사·예측기 검증 보고서를 함께 확인한다.
+
+```bash
+bash scripts/run_bsu_allocation_labels.sh audit
+```
+
+[현재 상태](RESULTS.md#bsu-joint-allocation-status) · [자료·환경 요구](DATA.md#bsu-joint-allocation-data) · [별도 학습/평가/선택 명령](research/BSU_JOINT_ALLOCATION_PREDICTOR.md)
+
 <a id="lgvsc-official-baseline"></a>
 ## LGVSC 공개 구현 기준선
 
