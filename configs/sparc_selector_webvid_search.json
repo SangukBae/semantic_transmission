@@ -1,0 +1,14 @@
+{
+  "schema": "sparc_webvid_long_search_v1",
+  "minimum_seconds": 8.0,
+  "windows_per_parent": 2,
+  "target_cbr": 0.00065,
+  "budgets": [0.0005, 0.00065, 0.0008, 0.001],
+  "rounds": 10,
+  "per_round": 6,
+  "beam_per_budget": 3,
+  "maximum_new_candidates_per_clip": 64,
+  "maximum_psnr_drop_db": 0.5,
+  "maximum_lpips_increase": 0.01,
+  "device": "cuda"
+}

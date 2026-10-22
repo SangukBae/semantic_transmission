@@ -1,0 +1,12 @@
+{
+  "schema": "sparc_budget_training_v3",
+  "seed": 20261022,
+  "target_cbr": 0.00065,
+  "training_budgets": [0.0005, 0.00065, 0.0008, 0.001],
+  "budget_scope": "aggregate_rgb_source_samples",
+  "model": {"feature_dim": 1024, "motion_dim": 19, "width": 256, "heads": 8, "local_layers": 2, "global_layers": 4, "window": 24, "dropout": 0.1},
+  "train": {"device": "cuda", "max_epochs": 40, "patience": 3, "validation_every": 5, "states_per_clip": 8, "accumulate": 2, "lr": 0.0001, "weight_decay": 0.0001, "warmup_epochs": 3},
+  "search": {"teacher_clips": 48, "validation_clips": 8, "test_clips": 8, "rounds": 3, "beam": 4, "per_round": 4},
+  "quality_goal": {"maximum_psnr_drop_db": 0.5, "maximum_lpips_increase": 0.01},
+  "automatic_default_replacement": false
+}
