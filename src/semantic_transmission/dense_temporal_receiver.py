@@ -1,10 +1,11 @@
-"""Short-gap learned temporal recovery, using only received decoded anchors."""
+"""Learned temporal recovery, using only received decoded anchors."""
 from pathlib import Path
 
 WEIGHT_SHA = '6615790efd627772917205db291f51cd392528a157ecbb2ecaeec3bff8eb6de2'
 NETWORK_SHA = '655b4c772b037967b86c2dd31c8fa3b5323b79dd9a0e0088708d89149bbc8a32'
 WARP_SHA = 'feb3af9475b724749b023d1913c3b135431eff13d0045b8efb472a699058385f'
 POLICY = 'bsu_short_gap_rife425_v1'
+VARIABLE_POLICY = 'sparc_variable_gap_rife425_v1'
 
 
 def select_indices(images, stride=2, protected=()):
@@ -22,11 +23,12 @@ def select_indices(images, stride=2, protected=()):
 
 
 def validate_indices(indices, frames, stride):
-    if (type(frames) is not int or frames < 2 or stride not in (2,3,4) or
+    if (type(frames) is not int or frames < 2 or
+            (stride is not None and (type(stride) is not int or stride not in (2,3,4))) or
             not indices or any(type(x) is not int for x in indices) or
             indices != sorted(set(indices)) or indices[0] != 0 or indices[-1] != frames-1 or
-            any(b-a > stride for a,b in zip(indices,indices[1:]))):
-        raise ValueError('invalid short-gap timestamp map')
+            (stride is not None and any(b-a > stride for a,b in zip(indices,indices[1:])))):
+        raise ValueError('invalid temporal timestamp map')
 
 
 def interpolate(anchors, indices, frames, stride, vendor, checkpoints):

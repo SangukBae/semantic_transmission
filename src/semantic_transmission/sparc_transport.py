@@ -9,7 +9,7 @@ import zlib
 from .bsu_predict import validate_video
 from . import dense_temporal_receiver as temporal
 from .predictive_codec import WEIGHTS
-from .sparc_selection import scene_groups, validate_anchors
+from .sparc_selection import scene_groups, validate_anchors, validate_gap
 from .wire import pack, unpack
 
 SCHEMA = 'sparc_dcvc_scene_streams_v1'
@@ -21,7 +21,9 @@ MAX_PREFIX = 1024 * 1024
 
 
 def temporal_identity(max_gap):
-    return dict(policy=temporal.POLICY, stride=max_gap, weights=temporal.WEIGHT_SHA,
+    validate_gap(max_gap)
+    return dict(policy=temporal.VARIABLE_POLICY if max_gap is None else temporal.POLICY,
+                stride=max_gap, weights=temporal.WEIGHT_SHA,
                 network=temporal.NETWORK_SHA, warp=temporal.WARP_SHA)
 
 
@@ -31,7 +33,6 @@ def parse(packet):
     header, payload = unpack(packet)
     fields = {'schema', 'video', 'codec', 'temporal', 'max_gap', 'cuts', 'chunks'}
     if (set(header) != fields or header['schema'] != SCHEMA or header['codec'] != CODEC
-            or type(header['max_gap']) is not int or not 2 <= header['max_gap'] <= 4
             or header['temporal'] != temporal_identity(header['max_gap'])):
         raise ValueError('unsupported SPARC packet/model identity')
     validate_video(header['video'])

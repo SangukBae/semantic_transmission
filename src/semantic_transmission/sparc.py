@@ -26,7 +26,7 @@ NUMERICS = dict(seed=0, deterministic_algorithms=True, cudnn_benchmark=False,
     cudnn_deterministic=True, matmul_tf32=False, cudnn_tf32=False, cublas_workspace_config=':4096:8')
 
 
-def profile(mode='adaptive'):
+def profile(mode='adaptive', no_max_gap=False):
     value = base.read(CONFIG)
     if (value['name'] != 'SPARC' or value['policy'] != 'sparc_semantic_predictive_v1' or
             value['semantic_selector'] != 'qwen35_sequential_semantic_v1' or
@@ -34,7 +34,10 @@ def profile(mode='adaptive'):
             value['generative_fallback'] is not False or value['new_training_required'] is not False or
             value['metadata_compression'] != 'auto' or value['snr_db'] != 10 or value['channel_seed'] != 42):
         raise ValueError('unsupported SPARC profile')
-    for name, low, high in [('max_gap', 2, 4), ('candidate_stride', 1, 24), ('qp', 0, 63)]:
+    selection.validate_gap(value['max_gap'])
+    if no_max_gap:
+        value['max_gap'] = None
+    for name, low, high in [('candidate_stride', 1, 24), ('qp', 0, 63)]:
         if type(value[name]) is not int or not low <= value[name] <= high:
             raise ValueError('invalid SPARC profile field: ' + name)
     for name in ('proxy_mae_threshold', 'scene_cut_mad_threshold'):
@@ -48,7 +51,7 @@ def profile(mode='adaptive'):
 def preflight(args):
     from .predictive_codec import WEIGHTS
     from .qwen35_backend import SNAPSHOT
-    config = profile(args.anchor_policy); output = args.output.resolve()
+    config = profile(args.anchor_policy, getattr(args, 'no_max_gap', False)); output = args.output.resolve()
     source = (args.video or args.source_frames).resolve(strict=True)
     protected = [source]
     if args.semantic_replay: protected.append(args.semantic_replay.resolve(strict=True).parent)
@@ -301,6 +304,8 @@ def parser():
     p.add_argument('--output',type=Path);p.add_argument('--semantic-replay',type=Path,
         help='completed SPARC semantic.json with original call cache; no new Qwen calls')
     p.add_argument('--anchor-policy',choices=('adaptive','uniform-matched','fixed-stride2'),default='adaptive')
+    p.add_argument('--no-max-gap',action='store_true',
+                   help='disable interval-forced auxiliary frames; retain source-change and scene-cut checks')
     for runtime in ('selector','codec','receiver','channel'):p.add_argument(f'--{runtime}-python',type=Path)
     p.add_argument('--worker',choices=STAGES[1:],help=argparse.SUPPRESS);p.add_argument('--job',type=Path,help=argparse.SUPPRESS)
     return p
@@ -317,7 +322,7 @@ def main(argv=None):
         for path,digest in record['vendor_code'].items():
             if sha256(REPO/'.local/vendor/DCVC-RT'/path)!=digest:raise ValueError('DCVC source changed')
         return worker(job,args.worker)
-    if args.action=='profile':print(json.dumps(profile(args.anchor_policy),indent=2));return
+    if args.action=='profile':print(json.dumps(profile(args.anchor_policy,args.no_max_gap),indent=2));return
     if not args.output:p.error('--output is required')
     if args.action=='status':
         path=args.output/'status.json';print(json.dumps(base.read(path) if path.exists() else dict(status='NOT_STARTED'),indent=2));return

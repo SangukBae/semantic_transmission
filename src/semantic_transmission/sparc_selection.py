@@ -36,12 +36,16 @@ def validate_cuts(cuts, frames):
         raise ValueError('invalid scene-cut timeline')
 
 
+def validate_gap(max_gap):
+    if max_gap is not None and (type(max_gap) is not int or not 2 <= max_gap <= 4):
+        raise ValueError('RIFE maximum gap must be 2..4 or None (no interval limit)')
+
+
 def validate_anchors(indices, frames, max_gap, cuts=()):
     validate_keys(indices, frames)
     validate_cuts(list(cuts), frames)
-    if type(max_gap) is not int or not 2 <= max_gap <= 4:
-        raise ValueError('RIFE maximum gap must be 2..4')
-    if max(b - a for a, b in zip(indices, indices[1:])) > max_gap:
+    validate_gap(max_gap)
+    if max_gap is not None and max(b - a for a, b in zip(indices, indices[1:])) > max_gap:
         raise ValueError('anchor gap exceeds the registered RIFE policy')
     if any(c not in indices or c - 1 not in indices for c in cuts):
         raise ValueError('both sides of each cut must be transmitted')
@@ -49,8 +53,8 @@ def validate_anchors(indices, frames, max_gap, cuts=()):
 
 def adaptive(proxies, semantic_keys, cuts, *, max_gap=4, threshold=6.0):
     import numpy as np
+    validate_gap(max_gap)
     if (proxies.ndim != 4 or proxies.shape[-1] != 3 or not np.isfinite(proxies).all()
-            or type(max_gap) is not int or not 2 <= max_gap <= 4
             or not math.isfinite(threshold) or threshold < 0):
         raise ValueError('invalid adaptive selector inputs')
     frames = len(proxies); validate_keys(semantic_keys, frames); validate_cuts(cuts, frames)
@@ -71,7 +75,7 @@ def adaptive(proxies, semantic_keys, cuts, *, max_gap=4, threshold=6.0):
             # Deterministic tie break favors the midpoint, then earlier time.
             i = max(range(a + 1, b), key=lambda k: (errors[k-a-1], -abs(k-(a+b)/2), -k))
             reason = 'source_motion_proxy'
-        elif b - a > max_gap:
+        elif max_gap is not None and b - a > max_gap:
             i = (a + b) // 2; reason = 'maximum_gap'
         else:
             continue
@@ -88,9 +92,10 @@ def adaptive(proxies, semantic_keys, cuts, *, max_gap=4, threshold=6.0):
 def uniform_matched(frames, count, cuts, max_gap=4):
     """Exact-count temporal control, retaining cut boundaries but no semantic keys."""
     validate_cuts(cuts, frames)
+    validate_gap(max_gap)
     mandatory = sorted({0, frames - 1, *(i for cut in cuts for i in (cut - 1, cut))})
     gaps = [b-a for a, b in zip(mandatory, mandatory[1:])]
-    parts = [math.ceil(g / max_gap) for g in gaps]
+    parts = [1 if max_gap is None else math.ceil(g / max_gap) for g in gaps]
     if type(count) is not int or not sum(parts) + 1 <= count <= frames:
         raise ValueError('matched count cannot satisfy the gap/cut constraints')
     while sum(parts) + 1 < count:
