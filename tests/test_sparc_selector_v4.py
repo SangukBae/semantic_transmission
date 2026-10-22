@@ -3,6 +3,7 @@ import itertools
 import math
 from pathlib import Path
 import subprocess
+from types import SimpleNamespace
 import tempfile
 import unittest
 from unittest import mock
@@ -17,6 +18,7 @@ from semantic_transmission import sparc_selector_v3_data as old
 from semantic_transmission import sparc_selector_v4_data as data
 from semantic_transmission import sparc_selector_train_v4 as training
 from semantic_transmission import sparc_selector_train as supervision
+from semantic_transmission import sparc_selector_v4 as runner
 from semantic_transmission.sparc_selector_data import read, save, sha
 
 GOAL = dict(maximum_psnr_drop_db=.5, maximum_lpips_increase=.01)
@@ -146,8 +148,54 @@ class TrainingTests(unittest.TestCase):
             old.atomic_npz(folder/'risk_labels.npz',local_log_mse=rng.normal(-5,1,(len(observations),8,15)).astype(np.float32))
             names=('prepared.json','features.npz','observations.json','baseline.json','risk_labels.npz')
             save(folder/'risk_inputs.json',dict(schema='sparc_risk_labels_v4',protocol='fixture',
-                baseline_identity=baseline['identity'],files={name:sha(folder/name) for name in names}))
+                baseline_identity=baseline['identity'],measurements=len(observations),
+                files={name:sha(folder/name) for name in names}))
         return rows,p
+
+    def test_labels_only_verifies_artifacts_and_never_trains(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);rows,p=self.fixture(root)
+            (root/'.local').mkdir();p.update(source_root=str(root),runtimes={})
+            args=SimpleNamespace(root=root,parent=root,source_root=None,config=root/'config.json',
+                                 runtimes=None,max_steps=None,labels_only=True)
+            with mock.patch.object(runner,'REPO',root),mock.patch.object(runner,'initialize',return_value=(p,rows)), \
+                 mock.patch.object(data,'prepare'),mock.patch.object(training,'train') as train, \
+                 mock.patch.object(training,'evaluate') as evaluate,mock.patch.object(runner.signal,'signal'), \
+                 mock.patch.object(supervision,'runtimes'):
+                result=runner.run(args)
+                self.assertEqual(result['status'],'LABELS_PREPARED')
+                self.assertEqual(result['clips'],12)
+                self.assertEqual(result['train_clips'],2)
+                self.assertFalse(result['training_started'])
+                self.assertTrue(read(root/'run_options.json')['labels_only'])
+                self.assertEqual(read(root/'status.json')['done'],12)
+                self.assertFalse((root/'RESULT.json').exists())
+                train.assert_not_called();evaluate.assert_not_called()
+                # Resumed preparation must reject changed labels, even after a previous completion.
+                (root/'clips/a/risk_labels.npz').write_bytes(b'corrupted')
+                with self.assertRaisesRegex(ValueError,'cache changed'):runner.run(args)
+                self.assertEqual(read(root/'status.json')['status'],'FAILED')
+
+    def test_labels_only_mode_survives_resume_and_requires_explicit_override(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);save(root/'run_options.json',dict(labels_only=True))
+            for flags,expected in [([],True),(['--no-labels-only'],False)]:
+                with mock.patch('sys.argv',['v4','launch','--root',str(root),*flags]), \
+                     mock.patch.object(runner,'launch',return_value={}) as launch,mock.patch('builtins.print'):
+                    runner.main()
+                self.assertIs(launch.call_args.args[0].labels_only,expected)
+
+    def test_launcher_forwards_labels_only_to_detached_process(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp)
+            args=SimpleNamespace(root=root,parent=root,source_root=None,config=root/'config.json',
+                                 runtimes=None,max_steps=None,labels_only=True)
+            with mock.patch.object(runner,'initialize'),mock.patch.object(runner.subprocess,'Popen') as popen, \
+                 mock.patch.object(runner.distributed,'proc_identity',return_value='test'):
+                popen.return_value.pid=123
+                self.assertEqual(runner.launch(args)['status'],'LAUNCHED')
+                self.assertIn('--labels-only',popen.call_args.args[0])
+                self.assertTrue(popen.call_args.kwargs['start_new_session'])
 
     @staticmethod
     def validate(*args):

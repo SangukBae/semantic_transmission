@@ -26,6 +26,16 @@ CPU/CUDA RNG·표본 및 예산 순서·위치를 함께 복원한다. 새 구�
 부분적으로 가져온 v3 체크포인트만으로 전체 학습을 시작하지 않는다. 사용자 지정 실행 경로는
 `run_options.json`에 저장되므로 이후 `resume --root PATH`로 복원된다.
 
+라벨 생성만 실행하려면 `bash scripts/run_sparc_selector_v4.sh start --labels-only`를 사용한다.
+완료한 라벨 해시를 확인하고 `label_summary.json`에 `LABELS_PREPARED`를 기록한 뒤 종료한다.
+`resume`에도 라벨 전용 설정이 유지된다. 이후 학습까지 진행하려면 명시적으로
+`bash scripts/run_sparc_selector_v4.sh resume --no-labels-only`를 실행한다.
+로컬에서 원격 진행 화면은 다음 명령으로 확인한다. Ctrl+C는 화면만 닫는다.
+
+```bash
+ssh -t semantic-pc 'cd /home/sangukbae/ETRI/Semantic/semantic_transmission_sparc && bash scripts/run_sparc_selector_v4.sh watch'
+```
+
 학습 완료 뒤 준비된 Kinetics 또는 WebVid 입력으로 비교할 때:
 
 ```bash

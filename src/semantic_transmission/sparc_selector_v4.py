@@ -121,6 +121,23 @@ def progress(root, stage, done=None, total=None, **extra):
     save(root/'status.json', value)
 
 
+def run_options(args):
+    return dict({k:str(getattr(args,k)) if getattr(args,k) is not None else None
+                 for k in ('parent','source_root','config','runtimes')}, labels_only=args.labels_only)
+
+
+def label_summary(root, rows, p):
+    selected = [r for r in rows if r['split']=='train' or r['id'] in p['calibration_ids']]
+    receipts = {r['id']:data.verify_cache(root/'clips'/r['id'],p) for r in selected}
+    result = dict(status='LABELS_PREPARED', protocol=p['signature'], clips=len(selected),
+        train_clips=sum(r['split']=='train' for r in selected), calibration_clips=len(p['calibration_ids']),
+        candidates=sum(r['measurements'] for r in receipts.values()),
+        data_hash=digest({key:sha(root/'clips'/key/'risk_inputs.json') for key in receipts}),
+        training_started=False)
+    save(root/'label_summary.json',result)
+    return result
+
+
 def run(args):
     root = args.root
     root.mkdir(parents=True,exist_ok=True)
@@ -130,8 +147,7 @@ def run(args):
         fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
         try:
             p, rows = initialize(root,args.parent,args.source_root,args.config,args.runtimes)
-            save(root/'run_options.json', {k:str(getattr(args,k)) if getattr(args,k) is not None else None
-                                           for k in ('parent','source_root','config','runtimes')})
+            save(root/'run_options.json', run_options(args))
             supervision.runtimes = lambda:p['runtimes']
             gpu = stack.enter_context((REPO/'.local/etri_60s_check.lock').open('a'))
             while True:
@@ -142,6 +158,13 @@ def run(args):
                     progress(root,'waiting_for_gpu'); time.sleep(2)
             callback = lambda stage,done=None,total=None,**kw:progress(root,stage,done,total,**kw)
             data.prepare(root,args.parent,Path(p['source_root']),rows,p,callback)
+            labels = label_summary(root,rows,p)
+            if args.labels_only:
+                progress(root,'labels_complete',labels['clips'],labels['clips'],samples=labels['candidates'])
+                value=read(root/'status.json')
+                value.update(status=labels['status'],exit_code=0,ended_unix=time.time())
+                save(root/'status.json',value)
+                return labels
             trained = trainer.train(root,Path(p['source_root']),rows,p,callback,max_steps=args.max_steps,
                                     initial_checkpoint=Path(p['initialization']['path']))
             if trained['status']=='INTERRUPTED':
@@ -171,11 +194,11 @@ def launch(args):
         if (args.root/'launcher.json').exists() and distributed.active(read(args.root/'launcher.json')):
             return dict(status='ALREADY_RUNNING')
         initialize(args.root,args.parent,args.source_root,args.config,args.runtimes)
-        save(args.root/'run_options.json', {k:str(getattr(args,k)) if getattr(args,k) is not None else None
-                                           for k in ('parent','source_root','config','runtimes')})
+        save(args.root/'run_options.json', run_options(args))
         if (args.root/'RESULT.json').exists():
             return dict(status=read(args.root/'RESULT.json')['status'])
         command=[sys.executable,'-m',MODULE,'run','--root',str(args.root),'--parent',str(args.parent),'--config',str(args.config)]
+        command.append('--labels-only' if args.labels_only else '--no-labels-only')
         for flag in ('source_root','runtimes','max_steps'):
             if getattr(args,flag) is not None:
                 command += ['--'+flag.replace('_','-'), str(getattr(args,flag))]
@@ -209,9 +232,13 @@ def main():
     parser.add_argument('--config',type=Path)
     parser.add_argument('--runtimes',type=Path)
     parser.add_argument('--max-steps',type=int)
+    parser.add_argument('--labels-only',action=argparse.BooleanOptionalAction,default=None,
+                        help='stop after verified label preparation; resume retains this choice')
     args=parser.parse_args()
     options_path=args.root/'run_options.json'
     options=read(options_path) if options_path.exists() else {}
+    if args.labels_only is None:
+        args.labels_only=options.get('labels_only',False)
     defaults=dict(parent=PARENT,config=CONFIG,source_root=None,runtimes=None)
     for key,default in defaults.items():
         if getattr(args,key) is None:

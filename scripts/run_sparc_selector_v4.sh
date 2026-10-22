@@ -15,6 +15,6 @@ case "$action" in
     [[ "$action" == watch ]] || args+=(--once)
     exec python3 scripts/watch_sparc_selector.py "${args[@]}" "$@" ;;
   check|run|stop) ;;
-  *) echo "Usage: $0 {check|start|resume|watch|status|stop} [--root PATH] [--parent V3_RUN] [--source-root V2_RUN] [--runtimes JSON]" >&2; exit 2 ;;
+  *) echo "Usage: $0 {check|start|resume|watch|status|stop} [--labels-only|--no-labels-only] [--root PATH] [--parent V3_RUN] [--source-root V2_RUN] [--runtimes JSON]" >&2; exit 2 ;;
 esac
 exec "$repo/.local/bsu_codec_eval_env/bin/python" -m semantic_transmission.sparc_selector_v4 "$action" "$@"

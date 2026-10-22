@@ -22,8 +22,9 @@ def rows(root, title='SPARC-UF QP30 learned auxiliary selector',
         v = {}
     done,total = v.get('done'),v.get('total')
     progress = f'{done}/{total} ({100*done/total:.1f}%)' if total and done is not None else 'unknown total'
-    elapsed = time.time()-v.get('started_unix',time.time())
-    stage_elapsed = time.time()-v.get('stage_started_unix',time.time())
+    now = v.get('ended_unix',time.time())
+    elapsed = now-v.get('started_unix',now)
+    stage_elapsed = now-v.get('stage_started_unix',now)
     eta = 'unknown (variable clip/model workload)'
     if v.get('stage') == 'train' and done and total and done >= 3:
         eta = '~'+duration(stage_elapsed/done*(total-done))+' to epoch cap; early stop may finish earlier'
@@ -54,7 +55,7 @@ def rows(root, title='SPARC-UF QP30 learned auxiliary selector',
         f'Failure   exit={v.get("exit_code","-")} {v.get("error","-")}',
         f'Resume    {v.get("resume","completed clips and full optimizer state retained")}',
         f'Log       {root/"run.log"}',
-        f'Worker    {v.get("log",str(root/("quality.log" if v.get("stage")=="measure_labels" else "training/history.jsonl" if v.get("stage")=="train" else "semantic.log")))}',
+        f'Worker    {v.get("log",str(root/("quality.log" if v.get("stage") in ("measure_labels","prepare_v4_labels","labels_complete") else "training/history.jsonl" if v.get("stage")=="train" else "semantic.log")))}',
         f'Resume    {resume_command}',
         'Ctrl-C closes the monitor; the experiment keeps running.',
     ]
