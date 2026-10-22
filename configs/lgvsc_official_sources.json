@@ -1,0 +1,49 @@
+{
+  "commit": "50c9ff98fb1aaa8136aef2e41e02bbb0d1a2d1c3",
+  "files": {
+    "01_data_prep/edit_movie.py": {
+      "url": "https://raw.githubusercontent.com/TT2TER/LGVSC/50c9ff98fb1aaa8136aef2e41e02bbb0d1a2d1c3/01_data_prep/edit_movie.py",
+      "sha256": "8ef8579bfcabe09a9f3e2f1cb4df6c1b1e524ebc4089aabbef23b482aba755f5"
+    },
+    "01_data_prep/resize_videoframe.sh": {
+      "url": "https://raw.githubusercontent.com/TT2TER/LGVSC/50c9ff98fb1aaa8136aef2e41e02bbb0d1a2d1c3/01_data_prep/resize_videoframe.sh",
+      "sha256": "5657cdead3e333545d979146be7b46291b649f5cafc88684281f9c2fe1006f5f"
+    },
+    "01_data_prep/get_frame.py": {
+      "url": "https://raw.githubusercontent.com/TT2TER/LGVSC/50c9ff98fb1aaa8136aef2e41e02bbb0d1a2d1c3/01_data_prep/get_frame.py",
+      "sha256": "752ba795554a574786c2cfd3b5ca7c45bcd4c07c5cc4126c7ceaa70b1dda4ba7"
+    },
+    "02_semantic_encoder/skem/MLM-keyframe-internvl.py": {
+      "url": "https://raw.githubusercontent.com/TT2TER/LGVSC/50c9ff98fb1aaa8136aef2e41e02bbb0d1a2d1c3/02_semantic_encoder/skem/MLM-keyframe-internvl.py",
+      "sha256": "b651f63a5ae4d8ff6f2b933ee01c6e98353f331218e38585f6e039ad9bfcc77f"
+    },
+    "03_jscc_transmission/ntscc/main_save.py": {
+      "url": "https://raw.githubusercontent.com/TT2TER/LGVSC/50c9ff98fb1aaa8136aef2e41e02bbb0d1a2d1c3/03_jscc_transmission/ntscc/main_save.py",
+      "sha256": "08ca0b4021e53d87a71a57bf1b35f64a5abb5ac8085bcc835f9f694f09130610"
+    },
+    "04_semantic_decoder/scripts/mydemo_new_align_sh.py": {
+      "url": "https://raw.githubusercontent.com/TT2TER/LGVSC/50c9ff98fb1aaa8136aef2e41e02bbb0d1a2d1c3/04_semantic_decoder/scripts/mydemo_new_align_sh.py",
+      "sha256": "7de35c443e72a3bf3ac38bdfb04c93c7056698876518c6578850b348161edb34"
+    },
+    "04_semantic_decoder/scripts/config_utils.py": {
+      "url": "https://raw.githubusercontent.com/TT2TER/LGVSC/50c9ff98fb1aaa8136aef2e41e02bbb0d1a2d1c3/04_semantic_decoder/scripts/config_utils.py",
+      "sha256": "3336dab3f0582372055c39a5e6cad24e6e08a3ce52cc24b036db08535069337d"
+    },
+    "04_semantic_decoder/scripts/run.bash": {
+      "url": "https://raw.githubusercontent.com/TT2TER/LGVSC/50c9ff98fb1aaa8136aef2e41e02bbb0d1a2d1c3/04_semantic_decoder/scripts/run.bash",
+      "sha256": "84157e4ba1c62d4b979ca2adf132da2dddc7026c87f66ccb4680a263e37e4450"
+    },
+    "docs/eval_manifest_kinetics.csv": {
+      "url": "https://raw.githubusercontent.com/TT2TER/LGVSC/50c9ff98fb1aaa8136aef2e41e02bbb0d1a2d1c3/docs/eval_manifest_kinetics.csv",
+      "sha256": "8c10e3bc1ff80a083472d4b5ea9dbeaecd7a52a973f0b111a47fce0cf83e5f0e"
+    },
+    "docs/eval_manifest_webvid.csv": {
+      "url": "https://raw.githubusercontent.com/TT2TER/LGVSC/50c9ff98fb1aaa8136aef2e41e02bbb0d1a2d1c3/docs/eval_manifest_webvid.csv",
+      "sha256": "6afe2ca53ac9162036a5485cd450f868a8e16182e0c034447da7f3b56ea2f579"
+    },
+    "06_evaluation/final_score_calc_100.py": {
+      "url": "https://raw.githubusercontent.com/TT2TER/LGVSC/50c9ff98fb1aaa8136aef2e41e02bbb0d1a2d1c3/06_evaluation/final_score_calc_100.py",
+      "sha256": "fc9ae6d8d739b24dd6472d2c3d0bad4c7664a6eb4f7d2cfaf10f49c90105301c"
+    }
+  }
+}
