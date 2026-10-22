@@ -10,6 +10,8 @@ authoritative source. Verify before any redistribution or commercial use.
 
 ## Software / models
 
+Current SPARC uses Qwen semantic selection, DCVC-RT and Practical-RIFE4.25. The separate learned-selector experiments use frozen ResNet50 V2 features and DCVC-UF/RIFE; completed training does not automatically replace the default. LTX/Open-Sora entries refer to retained generative experiments. Component roles and evidence limits are documented in [MODEL_ARCHITECTURE](docs/MODEL_ARCHITECTURE.md) and [RESULTS](docs/RESULTS.md).
+
 | Component | Repository | License (as observed) | Notes |
 |---|---|---|---|
 | InternVL | https://github.com/OpenGVLab/InternVL | MIT | InternVL2-8B weights carry their own model-card terms. |

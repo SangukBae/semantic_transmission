@@ -2,7 +2,7 @@
 
 [프로젝트](../../README.md) · [구조](../MODEL_ARCHITECTURE.md#bsu-next-design) · [결과](../RESULTS.md#bsu-progress) · [평가 기준](../METRICS.md#bsu-reconstruction-evaluation)
 
-**2026-10-18 갱신:** 메인 개발 모델은 [BSU-Predict 예측 전용 모델](../MODEL_ARCHITECTURE.md#bsu-predictive-default)이며 통합 전 코드에서 분기했다. 예측 전용 성능 수치는 아직 새로 평가하지 않았다.
+**2026-10-22 현재 브랜치:** 기본 모델은 [SPARC 적응 선택·DCVC-RT·RIFE](../MODEL_ARCHITECTURE.md#sparc)다. UF QP30 선택기 v3와 WebVid 후속 미세조정은 제한된 시험 8원본 평가를 완료했으며 기본값으로 자동 채택하지 않았다. 검증 품질 미달과 시험 집합 재사용 한계는 [최신 결과](../RESULTS.md#sparc-selector-finetune-result)에 기록한다. 아래 BSU 아이디어와 과거 채택 판정은 당시 모델의 이력이다.
 
 **2026-10-16 이력:** 당시 기본은 [DCVC-RT + RIFE 혼합 BSU](../MODEL_ARCHITECTURE.md#bsu-predictive-default)다. Kinetics 개발 14편에서 이전 BSU 대비 전송 43.76% 감소·등록 화질/동작 기준 14/14 통과를 근거로 사용자 요청에 따라 채택했다. LGVSC 대비 1.75배로 전송 목표는 남아 있다. 추가 간격+QP 탐색은 기본 대비 1.12% 절감에 그쳐 연구 옵션으로 보존한다. [두 실험의 측정값](../RESULTS.md#bsu-predictive-default)
 

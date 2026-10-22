@@ -1,11 +1,15 @@
 # 실험 결과와 재현 범위
 
+**2026-10-22 갱신:** v3 학습·8원본 시험과 WebVid 추가 정답·후속 미세조정을 완료했다. 기본 SPARC는 여전히 DCVC-RT 적응 선택이며 학습 선택기로 자동 교체하지 않았다. 아래 수치는 기존 완료 보고서와 데이터/체크포인트 해시를 대조한 기록이며 새 학습·복원 재실행은 아니다. [수치·해시 근거](validation/2026-10-22-research-status-reconciliation.json)
+
 <a id="sparc-selector-v4-result"></a>
 ## SPARC 선택기 v4 구현 검증 — 2026-10-22
 
 품질 예측 보정, 구간·영역별 복원 오차 학습, 탐색과 전체 예산 배분의 피드백을 별도 v4로 구현했다.
 **구현·실행 검증이며 전체 재학습과 성능 개선 검증은 아직 수행하지 않았다.** v3 결과·체크포인트와
 기본 선택기는 보존하며 자동으로 교체하지 않는다.
+
+2026-10-22 22:53 KST 확인 시 원격 실행은 `labels_only=true`, `prepare_v4_labels` 단계였다. 정답 생성과 optimizer 본학습을 구분하며, 실시간 진행률은 [상태 명령](RUN_GUIDE.md#sparc-selector-v4)으로 확인한다.
 
 원격 RTX 4080에서 실제 LAVIB 24프레임 영상의 기존 복원 후보 36개를 검증하고 `36 × 24 × 15`
 공간 오차 정답을 생성했다. 전체 크기 v4 모델의 CUDA 갱신 3회를 수행해 Δ품질·공간 오차·위반 출력의
@@ -19,16 +23,22 @@
 <a id="sparc-webvid-long-result"></a>
 ## 로컬 WebVid 긴 구간 정답 생성 — 2026-10-22
 
-기존 로컬 분산 준비 1,041개가 완료되고 전체 로컬 결과의 원격 게시도 완료된 뒤, 학습 분할 WebVid 30원본·60구간을 대상으로 추가 탐색을 시작했다. 기존 원격 v3의 데이터/코드 해시는 유지하며, 추가 정답은 별도 출력에 저장한다.
+기존 로컬 분산 준비 1,041개가 완료되고 전체 로컬 결과의 원격 게시도 완료된 뒤, 학습 분할 WebVid **30원본·60구간·4,359개 선택 조합**의 추가 정답 구축을 완료했다. `outputs/sparc_selector_webvid_long_20261022/RESULT.json`은 `DATASET_COMPLETE`이고 데이터셋 SHA256이 완료 기록과 일치한다. 목표 예산·품질을 함께 충족한 구간은 **30/60**, 격리된 구간은 0개다. 나머지 구간의 목표 미달 측정도 학습 자료로 보존한다. 모든 구간의 품질 목표 달성이나 선택기 학습 완료를 뜻하지 않는다.
+
+기존 원격 v3에는 자동 병합하지 않았으며 완료 자료는 [별도 미세조정](#sparc-selector-finetune-result)에 사용했다. 아래 한 구간 검사는 본 실행 이전의 연결·재개 검증 이력이다.
 
 실제 8초 학습 구간 1개에서 기존 실측 20조합을 검증·재사용하고 새 2조합을 UF QP30/채널/독립 복호/RIFE/최종 MP4까지 측정했다. 첫 새 후보 저장 후 중단·재개해 두 번째 후보를 측정하고, 22조합 데이터셋을 내보냈다. 해당 제한 검사에서 목표 예산과 화질 기준을 함께 통과한 조합은 없었으며, 목표 미달도 학습 자료로 보존했다. 이 검사는 연결·재개 검증이고 전체 탐색의 성능 결과가 아니다.
 
 훈련 분할/긴 구간 필터, 부모 성공 완료 대기, 실측 예산/품질 판정, 후보별 동일 재개, 새 측정 상한, 채널 실패 제외 검사 7개와 기존 선택기 검사 34개를 합해 41개 통과했다. 본 실행의 완료·개선 여부는 출력 `status.json`, 구간별 `search_result.json`, 마지막 `dataset.json`·`RESULT.json`으로 확인한다. [검증 기록](validation/2026-10-22-sparc-webvid-long-search.json) · [명령](RUN_GUIDE.md#sparc-webvid-long-search) · [자료 역할](DATA.md#sparc-webvid-long-data)
 
 <a id="sparc-selector-v3-result"></a>
-## 예산 조건부 선택기 v3 실행 검증 — 2026-10-22
+## 예산 조건부 선택기 v3 학습·제한된 시험 완료 — 2026-10-22
 
-목표 CBR 0.00065를 입력받는 계층형 Attention 선택기와 실제 압축·복원 조합 탐색을 구현했다. 기존 QP30 정답 생성은 보존하고 완료 후 v3 특징 준비 → 교사 탐색 → 학습 → 실제 검증/시험으로 자동 전환한다. 본 학습의 목표 달성은 아직 확인하지 않았다.
+원격 `outputs/sparc_selector_budget_v3_20261022/RESULT.json`은 `TRAINED_RD_EVALUATED`다. **30 epoch·63,570 step** 학습 후 선택한 체크포인트로 고정 시험 **8원본**의 실제 UF QP30·LDPC/16QAM/AWGN 10dB·seed42·RIFE 평가를 완료했다. 완료 보고서의 체크포인트 SHA256과 실제 파일이 일치한다.
+
+전체 허용 예산 **447,482**에 대해 **446,976 복소 채널 사용량**, CBR **0.0006492637**을 사용했다. 원본의 프레임 수·해상도로 가중한 기준 adaptive UF QP30 대비 변화는 **PSNR −0.298113dB·LPIPS +0.007042**다. 등록된 평균 품질 허용치와 전체 예산을 통과해 `target_met=true`다. 기준선보다 화질이 좋아졌다는 뜻은 아니다. 개별 예산 탐색의 `per_video_feasible`은 **4/8**이며, 8편 각각의 균등 예산·품질 충족으로 확대하지 않는다. [판정 정의](METRICS.md#sparc-selector-evaluation)
+
+시험 정답을 optimizer 학습에 쓰거나 교사 탐색 후보를 평가에 재사용하지 않았다는 실행 기록이 있다. 다만 송신 원본을 이용한 실제 후보 복원·평가·전체 예산 배분을 포함하며 단일 신경망 추론 성능이 아니다. 작은 고정 코호트·한 SNR/seed의 결과이고 전체 WebVid/Kinetics·독립 의미/행동 보존·기본 채택은 입증하지 않았다. 아래는 본학습 이전의 연결 검증 이력이다.
 
 - RTX 4080에서 연속 4회 갱신과 1회 후 중단·재개한 4회 갱신의 모델·optimizer·scheduler·CPU/CUDA RNG·표본 순서가 동일했다.
 - 실제 LAVIB 학습 원본 1개와 별도 검증 원본 1개로 특징 추출, 실제 조합 탐색, 2회 학습 갱신, UF QP30·채널·독립 복호·RIFE·최종 MP4 평가 연결을 통과했다. 최종 시험 원본은 사용하지 않았다. 이 1초 검증 영상에서는 예산 충족 후보가 없어 `NO_FEASIBLE_COHORT_FOUND`를 기록했다. 연결 검사 성공은 화질·전송량 목표 달성 증거가 아니다.
@@ -36,6 +46,19 @@
 - 실제 전송량 우선 판정, 예산 초과 시 미채택, 여러 영상의 총 예산 배분, 학습/시험 분리, 검증 중 중단·정확 재개, 자동학습 분기 및 배포 해시 검사를 포함한다.
 
 본 설정은 최대 40 epoch, 교사 탐색 48학습 원본, 실제 검증 8원본·최종 시험 8원본이다. 논문의 WebVid 전체 재현이나 Kinetics 전체 성능 평가가 아니다. [검증 기록](validation/2026-10-22-sparc-selector-budget.json) · [구조](MODEL_ARCHITECTURE.md#sparc-selector-v3) · [명령](RUN_GUIDE.md#sparc-selector-v3)
+
+<a id="sparc-selector-finetune-result"></a>
+## WebVid 긴 구간 정답을 사용한 후속 미세조정 — 2026-10-22
+
+로컬 `outputs/sparc_selector_webvid_finetune_20261022_v2/RESULT.json`은 `FINETUNED_RD_EVALUATED`다. 완료 v3 가중치에서 시작해 기존 재생 표본 651개와 추가 WebVid 60구간으로 **8 epoch·9,200 step** 학습했다. 기존 정규화를 유지하고 새 optimizer를 사용했으며 체크포인트는 검증 점수로 선택했다. 선택된 파일의 SHA256도 완료 보고서와 일치한다. 첫 실행은 검증 완료 뒤 상태 기록의 `resume` 중복 인자 오류로 실패했다. 해당 출력은 보존하고 수정 후 `_v2` 실행에서 완료했다.
+
+| 평가 범위 | 총 채널 사용량 / 예산 | 기준 QP30 대비 PSNR 변화 dB | LPIPS 변화 | 목표 판정 |
+|---|---:|---:|---:|---|
+| 미세조정 전 검증 8원본 | 393,984 / 399,679 | −1.937412 | +0.050935 | 미달 |
+| 선택 체크포인트의 검증 8원본 | 398,592 / 399,679 | −1.745239 | +0.051440 | 미달 |
+| 선택 후 시험 8원본 | 446,976 / 447,482 | −0.243764 | +0.005285 | 충족 |
+
+검증 선택 점수는 556.5624→542.3286으로 낮아져 `validation_improved=true`지만 **검증 집합의 품질 목표는 여전히 미달**이다. 시험 CBR은 0.0006492637, 개별 예산 탐색의 `per_video_feasible`은 4/8이다. 시험은 v3와 **동일한 8원본을 다시 평가**한 결과로 새 독립 시험 세트가 아니다. 기본 선택기는 자동 교체하지 않았다. [데이터](DATA.md#sparc-selector-finetune-data) · [구조](MODEL_ARCHITECTURE.md#sparc-selector-finetune) · [실행](RUN_GUIDE.md#sparc-selector-finetune) · [수치·해시 근거](validation/2026-10-22-research-status-reconciliation.json)
 
 [프로젝트](../README.md) · [구조](MODEL_ARCHITECTURE.md) · [실행](RUN_GUIDE.md) · [평가 정의](METRICS.md)
 
@@ -45,7 +68,7 @@
 
 각 절의 채택·보류 표현은 해당 실험 당시의 판정입니다. 최신 기본 경로는 README와 모델 구조 문서의 첫 절을 기준으로 합니다.
 
-**2026-10-20 CNN + 시간 Attention 선택기 v2:** 사용자 요청으로 MLP v1을 의미 키 준비 148/2260에서 정상 중단하고 준비 데이터를 보존했다. 새 선택기는 CNN 공간 구역 특징 + 시간 Attention 2층 + 화질/전송량 분기, 총 410,429개 학습 파라미터다. 원격 실제 LAVIB 정답을 사용한 CUDA 6 update와 중단·재개 후 모델·optimizer·scheduler·CPU/CUDA RNG·샘플 순서 동일성을 확인했다. 287프레임 입력의 16후보 역전파 검사에서 최대 PyTorch 할당은 660,944,384바이트였다(전체 프로세스 VRAM과 다름). 선택 → UF/채널/RIFE 연결 검사에서 패킷 동일성·수신단 원본 미사용을 확인했다. SPARC 회귀 검사 109개 통과. 이 결과는 실행 검증이며 화질 개선 증거가 아니다. 본 작업은 기존 2,260개 영상 구성으로 `outputs/sparc_selector_cnn_attention_v2_20261020`에서 시작했으며, 남은 준비·정답 생성을 마치면 최대 100 epoch/검증 정체 12 epoch 조기 종료로 CNN과 Attention을 함께 학습한다. [검증 기록](validation/2026-10-20-sparc-selector-cnn-attention.json) · [진행 확인·재개](RUN_GUIDE.md#sparc-learned-selector-v2)
+**2026-10-20 CNN + 시간 Attention 선택기 v2:** 사용자 요청으로 MLP v1을 의미 키 준비 148/2260에서 정상 중단하고 준비 데이터를 보존했다. 새 선택기는 CNN 공간 구역 특징 + 시간 Attention 2층 + 화질/전송량 분기, 총 410,429개 학습 파라미터다. 원격 실제 LAVIB 정답을 사용한 CUDA 6 update와 중단·재개 후 모델·optimizer·scheduler·CPU/CUDA RNG·샘플 순서 동일성을 확인했다. 287프레임 입력의 16후보 역전파 검사에서 최대 PyTorch 할당은 660,944,384바이트였다(전체 프로세스 VRAM과 다름). 선택 → UF/채널/RIFE 연결 검사에서 패킷 동일성·수신단 원본 미사용을 확인했다. SPARC 회귀 검사 109개 통과. 이 결과는 실행 검증이며 화질 개선 증거가 아니다. 본 작업은 기존 2,260개 영상 구성으로 `outputs/sparc_selector_cnn_attention_v2_20261020`에서 시작했으며, 당시에는 최대 100 epoch/검증 정체 12 epoch 조기 종료를 계획했다. 이후 분산 정답 완료 뒤 v2 optimizer 대신 [v3 학습](#sparc-selector-v3-result)으로 전환해 완료했다. [검증 기록](validation/2026-10-20-sparc-selector-cnn-attention.json) · [진행 확인·재개](RUN_GUIDE.md#sparc-learned-selector-v2)
 
 **2026-10-20 경량 보조 선택기 준비·실행:** LAVIB 2,048개/1,946원본 ID와 WebVid 212구간/53원본을 확보했다. 사용자 요청에 따라 과거 완료된 RT 보조 탐색의 비채택 후보 복호화 PNG 5,012개, 1,077,365,398바이트를 삭제하고 최종 후보·모든 패킷·MP4·측정값은 해시 보존했다. 삭제한 PNG를 포함하는 과거 전체 단계 감사는 패킷에서 PNG를 재생성한 뒤에만 가능하다. 정리 기록은 해당 과거 출력의 `CACHE_CLEANUP_20261020.json`이다. 실제 LAVIB 2개를 사용한 UF/채널/RIFE/정답/학습 연결 검사를 완료했으며, 이는 본 학습의 화질 개선 증거가 아니다. 새 선택기 검사 7개는 로컬·원격에서 통과했고 중간 batch 중단 후 모델·optimizer·sampler 상태의 동일 재개를 확인했다. 로컬 SPARC 회귀 검사는 총 103개 통과했다. 본 실행은 `outputs/sparc_selector_v1_20261020/status.json`에서 단계별 확인한다. [준비·연결 검사 기록](validation/2026-10-20-sparc-selector-training.json) · [실행과 한계](RUN_GUIDE.md#sparc-learned-selector)
 
@@ -55,7 +78,7 @@
 
 **2026-10-08 산출물 정리:** 사용자 요청으로 성능·채택 기준 미달 후보의 가중치·학습 상태, 생성 영상·프레임, 과거 지표 캐시·생성 사례를 선별 삭제했다(22개 실행 폴더, 약 115.6GiB). 현재 캡션 LoRA·부모 체크포인트·공유 자료·실행 중 LGVSC/Qwen 비교는 보존했다. 아래 수치와 채택 판정은 역사적 기록이며, 삭제된 상세 영상·가중치가 지금도 존재한다는 뜻은 아니다. 해당 실행의 `ARTIFACT_CLEANUP.json`과 [정리 범위](validation/2026-10-08-rejected-artifact-cleanup.json)를 확인해야 하며, 삭제된 산출물의 재현에는 추출·학습·생성을 다시 수행해야 한다.
 
-실험·준비 현황 기준: **2026-10-16** · [과제 현황](../README.md) · [다음 작업](../README.md#scope)
+이하 혼합 BSU 진행표의 역사적 기준: **2026-10-16**. 현재 SPARC 선택기 결과는 문서 첫 부분의 2026-10-22 기록을 따른다. [과제 현황](../README.md) · [다음 작업](../README.md#scope)
 
 <a id="bsu-progress"></a>
 ## 최근 BSU 진행 상태

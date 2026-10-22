@@ -86,12 +86,37 @@ bash scripts/run_sparc_webvid_search.sh resume
 
 `watch`는 대기 원인, 부모 완료 수, 처리 구간 수/60과 비율, 현재 후보 수/64 상한, 탐색 라운드, 경과 시간, 로그, 오류, 실제 GPU 사용률과 VRAM을 고정 행으로 표시한다. 전체 ETA는 아직 측정 근거가 없어 표시하지 않는다. Ctrl-C는 화면만 닫는다. `stop`은 현재 후보를 저장한 뒤 중단하고, `resume`은 동결 프로토콜·산출물 해시와 후보별 탐색 기록을 확인해 이어간다.
 
-출력은 `outputs/sparc_selector_webvid_long_20261022`이며, `status.json`·`run.log`는 진행 상태, 구간별 `search_result.json`은 예산별 실측 판정, 마지막 `dataset.json`·`RESULT.json`은 완성 자료와 집계다. `DATASET_COMPLETE`는 탐색/정답 생성 완료이며 모든 영상의 화질 목표 달성을 뜻하지 않는다. 현재 원격 v3 학습으로 자동 병합하지 않으며, 후속 학습에서 이 자료를 포함하는 새 프로토콜을 만들어야 한다.
+출력은 `outputs/sparc_selector_webvid_long_20261022`이며, `status.json`·`run.log`는 진행 상태, 구간별 `search_result.json`은 예산별 실측 판정, 마지막 `dataset.json`·`RESULT.json`은 완성 자료와 집계다. `DATASET_COMPLETE`는 탐색/정답 생성 완료이며 모든 영상의 화질 목표 달성을 뜻하지 않는다. 원격 부모 v3로 자동 병합하지 않았고, 완료 자료를 포함하는 별도 프로토콜의 [후속 미세조정](#sparc-selector-finetune)을 완료했다.
 
 [설정](../configs/sparc_selector_webvid_search.json) · [자료 구성](DATA.md#sparc-webvid-long-data) · [검증 기록](RESULTS.md#sparc-webvid-long-result)
 
+<a id="sparc-selector-finetune"></a>
+## 완료 v3의 WebVid 후속 미세조정
+
+로컬 SPARC 작업 트리에서 실행한다. 기본 출력 `outputs/sparc_selector_webvid_finetune_20261022_v2`는 2026-10-22 학습·시험이 완료됐다. 현재 기록은 다음 읽기 전용 명령으로 확인한다.
+
+```bash
+bash scripts/run_sparc_selector_finetune.sh status
+```
+
+재개 전 입력 검사는 `bash scripts/run_sparc_selector_finetune.sh check`를 사용한다. 이 검사는 학습을 시작하지 않지만 준비된 출력에 동결 프로토콜·원본 목록을 기록하거나 기존 기록과 대조하므로 단순 상태 조회와 구분한다.
+
+미완료 실행을 이어가거나 중단할 때의 명령은 다음과 같다. `watch`의 Ctrl-C는 화면만 닫는다.
+
+```bash
+bash scripts/run_sparc_selector_finetune.sh resume
+bash scripts/run_sparc_selector_finetune.sh watch
+bash scripts/run_sparc_selector_finetune.sh stop
+```
+
+`SPARC_FINETUNE_OUTPUT`으로 다른 준비된 출력 루트를 지정할 수 있다. 해당 폴더의 `parent/` 완료 v3 보고서·가중치·프로토콜·원본 목록, `selection.json`, 로컬 분산 원본/캐시, WebVid 추가 정답 및 전용 환경이 필요하다. 코드만 clone한 빈 폴더에서 시작하는 명령이 아니다. 실행기는 부모·데이터·측정 코드 해시를 검증하고 새 프로토콜을 고정한다. 이후 재개는 모델·optimizer·scheduler·CPU/CUDA RNG·표본/예산 순서를 복원한다.
+
+`RESULT.json`의 `FINETUNED_RD_EVALUATED`, 검증/시험별 `target_met`, `validation_improved`와 체크포인트 해시를 함께 확인한다. 첫 출력의 실패 기록은 보존하며 완료된 `_v2`와 혼합하지 않는다. [자료](DATA.md#sparc-selector-finetune-data) · [구조](MODEL_ARCHITECTURE.md#sparc-selector-finetune) · [결과](RESULTS.md#sparc-selector-finetune-result)
+
 <a id="sparc-selector-v3"></a>
 ## SPARC 예산 조건부 선택기 자동학습 v3 — 2026-10-22
+
+`outputs/sparc_selector_budget_v3_20261022`는 30 epoch·63,570 step 및 최종 시험을 완료했다. 아래는 최초 준비→학습의 실행·복구 절차이며 완료 기록 확인에는 `status`를 사용한다. 후속 WebVid 학습은 [별도 명령](#sparc-selector-finetune)으로 관리한다. [완료 결과](RESULTS.md#sparc-selector-v3-result)
 
 로컬 WSL `/home/sangukbae/semantic_transmission_sparc`에서 다음 명령으로 두 장비와 자동학습을 관리한다.
 

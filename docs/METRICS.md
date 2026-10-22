@@ -1,5 +1,14 @@
 # 평가 정의와 절차
 
+<a id="sparc-selector-evaluation"></a>
+## 학습 선택기 v3·후속 미세조정의 판정
+
+실제 UF QP30·LDPC/16QAM/AWGN 10dB·seed42·RIFE·최종 MP4를 측정한다. 전체 CBR은 `전체 복소 채널 사용량 / (3 × Σ(F×H×W))`, 허용 예산은 `floor(0.00065 × 3 × Σ(F×H×W))`다. 기준 adaptive UF QP30 대비 PSNR·LPIPS 변화는 영상별 동일 비중이 아니라 **각 원본의 F×H×W 가중 평균**이다.
+
+v3의 `target_met`는 전체 예산 충족, 평균 PSNR 하락 ≤0.5dB, 평균 LPIPS 증가 ≤0.01을 모두 요구한다. `per_video_feasible`은 개별 예산 탐색 결과로 전체 예산 재배분의 판정과 구분한다. 시험 8편의 전체 목표 충족은 각 영상의 균등 예산·품질 기준 충족이나 모든 지표 개선을 보장하지 않는다. 보고서의 `performance_improvement_proven`도 이 제한된 `target_met`에서 설정되며 일반화 우월성으로 인용하지 않는다. v4의 영상별 품질 제약을 과거 v3 판정에 소급 적용하지 않는다.
+
+학습된 점수와 송신 원본을 사용하는 실제 후보 복원·평가·전체 예산 배분이 함께 작동한다. `validation_improved`는 체크포인트 선택 점수의 감소이며 검증 품질 목표 통과와 다르다. 검증/시험의 `target_met`를 각각 보고하고, 후속 미세조정은 기존 시험 8원본 재사용임을 밝힌다. 독립 의미/행동 평가·새 원본·다른 SNR/seed·전체 벤치마크는 별도 과제다. [v3 수치](RESULTS.md#sparc-selector-v3-result) · [후속 학습 수치](RESULTS.md#sparc-selector-finetune-result)
+
 <a id="sparc-comparison"></a>
 ## SPARC의 선택 정책 비교
 

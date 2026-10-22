@@ -57,18 +57,29 @@ Kinetics-400의 기존 14편은 이미 설계에 사용했으므로 후속 결�
 <a id="sparc-webvid-long-data"></a>
 ## 로컬 WebVid 긴 구간 추가 정답 — 2026-10-22
 
+**구축 완료:** 30원본·60구간에서 4,359개 선택 조합을 확보했다. 목표 충족 구간은 30/60이며 목표 미달도 보존한다. `dataset.json`의 SHA256과 `DATASET_COMPLETE` 기록을 대조했다. 정답은 [별도 미세조정](#sparc-selector-finetune-data)에 사용했으며 원격 부모 v3의 동결 데이터를 바꾸지 않았다. [완료 결과](RESULTS.md#sparc-webvid-long-result)
+
 기존 학습 분할의 WebVid 중 명목 길이 8초 이상인 30원본·60구간을 사용한다. 원본별 가장 긴 구간을 먼저 처리한 뒤 두 번째 구간을 처리하며, 실제 프레임 수와 픽셀 해시를 별도로 보존한다. 검증·시험 원본은 추가 정답 생성 대상에 포함하지 않는다. 확보된 약 8~12초 창을 재사용하며 새 영상 수집이나 긴 영상 전체 길이 확장은 아니다.
 
 기존 로컬 UF QP30 실측이 있으면 패킷·복원 영상·원본 배열 해시를 확인해 재사용한다. 각 구간에서 CBR 0.0005/0.00065/0.0008/0.001을 함께 탐색하며, 최대 10라운드·라운드당 6후보·구간당 새 후보 64개를 측정한다. 의미 키·양끝·장면 전환 양쪽을 보존한다. 후보 개수는 탐색 범위이고 전송량 추정식이 아니다. 최종 전송량은 전체 패킷의 LDPC/16QAM/AWGN10dB·seed42 복소 채널 사용량이다.
 
 각 예산에서 전송량 충족과 기존 QP30 대비 PSNR 하락 0.5dB/LPIPS 증가 0.01 이내 충족을 구분한다. 좋은 조합뿐 아니라 목표 미달 측정도 회귀/순위 학습 자료로 보존한다. 채널 오류 후보는 오류 패킷을 보존하고 학습 정답에서 제외한다. 기준선 채널 실패는 해당 구간의 비교·학습 채택을 제외하고 기록한다.
 
-출력 `outputs/sparc_selector_webvid_long_20261022`의 `dataset.json`은 학습용 입력·특징·절대 화질/전송량 파일과 해시를 담는다. 구간별 `base_observations.json`, `features.npz`, `prepared.json`, `inputs.json`은 v3 자료 형식과 호환되는 구성 요소다. 재사용한 실측의 의존 경로는 `prepared_receipt.json`에 보존하므로 기존 분산 출력도 유지해야 한다. **현재 원격 v3 학습에 자동 병합하지 않는다.** 후속 학습에서 별도 데이터/프로토콜로 병합해야 하며, 현재 실행의 데이터 해시를 바꿔 재개하지 않는다.
+출력 `outputs/sparc_selector_webvid_long_20261022`의 `dataset.json`은 학습용 입력·특징·절대 화질/전송량 파일과 해시를 담는다. 구간별 `base_observations.json`, `features.npz`, `prepared.json`, `inputs.json`은 v3 자료 형식과 호환되는 구성 요소다. 재사용한 실측의 의존 경로는 `prepared_receipt.json`에 보존하므로 기존 분산 출력도 유지해야 한다. **현재 원격 v3 학습에 자동 병합하지 않는다.** 별도 데이터/프로토콜의 후속 미세조정에서 사용했으며, 원격 부모 실행의 데이터 해시를 바꿔 재개하지 않았다.
 
 [실행](RUN_GUIDE.md#sparc-webvid-long-search) · [탐색 구조](MODEL_ARCHITECTURE.md#sparc-webvid-long-search)
 
+<a id="sparc-selector-finetune-data"></a>
+## WebVid 후속 미세조정 자료 — 2026-10-22
+
+로컬 `_v2` 실행은 기존 재생 표본 651개와 긴 WebVid 60구간을 합쳐 **학습 711구간·681원본**을 사용했다. 검증과 시험은 각각 기존 8구간·8원본을 유지했다. 원본 ID의 분할 간 중복을 거부하고, 추가 자료는 학습 분할에만 넣는다. 부모 체크포인트·정규화·측정 코드와 추가 데이터셋의 해시를 새 `protocol.json`에 고정한다.
+
+시험 8원본은 v3 평가에 이미 사용한 동일 집합이다. 후속 실행에서 시험 정답을 학습·체크포인트 선택에 넣지 않았더라도 새 독립 시험으로 부르지 않는다. `selection.json`, `sources.json`, 부모 자료와 로컬 분산 원본/캐시를 보존해야 재개할 수 있다. [실행](RUN_GUIDE.md#sparc-selector-finetune) · [결과와 한계](RESULTS.md#sparc-selector-finetune-result)
+
 <a id="sparc-selector-v3-data"></a>
 ## 선택기 v3 자료 재사용 — 2026-10-22
+
+원격 최종 `label_summary.json`에서 **2,252클립·77,480개 변경 표본**, 채널 실패 격리 **3클립**을 확인했다. 확보 2,260개 중 의미 키 실패 5개와 채널 실패 3개를 제외한 수량이다. 정답은 정상 채널 수신 조건의 자료이며 실패까지 포함한 통신 신뢰성 성능이 아니다. 이 자료를 사용한 v3 학습·시험은 완료됐다. [완료 근거](validation/2026-10-22-research-status-reconciliation.json) · [결과](RESULTS.md#sparc-selector-v3-result)
 
 기존 v1 원본과 v2의 실제 압축·채널·복원 결과를 보존한다. v3는 원본 프레임·정답·패킷·복원 영상의 해시를 검사하고, 학습/검증 분할의 절대 측정값과 사전학습 시각 특징을 별도 출력에 저장한다. 기존 측정 코드와 분산 배정표를 수정하지 않는다.
 

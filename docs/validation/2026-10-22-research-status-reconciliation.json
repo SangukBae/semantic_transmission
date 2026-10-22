@@ -1,0 +1,254 @@
+{
+  "v3": {
+    "result_path": "/home/sangukbae/ETRI/Semantic/semantic_transmission_sparc/outputs/sparc_selector_budget_v3_20261022/RESULT.json",
+    "result_sha256": "50a7c0af857f559656d61fac70897e0907f52538cf0f479d5b2be78a981fe419",
+    "result": {
+      "status": "TRAINED_RD_EVALUATED",
+      "checkpoint": "/home/sangukbae/ETRI/Semantic/semantic_transmission_sparc/outputs/sparc_selector_budget_v3_20261022/training/best.pt",
+      "checkpoint_sha256": "1e622f956013c0e6e13744340225245473c466eec7d9a254ca509e13f442c957",
+      "steps": 63570,
+      "epochs": 30,
+      "heldout": {
+        "identity": {
+          "checkpoint_sha256": "1e622f956013c0e6e13744340225245473c466eec7d9a254ca509e13f442c957",
+          "protocol": "86c764c991abb51bd478a59a1ed97d8460186c7fcbb9aa4cb83e86b257debb00",
+          "split": "test",
+          "rows": "943b13824993d20e83b51af1ff5570370bae6c3f28eb5514e774a823c04ecdc6"
+        },
+        "cohort": {
+          "feasible": true,
+          "status": "MEASURED_WITHIN_AGGREGATE_BUDGET",
+          "budget_uses": 447482,
+          "channel_uses": 446976,
+          "cbr": 0.0006492637215528782,
+          "quality_cost": 2.619367625186863,
+          "psnr_delta": -0.2981133981984955,
+          "lpips_delta": 0.007041796850392139
+        },
+        "target_met": true,
+        "per_video_feasible": 4,
+        "clips": 8,
+        "selection_score": 2.619367625186863,
+        "test_targets_used_for_training": false,
+        "teacher_candidates_used_for_evaluation": false
+      },
+      "target_met": true,
+      "automatic_default_replacement": false,
+      "performance_improvement_proven": true,
+      "evidence_scope": "fixed held-out parent cohort, AWGN10dB seed42; not full benchmark"
+    },
+    "checkpoint_hash_match": true,
+    "test_clip_ids": [
+      "lavib_17065_shot0_4_0_1",
+      "webvid_72d0ccab763c8f92_3",
+      "lavib_5227_shot0_0_0_0",
+      "webvid_dbea9ce625b56cda_3",
+      "lavib_9028_shot0_5_1_0",
+      "webvid_b069308f94c08cc1_3",
+      "lavib_3258_shot1_2_0_0",
+      "webvid_8e3b5f7e827bacfd_3"
+    ]
+  },
+  "v4_status": {
+    "path": "/home/sangukbae/ETRI/Semantic/semantic_transmission_sparc/outputs/sparc_selector_risk_v4_20261022/status.json",
+    "sha256": "c04c741489b8593f0231ab44d986f0032a3333c8e108d13d38024c78206a7f8e",
+    "record": {
+      "status": "RUNNING",
+      "stage": "prepare_v4_labels",
+      "done": 638,
+      "total": 1584,
+      "pid": 3975009,
+      "start_ticks": "131651251",
+      "started_unix": 1792668995.830827,
+      "stage_started_unix": 1792668995.830827,
+      "updated_unix": 1792677233.7758684,
+      "resume": "immutable completed labels; full optimizer/scheduler/RNG/order checkpoint",
+      "clip": "lavib_5253_shot0_9_0_0"
+    }
+  },
+  "v4_options": {
+    "path": "/home/sangukbae/ETRI/Semantic/semantic_transmission_sparc/outputs/sparc_selector_risk_v4_20261022/run_options.json",
+    "sha256": "d9652dc859fa0abc4c09895c529b3ad73e028d3b133fc0e8aadfcb0539d1a3f4",
+    "record": {
+      "parent": "/home/sangukbae/ETRI/Semantic/semantic_transmission_sparc/outputs/sparc_selector_budget_v3_20261022",
+      "source_root": null,
+      "config": "/home/sangukbae/ETRI/Semantic/semantic_transmission_sparc/configs/sparc_selector_v4.json",
+      "runtimes": null,
+      "labels_only": true
+    }
+  },
+  "labels": {
+    "path": "/home/sangukbae/ETRI/Semantic/semantic_transmission_sparc/outputs/sparc_selector_cnn_attention_v2_20261020/label_summary.json",
+    "sha256": "119b253bf1abcaedbcad122cc536e09b9d0717ee0f7624b5920ec3431a9880b4",
+    "record": {
+      "clips": 2252,
+      "samples": 77480,
+      "simulated_channel": true,
+      "actual_entropy_coding": true,
+      "distributed_plan": "4c17c713b0ceaf3eced8912a6032a48efbc46e2626f435f6e4a2c942eabadca2",
+      "channel_rejected_clips": {
+        "count": 3
+      },
+      "labels_conditioned_on_successful_channel": true
+    }
+  },
+  "checked_at": "2026-10-22T22:53:58.709233+09:00",
+  "scope": "Existing artifacts and hashes; no training or reconstruction rerun",
+  "webvid_long": {
+    "result_path": "/home/sangukbae/semantic_transmission_sparc/outputs/sparc_selector_webvid_long_20261022/RESULT.json",
+    "result_sha256": "b0f378dbaa258fe5bb1cdbc67fb50982444107cbc2ba594a59a0c45e5d992bd7",
+    "result": {
+      "status": "DATASET_COMPLETE",
+      "clips": 60,
+      "parents": 30,
+      "states": 4359,
+      "target_met_clips": 30,
+      "rejected_clips": {
+        "count": 0
+      },
+      "dataset_sha256": "90928f0cbf8949fa66399aa7ecd8dc3358f21fc5b21ccce4e5f3f2efa02c9962",
+      "target_not_met_is_retained_as_training_evidence": true,
+      "automatic_training_import": false
+    },
+    "dataset_hash_match": true,
+    "independent_dataset_counts": {
+      "clips": 60,
+      "measured_states": 4359,
+      "target_met_clips": 30
+    }
+  },
+  "webvid_finetune": {
+    "result_path": "/home/sangukbae/semantic_transmission_sparc/outputs/sparc_selector_webvid_finetune_20261022_v2/RESULT.json",
+    "result_sha256": "e9247680cd6db08ce99a1eb8867a7d563be128d1117d3d58f416dcd227fcd9e9",
+    "result": {
+      "status": "FINETUNED_RD_EVALUATED",
+      "checkpoint": "/home/sangukbae/semantic_transmission_sparc/outputs/sparc_selector_webvid_finetune_20261022_v2/training/best.pt",
+      "checkpoint_sha256": "bb8957d730ccb1728bf447b02bb56b9fbeec189039777569239b195d3c93c302",
+      "steps": 9200,
+      "epochs": 8,
+      "heldout": {
+        "identity": {
+          "checkpoint_sha256": "bb8957d730ccb1728bf447b02bb56b9fbeec189039777569239b195d3c93c302",
+          "protocol": "8f9776f170bceda287358ae908051df559a0e05b7ddf5fe229ee7528c4b71df7",
+          "split": "test",
+          "rows": "4797bf68da05e5c35b31e0e2d4d11b89d89cad124c5c8b33138e41489e7a005c"
+        },
+        "cohort": {
+          "feasible": true,
+          "status": "MEASURED_WITHIN_AGGREGATE_BUDGET",
+          "budget_uses": 447482,
+          "channel_uses": 446976,
+          "cbr": 0.0006492637215528782,
+          "quality_cost": 2.5998640681733156,
+          "psnr_delta": -0.24376372967435264,
+          "lpips_delta": 0.005285084630590833
+        },
+        "target_met": true,
+        "per_video_feasible": 4,
+        "clips": 8,
+        "selection_score": 2.5998640681733156,
+        "test_targets_used_for_training": false,
+        "teacher_candidates_used_for_evaluation": false
+      },
+      "initial_validation": {
+        "identity": {
+          "checkpoint_sha256": "1e622f956013c0e6e13744340225245473c466eec7d9a254ca509e13f442c957",
+          "protocol": "8f9776f170bceda287358ae908051df559a0e05b7ddf5fe229ee7528c4b71df7",
+          "split": "val",
+          "rows": "4797bf68da05e5c35b31e0e2d4d11b89d89cad124c5c8b33138e41489e7a005c"
+        },
+        "cohort": {
+          "feasible": true,
+          "status": "MEASURED_WITHIN_AGGREGATE_BUDGET",
+          "budget_uses": 399679,
+          "channel_uses": 393984,
+          "cbr": 0.0006407374100719425,
+          "quality_cost": 3.4761524808226603,
+          "psnr_delta": -1.9374124010251697,
+          "lpips_delta": 0.05093450404757218
+        },
+        "target_met": false,
+        "per_video_feasible": 5,
+        "clips": 8,
+        "selection_score": 556.5624330590614,
+        "test_targets_used_for_training": false,
+        "teacher_candidates_used_for_evaluation": false
+      },
+      "final_validation": {
+        "identity": {
+          "checkpoint_sha256": "975680055e87bd25a899b50394ed20b75c0006082b559b7ab4ad01ef9a4b5906",
+          "protocol": "8f9776f170bceda287358ae908051df559a0e05b7ddf5fe229ee7528c4b71df7",
+          "split": "val",
+          "rows": "4797bf68da05e5c35b31e0e2d4d11b89d89cad124c5c8b33138e41489e7a005c"
+        },
+        "cohort": {
+          "feasible": true,
+          "status": "MEASURED_WITHIN_AGGREGATE_BUDGET",
+          "budget_uses": 399679,
+          "channel_uses": 398592,
+          "cbr": 0.0006482314148681056,
+          "quality_cost": 3.406402575938148,
+          "psnr_delta": -1.7452393345077741,
+          "lpips_delta": 0.0514398237167717
+        },
+        "target_met": false,
+        "per_video_feasible": 5,
+        "clips": 8,
+        "selection_score": 542.3285731944326,
+        "test_targets_used_for_training": false,
+        "teacher_candidates_used_for_evaluation": false
+      },
+      "retained_parent": false,
+      "target_met": true,
+      "validation_improved": true,
+      "automatic_default_replacement": false,
+      "heldout_scope": "same fixed 8 parents as previous run; test once after model selection"
+    },
+    "checkpoint_hash_match": true,
+    "test_clip_ids": [
+      "lavib_17065_shot0_4_0_1",
+      "webvid_72d0ccab763c8f92_3",
+      "lavib_5227_shot0_0_0_0",
+      "webvid_dbea9ce625b56cda_3",
+      "lavib_9028_shot0_5_1_0",
+      "webvid_b069308f94c08cc1_3",
+      "lavib_3258_shot1_2_0_0",
+      "webvid_8e3b5f7e827bacfd_3"
+    ]
+  },
+  "finetune_selection": {
+    "path": "/home/sangukbae/semantic_transmission_sparc/outputs/sparc_selector_webvid_finetune_20261022_v2/selection.json",
+    "sha256": "4d746ed8c672cb3480ce02957c8a15bde1506c3fc3ab206c6b3fab5dc2bdc768",
+    "counts": {
+      "replay": 651,
+      "val": 8,
+      "test": 8,
+      "long": 60
+    }
+  },
+  "same_test_clips": true,
+  "schema": "research_documentation_reconciliation_v1",
+  "branch": "SPARC",
+  "limitations": [
+    "Fixed test cohort of 8 sources reused after fine-tuning; not a new independent benchmark.",
+    "Fine-tuning validation quality target remains unmet.",
+    "Aggregate budget/mean quality pass does not imply every video passes.",
+    "Sender uses source-referenced candidate reconstruction and evaluation, not just neural prediction.",
+    "No automatic default replacement."
+  ],
+  "evaluator_code_sha256": "cef95193aa6e5bfe47ac15605e8e3bf3797ff1c8501efa28a985acfab2d4c42f",
+  "finetune_source_splits": {
+    "train": {
+      "clips": 711,
+      "parents": 681
+    },
+    "val": {
+      "clips": 8,
+      "parents": 8
+    },
+    "test": {
+      "clips": 8,
+      "parents": 8
+    }
+  }
+}

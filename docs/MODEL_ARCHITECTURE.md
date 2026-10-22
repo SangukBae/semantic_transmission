@@ -43,6 +43,13 @@ v3를 보존하고 [RiskSelector](../src/semantic_transmission/sparc_selector_ri
 목표 CBR은 0.00065다. 평가 영상들의 실제 측정 후보에 대해 Pareto 동적계획법으로 총 예산을 배분하므로 어려운 영상은 개별 균등 몫을 초과할 수 있다. 원본을 가진 송신기의 시험 복원·평가를 사용하는 오프라인 방식이며, 계산량과 소요 시간은 추가된다. 수신기는 받은 패킷만 사용한다. 전체 품질 보존이나 LGVSC 논문 재현이 검증된 기본 모델은 아니다.
 
 
+<a id="sparc-selector-finetune"></a>
+### v3의 WebVid 후속 미세조정
+
+[`sparc_selector_finetune.py`](../src/semantic_transmission/sparc_selector_finetune.py)는 완료 v3의 선택된 가중치와 정규화를 유지하고, 기존 재생 표본·긴 WebVid 추가 정답으로 같은 선택기 구조를 미세조정한다. 고정 ResNet50·UF QP30·RIFE는 학습하지 않는다. 새 자료를 위한 AdamW를 초기화하고 학습률 0.00002, 최대 20 epoch, warmup 2 epoch, 2 epoch마다 실제 검증, 개선 정체 4회 종료를 사용한다. 중단 뒤에는 이 새 실행의 optimizer·scheduler·RNG·표본/예산 순서를 복원한다.
+
+부모 모델의 검증 점수를 기준으로 개선된 체크포인트를 선택하며 개선이 없으면 부모를 유지할 수 있다. 실제 완료 실행은 8 epoch에서 끝났고 선택 모델은 부모와 다르다. 가중치 선택 점수 개선, 시험 목표 충족, 검증 품질 미달을 별도로 기록한다. 원본을 이용한 후보 복원·실측 예산 배분이 포함되므로 단일 학습 모델의 기여를 분리한 ablation은 아니다. [데이터](DATA.md#sparc-selector-finetune-data) · [실행](RUN_GUIDE.md#sparc-selector-finetune) · [결과](RESULTS.md#sparc-selector-finetune-result)
+
 <a id="sparc"></a>
 ## SPARC — 의미 키와 적응적 참조 프레임의 예측 압축
 
